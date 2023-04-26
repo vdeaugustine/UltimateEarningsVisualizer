@@ -25,6 +25,8 @@
 		9C7F969E29F8FE3500F5035C /* ExtendAllocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F969729F8FE3500F5035C /* ExtendAllocation.swift */; };
 		9C7F969F29F8FE3500F5035C /* ExtendSaved.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F969829F8FE3500F5035C /* ExtendSaved.swift */; };
 		9C7F96A229F8FE6700F5035C /* Vin in Frameworks */ = {isa = PBXBuildFile; productRef = 9C7F96A129F8FE6700F5035C /* Vin */; };
+		9C7F96A629F8FF0100F5035C /* CreateExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F96A529F8FF0100F5035C /* CreateExpenseView.swift */; };
+		9C7F96A929F9004000F5035C /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 9C7F96A829F9004000F5035C /* AlertToast */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +68,7 @@
 		9C7F969629F8FE3500F5035C /* ExtendUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendUser.swift; sourceTree = "<group>"; };
 		9C7F969729F8FE3500F5035C /* ExtendAllocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendAllocation.swift; sourceTree = "<group>"; };
 		9C7F969829F8FE3500F5035C /* ExtendSaved.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendSaved.swift; sourceTree = "<group>"; };
+		9C7F96A529F8FF0100F5035C /* CreateExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateExpenseView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +77,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C7F96A229F8FE6700F5035C /* Vin in Frameworks */,
+				9C7F96A929F9004000F5035C /* AlertToast in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,10 +121,10 @@
 		9C7F965929F8F03C00F5035C /* UltimateMoneyVisualizer */ = {
 			isa = PBXGroup;
 			children = (
-				9C7F965A29F8F03C00F5035C /* UltimateMoneyVisualizerApp.swift */,
-				9C7F968A29F8FD0300F5035C /* Core Data */,
-				9C7F965C29F8F03C00F5035C /* ContentView.swift */,
+				9C7F96A429F8FEEB00F5035C /* -InProgress */,
+				9C7F96A329F8FEB000F5035C /* -TopLevel */,
 				9C7F965E29F8F03E00F5035C /* Assets.xcassets */,
+				9C7F968A29F8FD0300F5035C /* Core Data */,
 				9C7F966829F8F03E00F5035C /* Info.plist */,
 				9C7F966029F8F03E00F5035C /* Preview Content */,
 			);
@@ -193,6 +197,23 @@
 			path = PersistenceController;
 			sourceTree = "<group>";
 		};
+		9C7F96A329F8FEB000F5035C /* -TopLevel */ = {
+			isa = PBXGroup;
+			children = (
+				9C7F965A29F8F03C00F5035C /* UltimateMoneyVisualizerApp.swift */,
+				9C7F965C29F8F03C00F5035C /* ContentView.swift */,
+			);
+			path = "-TopLevel";
+			sourceTree = "<group>";
+		};
+		9C7F96A429F8FEEB00F5035C /* -InProgress */ = {
+			isa = PBXGroup;
+			children = (
+				9C7F96A529F8FF0100F5035C /* CreateExpenseView.swift */,
+			);
+			path = "-InProgress";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -211,6 +232,7 @@
 			name = UltimateMoneyVisualizer;
 			packageProductDependencies = (
 				9C7F96A129F8FE6700F5035C /* Vin */,
+				9C7F96A829F9004000F5035C /* AlertToast */,
 			);
 			productName = UltimateMoneyVisualizer;
 			productReference = 9C7F965729F8F03C00F5035C /* UltimateMoneyVisualizer.app */;
@@ -286,6 +308,7 @@
 			mainGroup = 9C7F964E29F8F03C00F5035C;
 			packageReferences = (
 				9C7F96A029F8FE6700F5035C /* XCRemoteSwiftPackageReference "VinPackage" */,
+				9C7F96A729F9004000F5035C /* XCRemoteSwiftPackageReference "AlertToast" */,
 			);
 			productRefGroup = 9C7F965829F8F03C00F5035C /* Products */;
 			projectDirPath = "";
@@ -330,6 +353,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C7F966429F8F03E00F5035C /* Persistence.swift in Sources */,
+				9C7F96A629F8FF0100F5035C /* CreateExpenseView.swift in Sources */,
 				9C7F968D29F8FD2D00F5035C /* ExtendExpense.swift in Sources */,
 				9C7F965D29F8F03C00F5035C /* ContentView.swift in Sources */,
 				9C7F969C29F8FE3500F5035C /* ExtendSettings.swift in Sources */,
@@ -675,6 +699,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		9C7F96A729F9004000F5035C /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/elai950/AlertToast.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -682,6 +714,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9C7F96A029F8FE6700F5035C /* XCRemoteSwiftPackageReference "VinPackage" */;
 			productName = Vin;
+		};
+		9C7F96A829F9004000F5035C /* AlertToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9C7F96A729F9004000F5035C /* XCRemoteSwiftPackageReference "AlertToast" */;
+			productName = AlertToast;
 		};
 /* End XCSwiftPackageProductDependency section */
 
