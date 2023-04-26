@@ -38,6 +38,9 @@
 		9CEEE34529F90ABA001FA4FB /* ShiftListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEE34429F90ABA001FA4FB /* ShiftListView.swift */; };
 		9CEEE34729F90ADA001FA4FB /* ShiftDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEE34629F90ADA001FA4FB /* ShiftDetailView.swift */; };
 		9CEEE34929F90BCF001FA4FB /* DayOfWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEE34829F90BCF001FA4FB /* DayOfWeek.swift */; };
+		9CEEE34D29F90DD4001FA4FB /* CreateSavedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEE34C29F90DD4001FA4FB /* CreateSavedView.swift */; };
+		9CEEE34F29F90E09001FA4FB /* SavedListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEE34E29F90E09001FA4FB /* SavedListView.swift */; };
+		9CEEE35129F90E37001FA4FB /* SavedDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEE35029F90E37001FA4FB /* SavedDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +94,9 @@
 		9CEEE34429F90ABA001FA4FB /* ShiftListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftListView.swift; sourceTree = "<group>"; };
 		9CEEE34629F90ADA001FA4FB /* ShiftDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftDetailView.swift; sourceTree = "<group>"; };
 		9CEEE34829F90BCF001FA4FB /* DayOfWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOfWeek.swift; sourceTree = "<group>"; };
+		9CEEE34C29F90DD4001FA4FB /* CreateSavedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSavedView.swift; sourceTree = "<group>"; };
+		9CEEE34E29F90E09001FA4FB /* SavedListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedListView.swift; sourceTree = "<group>"; };
+		9CEEE35029F90E37001FA4FB /* SavedDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,9 +239,9 @@
 		9C7F96A429F8FEEB00F5035C /* -InProgress */ = {
 			isa = PBXGroup;
 			children = (
-				9CEEE34229F90A7D001FA4FB /* CreateShiftView.swift */,
-				9CEEE34429F90ABA001FA4FB /* ShiftListView.swift */,
-				9CEEE34629F90ADA001FA4FB /* ShiftDetailView.swift */,
+				9CEEE34C29F90DD4001FA4FB /* CreateSavedView.swift */,
+				9CEEE34E29F90E09001FA4FB /* SavedListView.swift */,
+				9CEEE35029F90E37001FA4FB /* SavedDetailView.swift */,
 			);
 			path = "-InProgress";
 			sourceTree = "<group>";
@@ -260,6 +266,7 @@
 		9CEEE32D29F904A3001FA4FB /* Adding Items */ = {
 			isa = PBXGroup;
 			children = (
+				9CEEE34B29F90D81001FA4FB /* Shifts */,
 				9CEEE34129F90A50001FA4FB /* Goals */,
 				9CEEE32E29F904A8001FA4FB /* Expenses */,
 			);
@@ -277,6 +284,7 @@
 		9CEEE32F29F904BB001FA4FB /* Viewing Items */ = {
 			isa = PBXGroup;
 			children = (
+				9CEEE34A29F90D74001FA4FB /* Shifts */,
 				9CEEE33829F90897001FA4FB /* Goals */,
 				9CEEE33729F90890001FA4FB /* Expenses */,
 			);
@@ -325,6 +333,23 @@
 				9CEEE33529F90873001FA4FB /* CreateGoalView.swift */,
 			);
 			path = Goals;
+			sourceTree = "<group>";
+		};
+		9CEEE34A29F90D74001FA4FB /* Shifts */ = {
+			isa = PBXGroup;
+			children = (
+				9CEEE34429F90ABA001FA4FB /* ShiftListView.swift */,
+				9CEEE34629F90ADA001FA4FB /* ShiftDetailView.swift */,
+			);
+			path = Shifts;
+			sourceTree = "<group>";
+		};
+		9CEEE34B29F90D81001FA4FB /* Shifts */ = {
+			isa = PBXGroup;
+			children = (
+				9CEEE34229F90A7D001FA4FB /* CreateShiftView.swift */,
+			);
+			path = Shifts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -471,6 +496,7 @@
 				9C7F968D29F8FD2D00F5035C /* ExtendExpense.swift in Sources */,
 				9CEEE34329F90A7D001FA4FB /* CreateShiftView.swift in Sources */,
 				9C7F965D29F8F03C00F5035C /* ContentView.swift in Sources */,
+				9CEEE34F29F90E09001FA4FB /* SavedListView.swift in Sources */,
 				9CEEE33C29F908E8001FA4FB /* GoalDetailView.swift in Sources */,
 				9C7F969C29F8FE3500F5035C /* ExtendSettings.swift in Sources */,
 				9CEEE34029F909CC001FA4FB /* WageType.swift in Sources */,
@@ -481,12 +507,14 @@
 				9CEEE33129F904CC001FA4FB /* ExpenseListView.swift in Sources */,
 				9CEEE33429F90651001FA4FB /* ExpenseDetailView.swift in Sources */,
 				9C7F969E29F8FE3500F5035C /* ExtendAllocation.swift in Sources */,
+				9CEEE35129F90E37001FA4FB /* SavedDetailView.swift in Sources */,
 				9CEEE33A29F908BE001FA4FB /* GoalListView.swift in Sources */,
 				9CEEE32B29F9044F001FA4FB /* ExtendView.swift in Sources */,
 				9C7F969D29F8FE3500F5035C /* ExtendUser.swift in Sources */,
 				9CEEE34729F90ADA001FA4FB /* ShiftDetailView.swift in Sources */,
 				9C7F969A29F8FE3500F5035C /* ExtendWage.swift in Sources */,
 				9C7F969B29F8FE3500F5035C /* ExtendGoal.swift in Sources */,
+				9CEEE34D29F90DD4001FA4FB /* CreateSavedView.swift in Sources */,
 				9C7F966729F8F03E00F5035C /* UltimateMoneyVisualizer.xcdatamodeld in Sources */,
 				9C7F969F29F8FE3500F5035C /* ExtendSaved.swift in Sources */,
 			);
