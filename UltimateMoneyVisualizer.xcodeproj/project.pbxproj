@@ -30,6 +30,9 @@
 		9CEEE32B29F9044F001FA4FB /* ExtendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEE32A29F9044F001FA4FB /* ExtendView.swift */; };
 		9CEEE33129F904CC001FA4FB /* ExpenseListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEE33029F904CC001FA4FB /* ExpenseListView.swift */; };
 		9CEEE33429F90651001FA4FB /* ExpenseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEE33329F90651001FA4FB /* ExpenseDetailView.swift */; };
+		9CEEE33629F90873001FA4FB /* CreateGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEE33529F90873001FA4FB /* CreateGoalView.swift */; };
+		9CEEE33A29F908BE001FA4FB /* GoalListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEE33929F908BE001FA4FB /* GoalListView.swift */; };
+		9CEEE33C29F908E8001FA4FB /* GoalDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEE33B29F908E8001FA4FB /* GoalDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +78,9 @@
 		9CEEE32A29F9044F001FA4FB /* ExtendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendView.swift; sourceTree = "<group>"; };
 		9CEEE33029F904CC001FA4FB /* ExpenseListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseListView.swift; sourceTree = "<group>"; };
 		9CEEE33329F90651001FA4FB /* ExpenseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseDetailView.swift; sourceTree = "<group>"; };
+		9CEEE33529F90873001FA4FB /* CreateGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGoalView.swift; sourceTree = "<group>"; };
+		9CEEE33929F908BE001FA4FB /* GoalListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalListView.swift; sourceTree = "<group>"; };
+		9CEEE33B29F908E8001FA4FB /* GoalDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,6 +223,9 @@
 		9C7F96A429F8FEEB00F5035C /* -InProgress */ = {
 			isa = PBXGroup;
 			children = (
+				9CEEE33529F90873001FA4FB /* CreateGoalView.swift */,
+				9CEEE33929F908BE001FA4FB /* GoalListView.swift */,
+				9CEEE33B29F908E8001FA4FB /* GoalDetailView.swift */,
 			);
 			path = "-InProgress";
 			sourceTree = "<group>";
@@ -257,10 +266,26 @@
 		9CEEE32F29F904BB001FA4FB /* Viewing Items */ = {
 			isa = PBXGroup;
 			children = (
+				9CEEE33829F90897001FA4FB /* Goals */,
+				9CEEE33729F90890001FA4FB /* Expenses */,
+			);
+			path = "Viewing Items";
+			sourceTree = "<group>";
+		};
+		9CEEE33729F90890001FA4FB /* Expenses */ = {
+			isa = PBXGroup;
+			children = (
 				9CEEE33029F904CC001FA4FB /* ExpenseListView.swift */,
 				9CEEE33329F90651001FA4FB /* ExpenseDetailView.swift */,
 			);
-			path = "Viewing Items";
+			path = Expenses;
+			sourceTree = "<group>";
+		};
+		9CEEE33829F90897001FA4FB /* Goals */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Goals;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -401,16 +426,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CEEE33629F90873001FA4FB /* CreateGoalView.swift in Sources */,
 				9C7F966429F8F03E00F5035C /* Persistence.swift in Sources */,
 				9C7F96A629F8FF0100F5035C /* CreateExpenseView.swift in Sources */,
 				9C7F968D29F8FD2D00F5035C /* ExtendExpense.swift in Sources */,
 				9C7F965D29F8F03C00F5035C /* ContentView.swift in Sources */,
+				9CEEE33C29F908E8001FA4FB /* GoalDetailView.swift in Sources */,
 				9C7F969C29F8FE3500F5035C /* ExtendSettings.swift in Sources */,
 				9C7F965B29F8F03C00F5035C /* UltimateMoneyVisualizerApp.swift in Sources */,
 				9C7F969929F8FE3500F5035C /* ExtendShift.swift in Sources */,
 				9CEEE33129F904CC001FA4FB /* ExpenseListView.swift in Sources */,
 				9CEEE33429F90651001FA4FB /* ExpenseDetailView.swift in Sources */,
 				9C7F969E29F8FE3500F5035C /* ExtendAllocation.swift in Sources */,
+				9CEEE33A29F908BE001FA4FB /* GoalListView.swift in Sources */,
 				9CEEE32B29F9044F001FA4FB /* ExtendView.swift in Sources */,
 				9C7F969D29F8FE3500F5035C /* ExtendUser.swift in Sources */,
 				9C7F969A29F8FE3500F5035C /* ExtendWage.swift in Sources */,
