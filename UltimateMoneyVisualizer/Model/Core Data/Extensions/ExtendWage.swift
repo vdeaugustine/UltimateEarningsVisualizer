@@ -5,8 +5,8 @@
 //  Created by Vincent DeAugustine on 4/25/23.
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 extension Wage {
     

@@ -61,8 +61,7 @@
         <relationship name="wage" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Wage" inverseName="user" inverseEntity="Wage"/>
     </entity>
     <entity name="Wage" representedClassName="Wage" syncable="YES" codeGenerationType="class">
-        <attribute name="amount" optional="YES" attributeType="Double" defaultValueString="10" usesScalarValueType="YES"/>
-        <attribute name="type" attributeType="String" defaultValueString="hourly"/>
+        <attribute name="amount" attributeType="Double" defaultValueString="10" usesScalarValueType="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="wage" inverseEntity="User"/>
     </entity>
 </model>

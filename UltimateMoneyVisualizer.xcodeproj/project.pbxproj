@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C7C983A29F9EC410077EA25 /* EnterWageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C983929F9EC410077EA25 /* EnterWageView.swift */; };
 		9C7F965B29F8F03C00F5035C /* UltimateMoneyVisualizerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F965A29F8F03C00F5035C /* UltimateMoneyVisualizerApp.swift */; };
 		9C7F965D29F8F03C00F5035C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F965C29F8F03C00F5035C /* ContentView.swift */; };
 		9C7F965F29F8F03E00F5035C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C7F965E29F8F03E00F5035C /* Assets.xcassets */; };
@@ -41,6 +42,7 @@
 		9CEEE34D29F90DD4001FA4FB /* CreateSavedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEE34C29F90DD4001FA4FB /* CreateSavedView.swift */; };
 		9CEEE34F29F90E09001FA4FB /* SavedListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEE34E29F90E09001FA4FB /* SavedListView.swift */; };
 		9CEEE35129F90E37001FA4FB /* SavedDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEE35029F90E37001FA4FB /* SavedDetailView.swift */; };
+		9CEEE35729F9E77F001FA4FB /* WageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEE35629F9E77F001FA4FB /* WageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +63,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9C7C983929F9EC410077EA25 /* EnterWageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterWageView.swift; sourceTree = "<group>"; };
 		9C7F965729F8F03C00F5035C /* UltimateMoneyVisualizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UltimateMoneyVisualizer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C7F965A29F8F03C00F5035C /* UltimateMoneyVisualizerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UltimateMoneyVisualizerApp.swift; sourceTree = "<group>"; };
 		9C7F965C29F8F03C00F5035C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -97,6 +100,7 @@
 		9CEEE34C29F90DD4001FA4FB /* CreateSavedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSavedView.swift; sourceTree = "<group>"; };
 		9CEEE34E29F90E09001FA4FB /* SavedListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedListView.swift; sourceTree = "<group>"; };
 		9CEEE35029F90E37001FA4FB /* SavedDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedDetailView.swift; sourceTree = "<group>"; };
+		9CEEE35629F9E77F001FA4FB /* WageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -239,9 +243,6 @@
 		9C7F96A429F8FEEB00F5035C /* -InProgress */ = {
 			isa = PBXGroup;
 			children = (
-				9CEEE34C29F90DD4001FA4FB /* CreateSavedView.swift */,
-				9CEEE34E29F90E09001FA4FB /* SavedListView.swift */,
-				9CEEE35029F90E37001FA4FB /* SavedDetailView.swift */,
 			);
 			path = "-InProgress";
 			sourceTree = "<group>";
@@ -266,6 +267,8 @@
 		9CEEE32D29F904A3001FA4FB /* Adding Items */ = {
 			isa = PBXGroup;
 			children = (
+				9CEEE35929F9EBD5001FA4FB /* Wage */,
+				9CEEE35329F9E051001FA4FB /* Saved */,
 				9CEEE34B29F90D81001FA4FB /* Shifts */,
 				9CEEE34129F90A50001FA4FB /* Goals */,
 				9CEEE32E29F904A8001FA4FB /* Expenses */,
@@ -284,6 +287,8 @@
 		9CEEE32F29F904BB001FA4FB /* Viewing Items */ = {
 			isa = PBXGroup;
 			children = (
+				9CEEE35829F9EBCC001FA4FB /* Wage */,
+				9CEEE35229F9E04E001FA4FB /* Saved */,
 				9CEEE34A29F90D74001FA4FB /* Shifts */,
 				9CEEE33829F90897001FA4FB /* Goals */,
 				9CEEE33729F90890001FA4FB /* Expenses */,
@@ -350,6 +355,39 @@
 				9CEEE34229F90A7D001FA4FB /* CreateShiftView.swift */,
 			);
 			path = Shifts;
+			sourceTree = "<group>";
+		};
+		9CEEE35229F9E04E001FA4FB /* Saved */ = {
+			isa = PBXGroup;
+			children = (
+				9CEEE34E29F90E09001FA4FB /* SavedListView.swift */,
+				9CEEE35029F90E37001FA4FB /* SavedDetailView.swift */,
+			);
+			path = Saved;
+			sourceTree = "<group>";
+		};
+		9CEEE35329F9E051001FA4FB /* Saved */ = {
+			isa = PBXGroup;
+			children = (
+				9CEEE34C29F90DD4001FA4FB /* CreateSavedView.swift */,
+			);
+			path = Saved;
+			sourceTree = "<group>";
+		};
+		9CEEE35829F9EBCC001FA4FB /* Wage */ = {
+			isa = PBXGroup;
+			children = (
+				9CEEE35629F9E77F001FA4FB /* WageView.swift */,
+			);
+			path = Wage;
+			sourceTree = "<group>";
+		};
+		9CEEE35929F9EBD5001FA4FB /* Wage */ = {
+			isa = PBXGroup;
+			children = (
+				9C7C983929F9EC410077EA25 /* EnterWageView.swift */,
+			);
+			path = Wage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -509,10 +547,12 @@
 				9C7F969E29F8FE3500F5035C /* ExtendAllocation.swift in Sources */,
 				9CEEE35129F90E37001FA4FB /* SavedDetailView.swift in Sources */,
 				9CEEE33A29F908BE001FA4FB /* GoalListView.swift in Sources */,
+				9CEEE35729F9E77F001FA4FB /* WageView.swift in Sources */,
 				9CEEE32B29F9044F001FA4FB /* ExtendView.swift in Sources */,
 				9C7F969D29F8FE3500F5035C /* ExtendUser.swift in Sources */,
 				9CEEE34729F90ADA001FA4FB /* ShiftDetailView.swift in Sources */,
 				9C7F969A29F8FE3500F5035C /* ExtendWage.swift in Sources */,
+				9C7C983A29F9EC410077EA25 /* EnterWageView.swift in Sources */,
 				9C7F969B29F8FE3500F5035C /* ExtendGoal.swift in Sources */,
 				9CEEE34D29F90DD4001FA4FB /* CreateSavedView.swift in Sources */,
 				9C7F966729F8F03E00F5035C /* UltimateMoneyVisualizer.xcdatamodeld in Sources */,
