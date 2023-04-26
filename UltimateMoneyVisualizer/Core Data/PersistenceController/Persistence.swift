@@ -11,22 +11,29 @@ struct PersistenceController {
     static let shared = PersistenceController()
 
     static var preview: PersistenceController = {
-        let result = PersistenceController(inMemory: true)
+        let result = PersistenceController(inMemory: false)
         let viewContext = result.container.viewContext
-        for _ in 0..<10 {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-        }
+
+        // Check if there is a User entity in the persistent store
+        let request: NSFetchRequest<User> = User.fetchRequest()
         do {
-            try viewContext.save()
+            let count = try viewContext.count(for: request)
+            if count == 0 {
+                // If there is no User entity, create one and save it to the store
+                let user = User(context: viewContext)
+                user.username = "Testing User"
+                user.email = "TestUser@ExampleForTest.com"
+                try viewContext.save()
+            }
         } catch {
-            // Replace this implementation with code to handle the error appropriately.
-            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            // Handle the error appropriately
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
+
         return result
     }()
+
 
     let container: NSPersistentCloudKitContainer
 

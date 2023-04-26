@@ -16,6 +16,15 @@
 		9C7F967229F8F03E00F5035C /* UltimateMoneyVisualizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F967129F8F03E00F5035C /* UltimateMoneyVisualizerTests.swift */; };
 		9C7F967C29F8F03E00F5035C /* UltimateMoneyVisualizerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F967B29F8F03E00F5035C /* UltimateMoneyVisualizerUITests.swift */; };
 		9C7F967E29F8F03E00F5035C /* UltimateMoneyVisualizerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F967D29F8F03E00F5035C /* UltimateMoneyVisualizerUITestsLaunchTests.swift */; };
+		9C7F968D29F8FD2D00F5035C /* ExtendExpense.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F968C29F8FD2D00F5035C /* ExtendExpense.swift */; };
+		9C7F969929F8FE3500F5035C /* ExtendShift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F969229F8FE3500F5035C /* ExtendShift.swift */; };
+		9C7F969A29F8FE3500F5035C /* ExtendWage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F969329F8FE3500F5035C /* ExtendWage.swift */; };
+		9C7F969B29F8FE3500F5035C /* ExtendGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F969429F8FE3500F5035C /* ExtendGoal.swift */; };
+		9C7F969C29F8FE3500F5035C /* ExtendSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F969529F8FE3500F5035C /* ExtendSettings.swift */; };
+		9C7F969D29F8FE3500F5035C /* ExtendUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F969629F8FE3500F5035C /* ExtendUser.swift */; };
+		9C7F969E29F8FE3500F5035C /* ExtendAllocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F969729F8FE3500F5035C /* ExtendAllocation.swift */; };
+		9C7F969F29F8FE3500F5035C /* ExtendSaved.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F969829F8FE3500F5035C /* ExtendSaved.swift */; };
+		9C7F96A229F8FE6700F5035C /* Vin in Frameworks */ = {isa = PBXBuildFile; productRef = 9C7F96A129F8FE6700F5035C /* Vin */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +58,14 @@
 		9C7F967729F8F03E00F5035C /* UltimateMoneyVisualizerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UltimateMoneyVisualizerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C7F967B29F8F03E00F5035C /* UltimateMoneyVisualizerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UltimateMoneyVisualizerUITests.swift; sourceTree = "<group>"; };
 		9C7F967D29F8F03E00F5035C /* UltimateMoneyVisualizerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UltimateMoneyVisualizerUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		9C7F968C29F8FD2D00F5035C /* ExtendExpense.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendExpense.swift; sourceTree = "<group>"; };
+		9C7F969229F8FE3500F5035C /* ExtendShift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendShift.swift; sourceTree = "<group>"; };
+		9C7F969329F8FE3500F5035C /* ExtendWage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendWage.swift; sourceTree = "<group>"; };
+		9C7F969429F8FE3500F5035C /* ExtendGoal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendGoal.swift; sourceTree = "<group>"; };
+		9C7F969529F8FE3500F5035C /* ExtendSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendSettings.swift; sourceTree = "<group>"; };
+		9C7F969629F8FE3500F5035C /* ExtendUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendUser.swift; sourceTree = "<group>"; };
+		9C7F969729F8FE3500F5035C /* ExtendAllocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendAllocation.swift; sourceTree = "<group>"; };
+		9C7F969829F8FE3500F5035C /* ExtendSaved.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendSaved.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C7F96A229F8FE6700F5035C /* Vin in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,11 +118,10 @@
 			isa = PBXGroup;
 			children = (
 				9C7F965A29F8F03C00F5035C /* UltimateMoneyVisualizerApp.swift */,
+				9C7F968A29F8FD0300F5035C /* Core Data */,
 				9C7F965C29F8F03C00F5035C /* ContentView.swift */,
 				9C7F965E29F8F03E00F5035C /* Assets.xcassets */,
-				9C7F966329F8F03E00F5035C /* Persistence.swift */,
 				9C7F966829F8F03E00F5035C /* Info.plist */,
-				9C7F966529F8F03E00F5035C /* UltimateMoneyVisualizer.xcdatamodeld */,
 				9C7F966029F8F03E00F5035C /* Preview Content */,
 			);
 			path = UltimateMoneyVisualizer;
@@ -135,6 +152,47 @@
 			path = UltimateMoneyVisualizerUITests;
 			sourceTree = "<group>";
 		};
+		9C7F968A29F8FD0300F5035C /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				9C7F968F29F8FD5A00F5035C /* PersistenceController */,
+				9C7F968E29F8FD5400F5035C /* Model */,
+				9C7F968B29F8FD1700F5035C /* Extensions */,
+			);
+			path = "Core Data";
+			sourceTree = "<group>";
+		};
+		9C7F968B29F8FD1700F5035C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				9C7F969729F8FE3500F5035C /* ExtendAllocation.swift */,
+				9C7F969429F8FE3500F5035C /* ExtendGoal.swift */,
+				9C7F969829F8FE3500F5035C /* ExtendSaved.swift */,
+				9C7F969529F8FE3500F5035C /* ExtendSettings.swift */,
+				9C7F969229F8FE3500F5035C /* ExtendShift.swift */,
+				9C7F969629F8FE3500F5035C /* ExtendUser.swift */,
+				9C7F969329F8FE3500F5035C /* ExtendWage.swift */,
+				9C7F968C29F8FD2D00F5035C /* ExtendExpense.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		9C7F968E29F8FD5400F5035C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				9C7F966529F8F03E00F5035C /* UltimateMoneyVisualizer.xcdatamodeld */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		9C7F968F29F8FD5A00F5035C /* PersistenceController */ = {
+			isa = PBXGroup;
+			children = (
+				9C7F966329F8F03E00F5035C /* Persistence.swift */,
+			);
+			path = PersistenceController;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -151,6 +209,9 @@
 			dependencies = (
 			);
 			name = UltimateMoneyVisualizer;
+			packageProductDependencies = (
+				9C7F96A129F8FE6700F5035C /* Vin */,
+			);
 			productName = UltimateMoneyVisualizer;
 			productReference = 9C7F965729F8F03C00F5035C /* UltimateMoneyVisualizer.app */;
 			productType = "com.apple.product-type.application";
@@ -223,6 +284,9 @@
 				Base,
 			);
 			mainGroup = 9C7F964E29F8F03C00F5035C;
+			packageReferences = (
+				9C7F96A029F8FE6700F5035C /* XCRemoteSwiftPackageReference "VinPackage" */,
+			);
 			productRefGroup = 9C7F965829F8F03C00F5035C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -266,9 +330,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C7F966429F8F03E00F5035C /* Persistence.swift in Sources */,
+				9C7F968D29F8FD2D00F5035C /* ExtendExpense.swift in Sources */,
 				9C7F965D29F8F03C00F5035C /* ContentView.swift in Sources */,
+				9C7F969C29F8FE3500F5035C /* ExtendSettings.swift in Sources */,
 				9C7F965B29F8F03C00F5035C /* UltimateMoneyVisualizerApp.swift in Sources */,
+				9C7F969929F8FE3500F5035C /* ExtendShift.swift in Sources */,
+				9C7F969E29F8FE3500F5035C /* ExtendAllocation.swift in Sources */,
+				9C7F969D29F8FE3500F5035C /* ExtendUser.swift in Sources */,
+				9C7F969A29F8FE3500F5035C /* ExtendWage.swift in Sources */,
+				9C7F969B29F8FE3500F5035C /* ExtendGoal.swift in Sources */,
 				9C7F966729F8F03E00F5035C /* UltimateMoneyVisualizer.xcdatamodeld in Sources */,
+				9C7F969F29F8FE3500F5035C /* ExtendSaved.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -593,6 +665,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9C7F96A029F8FE6700F5035C /* XCRemoteSwiftPackageReference "VinPackage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/vdeaugustine/VinPackage";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9C7F96A129F8FE6700F5035C /* Vin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9C7F96A029F8FE6700F5035C /* XCRemoteSwiftPackageReference "VinPackage" */;
+			productName = Vin;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		9C7F966529F8F03E00F5035C /* UltimateMoneyVisualizer.xcdatamodeld */ = {

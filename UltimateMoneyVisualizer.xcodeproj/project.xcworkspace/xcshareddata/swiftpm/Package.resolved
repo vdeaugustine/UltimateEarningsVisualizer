@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "vinpackage",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/vdeaugustine/VinPackage",
+      "state" : {
+        "revision" : "167204318272163284d6e9f4f92a4d7d85b7dabd",
+        "version" : "1.0.7"
+      }
+    }
+  ],
+  "version" : 2
+}
