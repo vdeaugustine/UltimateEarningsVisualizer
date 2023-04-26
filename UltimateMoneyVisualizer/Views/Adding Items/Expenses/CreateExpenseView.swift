@@ -7,15 +7,16 @@
 
 import AlertToast
 import SwiftUI
+import Vin
 
 // MARK: - CreateExpenseView
 
 struct CreateExpenseView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
-    @State private var title: String = ""
-    @State private var amount: String = ""
-    @State private var info: String = ""
+    @State private var title: String = "Test expense"
+    @State private var amount: String = "39.21"
+    @State private var info: String = "this is a test description"
     @State private var dueDate: Date = Date()
 
     // Alert toast state variables
@@ -79,7 +80,14 @@ struct CreateExpenseView: View {
             alertToastConfig
         } onTap: {
             showToast = false
-        } 
+        }
+        .toolbar {
+            ToolbarItem {
+                NavigationLink("Expenses") {
+                    ExpenseListView()
+                }
+            }
+        }
     }
 }
 
