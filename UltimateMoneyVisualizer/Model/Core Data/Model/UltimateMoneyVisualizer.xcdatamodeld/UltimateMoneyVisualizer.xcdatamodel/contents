@@ -64,4 +64,10 @@
         <attribute name="amount" attributeType="Double" defaultValueString="10" usesScalarValueType="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="wage" inverseEntity="User"/>
     </entity>
+    <entity name="WorkSchedule" representedClassName="WorkSchedule" syncable="YES" codeGenerationType="class">
+        <attribute name="dateCreated" attributeType="Date" defaultDateTimeInterval="704248200" usesScalarValueType="NO"/>
+        <attribute name="dayOfWeek" optional="YES" attributeType="String"/>
+        <attribute name="endTime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="startTime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+    </entity>
 </model>

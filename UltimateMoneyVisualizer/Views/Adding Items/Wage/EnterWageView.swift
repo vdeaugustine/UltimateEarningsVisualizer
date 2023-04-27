@@ -22,6 +22,8 @@ struct EnterWageView: View {
     
     @State private var errorMessage: String = ""
     @State private var showSuccessfulSaveToast = false
+    
+    @FetchRequest(sortDescriptors: []) var user: FetchedResults<User>
 
     private func calculateHourlyWage() {
         guard let salaryValue = Double(salary),
@@ -88,6 +90,7 @@ struct EnterWageView: View {
                         do {
                             let wage = Wage(context: viewContext)
                             wage.amount = dub
+                            wage.user = user.first
                             try viewContext.save()
                             showSuccessfulSaveToast = true
                         }

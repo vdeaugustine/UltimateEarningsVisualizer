@@ -11,7 +11,7 @@ import SwiftUI
 
 // MARK: - ViewWageView
 
-struct ViewWageView: View {
+struct WageView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Wage.amount, ascending: false)])
     private var wages: FetchedResults<Wage>
@@ -142,7 +142,7 @@ struct ViewWageView_Previews: PreviewProvider {
     }()
 
     static var previews: some View {
-        ViewWageView(wage: wage)
+        WageView(wage: wage)
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
             .putInNavView(.inline)
     }
