@@ -5,11 +5,12 @@
 //  Created by Vincent DeAugustine on 4/26/23.
 //
 
-import SwiftUI
 import AlertToast
+import SwiftUI
+
+// MARK: - EnterWageView
 
 struct EnterWageView: View {
-    
     @Environment(\.managedObjectContext) private var viewContext
     @State private var hourlyWage: String = ""
     @State private var isSalaried: Bool = false
@@ -17,13 +18,14 @@ struct EnterWageView: View {
     @State private var hoursPerWeek: String = ""
     @State private var vacationDays: String = ""
     @State private var calculatedHourlyWage: Double?
-    
+
     @State private var showErrorToast: Bool = false
-    
+
     @State private var errorMessage: String = ""
     @State private var showSuccessfulSaveToast = false
-    
+
     @FetchRequest(sortDescriptors: []) var user: FetchedResults<User>
+    @FetchRequest(sortDescriptors: []) var wages: FetchedResults<Wage>
 
     private func calculateHourlyWage() {
         guard let salaryValue = Double(salary),
@@ -86,15 +88,18 @@ struct EnterWageView: View {
                             errorMessage = "Please enter a valid hourly wage"
                             return
                         }
-                        
+
                         do {
+                            wages.forEach { viewContext.delete($0) }
+
                             let wage = Wage(context: viewContext)
                             wage.amount = dub
                             wage.user = user.first
+                            user.first?.wage = wage
+
                             try viewContext.save()
                             showSuccessfulSaveToast = true
-                        }
-                        catch {
+                        } catch {
                             print(error)
                         }
                     }
@@ -108,12 +113,12 @@ struct EnterWageView: View {
             }
             .toast(isPresenting: $showSuccessfulSaveToast, offsetY: -100) {
                 AlertToast(displayMode: .banner(.slide), type: .complete(.green), title: "Wage saved successfully", style: .style(backgroundColor: .white, titleColor: .red, subTitleColor: nil, titleFont: nil, subTitleFont: nil))
-                    
             }
-
         }
     }
 }
+
+// MARK: - EnterWageView_Previews
 
 struct EnterWageView_Previews: PreviewProvider {
     static var previews: some View {
@@ -121,4 +126,3 @@ struct EnterWageView_Previews: PreviewProvider {
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
-

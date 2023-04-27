@@ -25,4 +25,29 @@ enum DayOfWeek: String, CaseIterable, Identifiable {
         
         return DayOfWeek(rawValue: dayOfWeekString.lowercased()) ?? .monday
     }
+    
+    init(date: Date) {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "EEEE"
+            let dayOfWeekString = dateFormatter.string(from: date)
+            
+            switch dayOfWeekString.lowercased() {
+            case "sunday":
+                self = .sunday
+            case "monday":
+                self = .monday
+            case "tuesday":
+                self = .tuesday
+            case "wednesday":
+                self = .wednesday
+            case "thursday":
+                self = .thursday
+            case "friday":
+                self = .friday
+            case "saturday":
+                self = .saturday
+            default:
+                self = .monday
+            }
+        }
 }

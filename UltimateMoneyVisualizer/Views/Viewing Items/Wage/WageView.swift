@@ -9,12 +9,13 @@ import AlertToast
 import CoreData
 import SwiftUI
 
-// MARK: - ViewWageView
+// MARK: - WageView
 
 struct WageView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Wage.amount, ascending: false)])
-    private var wages: FetchedResults<Wage>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Wage.amount, ascending: false)]) private var wages: FetchedResults<Wage>
+    
+    @FetchRequest(sortDescriptors: []) var users: FetchedResults<User>
 
     #if DEBUG
         @State var wage: Wage
@@ -96,6 +97,14 @@ struct WageView: View {
                             do {
                                 let wage = Wage(context: viewContext)
                                 wage.amount = dub
+                                
+                                guard let user = users.first else {
+                                    throw NSError(domain: "No user present", code: 99)
+                                }
+                                
+                                user.wage = wage
+                                wage.user = user
+
                                 try viewContext.save()
                                 showSuccessfulSaveToast = true
                             } catch {
@@ -128,7 +137,6 @@ struct WageView: View {
         .toast(isPresenting: $showSuccessfulSaveToast, offsetY: -400) {
             AlertToast(displayMode: .banner(.pop), type: .complete(.green), title: "Wage saved successfully", style: .style(backgroundColor: .white, titleColor: nil, subTitleColor: nil, titleFont: nil, subTitleFont: nil))
         }
-        
     }
 }
 

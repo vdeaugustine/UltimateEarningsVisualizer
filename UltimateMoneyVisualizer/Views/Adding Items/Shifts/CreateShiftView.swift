@@ -7,29 +7,41 @@
 
 import AlertToast
 import SwiftUI
+import Vin
+// MARK: - CreateShiftView
 
 struct CreateShiftView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
-    @State private var dayOfWeek: DayOfWeek = .getCurrentDayOfWeek()
-    @State private var startDate: Date = Date()
-    @State private var endDate: Date = Date()
+    @State private var startDate: Date = .getThisTime(hour: 9, minute: 0)!
+    @State private var endDate: Date = .getThisTime(hour: 17, minute: 0)!
 
     // Alert toast state variables
     @State private var showToast = false
     @State private var alertToastConfig = AlertToast(displayMode: .hud, type: .regular, title: "")
 
+    var duration: TimeInterval {
+        abs(endDate - startDate)
+    }
+    
+    var dayOfWeek: DayOfWeek {
+        DayOfWeek(date: startDate)
+    }
+    
+    var dateRange: ClosedRange<Date> {
+        startDate ... .distantFuture
+    }
+
     var body: some View {
         Form {
             Section(header: Text("Shift Information")) {
-                Picker("Day of Week", selection: $dayOfWeek) {
-                    ForEach(DayOfWeek.allCases) { day in
-                        Text(day.rawValue)
-                            .tag(day)
-                    }
-                }
-                DatePicker("Start Time", selection: $startDate, displayedComponents: .hourAndMinute)
-                DatePicker("End Time", selection: $endDate, displayedComponents: .hourAndMinute)
+                
+                DatePicker("Start Time", selection: $startDate)
+                DatePicker("End Time", selection: $endDate,  in: dateRange)
+                Text("Duration")
+                    .spacedOut(text: duration.formatForTime())
+                Text("Day of Week")
+                    .spacedOut(text: dayOfWeek.rawValue)
             }
 
             Section {
@@ -77,6 +89,7 @@ struct CreateShiftView: View {
     }
 }
 
+// MARK: - CreateShiftView_Previews
 
 struct CreateShiftView_Previews: PreviewProvider {
     static var previews: some View {
@@ -84,4 +97,3 @@ struct CreateShiftView_Previews: PreviewProvider {
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
-
