@@ -70,7 +70,7 @@ struct SavedListView: View {
 
 struct SavedListView_Previews: PreviewProvider {
     static var previews: some View {
-        let context = PersistenceController.preview.container.viewContext
+        let context = PersistenceController.context
         let savedItem1 = Saved(context: context)
         savedItem1.title = "Saved Item 1"
         savedItem1.date = Date()

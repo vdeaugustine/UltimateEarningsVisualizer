@@ -123,6 +123,6 @@ struct EnterWageView: View {
 struct EnterWageView_Previews: PreviewProvider {
     static var previews: some View {
         EnterWageView()
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            .environment(\.managedObjectContext, PersistenceController.context)
     }
 }

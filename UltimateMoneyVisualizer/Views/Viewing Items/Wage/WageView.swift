@@ -144,14 +144,14 @@ struct WageView: View {
 
 struct ViewWageView_Previews: PreviewProvider {
     static let wage: Wage = {
-        let wage = Wage(context: PersistenceController.preview.container.viewContext)
+        let wage = Wage(context: PersistenceController.context)
         wage.amount = 60
         return wage
     }()
 
     static var previews: some View {
         WageView(wage: wage)
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            .environment(\.managedObjectContext, PersistenceController.context)
             .putInNavView(.inline)
     }
 }

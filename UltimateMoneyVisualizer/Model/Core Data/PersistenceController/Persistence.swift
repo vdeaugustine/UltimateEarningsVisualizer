@@ -8,9 +8,14 @@
 import CoreData
 
 struct PersistenceController {
+    
+    
+    static let context = shared.container.viewContext
+   
+    #if !DEBUG
     static let shared = PersistenceController()
-
-    static var preview: PersistenceController = {
+    #else
+    static var shared: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
 
@@ -39,6 +44,7 @@ struct PersistenceController {
 
         return result
     }()
+    #endif
 
     let container: NSPersistentCloudKitContainer
 

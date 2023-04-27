@@ -9,11 +9,8 @@ import SwiftUI
 
 @main
 struct UltimateMoneyVisualizerApp: App {
-    #if DEBUG
-    let persistenceController = PersistenceController.preview
-    #else
+    
     let persistenceController = PersistenceController.shared
-    #endif
 
     var body: some Scene {
         WindowGroup {

@@ -29,7 +29,7 @@ struct ExpenseDetailView: View {
 // MARK: - ExpenseDetailView_Previews
 
 struct ExpenseDetailView_Previews: PreviewProvider {
-    static let context = PersistenceController.preview.container.viewContext
+    static let context = PersistenceController.context
 
     static let expense: Expense = {
         let expense = Expense(context: context)

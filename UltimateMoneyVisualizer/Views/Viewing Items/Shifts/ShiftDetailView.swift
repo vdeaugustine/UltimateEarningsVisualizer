@@ -31,7 +31,7 @@ struct ShiftDetailView: View {
 }
 
 struct ShiftDetailView_Previews: PreviewProvider {
-    static let context = PersistenceController.preview.container.viewContext
+    static let context = PersistenceController.context
 
     static let shift: Shift = {
         let shift = Shift(context: context)

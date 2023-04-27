@@ -96,6 +96,6 @@ struct CreateExpenseView: View {
 struct CreateExpenseView_Previews: PreviewProvider {
     static var previews: some View {
         CreateExpenseView()
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            .environment(\.managedObjectContext, PersistenceController.context)
     }
 }

@@ -48,7 +48,7 @@ struct SavedDetailView: View {
 // MARK: - SavedDetailView_Previews
 
 struct SavedDetailView_Previews: PreviewProvider {
-    static let context = PersistenceController.preview.container.viewContext
+    static let context = PersistenceController.context
 
     static let saved: Saved = {
         let saved = Saved(context: context)

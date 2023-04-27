@@ -175,7 +175,7 @@ struct TimeSelectionView: View {
 struct SelectRegularDaysView_Previews: PreviewProvider {
     static var previews: some View {
         SelectRegularDaysView()
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            .environment(\.managedObjectContext, PersistenceController.context)
             .putInNavView(.inline)
     }
 }

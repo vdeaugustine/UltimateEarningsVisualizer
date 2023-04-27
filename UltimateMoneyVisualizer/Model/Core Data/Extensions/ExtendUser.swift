@@ -30,18 +30,13 @@ extension User {
 //    }
 
     static var main: User {
-        #if DEBUG
-            let viewContext = PersistenceController.preview.container.viewContext
-        #else
-            let viewContext = PersistenceController.shared.container.viewContext
-        #endif
+        let viewContext = PersistenceController.context
 
         let request: NSFetchRequest<User> = User.fetchRequest()
         request.fetchLimit = 1
 
         do {
             let results = try viewContext.fetch(request)
-            print(results.count)
             if let user = results.first {
                 return user
             } else {
@@ -55,6 +50,7 @@ extension User {
                 user.wage = wage
                 
                 try Shift.createPreviewShifts(user: user)
+                try Saved.generateDummySavedItems(user: user)
 
                 try viewContext.save()
                 return user
@@ -68,6 +64,7 @@ extension User {
         guard let wage else { return 0 }
         let totalDuration = Shift.totalDuration(for: self)
         let hourlyRate = wage.amount
-        return totalDuration * hourlyRate
+        let secondlyRate = hourlyRate / 60 / 60
+        return totalDuration * secondlyRate
     }
 }

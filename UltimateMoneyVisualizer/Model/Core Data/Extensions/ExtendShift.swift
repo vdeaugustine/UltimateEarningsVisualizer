@@ -37,11 +37,7 @@ extension Shift {
 
 extension Shift {
     static func createPreviewShifts(user: User) throws {
-        #if DEBUG
-            let viewContext = PersistenceController.preview.container.viewContext
-        #else
-            let viewContext = PersistenceController.shared.container.viewContext
-        #endif
+        let viewContext = PersistenceController.context
 
         // Make the 50 before today
         let previous50Weekdays = Date.getPreviousWeekdays(count: 50)
