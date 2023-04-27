@@ -65,7 +65,7 @@ struct ShiftListView_Previews: PreviewProvider {
         shift.startDate = Date()
         shift.endDate = Date()
         shift.dayOfWeek = "Monday"
-        return ShiftListView().environment(\.managedObjectContext, context)
+        return ShiftListView().environment(\.managedObjectContext, context).putInNavView(.inline)
     }
 }
 

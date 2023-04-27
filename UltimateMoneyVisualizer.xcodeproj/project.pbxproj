@@ -157,6 +157,14 @@
 			path = Schedule;
 			sourceTree = "<group>";
 		};
+		9C7C984829FA44CF0077EA25 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				9C7C984429FA0DA80077EA25 /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		9C7F964E29F8F03C00F5035C = {
 			isa = PBXGroup;
 			children = (
@@ -270,7 +278,6 @@
 		9C7F96A429F8FEEB00F5035C /* -InProgress */ = {
 			isa = PBXGroup;
 			children = (
-				9C7C984429FA0DA80077EA25 /* SettingsView.swift */,
 				9C7C984629FA0E130077EA25 /* HomeView.swift */,
 			);
 			path = "-InProgress";
@@ -317,6 +324,7 @@
 		9CEEE32F29F904BB001FA4FB /* Viewing Items */ = {
 			isa = PBXGroup;
 			children = (
+				9C7C984829FA44CF0077EA25 /* Settings */,
 				9C7C984229FA0D7F0077EA25 /* Schedule */,
 				9CEEE35829F9EBCC001FA4FB /* Wage */,
 				9CEEE35229F9E04E001FA4FB /* Saved */,

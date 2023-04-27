@@ -12,11 +12,10 @@ import SwiftUI
 struct SettingsView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
-    @FetchRequest(sortDescriptors: [])
-    private var user: FetchedResults<User>
+    private var user = User.main
 
     private var wageStr: String {
-        if let wage = user.first?.wage {
+        if let wage = user.wage {
             return wage.amount.formattedForMoney(includeCents: true)
         }
         return "Not set"
@@ -25,7 +24,7 @@ struct SettingsView: View {
     var body: some View {
         List {
             NavigationLink {
-                if let wage = user.first?.wage {
+                if let wage = user.wage {
                     WageView(wage: wage)
                 } else {
                     EnterWageView()
@@ -36,6 +35,7 @@ struct SettingsView: View {
                     .spacedOut(text: wageStr)
             }
         }
+        .navigationTitle("Settings")
     }
 }
 
@@ -45,5 +45,6 @@ struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            .putInNavView(.inline)
     }
 }

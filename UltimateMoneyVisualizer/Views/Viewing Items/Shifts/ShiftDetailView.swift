@@ -19,9 +19,6 @@ struct ShiftDetailView: View {
     }
     var body: some View {
         VStack {
-            Text("Shift Detail")
-                .font(.largeTitle)
-            
             Text("\(shift.dayOfWeek ?? "")")
                 .font(.headline)
                 .foregroundColor(.secondary)
@@ -46,6 +43,7 @@ struct ShiftDetailView_Previews: PreviewProvider {
 
     static var previews: some View {
         ShiftDetailView(shift: shift)
+            .putInNavView(.large)
     }
 }
 

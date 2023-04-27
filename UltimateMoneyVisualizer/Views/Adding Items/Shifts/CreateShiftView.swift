@@ -28,16 +28,12 @@ struct CreateShiftView: View {
         DayOfWeek(date: startDate)
     }
     
-    var dateRange: ClosedRange<Date> {
-        startDate ... .distantFuture
-    }
-
     var body: some View {
         Form {
             Section(header: Text("Shift Information")) {
                 
                 DatePicker("Start Time", selection: $startDate)
-                DatePicker("End Time", selection: $endDate,  in: dateRange)
+                DatePicker("End Time", selection: $endDate,  in: startDate ... .distantFuture)
                 Text("Duration")
                     .spacedOut(text: duration.formatForTime())
                 Text("Day of Week")

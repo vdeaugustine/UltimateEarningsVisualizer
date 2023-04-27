@@ -29,6 +29,10 @@ struct ContentView: View {
             SettingsView()
                 .putInNavView(.inline)
                 .makeTab(tab: Tabs.settings, systemImage: "gear")
+            
+            HomeView()
+                .putInNavView(.inline)
+                .makeTab(tab: Tabs.home, systemImage: "house")
         }
     }
 }
