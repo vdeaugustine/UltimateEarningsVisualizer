@@ -11,11 +11,9 @@ import SwiftUI
 
 struct ExpenseListView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(entity: Expense.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Expense.dateCreated, ascending: false)]) private var expenses: FetchedResults<Expense>
-
     var body: some View {
         List {
-            ForEach(expenses, id: \.self) { expense in
+            ForEach(User.main.getExpenses(context: viewContext), id: \.self) { expense in
                 NavigationLink(destination: ExpenseDetailView(expense: expense)) {
                     VStack(alignment: .leading) {
                         Text(expense.title ?? "")

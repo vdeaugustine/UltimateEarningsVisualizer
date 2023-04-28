@@ -13,6 +13,9 @@
 		9C7C984129F9F7B20077EA25 /* AllSchedulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C984029F9F7B20077EA25 /* AllSchedulesView.swift */; };
 		9C7C984529FA0DA80077EA25 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C984429FA0DA80077EA25 /* SettingsView.swift */; };
 		9C7C984729FA0E130077EA25 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C984629FA0E130077EA25 /* HomeView.swift */; };
+		9C7C984A29FA5BFB0077EA25 /* ExtendTodayShift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C984929FA5BFB0077EA25 /* ExtendTodayShift.swift */; };
+		9C7C984C29FA5C1D0077EA25 /* ExtendWorkSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C984B29FA5C1D0077EA25 /* ExtendWorkSchedule.swift */; };
+		9C7C984E29FB35E10077EA25 /* AssignAllocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C984D29FB35E10077EA25 /* AssignAllocationView.swift */; };
 		9C7F965B29F8F03C00F5035C /* UltimateMoneyVisualizerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F965A29F8F03C00F5035C /* UltimateMoneyVisualizerApp.swift */; };
 		9C7F965D29F8F03C00F5035C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F965C29F8F03C00F5035C /* ContentView.swift */; };
 		9C7F965F29F8F03E00F5035C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C7F965E29F8F03E00F5035C /* Assets.xcassets */; };
@@ -74,6 +77,9 @@
 		9C7C984029F9F7B20077EA25 /* AllSchedulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllSchedulesView.swift; sourceTree = "<group>"; };
 		9C7C984429FA0DA80077EA25 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		9C7C984629FA0E130077EA25 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		9C7C984929FA5BFB0077EA25 /* ExtendTodayShift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendTodayShift.swift; sourceTree = "<group>"; };
+		9C7C984B29FA5C1D0077EA25 /* ExtendWorkSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendWorkSchedule.swift; sourceTree = "<group>"; };
+		9C7C984D29FB35E10077EA25 /* AssignAllocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignAllocationView.swift; sourceTree = "<group>"; };
 		9C7F965729F8F03C00F5035C /* UltimateMoneyVisualizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UltimateMoneyVisualizer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C7F965A29F8F03C00F5035C /* UltimateMoneyVisualizerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UltimateMoneyVisualizerApp.swift; sourceTree = "<group>"; };
 		9C7F965C29F8F03C00F5035C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -239,13 +245,15 @@
 			isa = PBXGroup;
 			children = (
 				9C7F969729F8FE3500F5035C /* ExtendAllocation.swift */,
+				9C7F968C29F8FD2D00F5035C /* ExtendExpense.swift */,
 				9C7F969429F8FE3500F5035C /* ExtendGoal.swift */,
 				9C7F969829F8FE3500F5035C /* ExtendSaved.swift */,
 				9C7F969529F8FE3500F5035C /* ExtendSettings.swift */,
 				9C7F969229F8FE3500F5035C /* ExtendShift.swift */,
+				9C7C984929FA5BFB0077EA25 /* ExtendTodayShift.swift */,
 				9C7F969629F8FE3500F5035C /* ExtendUser.swift */,
 				9C7F969329F8FE3500F5035C /* ExtendWage.swift */,
-				9C7F968C29F8FD2D00F5035C /* ExtendExpense.swift */,
+				9C7C984B29FA5C1D0077EA25 /* ExtendWorkSchedule.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -279,6 +287,7 @@
 			isa = PBXGroup;
 			children = (
 				9C7C984629FA0E130077EA25 /* HomeView.swift */,
+				9C7C984D29FB35E10077EA25 /* AssignAllocationView.swift */,
 			);
 			path = "-InProgress";
 			sourceTree = "<group>";
@@ -579,9 +588,11 @@
 				9C7F965D29F8F03C00F5035C /* ContentView.swift in Sources */,
 				9CEEE34F29F90E09001FA4FB /* SavedListView.swift in Sources */,
 				9CEEE33C29F908E8001FA4FB /* GoalDetailView.swift in Sources */,
+				9C7C984E29FB35E10077EA25 /* AssignAllocationView.swift in Sources */,
 				9C7F969C29F8FE3500F5035C /* ExtendSettings.swift in Sources */,
 				9CEEE34029F909CC001FA4FB /* WageType.swift in Sources */,
 				9CEEE34929F90BCF001FA4FB /* DayOfWeek.swift in Sources */,
+				9C7C984C29FA5C1D0077EA25 /* ExtendWorkSchedule.swift in Sources */,
 				9C7F965B29F8F03C00F5035C /* UltimateMoneyVisualizerApp.swift in Sources */,
 				9C7F969929F8FE3500F5035C /* ExtendShift.swift in Sources */,
 				9CEEE34529F90ABA001FA4FB /* ShiftListView.swift in Sources */,
@@ -593,6 +604,7 @@
 				9CEEE33A29F908BE001FA4FB /* GoalListView.swift in Sources */,
 				9CEEE35729F9E77F001FA4FB /* WageView.swift in Sources */,
 				9CEEE32B29F9044F001FA4FB /* ExtendView.swift in Sources */,
+				9C7C984A29FA5BFB0077EA25 /* ExtendTodayShift.swift in Sources */,
 				9C7F969D29F8FE3500F5035C /* ExtendUser.swift in Sources */,
 				9CEEE34729F90ADA001FA4FB /* ShiftDetailView.swift in Sources */,
 				9C7F969A29F8FE3500F5035C /* ExtendWage.swift in Sources */,
