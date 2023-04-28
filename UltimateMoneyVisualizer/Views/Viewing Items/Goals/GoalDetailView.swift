@@ -29,7 +29,7 @@ struct GoalDetailView: View {
 // MARK: - GoalDetailView_Previews
 
 struct GoalDetailView_Previews: PreviewProvider {
-    static let context = PersistenceController.preview.container.viewContext
+    static let context = PersistenceController.context
 
     static let goal: Goal = {
         let goal = Goal(context: context)

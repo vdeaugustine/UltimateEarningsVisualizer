@@ -90,6 +90,6 @@ struct CreateShiftView: View {
 struct CreateShiftView_Previews: PreviewProvider {
     static var previews: some View {
         CreateShiftView()
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            .environment(\.managedObjectContext, PersistenceController.context)
     }
 }

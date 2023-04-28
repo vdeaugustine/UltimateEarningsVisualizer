@@ -60,7 +60,7 @@ struct ShiftListView: View {
 
 struct ShiftListView_Previews: PreviewProvider {
     static var previews: some View {
-        let context = PersistenceController.preview.container.viewContext
+        let context = PersistenceController.context
         let shift = Shift(context: context)
         shift.startDate = Date()
         shift.endDate = Date()

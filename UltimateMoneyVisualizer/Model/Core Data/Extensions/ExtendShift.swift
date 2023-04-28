@@ -10,6 +10,11 @@ import Foundation
 import Vin
 
 extension Shift {
+    
+    var start: Date { startDate ?? .nineAM }
+    var end: Date { endDate ?? .fivePM }
+    
+    
     static func totalDuration(for user: User) -> TimeInterval {
         let fetchRequest: NSFetchRequest<Shift> = Shift.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "user == %@", user)
@@ -37,11 +42,7 @@ extension Shift {
 
 extension Shift {
     static func createPreviewShifts(user: User) throws {
-        #if DEBUG
-            let viewContext = PersistenceController.preview.container.viewContext
-        #else
-            let viewContext = PersistenceController.shared.container.viewContext
-        #endif
+        let viewContext = PersistenceController.context
 
         // Make the 50 before today
         let previous50Weekdays = Date.getPreviousWeekdays(count: 50)

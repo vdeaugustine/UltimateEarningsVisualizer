@@ -96,7 +96,7 @@ struct CreateSavedView: View {
 struct CreateSavedView_Previews: PreviewProvider {
     static var previews: some View {
         CreateSavedView()
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            .environment(\.managedObjectContext, PersistenceController.context)
     }
 }
 

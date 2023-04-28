@@ -120,10 +120,11 @@ struct WageView: View {
                         Text("\(wages.first?.amount ?? 0.0, specifier: "%.2f") per hour")
                     }
                 }
-
+                
                 .navigationTitle("View Wage")
             }
         }
+        .putInTemplate()
         .navigationBarItems(trailing: Button(action: {
             isEditing.toggle()
         }) {
@@ -144,14 +145,15 @@ struct WageView: View {
 
 struct ViewWageView_Previews: PreviewProvider {
     static let wage: Wage = {
-        let wage = Wage(context: PersistenceController.preview.container.viewContext)
+        let wage = Wage(context: PersistenceController.context)
         wage.amount = 60
         return wage
     }()
 
     static var previews: some View {
         WageView(wage: wage)
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            .environment(\.managedObjectContext, PersistenceController.context)
+            .putInTemplate()
             .putInNavView(.inline)
     }
 }

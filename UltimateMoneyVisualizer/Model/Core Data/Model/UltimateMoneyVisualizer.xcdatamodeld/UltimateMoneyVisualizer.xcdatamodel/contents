@@ -26,6 +26,11 @@
         <relationship name="allocations" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Allocation" inverseName="goal" inverseEntity="Allocation"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="goals" inverseEntity="User"/>
     </entity>
+    <entity name="RegularSchedule" representedClassName="RegularSchedule" syncable="YES" codeGenerationType="class">
+        <attribute name="dateCreated" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="daysHours" optional="YES" attributeType="String"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="regularSchedule" inverseEntity="User"/>
+    </entity>
     <entity name="Saved" representedClassName="Saved" syncable="YES" codeGenerationType="class">
         <attribute name="amount" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="date" attributeType="Date" defaultDateTimeInterval="704181960" usesScalarValueType="NO"/>
@@ -50,14 +55,21 @@
     <entity name="Tag" representedClassName="Tag" syncable="YES" codeGenerationType="class">
         <attribute name="title" attributeType="String" defaultValueString=""/>
     </entity>
+    <entity name="TodayShift" representedClassName="TodayShift" syncable="YES" codeGenerationType="class">
+        <attribute name="endTime" attributeType="Date" defaultDateTimeInterval="704328120" usesScalarValueType="NO"/>
+        <attribute name="startTime" attributeType="Date" defaultDateTimeInterval="704328120" usesScalarValueType="NO"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="todayShift" inverseEntity="User"/>
+    </entity>
     <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="class">
         <attribute name="email" optional="YES" attributeType="String"/>
         <attribute name="username" optional="YES" attributeType="String"/>
         <relationship name="expenses" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Expense" inverseName="user" inverseEntity="Expense"/>
         <relationship name="goals" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Goal" inverseName="user" inverseEntity="Goal"/>
+        <relationship name="regularSchedule" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RegularSchedule" inverseName="user" inverseEntity="RegularSchedule"/>
         <relationship name="savedItems" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Saved" inverseName="user" inverseEntity="Saved"/>
         <relationship name="settings" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Settings" inverseName="user" inverseEntity="Settings"/>
         <relationship name="shifts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Shift" inverseName="user" inverseEntity="Shift"/>
+        <relationship name="todayShift" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TodayShift" inverseName="user" inverseEntity="TodayShift"/>
         <relationship name="wage" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Wage" inverseName="user" inverseEntity="Wage"/>
     </entity>
     <entity name="Wage" representedClassName="Wage" syncable="YES" codeGenerationType="class">
