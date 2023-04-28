@@ -64,6 +64,8 @@ struct SelectRegularDaysView: View {
                         }
                     }
                 }
+                .allPartsTappable()
+                .buttonStyle(.plain)
             }
 
             Section(header: Text("Total Work Time")) {
@@ -75,6 +77,7 @@ struct SelectRegularDaysView: View {
                 }
             }
         }
+        .putInTemplate()
         .navigationTitle("Days of Week")
         .sheet(isPresented: $showingSheet) {
             if let activeDay = activeDay {

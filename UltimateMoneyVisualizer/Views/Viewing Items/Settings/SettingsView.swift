@@ -35,6 +35,7 @@ struct SettingsView: View {
                     .spacedOut(text: wageStr)
             }
         }
+        .putInTemplate()
         .navigationTitle("Settings")
     }
 }
@@ -45,6 +46,7 @@ struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
             .environment(\.managedObjectContext, PersistenceController.context)
+            .putInTemplate()
             .putInNavView(.inline)
     }
 }

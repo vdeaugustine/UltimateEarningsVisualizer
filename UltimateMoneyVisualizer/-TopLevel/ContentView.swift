@@ -21,19 +21,22 @@ struct ContentView: View {
     @State private var tab: Tabs = .shifts
 
     var body: some View {
-        TabView(selection: $tab) {
-            ShiftListView()
-                .putInNavView(.inline)
-                .makeTab(tab: Tabs.shifts, systemImage: "calendar")
-
-            SettingsView()
-                .putInNavView(.inline)
-                .makeTab(tab: Tabs.settings, systemImage: "gear")
-            
-            HomeView()
-                .putInNavView(.inline)
-                .makeTab(tab: Tabs.home, systemImage: "house")
-        }
+        ExpenseDetailView(expense: User.main.getExpenses().first!)
+        
+            .putInNavView(.inline)
+//        TabView(selection: $tab) {
+//            ShiftListView()
+//                .putInNavView(.inline)
+//                .makeTab(tab: Tabs.shifts, systemImage: "calendar")
+//
+//            SettingsView()
+//                .putInNavView(.inline)
+//                .makeTab(tab: Tabs.settings, systemImage: "gear")
+//
+//            HomeView()
+//                .putInNavView(.inline)
+//                .makeTab(tab: Tabs.home, systemImage: "house")
+//        }
     }
 }
 
@@ -43,5 +46,6 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
             .environment(\.managedObjectContext, PersistenceController.context)
+            
     }
 }

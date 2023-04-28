@@ -13,17 +13,19 @@ struct ExpenseListView: View {
     @Environment(\.managedObjectContext) private var viewContext
     var body: some View {
         List {
-            ForEach(User.main.getExpenses(context: viewContext), id: \.self) { expense in
+            ForEach(User.main.getExpenses(), id: \.self) { expense in
                 NavigationLink(destination: ExpenseDetailView(expense: expense)) {
                     VStack(alignment: .leading) {
                         Text(expense.title ?? "")
                             .font(.headline)
-                        Text("\(expense.amount)")
+                        Text(expense.amountMoneyStr)
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                     }
                 }
             }
+            
+            
         }
         .navigationTitle("Expenses")
     }
@@ -35,6 +37,8 @@ struct ExpenseListView_Previews: PreviewProvider {
     static var previews: some View {
         ExpenseListView()
             .environment(\.managedObjectContext, PersistenceController.context)
+            .putInTemplate()
             .putInNavView(.inline)
+            
     }
 }

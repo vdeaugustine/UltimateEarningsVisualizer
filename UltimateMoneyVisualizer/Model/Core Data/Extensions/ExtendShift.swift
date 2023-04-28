@@ -10,6 +10,11 @@ import Foundation
 import Vin
 
 extension Shift {
+    
+    var start: Date { startDate ?? .nineAM }
+    var end: Date { endDate ?? .fivePM }
+    
+    
     static func totalDuration(for user: User) -> TimeInterval {
         let fetchRequest: NSFetchRequest<Shift> = Shift.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "user == %@", user)

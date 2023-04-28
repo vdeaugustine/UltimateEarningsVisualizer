@@ -27,6 +27,7 @@ struct RegularScheduleView: View {
                 }
             }
         }
+        .putInTemplate()
         .navigationTitle("Work Schedules")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -48,6 +49,8 @@ struct RegularScheduleView_Previews: PreviewProvider {
     static var previews: some View {
         RegularScheduleView()
             .environment(\.managedObjectContext, PersistenceController.context)
+            .putInTemplate()
+            .putInNavView(.inline)
     }
 }
 

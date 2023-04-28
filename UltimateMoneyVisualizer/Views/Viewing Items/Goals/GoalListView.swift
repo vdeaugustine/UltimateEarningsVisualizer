@@ -37,6 +37,7 @@ struct GoalListView_Previews: PreviewProvider {
     static var previews: some View {
         GoalListView()
             .environment(\.managedObjectContext, PersistenceController.context)
+            .putInTemplate()
             .putInNavView(.inline)
     }
 }

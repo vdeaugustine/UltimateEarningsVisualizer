@@ -95,8 +95,14 @@ extension User {
     var hasShiftToday: Bool { getTodayShift() != nil }
     
     
-    func getExpenses(context: NSManagedObjectContext = PersistenceController.context) -> [Expense] {
+    func getExpenses() -> [Expense] {
         guard let expenses else { return [] }
         return Array(expenses) as? [Expense] ?? []
+    }
+    
+    
+    func getSaved() -> [Saved] {
+        guard let savedItems else { return [] }
+        return Array(savedItems) as? [Saved] ?? []
     }
 }

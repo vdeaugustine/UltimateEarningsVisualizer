@@ -30,6 +30,7 @@ struct SavedListView: View {
                 }
                 .onDelete(perform: deleteSavedItems)
             }
+            .putInTemplate()
             .navigationTitle("Saved Items")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {

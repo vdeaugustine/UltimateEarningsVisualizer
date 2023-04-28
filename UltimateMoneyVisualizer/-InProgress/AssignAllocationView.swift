@@ -7,29 +7,54 @@
 
 import SwiftUI
 
+// MARK: - AssignAllocationForExpenseView
+
 struct AssignAllocationForExpenseView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @State private var note: String = ""
     let expense: Expense
-    @State private var goal: Goal?
-    @State private var shift: Shift?
-    @State private var saved: Saved?
-    
-    
+    @State private var sourceType: String = "shift"
+
     var body: some View {
-        Form {
-            
-            
-            
-            
-            
-            
+        VStack {
+            Picker("Source", selection: $sourceType) {
+                Text("Shift").tag("shift")
+                Text("Saved").tag("Saved")
+            }
+            .pickerStyle(.segmented)
+            .padding(.horizontal)
+            Form {
+                // MARK: - Show shifts
+
+                if sourceType == "shift" {
+                    ForEach(User.main.getShifts().sorted(by: { $0.start > $1.start })) { shift in
+                        Text(shift.start.getFormattedDate(format: .slashDate))
+                            .spacedOut {
+                                Text("\(shift.start.getFormattedDate(format: .minimalTime)) - \(shift.end.getFormattedDate(format: .minimalTime))")
+                            }
+                    }
+                }
+
+                // MARK: - Show Saved
+
+                else {
+                    ForEach(User.main.getSaved().sorted(by: { $0.getDate() > $1.getDate() })) { saved in
+
+                        Text(saved.getTitle())
+                            .spacedOut(text: saved.getAmount().formattedForMoney())
+                    }
+                }
+            }
         }
+        .putInTemplate()
+        .navigationTitle("Choose source")
     }
 }
 
-//struct AssignAllocationForExpenseView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AssignAllocationForExpenseView(expense: )
-//    }
-//}
+// MARK: - AssignAllocationForExpenseView_Previews
+
+struct AssignAllocationForExpenseView_Previews: PreviewProvider {
+    static var previews: some View {
+        AssignAllocationForExpenseView(expense: User.main.getExpenses().first!)
+    }
+}

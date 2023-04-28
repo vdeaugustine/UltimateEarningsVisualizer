@@ -7,8 +7,24 @@
 
 import CoreData
 import Foundation
+import Vin
 
 extension Saved {
+    
+    
+    func getDate() -> Date {
+        self.date ?? .now.addDays(-10)
+    }
+    
+    func getTitle() -> String {
+        self.title ?? "Unknown Title"
+    }
+    
+    func getAmount() -> Double {
+        self.amount
+    }
+    
+    
     static func generateDummySavedItems(user: User) throws {
         let context = PersistenceController.context
         

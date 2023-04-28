@@ -124,5 +124,6 @@ struct EnterWageView_Previews: PreviewProvider {
     static var previews: some View {
         EnterWageView()
             .environment(\.managedObjectContext, PersistenceController.context)
+            
     }
 }
