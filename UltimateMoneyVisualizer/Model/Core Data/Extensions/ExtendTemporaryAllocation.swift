@@ -10,7 +10,7 @@ import CoreData
 
 public extension TemporaryAllocation {
     
-    convenience init(todayShift: TodayShift, initialAmount: Double, expense: Expense? = nil, goal: Goal? = nil, context: NSManagedObjectContext = PersistenceController.context) {
+    convenience init(initialAmount: Double, expense: Expense? = nil, goal: Goal? = nil, context: NSManagedObjectContext = PersistenceController.context) {
         self.init(context: context)
         self.id = UUID()
         self.startedTracking = .now

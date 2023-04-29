@@ -9,6 +9,20 @@ import CoreData
 import Foundation
 import Vin
 
+
+public extension Shift {
+    convenience init(day: DayOfWeek, start: Date, end: Date, context: NSManagedObjectContext) throws {
+        self.init(context: context)
+        self.startDate = start
+        self.endDate = end
+        self.dayOfWeek = day.rawValue
+        
+        try context.save()
+    }
+}
+
+
+
 extension Shift {
     
     var start: Date { startDate ?? .nineAM }

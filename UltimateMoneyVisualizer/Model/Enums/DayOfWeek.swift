@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum DayOfWeek: String, CaseIterable, Identifiable {
+public enum DayOfWeek: String, CaseIterable, Identifiable {
     case sunday = "Sunday"
     case monday = "Monday"
     case tuesday = "Tuesday"
@@ -16,7 +16,7 @@ enum DayOfWeek: String, CaseIterable, Identifiable {
     case friday = "Friday"
     case saturday = "Saturday"
     
-    var id: String { rawValue }
+    public var id: String { rawValue }
     
     static func getCurrentDayOfWeek() -> DayOfWeek {
         let dateFormatter = DateFormatter()

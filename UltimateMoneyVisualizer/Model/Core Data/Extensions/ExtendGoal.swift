@@ -36,6 +36,16 @@ public extension Goal {
         goal.user = user
         return goal
     }()
+    
+    var temporarilyPaidOff: Double {
+        guard let temporaryAllocations = temporaryAllocations as? Set<TemporaryAllocation> else {
+            return 0
+        }
+        
+        return temporaryAllocations.reduce(Double(0), {$0 + $1.amount})
+    }
+    
+    
 
     var titleStr: String { title ?? "Unknown Expense" }
 
