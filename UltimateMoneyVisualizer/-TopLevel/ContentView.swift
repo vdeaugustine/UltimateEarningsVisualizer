@@ -21,7 +21,7 @@ struct ContentView: View {
     @State private var tab: Tabs = .shifts
 
     var body: some View {
-        AllocateShiftToExpense(shift: User.main.getShifts().first!, expense: User.main.getExpenses().first!)
+        TodayView()
         
             .putInNavView(.inline)
 //        TabView(selection: $tab) {

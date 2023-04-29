@@ -11,7 +11,7 @@ import Vin
 
 
 public extension Shift {
-    convenience init(day: DayOfWeek, start: Date, end: Date, context: NSManagedObjectContext) throws {
+    @discardableResult convenience init(day: DayOfWeek, start: Date, end: Date, context: NSManagedObjectContext) throws {
         self.init(context: context)
         self.startDate = start
         self.endDate = end

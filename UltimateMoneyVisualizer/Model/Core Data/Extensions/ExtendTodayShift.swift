@@ -12,13 +12,19 @@ import Vin
 
 
 public extension TodayShift {
-    convenience init(startTime: Date, endTime: Date, context: NSManagedObjectContext = PersistenceController.context) {
+    @discardableResult convenience init(startTime: Date, endTime: Date, user: User, context: NSManagedObjectContext = PersistenceController.context) throws {
+        
         let context = PersistenceController.context
         self.init(context: context)
-        self.user = User.main
+        
+//        User.main.todayShift = nil
+        self.user = user
         self.payoffItemQueue = makeInitialPayoffItemQueueStr()
         self.expiration = .endOfDay(startTime)
         self.dateCreated = .now
+//        = self
+        
+        try context.save()
     }
 }
 

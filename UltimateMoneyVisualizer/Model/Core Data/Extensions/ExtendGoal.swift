@@ -10,7 +10,7 @@ import Foundation
 import Vin
 
 public extension Goal {
-    convenience init(title: String, info: String?, amount: Double, dueDate: Date?) {
+    @discardableResult convenience init(title: String, info: String?, amount: Double, dueDate: Date?) {
         self.init(context: PersistenceController.context)
         self.title = title
         self.info = info
@@ -38,11 +38,18 @@ public extension Goal {
     }()
     
     var temporarilyPaidOff: Double {
-        guard let temporaryAllocations = temporaryAllocations as? Set<TemporaryAllocation> else {
+        guard let temporaryAllocations = temporaryAllocations as? Set<TemporaryAllocation>
+        else {
             return 0
         }
-        
-        return temporaryAllocations.reduce(Double(0), {$0 + $1.amount})
+
+        let totalTemporaryAllocated = temporaryAllocations.reduce(Double(0)) { $0 + $1.amount }
+
+        return totalTemporaryAllocated + amountPaidOff
+    }
+
+    var temporaryRemainingToPayOff: Double {
+        amount - temporarilyPaidOff
     }
     
     

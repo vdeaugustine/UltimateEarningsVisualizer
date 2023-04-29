@@ -11,7 +11,7 @@ import CoreData
 
 public extension Allocation {
     
-    convenience init(
+    @discardableResult convenience init(
         amount: Double,
         expense: Expense? = nil,
         goal: Goal? = nil,

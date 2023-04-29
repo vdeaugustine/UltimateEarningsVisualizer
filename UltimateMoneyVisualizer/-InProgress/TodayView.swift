@@ -19,7 +19,7 @@ struct TodayView: View {
 
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
-    var todayShift: TodayShift?
+    @State var todayShift: TodayShift? = nil
     var showingTime: Bool { showTimeOrMoney == "time" }
 
     var body: some View {
@@ -49,7 +49,7 @@ struct TodayView: View {
         .background(Color.targetGray.frame(maxHeight: .infinity).ignoresSafeArea())
         .navigationTitle("Today Live")
         .sheet(isPresented: $showHoursSheet) {
-            SelectHours(showHoursSheet: $showHoursSheet)
+            SelectHours(showHoursSheet: $showHoursSheet, todayShift: $todayShift)
         }
         .onReceive(timer) { _ in
             nowTime = .now
@@ -271,6 +271,7 @@ struct SelectHours: View {
     @State private var start: Date = .nineAM
     @State private var end: Date = .fivePM
     @Binding var showHoursSheet: Bool
+    @Binding var todayShift: TodayShift?
 
     var body: some View {
         Form {
@@ -279,18 +280,17 @@ struct SelectHours: View {
         }
         .safeAreaInset(edge: .bottom) {
             Button {
-                let todayShift = TodayShift(context: viewContext)
-                todayShift.startTime = start
-                todayShift.endTime = end
-
-                todayShift.expiration = Date.endOfDay(start)
-                todayShift.dateCreated = .now
-
-                todayShift.user = User.main
-
                 do {
-                    try viewContext.save()
+                    let ts = try TodayShift(startTime: start, endTime: end, user: User.main, context: viewContext)
+                    print(User.main.managedObjectContext! == ts.managedObjectContext!)
+                    print("was saved")
+                    print(User.main.todayShift!)
+                    
+                    
+                    todayShift = ts
+                    
                     showHoursSheet = false
+                    
                 } catch {
                     print(error)
                 }
@@ -331,7 +331,7 @@ struct TodayView_Previews: PreviewProvider {
     }()
 
     static var previews: some View {
-        TodayView(todayShift: ts)
+        TodayView()
             .putInTemplate()
             .putInNavView(.inline)
             .environment(\.managedObjectContext, PersistenceController.context)

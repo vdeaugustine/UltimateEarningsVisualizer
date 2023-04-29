@@ -12,7 +12,7 @@ import Vin
 // MARK: - Initializer
 
 public extension Expense {
-    convenience init(title: String, info: String?, amount: Double, dueDate: Date?, context: NSManagedObjectContext = PersistenceController.context) {
+    @discardableResult convenience init(title: String, info: String?, amount: Double, dueDate: Date?, context: NSManagedObjectContext = PersistenceController.context) {
         self.init(context: context)
         self.title = title
         self.info = info
