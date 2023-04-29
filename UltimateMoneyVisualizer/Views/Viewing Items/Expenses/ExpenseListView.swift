@@ -24,8 +24,6 @@ struct ExpenseListView: View {
                     }
                 }
             }
-            
-            
         }
         .navigationTitle("Expenses")
     }
@@ -39,6 +37,5 @@ struct ExpenseListView_Previews: PreviewProvider {
             .environment(\.managedObjectContext, PersistenceController.context)
             .putInTemplate()
             .putInNavView(.inline)
-            
     }
 }

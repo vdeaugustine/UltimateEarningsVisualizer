@@ -10,4 +10,14 @@ import Foundation
 
 extension Wage {
     
+    var hourly: Double {
+        amount
+    }
+    
+    var secondly: Double {
+        amount / 60 / 60
+    }
+    
+    
+    
 }

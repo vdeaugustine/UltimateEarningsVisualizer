@@ -15,6 +15,21 @@ extension Shift {
     var end: Date { endDate ?? .fivePM }
     
     
+    var totalEarned: Double {
+        guard let wage = User.main.wage else { return 0 }
+        return wage.secondly * duration
+    }
+    
+    var totalAllocated: Double {
+        guard let allocations = Array(allocations ?? []) as? [Allocation] else { return 0 }
+        return allocations.reduce(Double(0), {$0 + $1.amount})
+    }
+    
+    var totalAvailable: Double {
+        totalEarned - totalAllocated
+    }
+    
+    
     static func totalDuration(for user: User) -> TimeInterval {
         let fetchRequest: NSFetchRequest<Shift> = Shift.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "user == %@", user)

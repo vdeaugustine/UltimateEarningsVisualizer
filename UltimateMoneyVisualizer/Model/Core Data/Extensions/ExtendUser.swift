@@ -38,9 +38,9 @@ extension User {
                 wage.amount = 20
                 wage.user = user
                 user.wage = wage
-                
+
                 try Expense.createExampleExpenses(user: user, context: viewContext)
-                
+
                 try Shift.createPreviewShifts(user: user)
                 try Saved.generateDummySavedItems(user: user)
 
@@ -91,18 +91,33 @@ extension User {
 
         return nil
     }
-    
+
     var hasShiftToday: Bool { getTodayShift() != nil }
-    
-    
+
     func getExpenses() -> [Expense] {
         guard let expenses else { return [] }
         return Array(expenses) as? [Expense] ?? []
     }
-    
-    
+
     func getSaved() -> [Saved] {
         guard let savedItems else { return [] }
         return Array(savedItems) as? [Saved] ?? []
+    }
+
+    func getValidTodayShift() -> TodayShift? {
+        guard let todayShift,
+              let expiration = todayShift.expiration,
+              let context = managedObjectContext
+        else { return nil }
+
+        let isExpired = Date.now >= expiration
+
+        if isExpired {
+            context.delete(todayShift)
+            self.todayShift = nil
+            return nil
+        }
+
+        return todayShift
     }
 }
