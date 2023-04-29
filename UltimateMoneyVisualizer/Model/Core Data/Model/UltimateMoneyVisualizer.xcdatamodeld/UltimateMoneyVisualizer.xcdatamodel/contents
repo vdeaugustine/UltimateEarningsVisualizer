@@ -12,6 +12,7 @@
         <attribute name="amount" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="dateCreated" attributeType="Date" defaultDateTimeInterval="704181720" usesScalarValueType="NO"/>
         <attribute name="dueDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="info" optional="YES" attributeType="String"/>
         <attribute name="title" attributeType="String" defaultValueString=""/>
         <relationship name="allocations" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Allocation" inverseName="expense" inverseEntity="Allocation"/>
@@ -22,6 +23,7 @@
         <attribute name="amount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="dateCreated" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="dueDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="info" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="allocations" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Allocation" inverseName="goal" inverseEntity="Allocation"/>
@@ -59,9 +61,10 @@
     </entity>
     <entity name="TemporaryAllocation" representedClassName="TemporaryAllocation" syncable="YES" codeGenerationType="class">
         <attribute name="amount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="endTrack" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="lastEdited" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="startTrack" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="startedTracking" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="stoppedTracking" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <relationship name="expense" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Expense" inverseName="temporaryAllocations" inverseEntity="Expense"/>
         <relationship name="goal" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Goal" inverseName="temporaryAllocations" inverseEntity="Goal"/>
         <relationship name="todayShift" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TodayShift" inverseName="temporaryAllocations" inverseEntity="TodayShift"/>
@@ -70,7 +73,7 @@
         <attribute name="dateCreated" attributeType="Date" defaultDateTimeInterval="704424360" usesScalarValueType="NO"/>
         <attribute name="endTime" attributeType="Date" defaultDateTimeInterval="704424360" usesScalarValueType="NO"/>
         <attribute name="expiration" attributeType="Date" defaultDateTimeInterval="704424360" usesScalarValueType="NO"/>
-        <attribute name="focusedAllocID" optional="YES" attributeType="String"/>
+        <attribute name="payoffItemQueue" optional="YES" attributeType="String"/>
         <attribute name="startTime" attributeType="Date" defaultDateTimeInterval="704424360" usesScalarValueType="NO"/>
         <relationship name="temporaryAllocations" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TemporaryAllocation" inverseName="todayShift" inverseEntity="TemporaryAllocation"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="todayShift" inverseEntity="User"/>

@@ -11,18 +11,27 @@ import Vin
 
 
 final class TodayShiftTests: XCTestCase {
-    let viewContext = PersistenceController.context
+    let viewContext = PersistenceController.testing
+    
+    
+    func createTodayShift(start: Date?, end: Date?) -> TodayShift {
+        TodayShift(startTime: start ?? .now.addHours(-1),
+                   endTime: end ?? .now.addHours(2))
+    }
+    
+    func createTemporaryAllocation() -> TemporaryAllocation {
+        let allocation = TemporaryAllocation(context: PersistenceController.context)
+            allocation.id = UUID()
+        allocation.amount = 25
+        let goal = Goal(context: PersistenceController.context)
+        
+            return allocation
+        }
+    
 
     func testTotalEarnedSoFar() {
         let nowTime = Date()
-        let shift = TodayShift(context: viewContext)
-        let wage = Wage(context: viewContext)
-        wage.amount = 15.0
-        let user = User(context: viewContext)
-        user.wage = wage
-        shift.user = user
-        shift.startTime = Date().addingTimeInterval(-30 * 60) // 30 minutes ago
-        shift.endTime = Date().addingTimeInterval(30 * 60) // 30 minutes from now
+        let shift = createTodayShift(start: .now.addMinutes(-30), end: .now.addMinutes(30))
 
         let expectedEarned: Double = 7.5
         XCTAssertEqual(shift.totalEarnedSoFar(nowTime), expectedEarned, accuracy: 0.01)
@@ -42,14 +51,7 @@ final class TodayShiftTests: XCTestCase {
 
     func testTotalAvailable() {
         let nowTime = Date()
-        let shift = TodayShift(context: viewContext)
-        let wage = Wage(context: viewContext)
-        wage.amount = 10.0
-        let user = User(context: viewContext)
-        user.wage = wage
-        shift.user = user
-        shift.startTime = Date().addingTimeInterval(-5 * 60 * 60) // 5 hours ago
-        shift.endTime = Date().addingTimeInterval(1 * 60 * 60) // 1 hour from now
+        let shift = createTodayShift(start: .now.addHours(-5), end: .now.addHours(1))
         let tempAlloc = TemporaryAllocation(context: viewContext)
         tempAlloc.amount = 20.0
         shift.temporaryAllocations = NSSet(array: [tempAlloc])
@@ -78,7 +80,7 @@ final class TodayShiftTests: XCTestCase {
     }
 
     func testTotalWillEarn() {
-        let shift = TodayShift(context: viewContext)
+        let shift = createTodayShift(start: .now.addHours(-5), end: .now.addHours(1))
         let wage = Wage(context: viewContext)
         wage.amount = 13.0
         shift.user = User(context: viewContext)
@@ -92,7 +94,7 @@ final class TodayShiftTests: XCTestCase {
 
     func testRemainingTime() {
         let nowTime = Date()
-        let shift = TodayShift(context: viewContext)
+        let shift = createTodayShift(start: .now.addHours(-5), end: .now.addHours(1))
         shift.startTime = Date.now.addHours(-1) // 1 hour ago
         shift.endTime = Date.now.addHours(1) // 1 hour from now
 
@@ -106,7 +108,7 @@ final class TodayShiftTests: XCTestCase {
 
     func testRemainingToEarn() {
         let nowTime = Date()
-        let shift = TodayShift(context: viewContext)
+        let shift = createTodayShift(start: .now.addHours(-5), end: .now.addHours(1))
         shift.startTime = Date.now.addHours(-1) // 1 hour ago
         shift.endTime = Date.now.addHours(1)  // 1 hour from now
         let wage = Wage(context: viewContext)
@@ -124,7 +126,7 @@ final class TodayShiftTests: XCTestCase {
 
     func testPercentTimeCompleted() {
         let nowTime = Date()
-        let shift = TodayShift(context: viewContext)
+        let shift = createTodayShift(start: .now.addHours(-5), end: .now.addHours(1))
         shift.startTime = Date(timeIntervalSinceNow: -3_600) // 1 hour ago
         shift.endTime = Date(timeIntervalSinceNow: 3_600) // 1 hour from now
 
@@ -141,4 +143,58 @@ final class TodayShiftTests: XCTestCase {
         let expectedPercentTimeCompleted3 = 0.0 // elapsed time = 0, total duration = 1 hour, 0/1 = 0
         XCTAssertEqual(shift.percentTimeCompleted(nowTime), expectedPercentTimeCompleted3, accuracy: 0.001)
     }
+    
+    
+    // Test for addTemporaryAllocation method
+    func testAddTemporaryAllocation() {
+        let shift = createTodayShift(start: .now.addHours(-5), end: .now.addHours(1))
+        let allocation = createTemporaryAllocation()
+
+        XCTAssertNoThrow(try shift.addTemporaryAllocation(allocation))
+        XCTAssertEqual(shift.temporaryAllocations?.count, 1)
+        XCTAssertEqual(shift.getPayoffItemQueue(), [allocation.id!.uuidString])
+    }
+
+    // Test for makePayoffItemQueueStr method
+    func testmakeInitialPayoffItemQueueStr() {
+        let shift = createTodayShift(start: .now.addHours(-5), end: .now.addHours(1))
+        let allocation1 = createTemporaryAllocation()
+        let allocation2 = createTemporaryAllocation()
+
+        XCTAssertNil(shift.makeInitialPayoffItemQueueStr())
+
+        XCTAssertNoThrow(try shift.addTemporaryAllocation(allocation1))
+        XCTAssertNoThrow(try shift.addTemporaryAllocation(allocation2))
+
+        XCTAssertEqual(shift.makeInitialPayoffItemQueueStr(), "\(allocation1.id!.uuidString),\(allocation2.id!.uuidString)")
+    }
+
+    // Test for getPayoffItemQueue method
+    func testGetPayoffItemQueue() {
+        let shift = createTodayShift(start: .now.addHours(-5), end: .now.addHours(1))
+        let allocation1 = createTemporaryAllocation()
+        let allocation2 = createTemporaryAllocation()
+
+        XCTAssertNoThrow(try shift.addTemporaryAllocation(allocation1))
+        XCTAssertNoThrow(try shift.addTemporaryAllocation(allocation2))
+
+        XCTAssertEqual(shift.getPayoffItemQueue(), [allocation1.id!.uuidString, allocation2.id!.uuidString])
+    }
+
+    // Test for deleteTemporaryAllocation method
+    func testDeleteTemporaryAllocation() {
+        let shift = createTodayShift(start: .now.addHours(-5), end: .now.addHours(1))
+        let allocation1 = createTemporaryAllocation()
+        let allocation2 = createTemporaryAllocation()
+
+        XCTAssertNoThrow(try shift.addTemporaryAllocation(allocation1))
+        XCTAssertNoThrow(try shift.addTemporaryAllocation(allocation2))
+
+        XCTAssertNoThrow(try shift.deleteTemporaryAllocation(allocation1))
+
+        XCTAssertEqual(shift.temporaryAllocations?.count, 1)
+        XCTAssertEqual(shift.getPayoffItemQueue(), [allocation2.id!.uuidString])
+    }
+    
+    
 }

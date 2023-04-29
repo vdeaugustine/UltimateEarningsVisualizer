@@ -9,7 +9,34 @@ import CoreData
 import Foundation
 import Vin
 
-extension Expense {
+// MARK: - Initializer
+
+public extension Expense {
+    convenience init(title: String, info: String?, amount: Double, dueDate: Date?, context: NSManagedObjectContext = PersistenceController.context) {
+        self.init(context: context)
+        self.title = title
+        self.info = info
+        self.amount = amount
+        self.dueDate = dueDate
+        self.id = UUID()
+    }
+}
+
+public extension Expense {
+    static let testItemExpense: Expense = {
+        let expense1 = Expense(title: "Groceries", info: "This expense is for groceries", amount: 50.00, dueDate: .now.addDays(27), context: PersistenceController.testing)
+        expense1.dateCreated = .now.addDays(-48)
+        return expense1
+    }()
+    
+    var temporarilyPaidOff: Double {
+        guard let temporaryAllocations = temporaryAllocations as? Set<TemporaryAllocation> else {
+            return 0
+        }
+        
+        return temporaryAllocations.reduce(Double(0), {$0 + $1.amount})
+    }
+
     var titleStr: String { title ?? "Unknown Expense" }
 
     var amountMoneyStr: String {

@@ -15,6 +15,7 @@ struct TodayView: View {
     @State private var showTimeOrMoney = "time"
     @State private var nowTime: Date = .now
     @State private var showBanner = false
+    @State private var hasShownBanner = false
 
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
@@ -44,7 +45,7 @@ struct TodayView: View {
                 }
             }
         }
-        .bottomBanner(isVisible: $showBanner, swipeToDismiss: true)
+        .bottomBanner(isVisible: $showBanner, swipeToDismiss: false, buttonText: "Save")
         .background(Color.targetGray.frame(maxHeight: .infinity).ignoresSafeArea())
         .navigationTitle("Today Live")
         .sheet(isPresented: $showHoursSheet) {
@@ -53,8 +54,14 @@ struct TodayView: View {
         .onReceive(timer) { _ in
             nowTime = .now
             if let todayShift,
-               let endTime = todayShift.endTime {
-                showBanner = nowTime >= endTime
+               let endTime = todayShift.endTime,
+               !hasShownBanner {
+                let shiftIsOver = nowTime >= endTime
+
+                if shiftIsOver {
+                    showBanner = true
+//                    hasShownBanner = true
+                }
             }
         }
     }
@@ -187,8 +194,8 @@ extension TodayView {
         .padding(.vertical)
     }
 
-    
     // MARK: - Pie Chart Section
+
     func pieChartSection(todayShift: TodayShift) -> some View {
         VStack {
             HStack {
@@ -197,15 +204,9 @@ extension TodayView {
                     .fontWeight(.bold)
                 Spacer()
             }
-            
+
             HStack {
-               
-                
-                
-                
             }
-            
-            
         }
 
         .padding()
@@ -322,7 +323,7 @@ struct TodayView_Previews: PreviewProvider {
     static let ts: TodayShift = {
         let ts = TodayShift(context: PersistenceController.context)
         ts.startTime = Date.now.addMinutes(-20)
-        ts.endTime = Date.now.addMinutes(4/60)
+        ts.endTime = Date.now.addMinutes(4 / 60)
         ts.user = User.main
         ts.expiration = Date.endOfDay()
         ts.dateCreated = .now

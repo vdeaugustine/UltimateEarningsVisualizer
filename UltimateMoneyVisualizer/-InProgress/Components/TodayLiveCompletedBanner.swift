@@ -45,7 +45,7 @@ struct BottomBannerModifier: ViewModifier {
                         
                         Button(buttonText ?? "Dismiss") {
                             if let buttonAction {
-                                
+                                buttonAction()
                             } else {
                                 isVisible = false
                             }
@@ -58,16 +58,17 @@ struct BottomBannerModifier: ViewModifier {
                 .padding()
                 .offset(y: isVisible ? 0 : 200)
                 .animation(.easeInOut(duration: 0.3), value: isVisible)
+                .gesture(isVisible && swipeToDismiss ? DragGesture(minimumDistance: 30, coordinateSpace: .local)
+                            .onEnded { value in
+                                if value.translation.height > 0 {
+                                    isVisible = false
+                                }
+                            } : nil)
                 
             }
             
         }
-        .gesture(isVisible && swipeToDismiss ? DragGesture(minimumDistance: 30, coordinateSpace: .local)
-                    .onEnded { value in
-                        if value.translation.height > 0 {
-                            isVisible = false
-                        }
-                    } : nil)
+        
         
     }
 }

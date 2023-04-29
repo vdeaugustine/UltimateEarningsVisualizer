@@ -8,18 +8,23 @@
 import CoreData
 
 public struct PersistenceController {
-    
-    
     public static let context = shared.container.viewContext
-   
-    #if !DEBUG
-    static let shared = PersistenceController()
-    #else
-    static var shared: PersistenceController = {
-        let result = PersistenceController(inMemory: true)
-        let viewContext = result.container.viewContext
 
-        // Check if there is a User entity in the persistent store
+    public static let testing: NSManagedObjectContext = {
+        let pc = PersistenceController(inMemory: true)
+        let context = pc.container.viewContext
+
+        return context
+    }()
+
+    #if !DEBUG
+        static let shared = PersistenceController()
+    #else
+        static var shared: PersistenceController = {
+            let result = PersistenceController(inMemory: true)
+            let viewContext = result.container.viewContext
+
+            // Check if there is a User entity in the persistent store
 //        let request: NSFetchRequest<User> = User.fetchRequest()
 //        do {
 //            let count = try viewContext.count(for: request)
@@ -42,8 +47,8 @@ public struct PersistenceController {
 //            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
 //        }
 
-        return result
-    }()
+            return result
+        }()
     #endif
 
     let container: NSPersistentCloudKitContainer

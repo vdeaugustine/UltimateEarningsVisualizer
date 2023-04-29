@@ -8,7 +8,7 @@
 import CoreData
 import Foundation
 
-extension User {
+public extension User {
     static var main: User {
         let viewContext = PersistenceController.context
 
@@ -40,6 +40,8 @@ extension User {
                 user.wage = wage
 
                 try Expense.createExampleExpenses(user: user, context: viewContext)
+                
+                user.addToGoals(.disneyWorld)
 
                 try Shift.createPreviewShifts(user: user)
                 try Saved.generateDummySavedItems(user: user)
@@ -97,6 +99,11 @@ extension User {
     func getExpenses() -> [Expense] {
         guard let expenses else { return [] }
         return Array(expenses) as? [Expense] ?? []
+    }
+    
+    func getGoals() -> [Goal] {
+        guard let goals else { return [] }
+        return Array(goals) as? [Goal] ?? []
     }
 
     func getSaved() -> [Saved] {

@@ -27,6 +27,8 @@
 		9C7C986329FCEB3E0077EA25 /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C986229FCEB3E0077EA25 /* ProgressCircle.swift */; };
 		9C7C986529FCF3B60077EA25 /* PieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C986429FCF3B60077EA25 /* PieChart.swift */; };
 		9C7C986729FD7A390077EA25 /* TodayLiveCompletedBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C986629FD7A390077EA25 /* TodayLiveCompletedBanner.swift */; };
+		9C7C986929FDA7880077EA25 /* ExtendTemporaryAllocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C986829FDA7880077EA25 /* ExtendTemporaryAllocation.swift */; };
+		9C7C986B29FDACD40077EA25 /* ExpenseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C986A29FDACD40077EA25 /* ExpenseTests.swift */; };
 		9C7F965B29F8F03C00F5035C /* UltimateMoneyVisualizerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F965A29F8F03C00F5035C /* UltimateMoneyVisualizerApp.swift */; };
 		9C7F965D29F8F03C00F5035C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F965C29F8F03C00F5035C /* ContentView.swift */; };
 		9C7F965F29F8F03E00F5035C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C7F965E29F8F03E00F5035C /* Assets.xcassets */; };
@@ -102,6 +104,8 @@
 		9C7C986229FCEB3E0077EA25 /* ProgressCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircle.swift; sourceTree = "<group>"; };
 		9C7C986429FCF3B60077EA25 /* PieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PieChart.swift; path = "UltimateMoneyVisualizer/-InProgress/PieChart.swift"; sourceTree = SOURCE_ROOT; };
 		9C7C986629FD7A390077EA25 /* TodayLiveCompletedBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayLiveCompletedBanner.swift; sourceTree = "<group>"; };
+		9C7C986829FDA7880077EA25 /* ExtendTemporaryAllocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendTemporaryAllocation.swift; sourceTree = "<group>"; };
+		9C7C986A29FDACD40077EA25 /* ExpenseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseTests.swift; sourceTree = "<group>"; };
 		9C7F965729F8F03C00F5035C /* UltimateMoneyVisualizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UltimateMoneyVisualizer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C7F965A29F8F03C00F5035C /* UltimateMoneyVisualizerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UltimateMoneyVisualizerApp.swift; sourceTree = "<group>"; };
 		9C7F965C29F8F03C00F5035C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -260,6 +264,7 @@
 			isa = PBXGroup;
 			children = (
 				9C7C985B29FCCF760077EA25 /* TodayShiftTests.swift */,
+				9C7C986A29FDACD40077EA25 /* ExpenseTests.swift */,
 				9C7F967129F8F03E00F5035C /* UltimateMoneyVisualizerTests.swift */,
 			);
 			path = UltimateMoneyVisualizerTests;
@@ -288,6 +293,7 @@
 			isa = PBXGroup;
 			children = (
 				9C7F969729F8FE3500F5035C /* ExtendAllocation.swift */,
+				9C7C986829FDA7880077EA25 /* ExtendTemporaryAllocation.swift */,
 				9C7F968C29F8FD2D00F5035C /* ExtendExpense.swift */,
 				9C7F969429F8FE3500F5035C /* ExtendGoal.swift */,
 				9C7F969829F8FE3500F5035C /* ExtendSaved.swift */,
@@ -652,6 +658,7 @@
 				9CEEE34529F90ABA001FA4FB /* ShiftListView.swift in Sources */,
 				9CEEE33129F904CC001FA4FB /* ExpenseListView.swift in Sources */,
 				9CEEE33429F90651001FA4FB /* ExpenseDetailView.swift in Sources */,
+				9C7C986929FDA7880077EA25 /* ExtendTemporaryAllocation.swift in Sources */,
 				9C7F969E29F8FE3500F5035C /* ExtendAllocation.swift in Sources */,
 				9CEEE35129F90E37001FA4FB /* SavedDetailView.swift in Sources */,
 				9C7C985229FB613E0077EA25 /* ExtendColor.swift in Sources */,
@@ -679,6 +686,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C7C986B29FDACD40077EA25 /* ExpenseTests.swift in Sources */,
 				9C7C985C29FCCF760077EA25 /* TodayShiftTests.swift in Sources */,
 				9C7F967229F8F03E00F5035C /* UltimateMoneyVisualizerTests.swift in Sources */,
 			);
