@@ -21,6 +21,7 @@
 		9C7C985429FB6D500077EA25 /* AllocateShiftToExpense.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C985329FB6D500077EA25 /* AllocateShiftToExpense.swift */; };
 		9C7C985829FB723D0077EA25 /* MoneyPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C985729FB723D0077EA25 /* MoneyPicker.swift */; };
 		9C7C985A29FCA09C0077EA25 /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C985929FCA09C0077EA25 /* TodayView.swift */; };
+		9C7C985C29FCCF760077EA25 /* TodayShiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C985B29FCCF760077EA25 /* TodayShiftTests.swift */; };
 		9C7F965B29F8F03C00F5035C /* UltimateMoneyVisualizerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F965A29F8F03C00F5035C /* UltimateMoneyVisualizerApp.swift */; };
 		9C7F965D29F8F03C00F5035C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F965C29F8F03C00F5035C /* ContentView.swift */; };
 		9C7F965F29F8F03E00F5035C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C7F965E29F8F03E00F5035C /* Assets.xcassets */; };
@@ -90,6 +91,7 @@
 		9C7C985329FB6D500077EA25 /* AllocateShiftToExpense.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllocateShiftToExpense.swift; sourceTree = "<group>"; };
 		9C7C985729FB723D0077EA25 /* MoneyPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyPicker.swift; sourceTree = "<group>"; };
 		9C7C985929FCA09C0077EA25 /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
+		9C7C985B29FCCF760077EA25 /* TodayShiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TodayShiftTests.swift; path = "UltimateMoneyVisualizer/Model/Core Data/Extensions/TodayShiftTests.swift"; sourceTree = SOURCE_ROOT; };
 		9C7F965729F8F03C00F5035C /* UltimateMoneyVisualizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UltimateMoneyVisualizer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C7F965A29F8F03C00F5035C /* UltimateMoneyVisualizerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UltimateMoneyVisualizerApp.swift; sourceTree = "<group>"; };
 		9C7F965C29F8F03C00F5035C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -242,6 +244,7 @@
 		9C7F967029F8F03E00F5035C /* UltimateMoneyVisualizerTests */ = {
 			isa = PBXGroup;
 			children = (
+				9C7C985B29FCCF760077EA25 /* TodayShiftTests.swift */,
 				9C7F967129F8F03E00F5035C /* UltimateMoneyVisualizerTests.swift */,
 			);
 			path = UltimateMoneyVisualizerTests;
@@ -656,6 +659,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C7C985C29FCCF760077EA25 /* TodayShiftTests.swift in Sources */,
 				9C7F967229F8F03E00F5035C /* UltimateMoneyVisualizerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

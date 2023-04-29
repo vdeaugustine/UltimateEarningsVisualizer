@@ -8,8 +8,9 @@
 import CoreData
 import Foundation
 import Vin
+import AlertToast
 
-extension TodayShift {
+public extension TodayShift {
     func totalEarnedSoFar(_ nowTime: Date) -> Double {
         guard let startTime,
               let wage = user?.wage
@@ -52,11 +53,13 @@ extension TodayShift {
     }
 
     func remainingTime(_ nowTime: Date) -> Double {
-        totalShiftDuration - elapsedTime(nowTime)
+        let time = totalShiftDuration - elapsedTime(nowTime)
+        return time >= 0 ? time : 0
     }
 
     func remainingToEarn(_ nowTime: Date) -> Double {
-        remainingTime(nowTime) * (user?.wage?.secondly ?? 0)
+        let amount = remainingTime(nowTime) * (user?.wage?.secondly ?? 0)
+        return amount >= 0 ? amount : 0
     }
     
     

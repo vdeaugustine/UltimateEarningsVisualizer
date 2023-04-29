@@ -7,10 +7,10 @@
 
 import CoreData
 
-struct PersistenceController {
+public struct PersistenceController {
     
     
-    static let context = shared.container.viewContext
+    public static let context = shared.container.viewContext
    
     #if !DEBUG
     static let shared = PersistenceController()
