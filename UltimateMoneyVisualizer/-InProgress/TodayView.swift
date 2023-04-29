@@ -14,6 +14,7 @@ struct TodayView: View {
     @State private var showHoursSheet = false
     @State private var showTimeOrMoney = "time"
     @State private var nowTime: Date = .now
+    @State private var showBanner = false
 
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
@@ -24,8 +25,9 @@ struct TodayView: View {
         ScrollView {
             VStack {
                 if let todayShift {
+                    timeMoneyPicker
+                        .padding(.vertical)
                     VStack {
-                        timeMoneyPicker
                         startEndTotal(todayShift: todayShift)
                             .padding(.top)
                         progressSection(todayShift: todayShift)
@@ -34,11 +36,15 @@ struct TodayView: View {
                     .background(Color.white)
 
                     payoffItemSection(todayShift: todayShift)
+
+                    pieChartSection(todayShift: todayShift)
+
                 } else {
                     YouHaveNoShiftView(showHoursSheet: $showHoursSheet)
                 }
             }
         }
+        .bottomBanner(isVisible: $showBanner, swipeToDismiss: true)
         .background(Color.targetGray.frame(maxHeight: .infinity).ignoresSafeArea())
         .navigationTitle("Today Live")
         .sheet(isPresented: $showHoursSheet) {
@@ -46,6 +52,10 @@ struct TodayView: View {
         }
         .onReceive(timer) { _ in
             nowTime = .now
+            if let todayShift,
+               let endTime = todayShift.endTime {
+                showBanner = nowTime >= endTime
+            }
         }
     }
 }
@@ -158,7 +168,7 @@ extension TodayView {
                             Text(info)
                                 .font(.subheadline)
                         }
-                        
+
                         Text(User.main.getExpenses().first!.amountMoneyStr)
                             .font(.title2)
                             .fontWeight(.bold)
@@ -175,6 +185,32 @@ extension TodayView {
 //            .cornerRadius(4)
         }
         .padding(.vertical)
+    }
+
+    
+    // MARK: - Pie Chart Section
+    func pieChartSection(todayShift: TodayShift) -> some View {
+        VStack {
+            HStack {
+                Text("Today's Spending Breakdown")
+                    .font(.title3)
+                    .fontWeight(.bold)
+                Spacer()
+            }
+            
+            HStack {
+               
+                
+                
+                
+            }
+            
+            
+        }
+
+        .padding()
+        .padding(.vertical)
+        .background(Color.white)
     }
 }
 
@@ -285,8 +321,8 @@ struct SelectHours: View {
 struct TodayView_Previews: PreviewProvider {
     static let ts: TodayShift = {
         let ts = TodayShift(context: PersistenceController.context)
-        ts.startTime = Date.now.addMinutes(-5 / 60)
-        ts.endTime = Date.now.addMinutes(5 / 60)
+        ts.startTime = Date.now.addMinutes(-20)
+        ts.endTime = Date.now.addMinutes(4/60)
         ts.user = User.main
         ts.expiration = Date.endOfDay()
         ts.dateCreated = .now

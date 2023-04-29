@@ -25,6 +25,8 @@
 		9C7C985F29FCD5AB0077EA25 /* HorizontalDataDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C985E29FCD5AB0077EA25 /* HorizontalDataDisplay.swift */; };
 		9C7C986129FCE6A80077EA25 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C986029FCE6A80077EA25 /* ProgressBar.swift */; };
 		9C7C986329FCEB3E0077EA25 /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C986229FCEB3E0077EA25 /* ProgressCircle.swift */; };
+		9C7C986529FCF3B60077EA25 /* PieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C986429FCF3B60077EA25 /* PieChart.swift */; };
+		9C7C986729FD7A390077EA25 /* TodayLiveCompletedBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C986629FD7A390077EA25 /* TodayLiveCompletedBanner.swift */; };
 		9C7F965B29F8F03C00F5035C /* UltimateMoneyVisualizerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F965A29F8F03C00F5035C /* UltimateMoneyVisualizerApp.swift */; };
 		9C7F965D29F8F03C00F5035C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F965C29F8F03C00F5035C /* ContentView.swift */; };
 		9C7F965F29F8F03E00F5035C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C7F965E29F8F03E00F5035C /* Assets.xcassets */; };
@@ -98,6 +100,8 @@
 		9C7C985E29FCD5AB0077EA25 /* HorizontalDataDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalDataDisplay.swift; sourceTree = "<group>"; };
 		9C7C986029FCE6A80077EA25 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProgressBar.swift; path = "UltimateMoneyVisualizer/-InProgress/ProgressBar.swift"; sourceTree = SOURCE_ROOT; };
 		9C7C986229FCEB3E0077EA25 /* ProgressCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircle.swift; sourceTree = "<group>"; };
+		9C7C986429FCF3B60077EA25 /* PieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PieChart.swift; path = "UltimateMoneyVisualizer/-InProgress/PieChart.swift"; sourceTree = SOURCE_ROOT; };
+		9C7C986629FD7A390077EA25 /* TodayLiveCompletedBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayLiveCompletedBanner.swift; sourceTree = "<group>"; };
 		9C7F965729F8F03C00F5035C /* UltimateMoneyVisualizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UltimateMoneyVisualizer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C7F965A29F8F03C00F5035C /* UltimateMoneyVisualizerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UltimateMoneyVisualizerApp.swift; sourceTree = "<group>"; };
 		9C7F965C29F8F03C00F5035C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -192,7 +196,9 @@
 		9C7C985529FB722D0077EA25 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				9C7C986429FCF3B60077EA25 /* PieChart.swift */,
 				9C7C985729FB723D0077EA25 /* MoneyPicker.swift */,
+				9C7C986629FD7A390077EA25 /* TodayLiveCompletedBanner.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -624,6 +630,7 @@
 				9C7C985829FB723D0077EA25 /* MoneyPicker.swift in Sources */,
 				9C7F966429F8F03E00F5035C /* Persistence.swift in Sources */,
 				9C7C986329FCEB3E0077EA25 /* ProgressCircle.swift in Sources */,
+				9C7C986729FD7A390077EA25 /* TodayLiveCompletedBanner.swift in Sources */,
 				9C7F96A629F8FF0100F5035C /* CreateExpenseView.swift in Sources */,
 				9C7F968D29F8FD2D00F5035C /* ExtendExpense.swift in Sources */,
 				9C7C984729FA0E130077EA25 /* HomeView.swift in Sources */,
@@ -650,6 +657,7 @@
 				9C7C985229FB613E0077EA25 /* ExtendColor.swift in Sources */,
 				9C7C984529FA0DA80077EA25 /* SettingsView.swift in Sources */,
 				9CEEE33A29F908BE001FA4FB /* GoalListView.swift in Sources */,
+				9C7C986529FCF3B60077EA25 /* PieChart.swift in Sources */,
 				9CEEE35729F9E77F001FA4FB /* WageView.swift in Sources */,
 				9CEEE32B29F9044F001FA4FB /* ExtendView.swift in Sources */,
 				9C7C984A29FA5BFB0077EA25 /* ExtendTodayShift.swift in Sources */,
