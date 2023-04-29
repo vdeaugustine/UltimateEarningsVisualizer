@@ -11,13 +11,13 @@ import Vin
 
 extension TodayShift {
     func totalEarnedSoFar(_ nowTime: Date) -> Double {
-        guard let endTime,
+        guard let startTime,
               let wage = user?.wage
         else { return 0 }
 
         let secondly = wage.secondly
 
-        return secondly * (nowTime - endTime)
+        return secondly * (nowTime - startTime)
     }
 
     /// Amount of money that has already been allocated
@@ -43,7 +43,7 @@ extension TodayShift {
     var totalShiftDuration: Double {
         guard let startTime,
               let endTime else { return 0 }
-        return startTime - endTime
+        return endTime - startTime
     }
 
     /// Based on total duration x wage.secondly
@@ -57,5 +57,11 @@ extension TodayShift {
 
     func remainingToEarn(_ nowTime: Date) -> Double {
         remainingTime(nowTime) * (user?.wage?.secondly ?? 0)
+    }
+    
+    
+    func percentTimeCompleted(_ nowTime: Date) -> Double {
+        let percent = elapsedTime(nowTime) / totalShiftDuration
+        return percent < 1 ? percent : 1
     }
 }

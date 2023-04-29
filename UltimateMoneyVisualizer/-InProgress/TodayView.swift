@@ -23,6 +23,9 @@ struct TodayView: View {
     var body: some View {
         VStack {
             if let todayShift {
+                Text("Start \(todayShift.startTime!.getFormattedDate(format: .minimalTime))")
+                Text("End \(todayShift.endTime!.getFormattedDate(format: .minimalTime))")
+                
                 timeMoneyPicker
                 progressSection(todayShift: todayShift)
             } else {
@@ -63,12 +66,12 @@ extension TodayView {
                 Text(showingTime ? todayShift.totalShiftDuration.formatForTime() : todayShift.totalWillEarn.formattedForMoney())
             }
 
-//                ProgressBar(percentage: nowPercent, color: model.themeColor)
+            ProgressBar(percentage: todayShift.percentTimeCompleted(nowTime), color: UserDefaults.themeColor)
 
             HStack {
                 Text(showingTime ?  todayShift.elapsedTime(nowTime).formatForTime([.hour, .minute, .second]) : todayShift.totalEarnedSoFar(nowTime).formattedForMoney())
                 Spacer()
-                Text("-" + (showingTime ? todayShift.remainingTime(nowTime).formatForTime([.hour, .minute, .second]) : todayShift.remainingToEarn(nowTime).formattedForMoney()))
+                Text((showingTime ? todayShift.remainingTime(nowTime).formatForTime([.hour, .minute, .second]) : todayShift.remainingToEarn(nowTime).formattedForMoney()))
             }
         }
         .font(.footnote)
@@ -83,6 +86,45 @@ extension TodayView {
 //        }
     }
 }
+
+struct ProgressBar: View {
+    let percentage: Double
+    let cornerRadius: CGFloat = 25
+    let height: CGFloat = 8
+    var color: Color = .accentColor
+    
+    private var isComplete: Bool {
+        percentage >= 1
+    }
+    
+    private var percentageToUse: Double {
+        if percentage < 0 { return 0 }
+        if percentage > 1 { return 1 }
+        if percentage == 0 { return 0.01 }
+        return percentage
+    }
+    
+    private func barPart(width: CGFloat) -> some View {
+        let entireBarWidth = width
+        return ZStack(alignment: .leading) {
+            RoundedRectangle(cornerRadius: cornerRadius)
+                .foregroundColor(.gray)
+                .frame(width: entireBarWidth)
+            RoundedRectangle(cornerRadius: cornerRadius)
+                .foregroundColor(isComplete ? .green : color)
+                .frame(width: percentageToUse * entireBarWidth)
+        }
+        .frame(height: height)
+    }
+    
+    var body: some View {
+        GeometryReader { geo in
+            barPart(width: geo.size.width)
+        }
+        .frame(height: height)
+    }
+}
+
 
 // MARK: - YouHaveNoShiftView
 
@@ -191,8 +233,8 @@ struct SelectHours: View {
 struct TodayView_Previews: PreviewProvider {
     static let ts: TodayShift = {
         let ts = TodayShift(context: PersistenceController.context)
-        ts.startTime = .nineAM
-        ts.endTime = .fivePM
+        ts.startTime = Date.now.addMinutes(-1)
+        ts.endTime = Date.now.addMinutes(1)
         ts.user = User.main
         ts.expiration = Date.endOfDay()
         ts.dateCreated = .now
