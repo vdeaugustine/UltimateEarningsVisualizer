@@ -22,4 +22,8 @@ extension Color {
         let b = Int(components.blue * 255)
         return String(format: "#%02X%02X%02X", r, g, b)
     }
+    
+    
+    static let targetGray: Color = .hexStringToColor(hex: "F6F6F7")
+    
 }

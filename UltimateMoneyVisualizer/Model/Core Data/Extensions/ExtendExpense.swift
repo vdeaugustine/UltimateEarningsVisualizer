@@ -15,23 +15,23 @@ extension Expense {
     var amountMoneyStr: String {
         return amount.formattedForMoney(includeCents: true)
     }
-    
+
     var amountPaidOff: Double {
-        guard let allocations = Array(self.allocations ?? []) as? [Allocation] else { return 0 }
-        return allocations.reduce(Double(0), {$0 + $1.amount})
+        guard let allocations = Array(allocations ?? []) as? [Allocation] else { return 0 }
+        return allocations.reduce(Double(0)) { $0 + $1.amount }
     }
-    
+
     var totalTime: TimeInterval {
         guard let dateCreated, let dueDate else { return 0 }
         return dueDate - dateCreated
     }
-    
+
     var timeRemaining: TimeInterval {
         guard let dueDate else { return 0 }
         return dueDate - .now
     }
-    
-    var amountRemainingToPayOff: Double { return self.amount - amountPaidOff }
+
+    var amountRemainingToPayOff: Double { return amount - amountPaidOff }
 
     static func createExampleExpenses(user: User, context: NSManagedObjectContext) throws {
         func randomDateWithin(days: Int) -> Date {
@@ -57,6 +57,7 @@ extension Expense {
         expense1.dateCreated = randomDateWithin(days: -goBackDays)
         expense1.dueDate = randomDateWithin(days: goBackDays)
         expense1.user = user
+        expense1.info = "This expense is for groceries"
 
         let expense2 = Expense(context: context)
         expense2.title = "Gas"
@@ -65,6 +66,7 @@ extension Expense {
         expense2.dateCreated = randomDateWithin(days: -goBackDays)
         expense2.dueDate = randomDateWithin(days: goBackDays)
         expense2.user = user
+        expense2.info = "This expense is for gas"
 
         let expense3 = Expense(context: context)
         expense3.title = "Electricity"
@@ -73,6 +75,7 @@ extension Expense {
         expense3.dateCreated = randomDateWithin(days: -goBackDays)
         expense3.dueDate = randomDateWithin(days: goBackDays)
         expense3.user = user
+        expense3.info = "This expense is for electricity"
 
         let expense4 = Expense(context: context)
         expense4.title = "Internet"
@@ -81,6 +84,7 @@ extension Expense {
         expense4.dateCreated = randomDateWithin(days: -goBackDays)
         expense4.dueDate = randomDateWithin(days: goBackDays)
         expense4.user = user
+        expense4.info = "This expense is for internet"
 
         let expense5 = Expense(context: context)
         expense5.title = "Entertainment"
@@ -88,6 +92,7 @@ extension Expense {
         expense5.dateCreated = randomDateWithin(days: -goBackDays)
         expense5.dueDate = randomDateWithin(days: goBackDays)
         expense5.user = user
+        expense5.info = "This expense is for entertainment"
 
         try context.save()
     }

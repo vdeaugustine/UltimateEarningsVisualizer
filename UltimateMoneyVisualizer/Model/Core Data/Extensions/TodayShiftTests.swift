@@ -7,6 +7,8 @@
 
 import UltimateMoneyVisualizer
 import XCTest
+import Vin
+
 
 final class TodayShiftTests: XCTestCase {
     let viewContext = PersistenceController.context
@@ -16,13 +18,16 @@ final class TodayShiftTests: XCTestCase {
         let shift = TodayShift(context: viewContext)
         let wage = Wage(context: viewContext)
         wage.amount = 15.0
-        shift.user = User(context: viewContext)
-        shift.user?.wage = wage
-        shift.startTime = Date.now.addMinutes(-30) // 30 minutes ago
+        let user = User(context: viewContext)
+        user.wage = wage
+        shift.user = user
+        shift.startTime = Date().addingTimeInterval(-30 * 60) // 30 minutes ago
+        shift.endTime = Date().addingTimeInterval(30 * 60) // 30 minutes from now
 
-        let expectedEarned = 7.5
+        let expectedEarned: Double = 7.5
         XCTAssertEqual(shift.totalEarnedSoFar(nowTime), expectedEarned, accuracy: 0.01)
     }
+
 
     func testAllocated() {
         let shift = TodayShift(context: viewContext)
@@ -40,23 +45,26 @@ final class TodayShiftTests: XCTestCase {
         let shift = TodayShift(context: viewContext)
         let wage = Wage(context: viewContext)
         wage.amount = 10.0
-        shift.user = User(context: viewContext)
-        shift.user?.wage = wage
-        shift.startTime = Date.now.addHours(-5) // 1 hour ago
+        let user = User(context: viewContext)
+        user.wage = wage
+        shift.user = user
+        shift.startTime = Date().addingTimeInterval(-5 * 60 * 60) // 5 hours ago
+        shift.endTime = Date().addingTimeInterval(1 * 60 * 60) // 1 hour from now
         let tempAlloc = TemporaryAllocation(context: viewContext)
         tempAlloc.amount = 20.0
         shift.temporaryAllocations = NSSet(array: [tempAlloc])
 
-        let expectedAvailable = 30.0 // 5 hour * 10 per hour = 50 dollars. 50 - 20 allocated = 30 dollars
+        let expectedAvailable = 30.0 // 5 hours * 10 per hour = 50 dollars. 50 - 20 allocated = 30 dollars
         XCTAssertEqual(shift.totalAvailable(nowTime), expectedAvailable, accuracy: 0.001)
     }
+
 
     func testElapsedTime() {
         let nowTime = Date()
         let shift = TodayShift(context: viewContext)
-        shift.startTime = Date(timeIntervalSinceNow: -7_200) // 2 hours ago
-
-        let expectedElapsedTime = 7_200.0 // 2 hours * 3600 seconds/hour
+        shift.startTime = Date.now.addHours(-2)
+        shift.endTime = Date.now.addHours(1)
+        let expectedElapsedTime: Double = 2 * 60 * 60 // 2 hours * 3600 seconds/hour
         XCTAssertEqual(shift.elapsedTime(nowTime), expectedElapsedTime, accuracy: 0.001)
     }
 

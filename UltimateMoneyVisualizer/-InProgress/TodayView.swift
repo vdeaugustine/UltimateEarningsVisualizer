@@ -21,17 +21,25 @@ struct TodayView: View {
     var showingTime: Bool { showTimeOrMoney == "time" }
 
     var body: some View {
-        VStack {
-            if let todayShift {
-                Text("Start \(todayShift.startTime!.getFormattedDate(format: .minimalTime))")
-                Text("End \(todayShift.endTime!.getFormattedDate(format: .minimalTime))")
-                
-                timeMoneyPicker
-                progressSection(todayShift: todayShift)
-            } else {
-                YouHaveNoShiftView(showHoursSheet: $showHoursSheet)
+        ScrollView {
+            VStack {
+                if let todayShift {
+                    VStack {
+                        timeMoneyPicker
+                        startEndTotal(todayShift: todayShift)
+                            .padding(.top)
+                        progressSection(todayShift: todayShift)
+                    }
+                    .padding([.vertical, .top])
+                    .background(Color.white)
+
+                    payoffItemSection(todayShift: todayShift)
+                } else {
+                    YouHaveNoShiftView(showHoursSheet: $showHoursSheet)
+                }
             }
         }
+        .background(Color.targetGray.frame(maxHeight: .infinity).ignoresSafeArea())
         .navigationTitle("Today Live")
         .sheet(isPresented: $showHoursSheet) {
             SelectHours(showHoursSheet: $showHoursSheet)
@@ -41,6 +49,8 @@ struct TodayView: View {
         }
     }
 }
+
+// MARK: - View functions and computed properties
 
 extension TodayView {
     // MARK: - timeMoneyPicker
@@ -56,6 +66,41 @@ extension TodayView {
         .padding(.horizontal)
     }
 
+    // MARK: - Start End Total
+
+    func startEndTotal(todayShift: TodayShift) -> some View {
+        VStack {
+            Text("Hours for \(Date.now.getFormattedDate(format: .abreviatedMonth))")
+                .font(.headline)
+                .spacedOut {
+                    Button {
+                        showHoursSheet.toggle()
+                    } label: {
+                        Text("Edit")
+                            .font(.subheadline)
+                    }
+                }
+                .padding(.horizontal)
+
+            if let start = todayShift.startTime,
+               let end = todayShift.endTime {
+                HorizontalDataDisplay(
+                    data: [.init(label: "Start",
+                                 value: start.getFormattedDate(format: .minimalTime,
+                                                               amPMCapitalized: false)),
+                           .init(label: "End",
+                                 value: end.getFormattedDate(format: .minimalTime,
+                                                             amPMCapitalized: false)),
+
+                           showingTime ? .init(label: "Total",
+                                               value: todayShift.totalShiftDuration.formatForTime()) :
+                               .init(label: "Will Earn",
+                                     value: todayShift.totalWillEarn.formattedForMoney())]
+                )
+            }
+        }
+    }
+
     // MARK: - Individual Views
 
     func progressSection(todayShift: TodayShift) -> some View {
@@ -69,9 +114,9 @@ extension TodayView {
             ProgressBar(percentage: todayShift.percentTimeCompleted(nowTime), color: UserDefaults.themeColor)
 
             HStack {
-                Text(showingTime ?  todayShift.elapsedTime(nowTime).formatForTime([.hour, .minute, .second]) : todayShift.totalEarnedSoFar(nowTime).formattedForMoney())
+                Text(showingTime ? todayShift.elapsedTime(nowTime).formatForTime([.hour, .minute, .second]) : todayShift.totalEarnedSoFar(nowTime).formattedForMoney())
                 Spacer()
-                Text((showingTime ? todayShift.remainingTime(nowTime).formatForTime([.hour, .minute, .second]) : todayShift.remainingToEarn(nowTime).formattedForMoney()))
+                Text(showingTime ? todayShift.remainingTime(nowTime).formatForTime([.hour, .minute, .second]) : todayShift.remainingToEarn(nowTime).formattedForMoney())
             }
         }
         .font(.footnote)
@@ -85,46 +130,53 @@ extension TodayView {
 //                }
 //        }
     }
-}
 
-struct ProgressBar: View {
-    let percentage: Double
-    let cornerRadius: CGFloat = 25
-    let height: CGFloat = 8
-    var color: Color = .accentColor
-    
-    private var isComplete: Bool {
-        percentage >= 1
-    }
-    
-    private var percentageToUse: Double {
-        if percentage < 0 { return 0 }
-        if percentage > 1 { return 1 }
-        if percentage == 0 { return 0.01 }
-        return percentage
-    }
-    
-    private func barPart(width: CGFloat) -> some View {
-        let entireBarWidth = width
-        return ZStack(alignment: .leading) {
-            RoundedRectangle(cornerRadius: cornerRadius)
-                .foregroundColor(.gray)
-                .frame(width: entireBarWidth)
-            RoundedRectangle(cornerRadius: cornerRadius)
-                .foregroundColor(isComplete ? .green : color)
-                .frame(width: percentageToUse * entireBarWidth)
+    // MARK: - Payoff Item Section
+
+    func payoffItemSection(todayShift: TodayShift) -> some View {
+        VStack {
+            VStack {
+                HStack {
+                    Text("Current Expense")
+                        .font(.title3)
+                        .fontWeight(.bold)
+                    Spacer()
+                }
+
+                HStack {
+                    ProgressCircle(percent: todayShift.percentTimeCompleted(nowTime),
+                                   widthHeight: 100,
+                                   lineWidth: 7) {
+                        Text(User.main.getExpenses().first!.amountPaidOff.formattedForMoney())
+                            .font(.title)
+                    }
+
+                    VStack(alignment: .leading) {
+                        Text(User.main.getExpenses().first!.titleStr)
+                            .font(.title2)
+                        if let info = User.main.getExpenses().first!.info {
+                            Text(info)
+                                .font(.subheadline)
+                        }
+                        
+                        Text(User.main.getExpenses().first!.amountMoneyStr)
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundStyle(UserDefaults.getDefaultGradient())
+                    }
+                    .padding([.horizontal])
+                    .pushLeft()
+                }
+            }
+
+            .padding()
+
+//            .background(Color.white)
+//            .cornerRadius(4)
         }
-        .frame(height: height)
-    }
-    
-    var body: some View {
-        GeometryReader { geo in
-            barPart(width: geo.size.width)
-        }
-        .frame(height: height)
+        .padding(.vertical)
     }
 }
-
 
 // MARK: - YouHaveNoShiftView
 
@@ -233,8 +285,8 @@ struct SelectHours: View {
 struct TodayView_Previews: PreviewProvider {
     static let ts: TodayShift = {
         let ts = TodayShift(context: PersistenceController.context)
-        ts.startTime = Date.now.addMinutes(-1)
-        ts.endTime = Date.now.addMinutes(1)
+        ts.startTime = Date.now.addMinutes(-5 / 60)
+        ts.endTime = Date.now.addMinutes(5 / 60)
         ts.user = User.main
         ts.expiration = Date.endOfDay()
         ts.dateCreated = .now
