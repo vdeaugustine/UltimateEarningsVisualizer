@@ -26,18 +26,16 @@ extension Settings {
             objectWillChange.send()
             do {
                 try PersistenceController.context.save()
-            }
-            catch {
+            } catch {
                 print(error)
             }
-            
         }
     }
-    
+
     func getDefaultGradient(_ addValue: CGFloat? = nil) -> LinearGradient {
         LinearGradient(stops: [.init(color: themeColor,
                                      location: 0),
-                               .init(color: self.themeColor.getLighterColorForGradient(addValue ?? 50),
+                               .init(color: themeColor.getLighterColorForGradient(addValue ?? 50),
                                      location: 1)],
                        startPoint: .bottom,
                        endPoint: .topLeading)

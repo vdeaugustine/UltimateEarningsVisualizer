@@ -20,7 +20,13 @@ struct CreateSavedView: View {
 
     // Alert toast state variables
     @State private var showToast = false
-    @State private var alertToastConfig = AlertToast(displayMode: .hud, type: .regular, title: "")
+    @State private var alertToastConfig = emptyToast
+
+    @ObservedObject var settings = User.main.getSettings()
+
+    static let emptyToast = AlertToast(displayMode: .hud, type: .regular, title: "")
+    
+    @State private var toastType = "s"
 
     var body: some View {
         Form {
@@ -34,28 +40,42 @@ struct CreateSavedView: View {
 
             Section {
                 Button("Save") {
-                    // Create a new Saved object and save it to Core Data
-
                     guard !title.isEmpty else {
-                        alertToastConfig = AlertToast(displayMode: .alert, type: .error(.blue), title: "Title must not be empty")
+                        alertToastConfig = AlertToast(displayMode: .alert,
+                                                      type: .error(settings.themeColor),
+                                                      title: "Title must not be empty",
+                                                      subTitle: nil,
+                                                      style: .style(backgroundColor: nil,
+                                                                    titleColor: nil,
+                                                                    subTitleColor: nil,
+                                                                    titleFont: nil,
+                                                                    subTitleFont: nil))
                         showToast = true
+                        toastType = "e"
                         return
                     }
-                    
-                    guard let dub = Double(amount) else {
-                        alertToastConfig = AlertToast(displayMode: .alert, type: .error(.blue), title: "Please enter a valid amount")
+
+                    guard let dub = Double(amount),
+                          dub > 0 else {
+                        alertToastConfig = AlertToast(displayMode: .alert,
+                                                      type: .error(settings.themeColor),
+                                                      title: "Please enter a valid amount",
+                                                      subTitle: nil,
+                                                      style: .style(backgroundColor: nil,
+                                                                    titleColor: nil,
+                                                                    subTitleColor: nil,
+                                                                    titleFont: nil,
+                                                                    subTitleFont: nil))
                         showToast = true
+                        toastType = "e"
                         return
                     }
 
                     do {
-                        let saved = Saved(context: viewContext)
-                        saved.title = title
-                        saved.amount = dub
-                        saved.info = info
-                        saved.date = date
-
-                        try viewContext.save()
+                        try Saved(amount: dub, title: title,
+                                  info: info.isEmpty ? nil : info,
+                                  date: date, user: User.main,
+                                  context: viewContext)
 
                         // Reset the fields
                         title = ""
@@ -63,31 +83,44 @@ struct CreateSavedView: View {
                         info = ""
                         date = Date()
 
-                        // Show a success alert toast
-                        alertToastConfig.title = "Item saved successfully."
+                        alertToastConfig = AlertToast(displayMode: .hud,
+                                                      type: .complete(settings.themeColor),
+                                                      title: "Successfully saved",
+                                                      subTitle: nil,
+                                                      style: .style(backgroundColor: nil,
+                                                                    titleColor: nil,
+                                                                    subTitleColor: nil,
+                                                                    titleFont: nil,
+                                                                    subTitleFont: nil))
+
+                        toastType = "s"
                         showToast = true
+
                     } catch let error {
                         // Show an error alert toast
-                        alertToastConfig.title = "Error: \(error.localizedDescription)"
+                        alertToastConfig = AlertToast(displayMode: .alert,
+                                                      type: .error(settings.themeColor),
+                                                      title: "Error saving",
+                                                      subTitle: error.localizedDescription)
+                        toastType = "e"
                         showToast = true
                     }
                 }
             }
         }
+        .putInTemplate()
         .navigationTitle("New Saved Item")
-        // Add the alert toast modifier to the view
-        .toast(isPresenting: $showToast, duration: 2, tapToDismiss: true) {
+        .toast(isPresenting: $showToast,
+               duration: 2.5,
+               tapToDismiss: false,
+               offsetY: toastType == "s" ? 65 : 0) {
             alertToastConfig
         } onTap: {
             showToast = false
+        } completion: {
+            alertToastConfig = Self.emptyToast
         }
-        .toolbar {
-            ToolbarItem {
-                NavigationLink("Saved Items") {
-                    SavedListView()
-                }
-            }
-        }
+
     }
 }
 
@@ -97,35 +130,6 @@ struct CreateSavedView_Previews: PreviewProvider {
     static var previews: some View {
         CreateSavedView()
             .environment(\.managedObjectContext, PersistenceController.context)
+            .putInNavView(.inline)
     }
 }
-
-// MARK: - CurrencyFormatter
-
-//struct CurrencyFormatter: Formatter {
-//    let numberFormatter: NumberFormatter = {
-//        let nf = NumberFormatter()
-//        nf.numberStyle = .currency
-//        nf.currencySymbol = "$"
-//        return nf
-//    }()
-//
-//    func string(for value: Any?) -> String? {
-//        guard let value = value as? Double else { return nil }
-//        return numberFormatter.string(from: NSNumber(value: value))
-//    }
-//
-//    func getObjectValue(_ obj: AutoreleasingUnsafeMutablePointer<AnyObject?>?, for string: String, errorDescription error: AutoreleasingUnsafeMutablePointer<NSString?>?) -> Bool {
-//        guard let number = numberFormatter.number(from: string) else { return false }
-//        obj?.pointee = number.doubleValue as AnyObject
-//        return true
-//    }
-//}
-
-// MARK: - CreateSavedView_Previews
-
-//struct CreateSavedView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CreateSavedView()
-//    }
-//}

@@ -38,8 +38,10 @@ struct SavedListView: View {
                     EditButton()
                 }
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: addSavedItem) {
-                        Image(systemName: "plus")
+                    NavigationLink {
+                        CreateSavedView()
+                    } label: {
+                        Label("Add Saved Item", systemImage: "plus")
                     }
                 }
             }

@@ -9,7 +9,23 @@ import CoreData
 import Foundation
 import Vin
 
-extension Saved {
+
+public extension Saved {
+    
+    @discardableResult convenience init(amount: Double, title: String, info: String? = nil, date: Date, user: User, context: NSManagedObjectContext) throws {
+        self.init(context: context)
+        self.amount = amount
+        self.title = title
+        self.info = info
+        self.date = date
+        self.user = user
+        try context.save()
+    }
+}
+
+
+
+public extension Saved {
     
     
     func getDate() -> Date {
