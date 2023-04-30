@@ -10,23 +10,7 @@ import SwiftUI
 import Vin
 
 
-extension Color {
-    func getLighterColorForGradient(_ increaseAmount: CGFloat? = nil) -> Color {
-        var b = components.blue * 255
-        var r = components.red * 255
-        var g = components.green * 255
 
-        b += increaseAmount ?? 40
-        r += increaseAmount ?? 40
-        g += increaseAmount ?? 40
-
-        if b > 255 { b = 255 }
-        if r > 255 { r = 255 }
-        if g > 255 { g = 255 }
-
-        return Color(uiColor: .init(red: r / 255, green: g / 255, blue: b / 255, alpha: 1))
-    }
-}
 extension UserDefaults {
     
     static func getDefaultGradient(_ addValue: CGFloat? = nil) -> LinearGradient {

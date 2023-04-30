@@ -18,7 +18,7 @@ public extension Shift {
 
         try context.save()
     }
-    
+
     // This function creates example shifts for a user with random allocations to goals and expenses.
     static func makeExampleShifts(user: User, context: NSManagedObjectContext) throws {
         let startDate = Date.now
@@ -29,7 +29,7 @@ public extension Shift {
         var expensesNotFinished: [Expense] {
             expenses.filter { $0.amountRemainingToPayOff > 0 }
         }
-        
+
         // Get the list of goals that still have remaining amounts to be paid off.
         var goalsNotFinished: [Goal] {
             goals.filter { $0.amountRemainingToPayOff > 0 }
@@ -39,10 +39,10 @@ public extension Shift {
         for i in 0 ..< 20 {
             let day = startDate.addDays(-Double(i))
             let shift = try Shift(day: .init(date: day),
-                                   start: Date.getThisTime(hour: 9, minute: 0, second: 0, from: day)!,
-                                   end: Date.getThisTime(hour: 17, minute: 0, second: 0, from: day)!,
-                                   context: context)
-            
+                                  start: Date.getThisTime(hour: 9, minute: 0, second: 0, from: day)!,
+                                  end: Date.getThisTime(hour: 17, minute: 0, second: 0, from: day)!,
+                                  context: context)
+
             // For each shift, create 20 random allocations to goals and expenses.
             for _ in 0 ..< 20 {
                 // Check if there is any available amount left in the shift before creating allocations.
@@ -53,7 +53,7 @@ public extension Shift {
                         shift.addToAllocations(allocation)
                         try context.save()
                     }
-                    
+
                     // Randomly pick an expense that has a remaining amount to be paid off and create an allocation for it.
                     if let chosenExpense = expensesNotFinished.randomElement() {
                         let allocation = Allocation(amount: .random(in: 0 ... min(chosenExpense.amountRemainingToPayOff, shift.totalAvailable)), expense: chosenExpense, shift: shift, date: day, context: context)
@@ -62,45 +62,13 @@ public extension Shift {
                     }
                 }
             }
+
+            shift.user = user
+            user.addToShifts(shift)
             try context.save()
         }
         try context.save()
     }
-
-
-//    static func makeExampleShifts(user: User, context: NSManagedObjectContext) throws {
-//        let startDate = Date.now
-//        let goals = user.getGoals()
-//        let expenses = user.getExpenses()
-//
-//        var expensesNotFinished: [Expense] {
-//            expenses.filter { $0.amountRemainingToPayOff > 0 }
-//        }
-//        var goalsNotFinished: [Goal] {
-//            goals.filter { $0.amountRemainingToPayOff > 0 }
-//        }
-//
-//        for i in 0 ..< 20 {
-//            let day = startDate.addDays(-Double(i))
-//            let shift = try! Shift(day: .init(date: day),
-//                                   start: Date.getThisTime(hour: 9, minute: 0, second: 0, from: day)!,
-//                                   end: Date.getThisTime(hour: 17, minute: 0, second: 0, from: day)!,
-//                                   context: context)
-//            for _ in 0 ..< 20 {
-//
-//                if let chosenGoal = goalsNotFinished.randomElement() {
-//                    let allocation = Allocation(amount: .random(in: 0 ... min(chosenGoal.amountRemainingToPayOff, shift.totalAvailable)), goal: chosenGoal, shift: shift, date: day, context: context)
-//                    shift.addToAllocations(allocation)
-//                    try! context.save()
-//                }
-//                if let chosenExpense = expensesNotFinished.randomElement() {
-//                    let allocation = Allocation(amount: .random(in: 0 ... min(chosenExpense.amountRemainingToPayOff, shift.totalAvailable)), expense: chosenExpense, shift: shift, date: day, context: context)
-//                    shift.addToAllocations(allocation)
-//                    try! context.save()
-//                }
-//            }
-//        }
-//    }
 }
 
 extension Shift {

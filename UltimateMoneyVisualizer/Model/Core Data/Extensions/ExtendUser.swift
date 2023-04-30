@@ -50,7 +50,7 @@ public extension User {
 
                     // Make Shifts
                     try Shift.makeExampleShifts(user: user, context: viewContext)
-
+                    print("saved shifts", user.getShifts())
                     // Make Saved items
                     try Saved.makeExampleSavedItems(user: user, context: viewContext)
 
@@ -143,27 +143,38 @@ public extension User {
 
         return todayShift
     }
-    
-    
+
     func getSettings() -> Settings {
         if let settings {
             return settings
         }
-        
+
         let newSettings = Settings(context: PersistenceController.context)
         newSettings.themeColorStr = Color.defaultColorHexes.first
         newSettings.user = self
-        self.settings = newSettings
+        settings = newSettings
         do {
             try PersistenceController.context.save()
-        }
-        catch {
+        } catch {
             print(error)
         }
-        
-        
+
         return newSettings
     }
-    
-    
+
+    func expenseWithMostAllocations() -> Expense? {
+        // Get the expense with the highest number of allocations
+        
+        guard let expensesArr = Array(expenses ?? []) as? [Expense] else {
+            return nil
+        }
+        
+        let expenseWithMostAllocations = expensesArr.sorted { expense1, expense2 in
+            let count1 = (expense1.allocations ?? []).count
+            let count2 = (expense2.allocations ?? []).count
+            return count1 > count2
+        }.first
+
+        return expenseWithMostAllocations
+    }
 }

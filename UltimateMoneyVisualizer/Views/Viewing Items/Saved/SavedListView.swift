@@ -12,12 +12,13 @@ struct SavedListView: View {
     
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Saved.date, ascending: false)],
+        predicate: NSPredicate(format: "user == %@", User.main),
         animation: .default)
     private var savedItems: FetchedResults<Saved>
     
     var body: some View {
             List {
-                ForEach(savedItems, id: \.self) { saved in
+                ForEach(savedItems) { saved in
                     NavigationLink(destination: SavedDetailView(saved: saved)) {
                         VStack(alignment: .leading) {
                             Text(saved.title ?? "")
@@ -71,15 +72,9 @@ struct SavedListView: View {
 
 struct SavedListView_Previews: PreviewProvider {
     static var previews: some View {
-        let context = PersistenceController.context
-        let savedItem1 = Saved(context: context)
-        savedItem1.title = "Saved Item 1"
-        savedItem1.date = Date()
-        let savedItem2 = Saved(context: context)
-        savedItem2.title = "Saved Item 2"
-        savedItem2.date = Date()
-        return SavedListView()
-            .environment(\.managedObjectContext, context)
+        SavedListView()
+            .environment(\.managedObjectContext, PersistenceController.context)
+            .putInNavView(.inline)
     }
 }
 

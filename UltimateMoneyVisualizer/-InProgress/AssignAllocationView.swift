@@ -6,15 +6,27 @@
 //
 
 import SwiftUI
+import Vin
 
 // MARK: - AssignAllocationForExpenseView
 
 struct AssignAllocationForExpenseView: View {
-    @Environment(\.managedObjectContext) private var viewContext
     @State private var note: String = ""
     let expense: Expense
     @State private var sourceType: String = "shift"
 
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Shift.startDate, ascending: false)],
+                  predicate: NSPredicate(format: "user == %@", User.main),
+                  animation: .default)
+    private var shifts: FetchedResults<Shift>
+    
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Saved.date, ascending: false)],
+                  predicate: NSPredicate(format: "user == %@", User.main),
+                  animation: .default)
+    private var saved: FetchedResults<Saved>
+    
+    
+//    User.main.getShifts().sorted { $0.start > $1.end }
     var body: some View {
         VStack {
             Picker("Source", selection: $sourceType) {
@@ -23,11 +35,12 @@ struct AssignAllocationForExpenseView: View {
             }
             .pickerStyle(.segmented)
             .padding(.horizontal)
+
             Form {
                 // MARK: - Show shifts
 
                 if sourceType == "shift" {
-                    ForEach(User.main.getShifts().sorted(by: { $0.start > $1.start })) { shift in
+                    ForEach(shifts) { shift in
                         Text(shift.start.getFormattedDate(format: .slashDate))
                             .spacedOut {
                                 Text("\(shift.start.getFormattedDate(format: .minimalTime)) - \(shift.end.getFormattedDate(format: .minimalTime))")
@@ -38,23 +51,29 @@ struct AssignAllocationForExpenseView: View {
                 // MARK: - Show Saved
 
                 else {
-                    ForEach(User.main.getSaved().sorted(by: { $0.getDate() > $1.getDate() })) { saved in
-
-                        Text(saved.getTitle())
-                            .spacedOut(text: saved.getAmount().formattedForMoney())
-                    }
+                    ForEach(saved) { saved in
+                            Text(saved.getTitle())
+                                .spacedOut(text: saved.getAmount().formattedForMoney())
+                        }
                 }
             }
         }
         .putInTemplate()
         .navigationTitle("Choose source")
+        .padding(.top)
     }
 }
 
 // MARK: - AssignAllocationForExpenseView_Previews
 
 struct AssignAllocationForExpenseView_Previews: PreviewProvider {
+//    static let expense: Expense = {
+//        User.main.expenseWithMostAllocations() ?? .init(title: "Default", info: "Fallback", amount: 999, dueDate: .now.addDays(10), user: User.main)
+//
+//    }()
+
     static var previews: some View {
         AssignAllocationForExpenseView(expense: User.main.getExpenses().first!)
+//            .environment(\.managedObjectContext, PersistenceController.context)
     }
 }
