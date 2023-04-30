@@ -10,28 +10,61 @@ import CoreData
 import Foundation
 import Vin
 
-
 public extension TodayShift {
     @discardableResult convenience init(startTime: Date, endTime: Date, user: User, context: NSManagedObjectContext = PersistenceController.context) throws {
-        
-        let context = PersistenceController.context
         self.init(context: context)
-        
+
 //        User.main.todayShift = nil
         self.user = user
         self.payoffItemQueue = makeInitialPayoffItemQueueStr()
         self.expiration = .endOfDay(startTime)
         self.dateCreated = .now
 //        = self
-        
+
+        try context.save()
+    }
+
+    static func makeExampleTodayShift(user: User, context: NSManagedObjectContext) throws {
+        let todayShift = try TodayShift(startTime: .nineAM, endTime: .fivePM, user: user, context: context)
+
+        // Get the list of expenses that still have remaining amounts to be paid off.
+        var expensesNotFinished: [Expense] {
+            user.getExpenses().filter { $0.amountRemainingToPayOff > 0 }
+        }
+
+        // Get the list of goals that still have remaining amounts to be paid off.
+        var goalsNotFinished: [Goal] {
+            user.getGoals().filter { $0.amountRemainingToPayOff > 0 }
+        }
+
+        var amountRemaining = todayShift.totalEarnedSoFar(.now)
+
+        while amountRemaining > 0 {
+            let combined: [Any] = goalsNotFinished + expensesNotFinished
+
+            guard let chosen = combined.randomElement() else {
+                return
+            }
+
+            if let expense = chosen as? Expense {
+                let amount = Double.random(in: 0 ... min(amountRemaining, expense.amountRemainingToPayOff))
+                let temp = TemporaryAllocation(initialAmount: amount, expense: expense, goal: nil, context: context)
+                try todayShift.addTemporaryAllocation(temp, context: context)
+            }
+
+            if let goal = chosen as? Goal {
+                let amount = Double.random(in: 0 ... min(amountRemaining, goal.amountRemainingToPayOff))
+                let temp = TemporaryAllocation(initialAmount: amount, expense: nil, goal: goal, context: context)
+                try todayShift.addTemporaryAllocation(temp, context: context)
+            }
+        }
+
         try context.save()
     }
 }
 
-
-
 public extension TodayShift {
-    func addTemporaryAllocation(_ tempAlloc: TemporaryAllocation) throws {
+    func addTemporaryAllocation(_ tempAlloc: TemporaryAllocation, context: NSManagedObjectContext) throws {
         guard let newItemUUIDStr = tempAlloc.id?.uuidString
         else {
             return
@@ -44,17 +77,14 @@ public extension TodayShift {
 
         addToTemporaryAllocations(tempAlloc)
 
-        try managedObjectContext?.save()
+        try context.save()
     }
 
-    
     func makeInitialPayoffItemQueueStr() -> String? {
-        
         let unfinishedExpenses = User.main.getExpenses().filter { $0.amountRemainingToPayOff > 0 }
         let unfinishedGoals = User.main.getGoals().filter { $0.amountRemainingToPayOff > 0 }
         let both = (unfinishedGoals + unfinishedGoals).sorted { $0.dateCreated ?? .distantFuture < $1.dateCreated ?? .distantFuture }
-        
-        
+
         return both.map { $0.id?.uuidString }.joinString(",")
     }
 
@@ -87,9 +117,8 @@ public extension TodayShift {
         var payoffItemQueueArray = payoffItemQueueStr.components(separatedBy: ",")
         payoffItemQueueArray.move(fromOffsets: source, toOffset: destination)
         payoffItemQueue = payoffItemQueueArray.joined(separator: ",")
-        
+
         try managedObjectContext?.save()
-        
     }
 }
 

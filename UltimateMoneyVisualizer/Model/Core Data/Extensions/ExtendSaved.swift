@@ -25,8 +25,7 @@ extension Saved {
     }
     
     
-    static func generateDummySavedItems(user: User) throws {
-        let context = PersistenceController.context
+    static func makeExampleSavedItems(user: User, context: NSManagedObjectContext) throws {
         
         // Create a date formatter to format the date attribute of each saved item.
         let dateFormatter = DateFormatter()

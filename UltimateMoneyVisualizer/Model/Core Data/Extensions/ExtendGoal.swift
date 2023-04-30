@@ -10,8 +10,8 @@ import Foundation
 import Vin
 
 public extension Goal {
-    @discardableResult convenience init(title: String, info: String?, amount: Double, dueDate: Date?) {
-        self.init(context: PersistenceController.context)
+    @discardableResult convenience init(title: String, info: String?, amount: Double, dueDate: Date?, context: NSManagedObjectContext = PersistenceController.context) {
+        self.init(context: context)
         self.title = title
         self.info = info
         self.amount = amount
@@ -20,6 +20,21 @@ public extension Goal {
     }
     
     
+}
+
+public extension Goal {
+    static func makeExampleGoals(user: User, context: NSManagedObjectContext) throws {
+
+        let goal1 = Goal(title: "New car fund", info: "Saving up for a down payment on a new car", amount: 10000, dueDate: Date().addingTimeInterval(31536000), context: context)
+        let goal2 = Goal(title: "Vacation to Hawaii", info: "Planning a trip to Hawaii with my family", amount: 5000, dueDate: Date().addingTimeInterval(157680000), context: context)
+        let goal3 = Goal(title: "Emergency fund", info: "Saving up for unexpected expenses", amount: 2000, dueDate: nil, context: context)
+        let goal4 = Goal(title: "Home renovations", info: "Renovating my kitchen and bathroom", amount: 15000, dueDate: Date().addingTimeInterval(63072000), context: context)
+        let goal5 = Goal(title: "College fund for kids", info: "Saving up for my kids' college education", amount: 50000, dueDate: Date().addingTimeInterval(630720000), context: context)
+        let goal6 = Goal(title: "Retirement fund", info: "Planning for retirement", amount: 100000, dueDate: nil, context: context)
+        let goal7 = Goal(title: "Business venture", info: "Investing in a new business opportunity", amount: 25000, dueDate: Date().addingTimeInterval(157680000), context: context)
+
+
+    }
 }
 
 public extension Goal {

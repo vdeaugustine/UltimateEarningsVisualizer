@@ -23,28 +23,34 @@ struct TodayView: View {
     var showingTime: Bool { showTimeOrMoney == "time" }
 
     var body: some View {
-        ScrollView {
+//        ScrollView {
             VStack {
                 if let todayShift {
-                    timeMoneyPicker
-                        .padding(.vertical)
-                    VStack {
-                        startEndTotal(todayShift: todayShift)
-                            .padding(.top)
-                        progressSection(todayShift: todayShift)
+                    ScrollView {
+//                        VStack {
+                            timeMoneyPicker
+                                .padding(.vertical)
+                            VStack {
+                                startEndTotal(todayShift: todayShift)
+                                    .padding(.top)
+                                progressSection(todayShift: todayShift)
+                            }
+                            .padding([.vertical, .top])
+                            .background(Color.white)
+
+                            payoffItemSection(todayShift: todayShift)
+
+                            pieChartSection(todayShift: todayShift)
+//                        }
                     }
-                    .padding([.vertical, .top])
-                    .background(Color.white)
-
-                    payoffItemSection(todayShift: todayShift)
-
-                    pieChartSection(todayShift: todayShift)
+                    
 
                 } else {
+                    Spacer()
                     YouHaveNoShiftView(showHoursSheet: $showHoursSheet)
                 }
             }
-        }
+//        }
         .bottomBanner(isVisible: $showBanner, swipeToDismiss: false, buttonText: "Save")
         .background(Color.targetGray.frame(maxHeight: .infinity).ignoresSafeArea())
         .navigationTitle("Today Live")
@@ -242,10 +248,10 @@ struct YouHaveNoShiftView: View {
 
             Spacer()
         }
+        .frame(maxHeight: .infinity)
         .safeAreaInset(edge: .bottom, content: {
             Button {
                 showHoursSheet = true
-
             } label: {
                 ZStack {
                     Capsule()
@@ -285,12 +291,11 @@ struct SelectHours: View {
                     print(User.main.managedObjectContext! == ts.managedObjectContext!)
                     print("was saved")
                     print(User.main.todayShift!)
-                    
-                    
+
                     todayShift = ts
-                    
+
                     showHoursSheet = false
-                    
+
                 } catch {
                     print(error)
                 }

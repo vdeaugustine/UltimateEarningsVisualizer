@@ -15,8 +15,9 @@ final class TodayShiftTests: XCTestCase {
     
     
     func createTodayShift(start: Date?, end: Date?) -> TodayShift {
-        TodayShift(startTime: start ?? .now.addHours(-1),
-                   endTime: end ?? .now.addHours(2))
+        try! TodayShift(startTime: start ?? .now.addHours(-1),
+                   endTime: end ?? .now.addHours(2),
+                   user: User.main)
     }
     
     func createTemporaryAllocation() -> TemporaryAllocation {

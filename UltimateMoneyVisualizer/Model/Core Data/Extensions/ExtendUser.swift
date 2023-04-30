@@ -9,6 +9,41 @@ import CoreData
 import Foundation
 
 public extension User {
+    static var testing: User = {
+        let context = PersistenceController.testing
+        let user = User(context: context)
+        user.username = "Testing User"
+        user.email = "TestUser@ExampleForTest.com"
+
+        let wage = Wage(context: context)
+        wage.amount = 20
+        wage.user = user
+        user.wage = wage
+
+        do {
+            // Make Goals
+            try Goal.makeExampleGoals(user: user, context: context)
+
+            // Make Expenses
+            try Expense.makeExampleExpenses(user: user, context: context)
+
+            // Make Shifts
+            try Shift.makeExampleShifts(user: user, context: context)
+            
+            // Make Saved items
+            try Saved.makeExampleSavedItems(user: user, context: context)
+
+            // Make today shift
+            try TodayShift.makeExampleTodayShift(user: user, context: context)
+
+            // Make temporary allocations
+        } catch {
+            fatalError(String(describing: error))
+        }
+
+        return user
+    }()
+
     static var main: User {
         let viewContext = PersistenceController.context
 
@@ -40,11 +75,11 @@ public extension User {
                 user.wage = wage
 
                 try Expense.createExampleExpenses(user: user, context: viewContext)
-                
+
                 user.addToGoals(.disneyWorld)
 
                 try Shift.createPreviewShifts(user: user)
-                try Saved.generateDummySavedItems(user: user)
+//                try Saved.generateDummySavedItems(user: user)
 
                 try viewContext.save()
                 return user
@@ -100,7 +135,7 @@ public extension User {
         guard let expenses else { return [] }
         return Array(expenses) as? [Expense] ?? []
     }
-    
+
     func getGoals() -> [Goal] {
         guard let goals else { return [] }
         return Array(goals) as? [Goal] ?? []
