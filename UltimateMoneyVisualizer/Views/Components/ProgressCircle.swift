@@ -12,6 +12,7 @@ struct ProgressCircle<Content: View>: View {
     var widthHeight: CGFloat = 33
     var lineWidth: CGFloat = 2
     let content: () -> Content
+    @ObservedObject var settings = User.main.getSettings()
     
     init(percent: Double, widthHeight: CGFloat = 33, lineWidth: CGFloat = 2, @ViewBuilder content: @escaping () -> Content) {
         self.percent = percent
@@ -38,7 +39,7 @@ struct ProgressCircle<Content: View>: View {
                         .stroke(lineWidth: lineWidth)
                         .rotationEffect(.degrees(-90))
                         .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
-                        .foregroundStyle(UserDefaults.getDefaultGradient())
+                        .foregroundStyle(settings.getDefaultGradient())
                     content()
                         .padding(.horizontal, 2)
                 }

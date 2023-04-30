@@ -21,6 +21,9 @@ struct TodayView: View {
 
     @State var todayShift: TodayShift? = nil
     var showingTime: Bool { showTimeOrMoney == "time" }
+    
+    @ObservedObject var user = User.main
+    @ObservedObject var settings = User.main.getSettings()
 
     var body: some View {
 //        ScrollView {
@@ -133,7 +136,7 @@ extension TodayView {
                 Text(showingTime ? todayShift.totalShiftDuration.formatForTime() : todayShift.totalWillEarn.formattedForMoney())
             }
 
-            ProgressBar(percentage: todayShift.percentTimeCompleted(nowTime), color: UserDefaults.themeColor)
+            ProgressBar(percentage: todayShift.percentTimeCompleted(nowTime), color: settings.themeColor)
 
             HStack {
                 Text(showingTime ? todayShift.elapsedTime(nowTime).formatForTime([.hour, .minute, .second]) : todayShift.totalEarnedSoFar(nowTime).formattedForMoney())
@@ -185,7 +188,7 @@ extension TodayView {
                             Text(expense.amountMoneyStr)
                                 .font(.title2)
                                 .fontWeight(.bold)
-                                .foregroundStyle(UserDefaults.getDefaultGradient())
+                                .foregroundStyle(settings.getDefaultGradient())
                         }
                         .padding([.horizontal])
                         .pushLeft()
@@ -231,6 +234,7 @@ extension TodayView {
 struct YouHaveNoShiftView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Binding var showHoursSheet: Bool
+    @ObservedObject var settings = User.main.getSettings()
 
     var body: some View {
         VStack {
@@ -260,7 +264,7 @@ struct YouHaveNoShiftView: View {
             } label: {
                 ZStack {
                     Capsule()
-                        .fill(UserDefaults.getDefaultGradient())
+                        .fill(settings.getDefaultGradient())
                     Text("Add Shift")
                         .fontWeight(.medium)
                         .foregroundColor(.white)
@@ -283,6 +287,8 @@ struct SelectHours: View {
     @State private var end: Date = .fivePM
     @Binding var showHoursSheet: Bool
     @Binding var todayShift: TodayShift?
+    
+    @ObservedObject var settings = User.main.getSettings()
 
     var body: some View {
         Form {
@@ -308,7 +314,7 @@ struct SelectHours: View {
             } label: {
                 ZStack {
                     Capsule()
-                        .fill(UserDefaults.getDefaultGradient())
+                        .fill(settings.getDefaultGradient())
                     Text("Save")
                         .fontWeight(.medium)
                         .foregroundColor(.white)

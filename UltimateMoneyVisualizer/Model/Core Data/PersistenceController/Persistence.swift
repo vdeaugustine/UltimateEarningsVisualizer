@@ -21,7 +21,7 @@ public struct PersistenceController {
         static let shared = PersistenceController()
     #else
         static var shared: PersistenceController = {
-            let result = PersistenceController(inMemory: true)
+            let result = PersistenceController(inMemory: false)
             let viewContext = result.container.viewContext
 
             // Check if there is a User entity in the persistent store

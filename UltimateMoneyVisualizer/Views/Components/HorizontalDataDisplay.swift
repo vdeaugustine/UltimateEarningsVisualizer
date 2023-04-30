@@ -19,6 +19,8 @@ struct HorizontalDataDisplay: View {
         let id = UUID()
     }
 
+    @ObservedObject var settings = User.main.getSettings()
+    
     var body: some View {
         Section {
             HStack {
@@ -29,7 +31,7 @@ struct HorizontalDataDisplay: View {
                             .minimumScaleFactor(0.01)
                         Text(datum.value)
                             .fontWeight(.bold)
-                            .foregroundStyle(UserDefaults.getDefaultGradient())
+                            .foregroundStyle(settings.getDefaultGradient())
                             .minimumScaleFactor(0.01)
 
                     }.padding(.horizontal)

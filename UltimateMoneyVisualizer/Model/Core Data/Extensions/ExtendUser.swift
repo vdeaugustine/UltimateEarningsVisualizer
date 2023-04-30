@@ -7,6 +7,8 @@
 
 import CoreData
 import Foundation
+import SwiftUI
+import Vin
 
 public extension User {
     static var main: User {
@@ -141,4 +143,27 @@ public extension User {
 
         return todayShift
     }
+    
+    
+    func getSettings() -> Settings {
+        if let settings {
+            return settings
+        }
+        
+        let newSettings = Settings(context: PersistenceController.context)
+        newSettings.themeColorStr = Color.defaultColorHexes.first
+        newSettings.user = self
+        self.settings = newSettings
+        do {
+            try PersistenceController.context.save()
+        }
+        catch {
+            print(error)
+        }
+        
+        
+        return newSettings
+    }
+    
+    
 }

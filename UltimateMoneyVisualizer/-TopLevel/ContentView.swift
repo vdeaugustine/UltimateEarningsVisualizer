@@ -19,14 +19,17 @@ struct ContentView: View {
     }
 
     @State private var tab: Tabs = .shifts
+    @ObservedObject var settings = User.main.getSettings()
 
     var body: some View {
         TabView(selection: $tab) {
             ShiftListView()
                 .putInNavView(.inline)
                 .makeTab(tab: Tabs.shifts, systemImage: "calendar")
+                
 
             SettingsView()
+                .putInTemplate()
                 .putInNavView(.inline)
                 .makeTab(tab: Tabs.settings, systemImage: "gear")
 
@@ -38,6 +41,7 @@ struct ContentView: View {
                 .putInNavView(.inline)
                 .makeTab(tab: Tabs.today, systemImage: "bolt.fill")
         }
+        .tint(settings.themeColor)
     }
 }
 

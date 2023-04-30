@@ -31,6 +31,7 @@ struct ShiftListView: View {
                 }
                 .onDelete(perform: deleteShifts)
             }
+            .putInTemplate()
             .navigationTitle("Shifts")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
