@@ -9,11 +9,7 @@ import CoreData
 import Foundation
 
 public extension User {
-    
-
     static var main: User {
-        
-        
         let viewContext = PersistenceController.context
 
         let request: NSFetchRequest<User> = User.fetchRequest()
@@ -52,7 +48,7 @@ public extension User {
 
                     // Make Shifts
                     try Shift.makeExampleShifts(user: user, context: viewContext)
-                    
+
                     // Make Saved items
                     try Saved.makeExampleSavedItems(user: user, context: viewContext)
 

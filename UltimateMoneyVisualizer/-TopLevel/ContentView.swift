@@ -15,28 +15,29 @@ import SwiftUI
 struct ContentView: View {
     enum Tabs: String, Hashable, CustomStringConvertible {
         var description: String { rawValue.capitalized }
-        case settings, expenses, home, shifts
+        case settings, expenses, home, shifts, today
     }
 
     @State private var tab: Tabs = .shifts
 
     var body: some View {
-        TodayView()
-        
-            .putInNavView(.inline)
-//        TabView(selection: $tab) {
-//            ShiftListView()
-//                .putInNavView(.inline)
-//                .makeTab(tab: Tabs.shifts, systemImage: "calendar")
-//
-//            SettingsView()
-//                .putInNavView(.inline)
-//                .makeTab(tab: Tabs.settings, systemImage: "gear")
-//
-//            HomeView()
-//                .putInNavView(.inline)
-//                .makeTab(tab: Tabs.home, systemImage: "house")
-//        }
+        TabView(selection: $tab) {
+            ShiftListView()
+                .putInNavView(.inline)
+                .makeTab(tab: Tabs.shifts, systemImage: "calendar")
+
+            SettingsView()
+                .putInNavView(.inline)
+                .makeTab(tab: Tabs.settings, systemImage: "gear")
+
+            HomeView()
+                .putInNavView(.inline)
+                .makeTab(tab: Tabs.home, systemImage: "house")
+            
+            TodayView()
+                .putInNavView(.inline)
+                .makeTab(tab: Tabs.today, systemImage: "bolt.fill")
+        }
     }
 }
 

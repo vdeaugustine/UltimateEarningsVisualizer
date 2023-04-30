@@ -12,34 +12,35 @@ import Vin
 // MARK: - Initializer
 
 public extension Expense {
-    @discardableResult convenience init(title: String, info: String?, amount: Double, dueDate: Date?, context: NSManagedObjectContext = PersistenceController.context) {
+    @discardableResult convenience init(title: String, info: String?, amount: Double, dueDate: Date?, user: User, context: NSManagedObjectContext = PersistenceController.context) {
         self.init(context: context)
         self.title = title
         self.info = info
         self.amount = amount
         self.dueDate = dueDate
+        self.user = user
         self.id = UUID()
     }
 }
 
 public extension Expense {
     static func makeExampleExpenses(user: User, context: NSManagedObjectContext) throws {
-        let expense1 = Expense(title: "Groceries", info: "Weekly grocery shopping", amount: 150.0, dueDate: Date(), context: context)
-        let expense2 = Expense(title: "Netflix", info: "Monthly subscription", amount: 14.99, dueDate: Date(), context: context)
-        let expense3 = Expense(title: "Gym Membership", info: "Monthly gym membership", amount: 50.0, dueDate: Date(), context: context)
-        let expense4 = Expense(title: "Car Insurance", info: "Six-month premium", amount: 600.0, dueDate: Date(), context: context)
-        let expense5 = Expense(title: "Phone Bill", info: "Monthly phone bill", amount: 80.0, dueDate: Date(), context: context)
-        let expense6 = Expense(title: "Birthday Gift", info: "Gift for friend's birthday", amount: 50.0, dueDate: Date(), context: context)
-        let expense7 = Expense(title: "Airfare", info: "Roundtrip flight for vacation", amount: 500.0, dueDate: Date(), context: context)
-        let expense8 = Expense(title: "Concert Tickets", info: "Tickets for upcoming concert", amount: 200.0, dueDate: Date(), context: context)
-        let expense9 = Expense(title: "Dinner Date", info: "Dinner at fancy restaurant", amount: 100.0, dueDate: Date(), context: context)
-        let expense10 = Expense(title: "Home Decor", info: "New furniture for living room", amount: 1_000.0, dueDate: Date(), context: context)
+        _ = Expense(title: "Groceries", info: "Weekly grocery shopping", amount: 150.0, dueDate: Date(), user: user, context: context)
+        _ = Expense(title: "Netflix", info: "Monthly subscription", amount: 14.99, dueDate: Date(), user: user, context: context)
+        _ = Expense(title: "Gym Membership", info: "Monthly gym membership", amount: 50.0, dueDate: Date(), user: user, context: context)
+        _ = Expense(title: "Car Insurance", info: "Six-month premium", amount: 600.0, dueDate: Date(), user: user, context: context)
+        _ = Expense(title: "Phone Bill", info: "Monthly phone bill", amount: 80.0, dueDate: Date(), user: user, context: context)
+        _ = Expense(title: "Birthday Gift", info: "Gift for friend's birthday", amount: 50.0, dueDate: Date(), user: user, context: context)
+        _ = Expense(title: "Airfare", info: "Roundtrip flight for vacation", amount: 500.0, dueDate: Date(), user: user, context: context)
+        _ = Expense(title: "Concert Tickets", info: "Tickets for upcoming concert", amount: 200.0, dueDate: Date(), user: user, context: context)
+        _ = Expense(title: "Dinner Date", info: "Dinner at fancy restaurant", amount: 100.0, dueDate: Date(), user: user, context: context)
+        _ = Expense(title: "Home Decor", info: "New furniture for living room", amount: 1_000.0, dueDate: Date(), user: user, context: context)
 
         try context.save()
     }
 
     static let testItemExpense: Expense = {
-        let expense1 = Expense(title: "Groceries", info: "This expense is for groceries", amount: 50.00, dueDate: .now.addDays(27), context: PersistenceController.testing)
+        let expense1 = Expense(title: "Groceries", info: "This expense is for groceries", amount: 50.00, dueDate: .now.addDays(27), user: User.main, context: PersistenceController.testing)
         expense1.dateCreated = .now.addDays(-48)
         return expense1
     }()

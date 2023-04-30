@@ -26,6 +26,9 @@ struct ExpenseListView: View {
             }
         }
         .navigationTitle("Expenses")
+        .onAppear {
+            print("expenses", User.main.getExpenses().count)
+        }
     }
 }
 

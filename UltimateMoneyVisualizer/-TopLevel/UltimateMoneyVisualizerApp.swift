@@ -11,11 +11,12 @@ import SwiftUI
 struct UltimateMoneyVisualizerApp: App {
     
     let persistenceController = PersistenceController.shared
+    let context = PersistenceController.context
 
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .environment(\.managedObjectContext, context)
         }
     }
 }

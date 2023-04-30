@@ -26,6 +26,14 @@ struct HomeView: View {
                     SavedListView()
                 }
             }
+            
+            Section {
+                NavigationLink("Expenses") {
+                    ExpenseListView()
+                }
+            }
+            
+            
         }
         .putInTemplate()
     }
