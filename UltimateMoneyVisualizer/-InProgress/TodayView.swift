@@ -24,32 +24,31 @@ struct TodayView: View {
 
     var body: some View {
 //        ScrollView {
-            VStack {
-                if let todayShift {
-                    ScrollView {
+        VStack {
+            if let todayShift {
+                ScrollView {
 //                        VStack {
-                            timeMoneyPicker
-                                .padding(.vertical)
-                            VStack {
-                                startEndTotal(todayShift: todayShift)
-                                    .padding(.top)
-                                progressSection(todayShift: todayShift)
-                            }
-                            .padding([.vertical, .top])
-                            .background(Color.white)
-
-                            payoffItemSection(todayShift: todayShift)
-
-                            pieChartSection(todayShift: todayShift)
-//                        }
+                    timeMoneyPicker
+                        .padding(.vertical)
+                    VStack {
+                        startEndTotal(todayShift: todayShift)
+                            .padding(.top)
+                        progressSection(todayShift: todayShift)
                     }
-                    
+                    .padding([.vertical, .top])
+                    .background(Color.white)
 
-                } else {
-                    Spacer()
-                    YouHaveNoShiftView(showHoursSheet: $showHoursSheet)
+                    payoffItemSection(todayShift: todayShift)
+
+                    pieChartSection(todayShift: todayShift)
+//                        }
                 }
+
+            } else {
+                Spacer()
+                YouHaveNoShiftView(showHoursSheet: $showHoursSheet)
             }
+        }
 //        }
         .bottomBanner(isVisible: $showBanner, swipeToDismiss: false, buttonText: "Save")
         .background(Color.targetGray.frame(maxHeight: .infinity).ignoresSafeArea())
@@ -156,48 +155,54 @@ extension TodayView {
 
     // MARK: - Payoff Item Section
 
-    func payoffItemSection(todayShift: TodayShift) -> some View {
-        VStack {
-            VStack {
-                HStack {
-                    Text("Current Expense")
-                        .font(.title3)
-                        .fontWeight(.bold)
-                    Spacer()
-                }
-
-                HStack {
-                    ProgressCircle(percent: todayShift.percentTimeCompleted(nowTime),
-                                   widthHeight: 100,
-                                   lineWidth: 7) {
-                        Text(User.main.getExpenses().first!.amountPaidOff.formattedForMoney())
-                            .font(.title)
+    func payoffItemSection(todayShift: TodayShift) -> AnyView {
+        if let expense = User.main.getExpenses().first {
+            return VStack {
+                VStack {
+                    HStack {
+                        Text("Current Expense")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                        Spacer()
                     }
 
-                    VStack(alignment: .leading) {
-                        Text(User.main.getExpenses().first!.titleStr)
-                            .font(.title2)
-                        if let info = User.main.getExpenses().first!.info {
-                            Text(info)
-                                .font(.subheadline)
+                    HStack {
+                        ProgressCircle(percent: todayShift.percentTimeCompleted(nowTime),
+                                       widthHeight: 100,
+                                       lineWidth: 7) {
+                            Text(User.main.getExpenses().first!.amountPaidOff.formattedForMoney())
+                                .font(.title)
                         }
 
-                        Text(User.main.getExpenses().first!.amountMoneyStr)
-                            .font(.title2)
-                            .fontWeight(.bold)
-                            .foregroundStyle(UserDefaults.getDefaultGradient())
+                        VStack(alignment: .leading) {
+                            Text(expense.titleStr)
+                                .font(.title2)
+                            if let info = expense.info {
+                                Text(info)
+                                    .font(.subheadline)
+                            }
+
+                            Text(expense.amountMoneyStr)
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .foregroundStyle(UserDefaults.getDefaultGradient())
+                        }
+                        .padding([.horizontal])
+                        .pushLeft()
                     }
-                    .padding([.horizontal])
-                    .pushLeft()
                 }
+
+                .padding()
+
+                //            .background(Color.white)
+                //            .cornerRadius(4)
             }
+            .padding(.vertical)
+            .anyView
 
-            .padding()
-
-//            .background(Color.white)
-//            .cornerRadius(4)
+        } else {
+            return AnyView(EmptyView())
         }
-        .padding(.vertical)
     }
 
     // MARK: - Pie Chart Section
