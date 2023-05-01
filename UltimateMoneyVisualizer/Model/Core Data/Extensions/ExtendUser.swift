@@ -142,6 +142,17 @@ public extension User {
         getSaved().reduce(Double(0)) { $0 + $1.getAmount() }
     }
 
+    func getWage() -> Wage {
+        wage ?? (try! Wage(amount: 20, user: self, context: managedObjectContext ?? PersistenceController.context))
+    }
+
+    /// Measured in seconds
+    func totalTimeSaved() -> Double {
+        let savedAmount = totalDollarsSaved()
+        let secondlyWage = getWage().secondly
+        return savedAmount / secondlyWage
+    }
+
     func getValidTodayShift() -> TodayShift? {
         guard let todayShift,
               let expiration = todayShift.expiration,
