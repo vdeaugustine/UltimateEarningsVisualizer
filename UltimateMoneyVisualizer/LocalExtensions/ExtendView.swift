@@ -25,10 +25,10 @@ extension View {
             .accentColor(User.main.getSettings().themeColor)
             .tint(User.main.getSettings().themeColor)
     }
-    
-    
-    
-    
+
+    func rectContainer(shadowRadius: CGFloat = 1, cornerRadius: CGFloat = 8) -> some View {
+        modifier(RectContainerModifier(shadowRadius: shadowRadius, cornerRadius: cornerRadius))
+    }
     
     
 }

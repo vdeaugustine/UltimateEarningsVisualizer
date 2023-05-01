@@ -11,6 +11,44 @@ import SwiftUI
 import Vin
 
 public extension User {
+    @discardableResult convenience init(exampleItem: Bool = true, viewContext: NSManagedObjectContext = PersistenceController.testing) throws {
+        self.init(context: viewContext)
+        self.username = "Testing User"
+        self.email = "TestUser@ExampleForTest.com"
+
+        let wage = Wage(context: viewContext)
+        wage.amount = 20
+        wage.user = self
+        self.wage = wage
+
+        do {
+            // Make Goals
+            try Goal.makeExampleGoals(user: self, context: viewContext)
+
+            // Make Expenses
+            try Expense.makeExampleExpenses(user: self, context: viewContext)
+
+            // Make Shifts
+            try Shift.makeExampleShifts(user: self, context: viewContext)
+
+            // Make Saved items
+            try Saved.makeExampleSavedItems(user: self, context: viewContext)
+
+            // Make today shift
+            try TodayShift.makeExampleTodayShift(user: self, context: viewContext)
+
+            // Make temporary allocations
+        } catch {
+            fatalError(String(describing: error))
+        }
+
+        try viewContext.save()
+    }
+
+    static var testing: User {
+        try! User(viewContext: PersistenceController.testing)
+    }
+
     static var main: User {
         let viewContext = PersistenceController.context
 
@@ -32,38 +70,7 @@ public extension User {
 
                 return user
             } else {
-                let user = User(context: viewContext)
-                user.username = "Testing User"
-                user.email = "TestUser@ExampleForTest.com"
-
-                let wage = Wage(context: viewContext)
-                wage.amount = 20
-                wage.user = user
-                user.wage = wage
-
-                do {
-                    // Make Goals
-                    try Goal.makeExampleGoals(user: user, context: viewContext)
-
-                    // Make Expenses
-                    try Expense.makeExampleExpenses(user: user, context: viewContext)
-
-                    // Make Shifts
-                    try Shift.makeExampleShifts(user: user, context: viewContext)
-                    print("saved shifts", user.getShifts())
-                    // Make Saved items
-                    try Saved.makeExampleSavedItems(user: user, context: viewContext)
-
-                    // Make today shift
-                    try TodayShift.makeExampleTodayShift(user: user, context: viewContext)
-
-                    // Make temporary allocations
-                } catch {
-                    fatalError(String(describing: error))
-                }
-
-                try viewContext.save()
-                return user
+                return try User(exampleItem: false, viewContext: viewContext)
             }
         } catch {
             fatalError("Error retrieving or creating main user: \(error)")
@@ -76,6 +83,10 @@ public extension User {
         let hourlyRate = wage.amount
         let secondlyRate = hourlyRate / 60 / 60
         return totalDuration * secondlyRate
+    }
+
+    func totalWorked() -> Double {
+        Shift.totalDuration(for: self)
     }
 
     /// Returns an array of the user's shifts. If the shifts set is nil, returns an empty array.
@@ -127,6 +138,10 @@ public extension User {
         return Array(savedItems) as? [Saved] ?? []
     }
 
+    func totalDollarsSaved() -> Double {
+        getSaved().reduce(Double(0)) { $0 + $1.getAmount() }
+    }
+
     func getValidTodayShift() -> TodayShift? {
         guard let todayShift,
               let expiration = todayShift.expiration,
@@ -164,11 +179,11 @@ public extension User {
 
     func expenseWithMostAllocations() -> Expense? {
         // Get the expense with the highest number of allocations
-        
+
         guard let expensesArr = Array(expenses ?? []) as? [Expense] else {
             return nil
         }
-        
+
         let expenseWithMostAllocations = expensesArr.sorted { expense1, expense2 in
             let count1 = (expense1.allocations ?? []).count
             let count2 = (expense2.allocations ?? []).count

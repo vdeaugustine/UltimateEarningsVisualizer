@@ -24,7 +24,7 @@ final class TodayShiftTests: XCTestCase {
         let allocation = TemporaryAllocation(context: PersistenceController.context)
             allocation.id = UUID()
         allocation.amount = 25
-        let goal = Goal(context: PersistenceController.context)
+        _ = Goal(context: PersistenceController.context)
         
             return allocation
         }
@@ -151,7 +151,8 @@ final class TodayShiftTests: XCTestCase {
         let shift = createTodayShift(start: .now.addHours(-5), end: .now.addHours(1))
         let allocation = createTemporaryAllocation()
 
-        XCTAssertNoThrow(try shift.addTemporaryAllocation(allocation))
+        
+        XCTAssertNoThrow(try shift.addTemporaryAllocation(allocation, context: viewContext))
         XCTAssertEqual(shift.temporaryAllocations?.count, 1)
         XCTAssertEqual(shift.getPayoffItemQueue(), [allocation.id!.uuidString])
     }
@@ -164,8 +165,8 @@ final class TodayShiftTests: XCTestCase {
 
         XCTAssertNil(shift.makeInitialPayoffItemQueueStr())
 
-        XCTAssertNoThrow(try shift.addTemporaryAllocation(allocation1))
-        XCTAssertNoThrow(try shift.addTemporaryAllocation(allocation2))
+        XCTAssertNoThrow(try shift.addTemporaryAllocation(allocation1, context: viewContext))
+        XCTAssertNoThrow(try shift.addTemporaryAllocation(allocation2, context: viewContext))
 
         XCTAssertEqual(shift.makeInitialPayoffItemQueueStr(), "\(allocation1.id!.uuidString),\(allocation2.id!.uuidString)")
     }
@@ -176,8 +177,8 @@ final class TodayShiftTests: XCTestCase {
         let allocation1 = createTemporaryAllocation()
         let allocation2 = createTemporaryAllocation()
 
-        XCTAssertNoThrow(try shift.addTemporaryAllocation(allocation1))
-        XCTAssertNoThrow(try shift.addTemporaryAllocation(allocation2))
+        XCTAssertNoThrow(try shift.addTemporaryAllocation(allocation1, context: viewContext))
+        XCTAssertNoThrow(try shift.addTemporaryAllocation(allocation2, context: viewContext))
 
         XCTAssertEqual(shift.getPayoffItemQueue(), [allocation1.id!.uuidString, allocation2.id!.uuidString])
     }
@@ -188,8 +189,8 @@ final class TodayShiftTests: XCTestCase {
         let allocation1 = createTemporaryAllocation()
         let allocation2 = createTemporaryAllocation()
 
-        XCTAssertNoThrow(try shift.addTemporaryAllocation(allocation1))
-        XCTAssertNoThrow(try shift.addTemporaryAllocation(allocation2))
+        XCTAssertNoThrow(try shift.addTemporaryAllocation(allocation1, context: viewContext))
+        XCTAssertNoThrow(try shift.addTemporaryAllocation(allocation2, context: viewContext))
 
         XCTAssertNoThrow(try shift.deleteTemporaryAllocation(allocation1))
 

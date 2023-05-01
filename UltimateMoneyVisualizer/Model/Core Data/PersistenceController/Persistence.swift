@@ -21,31 +21,8 @@ public struct PersistenceController {
         static let shared = PersistenceController()
     #else
         static var shared: PersistenceController = {
-            let result = PersistenceController(inMemory: false)
+            let result = PersistenceController(inMemory: ProcessInfo.processInfo.environment["_XCODE_RUNNING_FOR_PREVIEWS"] == nil  )
             let viewContext = result.container.viewContext
-
-            // Check if there is a User entity in the persistent store
-//        let request: NSFetchRequest<User> = User.fetchRequest()
-//        do {
-//            let count = try viewContext.count(for: request)
-//            if count == 0 {
-//                // If there is no User entity, create one and save it to the store
-//                let user = User(context: viewContext)
-//                user.username = "Testing User"
-//                user.email = "TestUser@ExampleForTest.com"
-//
-//                let wage = Wage(context: viewContext)
-//                wage.amount = 20
-//                wage.user = user
-//                user.wage = wage
-//
-//                try viewContext.save()
-//            }
-//        } catch {
-//            // Handle the error appropriately
-//            let nsError = error as NSError
-//            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-//        }
 
             return result
         }()

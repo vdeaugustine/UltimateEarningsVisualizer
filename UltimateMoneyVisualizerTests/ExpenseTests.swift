@@ -10,12 +10,13 @@ import Vin
 import XCTest
 
 final class ExpenseTests: XCTestCase {
+    let user = User.testing
     func testTemporarilyPaidOff() throws {
         let context = PersistenceController.testing
 
-        let expense = Expense(title: "Groceries", info: "For the week", amount: 50, dueDate: .now.addDays(25), context: context)
+        let expense = Expense(title: "Groceries", info: "For the week", amount: 50, dueDate: .now.addDays(25), user: user, context: context)
 
-        let todayShift = TodayShift(startTime: .nineAM, endTime: .fivePM, context: context)
+        let todayShift = try TodayShift(startTime: .nineAM, endTime: .fivePM, user: user, context: context)
         let shiftForAllocation = try Shift(day: .monday, start: .nineAM, end: .fivePM, context: context)
 
         _ = TemporaryAllocation(initialAmount: 20, expense: expense, context: context)
@@ -30,9 +31,9 @@ final class ExpenseTests: XCTestCase {
     func testTemporaryRemainingToPayOff() throws {
         let context = PersistenceController.testing
 
-        let expense = Expense(title: "Groceries", info: "For the week", amount: 93, dueDate: .now.addDays(25), context: context)
+        let expense = Expense(title: "Groceries", info: "For the week", amount: 93, dueDate: .now.addDays(25), user: user, context: context)
 
-        _ = TodayShift(startTime: .nineAM, endTime: .fivePM, context: context)
+        _ = try TodayShift(startTime: .nineAM, endTime: .fivePM, user: user, context: context)
         let shiftForAllocation = try Shift(day: .monday, start: .nineAM, end: .fivePM, context: context)
 
         _ = TemporaryAllocation(initialAmount: 20, expense: expense, context: context)
@@ -44,6 +45,4 @@ final class ExpenseTests: XCTestCase {
 
         XCTAssertEqual(expectedRemaining, expense.temporaryRemainingToPayOff)
     }
-
-
 }

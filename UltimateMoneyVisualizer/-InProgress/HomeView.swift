@@ -10,32 +10,108 @@ import SwiftUI
 // MARK: - HomeView
 
 struct HomeView: View {
-    var user: User { User.main }
+    @ObservedObject private var settings = User.main.getSettings()
+    @ObservedObject private var user = User.main
 
     var body: some View {
-        List {
-            Text("Wage")
-                .spacedOut(text: user.wage?.amount.formattedForMoney() ?? "NA")
-            Text("Total Worked")
-                .spacedOut(text: Shift.totalDuration(for: user).formatForTime([.day, .hour]))
-            Text("Total Earned")
-                .spacedOut(text: user.totalEarned().formattedForMoney())
+        
+        ZStack {
             
-            Section {
-                NavigationLink("Saved Items") {
-                    SavedListView()
+            ScrollView {
+                
+                // MARK: - Lifetime Money
+                VStack {
+                    HStack {
+                        Text("Lifetime")
+                            .font(.headline)
+                        Spacer()
+                        NavigationLink {
+                            
+                        } label: {
+                            Text("Stats")
+                                .font(.subheadline)
+                                .padding(.trailing)
+                        }
+                    }
+                    
+                    NavigationLink {
+                        ShiftListView()
+                    } label: {
+                        HorizontalDataDisplay(data: [.init(label: "earnings", value: user.totalEarned().formattedForMoney()),
+                                                     .init(label: "time worked", value: user.totalWorked().formatForTime()),
+                                                     .init(label: "time saved", value: user.totalDollarsSaved().formatForTime())])
+                            .centerInParentView()
+                    }
+                    .buttonStyle(.plain)
                 }
-            }
-            
-            Section {
-                NavigationLink("Expenses") {
-                    ExpenseListView()
-                }
+                
+                
+                
+                
             }
             
             
         }
+        
+        
+//        List {
+//            Text("Wage")
+//                .spacedOut(text: user.wage?.amount.formattedForMoney() ?? "NA")
+//            Text("Total Worked")
+//                .spacedOut(text: Shift.totalDuration(for: user).formatForTime([.day, .hour]))
+//            Text("Total Earned")
+//                .spacedOut(text: user.totalEarned().formattedForMoney())
+//
+//            Section {
+//                NavigationLink("Saved Items") {
+//                    SavedListView()
+//                }
+//            }
+//
+//            Section {
+//                NavigationLink("Expenses") {
+//                    ExpenseListView()
+//                }
+//            }
+//        }
         .putInTemplate()
+    }
+
+    func newSection<Content: View>(rectContainer: Bool = true,
+                                   header: String,
+                                   @ViewBuilder content: @escaping () -> Content)
+        -> some View {
+        VStack(alignment: .leading, spacing: 7) {
+            Text(header)
+                .font(.headline)
+            if rectContainer {
+                content()
+                    .centerInParentView()
+                    .rectContainer(shadowRadius: 1, cornerRadius: 8)
+
+            } else {
+                content()
+                    .centerInParentView()
+            }
+        }
+    }
+
+    func newSection<Nav: View, Content: View>(rectContainer: Bool = true,
+                                              @ViewBuilder header: @escaping () -> Nav,
+                                              @ViewBuilder content: @escaping () -> Content)
+        -> some View {
+        VStack(alignment: .leading, spacing: 7) {
+            header()
+            if rectContainer {
+                content()
+                    .centerInParentView()
+                    .rectContainer(shadowRadius: 1, cornerRadius: 8)
+
+            } else {
+                content()
+                    .centerInParentView()
+            }
+        }
     }
 }
 
