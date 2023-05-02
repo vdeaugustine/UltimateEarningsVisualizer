@@ -21,7 +21,9 @@ public struct PersistenceController {
         static let shared = PersistenceController()
     #else
         static var shared: PersistenceController = {
-            let result = PersistenceController(inMemory: ProcessInfo.processInfo.environment["_XCODE_RUNNING_FOR_PREVIEWS"] == nil  )
+            let isInPreview = ProcessInfo.processInfo.environment["_XCODE_RUNNING_FOR_PREVIEWS"] == nil
+            print("Is in preview, therefore memory:", isInPreview)
+            let result = PersistenceController(inMemory: isInPreview)
             let viewContext = result.container.viewContext
 
             return result

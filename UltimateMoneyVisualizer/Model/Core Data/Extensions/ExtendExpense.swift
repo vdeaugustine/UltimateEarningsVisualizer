@@ -23,7 +23,7 @@ public extension Expense {
         
         let currentQueueCount = Int16(user.getGoals().count) + Int16(user.getExpenses().count)
         // Put the item at the back of the queue at first initialization
-        self.queueSlotNumber = Int16(currentQueueCount + 1)
+        self.queueSlotNumber = Int16(currentQueueCount)
         
         self.id = UUID()
     }

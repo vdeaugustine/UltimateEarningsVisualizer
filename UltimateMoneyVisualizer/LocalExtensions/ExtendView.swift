@@ -29,6 +29,41 @@ extension View {
     func rectContainer(shadowRadius: CGFloat = 1, cornerRadius: CGFloat = 8) -> some View {
         modifier(RectContainerModifier(shadowRadius: shadowRadius, cornerRadius: cornerRadius))
     }
-    
-    
+
+    func homeSection<Content: View>(rectContainer: Bool = true,
+                                    header: String,
+                                    @ViewBuilder content: @escaping () -> Content)
+        -> some View {
+        VStack(alignment: .leading, spacing: 7) {
+            Text(header)
+                .font(.headline)
+            if rectContainer {
+                content()
+                    .centerInParentView()
+                    .rectContainer(shadowRadius: 1, cornerRadius: 8)
+
+            } else {
+                content()
+                    .centerInParentView()
+            }
+        }
+    }
+
+    func homeSection<Nav: View, Content: View>(rectContainer: Bool = true,
+                                               @ViewBuilder header: @escaping () -> Nav,
+                                               @ViewBuilder content: @escaping () -> Content)
+        -> some View {
+        VStack(alignment: .leading, spacing: 7) {
+            header()
+            if rectContainer {
+                content()
+                    .centerInParentView()
+                    .rectContainer(shadowRadius: 1, cornerRadius: 8)
+
+            } else {
+                content()
+                    .centerInParentView()
+            }
+        }
+    }
 }

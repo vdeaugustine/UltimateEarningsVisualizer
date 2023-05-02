@@ -134,8 +134,11 @@ public extension User {
         return anyArr
     }
 
-    func getItemInPayoffQueue(at index: Int) -> PayoffItem? {
-        getQueue().safeGet(at: index)
+    func getItemWith(queueSlot index: Int) -> PayoffItem? {
+        
+        getQueue().first(where: {$0.queueSlotNumber == Int16(index)})
+        
+//        getQueue().safeGet(at: index)
     }
 
     func getExpenses() -> [Expense] {

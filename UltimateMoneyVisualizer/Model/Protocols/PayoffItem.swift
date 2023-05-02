@@ -13,6 +13,7 @@ public protocol PayoffItem {
     var dateCreated: Date? { get set }
     func getID() -> UUID
     var percentPaidOff: Double { get }
+    var titleStr: String { get }
 }
 
 
