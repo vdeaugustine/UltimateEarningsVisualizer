@@ -11,67 +11,108 @@ import Vin
 // MARK: - ExpenseDetailView
 
 struct ExpenseDetailView: View {
-    var expense: Expense
+    
+    let expense: Expense
+    @ObservedObject private var user: User = User.main
+    @ObservedObject private var settings: Settings = User.main.getSettings()
+    @State private var showDeleteWarning = false
+    @Environment(\.dismiss) private var dismiss
+
+//    var filteredConts: [Contribution] {
+//        model.allContributions.contributions.filter { $0.expense == expense }
+//    }
 
     var body: some View {
         List {
             Text("Amount")
-                .spacedOut(text: expense.amountMoneyStr)
-
-            if let info = expense.info {
-                Text(info)
-            }
-
+                .spacedOut(text: expense.amount.formattedForMoney())
             
-            if let dateCreated = expense.dateCreated {
-                Text("Date created")
-                    .spacedOut(text: dateCreated.getFormattedDate(format: .slashDate) )
-
-                if let dueDate = expense.dueDate {
-                    Text("Due date")
-                        .spacedOut(text: dueDate.getFormattedDate(format: .slashDate))
-                    
-                    Text("Total time")
-                        .spacedOut(text: expense.totalTime.formatForTime([.day, .hour, .minute, .second]))
-                    
-                    Text("Time remaining")
-                        .spacedOut(text: expense.timeRemaining.formatForTime([.day, .hour, .minute, .second]))
-                }
+            
+            if let dueDate = expense.dueDate {
+                Text("Due")
+                    .spacedOut(text: dueDate.getFormattedDate(format: .abreviatedMonth))
             }
             
-            
 
-            Section {
-                Text("Amount paid off")
+            Section("Progress") {
+                
+                Text("Due in")
+                    .spacedOut(text: expense.timeRemaining.formatForTime([.day, .hour, .minute, .second]))
+                
+                Text("Paid off")
                     .spacedOut(text: expense.amountPaidOff.formattedForMoney())
                 
-                NavigationLink {
-                    AssignAllocationForExpenseView(expense: expense)
-                } label: {
-                    Text("Allocate money")
-                }
+                Text("Remaining to pay")
+                    .spacedOut(text: expense.amountRemainingToPayOff.formattedForMoney())
+                
             }
+
+            Section("Insight") {
+                
+                Text("Time required to pay off")
+                    .spacedOut(text: expense.totalTime.formatForTime())
+                
+                Text("Time remaining to pay off")
+                    .spacedOut(text: expense.timeRemaining.formatForTime())
+                
+            }
+
+            Section("Contributions") {
+                
+                ForEach(expense.getAllocations()) { alloc in
+                    
+                    Text(alloc.amount.formattedForMoney())
+                    
+                    
+                }
+                
+             
+            }
+
+//            Spacer().listRowBackground(Color.clear).listRowSeparator(.hidden)
+            Section {
+                Button("Delete expense", role: .destructive) {
+                    showDeleteWarning.toggle()
+//                    model.allExpenses.removeExpense(expense)
+                }
+                .centerInParentView()
+                .listRowBackground(Color.clear)
+            }
+
+            // TODO: Put a countdown to due date
         }
+
+        .putInTemplate()
         .navigationTitle(expense.titleStr)
+        .confirmationDialog("Delete expense", isPresented: $showDeleteWarning, titleVisibility: .visible, actions: {
+            Button("Delete", role: .destructive) {
+                user.removeFromExpenses(expense)
+                try! user.managedObjectContext!.save()
+                dismiss()
+            }
+        }, message: {
+            Text("This action cannot be undone.")
+        })
     }
+
+//    func contributionsList() -> some View {
+//        return ForEach(filteredConts, id: \.self) { contribution in
+//            if let shift = contribution.shift {
+//                Text(shift.startTime.getFormattedDate(format: .abreviatedMonth))
+//            }
+//            if let savedItem = contribution.savedItem {
+//                Text(savedItem.title)
+//            }
+//        }
+//    }
+
+    
+    
 }
 
 // MARK: - ExpenseDetailView_Previews
 
 struct ExpenseDetailView_Previews: PreviewProvider {
-    static let context = PersistenceController.context
-
-    static let expense: Expense = {
-        let expense = Expense(context: context)
-
-        expense.title = "Test expense"
-        expense.amount = 39.21
-        expense.info = "this is a test description"
-        expense.dateCreated = Date()
-
-        return expense
-    }()
-
     static var previews: some View {
         ExpenseDetailView(expense: User.main.getExpenses().first!)
             .putInNavView(.inline)

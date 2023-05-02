@@ -89,8 +89,12 @@ public extension Expense {
     var percentPaidOff: Double { amountPaidOff / amount }
 
     var amountPaidOff: Double {
-        guard let allocations = Array(allocations ?? []) as? [Allocation] else { return 0 }
-        return allocations.reduce(Double(0)) { $0 + $1.amount }
+        getAllocations().reduce(Double(0)) { $0 + $1.amount }
+    }
+    
+    func getAllocations() -> [Allocation] {
+        guard let allocations = Array(allocations ?? []) as? [Allocation] else { return [] }
+        return allocations
     }
 
     var totalTime: TimeInterval {
