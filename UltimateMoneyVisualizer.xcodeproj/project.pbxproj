@@ -10,6 +10,8 @@
 		9C514DAA29FF71B5003DC43C /* RectContainerModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C514DA929FF71B5003DC43C /* RectContainerModifier.swift */; };
 		9C514DAC29FF7359003DC43C /* HomePageSectionContainerModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C514DAB29FF7359003DC43C /* HomePageSectionContainerModifier.swift */; };
 		9C514DAE29FF79AE003DC43C /* SavedItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C514DAD29FF79AE003DC43C /* SavedItemTests.swift */; };
+		9C514DB02A002266003DC43C /* ExtendPayoffQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C514DAF2A002266003DC43C /* ExtendPayoffQueue.swift */; };
+		9C514DB32A0024E9003DC43C /* PayoffItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C514DB22A0024E9003DC43C /* PayoffItem.swift */; };
 		9C7C983A29F9EC410077EA25 /* EnterWageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C983929F9EC410077EA25 /* EnterWageView.swift */; };
 		9C7C983C29F9EDDF0077EA25 /* SelectRegularDaysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C983B29F9EDDF0077EA25 /* SelectRegularDaysView.swift */; };
 		9C7C983F29F9F68B0077EA25 /* RegularScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C983E29F9F68B0077EA25 /* RegularScheduleView.swift */; };
@@ -92,6 +94,8 @@
 		9C514DA929FF71B5003DC43C /* RectContainerModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectContainerModifier.swift; sourceTree = "<group>"; };
 		9C514DAB29FF7359003DC43C /* HomePageSectionContainerModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageSectionContainerModifier.swift; sourceTree = "<group>"; };
 		9C514DAD29FF79AE003DC43C /* SavedItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedItemTests.swift; sourceTree = "<group>"; };
+		9C514DAF2A002266003DC43C /* ExtendPayoffQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendPayoffQueue.swift; sourceTree = "<group>"; };
+		9C514DB22A0024E9003DC43C /* PayoffItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayoffItem.swift; sourceTree = "<group>"; };
 		9C7C983929F9EC410077EA25 /* EnterWageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterWageView.swift; sourceTree = "<group>"; };
 		9C7C983B29F9EDDF0077EA25 /* SelectRegularDaysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectRegularDaysView.swift; sourceTree = "<group>"; };
 		9C7C983E29F9F68B0077EA25 /* RegularScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegularScheduleView.swift; sourceTree = "<group>"; };
@@ -182,6 +186,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9C514DB12A0024D6003DC43C /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				9C514DB22A0024E9003DC43C /* PayoffItem.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		9C7C984229FA0D7F0077EA25 /* Schedule */ = {
 			isa = PBXGroup;
 			children = (
@@ -306,6 +318,7 @@
 			isa = PBXGroup;
 			children = (
 				9C7F969729F8FE3500F5035C /* ExtendAllocation.swift */,
+				9C514DAF2A002266003DC43C /* ExtendPayoffQueue.swift */,
 				9C7C986829FDA7880077EA25 /* ExtendTemporaryAllocation.swift */,
 				9C7F968C29F8FD2D00F5035C /* ExtendExpense.swift */,
 				9C7F969429F8FE3500F5035C /* ExtendGoal.swift */,
@@ -435,6 +448,7 @@
 		9CEEE33D29F9099D001FA4FB /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				9C514DB12A0024D6003DC43C /* Protocols */,
 				9CEEE33E29F909C2001FA4FB /* Enums */,
 				9C7F968A29F8FD0300F5035C /* Core Data */,
 			);
@@ -650,6 +664,7 @@
 				9C514DAA29FF71B5003DC43C /* RectContainerModifier.swift in Sources */,
 				9CEEE33629F90873001FA4FB /* CreateGoalView.swift in Sources */,
 				9C7C985829FB723D0077EA25 /* MoneyPicker.swift in Sources */,
+				9C514DB02A002266003DC43C /* ExtendPayoffQueue.swift in Sources */,
 				9C7F966429F8F03E00F5035C /* Persistence.swift in Sources */,
 				9C7C986329FCEB3E0077EA25 /* ProgressCircle.swift in Sources */,
 				9C7C986729FD7A390077EA25 /* TodayLiveCompletedBanner.swift in Sources */,
@@ -662,6 +677,7 @@
 				9C7C985A29FCA09C0077EA25 /* TodayView.swift in Sources */,
 				9C7F965D29F8F03C00F5035C /* ContentView.swift in Sources */,
 				9CEEE34F29F90E09001FA4FB /* SavedListView.swift in Sources */,
+				9C514DB32A0024E9003DC43C /* PayoffItem.swift in Sources */,
 				9CEEE33C29F908E8001FA4FB /* GoalDetailView.swift in Sources */,
 				9C7C984E29FB35E10077EA25 /* AssignAllocationView.swift in Sources */,
 				9C7F969C29F8FE3500F5035C /* ExtendSettings.swift in Sources */,

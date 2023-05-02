@@ -10,30 +10,47 @@ import Foundation
 import Vin
 
 public extension Goal {
-    @discardableResult convenience init(title: String, info: String?, amount: Double, dueDate: Date?, context: NSManagedObjectContext = PersistenceController.context) {
+    @discardableResult convenience init(title: String, info: String?, amount: Double, dueDate: Date?, user: User, context: NSManagedObjectContext = PersistenceController.context) throws {
         self.init(context: context)
         self.title = title
         self.info = info
         self.amount = amount
         self.dueDate = dueDate
         self.id = UUID()
+        self.user = user
+
+        let currentQueueCount = Int16(user.getGoals().count) + Int16(user.getExpenses().count)
+        // Put the item at the back of the queue at first initialization
+        self.queueSlotNumber = Int16(currentQueueCount + 1)
+
+        try context.save()
     }
-    
+}
+
+// MARK: - Goal + PayoffItem
+
+extension Goal: PayoffItem {
+    public func getID() -> UUID {
+        if let id { return id }
+        let newID = UUID()
+        self.id = newID
+        
+        try? self.managedObjectContext?.save()
+        
+        return newID
+    }
     
 }
 
 public extension Goal {
     static func makeExampleGoals(user: User, context: NSManagedObjectContext) throws {
-
-        let goal1 = Goal(title: "New car fund", info: "Saving up for a down payment on a new car", amount: 10000, dueDate: Date().addingTimeInterval(31536000), context: context)
-        let goal2 = Goal(title: "Vacation to Hawaii", info: "Planning a trip to Hawaii with my family", amount: 5000, dueDate: Date().addingTimeInterval(157680000), context: context)
-        let goal3 = Goal(title: "Emergency fund", info: "Saving up for unexpected expenses", amount: 2000, dueDate: nil, context: context)
-        let goal4 = Goal(title: "Home renovations", info: "Renovating my kitchen and bathroom", amount: 15000, dueDate: Date().addingTimeInterval(63072000), context: context)
-        let goal5 = Goal(title: "College fund for kids", info: "Saving up for my kids' college education", amount: 50000, dueDate: Date().addingTimeInterval(630720000), context: context)
-        let goal6 = Goal(title: "Retirement fund", info: "Planning for retirement", amount: 100000, dueDate: nil, context: context)
-        let goal7 = Goal(title: "Business venture", info: "Investing in a new business opportunity", amount: 25000, dueDate: Date().addingTimeInterval(157680000), context: context)
-
-
+        try Goal(title: "New car fund", info: "Saving up for a down payment on a new car", amount: 10_000, dueDate: Date().addingTimeInterval(31_536_000), user: user, context: context)
+        try Goal(title: "Vacation to Hawaii", info: "Planning a trip to Hawaii with my family", amount: 5_000, dueDate: Date().addingTimeInterval(157_680_000), user: user, context: context)
+        try Goal(title: "Emergency fund", info: "Saving up for unexpected expenses", amount: 2_000, dueDate: nil, user: user, context: context)
+        try Goal(title: "Home renovations", info: "Renovating my kitchen and bathroom", amount: 15_000, dueDate: Date().addingTimeInterval(63_072_000), user: user, context: context)
+        try Goal(title: "College fund for kids", info: "Saving up for my kids' college education", amount: 50_000, dueDate: Date().addingTimeInterval(630_720_000), user: user, context: context)
+        try Goal(title: "Retirement fund", info: "Planning for retirement", amount: 100_000, dueDate: nil, user: user, context: context)
+        try Goal(title: "Business venture", info: "Investing in a new business opportunity", amount: 25_000, dueDate: Date().addingTimeInterval(157_680_000), user: user, context: context)
     }
 }
 
@@ -51,7 +68,7 @@ public extension Goal {
         goal.user = user
         return goal
     }()
-    
+
     var temporarilyPaidOff: Double {
         guard let temporaryAllocations = temporaryAllocations as? Set<TemporaryAllocation>
         else {
@@ -66,8 +83,6 @@ public extension Goal {
     var temporaryRemainingToPayOff: Double {
         amount - temporarilyPaidOff
     }
-    
-    
 
     var titleStr: String { title ?? "Unknown Expense" }
 
@@ -88,6 +103,10 @@ public extension Goal {
     var timeRemaining: TimeInterval {
         guard let dueDate else { return 0 }
         return dueDate - .now
+    }
+
+    var percentPaidOff: Double {
+        amountPaidOff / amount
     }
 
     var amountRemainingToPayOff: Double { return amount - amountPaidOff }

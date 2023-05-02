@@ -123,6 +123,21 @@ public extension User {
 
     var hasShiftToday: Bool { getTodayShift() != nil }
 
+    func getQueue() -> [PayoffItem] {
+        var anyArr: [PayoffItem] = []
+
+        anyArr += getExpenses()
+        anyArr += getGoals()
+
+        anyArr.sort { $0.queueSlotNumber < $1.queueSlotNumber }
+
+        return anyArr
+    }
+
+    func getItemInPayoffQueue(at index: Int) -> PayoffItem? {
+        getQueue().safeGet(at: index)
+    }
+
     func getExpenses() -> [Expense] {
         guard let expenses else { return [] }
         return Array(expenses) as? [Expense] ?? []

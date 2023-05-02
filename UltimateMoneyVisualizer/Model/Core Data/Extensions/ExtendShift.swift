@@ -49,17 +49,24 @@ public extension Shift {
                 if shift.totalAvailable > 0 {
                     // Randomly pick a goal that has a remaining amount to be paid off and create an allocation for it.
                     if let chosenGoal = goalsNotFinished.randomElement() {
-                        let allocation = Allocation(amount: .random(in: 0 ... min(chosenGoal.amountRemainingToPayOff, shift.totalAvailable)), goal: chosenGoal, shift: shift, date: day, context: context)
-                        shift.addToAllocations(allocation)
-                        try context.save()
+                        let allocatableAmount = min(chosenGoal.amountRemainingToPayOff, shift.totalAvailable)
+                        if allocatableAmount >= 0.01 {
+                            let allocation = Allocation(amount: .random(in: 0.01 ... allocatableAmount), goal: chosenGoal, shift: shift, date: day, context: context)
+                            shift.addToAllocations(allocation)
+                            try context.save()
+                        }
                     }
 
                     // Randomly pick an expense that has a remaining amount to be paid off and create an allocation for it.
                     if let chosenExpense = expensesNotFinished.randomElement() {
-                        let allocation = Allocation(amount: .random(in: 0 ... min(chosenExpense.amountRemainingToPayOff, shift.totalAvailable)), expense: chosenExpense, shift: shift, date: day, context: context)
-                        shift.addToAllocations(allocation)
-                        try context.save()
+                        let allocatableAmount = min(chosenExpense.amountRemainingToPayOff, shift.totalAvailable)
+                        if allocatableAmount >= 0.01 {
+                            let allocation = Allocation(amount: .random(in: 0.01 ... allocatableAmount), expense: chosenExpense, shift: shift, date: day, context: context)
+                            shift.addToAllocations(allocation)
+                            try context.save()
+                        }
                     }
+
                 }
             }
 
