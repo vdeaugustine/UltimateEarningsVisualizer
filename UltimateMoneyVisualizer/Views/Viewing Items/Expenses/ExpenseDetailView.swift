@@ -86,8 +86,21 @@ struct ExpenseDetailView: View {
         .navigationTitle(expense.titleStr)
         .confirmationDialog("Delete expense", isPresented: $showDeleteWarning, titleVisibility: .visible, actions: {
             Button("Delete", role: .destructive) {
-                user.removeFromExpenses(expense)
-                try! user.managedObjectContext!.save()
+                
+                
+                guard let context = user.managedObjectContext else {
+                    return
+                }
+                
+                do {
+                    context.delete(expense)
+                    try context.save()
+                }
+                catch {
+                    print("Failed to delete")
+                }
+                
+                
                 dismiss()
             }
         }, message: {
@@ -95,16 +108,6 @@ struct ExpenseDetailView: View {
         })
     }
 
-//    func contributionsList() -> some View {
-//        return ForEach(filteredConts, id: \.self) { contribution in
-//            if let shift = contribution.shift {
-//                Text(shift.startTime.getFormattedDate(format: .abreviatedMonth))
-//            }
-//            if let savedItem = contribution.savedItem {
-//                Text(savedItem.title)
-//            }
-//        }
-//    }
 
     
     

@@ -7,6 +7,7 @@
 
 import CoreData
 import Foundation
+import SwiftUI
 import Vin
 
 public extension Goal {
@@ -33,13 +34,12 @@ extension Goal: PayoffItem {
     public func getID() -> UUID {
         if let id { return id }
         let newID = UUID()
-        self.id = newID
-        
-        try? self.managedObjectContext?.save()
-        
+        id = newID
+
+        try? managedObjectContext?.save()
+
         return newID
     }
-    
 }
 
 public extension Goal {
@@ -68,6 +68,34 @@ public extension Goal {
         goal.user = user
         return goal
     }()
+
+    func saveImage(image: UIImage) throws {
+        if let imageData = image.jpegData(compressionQuality: 1.0) {
+            self.imageData = imageData
+            print("Converted image data", imageData)
+            
+            guard let context = self.user?.managedObjectContext else {
+                throw NSError(domain: "No context found", code: 99)
+            }
+            try context.save()
+            print("Saved", self.imageData!)
+
+        } else {
+            print("Error converting image to data")
+        }
+    }
+    
+
+    func loadImageIfPresent() -> UIImage? {
+        
+        
+        if let imageData {
+            print("Image data", imageData)
+            return UIImage(data: imageData)
+        }
+        print("No image data")
+        return nil
+    }
 
     var temporarilyPaidOff: Double {
         guard let temporaryAllocations = temporaryAllocations as? Set<TemporaryAllocation>

@@ -66,4 +66,60 @@ extension View {
             }
         }
     }
+
+    func bottomButton(label: String, gradient: LinearGradient? = nil, action: @escaping () -> Void) -> some View {
+        modifier(BottomButtonModifier(label: label, gradient: gradient, action: action))
+    }
+}
+
+// MARK: - BottomViewButton
+
+struct BottomViewButton: View {
+    let label: String
+    var gradient: LinearGradient? = nil
+    var brightnessConstant: CGFloat? = nil
+
+    var buttonHeight: CGFloat = 50
+
+    var body: some View {
+        ZStack {
+            gradient ?? User.main.getSettings().getDefaultGradient()
+            Text(label)
+                .font(.title3)
+                .foregroundColor(.white)
+        }
+        .frame(maxWidth: .infinity)
+        .frame(height: buttonHeight)
+    }
+}
+
+// MARK: - BottomButtonModifier
+
+struct BottomButtonModifier: ViewModifier {
+    let label: String
+    let gradient: LinearGradient?
+    let action: () -> Void
+
+    func body(content: Content) -> some View {
+        ZStack {
+            content
+            VStack {
+                Spacer()
+                Button(action: action) {
+                    BottomViewButton(label: label, gradient: gradient)
+                }
+            }
+        }
+    }
+}
+
+func bottomViewButton(label: String, gradient: LinearGradient? = nil, brightnessConstant: CGFloat? = nil, buttonHeight: CGFloat = 50) -> some View {
+    ZStack {
+        gradient ?? User.main.getSettings().getDefaultGradient()
+        Text(label)
+            .font(.title3)
+            .foregroundColor(.white)
+    }
+    .frame(maxWidth: .infinity)
+    .frame(height: buttonHeight)
 }

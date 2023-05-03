@@ -7,13 +7,13 @@
 
 import SwiftUI
 
+// MARK: - ConfirmTodayShiftView
+
 struct ConfirmTodayShiftView: View {
-    
-    
     var todayShift: TodayShift
-    
+
     @State private var tempAllocations: [TemporaryAllocation] = []
-    
+
     var body: some View {
         Form {
             Section("Spent") {
@@ -29,11 +29,10 @@ struct ConfirmTodayShiftView: View {
                 }
             }
         }
-        .onAppear {
-            
-        }
     }
 }
+
+// MARK: - ConfirmTodayShiftView_Previews
 
 struct ConfirmTodayShiftView_Previews: PreviewProvider {
     static var previews: some View {
