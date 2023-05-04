@@ -86,11 +86,14 @@ struct TodayView: View {
             do {
                 var recentTempAlloc = currentGoal.getMostRecentTemporaryAllocation()
                 if recentTempAlloc == nil {
+                    print("No alloc exists, making new one")
                     recentTempAlloc = try TemporaryAllocation(initialAmount: 0,
                                                               expense: nil,
                                                               goal: currentGoal,
                                                               context: user.managedObjectContext ?? PersistenceController.context)
                 }
+                
+                try recentTempAlloc?.add(amount: user.getWage().secondly, context: user.managedObjectContext ?? PersistenceController.context)
                 
 
             } catch {
@@ -243,11 +246,14 @@ extension TodayView {
                         ProgressCircle(percent: goal.percentTemporarilyPaidOff,
                                        widthHeight: 100,
                                        lineWidth: 7) {
-                            Text(User.main.getGoals().first!.temporarilyPaidOff.formattedForMoney())
+                            Text(goal.temporarilyPaidOff.formattedForMoney())
                                 .font(.title)
                                 .minimumScaleFactor(0.5)
                                 .lineLimit(1)
                                 .padding(5)
+                                .onChange(of: nowTime) { newValue in
+                                    print(goal.titleStr, goal.temporarilyPaidOff.formattedForMoney())
+                                }
                         }
 
                         VStack(alignment: .leading) {
@@ -257,6 +263,7 @@ extension TodayView {
                                 Text(info)
                                     .font(.subheadline)
                             }
+                            Text(goal.temporarilyPaidOff.formattedForMoney())
 
                             Text(goal.amountMoneyStr)
                                 .font(.title2)

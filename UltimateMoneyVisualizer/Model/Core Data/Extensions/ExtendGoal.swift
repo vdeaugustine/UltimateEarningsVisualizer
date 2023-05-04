@@ -98,6 +98,10 @@ public extension Goal {
 
         let sorted = tempAllocsArray.sorted { ($0.lastEdited ?? .now) > ($1.lastEdited ?? .now) }
 
+        if let first = sorted.first {
+            print("Alloc exists, printing it", first.amount)
+        }
+        
         return sorted.first
     }
 
