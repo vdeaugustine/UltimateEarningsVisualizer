@@ -12,7 +12,7 @@ import SwiftUI
 
 struct EnterWageView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @State private var hourlyWage: String = ""
+    @State private var hourlyWage: String = User.main.getWage().hourly.simpleStr()
     @State private var isSalaried: Bool = false
     @State private var salary: String = ""
     @State private var hoursPerWeek: String = ""
@@ -24,8 +24,9 @@ struct EnterWageView: View {
     @State private var errorMessage: String = ""
     @State private var showSuccessfulSaveToast = false
 
-    @FetchRequest(sortDescriptors: []) var user: FetchedResults<User>
-    @FetchRequest(sortDescriptors: []) var wages: FetchedResults<Wage>
+    @ObservedObject private var user: User = User.main
+    @ObservedObject private var wage = User.main.getWage()
+    @ObservedObject private var settings = User.main.getSettings()
 
     @State private var hoursPerDay: Double = User.main.getWage().hoursPerDay
     @State private var daysPerWeek: Int = Int(User.main.getWage().daysPerWeek)
@@ -114,29 +115,11 @@ struct EnterWageView: View {
                 Text("When calculating daily, weekly, monthly, and yearly, these values will be used respectively")
             }
             
-            Section {
-                Button("Save") {
-                    guard let dub = Double(hourlyWage) else {
-                        showErrorToast = true
-                        errorMessage = "Please enter a valid hourly wage"
-                        return
-                    }
-
-                    do {
-                        wages.forEach { viewContext.delete($0) }
-
-                        let wage = Wage(context: viewContext)
-                        wage.amount = dub
-                        wage.user = user.first
-                        user.first?.wage = wage
-
-                        try viewContext.save()
-                        showSuccessfulSaveToast = true
-                    } catch {
-                        print(error)
-                    }
-                }
-            }
+//            Section {
+//                Button("Save") {
+//
+//                }
+//            }
         }
         .putInTemplate()
         .navigationTitle("Enter Hourly Wage")
@@ -146,7 +129,27 @@ struct EnterWageView: View {
             showErrorToast = false
         }
         .toast(isPresenting: $showSuccessfulSaveToast, offsetY: -100) {
-            AlertToast(displayMode: .banner(.slide), type: .complete(.green), title: "Wage saved successfully", style: .style(backgroundColor: .white, titleColor: .red, subTitleColor: nil, titleFont: nil, subTitleFont: nil))
+            AlertToast(displayMode: .banner(.slide), type: .complete(.green), title: "Wage saved successfully", style: .style(backgroundColor: .white, titleColor: nil, subTitleColor: nil, titleFont: nil, subTitleFont: nil))
+        }
+        .bottomButton(label: "Save", gradient: settings.getDefaultGradient()) {
+            guard let dub = Double(hourlyWage) else {
+                showErrorToast = true
+                errorMessage = "Please enter a valid hourly wage"
+                return
+            }
+
+            do {
+
+                let wage = try Wage(amount: dub, user: user, context: viewContext)
+                wage.daysPerWeek = Double(daysPerWeek)
+                wage.hoursPerDay = Double(hoursPerDay)
+                wage.weeksPerYear = Double(weeksPerYear)
+
+                try viewContext.save()
+                showSuccessfulSaveToast = true
+            } catch {
+                fatalError(String(describing: error))
+            }
         }
     }
 }
