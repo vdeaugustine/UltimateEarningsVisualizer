@@ -14,13 +14,12 @@ public extension TodayShift {
     @discardableResult convenience init(startTime: Date, endTime: Date, user: User, context: NSManagedObjectContext = PersistenceController.context) throws {
         self.init(context: context)
 
-//        User.main.todayShift = nil
         self.user = user
         self.payoffItemQueue = makeInitialPayoffItemQueueStr()
         self.expiration = .endOfDay(startTime)
         self.dateCreated = .now
-//        = self
-
+        self.startTime = startTime
+        self.endTime = endTime
         try context.save()
     }
 
@@ -48,14 +47,16 @@ public extension TodayShift {
 
             if let expense = chosen as? Expense {
                 let amount = Double.random(in: 0 ... min(amountRemaining, expense.amountRemainingToPayOff))
-                let temp = TemporaryAllocation(initialAmount: amount, expense: expense, goal: nil, context: context)
+                let temp = try TemporaryAllocation(initialAmount: amount, expense: expense, goal: nil, context: context)
                 try todayShift.addTemporaryAllocation(temp, context: context)
+                amountRemaining -= amount
             }
 
             if let goal = chosen as? Goal {
                 let amount = Double.random(in: 0 ... min(amountRemaining, goal.amountRemainingToPayOff))
-                let temp = TemporaryAllocation(initialAmount: amount, expense: nil, goal: goal, context: context)
+                let temp = try TemporaryAllocation(initialAmount: amount, expense: nil, goal: goal, context: context)
                 try todayShift.addTemporaryAllocation(temp, context: context)
+                amountRemaining -= amount
             }
         }
 
@@ -179,4 +180,6 @@ public extension TodayShift {
         let percent = elapsedTime(nowTime) / totalShiftDuration
         return percent < 1 ? percent : 1
     }
+    
+    
 }

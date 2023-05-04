@@ -44,6 +44,7 @@ extension Goal: PayoffItem {
 
 public extension Goal {
     static func makeExampleGoals(user: User, context: NSManagedObjectContext) throws {
+//        try Goal(title: "Get a basketball", info: "For playing", amount: 7, dueDate: .now.addDays(7), user: user, context: context)
         try Goal(title: "New car fund", info: "Saving up for a down payment on a new car", amount: 10_000, dueDate: Date().addingTimeInterval(31_536_000), user: user, context: context)
         try Goal(title: "Vacation to Hawaii", info: "Planning a trip to Hawaii with my family", amount: 5_000, dueDate: Date().addingTimeInterval(157_680_000), user: user, context: context)
         try Goal(title: "Emergency fund", info: "Saving up for unexpected expenses", amount: 2_000, dueDate: nil, user: user, context: context)
@@ -73,8 +74,8 @@ public extension Goal {
         if let imageData = image.jpegData(compressionQuality: 1.0) {
             self.imageData = imageData
             print("Converted image data", imageData)
-            
-            guard let context = self.user?.managedObjectContext else {
+
+            guard let context = user?.managedObjectContext else {
                 throw NSError(domain: "No context found", code: 99)
             }
             try context.save()
@@ -84,11 +85,27 @@ public extension Goal {
             print("Error converting image to data")
         }
     }
-    
+
+    func getArrayOfTemporaryAllocations() -> [TemporaryAllocation] {
+        guard let temporaryAllocations = temporaryAllocations?.allObjects as? [TemporaryAllocation] else {
+            return []
+        }
+        return temporaryAllocations
+    }
+
+    func getMostRecentTemporaryAllocation() -> TemporaryAllocation? {
+        let tempAllocsArray = getArrayOfTemporaryAllocations()
+
+        let sorted = tempAllocsArray.sorted { ($0.lastEdited ?? .now) > ($1.lastEdited ?? .now) }
+
+        return sorted.first
+    }
+
+    var percentTemporarilyPaidOff: Double {
+        temporarilyPaidOff / amount
+    }
 
     func loadImageIfPresent() -> UIImage? {
-        
-        
         if let imageData {
             print("Image data", imageData)
             return UIImage(data: imageData)
