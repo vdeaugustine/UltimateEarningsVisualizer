@@ -25,7 +25,7 @@ public extension Wage {
     }
 
     var perSecond: Double {
-        amount / 3_600
+        perMinute / 60
     }
 
     var perMinute: Double {
@@ -33,11 +33,11 @@ public extension Wage {
     }
 
     var perDay: Double {
-        amount * 8
+        amount * hoursPerDay
     }
 
     var perWeek: Double {
-        perDay * 5
+        perDay * daysPerWeek
     }
 
     var perMonth: Double {
@@ -45,6 +45,6 @@ public extension Wage {
     }
 
     var perYear: Double {
-        perMonth * 12
+        perWeek * weeksPerYear
     }
 }

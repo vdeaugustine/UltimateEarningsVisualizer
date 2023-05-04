@@ -20,13 +20,8 @@ final class WageTests: XCTestCase {
         return ux
     }()
 
-    let wageValues: [(hourlyWage: Double, expectedSecondly: Double, expectedMinutely: Double, expectedDaily: Double, expectedWeekly: Double, expectedMonthly: Double, expectedYearly: Double)] = [(60, 0.0166666666666667, 1, 480, 2_400, 9_600, 115_200),
-                                                                                                                                                                                                      (72, 0.02, 1.2, 576, 2_880, 11_520, 138_240),
-                                                                                                                                                                                                      (27, 0.0075, 0.45, 216, 1_080, 4_320, 51_840),
-                                                                                                                                                                                                      (68, 0.0188888888888888, 1.13333333333333, 544, 2_720, 10_880, 130_560),
-                                                                                                                                                                                                      (18, 0.005, 0.3, 144, 720, 2_880, 34_560),
-                                                                                                                                                                                                      (65, 0.0180555555555555, 1.08333333333333, 520, 2_600, 10_400, 124_800),
-                                                                                                                                                                                                      (39, 0.0108333333333333, 0.65, 312, 1_560, 6_240, 74_880)]
+    let wageValues: [(hourlyWage: Double, expectedSecondly: Double, expectedMinutely: Double, expectedDaily: Double, expectedWeekly: Double, expectedMonthly: Double, expectedYearly: Double)] = [(60, 0.0166666666666667, 1, 480, 2_400, 9_600, 124_800), (10, 0.00277777777777778, 0.166666666666667, 80, 400, 1_600, 20_800), (29, 0.00805555555555555, 0.483333333333333, 232, 1_160, 4_640, 60_320), (10, 0.00277777777777778, 0.166666666666667, 80, 400, 1_600, 20_800), (90, 0.025, 1.5, 720, 3_600, 14_400, 187_200), (44, 0.0122222222222222, 0.733333333333333, 352, 1_760, 7_040, 91_520), (46, 0.0127777777777778, 0.766666666666667, 368, 1_840, 7_360, 95_680)]
+
 
 
     func testSecondly() throws {
@@ -60,7 +55,7 @@ final class WageTests: XCTestCase {
 
     // Tests for `wagePerYear` extension
     func testWagePerYear() {
-        XCTAssertEqual(user.getWage().perYear, 115_200, accuracy: 0.0001)
+        XCTAssertEqual(user.getWage().perYear, 124800, accuracy: 0.0001)
     }
 
     func testWageValues() {
@@ -74,13 +69,13 @@ final class WageTests: XCTestCase {
             XCTAssertEqual(user.getWage().perYear, wageValue.expectedYearly, accuracy: 0.0001)
         }
     }
-    
+
     func createUser(with hourlyWage: Double) -> User {
-            let user = User(context: PersistenceController.testing)
-            let wage = try! Wage(amount: hourlyWage,
-                                 user: user, context: PersistenceController.testing)
-            user.wage = wage
-            try! PersistenceController.testing.save()
-            return user
-        }
+        let user = User(context: PersistenceController.testing)
+        let wage = try! Wage(amount: hourlyWage,
+                             user: user, context: PersistenceController.testing)
+        user.wage = wage
+        try! PersistenceController.testing.save()
+        return user
+    }
 }
