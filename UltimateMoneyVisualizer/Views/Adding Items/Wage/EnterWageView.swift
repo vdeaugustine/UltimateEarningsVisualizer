@@ -27,6 +27,12 @@ struct EnterWageView: View {
     @FetchRequest(sortDescriptors: []) var user: FetchedResults<User>
     @FetchRequest(sortDescriptors: []) var wages: FetchedResults<Wage>
 
+    @State private var hoursPerDay: Double = User.main.getWage().hoursPerDay
+    @State private var daysPerWeek: Int = Int(User.main.getWage().daysPerWeek)
+    @State private var weeksPerYear: Int = Int(User.main.getWage().weeksPerYear)
+    let hoursOptions = stride(from: 1.0, to: 24.25, by: 0.5).map({$0})
+
+
     private func calculateHourlyWage() {
         guard let salaryValue = Double(salary),
               let hoursPerWeekValue = Double(hoursPerWeek),
@@ -48,72 +54,99 @@ struct EnterWageView: View {
     }
 
     var body: some View {
-        NavigationView {
-            Form {
-                Section {
-                    TextField("Hourly Wage", text: $hourlyWage)
+        Form {
+            Section {
+                TextField("Hourly Wage", text: $hourlyWage)
+                    .keyboardType(.decimalPad)
+            }
+
+            Toggle("I have a salary", isOn: $isSalaried)
+
+            if isSalaried {
+                Section(header: Text("Salary Information")) {
+                    TextField("Salary", text: $salary)
                         .keyboardType(.decimalPad)
-                }
+                    TextField("Hours per Week", text: $hoursPerWeek)
+                        .keyboardType(.decimalPad)
+                    TextField("Vacation Days", text: $vacationDays)
+                        .keyboardType(.decimalPad)
 
-                Toggle("I have a salary", isOn: $isSalaried)
-
-                if isSalaried {
-                    Section(header: Text("Salary Information")) {
-                        TextField("Salary", text: $salary)
-                            .keyboardType(.decimalPad)
-                        TextField("Hours per Week", text: $hoursPerWeek)
-                            .keyboardType(.decimalPad)
-                        TextField("Vacation Days", text: $vacationDays)
-                            .keyboardType(.decimalPad)
-
-                        Button("Calculate Hourly Wage") {
-                            calculateHourlyWage()
-                        }
-                    }
-
-                    if let calculatedHourlyWage = calculatedHourlyWage {
-                        Section {
-                            Text("Calculated Hourly Wage: \(String(format: "%.2f", calculatedHourlyWage))")
-                            Button("Use Calculated Wage") {
-                                populateHourlyWage()
-                            }
-                        }
+                    Button("Calculate Hourly Wage") {
+                        calculateHourlyWage()
                     }
                 }
 
-                Section {
-                    Button("Save") {
-                        guard let dub = Double(hourlyWage) else {
-                            showErrorToast = true
-                            errorMessage = "Please enter a valid hourly wage"
-                            return
-                        }
-
-                        do {
-                            wages.forEach { viewContext.delete($0) }
-
-                            let wage = Wage(context: viewContext)
-                            wage.amount = dub
-                            wage.user = user.first
-                            user.first?.wage = wage
-
-                            try viewContext.save()
-                            showSuccessfulSaveToast = true
-                        } catch {
-                            print(error)
+                if let calculatedHourlyWage = calculatedHourlyWage {
+                    Section {
+                        Text("Calculated Hourly Wage: \(String(format: "%.2f", calculatedHourlyWage))")
+                        Button("Use Calculated Wage") {
+                            populateHourlyWage()
                         }
                     }
                 }
             }
-            .navigationTitle("Enter Hourly Wage")
-            .toast(isPresenting: $showErrorToast, duration: 2, tapToDismiss: true) {
-                AlertToast(displayMode: .alert, type: .error(.blue), title: errorMessage)
-            } onTap: {
-                showErrorToast = false
+
+           
+
+            Section {
+                Picker("Hours Per Day", selection: $hoursPerDay) {
+                    ForEach(hoursOptions, id: \.self) { num in
+                        Text(num.simpleStr())
+                            .tag(num)
+                    }
+                }
+                Picker("Days Per Week", selection: $daysPerWeek) {
+                    ForEach(1 ..< 8, id: \.self) { num in
+                        Text(num.str)
+                            .tag(num)
+                    }
+                }
+                Picker("Weeks Per Year", selection: $weeksPerYear) {
+                    ForEach(1 ..< 53, id: \.self) { num in
+                        Text(num.str)
+                            .tag(num)
+                    }
+                }
+
+            } header: {
+                Text("Calculation Assumptions")
+            } footer: {
+                Text("When calculating daily, weekly, monthly, and yearly, these values will be used respectively")
             }
-            .toast(isPresenting: $showSuccessfulSaveToast, offsetY: -100) {
-                AlertToast(displayMode: .banner(.slide), type: .complete(.green), title: "Wage saved successfully", style: .style(backgroundColor: .white, titleColor: .red, subTitleColor: nil, titleFont: nil, subTitleFont: nil))
+            
+            Section {
+                Button("Save") {
+                    guard let dub = Double(hourlyWage) else {
+                        showErrorToast = true
+                        errorMessage = "Please enter a valid hourly wage"
+                        return
+                    }
+
+                    do {
+                        wages.forEach { viewContext.delete($0) }
+
+                        let wage = Wage(context: viewContext)
+                        wage.amount = dub
+                        wage.user = user.first
+                        user.first?.wage = wage
+
+                        try viewContext.save()
+                        showSuccessfulSaveToast = true
+                    } catch {
+                        print(error)
+                    }
+                }
             }
+        }
+        .putInTemplate()
+        .navigationTitle("Enter Hourly Wage")
+        .toast(isPresenting: $showErrorToast, duration: 2, tapToDismiss: true) {
+            AlertToast(displayMode: .alert, type: .error(.blue), title: errorMessage)
+        } onTap: {
+            showErrorToast = false
+        }
+        .toast(isPresenting: $showSuccessfulSaveToast, offsetY: -100) {
+            AlertToast(displayMode: .banner(.slide), type: .complete(.green), title: "Wage saved successfully", style: .style(backgroundColor: .white, titleColor: .red, subTitleColor: nil, titleFont: nil, subTitleFont: nil))
         }
     }
 }
@@ -124,6 +157,6 @@ struct EnterWageView_Previews: PreviewProvider {
     static var previews: some View {
         EnterWageView()
             .environment(\.managedObjectContext, PersistenceController.context)
-            
+            .putInNavView(.inline)
     }
 }

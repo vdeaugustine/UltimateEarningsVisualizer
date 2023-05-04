@@ -189,6 +189,13 @@ struct HomeView: View {
                     }
                 }
                 .padding(.top)
+                
+                
+                // MARK: - My Wage Breakdown
+                WageBreakdownBox()
+                    .padding()
+                
+                
             }
         }
         .background(Color.targetGray)

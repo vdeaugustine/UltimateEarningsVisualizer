@@ -1,72 +1,77 @@
-////
-////  WageBreakdownBox.swift
-////  UltimateMoneyVisualizer
-////
-////  Created by Vincent DeAugustine on 5/3/23.
-////
 //
-//import SwiftUI
+//  WageBreakdownBox.swift
+//  UltimateMoneyVisualizer
 //
-//struct WageBreakdownBox: View {
-//    
-//    @ObservedObject private var user = User.main
-//    @ObservedObject private var settings = User.main.settings
-//    
-//    var body: some View {
-//        homeSection {
-//            Text("Wage")
-//                .font(.headline)
-//                .spacedOut {
-//                    NavigationLink {
-//                        EnterWageView()
-//                    } label: {
-//                        Image(systemName: "ellipsis")
-//                            .font(.subheadline)
-//                            .padding(.trailing)
-//                    }
-//                }
-//        } content: {
-//            VStack(spacing: 10) {
-//                Text("Period")
-//                    .font(.headline)
-//                    .fontWeight(.medium)
-//                    .spacedOut {
-//                        Text("Amount")
-//                            .font(.headline)
-//                            .fontWeight(.medium)
-//                    }
-//                VStack {
-//                    Group {
-//                        Text("Year")
-//                            .spacedOut(text: model.wage.amountPerYear().formattedForMoney())
-//                        Divider()
-//                        Text("Month")
-//                            .spacedOut(text: model.wage.amountPerMonth().formattedForMoney())
-//                        Divider()
-//                        Text("Week")
-//                            .spacedOut(text: model.wage.amountPerWeek().formattedForMoney())
-//                        Divider()
-//                        Text("Day")
-//                            .spacedOut(text: model.wage.amountPerDay().formattedForMoney())
-//                        Divider()
-//                        Text("Hour")
-//                            .spacedOut(text: model.wage.amountPerHour().formattedForMoney())
-//                    }
-//                    Divider()
-//                    Text("Minute")
-//                        .spacedOut(text: model.wage.amountPerMinute().formattedForMoneyExtended())
-//                    Divider()
-//                    Text("Second")
-//                        .spacedOut(text: model.wage.amountPerSecond().formattedForMoneyExtended())
-//                }
-//                .font(.subheadline)
-//            }
-//            .padding()
-//    }
-//}
+//  Created by Vincent DeAugustine on 5/3/23.
 //
-//struct WageBreakdownBox_Previews: PreviewProvider {
-//    static var previews: some View {
-//        WageBreakdownBox()
-//    }
-//}
+
+import SwiftUI
+
+// MARK: - WageBreakdownBox
+
+struct WageBreakdownBox: View {
+    @ObservedObject private var user = User.main
+    @ObservedObject private var wage = User.main.getWage()
+
+    var body: some View {
+        homeSection {
+            Text("Wage")
+                .font(.headline)
+                .spacedOut {
+                    NavigationLink {
+                        EnterWageView()
+                    } label: {
+                        Image(systemName: "ellipsis")
+                            .font(.subheadline)
+                            .padding(.trailing)
+                    }
+                }
+        } content: {
+            VStack(spacing: 10) {
+                Text("Period")
+                    .font(.headline)
+                    .fontWeight(.medium)
+                    .spacedOut {
+                        Text("Amount")
+                            .font(.headline)
+                            .fontWeight(.medium)
+                    }
+                VStack {
+                    Group {
+                        Text("Year")
+                            .spacedOut(text: wage.perYear.formattedForMoney())
+                        Divider()
+                        Text("Month")
+                            .spacedOut(text: wage.perMonth.formattedForMoney())
+                        Divider()
+                        Text("Week")
+                            .spacedOut(text: wage.perWeek.formattedForMoney())
+                        Divider()
+                        Text("Day")
+                            .spacedOut(text: wage.perDay.formattedForMoney())
+                        Divider()
+                        Text("Hour")
+                            .spacedOut(text: wage.hourly.formattedForMoney())
+                    }
+                    Divider()
+                    Text("Minute")
+                        .spacedOut(text: wage.perMinute.formattedForMoney())
+                    Divider()
+                    Text("Second")
+                        .spacedOut(text: wage.perSecond.formattedForMoney())
+                }
+                .font(.subheadline)
+            }
+            .padding()
+        }
+    }
+}
+
+// MARK: - WageBreakdownBox_Previews
+
+struct WageBreakdownBox_Previews: PreviewProvider {
+    static var previews: some View {
+        WageBreakdownBox()
+            .previewLayout(.sizeThatFits)
+    }
+}
