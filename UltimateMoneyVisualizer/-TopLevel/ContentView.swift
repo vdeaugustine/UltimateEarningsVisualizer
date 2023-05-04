@@ -15,7 +15,7 @@ import SwiftUI
 struct ContentView: View {
     enum Tabs: String, Hashable, CustomStringConvertible {
         var description: String { rawValue.capitalized }
-        case settings, expenses, home, shifts, today
+        case settings, expenses, home, shifts, today, addShifts
     }
 
     @State private var tab: Tabs = .shifts
@@ -23,6 +23,8 @@ struct ContentView: View {
 
     var body: some View {
         TabView(selection: $tab) {
+            
+            
             ShiftListView()
                 .putInNavView(.inline)
                 .makeTab(tab: Tabs.shifts, systemImage: "calendar")
