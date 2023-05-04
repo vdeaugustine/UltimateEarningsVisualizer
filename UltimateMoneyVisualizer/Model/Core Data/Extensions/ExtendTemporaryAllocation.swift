@@ -24,11 +24,10 @@ public extension TemporaryAllocation {
         self.amount += amount
         lastEdited = .now
         let after = goal!.temporarilyPaidOff
-        print("Before after", before, after)
-        do {
+//        do {
             try context.save()
-        } catch {
-            fatalError(error.localizedDescription)
-        }
+//        } catch {
+//            fatalError(error.localizedDescription)
+//        }
     }
 }

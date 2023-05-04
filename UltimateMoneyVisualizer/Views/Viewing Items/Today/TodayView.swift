@@ -51,7 +51,7 @@ struct TodayView: View {
                 YouHaveNoShiftView(showHoursSheet: $showHoursSheet)
             }
         }
-
+        .putInTemplate()
         .bottomBanner(isVisible: $showBanner, swipeToDismiss: false, buttonText: "Save")
         .background(Color.targetGray.frame(maxHeight: .infinity).ignoresSafeArea())
         .navigationTitle("Today Live")
@@ -86,7 +86,6 @@ struct TodayView: View {
             do {
                 var recentTempAlloc = currentGoal.getMostRecentTemporaryAllocation()
                 if recentTempAlloc == nil {
-                    print("No alloc exists, making new one")
                     recentTempAlloc = try TemporaryAllocation(initialAmount: 0,
                                                               expense: nil,
                                                               goal: currentGoal,
@@ -251,9 +250,7 @@ extension TodayView {
                                 .minimumScaleFactor(0.5)
                                 .lineLimit(1)
                                 .padding(5)
-                                .onChange(of: nowTime) { newValue in
-                                    print(goal.titleStr, goal.temporarilyPaidOff.formattedForMoney())
-                                }
+                                
                         }
 
                         VStack(alignment: .leading) {

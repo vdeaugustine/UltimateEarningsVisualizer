@@ -20,8 +20,8 @@ final class ExpenseTests: XCTestCase {
         try TodayShift(startTime: .nineAM, endTime: .fivePM, user: user, context: context)
         let shiftForAllocation = try Shift(day: .monday, start: .nineAM, end: .fivePM, context: context)
 
-        TemporaryAllocation(initialAmount: 20, expense: expense, context: context)
-        TemporaryAllocation(initialAmount: 8, expense: expense, context: context)
+        try TemporaryAllocation(initialAmount: 20, expense: expense, context: context)
+        try TemporaryAllocation(initialAmount: 8, expense: expense, context: context)
         Allocation(amount: 7, expense: expense, shift: shiftForAllocation, context: context)
 
         let expectedAllocated: Double = 20 + 8 + 7
@@ -35,9 +35,9 @@ final class ExpenseTests: XCTestCase {
         _ = try TodayShift(startTime: .nineAM, endTime: .fivePM, user: user, context: context)
         let shiftForAllocation = try Shift(day: .monday, start: .nineAM, end: .fivePM, context: context)
 
-        _ = TemporaryAllocation(initialAmount: 20, expense: expense, context: context)
-        _ = TemporaryAllocation(initialAmount: 8, expense: expense, context: context)
-        _ = TemporaryAllocation(initialAmount: 4, expense: expense, context: context)
+        _ = try TemporaryAllocation(initialAmount: 20, expense: expense, context: context)
+        _ = try TemporaryAllocation(initialAmount: 8, expense: expense, context: context)
+        _ = try TemporaryAllocation(initialAmount: 4, expense: expense, context: context)
         _ = Allocation(amount: 7, expense: expense, shift: shiftForAllocation, context: context)
 
         let expectedRemaining: Double = 93 - 20 - 8 - 4 - 7

@@ -73,16 +73,14 @@ public extension Goal {
     func saveImage(image: UIImage) throws {
         if let imageData = image.jpegData(compressionQuality: 1.0) {
             self.imageData = imageData
-            print("Converted image data", imageData)
 
             guard let context = user?.managedObjectContext else {
                 throw NSError(domain: "No context found", code: 99)
             }
             try context.save()
-            print("Saved", self.imageData!)
 
         } else {
-            print("Error converting image to data")
+            throw NSError(domain: "Error converting image to data", code: 99)
         }
     }
 
@@ -98,10 +96,7 @@ public extension Goal {
 
         let sorted = tempAllocsArray.sorted { ($0.lastEdited ?? .now) > ($1.lastEdited ?? .now) }
 
-        if let first = sorted.first {
-            print("Alloc exists, printing it", first.amount)
-        }
-        
+
         return sorted.first
     }
 
@@ -111,10 +106,8 @@ public extension Goal {
 
     func loadImageIfPresent() -> UIImage? {
         if let imageData {
-            print("Image data", imageData)
             return UIImage(data: imageData)
         }
-        print("No image data")
         return nil
     }
 

@@ -23,4 +23,28 @@ public extension Wage {
     var secondly: Double {
         amount / 60 / 60
     }
+
+    var perSecond: Double {
+        amount / 3_600
+    }
+
+    var perMinute: Double {
+        amount / 60
+    }
+
+    var perDay: Double {
+        amount * 8
+    }
+
+    var perWeek: Double {
+        perDay * 5
+    }
+
+    var perMonth: Double {
+        perWeek * 4
+    }
+
+    var perYear: Double {
+        perMonth * 12
+    }
 }
