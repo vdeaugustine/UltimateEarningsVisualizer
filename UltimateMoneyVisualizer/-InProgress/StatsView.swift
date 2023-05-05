@@ -5,8 +5,9 @@
 //  Created by Vincent DeAugustine on 5/4/23.
 //
 
-import SwiftUI
 import Charts
+import SwiftUI
+import Vin
 
 // MARK: - StatsView
 
@@ -22,6 +23,31 @@ struct StatsView: View {
 
     @ObservedObject private var user: User = User.main
 
+    private var dataItems: [HorizontalDataDisplay.DataItem] {
+        var retArr = [HorizontalDataDisplay.DataItem]()
+
+        switch selectedSection {
+            case .all:
+                break
+            case .earned:
+                retArr = [.init(label: "Shifts", value: user.getShiftsBetween(startDate: firstDate, endDate: secondDate).count.str, view: nil),
+                          .init(label: "Amount", value: user.getTotalEarnedBetween(startDate: firstDate, endDate: secondDate).formattedForMoney(), view: nil),
+                          .init(label: "Time", value: user.getTimeWorkedBetween(startDate: firstDate, endDate: secondDate).formatForTime(), view: nil)]
+            case .spent:
+                retArr = [.init(label: "Expenses", value: user.getExpensesBetween(startDate: firstDate, endDate: secondDate).count.str, view: nil),
+                          .init(label: "Amount", value: user.getExpensesSpentBetween(startDate: firstDate, endDate: secondDate).formattedForMoney(), view: nil),
+                          .init(label: "Time", value: user.convertMoneyToTime(money: user.getExpensesSpentBetween(startDate: firstDate, endDate: secondDate)).formatForTime(), view: nil)]
+            case .saved:
+                retArr = [.init(label: "Saved", value: user.getSavedBetween(startDate: firstDate, endDate: secondDate).count.str, view: nil),
+                          .init(label: "Amount", value: user.getAmountSavedBetween(startDate: firstDate, endDate: secondDate).formattedForMoney(), view: nil),
+                          .init(label: "Time", value: user.convertMoneyToTime(money: user.getAmountSavedBetween(startDate: firstDate, endDate: secondDate)).formatForTime(), view: nil)]
+            case .goals:
+                break
+        }
+
+        return retArr
+    }
+
     var body: some View {
         ScrollView {
             Picker("Section", selection: $selectedSection) {
@@ -31,6 +57,15 @@ struct StatsView: View {
             }
             .pickerStyle(.segmented)
             .padding()
+
+            HorizontalDataDisplay(data: dataItems)
+
+            HStack {
+                DatePicker("", selection: $firstDate, in: .init(uncheckedBounds: (lower: Date.distantPast, upper: secondDate)), displayedComponents: .date).labelsHidden()
+                Text("-")
+                DatePicker("", selection: $secondDate, in: .init(uncheckedBounds: (lower: firstDate, upper: .distantFuture)), displayedComponents: .date).labelsHidden()
+            }
+            .padding(.vertical, 10)
 
             // MARK: - Selected Section
 
@@ -46,30 +81,31 @@ struct StatsView: View {
                 case .goals:
                     goalsSection
             }
+        }
+        .background(Color.targetGray)
+        .putInTemplate()
+        .navigationTitle("My Stats")
+    }
 
-            HStack {
-                DatePicker("", selection: $firstDate, in: .init(uncheckedBounds: (lower: Date.distantPast, upper: secondDate)), displayedComponents: .date).labelsHidden()
-                Text("-")
-                DatePicker("", selection: $secondDate, in: .init(uncheckedBounds: (lower: firstDate, upper: .distantFuture)), displayedComponents: .date).labelsHidden()
-            }
-            
+    // MARK: - Earned Section
+
+    var earnedSection: some View {
+        VStack {
             VStack(spacing: 0) {
                 LineChart()
                     .frame(height: 300)
-                    
-                
+
                 Text("Shows the total amount of money you had earned up to each day, including all previous days not shown")
                     .font(.footnote)
                     .padding(.horizontal)
                     .foregroundColor(.gray)
             }
             .padding([.horizontal, .bottom])
-            
-            
-            homeSection(rectContainer: false, header: "Items") {
+
+            homeSection(rectContainer: false, header: "Shifts") {
                 LazyVStack {
                     ForEach(user.getShiftsBetween(startDate: firstDate, endDate: secondDate)) { shift in
-                        
+
                         VStack {
                             HStack {
                                 HStack(spacing: 15) {
@@ -83,31 +119,12 @@ struct StatsView: View {
                             .padding([.top, .horizontal])
                             Divider()
                         }
-                        
-                        
                     }
                 }
                 .rectContainer(shadowRadius: 0)
-                
             }
             .padding()
             .padding(.horizontal, 5)
-            
-            
-            
-        }
-        .background(Color.targetGray)
-        .putInTemplate()
-        .navigationTitle("My Stats")
-    }
-
-    // MARK: - Earned Section
-
-    var earnedSection: some View {
-        VStack {
-            HorizontalDataDisplay(data: [.init(label: "Shifts", value: user.getShiftsBetween(startDate: firstDate, endDate: secondDate).count.str, view: nil),
-                                         .init(label: "Amount", value: user.getTotalEarnedBetween(startDate: firstDate, endDate: secondDate).formattedForMoney(), view: nil),
-                                         .init(label: "Time", value: user.getTimeWorkedBetween(startDate: firstDate, endDate: secondDate).formatForTime(), view: nil)])
         }
     }
 
@@ -115,6 +132,40 @@ struct StatsView: View {
 
     var savedSection: some View {
         VStack {
+            VStack(spacing: 0) {
+                LineChart()
+                    .frame(height: 300)
+
+                Text("Shows the total amount of money you had saved up to each day, including all previous days not shown")
+                    .font(.footnote)
+                    .padding(.horizontal)
+                    .foregroundColor(.gray)
+            }
+            .padding([.horizontal, .bottom])
+
+            homeSection(rectContainer: false, header: "Saved") {
+                LazyVStack {
+                    ForEach(user.getSavedBetween(startDate: firstDate, endDate: secondDate)) { saved in
+
+                        VStack {
+                            HStack {
+                                HStack(spacing: 15) {
+                                    Image(systemName: "chart.line.downtrend.xyaxis")
+                                        .foregroundColor(.red)
+                                    Text(saved.getTitle())
+                                }
+                                Spacer()
+                                Text(saved.getAmount().formattedForMoney())
+                            }
+                            .padding([.top, .horizontal])
+                            Divider()
+                        }
+                    }
+                }
+                .rectContainer(shadowRadius: 0)
+            }
+            .padding()
+            .padding(.horizontal, 5)
         }
     }
 
@@ -122,6 +173,40 @@ struct StatsView: View {
 
     var spentSection: some View {
         VStack {
+            VStack(spacing: 0) {
+                LineChart()
+                    .frame(height: 300)
+
+                Text("Shows the total amount of money you had spent up to each day, including all previous days not shown")
+                    .font(.footnote)
+                    .padding(.horizontal)
+                    .foregroundColor(.gray)
+            }
+            .padding([.horizontal, .bottom])
+
+            homeSection(rectContainer: false, header: "Expenses") {
+                LazyVStack {
+                    ForEach(user.getExpensesBetween(startDate: firstDate, endDate: secondDate)) { expense in
+
+                        VStack {
+                            HStack {
+                                HStack(spacing: 15) {
+                                    Image(systemName: "chart.line.downtrend.xyaxis")
+                                        .foregroundColor(.red)
+                                    Text(expense.titleStr)
+                                }
+                                Spacer()
+                                Text(expense.amountMoneyStr)
+                            }
+                            .padding([.top, .horizontal])
+                            Divider()
+                        }
+                    }
+                }
+                .rectContainer(shadowRadius: 0)
+            }
+            .padding()
+            .padding(.horizontal, 5)
         }
     }
 
@@ -131,12 +216,11 @@ struct StatsView: View {
         VStack {
         }
     }
-    
+
     struct LineChart: View {
         @ObservedObject private var user = User.main
         var title: String? = nil
         var backgroundColor: Color? = nil
-        
 
         var body: some View {
             ZStack {
@@ -157,7 +241,7 @@ struct StatsView: View {
 //                                      y: .value("Value", user.getTotalEarnedBetween(ind)))
 //                        }
 //                    }
-                    
+
                     VStack {
                         Text("Chart goes here")
                     }

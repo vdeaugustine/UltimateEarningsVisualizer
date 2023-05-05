@@ -12,14 +12,14 @@ import Vin
 // MARK: - Initializer
 
 public extension Expense {
-    @discardableResult convenience init(title: String, info: String?, amount: Double, dueDate: Date?, user: User, context: NSManagedObjectContext = PersistenceController.context) {
+    @discardableResult convenience init(title: String, info: String?, amount: Double, dueDate: Date?, dateCreated: Date? = nil, user: User, context: NSManagedObjectContext = PersistenceController.context) {
         self.init(context: context)
         self.title = title
         self.info = info
         self.amount = amount
         self.dueDate = dueDate
         self.user = user
-        
+        self.dateCreated = dateCreated ?? .now
         
         let currentQueueCount = Int16(user.getGoals().count) + Int16(user.getExpenses().count)
         // Put the item at the back of the queue at first initialization

@@ -21,25 +21,27 @@ public extension User {
         wage.user = self
         self.wage = wage
 
-        do {
-            // Make Goals
-            try Goal.makeExampleGoals(user: self, context: viewContext)
+        if exampleItem {
+            do {
+                // Make Goals
+                try Goal.makeExampleGoals(user: self, context: viewContext)
 
-            // Make Expenses
-            try Expense.makeExampleExpenses(user: self, context: viewContext)
+                // Make Expenses
+                try Expense.makeExampleExpenses(user: self, context: viewContext)
 
-            // Make Shifts
-            try Shift.makeExampleShifts(user: self, context: viewContext)
+                // Make Shifts
+                try Shift.makeExampleShifts(user: self, context: viewContext)
 
-            // Make Saved items
-            try Saved.makeExampleSavedItems(user: self, context: viewContext)
+                // Make Saved items
+                try Saved.makeExampleSavedItems(user: self, context: viewContext)
 
-            // Make today shift
-            try TodayShift.makeExampleTodayShift(user: self, context: viewContext)
+                // Make today shift
+                try TodayShift.makeExampleTodayShift(user: self, context: viewContext)
 
-            // Make temporary allocations
-        } catch {
-            fatalError(String(describing: error))
+                // Make temporary allocations
+            } catch {
+                fatalError(String(describing: error))
+            }
         }
 
         try viewContext.save()
@@ -70,7 +72,7 @@ public extension User {
 
                 return user
             } else {
-                return try User(exampleItem: false, viewContext: viewContext)
+                return try User(exampleItem: true, viewContext: viewContext)
             }
         } catch {
             fatalError("Error retrieving or creating main user: \(error)")
@@ -88,21 +90,57 @@ public extension User {
     func getShiftsBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [Shift] {
         let filteredShifts = getShifts().filter { shift in
             (shift.start >= startDate && shift.start <= endDate) || // Shift starts within the range
-            (shift.end >= startDate && shift.end <= endDate) || // Shift ends within the range
-            (shift.start <= startDate && shift.end >= endDate) || // Shift spans the entire range
-            (shift.start <= startDate && shift.end >= startDate) || // Shift starts before the range and ends within the range
-            (shift.start <= endDate && shift.end >= endDate) // Shift starts within the range and ends after the range
+                (shift.end >= startDate && shift.end <= endDate) || // Shift ends within the range
+                (shift.start <= startDate && shift.end >= endDate) || // Shift spans the entire range
+                (shift.start <= startDate && shift.end >= startDate) || // Shift starts before the range and ends within the range
+                (shift.start <= endDate && shift.end >= endDate) // Shift starts within the range and ends after the range
         }
-
         return filteredShifts
     }
 
-    
-    func getTimeWorkedBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> TimeInterval {
-        let shifts = getShiftsBetween(startDate: startDate, endDate: endDate)
-        return shifts.reduce(TimeInterval.zero, {$0 + $1.duration})
+    func getExpensesBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [Expense] {
+        let filteredExpenses = getExpenses().filter { expense in
+            guard let date = expense.dateCreated else { return false }
+            return (date >= startDate && date <= endDate)
+        }
+        return filteredExpenses
     }
     
+    
+    func getSavedBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [Saved] {
+        let filteredSaved = getSaved().filter { saved in
+            guard let date = saved.date else { return false }
+            return (date >= startDate && date <= endDate)
+        }
+        return filteredSaved
+    }
+    
+    func getAmountSavedBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> Double {
+        let saved = getSavedBetween(startDate: startDate, endDate: endDate)
+        return saved.reduce(Double.zero, {$0 + $1.amount})
+    }
+    
+    func getTimeSavedBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> TimeInterval {
+        getAmountSavedBetween(startDate: startDate, endDate: endDate) / getWage().perSecond
+    }
+    
+    
+    func getExpensesSpentBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> Double {
+        let expenses = getExpensesBetween(startDate: startDate, endDate: endDate)
+        return expenses.reduce(Double.zero, {$0 + $1.amount})
+    }
+    
+    /// Returns the amount of seconds the given amount of money translates to
+    func convertMoneyToTime(money: Double) -> TimeInterval {
+        money / getWage().perSecond
+    }
+    
+
+    func getTimeWorkedBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> TimeInterval {
+        let shifts = getShiftsBetween(startDate: startDate, endDate: endDate)
+        return shifts.reduce(TimeInterval.zero) { $0 + $1.duration }
+    }
+
     func getTotalEarnedBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> Double {
         let timeWorked = getTimeWorkedBetween(startDate: startDate, endDate: endDate)
         return timeWorked * getWage().perSecond
