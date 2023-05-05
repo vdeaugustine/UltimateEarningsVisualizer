@@ -36,9 +36,9 @@ struct MultipleNewShiftsView: View {
             if chooseIndividually {
                 Section {
                     MultiDatePicker("Select dates", selection: $selectedDateComponents)
-
+                        .listRowSeparator(.hidden)
                     DatePicker("Start time", selection: $startTime, displayedComponents: [.hourAndMinute])
-
+                        .listRowSeparator(.hidden)
                     DatePicker("EndTime", selection: $endTime, displayedComponents: [.hourAndMinute])
                         .listRowSeparator(.hidden)
 
@@ -54,74 +54,12 @@ struct MultipleNewShiftsView: View {
                         Text("Both of these dates selected will have the same start time and end time")
                     }
                 }
+                
+                
             }
-            
-//            else if chooseByRange {
-//
-//                    Section("My Regular Days") {
-//                        Text(regularDays.str)
-//                    }
-//                    Section("Times") {
-//                        Text("Start")
-//                            .spacedOut(text: normalStart.formattedTime())
-//                        Text("End")
-//                            .spacedOut(text: normalEnd.formattedTime())
-//                    }
-//
-//                    Section("Create shifts") {
-//                        DatePicker("From", selection: $rangeStart, displayedComponents: .date)
-//                            .onChange(of: rangeStart) { _ in
-//                                shifts = AllShifts.shiftsForNormalWorkDays(between: rangeStart, and: rangeEnd, days: regularDays, start: normalStart, end: normalEnd)
-//                            }
-//                        DatePicker("To", selection: $rangeEnd, displayedComponents: .date)
-//                            .onChange(of: rangeEnd) { _ in
-//                                shifts = AllShifts.shiftsForNormalWorkDays(between: rangeStart, and: rangeEnd, days: regularDays, start: normalStart, end: normalEnd)
-//                            }
-//                    }
-//                    .onAppear {
-//                        shifts = AllShifts.shiftsForNormalWorkDays(between: rangeStart, and: rangeEnd, days: regularDays, start: normalStart, end: normalEnd)
-//                    }
-//
-//                    Section {
-//                        if shifts.count > 0 {
-//                            LazyVGrid(columns: [GridItem(), GridItem(), GridItem(), GridItem(), GridItem()], spacing: 16) {
-//                                ForEach(shifts) { shift in
-//                                    ShiftCircle(dateGiven: shift.startTime)
-//                                }
-//                            }
-//                        }
-//                    }
-//                    .listRowBackground(Color.clear)
-//
-//                 else {
-//                    NavigationLink("Set up regular work hours") {
-//                        NormalWorkingHoursView()
-//                    }
-//                }
-//            }
 
-//            if chooseIndividually == false {
-//                Section(chooseByRange ? "OR" : "") {
-//                    Button("Choose individual days") {
-//                        withAnimation {
-//                            chooseIndividually = true
-//                            chooseByRange = false
-//                        }
-//                    }
-//                }
-//            }
-//
-//            if chooseByRange == false {
-//                Section("OR") {
-//                    Button("Choose by date range") {
-//                        withAnimation {
-//                            chooseIndividually = false
-//                            chooseByRange = true
-//                        }
-//                    }
-//                }
-//            }
         }
+        .listStyle(.insetGrouped)
         .putInTemplate()
         .navigationTitle("Add Shifts")
         .bottomButton(label: "Save") {
@@ -207,5 +145,6 @@ struct MultipleNewShiftsView_Previews: PreviewProvider {
     static var previews: some View {
         MultipleNewShiftsView()
             .putInNavView(.inline)
+            .environment(\.managedObjectContext, PersistenceController.context)
     }
 }

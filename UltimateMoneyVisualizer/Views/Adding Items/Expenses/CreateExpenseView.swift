@@ -74,6 +74,7 @@ struct CreateExpenseView: View {
                 }
             }
         }
+        .putInTemplate()
         .navigationTitle("New Expense")
         // Add the alert toast modifier to the view
         .toast(isPresenting: $showToast, duration: 2, tapToDismiss: true) {

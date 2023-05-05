@@ -68,6 +68,7 @@ struct CreateShiftView: View {
                 }
             }
         }
+        .putInTemplate()
         .navigationTitle("New Shift")
         // Add the alert toast modifier to the view
         .toast(isPresenting: $showToast, duration: 2, tapToDismiss: true) {

@@ -14,6 +14,7 @@ struct HomeView: View {
     @ObservedObject private var user = User.main
 
     @State private var currentPayoffQueueSlot: Int = 1
+    
 
     var body: some View {
         ZStack {
@@ -36,9 +37,9 @@ struct HomeView: View {
                     NavigationLink {
                         ShiftListView()
                     } label: {
-                        HorizontalDataDisplay(data: [.init(label: "earnings", value: user.totalEarned().formattedForMoney()),
-                                                     .init(label: "time worked", value: user.totalWorked().formatForTime()),
-                                                     .init(label: "time saved", value: user.totalTimeSaved().formatForTime())])
+                        HorizontalDataDisplay(data: [.init(label: "earnings", value: user.totalEarned().formattedForMoney(), view: ShiftListView().anyView),
+                                                     .init(label: "time worked", value: user.totalWorked().formatForTime(), view: ShiftListView().anyView),
+                                                     .init(label: "time saved", value: user.totalTimeSaved().formatForTime(), view: SavedListView().anyView)])
                             .centerInParentView()
                     }
                     .buttonStyle(.plain)
@@ -202,6 +203,75 @@ struct HomeView: View {
 
         .putInTemplate()
         .navigationTitle(Date.now.getFormattedDate(format: .abreviatedMonth))
+        .safeAreaInset(edge: .bottom) {
+            
+            QuickAddButton()
+            
+            
+        }
+    }
+    
+    struct QuickAddButton: View {
+        @State private var didTapQuickAdd = false
+        @ObservedObject private var settings = User.main.getSettings()
+        var body: some View {
+            ZStack {
+                if didTapQuickAdd {
+                    PlusMenu(widthAndHeight: 50)
+                        .offset(y: -60)
+                }
+
+                Button {
+                    withAnimation(.easeInOut(duration: 0.7)) {
+                        didTapQuickAdd.toggle()
+                    }
+
+                } label: {
+                    VStack {
+                        Image(systemName: "plus.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 50)
+                            .background(Circle().fill(.white))
+                            .foregroundStyle(settings.getDefaultGradient())
+                            .rotationEffect(didTapQuickAdd ? .degrees(315) : .degrees(0))
+                    }
+                }
+            }
+            .padding(.bottom, 5)
+        }
+        
+    }
+    
+    struct PlusMenu: View {
+        let widthAndHeight: CGFloat
+
+        var body: some View {
+            HStack(spacing: 50) {
+                NavigationLink {
+                    SpendNewMoneyFirstView()
+
+                } label: {
+                    Image(systemName: "chart.line.downtrend.xyaxis.circle.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .foregroundStyle(.red.getGradient())
+                        .background(Circle().fill(.white))
+                        .frame(width: widthAndHeight, height: widthAndHeight)
+                }
+                NavigationLink {
+                    AddNewMoneyFirstView()
+                } label: {
+                    Image(systemName: "chart.line.uptrend.xyaxis.circle.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .foregroundStyle(.green.getGradient())
+                        .background(Circle().fill(.white))
+                        .frame(width: widthAndHeight, height: widthAndHeight)
+                }
+            }
+            .transition(.scale)
+        }
     }
 
 }
@@ -210,7 +280,11 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView()
-            .putInNavView(.inline)
+        Group {
+            HomeView()
+                .putInNavView(.inline)
+            
+            HomeView.QuickAddButton()
+        }
     }
 }

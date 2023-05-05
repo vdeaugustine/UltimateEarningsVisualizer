@@ -143,16 +143,17 @@ extension TodayView {
                let end = todayShift.endTime {
                 HorizontalDataDisplay(
                     data: [.init(label: "Start",
-                                 value: start.getFormattedDate(format: .minimalTime,
-                                                               amPMCapitalized: false)),
+                                 value: start.getFormattedDate(format: .minimalTime, amPMCapitalized: false),
+                                 view: nil),
                            .init(label: "End",
-                                 value: end.getFormattedDate(format: .minimalTime,
-                                                             amPMCapitalized: false)),
+                                 value: end.getFormattedDate(format: .minimalTime, amPMCapitalized: false),
+                                 view: nil),
 
                            showingTime ? .init(label: "Total",
-                                               value: todayShift.totalShiftDuration.formatForTime()) :
+                                               value: todayShift.totalShiftDuration.formatForTime(),
+                                               view: nil) :
                                .init(label: "Will Earn",
-                                     value: todayShift.totalWillEarn.formattedForMoney())]
+                                     value: todayShift.totalWillEarn.formattedForMoney(), view: nil)]
                 )
             }
         }
