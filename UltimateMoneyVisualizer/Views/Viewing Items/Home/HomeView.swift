@@ -37,10 +37,11 @@ struct HomeView: View {
                     NavigationLink {
                         ShiftListView()
                     } label: {
-                        HorizontalDataDisplay(data: [.init(label: "earnings", value: user.totalEarned().formattedForMoney(), view: ShiftListView().anyView),
-                                                     .init(label: "time worked", value: user.totalWorked().formatForTime(), view: ShiftListView().anyView),
-                                                     .init(label: "time saved", value: user.totalTimeSaved().formatForTime(), view: SavedListView().anyView)])
-                            .centerInParentView()
+                        Text("")
+//                        HorizontalDataDisplay(data: [.init(label: "earnings", value: user.totalEarned().formattedForMoney(), view: ShiftListView().anyView),
+//                                                     .init(label: "time worked", value: user.totalWorked().formatForTime(), view: ShiftListView().anyView),
+//                                                     .init(label: "time saved", value: user.totalTimeSaved().formatForTime(), view: SavedListView().anyView)])
+//                            .centerInParentView()
                     }
                     .buttonStyle(.plain)
                 }

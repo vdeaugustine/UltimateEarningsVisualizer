@@ -18,7 +18,7 @@ final class ExpenseTests: XCTestCase {
         let expense = Expense(title: "Groceries", info: "For the week", amount: 50, dueDate: .now.addDays(25), user: user, context: context)
 
         try TodayShift(startTime: .nineAM, endTime: .fivePM, user: user, context: context)
-        let shiftForAllocation = try Shift(day: .monday, start: .nineAM, end: .fivePM, context: context)
+        let shiftForAllocation = try Shift(day: .monday, start: .nineAM, end: .fivePM, user: user, context: context)
 
         try TemporaryAllocation(initialAmount: 20, expense: expense, context: context)
         try TemporaryAllocation(initialAmount: 8, expense: expense, context: context)
@@ -33,7 +33,7 @@ final class ExpenseTests: XCTestCase {
         let expense = Expense(title: "Groceries", info: "For the week", amount: 93, dueDate: .now.addDays(25), user: user, context: context)
 
         _ = try TodayShift(startTime: .nineAM, endTime: .fivePM, user: user, context: context)
-        let shiftForAllocation = try Shift(day: .monday, start: .nineAM, end: .fivePM, context: context)
+        let shiftForAllocation = try Shift(day: .monday, start: .nineAM, end: .fivePM, user: user, context: context)
 
         _ = try TemporaryAllocation(initialAmount: 20, expense: expense, context: context)
         _ = try TemporaryAllocation(initialAmount: 8, expense: expense, context: context)

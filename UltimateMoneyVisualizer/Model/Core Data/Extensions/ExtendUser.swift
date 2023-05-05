@@ -79,14 +79,38 @@ public extension User {
 
     func totalEarned() -> Double {
         guard let wage else { return 0 }
-        let totalDuration = Shift.totalDuration(for: self)
+        let totalDuration = totalTimeWorked()
         let hourlyRate = wage.amount
         let secondlyRate = hourlyRate / 60 / 60
         return totalDuration * secondlyRate
     }
 
-    func totalWorked() -> Double {
-        Shift.totalDuration(for: self)
+    func getShiftsBetween(_ startDate: Date, _ endDate: Date) -> [Shift] {
+        let filteredShifts = getShifts().filter { shift in
+            (shift.start >= startDate && shift.start <= endDate) || // Shift starts within the range
+            (shift.end >= startDate && shift.end <= endDate) || // Shift ends within the range
+            (shift.start <= startDate && shift.end >= endDate) || // Shift spans the entire range
+            (shift.start <= startDate && shift.end >= startDate) || // Shift starts before the range and ends within the range
+            (shift.start <= endDate && shift.end >= endDate) // Shift starts within the range and ends after the range
+        }
+
+        return filteredShifts
+    }
+
+    
+    func getTimeWorkedBetween(_ startDate: Date, _ endDate: Date) -> TimeInterval {
+        let shifts = getShiftsBetween(startDate, endDate)
+        return shifts.reduce(TimeInterval.zero, {$0 + $1.duration})
+    }
+    
+    func getTotalEarnedBetween(_ startDate: Date, _ endDate: Date) -> Double {
+        let timeWorked = getTimeWorkedBetween(startDate, endDate)
+        return timeWorked * getWage().perSecond
+    }
+
+    func totalTimeWorked() -> TimeInterval {
+        let shifts = getShifts()
+        return shifts.reduce(TimeInterval.zero) { $0 + $1.duration }
     }
 
     /// Returns an array of the user's shifts. If the shifts set is nil, returns an empty array.
@@ -135,9 +159,8 @@ public extension User {
     }
 
     func getItemWith(queueSlot index: Int) -> PayoffItem? {
-        
-        getQueue().first(where: {$0.queueSlotNumber == Int16(index)})
-        
+        getQueue().first(where: { $0.queueSlotNumber == Int16(index) })
+
 //        getQueue().safeGet(at: index)
     }
 

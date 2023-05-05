@@ -10,12 +10,12 @@ import Foundation
 import Vin
 
 public extension Shift {
-    @discardableResult convenience init(day: DayOfWeek, start: Date, end: Date, context: NSManagedObjectContext) throws {
+    @discardableResult convenience init(day: DayOfWeek, start: Date, end: Date, user: User, context: NSManagedObjectContext) throws {
         self.init(context: context)
         self.startDate = start
         self.endDate = end
         self.dayOfWeek = day.rawValue
-
+        self.user = user
         try context.save()
     }
 
@@ -41,6 +41,7 @@ public extension Shift {
             let shift = try Shift(day: .init(date: day),
                                   start: Date.getThisTime(hour: 9, minute: 0, second: 0, from: day)!,
                                   end: Date.getThisTime(hour: 17, minute: 0, second: 0, from: day)!,
+                                  user: user,
                                   context: context)
 
             // For each shift, create 20 random allocations to goals and expenses.
@@ -49,9 +50,14 @@ public extension Shift {
                 if shift.totalAvailable > 0 {
                     // Randomly pick a goal that has a remaining amount to be paid off and create an allocation for it.
                     if let chosenGoal = goalsNotFinished.randomElement() {
-                        let allocatableAmount = min(chosenGoal.amountRemainingToPayOff, shift.totalAvailable)
+                        let allocatableAmount = min(chosenGoal.amountRemainingToPayOff,
+                                                    shift.totalAvailable)
                         if allocatableAmount >= 0.01 {
-                            let allocation = Allocation(amount: .random(in: 0.01 ... allocatableAmount), goal: chosenGoal, shift: shift, date: day, context: context)
+                            let allocation = Allocation(amount: .random(in: 0.01 ... allocatableAmount),
+                                                        goal: chosenGoal,
+                                                        shift: shift,
+                                                        date: day,
+                                                        context: context)
                             shift.addToAllocations(allocation)
                             try context.save()
                         }
@@ -59,19 +65,23 @@ public extension Shift {
 
                     // Randomly pick an expense that has a remaining amount to be paid off and create an allocation for it.
                     if let chosenExpense = expensesNotFinished.randomElement() {
-                        let allocatableAmount = min(chosenExpense.amountRemainingToPayOff, shift.totalAvailable)
+                        let allocatableAmount = min(chosenExpense.amountRemainingToPayOff,
+                                                    shift.totalAvailable)
                         if allocatableAmount >= 0.01 {
-                            let allocation = Allocation(amount: .random(in: 0.01 ... allocatableAmount), expense: chosenExpense, shift: shift, date: day, context: context)
+                            let allocation = Allocation(amount: .random(in: 0.01 ... allocatableAmount),
+                                                        expense: chosenExpense,
+                                                        shift: shift,
+                                                        date: day,
+                                                        context: context)
                             shift.addToAllocations(allocation)
                             try context.save()
                         }
                     }
-
                 }
             }
 
-            shift.user = user
-            user.addToShifts(shift)
+//            shift.user = user
+//            user.addToShifts(shift)
             try context.save()
         }
         try context.save()
@@ -94,20 +104,6 @@ extension Shift {
 
     var totalAvailable: Double {
         totalEarned - totalAllocated
-    }
-
-    static func totalDuration(for user: User) -> TimeInterval {
-        let fetchRequest: NSFetchRequest<Shift> = Shift.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "user == %@", user)
-
-        do {
-            let shifts = try user.managedObjectContext?.fetch(fetchRequest)
-            let duration = shifts?.reduce(TimeInterval.zero) { $0 + $1.duration }
-            return duration ?? TimeInterval.zero
-        } catch {
-            print("Error fetching shifts for user: \(error.localizedDescription)")
-            return TimeInterval.zero
-        }
     }
 
     var duration: TimeInterval {
