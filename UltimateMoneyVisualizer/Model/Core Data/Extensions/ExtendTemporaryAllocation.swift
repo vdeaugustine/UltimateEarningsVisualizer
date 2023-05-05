@@ -20,10 +20,10 @@ public extension TemporaryAllocation {
     }
 
     func add(amount: Double, context: NSManagedObjectContext) throws {
-        let before = goal!.temporarilyPaidOff
+//        let before = goal!.temporarilyPaidOff
         self.amount += amount
         lastEdited = .now
-        let after = goal!.temporarilyPaidOff
+//        let after = goal!.temporarilyPaidOff
 //        do {
             try context.save()
 //        } catch {

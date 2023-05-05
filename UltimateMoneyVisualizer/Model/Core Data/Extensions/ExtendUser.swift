@@ -85,7 +85,7 @@ public extension User {
         return totalDuration * secondlyRate
     }
 
-    func getShiftsBetween(_ startDate: Date, _ endDate: Date) -> [Shift] {
+    func getShiftsBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [Shift] {
         let filteredShifts = getShifts().filter { shift in
             (shift.start >= startDate && shift.start <= endDate) || // Shift starts within the range
             (shift.end >= startDate && shift.end <= endDate) || // Shift ends within the range
@@ -98,13 +98,13 @@ public extension User {
     }
 
     
-    func getTimeWorkedBetween(_ startDate: Date, _ endDate: Date) -> TimeInterval {
-        let shifts = getShiftsBetween(startDate, endDate)
+    func getTimeWorkedBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> TimeInterval {
+        let shifts = getShiftsBetween(startDate: startDate, endDate: endDate)
         return shifts.reduce(TimeInterval.zero, {$0 + $1.duration})
     }
     
-    func getTotalEarnedBetween(_ startDate: Date, _ endDate: Date) -> Double {
-        let timeWorked = getTimeWorkedBetween(startDate, endDate)
+    func getTotalEarnedBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> Double {
+        let timeWorked = getTimeWorkedBetween(startDate: startDate, endDate: endDate)
         return timeWorked * getWage().perSecond
     }
 

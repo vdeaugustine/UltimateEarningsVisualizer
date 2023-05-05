@@ -87,7 +87,7 @@ public extension TodayShift {
         let both: [PayoffItem] = (unfinishedGoals + unfinishedExpenses)
         let sorted = both.sorted { ($0.dateCreated ?? .distantFuture) < ($1.dateCreated ?? .distantFuture) }
 
-        return both.map { $0.getID().uuidString }.joinString(",")
+        return sorted.map { $0.getID().uuidString }.joinString(",")
     }
 
     func getPayoffItemQueue() -> [String] {
