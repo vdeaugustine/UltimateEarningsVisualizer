@@ -78,7 +78,8 @@ struct MultipleNewShiftsView: View {
                     guard let start = dateFromComponents(dc: dateComponent, time: startTime),
                           let end = dateFromComponents(dc: dateComponent, time: endTime)
                     else {
-                        fatalError("Could not find start end time")
+                        print("Could not find start end time")
+                        return
                     }
                     
                     do {
