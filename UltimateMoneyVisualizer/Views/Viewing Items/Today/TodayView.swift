@@ -63,6 +63,7 @@ struct TodayView: View {
                 YouHaveNoShiftView(showHoursSheet: $showHoursSheet)
             }
         }
+        .onAppear(perform: user.updateTempQueue)
         .putInTemplate()
         .bottomBanner(isVisible: $showBanner, swipeToDismiss: false, buttonText: "Save")
         .background(Color.targetGray.frame(maxHeight: .infinity).ignoresSafeArea())
@@ -92,7 +93,7 @@ struct TodayView: View {
     }
 
     private func processTemporaryAllocation() {
-        if let currentGoal = user.getQueue().first as? Goal {
+        if let currentGoal = user.getTempQueue().first as? Goal {
             do {
                 var recentTempAlloc = currentGoal.getMostRecentTemporaryAllocation()
                 if recentTempAlloc == nil {
@@ -107,7 +108,7 @@ struct TodayView: View {
             } catch {
                 print(error)
             }
-        } else if let currentExpense = user.getQueue().first as? Expense {
+        } else if let currentExpense = user.getTempQueue().first as? Expense {
             if let tempAlloc = currentExpense.temporaryAllocations?.allObjects as? [Expense] {
             }
         } else {
@@ -200,7 +201,7 @@ extension TodayView {
     // MARK: - Payoff Item Section
 
     func payoffItemSection(todayShift: TodayShift) -> AnyView {
-        if let expense = user.getQueue().first as? Expense {
+        if let expense = user.getTempQueue().first as? Expense {
             return VStack {
                 VStack {
                     HStack {
@@ -243,7 +244,7 @@ extension TodayView {
             }
             .padding(.vertical)
             .anyView
-        } else if let goal = user.getQueue().first as? Goal {
+        } else if let goal = user.getTempQueue().first as? Goal {
             return VStack {
                 VStack {
                     HStack {

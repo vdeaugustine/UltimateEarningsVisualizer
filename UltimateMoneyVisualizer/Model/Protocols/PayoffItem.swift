@@ -15,6 +15,12 @@ public protocol PayoffItem {
     var percentPaidOff: Double { get }
     var titleStr: String { get }
     var optionalTempQNum: Int16? { get set }
+    
+    func setOptionalTempQNum(newVal: Int16?)
+    func setOptionalQSlotNumber(newVal: Int16?) 
+    
+    func handleWhenPaidOff() throws
+    func handleWhenTempPaidOff() throws
 }
 
 

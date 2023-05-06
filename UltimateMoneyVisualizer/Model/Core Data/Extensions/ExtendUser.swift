@@ -200,6 +200,24 @@ public extension User {
 
         return anyArr
     }
+    
+    func getTempQueue() -> [PayoffItem] {
+        var anyArr: [PayoffItem] = []
+
+        anyArr += getExpenses()
+        anyArr += getGoals()
+        anyArr = anyArr.filter { $0.optionalTempQNum != nil }
+        
+        anyArr.sort { $0.optionalTempQNum!  < $1.optionalTempQNum! }
+
+        return anyArr
+    }
+    
+    func updateTempQueue() {
+        var items = getQueue()
+        items.forEach({ $0.setOptionalTempQNum(newVal: $0.optionalQSlotNumber) })
+        
+    }
 
     func getItemWith(queueSlot index: Int) -> PayoffItem? {
         getQueue().first(where: { $0.optionalQSlotNumber == Int16(index) })

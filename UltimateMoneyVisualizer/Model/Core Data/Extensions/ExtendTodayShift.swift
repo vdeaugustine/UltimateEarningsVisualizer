@@ -20,6 +20,9 @@ public extension TodayShift {
         self.dateCreated = .now
         self.startTime = startTime
         self.endTime = endTime
+        
+        user.updateTempQueue()
+        
         try context.save()
     }
 

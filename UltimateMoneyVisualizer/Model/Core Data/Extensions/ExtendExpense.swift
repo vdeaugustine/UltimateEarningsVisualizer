@@ -21,9 +21,9 @@ public extension Expense {
         self.user = user
         self.dateCreated = dateCreated ?? .now
 
-        let currentQueueCount = Int16(user.getGoals().count) + Int16(user.getExpenses().count)
+        let currentQueueCount = Int16(user.getQueue().count)
         // Put the item at the back of the queue at first initialization
-        self.queueSlotNumber = Int16(currentQueueCount)
+        self.queueSlotNumber = currentQueueCount
 
         self.id = UUID()
     }
@@ -32,6 +32,15 @@ public extension Expense {
 // MARK: - Expense + PayoffItem
 
 extension Expense: PayoffItem {
+    public func setOptionalQSlotNumber(newVal: Int16?) {
+        self.optionalQSlotNumber = newVal
+    }
+    
+    
+    public func setOptionalTempQNum(newVal: Int16?) {
+        self.optionalTempQNum = newVal
+    }
+    
     public var optionalQSlotNumber: Int16? {
         get {
             if queueSlotNumber == -7777 {
@@ -54,6 +63,15 @@ extension Expense: PayoffItem {
         set {
             tempQNum = newValue ?? -7777
         }
+    }
+    
+    public func handleWhenPaidOff() throws {
+        guard amountRemainingToPayOff <= 0 else { return }
+        self.optionalTempQNum = nil
+    }
+    public func handleWhenTempPaidOff() throws {
+        guard temporaryRemainingToPayOff <= 0 else { return }
+        self.optionalTempQNum = nil
     }
     
     
