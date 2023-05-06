@@ -40,6 +40,30 @@ extension Goal: PayoffItem {
 
         return newID
     }
+    
+    public var optionalQSlotNumber: Int16? {
+        get {
+            if queueSlotNumber == -7777 {
+                return nil
+            }
+            return queueSlotNumber
+        }
+        set {
+            queueSlotNumber = newValue ?? -7777
+        }
+    }
+    
+    public var optionalTempQNum: Int16? {
+        get {
+            if tempQNum == -7777 {
+                return nil
+            }
+            return tempQNum
+        }
+        set {
+            tempQNum = newValue ?? -7777
+        }
+    }
 }
 
 public extension Goal {
@@ -96,7 +120,6 @@ public extension Goal {
 
         let sorted = tempAllocsArray.sorted { ($0.lastEdited ?? .now) > ($1.lastEdited ?? .now) }
 
-
         return sorted.first
     }
 
@@ -112,10 +135,7 @@ public extension Goal {
     }
 
     var temporarilyPaidOff: Double {
-        guard let temporaryAllocations = temporaryAllocations as? Set<TemporaryAllocation>
-        else {
-            return 0
-        }
+        let temporaryAllocations = getArrayOfTemporaryAllocations()
 
         let totalTemporaryAllocated = temporaryAllocations.reduce(Double(0)) { $0 + $1.amount }
 

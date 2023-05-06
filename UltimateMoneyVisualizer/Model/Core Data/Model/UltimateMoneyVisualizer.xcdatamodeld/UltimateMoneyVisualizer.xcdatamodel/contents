@@ -16,6 +16,7 @@
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="info" optional="YES" attributeType="String"/>
         <attribute name="queueSlotNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="tempQNum" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="title" attributeType="String" defaultValueString=""/>
         <relationship name="allocations" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Allocation" inverseName="expense" inverseEntity="Allocation"/>
         <relationship name="temporaryAllocations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TemporaryAllocation" inverseName="expense" inverseEntity="TemporaryAllocation"/>
@@ -28,7 +29,8 @@
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="imageData" optional="YES" attributeType="Binary"/>
         <attribute name="info" optional="YES" attributeType="String"/>
-        <attribute name="queueSlotNumber" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="queueSlotNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="tempQNum" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="allocations" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Allocation" inverseName="goal" inverseEntity="Allocation"/>
         <relationship name="temporaryAllocations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TemporaryAllocation" inverseName="goal" inverseEntity="TemporaryAllocation"/>

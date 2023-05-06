@@ -52,7 +52,7 @@ struct ShiftDetailView: View {
             }
             .listStyle(.insetGrouped)
 //            Button("Delete shift", role: .destructive) {
-//                
+//
 //            }
 //            .padding(.bottom)
         }

@@ -127,6 +127,14 @@ public extension TodayShift {
 // MARK: - Calculations
 
 public extension TodayShift {
+    func getTemporaryAllocations() -> [TemporaryAllocation] {
+        guard let allocs = Array(temporaryAllocations ?? []) as? [TemporaryAllocation]
+        else {
+            return []
+        }
+        return allocs
+    }
+
     /// endTime - startTime. Measured in seconds
     var totalShiftDuration: Double {
         guard let startTime,
@@ -180,6 +188,4 @@ public extension TodayShift {
         let percent = elapsedTime(nowTime) / totalShiftDuration
         return percent < 1 ? percent : 1
     }
-    
-    
 }

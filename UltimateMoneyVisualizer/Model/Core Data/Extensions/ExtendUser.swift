@@ -59,8 +59,13 @@ public extension User {
 
         do {
             let results = try viewContext.fetch(request)
+            if results.count > 1 {
+                fatalError("MORE THAN ONE USER")
+            }
             if let user = results.first {
-                if user.todayShift != nil { return user }
+                if user.todayShift != nil {
+                    return user
+                }
 
                 if let shiftThatIsToday = user.getTodayShift() {
                     let todayShift = TodayShift(context: viewContext)
@@ -105,8 +110,7 @@ public extension User {
         }
         return filteredExpenses
     }
-    
-    
+
     func getSavedBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [Saved] {
         let filteredSaved = getSaved().filter { saved in
             guard let date = saved.date else { return false }
@@ -114,27 +118,25 @@ public extension User {
         }
         return filteredSaved
     }
-    
+
     func getAmountSavedBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> Double {
         let saved = getSavedBetween(startDate: startDate, endDate: endDate)
-        return saved.reduce(Double.zero, {$0 + $1.amount})
+        return saved.reduce(Double.zero) { $0 + $1.amount }
     }
-    
+
     func getTimeSavedBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> TimeInterval {
         getAmountSavedBetween(startDate: startDate, endDate: endDate) / getWage().perSecond
     }
-    
-    
+
     func getExpensesSpentBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> Double {
         let expenses = getExpensesBetween(startDate: startDate, endDate: endDate)
-        return expenses.reduce(Double.zero, {$0 + $1.amount})
+        return expenses.reduce(Double.zero) { $0 + $1.amount }
     }
-    
+
     /// Returns the amount of seconds the given amount of money translates to
     func convertMoneyToTime(money: Double) -> TimeInterval {
         money / getWage().perSecond
     }
-    
 
     func getTimeWorkedBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> TimeInterval {
         let shifts = getShiftsBetween(startDate: startDate, endDate: endDate)
@@ -158,7 +160,7 @@ public extension User {
         guard let shifts,
               let array = Array(shifts) as? [Shift] else { return [] }
 
-        return array.sorted(by: {$0.start > $1.start})
+        return array.sorted(by: { $0.start > $1.start })
     }
 
     func getTodayShift() -> Shift? {
@@ -190,14 +192,17 @@ public extension User {
 
         anyArr += getExpenses()
         anyArr += getGoals()
-
-        anyArr.sort { $0.queueSlotNumber < $1.queueSlotNumber }
+        anyArr = anyArr.filter { $0.optionalQSlotNumber != nil }
+        
+        
+        
+        anyArr.sort { $0.optionalQSlotNumber!  < $1.optionalQSlotNumber! }
 
         return anyArr
     }
 
     func getItemWith(queueSlot index: Int) -> PayoffItem? {
-        getQueue().first(where: { $0.queueSlotNumber == Int16(index) })
+        getQueue().first(where: { $0.optionalQSlotNumber == Int16(index) })
 
 //        getQueue().safeGet(at: index)
     }

@@ -106,21 +106,26 @@ struct StatsView: View {
                 LazyVStack {
                     ForEach(user.getShiftsBetween(startDate: firstDate, endDate: secondDate)) { shift in
 
-                        VStack {
-                            HStack {
-                                HStack(spacing: 15) {
-                                    Image(systemName: "chart.line.uptrend.xyaxis")
-                                        .foregroundColor(.green)
-                                    Text(shift.start.getFormattedDate(format: .abreviatedMonth))
+                      
+                        NavigationLink(destination: ShiftDetailView(shift: shift)){
+                                HStack {
+                                    HStack(spacing: 15) {
+                                        Image(systemName: "chart.line.uptrend.xyaxis")
+                                            .foregroundColor(.green)
+                                        Text(shift.start.getFormattedDate(format: .abreviatedMonth))
+                                    }
+                                    Spacer()
+                                    Text(shift.totalEarned.formattedForMoney())
                                 }
-                                Spacer()
-                                Text(shift.totalEarned.formattedForMoney())
+                                .padding([.horizontal])
+                                .padding(.top, 2)
+                                
                             }
-                            .padding([.top, .horizontal])
-                            Divider()
-                        }
+                        Divider()
+                        
                     }
                 }
+                .padding(.top, 10)
                 .rectContainer(shadowRadius: 0)
             }
             .padding()

@@ -20,14 +20,20 @@ public extension TemporaryAllocation {
     }
 
     func add(amount: Double, context: NSManagedObjectContext) throws {
-//        let before = goal!.temporarilyPaidOff
         self.amount += amount
         lastEdited = .now
-//        let after = goal!.temporarilyPaidOff
-//        do {
             try context.save()
-//        } catch {
-//            fatalError(error.localizedDescription)
-//        }
+    }
+    
+    
+    
+    func getItemTitle() -> String {
+        if let goal {
+            return goal.titleStr
+        }
+        if let expense {
+            return expense.titleStr
+        }
+        return ""
     }
 }

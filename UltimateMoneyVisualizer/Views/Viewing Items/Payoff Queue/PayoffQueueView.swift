@@ -63,7 +63,7 @@ struct PayoffQueueView: View {
 
         for item in afterMove {
             var payoff = item
-            payoff.queueSlotNumber = Int16(counter)
+            payoff.optionalQSlotNumber = Int16(counter)
             counter += 1
         }
 

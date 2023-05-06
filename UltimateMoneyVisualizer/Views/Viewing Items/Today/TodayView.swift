@@ -21,11 +21,23 @@ struct TodayView: View {
 
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
-    @State var todayShift: TodayShift? = nil
+    @State var todayShift: TodayShift? = User.main.todayShift
     var showingTime: Bool { showTimeOrMoney == "time" }
 
     @ObservedObject var user = User.main
     @ObservedObject var settings = User.main.getSettings()
+    
+    var isCurrentlyMidShift: Bool {
+        guard let todayShift,
+              let start = todayShift.startTime,
+              let end = todayShift.endTime,
+              nowTime >= start,
+              nowTime <= end
+        else {
+            return false
+        }
+        return true
+    }
 
     var body: some View {
         VStack {
@@ -43,7 +55,7 @@ struct TodayView: View {
 
                     payoffItemSection(todayShift: todayShift)
 
-                    pieChartSection(todayShift: todayShift)
+                    todaysSpending(todayShift: todayShift)
                 }
 
             } else {
@@ -59,6 +71,8 @@ struct TodayView: View {
             SelectHours(showHoursSheet: $showHoursSheet, todayShift: $todayShift)
         }
         .onReceive(timer) { _ in
+            guard isCurrentlyMidShift else { return }
+
             addSecond()
         }
     }
@@ -70,7 +84,7 @@ struct TodayView: View {
            !hasShownBanner {
             let shiftIsOver = nowTime >= endTime
 
-            if shiftIsOver {
+            if isCurrentlyMidShift == false {
                 showBanner = true
             }
         }
@@ -79,10 +93,6 @@ struct TodayView: View {
 
     private func processTemporaryAllocation() {
         if let currentGoal = user.getQueue().first as? Goal {
-            
-            
-            
-            
             do {
                 var recentTempAlloc = currentGoal.getMostRecentTemporaryAllocation()
                 if recentTempAlloc == nil {
@@ -91,9 +101,8 @@ struct TodayView: View {
                                                               goal: currentGoal,
                                                               context: user.managedObjectContext ?? PersistenceController.context)
                 }
-                
+
                 try recentTempAlloc?.add(amount: user.getWage().secondly, context: user.managedObjectContext ?? PersistenceController.context)
-                
 
             } catch {
                 print(error)
@@ -181,7 +190,10 @@ extension TodayView {
         .padding()
         .padding(.top)
         .overlay {
-            AnimatePlusAmount(str: "+" + (user.getWage().secondly * 2).formattedForMoneyExtended())
+            if isCurrentlyMidShift {
+                AnimatePlusAmount(str: "+" + (user.getWage().secondly * 2).formattedForMoneyExtended())
+            }
+            
         }
     }
 
@@ -231,8 +243,7 @@ extension TodayView {
             }
             .padding(.vertical)
             .anyView
-        }
-        else if let goal = user.getQueue().first as? Goal {
+        } else if let goal = user.getQueue().first as? Goal {
             return VStack {
                 VStack {
                     HStack {
@@ -251,7 +262,6 @@ extension TodayView {
                                 .minimumScaleFactor(0.5)
                                 .lineLimit(1)
                                 .padding(5)
-                                
                         }
 
                         VStack(alignment: .leading) {
@@ -282,9 +292,9 @@ extension TodayView {
         }
     }
 
-    // MARK: - Pie Chart Section
+    // MARK: - Today's Spending Section
 
-    func pieChartSection(todayShift: TodayShift) -> some View {
+    func todaysSpending(todayShift: TodayShift) -> some View {
         VStack {
             HStack {
                 Text("Today's Spending Breakdown")
@@ -293,9 +303,15 @@ extension TodayView {
                 Spacer()
             }
 
-            HStack {
+            ForEach(todayShift.getTemporaryAllocations()){ tempAlloc in
+                HStack {
+                    
+                    Text(tempAlloc.getItemTitle())
+                    
+                }
             }
         }
+        
 
         .padding()
         .padding(.vertical)

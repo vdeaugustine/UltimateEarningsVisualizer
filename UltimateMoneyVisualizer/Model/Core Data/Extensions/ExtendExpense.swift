@@ -20,27 +20,58 @@ public extension Expense {
         self.dueDate = dueDate
         self.user = user
         self.dateCreated = dateCreated ?? .now
-        
+
         let currentQueueCount = Int16(user.getGoals().count) + Int16(user.getExpenses().count)
         // Put the item at the back of the queue at first initialization
         self.queueSlotNumber = Int16(currentQueueCount)
-        
+
         self.id = UUID()
     }
 }
 
+// MARK: - Expense + PayoffItem
+
 extension Expense: PayoffItem {
+    public var optionalQSlotNumber: Int16? {
+        get {
+            if queueSlotNumber == -7777 {
+                return nil
+            }
+            return queueSlotNumber
+        }
+        set {
+            queueSlotNumber = newValue ?? -7777
+        }
+    }
+    
+    public var optionalTempQNum: Int16? {
+        get {
+            if tempQNum == -7777 {
+                return nil
+            }
+            return tempQNum
+        }
+        set {
+            tempQNum = newValue ?? -7777
+        }
+    }
+    
+    
+    
+    
+    
+   
+
     
     public func getID() -> UUID {
         if let id { return id }
         let newID = UUID()
-        self.id = newID
-        
-        try? self.managedObjectContext?.save()
-        
+        id = newID
+
+        try? managedObjectContext?.save()
+
         return newID
     }
-    
 }
 
 public extension Expense {
@@ -85,13 +116,13 @@ public extension Expense {
     var amountMoneyStr: String {
         return amount.formattedForMoney(includeCents: true)
     }
-    
+
     var percentPaidOff: Double { amountPaidOff / amount }
 
     var amountPaidOff: Double {
         getAllocations().reduce(Double(0)) { $0 + $1.amount }
     }
-    
+
     func getAllocations() -> [Allocation] {
         guard let allocations = Array(allocations ?? []) as? [Allocation] else { return [] }
         return allocations

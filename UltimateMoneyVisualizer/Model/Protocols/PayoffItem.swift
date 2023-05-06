@@ -9,11 +9,12 @@ import Foundation
 
 public protocol PayoffItem {
     
-    var queueSlotNumber: Int16 { get set }
+    var optionalQSlotNumber: Int16? { get set }
     var dateCreated: Date? { get set }
     func getID() -> UUID
     var percentPaidOff: Double { get }
     var titleStr: String { get }
+    var optionalTempQNum: Int16? { get set }
 }
 
 
