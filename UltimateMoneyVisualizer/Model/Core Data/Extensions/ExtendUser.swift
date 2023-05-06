@@ -158,7 +158,7 @@ public extension User {
         guard let shifts,
               let array = Array(shifts) as? [Shift] else { return [] }
 
-        return array
+        return array.sorted(by: {$0.start > $1.start})
     }
 
     func getTodayShift() -> Shift? {

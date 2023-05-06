@@ -41,4 +41,18 @@ public extension Allocation {
 }
 
 extension Allocation {
+    
+    
+    func getItemTitle() -> String {
+        if let goal {
+            return goal.titleStr
+        }
+        if let expense {
+            return expense.titleStr
+        }
+        return ""
+    }
+    
+    
+    
 }

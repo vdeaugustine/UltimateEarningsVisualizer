@@ -113,6 +113,14 @@ extension Shift {
         }
         return endDate.timeIntervalSince(startDate)
     }
+
+    func getAllocations() -> [Allocation] {
+        guard let allocations = allocations?.allObjects as? [Allocation] else {
+            return []
+        }
+
+        return allocations
+    }
 }
 
 // MARK: - Just for previews
