@@ -32,13 +32,13 @@ final class ExpenseTests: XCTestCase {
     func testTemporaryRemainingToPayOff() throws {
         let expense = Expense(title: "Groceries", info: "For the week", amount: 93, dueDate: .now.addDays(25), user: user, context: context)
 
-        _ = try TodayShift(startTime: .nineAM, endTime: .fivePM, user: user, context: context)
+        try TodayShift(startTime: .nineAM, endTime: .fivePM, user: user, context: context)
         let shiftForAllocation = try Shift(day: .monday, start: .nineAM, end: .fivePM, user: user, context: context)
 
-        _ = try TemporaryAllocation(initialAmount: 20, expense: expense, context: context)
-        _ = try TemporaryAllocation(initialAmount: 8, expense: expense, context: context)
-        _ = try TemporaryAllocation(initialAmount: 4, expense: expense, context: context)
-        _ = Allocation(amount: 7, expense: expense, shift: shiftForAllocation, context: context)
+        try TemporaryAllocation(initialAmount: 20, expense: expense, context: context)
+        try TemporaryAllocation(initialAmount: 8, expense: expense, context: context)
+        try TemporaryAllocation(initialAmount: 4, expense: expense, context: context)
+        Allocation(amount: 7, expense: expense, shift: shiftForAllocation, context: context)
 
         let expectedRemaining: Double = 93 - 20 - 8 - 4 - 7
 

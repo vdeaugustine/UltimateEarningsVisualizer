@@ -40,36 +40,50 @@ struct CreateShiftView: View {
                     .spacedOut(text: dayOfWeek.rawValue)
             }
 
-            Section {
-                Button("Save") {
-                    // Create a new shift object and save it to Core Data
-
-                    let shift = Shift(context: viewContext)
-                    shift.dayOfWeek = dayOfWeek.rawValue
-                    shift.startDate = startDate
-                    shift.endDate = endDate
-
-                    do {
-                        try viewContext.save()
-                        // Show a success alert toast
-                        alertToastConfig.title = "Shift saved successfully."
-                        alertToastConfig.type = .regular
-                        showToast = true
-                    } catch let error {
-                        // Show an error alert toast
-                        alertToastConfig.title = "Error: \(error.localizedDescription)"
-                        alertToastConfig.type = .error(.blue)
-                        showToast = true
-                    }
-
-                    // Reset the fields
-                    startDate = Date()
-                    endDate = Date()
+//            Section {
+//                Button("Save") {
+//
+//                }
+//            }
+            
+            Section("Add Multiple Shifts") {
+                
+                NavigationLink("Add Multiple Shifts") {
+                    MultipleNewShiftsView()
                 }
+                
             }
+            
+            
         }
+        
         .putInTemplate()
         .navigationTitle("New Shift")
+        .bottomButton(label: "Save", action: {
+            // Create a new shift object and save it to Core Data
+
+            let shift = Shift(context: viewContext)
+            shift.dayOfWeek = dayOfWeek.rawValue
+            shift.startDate = startDate
+            shift.endDate = endDate
+
+            do {
+                try viewContext.save()
+                // Show a success alert toast
+                alertToastConfig.title = "Shift saved successfully."
+                alertToastConfig.type = .regular
+                showToast = true
+            } catch let error {
+                // Show an error alert toast
+                alertToastConfig.title = "Error: \(error.localizedDescription)"
+                alertToastConfig.type = .error(.blue)
+                showToast = true
+            }
+
+            // Reset the fields
+            startDate = Date()
+            endDate = Date()
+        })
         // Add the alert toast modifier to the view
         .toast(isPresenting: $showToast, duration: 2, tapToDismiss: true) {
             alertToastConfig

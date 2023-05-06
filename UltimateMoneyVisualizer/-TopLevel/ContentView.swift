@@ -23,17 +23,9 @@ struct ContentView: View {
 
     var body: some View {
         TabView(selection: $tab) {
-            
-            
             ShiftListView()
                 .putInNavView(.inline)
                 .makeTab(tab: Tabs.shifts, systemImage: "calendar")
-                
-
-            SettingsView()
-                .putInTemplate()
-                .putInNavView(.inline)
-                .makeTab(tab: Tabs.settings, systemImage: "gear")
 
             HomeView()
                 .putInNavView(.inline)
@@ -42,6 +34,11 @@ struct ContentView: View {
             TodayView()
                 .putInNavView(.inline)
                 .makeTab(tab: Tabs.today, systemImage: "bolt.fill")
+            
+            SettingsView()
+                .putInTemplate()
+                .putInNavView(.inline)
+                .makeTab(tab: Tabs.settings, systemImage: "gear")
         }
         .tint(settings.themeColor)
     }

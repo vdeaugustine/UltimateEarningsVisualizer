@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Vin
 
 // MARK: - HomeView
 
@@ -22,17 +23,32 @@ struct HomeView: View {
                 // MARK: - Lifetime Money
 
                 VStack {
-                    HStack {
-                        Text("Lifetime")
-                            .font(.headline)
-                        Spacer()
-                        NavigationLink {
-                        } label: {
-                            Text("Stats")
-                                .font(.subheadline)
-                                .padding(.trailing)
+                    homeSection(rectContainer: false) {
+                        HStack {
+                            Text("Lifetime")
+                                .font(.headline)
+                            Spacer()
+                            NavigationLink {
+                                StatsView()
+                            } label: {
+                                Text("Stats")
+                                    .font(.subheadline)
+                                    .padding(.trailing)
+                            }
                         }
+                    } content: {
+                        HorizontalDataDisplay(data: [
+                            .init(label: "Earnings", value: user.totalEarned().formattedForMoney(), view: ShiftListView().anyView),
+                            
+                                .init(label: "Time", value: user.totalTimeWorked().formatForTime(), view: ShiftListView().anyView),
+                            
+                                .init(label: "Time Saved", value: user.totalTimeSaved().formatForTime(), view: SavedListView().anyView)
+                        
+                        
+                        ])
                     }
+                    .padding(.top)
+
 
                     NavigationLink {
                         ShiftListView()
@@ -59,7 +75,7 @@ struct HomeView: View {
 
                 // MARK: - Current Payoff Item Section
 
-                VStack(spacing: -7) {
+                VStack() {
                     HStack {
                         Text("Payoff queue")
                             .font(.headline)
@@ -164,10 +180,13 @@ struct HomeView: View {
                                                     if let image = goal.loadImageIfPresent() {
                                                         Image(uiImage: image)
                                                             .resizable()
-                                                            .aspectRatio(contentMode: .fit)
+                                                            
                                                             //                            .clipShape(Circle())
                                                             //                            .height(90)
-                                                            .frame(width: 150)
+                                                            .aspectRatio(contentMode: .fit)
+                                                            .frame(height: 75)
+                                                            .frame(width: 125)
+                                                            
                                                             .cornerRadius(8)
                                                     }
                                                     
@@ -284,8 +303,6 @@ struct HomeView_Previews: PreviewProvider {
         Group {
             HomeView()
                 .putInNavView(.inline)
-            
-            HomeView.QuickAddButton()
         }
     }
 }

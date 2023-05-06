@@ -73,7 +73,7 @@ struct AddNewMoneyFirstView: View {
         .cornerRadius(8)
 
         .shadow(radius: 1)
-        .rectContainer()
+        .rectContainer(shadowRadius: 0)
     }
 }
 
@@ -147,7 +147,7 @@ struct SpendNewMoneyFirstView: View {
         .cornerRadius(8)
 
         .shadow(radius: 1)
-        .rectContainer()
+        .rectContainer(shadowRadius: 0)
     }
 }
 
