@@ -23,9 +23,11 @@ struct ContentView: View {
 
     var body: some View {
         TabView(selection: $tab) {
-            ShiftListView()
-                .putInNavView(.inline)
-                .makeTab(tab: Tabs.shifts, systemImage: "calendar")
+//            AssignAllocationForExpenseView(expense: User.main.getExpenses().first!)
+//                .makeTab(tab: Tabs.home, systemImage: "house")
+            
+            AssignAllocationForExpenseView(expense: User.main.getExpenses().first!)
+                .makeTab(tab: Tabs.expenses, systemImage: "star")
 
             HomeView()
                 .putInNavView(.inline)

@@ -5,9 +5,9 @@
 //  Created by ChatGPT on 4/26/23.
 //
 
+import AlertToast
 import SwiftUI
 import Vin
-import AlertToast
 
 // MARK: - GoalDetailView
 
@@ -21,9 +21,9 @@ struct GoalDetailView: View {
     @State private var showImageSelector = false
     @State private var shownImage: UIImage? = nil
     @State private var initialImage: UIImage? = nil
-    
+
     @State private var showAlert = false
-    
+
     @State private var toastConfiguration: AlertToast = AlertToast(type: .regular)
 
     var body: some View {
@@ -53,6 +53,22 @@ struct GoalDetailView: View {
 
                     Text("Time remaining to pay off")
                         .spacedOut(text: goal.timeRemaining.formatForTime())
+                }
+
+                Section("Contributions") {
+                    NavigationLink("Add Allocation") {
+                        
+                    }
+                    ForEach(goal.getAllocations()) { alloc in
+
+                        if let shift = alloc.shift {
+                            ExpenseShiftRow(shift: shift, allocation: alloc)
+                        }
+
+                        if let saved = alloc.savedItem {
+                            ExpenseSavedRow(saved: saved, allocation: alloc)
+                        }
+                    }
                 }
 
                 Section("Image") {
@@ -150,8 +166,7 @@ struct GoalDetailView: View {
                             try user.managedObjectContext!.save()
                             toastConfiguration = AlertToast(displayMode: .alert, type: .complete(settings.themeColor), title: "Saved successfully")
                             showAlert = true
-                        }
-                        catch {
+                        } catch {
                             toastConfiguration = AlertToast(displayMode: .alert, type: .error(settings.themeColor), title: "Failed to save image")
                             showAlert = true
                         }
@@ -164,19 +179,15 @@ struct GoalDetailView: View {
             shownImage = goal.loadImageIfPresent()
         }
 
-        .toast(
-            isPresenting: $showAlert,
-            duration: 2,
-            tapToDismiss: false,
-            offsetY: 40,
-            alert: {
-                toastConfiguration
-            }
-        )
-        
+        .toast(isPresenting: $showAlert,
+               duration: 2,
+               tapToDismiss: false,
+               offsetY: 40,
+               alert: {
+                   toastConfiguration
+               })
 
         .ignoresSafeArea(.keyboard, edges: .bottom)
-        
     }
 }
 

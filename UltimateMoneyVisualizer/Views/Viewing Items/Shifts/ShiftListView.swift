@@ -99,7 +99,7 @@ struct ShiftListView: View {
                                 NavigationLink {
                                     ShiftDetailView(shift: shift)
                                 } label: {
-                                    RowView(shift: shift, wage: user.getWage())
+                                    ShiftRowView(shift: shift)
 //                                    Text(shift.startTime.getFormattedDate(format: .abreviatedMonth))
                                 }
                             }
@@ -177,37 +177,7 @@ struct ShiftListView: View {
         .environment(\.editMode, $editMode)
     }
 
-    struct RowView: View {
-        let shift: Shift
-        let wage: Wage
-        @ObservedObject private var settings = User.main.getSettings()
-
-        var body: some View {
-            HStack {
-                Text(shift.start.firstLetterOrTwoOfWeekday())
-                    .foregroundColor(.white)
-                    .frame(width: 35, height: 35)
-                    .background(settings.getDefaultGradient())
-                    .cornerRadius(8)
-
-                VStack(alignment: .leading) {
-                    Text(shift.start.getFormattedDate(format: .abreviatedMonth))
-                        .font(.subheadline)
-                        .foregroundColor(.primary)
-
-                    Text("Duration: \(shift.duration.formatForTime())")
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
-                }
-                Spacer()
-
-                Text("\(shift.totalEarned.formattedForMoney())")
-                    .font(.subheadline)
-                    .foregroundColor(.primary)
-                    .multilineTextAlignment(.trailing)
-            }
-        }
-    }
+    
 
     
     
@@ -258,6 +228,37 @@ struct ShiftListView: View {
                 let nsError = error as NSError
                 fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             }
+        }
+    }
+}
+
+struct ShiftRowView: View {
+    let shift: Shift
+    @ObservedObject private var settings = User.main.getSettings()
+
+    var body: some View {
+        HStack {
+            Text(shift.start.firstLetterOrTwoOfWeekday())
+                .foregroundColor(.white)
+                .frame(width: 35, height: 35)
+                .background(settings.getDefaultGradient())
+                .cornerRadius(8)
+
+            VStack(alignment: .leading) {
+                Text(shift.start.getFormattedDate(format: .abreviatedMonth))
+                    .font(.subheadline)
+                    .foregroundColor(.primary)
+
+                Text("Duration: \(shift.duration.formatForTime())")
+                    .font(.caption2)
+                    .foregroundColor(.secondary)
+            }
+            Spacer()
+
+            Text("\(shift.totalEarned.formattedForMoney())")
+                .font(.subheadline)
+                .foregroundColor(.primary)
+                .multilineTextAlignment(.trailing)
         }
     }
 }

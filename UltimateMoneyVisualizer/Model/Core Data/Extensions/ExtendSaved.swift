@@ -40,6 +40,23 @@ public extension Saved {
         self.amount
     }
     
+    var totalAllocated: Double {
+        let allocations = getAllocations()
+        return allocations.reduce(Double(0)) { $0 + $1.amount }
+    }
+
+    var totalAvailable: Double {
+        amount - totalAllocated
+    }
+    
+    func getAllocations() -> [Allocation] {
+        guard let allocations = allocations?.allObjects as? [Allocation] else {
+            return []
+        }
+
+        return allocations
+    }
+    
     
     static func makeExampleSavedItems(user: User, context: NSManagedObjectContext) throws {
         

@@ -56,13 +56,17 @@ struct GoalRow: View {
 
             HStack {
                 VStack {
-                    Image("disneyworld")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        //                            .clipShape(Circle())
-                        //                            .height(90)
-                        .frame(width: 150)
-                        .cornerRadius(8)
+                    if let image = goal.loadImageIfPresent() {
+                        Image(uiImage: image)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            //                            .clipShape(Circle())
+                            //                            .height(90)
+                            .frame(width: 150)
+                            .cornerRadius(8)
+                    }
+                    
+                    
 
                     if let dueDate = goal.dueDate {
                         Text(dueDate.getFormattedDate(format: .abreviatedMonth))

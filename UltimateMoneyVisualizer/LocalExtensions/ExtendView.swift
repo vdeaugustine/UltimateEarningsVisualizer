@@ -70,7 +70,54 @@ extension View {
     func bottomButton(label: String, gradient: LinearGradient? = nil, action: @escaping () -> Void) -> some View {
         modifier(BottomButtonModifier(label: label, gradient: gradient, action: action))
     }
+    
+    
 }
+
+
+extension View {
+    func bottomCapsule(label: String, gradient: LinearGradient = User.main.getSettings().getDefaultGradient(), bool: Bool = true, action: @escaping () -> Void) -> some View {
+        self.modifier(BottomCapsuleModifier(label: label, gradient: gradient, bool: bool, action: action))
+    }
+}
+
+struct BottomCapsuleModifier: ViewModifier {
+    let label: String
+    let gradient: LinearGradient
+    let bool: Bool
+    let action: () -> Void
+
+    func body(content: Content) -> some View {
+        if bool {
+            content
+                .overlay(
+                    bottomCapsuleOverlay(label: label, gradient: gradient)
+                        .onTapGesture {
+                            action()
+                        }
+                )
+        } else {
+            content
+        }
+    }
+
+    private func bottomCapsuleOverlay(label: String, gradient: LinearGradient) -> some View {
+        VStack {
+            Spacer()
+                .safeAreaInset(edge: .bottom) {
+                ZStack {
+                    Capsule()
+                        .fill(gradient)
+                    Text(label)
+                        .fontWeight(.medium)
+                        .foregroundColor(.white)
+                }
+                .frame(width: 135, height: 50)
+            }
+        }
+    }
+}
+
 
 // MARK: - BottomViewButton
 
@@ -123,3 +170,17 @@ func bottomViewButton(label: String, gradient: LinearGradient? = nil, brightness
     .frame(maxWidth: .infinity)
     .frame(height: buttonHeight)
 }
+
+
+extension View {
+    func conditionalModifier<T: View>(_ condition: Bool, _ modifier: @escaping (Self) -> T) -> some View {
+        Group {
+            if condition {
+                modifier(self)
+            } else {
+                self
+            }
+        }
+    }
+}
+

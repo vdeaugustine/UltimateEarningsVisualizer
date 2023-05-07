@@ -21,6 +21,8 @@ public protocol PayoffItem {
     
     func handleWhenPaidOff() throws
     func handleWhenTempPaidOff() throws
+    
+    func getAllocations() -> [Allocation]
 }
 
 

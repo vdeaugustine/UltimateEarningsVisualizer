@@ -135,6 +135,11 @@ public extension Goal {
         }
         return temporaryAllocations
     }
+    
+    func getAllocations() -> [Allocation] {
+        guard let allocations = Array(allocations ?? []) as? [Allocation] else { return [] }
+        return allocations
+    }
 
     func getMostRecentTemporaryAllocation() -> TemporaryAllocation? {
         let tempAllocsArray = getArrayOfTemporaryAllocations()
