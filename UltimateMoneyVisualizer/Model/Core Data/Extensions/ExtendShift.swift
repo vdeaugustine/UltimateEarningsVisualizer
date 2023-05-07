@@ -53,7 +53,7 @@ public extension Shift {
                         let allocatableAmount = min(chosenGoal.amountRemainingToPayOff,
                                                     shift.totalAvailable)
                         if allocatableAmount >= 0.01 {
-                            let allocation = Allocation(amount: .random(in: 0.01 ... allocatableAmount),
+                            let allocation = try! Allocation(amount: .random(in: 0.01 ... allocatableAmount),
                                                         goal: chosenGoal,
                                                         shift: shift,
                                                         date: day,
@@ -68,7 +68,7 @@ public extension Shift {
                         let allocatableAmount = min(chosenExpense.amountRemainingToPayOff,
                                                     shift.totalAvailable)
                         if allocatableAmount >= 0.01 {
-                            let allocation = Allocation(amount: .random(in: 0.01 ... allocatableAmount),
+                            let allocation = try! Allocation(amount: .random(in: 0.01 ... allocatableAmount),
                                                         expense: chosenExpense,
                                                         shift: shift,
                                                         date: day,

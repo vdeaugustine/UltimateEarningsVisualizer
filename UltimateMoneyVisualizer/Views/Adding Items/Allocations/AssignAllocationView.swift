@@ -7,13 +7,17 @@
 
 import SwiftUI
 import Vin
+import AlertToast
 
 // MARK: - AssignAllocationForExpenseView
 
-struct AssignAllocationForExpenseView: View {
+struct AssignAllocationToPayoffView: View {
+    
+    @Environment(\.managedObjectContext) private var viewContext
+    
     @State private var note: String = ""
 
-    let expense: Expense
+    let payoffItem: PayoffItem
     @State private var sourceType: String = "shift"
 
     @State private var shift: Shift? = nil
@@ -27,6 +31,10 @@ struct AssignAllocationForExpenseView: View {
 
     @ObservedObject var user = User.main
     @ObservedObject var settings = User.main.getSettings()
+    
+    @State private var showAlert = false
+
+    @State private var toastConfiguration: AlertToast = AlertToast(type: .regular)
 
     var sourceIsNil: Bool {
         shift == nil && saved == nil
@@ -34,12 +42,12 @@ struct AssignAllocationForExpenseView: View {
 
     var sliderLimit: Double {
         if let shift {
-            let minRem = min(expense.amountRemainingToPayOff, shift.totalAvailable)
+            let minRem = min(payoffItem.amountRemainingToPayOff, shift.totalAvailable)
             return max(0.01, minRem.roundTo(places: 2))
         }
 
         if let saved {
-            let minRem = min(expense.amountRemainingToPayOff, saved.totalAvailable)
+            let minRem = min(payoffItem.amountRemainingToPayOff, saved.totalAvailable)
             return max(0.01, minRem.roundTo(places: 2))
         }
 
@@ -50,9 +58,9 @@ struct AssignAllocationForExpenseView: View {
         Form {
             Section("Expense Amount") {
                 Text("Total")
-                    .spacedOut(text: expense.amountMoneyStr)
+                    .spacedOut(text: payoffItem.amountMoneyStr)
                 Text("Remaining")
-                    .spacedOut(text: expense.amountRemainingToPayOff.formattedForMoney())
+                    .spacedOut(text: payoffItem.amountRemainingToPayOff.formattedForMoney())
             }
 
             Section("Choose Source") {
@@ -97,9 +105,6 @@ struct AssignAllocationForExpenseView: View {
                 Section {
                     Text("Allocate")
                         .spacedOut(text: allocAmount.formattedForMoney())
-
-                    Button("Confirm") {
-                    }
                 }
             }
         }
@@ -128,8 +133,38 @@ struct AssignAllocationForExpenseView: View {
         .putInTemplate()
         .navigationTitle("Add Contribution")
 
-        .bottomCapsule(label: "Save", gradient: settings.getDefaultGradient(), bool: !sourceIsNil) {
+        .bottomCapsule(label: "Save", gradient: settings.getDefaultGradient(), bool: !sourceIsNil, bottomPadding: 10) {
+            
+            do {
+                if let expense = payoffItem as? Expense {
+                    try Allocation(amount: allocAmount, expense: expense, goal: nil, shift: shift, saved: saved, date: .now, context: viewContext)
+                }
+                
+                if let goal = payoffItem as? Goal {
+                    
+                    try Allocation(amount: allocAmount, expense: nil, goal: goal, shift: shift, saved: saved, date: .now, context: viewContext)
+                }
+                
+                print("Saved")
+                toastConfiguration = AlertToast(displayMode: .alert, type: .complete(settings.themeColor), title: "Saved successfully")
+                showAlert = true
+            }
+            catch {
+                print(error)
+                toastConfiguration = AlertToast(displayMode: .alert, type: .error(settings.themeColor), title: "Failed to save")
+                showAlert = true 
+            }
+            
+            
         }
+        
+        .toast(isPresenting: $showAlert,
+               duration: 2,
+               tapToDismiss: false,
+               offsetY: 40,
+               alert: {
+                   toastConfiguration
+               })
     }
 }
 
@@ -337,10 +372,11 @@ struct ShiftRowForAllocSheet: View {
 
 struct AssignAllocationForExpenseView_Previews: PreviewProvider {
     static var previews: some View {
-        AssignAllocationForExpenseView(expense: User.main.getExpenses().last!)
+        AssignAllocationToPayoffView(payoffItem: User.main.getExpenses().last!)
             .environment(\.managedObjectContext, PersistenceController.context)
             .putInNavView(.inline)
             .tint(Color.red)
+            .environment(\.managedObjectContext, PersistenceController.context)
 
         ChooseShiftForAllocSheet(shift: .constant(User.main.getShifts()[4]))
             .putInNavView(.inline)

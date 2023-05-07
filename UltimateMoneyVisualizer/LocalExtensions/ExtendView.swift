@@ -10,6 +10,7 @@ import SwiftUI
 import Vin
 
 extension View {
+    // Main function
     func putInTemplate() -> some View {
         navigationBarTitleDisplayMode(.inline)
             .toolbarColorScheme(.dark, for: .navigationBar)
@@ -26,10 +27,33 @@ extension View {
             .tint(User.main.getSettings().themeColor)
     }
 
+    // View modifiers
     func rectContainer(shadowRadius: CGFloat = 1, cornerRadius: CGFloat = 8) -> some View {
         modifier(RectContainerModifier(shadowRadius: shadowRadius, cornerRadius: cornerRadius))
     }
 
+    func bottomButton(label: String, gradient: LinearGradient? = nil, action: @escaping () -> Void) -> some View {
+        modifier(BottomButtonModifier(label: label, gradient: gradient, action: action))
+    }
+
+    func bottomCapsule(label: String,
+                       gradient: LinearGradient = User.main.getSettings().getDefaultGradient(),
+                       bool: Bool = true, bottomPadding: CGFloat = 0,
+                       action: @escaping () -> Void) -> some View {
+        modifier(BottomCapsuleModifier(label: label, gradient: gradient, bool: bool, bottomPadding: bottomPadding, action: action))
+    }
+
+    func conditionalModifier<T: View>(_ condition: Bool, _ modifier: @escaping (Self) -> T) -> some View {
+        Group {
+            if condition {
+                modifier(self)
+            } else {
+                self
+            }
+        }
+    }
+
+    // Home section views
     func homeSection<Content: View>(rectContainer: Bool = true,
                                     header: String,
                                     @ViewBuilder content: @escaping () -> Content)
@@ -66,58 +90,7 @@ extension View {
             }
         }
     }
-
-    func bottomButton(label: String, gradient: LinearGradient? = nil, action: @escaping () -> Void) -> some View {
-        modifier(BottomButtonModifier(label: label, gradient: gradient, action: action))
-    }
-    
-    
 }
-
-
-extension View {
-    func bottomCapsule(label: String, gradient: LinearGradient = User.main.getSettings().getDefaultGradient(), bool: Bool = true, action: @escaping () -> Void) -> some View {
-        self.modifier(BottomCapsuleModifier(label: label, gradient: gradient, bool: bool, action: action))
-    }
-}
-
-struct BottomCapsuleModifier: ViewModifier {
-    let label: String
-    let gradient: LinearGradient
-    let bool: Bool
-    let action: () -> Void
-
-    func body(content: Content) -> some View {
-        if bool {
-            content
-                .overlay(
-                    bottomCapsuleOverlay(label: label, gradient: gradient)
-                        .onTapGesture {
-                            action()
-                        }
-                )
-        } else {
-            content
-        }
-    }
-
-    private func bottomCapsuleOverlay(label: String, gradient: LinearGradient) -> some View {
-        VStack {
-            Spacer()
-                .safeAreaInset(edge: .bottom) {
-                ZStack {
-                    Capsule()
-                        .fill(gradient)
-                    Text(label)
-                        .fontWeight(.medium)
-                        .foregroundColor(.white)
-                }
-                .frame(width: 135, height: 50)
-            }
-        }
-    }
-}
-
 
 // MARK: - BottomViewButton
 
@@ -132,6 +105,7 @@ struct BottomViewButton: View {
         ZStack {
             gradient ?? User.main.getSettings().getDefaultGradient()
             Text(label)
+
                 .font(.title3)
                 .foregroundColor(.white)
         }
@@ -160,27 +134,47 @@ struct BottomButtonModifier: ViewModifier {
     }
 }
 
-func bottomViewButton(label: String, gradient: LinearGradient? = nil, brightnessConstant: CGFloat? = nil, buttonHeight: CGFloat = 50) -> some View {
-    ZStack {
-        gradient ?? User.main.getSettings().getDefaultGradient()
-        Text(label)
-            .font(.title3)
-            .foregroundColor(.white)
+// MARK: - BottomCapsuleModifier
+
+struct BottomCapsuleModifier: ViewModifier {
+    let label: String
+    let gradient: LinearGradient
+    let bool: Bool
+    let bottomPadding: CGFloat
+    let action: () -> Void
+
+    func body(content: Content) -> some View {
+        if bool {
+            content
+                .overlay(
+                    bottomCapsuleOverlay(label: label, gradient: gradient)
+                        .onTapGesture {
+                            action()
+                        }
+                        .padding(bottomPadding)
+                )
+        } else {
+            content
+        }
     }
-    .frame(maxWidth: .infinity)
-    .frame(height: buttonHeight)
-}
 
-
-extension View {
-    func conditionalModifier<T: View>(_ condition: Bool, _ modifier: @escaping (Self) -> T) -> some View {
-        Group {
-            if condition {
-                modifier(self)
-            } else {
-                self
-            }
+    private func bottomCapsuleOverlay(label: String, gradient: LinearGradient) -> some View {
+        VStack {
+            Spacer()
+                .safeAreaInset(edge: .bottom) {
+                    ZStack {
+                        Capsule()
+                            .fill(gradient)
+                        Text(label)
+                            .fontWeight(.medium)
+                            .foregroundColor(.white)
+                    }
+                    .frame(width: 135, height: 50)
+                }
         }
     }
 }
 
+// ```
+//
+// In this reorganized code, we first have the main function `putInTemplate()`, which is followed by a group of view modifiers. Then we have two sets of functions for creating home section views, one that takes a string header and the other that takes a navigation view for the header. Lastly, we have the `BottomViewButton` view struct, followed by two view modifiers for creating buttons with either a rectangular or capsule shape.

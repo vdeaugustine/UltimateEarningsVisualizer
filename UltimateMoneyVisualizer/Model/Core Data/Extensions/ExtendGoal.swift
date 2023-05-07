@@ -197,5 +197,5 @@ public extension Goal {
         amountPaidOff / amount
     }
 
-    var amountRemainingToPayOff: Double { return amount - amountPaidOff }
+    var amountRemainingToPayOff: Double { amount - amountPaidOff }
 }

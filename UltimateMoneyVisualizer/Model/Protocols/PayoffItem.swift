@@ -23,6 +23,10 @@ public protocol PayoffItem {
     func handleWhenTempPaidOff() throws
     
     func getAllocations() -> [Allocation]
+    
+    var amountRemainingToPayOff: Double { get }
+    
+    var amountMoneyStr: String { get }
 }
 
 

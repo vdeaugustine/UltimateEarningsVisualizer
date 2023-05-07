@@ -15,7 +15,7 @@ public extension Allocation {
                                         shift: Shift? = nil,
                                         saved: Saved? = nil,
                                         date: Date = .now,
-                                        context: NSManagedObjectContext = PersistenceController.context) {
+                                        context: NSManagedObjectContext = PersistenceController.context) throws {
         self.init(context: context)
         self.id = UUID()
         self.date = date
@@ -25,7 +25,7 @@ public extension Allocation {
         self.shift = shift
         self.savedItem = saved
 
-        try? context.save()
+        try context.save()
     }
 
 //    @discardableResult static func makeExampleAllocs(user: User, context: NSManagedObjectContext) throws -> [Allocation] {

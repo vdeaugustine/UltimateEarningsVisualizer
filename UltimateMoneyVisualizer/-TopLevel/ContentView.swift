@@ -23,10 +23,8 @@ struct ContentView: View {
 
     var body: some View {
         TabView(selection: $tab) {
-//            AssignAllocationForExpenseView(expense: User.main.getExpenses().first!)
-//                .makeTab(tab: Tabs.home, systemImage: "house")
-            
-            AssignAllocationForExpenseView(expense: User.main.getExpenses().first!)
+            AssignAllocationToPayoffView(payoffItem: User.main.getGoals().first!)
+                .putInNavView(.inline)
                 .makeTab(tab: Tabs.expenses, systemImage: "star")
 
             HomeView()
