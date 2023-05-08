@@ -54,10 +54,10 @@ public extension Shift {
                                                     shift.totalAvailable)
                         if allocatableAmount >= 0.01 {
                             let allocation = try! Allocation(amount: .random(in: 0.01 ... allocatableAmount),
-                                                        goal: chosenGoal,
-                                                        shift: shift,
-                                                        date: day,
-                                                        context: context)
+                                                             goal: chosenGoal,
+                                                             shift: shift,
+                                                             date: day,
+                                                             context: context)
                             shift.addToAllocations(allocation)
                             try context.save()
                         }
@@ -69,10 +69,10 @@ public extension Shift {
                                                     shift.totalAvailable)
                         if allocatableAmount >= 0.01 {
                             let allocation = try! Allocation(amount: .random(in: 0.01 ... allocatableAmount),
-                                                        expense: chosenExpense,
-                                                        shift: shift,
-                                                        date: day,
-                                                        context: context)
+                                                             expense: chosenExpense,
+                                                             shift: shift,
+                                                             date: day,
+                                                             context: context)
                             shift.addToAllocations(allocation)
                             try context.save()
                         }
@@ -120,6 +120,56 @@ extension Shift {
         }
 
         return allocations
+    }
+
+    func goalsAllocatedTo() -> [Goal] {
+        let allocations = getAllocations()
+
+        let goals = allocations.compactMap { $0.goal }
+        let asSet = Set(goals)
+
+        return Array(asSet)
+    }
+
+    func expensesAllocatedTo() -> [Expense] {
+        let allocations = getAllocations()
+
+        let expenses = allocations.compactMap { $0.expense }
+        let asSet = Set(expenses)
+
+        return Array(asSet)
+    }
+
+    func getPayoffItemsAllocatedTo() -> [PayoffItem] {
+        let expenses = expensesAllocatedTo()
+        let goals = goalsAllocatedTo()
+        let combined: [PayoffItem] = goals + expenses
+
+        return combined.sorted(by: { self.amountAllocated(for: $0) > self.amountAllocated(for: $1) })
+    }
+
+    func amountAllocated(for payoffItem: PayoffItem) -> Double {
+        let expenses = expensesAllocatedTo()
+        let goals = goalsAllocatedTo()
+//        let combined: [PayoffItem] = goals + expenses
+
+        var sum: Double = 0
+
+        for alloc in getAllocations() {
+            var id: UUID?
+            if let goal = alloc.goal {
+                id = goal.id
+            } else if let expense = alloc.expense {
+                id = expense.id
+            }
+
+            if let id,
+               id == payoffItem.getID() {
+                sum += alloc.amount
+            }
+        }
+
+        return sum
     }
 }
 

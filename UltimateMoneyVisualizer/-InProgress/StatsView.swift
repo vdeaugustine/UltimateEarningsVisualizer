@@ -119,6 +119,7 @@ struct StatsView: View {
                                 }
                                 .padding([.horizontal])
                                 .padding(.top, 2)
+                                .allPartsTappable()
                                 
                             }
                         Divider()

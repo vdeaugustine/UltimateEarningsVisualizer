@@ -15,6 +15,7 @@ public protocol PayoffItem {
     // MARK: - Protocol Properties:
     
     var amountMoneyStr: String { get }
+    var amountPaidOff: Double { get }
     var amountRemainingToPayOff: Double { get }
     var dateCreated: Date? { get set }
     var optionalQSlotNumber: Int16? { get set }

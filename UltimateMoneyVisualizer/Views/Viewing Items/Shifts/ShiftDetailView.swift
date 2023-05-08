@@ -21,6 +21,10 @@ struct ShiftDetailView: View {
 
     let shift: Shift
 
+    var payoffItems: [PayoffItem] {
+        shift.getPayoffItemsAllocatedTo()
+    }
+
     var body: some View {
         VStack {
             List {
@@ -31,7 +35,6 @@ struct ShiftDetailView: View {
 
                 Section {
                     HStack {
-                        
                         SystemImageWithFilledBackground(systemName: "chart.line.uptrend.xyaxis", backgroundColor: settings.themeColor)
                         Text("Earnings")
                             .spacedOut {
@@ -41,32 +44,57 @@ struct ShiftDetailView: View {
                 }
 
                 Section("Allocations") {
-                    ForEach(shift.getAllocations()) { alloc in
+                    ForEach(payoffItems.indices, id: \.self) { index in
 
-                        HStack {
-                            
-                            if let goal = alloc.goal {
-                                HStack {
-                                    SystemImageWithFilledBackground(systemName: "target", backgroundColor: settings.themeColor)
-                                    
-                                    Text(goal.titleStr)
-                                        .spacedOut(text: alloc.amount.formattedForMoney())
-                                }
+                        if let goal = payoffItems.safeGet(at: index) as? Goal {
+                            HStack {
+                                SystemImageWithFilledBackground(systemName: "target", backgroundColor: settings.themeColor)
+
+                                Text(goal.titleStr)
+                                    .spacedOut(text: shift.amountAllocated(for: goal).formattedForMoney())
                             }
-                            
-                            if let expense = alloc.expense {
+                        }
+
+                        if let expense = payoffItems.safeGet(at: index) as? Expense {
+                            HStack {
                                 SystemImageWithFilledBackground(systemName: "creditcard.fill", backgroundColor: settings.themeColor)
-                                
+
                                 Text(expense.titleStr)
-                                    .spacedOut(text: alloc.amount.formattedForMoney())
+                                    .spacedOut(text: shift.amountAllocated(for: expense).formattedForMoney())
                             }
-                           
+                        }
+
+//                        HStack {
+//
+//                            if let goal = alloc.goal {
+//                                HStack {
+//                                    SystemImageWithFilledBackground(systemName: "target", backgroundColor: settings.themeColor)
+//
+//                                    Text(goal.titleStr)
+//                                        .spacedOut(text: alloc.amount.formattedForMoney())
+//                                }
+//                            }
+//
+//                            if let expense = alloc.expense {
+//                                SystemImageWithFilledBackground(systemName: "creditcard.fill", backgroundColor: settings.themeColor)
+//
+//                                Text(expense.titleStr)
+//                                    .spacedOut(text: alloc.amount.formattedForMoney())
+//                            }
+//
+//                        }
+                    }
+
+                    NavigationLink {
+                    } label: {
+                        HStack {
                         }
                     }
                 }
             }
             .listStyle(.insetGrouped)
         }
+        .padding(.bottom)
         .bottomButton(label: "Delete", action: {
             showDeleteConfirmation = true
         })
