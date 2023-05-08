@@ -31,11 +31,77 @@ public extension Goal {
 // MARK: - Goal + PayoffItem
 
 extension Goal: PayoffItem {
+    // MARK: Properties
+
+    public var amountMoneyStr: String {
+        return amount.formattedForMoney(includeCents: true)
+    }
+
+    public var amountPaidOff: Double {
+        getAllocations().reduce(Double(0)) { $0 + $1.amount }
+    }
+
+    public var amountRemainingToPayOff: Double { return amount - amountPaidOff }
+
+    public var optionalQSlotNumber: Int16? {
+        get {
+            if queueSlotNumber == -7_777 {
+                return nil
+            }
+            return queueSlotNumber
+        }
+        set {
+            queueSlotNumber = newValue ?? -7_777
+        }
+    }
+
+    public var optionalTempQNum: Int16? {
+        get {
+            if tempQNum == -7_777 {
+                return nil
+            }
+            return tempQNum
+        }
+        set {
+            tempQNum = newValue ?? -7_777
+        }
+    }
+
+    public var percentPaidOff: Double { amountPaidOff / amount }
+
+    public var percentTemporarilyPaidOff: Double { temporarilyPaidOff / amount }
+
+    public var temporarilyPaidOff: Double {
+        guard let temporaryAllocations = temporaryAllocations as? Set<TemporaryAllocation>
+        else {
+            return 0
+        }
+
+        let totalTemporaryAllocated = temporaryAllocations.reduce(Double(0)) { $0 + $1.amount }
+
+        return totalTemporaryAllocated + amountPaidOff
+    }
+
+    public var temporaryRemainingToPayOff: Double {
+        amount - temporarilyPaidOff
+    }
+
+    public var titleStr: String { title ?? "Unknown Expense" }
+
+    public var type: PayoffType { return .goal }
+
     // MARK: Methods
 
     public func getAllocations() -> [Allocation] {
         guard let allocations = Array(allocations ?? []) as? [Allocation] else { return [] }
         return allocations
+    }
+
+    public func getArrayOfTemporaryAllocations() -> [TemporaryAllocation] {
+        guard let temporaryAllocations = temporaryAllocations?.allObjects as? [TemporaryAllocation] else {
+            return []
+        }
+        return temporaryAllocations
     }
 
     public func getID() -> UUID {
@@ -66,74 +132,15 @@ extension Goal: PayoffItem {
         optionalTempQNum = nil
     }
 
+    // Optional Queue Slot Number
     public func setOptionalQSlotNumber(newVal: Int16?) {
         optionalQSlotNumber = newVal
     }
 
+    // Optional Temporary Queue Number
     public func setOptionalTempQNum(newVal: Int16?) {
         optionalTempQNum = newVal
     }
-
-    // MARK: Properties
-
-    public var percentPaidOff: Double {
-        amountPaidOff / amount
-    }
-
-    var amountPaidOff: Double {
-        guard let allocations = Array(allocations ?? []) as? [Allocation] else { return 0 }
-        return allocations.reduce(Double(0)) { $0 + $1.amount }
-    }
-
-    public var amountRemainingToPayOff: Double { amount - amountPaidOff }
-
-    var temporarilyPaidOff: Double {
-        let temporaryAllocations = getArrayOfTemporaryAllocations()
-
-        let totalTemporaryAllocated = temporaryAllocations.reduce(Double(0)) { $0 + $1.amount }
-
-        return totalTemporaryAllocated + amountPaidOff
-    }
-
-    var temporaryRemainingToPayOff: Double {
-        amount - temporarilyPaidOff
-    }
-
-    public var titleStr: String { title ?? "Unknown Expense" }
-
-    public var amountMoneyStr: String {
-        return amount.formattedForMoney(includeCents: true)
-    }
-
-    public var percentTemporarilyPaidOff: Double {
-        temporarilyPaidOff / amount
-    }
-
-    public var optionalQSlotNumber: Int16? {
-        get {
-            if queueSlotNumber == -7_777 {
-                return nil
-            }
-            return queueSlotNumber
-        }
-        set {
-            queueSlotNumber = newValue ?? -7_777
-        }
-    }
-
-    public var optionalTempQNum: Int16? {
-        get {
-            if tempQNum == -7_777 {
-                return nil
-            }
-            return tempQNum
-        }
-        set {
-            tempQNum = newValue ?? -7_777
-        }
-    }
-
-    public var type: PayoffType { return .goal }
 }
 
 // MARK: - Example Items for Testing
@@ -168,14 +175,19 @@ public extension Goal {
 // MARK: - Methods and properties
 
 public extension Goal {
-    // MARK: Methods
+    // MARK: Properties
 
-    func getArrayOfTemporaryAllocations() -> [TemporaryAllocation] {
-        guard let temporaryAllocations = temporaryAllocations?.allObjects as? [TemporaryAllocation] else {
-            return []
-        }
-        return temporaryAllocations
+    var timeRemaining: TimeInterval {
+        guard let dueDate else { return 0 }
+        return dueDate - .now
     }
+
+    var totalTime: TimeInterval {
+        guard let dateCreated, let dueDate else { return 0 }
+        return dueDate - dateCreated
+    }
+
+    // MARK: Methods
 
     func loadImageIfPresent() -> UIImage? {
         if let imageData {
@@ -196,17 +208,5 @@ public extension Goal {
         } else {
             throw NSError(domain: "Error converting image to data", code: 99)
         }
-    }
-
-    // MARK: Properties
-
-    var timeRemaining: TimeInterval {
-        guard let dueDate else { return 0 }
-        return dueDate - .now
-    }
-
-    var totalTime: TimeInterval {
-        guard let dateCreated, let dueDate else { return 0 }
-        return dueDate - dateCreated
     }
 }

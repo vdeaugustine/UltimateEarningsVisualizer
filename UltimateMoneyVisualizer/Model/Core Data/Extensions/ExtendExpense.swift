@@ -3,18 +3,40 @@ import CoreData
 import Foundation
 import Vin
 
+// MARK: - Initializer
+
+public extension Expense {
+    @discardableResult convenience init(title: String, info: String?, amount: Double, dueDate: Date?, dateCreated: Date? = nil, user: User, context: NSManagedObjectContext = PersistenceController.context) {
+        self.init(context: context)
+        self.title = title
+        self.info = info
+        self.amount = amount
+        self.dueDate = dueDate
+        self.user = user
+        self.dateCreated = dateCreated ?? .now
+
+        let currentQueueCount = Int16(user.getQueue().count)
+        // Put the item at the back of the queue at first initialization
+        self.queueSlotNumber = currentQueueCount
+
+        self.id = UUID()
+    }
+}
+
 // MARK: - Expense + PayoffItem
 
 extension Expense: PayoffItem {
-    // Optional Queue Slot Number
-    public func setOptionalQSlotNumber(newVal: Int16?) {
-        optionalQSlotNumber = newVal
+    // MARK: Properties
+
+    public var amountMoneyStr: String {
+        return amount.formattedForMoney(includeCents: true)
     }
 
-    // Optional Temporary Queue Number
-    public func setOptionalTempQNum(newVal: Int16?) {
-        optionalTempQNum = newVal
+    public var amountPaidOff: Double {
+        getAllocations().reduce(Double(0)) { $0 + $1.amount }
     }
+
+    public var amountRemainingToPayOff: Double { return amount - amountPaidOff }
 
     public var optionalQSlotNumber: Int16? {
         get {
@@ -40,14 +62,41 @@ extension Expense: PayoffItem {
         }
     }
 
-    public func handleWhenPaidOff() throws {
-        guard amountRemainingToPayOff <= 0 else { return }
-        optionalTempQNum = nil
+    public var percentPaidOff: Double { amountPaidOff / amount }
+    
+    public var percentTemporarilyPaidOff: Double { temporarilyPaidOff / amount }
+
+    public var temporarilyPaidOff: Double {
+        guard let temporaryAllocations = temporaryAllocations as? Set<TemporaryAllocation>
+        else {
+            return 0
+        }
+
+        let totalTemporaryAllocated = temporaryAllocations.reduce(Double(0)) { $0 + $1.amount }
+
+        return totalTemporaryAllocated + amountPaidOff
     }
 
-    public func handleWhenTempPaidOff() throws {
-        guard temporaryRemainingToPayOff <= 0 else { return }
-        optionalTempQNum = nil
+    public var temporaryRemainingToPayOff: Double {
+        amount - temporarilyPaidOff
+    }
+
+    public var titleStr: String { title ?? "Unknown Expense" }
+
+    public var type: PayoffType { return .goal }
+
+    // MARK: Methods
+
+    public func getAllocations() -> [Allocation] {
+        guard let allocations = Array(allocations ?? []) as? [Allocation] else { return [] }
+        return allocations
+    }
+
+    public func getArrayOfTemporaryAllocations() -> [TemporaryAllocation] {
+        guard let temporaryAllocations = temporaryAllocations?.allObjects as? [TemporaryAllocation] else {
+            return []
+        }
+        return temporaryAllocations
     }
 
     public func getID() -> UUID {
@@ -60,64 +109,38 @@ extension Expense: PayoffItem {
         return newID
     }
 
-    public var type: PayoffType { return .goal }
-}
+    public func getMostRecentTemporaryAllocation() -> TemporaryAllocation? {
+        let tempAllocsArray = getArrayOfTemporaryAllocations()
 
-// MARK: - Initializer
+        let sorted = tempAllocsArray.sorted { ($0.lastEdited ?? .now) > ($1.lastEdited ?? .now) }
 
-public extension Expense {
-    @discardableResult convenience init(title: String, info: String?, amount: Double, dueDate: Date?, dateCreated: Date? = nil, user: User, context: NSManagedObjectContext = PersistenceController.context) {
-        self.init(context: context)
-        self.title = title
-        self.info = info
-        self.amount = amount
-        self.dueDate = dueDate
-        self.user = user
-        self.dateCreated = dateCreated ?? .now
+        return sorted.first
+    }
 
-        let currentQueueCount = Int16(user.getQueue().count)
-        // Put the item at the back of the queue at first initialization
-        self.queueSlotNumber = currentQueueCount
+    public func handleWhenPaidOff() throws {
+        guard amountRemainingToPayOff <= 0 else { return }
+        optionalTempQNum = nil
+    }
 
-        self.id = UUID()
+    public func handleWhenTempPaidOff() throws {
+        guard temporaryRemainingToPayOff <= 0 else { return }
+        optionalTempQNum = nil
+    }
+
+    // Optional Queue Slot Number
+    public func setOptionalQSlotNumber(newVal: Int16?) {
+        optionalQSlotNumber = newVal
+    }
+
+    // Optional Temporary Queue Number
+    public func setOptionalTempQNum(newVal: Int16?) {
+        optionalTempQNum = newVal
     }
 }
 
 // MARK: - Expense Properties
 
 public extension Expense {
-    var titleStr: String { title ?? "Unknown Expense" }
-
-    var amountMoneyStr: String {
-        return amount.formattedForMoney(includeCents: true)
-    }
-
-    var percentPaidOff: Double { amountPaidOff / amount }
-
-    var amountPaidOff: Double {
-        getAllocations().reduce(Double(0)) { $0 + $1.amount }
-    }
-
-    func getAllocations() -> [Allocation] {
-        guard let allocations = Array(allocations ?? []) as? [Allocation] else { return [] }
-        return allocations
-    }
-
-    var temporarilyPaidOff: Double {
-        guard let temporaryAllocations = temporaryAllocations as? Set<TemporaryAllocation>
-        else {
-            return 0
-        }
-
-        let totalTemporaryAllocated = temporaryAllocations.reduce(Double(0)) { $0 + $1.amount }
-
-        return totalTemporaryAllocated + amountPaidOff
-    }
-
-    var temporaryRemainingToPayOff: Double {
-        amount - temporarilyPaidOff
-    }
-
     var totalTime: TimeInterval {
         guard let dateCreated, let dueDate else { return 0 }
         return dueDate - dateCreated
@@ -127,11 +150,9 @@ public extension Expense {
         guard let dueDate else { return 0 }
         return dueDate - .now
     }
-
-    var amountRemainingToPayOff: Double { return amount - amountPaidOff }
 }
 
-// MARK: - Example Expenses
+// MARK: - Examples for Testing
 
 public extension Expense {
     static func createExampleExpenses(user: User, context: NSManagedObjectContext) throws {

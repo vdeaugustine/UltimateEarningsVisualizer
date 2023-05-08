@@ -20,12 +20,14 @@ public protocol PayoffItem {
     var optionalQSlotNumber: Int16? { get set }
     var optionalTempQNum: Int16? { get set }
     var percentPaidOff: Double { get }
+    var percentTemporarilyPaidOff: Double { get }
     var titleStr: String { get }
     var type: PayoffType { get }
     
     
     // MARK: - Protocol Methods:
     
+    func getArrayOfTemporaryAllocations() -> [TemporaryAllocation]
     func getAllocations() -> [Allocation]
     func getID() -> UUID
     func getMostRecentTemporaryAllocation() -> TemporaryAllocation?
