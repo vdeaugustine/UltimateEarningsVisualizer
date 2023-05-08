@@ -84,6 +84,38 @@ public extension User {
         }
     }
 
+    /// Gives you the amount of money the user has netted between the two dates. So it in
+    func totalNetMoneyBetween(_ startDate: Date, _ endDate: Date) -> Double {
+        // Total net money should be this formula
+        // Earned + Saved - (AllocatedUpToThisDay)
+
+        let earned = getTotalEarnedBetween(startDate: startDate, endDate: endDate)
+        let amountSaved = getAmountSavedBetween(startDate: startDate, endDate: endDate)
+        let expenses = getExpensesSpentBetween(startDate: startDate, endDate: endDate)
+        let goals = getGoalsSpentBetween(startDate: startDate, endDate: endDate)
+        
+        return (earned + amountSaved) - (expenses + goals)
+        
+        
+
+//        let earned = getTotalEarnedBetween(startDate: startDate, endDate: endDate)
+//        let saved = getSavedBetween(startDate: startDate, endDate: endDate)
+//        let amountSaved = getAmountSavedBetween(startDate: startDate, endDate: endDate)
+//
+//        let shifts = getShiftsBetween(startDate: startDate, endDate: endDate)
+//        let shiftAllocsArrays = shifts.map { $0.getAllocations() }
+//        let shiftAllocs = shiftAllocsArrays.flatMap { $0 }
+//
+//        let savedAllocArrays = saved.map { $0.getAllocations() }
+//        let savedAllocs = savedAllocArrays.flatMap { $0 }
+//
+//        let allAllocs = savedAllocs + shiftAllocs
+//        let spentOnAllocs = allAllocs.reduce(Double.zero, {$0 + $1.amount})
+//
+//        let totalPositive = earned + amountSaved
+//        return totalPositive - spentOnAllocs
+    }
+
     func totalEarned() -> Double {
         guard let wage else { return 0 }
         let totalDuration = totalTimeWorked()
@@ -110,7 +142,19 @@ public extension User {
         }
         return filteredExpenses
     }
+    
+    func getGoalsBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [Goal] {
+        let filteredGoals = getGoals().filter { goal in
+            guard let date = goal.dateCreated else { return false }
+            return (date >= startDate && date <= endDate)
+        }
+        return filteredGoals
+    }
 
+    /**
+     - Parameters: Default - distant past and distant future. So calling this with no parameter will give all saved items
+     - Returns: all the saved items that have a `date` that is between the two parameters
+     */
     func getSavedBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [Saved] {
         let filteredSaved = getSaved().filter { saved in
             guard let date = saved.date else { return false }
@@ -131,6 +175,11 @@ public extension User {
     func getExpensesSpentBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> Double {
         let expenses = getExpensesBetween(startDate: startDate, endDate: endDate)
         return expenses.reduce(Double.zero) { $0 + $1.amount }
+    }
+    
+    func getGoalsSpentBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> Double {
+        let goals = getGoalsBetween(startDate: startDate, endDate: endDate)
+        return goals.reduce(Double.zero) { $0 + $1.amount }
     }
 
     /// Returns the amount of seconds the given amount of money translates to
@@ -193,30 +242,27 @@ public extension User {
         anyArr += getExpenses()
         anyArr += getGoals()
         anyArr = anyArr.filter { $0.optionalQSlotNumber != nil }
-        
-        
-        
-        anyArr.sort { $0.optionalQSlotNumber!  < $1.optionalQSlotNumber! }
+
+        anyArr.sort { $0.optionalQSlotNumber! < $1.optionalQSlotNumber! }
 
         return anyArr
     }
-    
+
     func getTempQueue() -> [PayoffItem] {
         var anyArr: [PayoffItem] = []
 
         anyArr += getExpenses()
         anyArr += getGoals()
         anyArr = anyArr.filter { $0.optionalTempQNum != nil }
-        
-        anyArr.sort { $0.optionalTempQNum!  < $1.optionalTempQNum! }
+
+        anyArr.sort { $0.optionalTempQNum! < $1.optionalTempQNum! }
 
         return anyArr
     }
-    
+
     func updateTempQueue() {
         var items = getQueue()
-        items.forEach({ $0.setOptionalTempQNum(newVal: $0.optionalQSlotNumber) })
-        
+        items.forEach { $0.setOptionalTempQNum(newVal: $0.optionalQSlotNumber) }
     }
 
     func getItemWith(queueSlot index: Int) -> PayoffItem? {

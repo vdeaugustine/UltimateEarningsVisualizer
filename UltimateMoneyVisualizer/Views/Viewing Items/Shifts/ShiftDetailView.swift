@@ -86,8 +86,12 @@ struct ShiftDetailView: View {
                     }
 
                     NavigationLink {
+                        
+//                        AllocateShiftToExpense(shift: shift, expense: <#T##Expense#>)
                     } label: {
                         HStack {
+                            Label("Add Another", systemImage: "plus")
+                            
                         }
                     }
                 }
