@@ -40,21 +40,21 @@ struct ShiftDetailView: View {
                     
                     ForEach(shift.getAllocations()) { alloc in
                         
-                        Text(alloc.getItemTitle())
-                            .spacedOut(text: alloc.amount.formattedForMoney())
+                        HStack {
+                            
+                            
+                            
+                            Text(alloc.getItemTitle())
+                                .spacedOut(text: alloc.amount.formattedForMoney())
+                        }
                         
                     }
                     
                     
                 }
 
-//                chart
             }
             .listStyle(.insetGrouped)
-//            Button("Delete shift", role: .destructive) {
-//
-//            }
-//            .padding(.bottom)
         }
         .bottomButton(label: "Delete", action: {
             showDeleteConfirmation = true

@@ -69,6 +69,7 @@
 		9C7F96A929F9004000F5035C /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 9C7F96A829F9004000F5035C /* AlertToast */; };
 		9CEA17692A05DF2800E8DFD7 /* ExtendDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEA17682A05DF2800E8DFD7 /* ExtendDate.swift */; };
 		9CED53422A077985002DC183 /* AllocateSavedToGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CED53412A077985002DC183 /* AllocateSavedToGoalView.swift */; };
+		9CED53442A089C77002DC183 /* StatsViewChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CED53432A089C77002DC183 /* StatsViewChart.swift */; };
 		9CEEE32B29F9044F001FA4FB /* ExtendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEE32A29F9044F001FA4FB /* ExtendView.swift */; };
 		9CEEE33129F904CC001FA4FB /* ExpenseListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEE33029F904CC001FA4FB /* ExpenseListView.swift */; };
 		9CEEE33429F90651001FA4FB /* ExpenseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEE33329F90651001FA4FB /* ExpenseDetailView.swift */; };
@@ -168,6 +169,7 @@
 		9C7F96A529F8FF0100F5035C /* CreateExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateExpenseView.swift; sourceTree = "<group>"; };
 		9CEA17682A05DF2800E8DFD7 /* ExtendDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendDate.swift; sourceTree = "<group>"; };
 		9CED53412A077985002DC183 /* AllocateSavedToGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllocateSavedToGoalView.swift; sourceTree = SOURCE_ROOT; };
+		9CED53432A089C77002DC183 /* StatsViewChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewChart.swift; sourceTree = "<group>"; };
 		9CEEE32A29F9044F001FA4FB /* ExtendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendView.swift; sourceTree = "<group>"; };
 		9CEEE33029F904CC001FA4FB /* ExpenseListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseListView.swift; sourceTree = "<group>"; };
 		9CEEE33329F90651001FA4FB /* ExpenseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseDetailView.swift; sourceTree = "<group>"; };
@@ -447,6 +449,7 @@
 				9CED53412A077985002DC183 /* AllocateSavedToGoalView.swift */,
 				9C7C985529FB722D0077EA25 /* Components */,
 				9C460EE82A049DFA0007EBA9 /* StatsView.swift */,
+				9CED53432A089C77002DC183 /* StatsViewChart.swift */,
 			);
 			path = "-InProgress";
 			sourceTree = "<group>";
@@ -806,6 +809,7 @@
 				9CED53422A077985002DC183 /* AllocateSavedToGoalView.swift in Sources */,
 				9C7F969A29F8FE3500F5035C /* ExtendWage.swift in Sources */,
 				9C7C983A29F9EC410077EA25 /* EnterWageView.swift in Sources */,
+				9CED53442A089C77002DC183 /* StatsViewChart.swift in Sources */,
 				9C7F969B29F8FE3500F5035C /* ExtendGoal.swift in Sources */,
 				9C7C985029FB606E0077EA25 /* ExtendUserDefaults.swift in Sources */,
 				9CEEE34D29F90DD4001FA4FB /* CreateSavedView.swift in Sources */,
