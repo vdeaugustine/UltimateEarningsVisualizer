@@ -62,11 +62,11 @@ struct GoalDetailView: View {
                     ForEach(goal.getAllocations()) { alloc in
 
                         if let shift = alloc.shift {
-                            ExpenseShiftRow(shift: shift, allocation: alloc)
+                            AllocShiftRow(shift: shift, allocation: alloc)
                         }
 
                         if let saved = alloc.savedItem {
-                            ExpenseSavedRow(saved: saved, allocation: alloc)
+                            AllocSavedRow(saved: saved, allocation: alloc)
                         }
                     }
                 }

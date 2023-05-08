@@ -195,7 +195,7 @@ struct PurchasePage: View {
     }
 
     var footer: some View {
-        Text("Money visualizer is designed, built, and maintained entirely by a single independent app developer. Any purchase helps keep the app going and makes improvements possible.")
+        Text("Ultimate Money Visualizer is designed, built, and maintained entirely by a single independent app developer. Any purchase helps keep the app going and makes improvements possible.")
             .font(.subheadline)
 
             .foregroundColor(Color(hue: 1.0, saturation: 0.0, brightness: 0.712))

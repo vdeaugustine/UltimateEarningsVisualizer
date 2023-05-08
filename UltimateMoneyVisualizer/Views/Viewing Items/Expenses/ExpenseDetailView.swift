@@ -52,11 +52,11 @@ struct ExpenseDetailView: View {
                 ForEach(expense.getAllocations()) { alloc in
 
                     if let shift = alloc.shift {
-                        ExpenseShiftRow(shift: shift, allocation: alloc)
+                        AllocShiftRow(shift: shift, allocation: alloc)
                     }
                     
                     if let saved = alloc.savedItem {
-                        ExpenseSavedRow(saved: saved, allocation: alloc)
+                        AllocSavedRow(saved: saved, allocation: alloc)
                     }
 
                     
@@ -100,100 +100,15 @@ struct ExpenseDetailView: View {
 //            let amount = saved.getAmount() - 1
 //            let alloc = Allocation(amount: amount, expense: expense, goal: nil, shift: nil, saved: saved, date: .now, context: user.managedObjectContext!)
 //            let allocsForSaved = expense.getAllocations().filter({ $0.savedItem as? Saved != nil })
-//            
+//
 //            allocsForSaved.forEach({ print($0.getItemTitle()) })
         }
     }
 }
 
-struct ExpenseShiftRow: View {
-    
-    let shift: Shift
-    let allocation: Allocation
-    @ObservedObject private var settings = User.main.getSettings()
-    @ObservedObject private var user = User.main
-    
-    var body: some View {
-        HStack {
-            Text(shift.start.firstLetterOrTwoOfWeekday())
-                .foregroundColor(.white)
-                .frame(width: 35, height: 35)
-                .background(settings.getDefaultGradient())
-                .cornerRadius(8)
 
-            VStack(alignment: .leading) {
-                Text(shift.start.getFormattedDate(format: .abreviatedMonth))
-                    .font(.subheadline)
-                    .foregroundColor(.primary)
 
-                Text("SHIFT")
-                    .font(.caption2)
-                    .fontWeight(.medium)
-                    .foregroundColor(.secondary)
-            }
-            Spacer()
 
-            VStack {
-                Text(allocation.amount.formattedForMoney())
-                    .font(.subheadline)
-                    .foregroundColor(.primary)
-                    .multilineTextAlignment(.trailing)
-                Text(user.convertMoneyToTime(money: allocation.amount).formatForTime([.hour,.minute,.second]).uppercased())
-                    .font(.caption2)
-                    .fontWeight(.medium)
-                    .foregroundColor(.secondary)
-                
-            }
-        }
-        .padding(.vertical, 1)
-    }
-}
-
-struct ExpenseSavedRow: View {
-    
-    let saved: Saved
-    let allocation: Allocation
-    @ObservedObject private var settings = User.main.getSettings()
-    @ObservedObject private var user = User.main
-    
-    var body: some View {
-        HStack {
-            Image("green.background.pig")
-                .resizable()
-                .frame(width: 35, height: 35)
-                .cornerRadius(8)
-//                .foregroundColor(.white)
-//
-//                .background(settings.getDefaultGradient())
-//                .cornerRadius(8)
-
-            VStack(alignment: .leading) {
-                Text(saved.getTitle())
-                    .font(.subheadline)
-                    .foregroundColor(.primary)
-
-                Text("SAVED")
-                    .font(.caption2)
-                    .fontWeight(.medium)
-                    .foregroundColor(.secondary)
-            }
-            Spacer()
-
-            VStack {
-                Text(allocation.amount.formattedForMoney())
-                    .font(.subheadline)
-                    .foregroundColor(.primary)
-                    .multilineTextAlignment(.trailing)
-                Text(user.convertMoneyToTime(money: allocation.amount).formatForTime([.hour,.minute,.second]).uppercased())
-                    .font(.caption2)
-                    .fontWeight(.medium)
-                    .foregroundColor(.secondary)
-                
-            }
-        }
-        .padding(.vertical, 1)
-    }
-}
 
 
 // MARK: - ExpenseDetailView_Previews
@@ -203,9 +118,6 @@ struct ExpenseDetailView_Previews: PreviewProvider {
         ExpenseDetailView(expense: User.main.getExpenses().first!)
             .putInNavView(.inline)
             .environment(\.managedObjectContext, PersistenceController.context)
-        
-        ExpenseShiftRow(shift: User.main.getShifts().first!, allocation: User.main.getShifts().first!.getAllocations().first!)
-            .environment(\.managedObjectContext, PersistenceController.context)
-        
+            
     }
 }
