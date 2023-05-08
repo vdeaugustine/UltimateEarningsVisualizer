@@ -209,6 +209,10 @@ extension TodayView {
                             .font(.title3)
                             .fontWeight(.bold)
                         Spacer()
+                        
+                        NavigationLink("Queue") {
+                            PayoffQueueView()
+                        }
                     }
 
                     HStack {
@@ -252,6 +256,9 @@ extension TodayView {
                             .font(.title3)
                             .fontWeight(.bold)
                         Spacer()
+                        NavigationLink("Queue") {
+                            PayoffQueueView()
+                        }
                     }
 
                     HStack {

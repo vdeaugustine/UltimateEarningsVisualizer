@@ -13,7 +13,8 @@ import Vin
 
 struct StatsView: View {
     enum MoneySection: String, CaseIterable, Identifiable {
-        case all, earned, spent, saved, goals
+        case earned, spent, saved, goals
+//        case all
         var id: MoneySection { self }
     }
 
@@ -27,8 +28,11 @@ struct StatsView: View {
         var retArr = [HorizontalDataDisplay.DataItem]()
 
         switch selectedSection {
-            case .all:
-                break
+            // TODO: Figure out if you want to have an ALL section
+//            case .all:
+//                retArr = [.init(label: "Items", value: user.getShiftsBetween(startDate: firstDate, endDate: secondDate).count.str, view: nil),
+//                          .init(label: "Amount", value: user.totalNetMoneyBetween(firstDate, secondDate).formattedForMoney(), view: nil),
+//                          .init(label: "Time", value: user.convertMoneyToTime(money: user.totalNetMoneyBetween(firstDate, secondDate)).formatForTime(), view: nil)]
             case .earned:
                 retArr = [.init(label: "Shifts", value: user.getShiftsBetween(startDate: firstDate, endDate: secondDate).count.str, view: nil),
                           .init(label: "Amount", value: user.getTotalEarnedBetween(startDate: firstDate, endDate: secondDate).formattedForMoney(), view: nil),
@@ -42,7 +46,9 @@ struct StatsView: View {
                           .init(label: "Amount", value: user.getAmountSavedBetween(startDate: firstDate, endDate: secondDate).formattedForMoney(), view: nil),
                           .init(label: "Time", value: user.convertMoneyToTime(money: user.getAmountSavedBetween(startDate: firstDate, endDate: secondDate)).formatForTime(), view: nil)]
             case .goals:
-                break
+                retArr = [.init(label: "Goals", value: user.getGoalsBetween(startDate: firstDate, endDate: secondDate).count.str, view: nil),
+                          .init(label: "Amount", value: user.getGoalsSpentBetween(startDate: firstDate, endDate: secondDate).formattedForMoney(), view: nil),
+                          .init(label: "Time", value: user.convertMoneyToTime(money: user.getGoalsSpentBetween(startDate: firstDate, endDate: secondDate)).formatForTime(), view: nil)]
         }
 
         return retArr
@@ -70,8 +76,8 @@ struct StatsView: View {
             // MARK: - Selected Section
 
             switch selectedSection {
-                case .all:
-                    Text("All")
+//                case .all:
+//                    Text("All")
                 case .earned:
                     earnedSection
                 case .spent:
@@ -106,24 +112,21 @@ struct StatsView: View {
                 LazyVStack {
                     ForEach(user.getShiftsBetween(startDate: firstDate, endDate: secondDate)) { shift in
 
-                      
-                        NavigationLink(destination: ShiftDetailView(shift: shift)){
-                                HStack {
-                                    HStack(spacing: 15) {
-                                        Image(systemName: "chart.line.uptrend.xyaxis")
-                                            .foregroundColor(.green)
-                                        Text(shift.start.getFormattedDate(format: .abreviatedMonth))
-                                    }
-                                    Spacer()
-                                    Text(shift.totalEarned.formattedForMoney())
+                        NavigationLink(destination: ShiftDetailView(shift: shift)) {
+                            HStack {
+                                HStack(spacing: 15) {
+                                    Image(systemName: "chart.line.uptrend.xyaxis")
+                                        .foregroundColor(.green)
+                                    Text(shift.start.getFormattedDate(format: .abreviatedMonth))
                                 }
-                                .padding([.horizontal])
-                                .padding(.top, 2)
-                                .allPartsTappable()
-                                
+                                Spacer()
+                                Text(shift.totalEarned.formattedForMoney())
                             }
+                            .padding([.horizontal])
+                            .padding(.top, 2)
+                            .allPartsTappable()
+                        }
                         Divider()
-                        
                     }
                 }
                 .padding(.top, 10)
@@ -220,6 +223,40 @@ struct StatsView: View {
 
     var goalsSection: some View {
         VStack {
+            VStack(spacing: 0) {
+                LineChart()
+                    .frame(height: 300)
+
+                Text("Shows the total amount of money you had spent up to each day, including all previous days not shown")
+                    .font(.footnote)
+                    .padding(.horizontal)
+                    .foregroundColor(.gray)
+            }
+            .padding([.horizontal, .bottom])
+
+            homeSection(rectContainer: false, header: "Expenses") {
+                LazyVStack {
+                    ForEach(user.getExpensesBetween(startDate: firstDate, endDate: secondDate)) { expense in
+
+                        VStack {
+                            HStack {
+                                HStack(spacing: 15) {
+                                    Image(systemName: "chart.line.downtrend.xyaxis")
+                                        .foregroundColor(.red)
+                                    Text(expense.titleStr)
+                                }
+                                Spacer()
+                                Text(expense.amountMoneyStr)
+                            }
+                            .padding([.top, .horizontal])
+                            Divider()
+                        }
+                    }
+                }
+                .rectContainer(shadowRadius: 0)
+            }
+            .padding()
+            .padding(.horizontal, 5)
         }
     }
 
@@ -249,7 +286,7 @@ struct StatsView: View {
 //                    }
 
                     VStack {
-                        Text("Chart goes here")
+                        StatsViewChart()
                     }
                     .rectContainer(shadowRadius: 0.02)
 
