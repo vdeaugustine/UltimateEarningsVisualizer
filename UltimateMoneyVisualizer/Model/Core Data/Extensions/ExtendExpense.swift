@@ -1,13 +1,67 @@
-//
-//  ExtendExpense.swift
-//  UltimateMoneyVisualizer
-//
-//  Created by Vincent DeAugustine on 4/25/23.
-//
 
 import CoreData
 import Foundation
 import Vin
+
+// MARK: - Expense + PayoffItem
+
+extension Expense: PayoffItem {
+    // Optional Queue Slot Number
+    public func setOptionalQSlotNumber(newVal: Int16?) {
+        optionalQSlotNumber = newVal
+    }
+
+    // Optional Temporary Queue Number
+    public func setOptionalTempQNum(newVal: Int16?) {
+        optionalTempQNum = newVal
+    }
+
+    public var optionalQSlotNumber: Int16? {
+        get {
+            if queueSlotNumber == -7_777 {
+                return nil
+            }
+            return queueSlotNumber
+        }
+        set {
+            queueSlotNumber = newValue ?? -7_777
+        }
+    }
+
+    public var optionalTempQNum: Int16? {
+        get {
+            if tempQNum == -7_777 {
+                return nil
+            }
+            return tempQNum
+        }
+        set {
+            tempQNum = newValue ?? -7_777
+        }
+    }
+
+    public func handleWhenPaidOff() throws {
+        guard amountRemainingToPayOff <= 0 else { return }
+        optionalTempQNum = nil
+    }
+
+    public func handleWhenTempPaidOff() throws {
+        guard temporaryRemainingToPayOff <= 0 else { return }
+        optionalTempQNum = nil
+    }
+
+    public func getID() -> UUID {
+        if let id { return id }
+        let newID = UUID()
+        id = newID
+
+        try? managedObjectContext?.save()
+
+        return newID
+    }
+
+    public var type: PayoffType { return .goal }
+}
 
 // MARK: - Initializer
 
@@ -29,106 +83,9 @@ public extension Expense {
     }
 }
 
-// MARK: - Expense + PayoffItem
-
-extension Expense: PayoffItem {
-    public func setOptionalQSlotNumber(newVal: Int16?) {
-        self.optionalQSlotNumber = newVal
-    }
-    
-    
-    public func setOptionalTempQNum(newVal: Int16?) {
-        self.optionalTempQNum = newVal
-    }
-    
-    public var optionalQSlotNumber: Int16? {
-        get {
-            if queueSlotNumber == -7777 {
-                return nil
-            }
-            return queueSlotNumber
-        }
-        set {
-            queueSlotNumber = newValue ?? -7777
-        }
-    }
-    
-    public var optionalTempQNum: Int16? {
-        get {
-            if tempQNum == -7777 {
-                return nil
-            }
-            return tempQNum
-        }
-        set {
-            tempQNum = newValue ?? -7777
-        }
-    }
-    
-    public func handleWhenPaidOff() throws {
-        guard amountRemainingToPayOff <= 0 else { return }
-        self.optionalTempQNum = nil
-    }
-    public func handleWhenTempPaidOff() throws {
-        guard temporaryRemainingToPayOff <= 0 else { return }
-        self.optionalTempQNum = nil
-    }
-    
-    
-    
-    
-    
-   
-
-    
-    public func getID() -> UUID {
-        if let id { return id }
-        let newID = UUID()
-        id = newID
-
-        try? managedObjectContext?.save()
-
-        return newID
-    }
-}
+// MARK: - Expense Properties
 
 public extension Expense {
-    static func makeExampleExpenses(user: User, context: NSManagedObjectContext) throws {
-        _ = Expense(title: "Groceries", info: "Weekly grocery shopping", amount: 150.0, dueDate: Date(), user: user, context: context)
-        _ = Expense(title: "Netflix", info: "Monthly subscription", amount: 14.99, dueDate: Date(), user: user, context: context)
-        _ = Expense(title: "Gym Membership", info: "Monthly gym membership", amount: 50.0, dueDate: Date(), user: user, context: context)
-        _ = Expense(title: "Car Insurance", info: "Six-month premium", amount: 600.0, dueDate: Date(), user: user, context: context)
-        _ = Expense(title: "Phone Bill", info: "Monthly phone bill", amount: 80.0, dueDate: Date(), user: user, context: context)
-        _ = Expense(title: "Birthday Gift", info: "Gift for friend's birthday", amount: 50.0, dueDate: Date(), user: user, context: context)
-        _ = Expense(title: "Airfare", info: "Roundtrip flight for vacation", amount: 500.0, dueDate: Date(), user: user, context: context)
-        _ = Expense(title: "Concert Tickets", info: "Tickets for upcoming concert", amount: 200.0, dueDate: Date(), user: user, context: context)
-        _ = Expense(title: "Dinner Date", info: "Dinner at fancy restaurant", amount: 100.0, dueDate: Date(), user: user, context: context)
-        _ = Expense(title: "Home Decor", info: "New furniture for living room", amount: 1_000.0, dueDate: Date(), user: user, context: context)
-
-        try context.save()
-    }
-
-    static let testItemExpense: Expense = {
-        let expense1 = Expense(title: "Groceries", info: "This expense is for groceries", amount: 50.00, dueDate: .now.addDays(27), user: User.main, context: PersistenceController.testing)
-        expense1.dateCreated = .now.addDays(-48)
-        return expense1
-    }()
-
-    var temporarilyPaidOff: Double {
-        guard let temporaryAllocations = temporaryAllocations as? Set<TemporaryAllocation>
-        else {
-            return 0
-        }
-
-        let totalTemporaryAllocated = temporaryAllocations.reduce(Double(0)) { $0 + $1.amount }
-
-        return totalTemporaryAllocated + amountPaidOff
-    }
-
-    var temporaryRemainingToPayOff: Double {
-        amount - temporarilyPaidOff
-    }
-
     var titleStr: String { title ?? "Unknown Expense" }
 
     var amountMoneyStr: String {
@@ -146,6 +103,21 @@ public extension Expense {
         return allocations
     }
 
+    var temporarilyPaidOff: Double {
+        guard let temporaryAllocations = temporaryAllocations as? Set<TemporaryAllocation>
+        else {
+            return 0
+        }
+
+        let totalTemporaryAllocated = temporaryAllocations.reduce(Double(0)) { $0 + $1.amount }
+
+        return totalTemporaryAllocated + amountPaidOff
+    }
+
+    var temporaryRemainingToPayOff: Double {
+        amount - temporarilyPaidOff
+    }
+
     var totalTime: TimeInterval {
         guard let dateCreated, let dueDate else { return 0 }
         return dueDate - dateCreated
@@ -157,7 +129,11 @@ public extension Expense {
     }
 
     var amountRemainingToPayOff: Double { return amount - amountPaidOff }
+}
 
+// MARK: - Example Expenses
+
+public extension Expense {
     static func createExampleExpenses(user: User, context: NSManagedObjectContext) throws {
         func randomDateWithin(days: Int) -> Date {
             let calendar = Calendar.current
@@ -219,6 +195,20 @@ public extension Expense {
         expense5.user = user
         expense5.info = "This expense is for entertainment"
 
+        try context.save()
+    }
+
+    static func makeExampleExpenses(user: User, context: NSManagedObjectContext) throws {
+        _ = Expense(title: "Groceries", info: "Weekly grocery shopping", amount: 150.0, dueDate: Date(), user: user, context: context)
+        _ = Expense(title: "Netflix", info: "Monthly subscription", amount: 14.99, dueDate: Date(), user: user, context: context)
+        _ = Expense(title: "Gym Membership", info: "Monthly gym membership", amount: 50.0, dueDate: Date(), user: user, context: context)
+        _ = Expense(title: "Car Insurance", info: "Six-month premium", amount: 600.0, dueDate: Date(), user: user, context: context)
+        _ = Expense(title: "Phone Bill", info: "Monthly phone bill", amount: 80.0, dueDate: Date(), user: user, context: context)
+        _ = Expense(title: "Birthday Gift", info: "Gift for friend's birthday", amount: 50.0, dueDate: Date(), user: user, context: context)
+        _ = Expense(title: "Airfare", info: "Roundtrip flight for vacation", amount: 500.0, dueDate: Date(), user: user, context: context)
+        _ = Expense(title: "Concert Tickets", info: "Tickets for upcoming concert", amount: 200.0, dueDate: Date(), user: user, context: context)
+        _ = Expense(title: "Dinner Date", info: "Dinner at fancy restaurant", amount: 100.0, dueDate: Date(), user: user, context: context)
+        _ = Expense(title: "Home Decor", info: "New furniture for living room", amount: 1_000.0, dueDate: Date(), user: user, context: context)
         try context.save()
     }
 }

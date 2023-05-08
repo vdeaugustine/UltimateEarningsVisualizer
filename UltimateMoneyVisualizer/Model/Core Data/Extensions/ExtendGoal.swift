@@ -31,27 +31,13 @@ public extension Goal {
 // MARK: - Goal + PayoffItem
 
 extension Goal: PayoffItem {
-    
-    public func setOptionalQSlotNumber(newVal: Int16?) {
-        self.optionalQSlotNumber = newVal
+    // MARK: Methods
+
+    public func getAllocations() -> [Allocation] {
+        guard let allocations = Array(allocations ?? []) as? [Allocation] else { return [] }
+        return allocations
     }
-    
-    
-    public func setOptionalTempQNum(newVal: Int16?) {
-        self.optionalTempQNum = newVal
-    }
-    
-    
-    public func handleWhenPaidOff() throws {
-        guard amountRemainingToPayOff <= 0 else { return }
-        self.optionalTempQNum = nil
-    }
-    public func handleWhenTempPaidOff() throws {
-        guard temporaryRemainingToPayOff <= 0 else { return }
-        self.optionalTempQNum = nil
-    }
- 
-    
+
     public func getID() -> UUID {
         if let id { return id }
         let newID = UUID()
@@ -61,31 +47,96 @@ extension Goal: PayoffItem {
 
         return newID
     }
-    
+
+    public func getMostRecentTemporaryAllocation() -> TemporaryAllocation? {
+        let tempAllocsArray = getArrayOfTemporaryAllocations()
+
+        let sorted = tempAllocsArray.sorted { ($0.lastEdited ?? .now) > ($1.lastEdited ?? .now) }
+
+        return sorted.first
+    }
+
+    public func handleWhenPaidOff() throws {
+        guard amountRemainingToPayOff <= 0 else { return }
+        optionalTempQNum = nil
+    }
+
+    public func handleWhenTempPaidOff() throws {
+        guard temporaryRemainingToPayOff <= 0 else { return }
+        optionalTempQNum = nil
+    }
+
+    public func setOptionalQSlotNumber(newVal: Int16?) {
+        optionalQSlotNumber = newVal
+    }
+
+    public func setOptionalTempQNum(newVal: Int16?) {
+        optionalTempQNum = newVal
+    }
+
+    // MARK: Properties
+
+    public var percentPaidOff: Double {
+        amountPaidOff / amount
+    }
+
+    var amountPaidOff: Double {
+        guard let allocations = Array(allocations ?? []) as? [Allocation] else { return 0 }
+        return allocations.reduce(Double(0)) { $0 + $1.amount }
+    }
+
+    public var amountRemainingToPayOff: Double { amount - amountPaidOff }
+
+    var temporarilyPaidOff: Double {
+        let temporaryAllocations = getArrayOfTemporaryAllocations()
+
+        let totalTemporaryAllocated = temporaryAllocations.reduce(Double(0)) { $0 + $1.amount }
+
+        return totalTemporaryAllocated + amountPaidOff
+    }
+
+    var temporaryRemainingToPayOff: Double {
+        amount - temporarilyPaidOff
+    }
+
+    public var titleStr: String { title ?? "Unknown Expense" }
+
+    public var amountMoneyStr: String {
+        return amount.formattedForMoney(includeCents: true)
+    }
+
+    public var percentTemporarilyPaidOff: Double {
+        temporarilyPaidOff / amount
+    }
+
     public var optionalQSlotNumber: Int16? {
         get {
-            if queueSlotNumber == -7777 {
+            if queueSlotNumber == -7_777 {
                 return nil
             }
             return queueSlotNumber
         }
         set {
-            queueSlotNumber = newValue ?? -7777
+            queueSlotNumber = newValue ?? -7_777
         }
     }
-    
+
     public var optionalTempQNum: Int16? {
         get {
-            if tempQNum == -7777 {
+            if tempQNum == -7_777 {
                 return nil
             }
             return tempQNum
         }
         set {
-            tempQNum = newValue ?? -7777
+            tempQNum = newValue ?? -7_777
         }
     }
+
+    public var type: PayoffType { return .goal }
 }
+
+// MARK: - Example Items for Testing
 
 public extension Goal {
     static func makeExampleGoals(user: User, context: NSManagedObjectContext) throws {
@@ -98,9 +149,7 @@ public extension Goal {
         try Goal(title: "Retirement fund", info: "Planning for retirement", amount: 100_000, dueDate: nil, user: user, context: context)
         try Goal(title: "Business venture", info: "Investing in a new business opportunity", amount: 25_000, dueDate: Date().addingTimeInterval(157_680_000), user: user, context: context)
     }
-}
 
-public extension Goal {
     static let disneyWorld: Goal = {
         let goal = Goal(context: PersistenceController.context)
         goal.amount = 2_329
@@ -114,6 +163,26 @@ public extension Goal {
         goal.user = user
         return goal
     }()
+}
+
+// MARK: - Methods and properties
+
+public extension Goal {
+    // MARK: Methods
+
+    func getArrayOfTemporaryAllocations() -> [TemporaryAllocation] {
+        guard let temporaryAllocations = temporaryAllocations?.allObjects as? [TemporaryAllocation] else {
+            return []
+        }
+        return temporaryAllocations
+    }
+
+    func loadImageIfPresent() -> UIImage? {
+        if let imageData {
+            return UIImage(data: imageData)
+        }
+        return nil
+    }
 
     func saveImage(image: UIImage) throws {
         if let imageData = image.jpegData(compressionQuality: 1.0) {
@@ -129,73 +198,15 @@ public extension Goal {
         }
     }
 
-    func getArrayOfTemporaryAllocations() -> [TemporaryAllocation] {
-        guard let temporaryAllocations = temporaryAllocations?.allObjects as? [TemporaryAllocation] else {
-            return []
-        }
-        return temporaryAllocations
-    }
-    
-    func getAllocations() -> [Allocation] {
-        guard let allocations = Array(allocations ?? []) as? [Allocation] else { return [] }
-        return allocations
-    }
-
-    func getMostRecentTemporaryAllocation() -> TemporaryAllocation? {
-        let tempAllocsArray = getArrayOfTemporaryAllocations()
-
-        let sorted = tempAllocsArray.sorted { ($0.lastEdited ?? .now) > ($1.lastEdited ?? .now) }
-
-        return sorted.first
-    }
-
-    var percentTemporarilyPaidOff: Double {
-        temporarilyPaidOff / amount
-    }
-
-    func loadImageIfPresent() -> UIImage? {
-        if let imageData {
-            return UIImage(data: imageData)
-        }
-        return nil
-    }
-
-    var temporarilyPaidOff: Double {
-        let temporaryAllocations = getArrayOfTemporaryAllocations()
-
-        let totalTemporaryAllocated = temporaryAllocations.reduce(Double(0)) { $0 + $1.amount }
-
-        return totalTemporaryAllocated + amountPaidOff
-    }
-
-    var temporaryRemainingToPayOff: Double {
-        amount - temporarilyPaidOff
-    }
-
-    var titleStr: String { title ?? "Unknown Expense" }
-
-    var amountMoneyStr: String {
-        return amount.formattedForMoney(includeCents: true)
-    }
-
-    var amountPaidOff: Double {
-        guard let allocations = Array(allocations ?? []) as? [Allocation] else { return 0 }
-        return allocations.reduce(Double(0)) { $0 + $1.amount }
-    }
-
-    var totalTime: TimeInterval {
-        guard let dateCreated, let dueDate else { return 0 }
-        return dueDate - dateCreated
-    }
+    // MARK: Properties
 
     var timeRemaining: TimeInterval {
         guard let dueDate else { return 0 }
         return dueDate - .now
     }
 
-    var percentPaidOff: Double {
-        amountPaidOff / amount
+    var totalTime: TimeInterval {
+        guard let dateCreated, let dueDate else { return 0 }
+        return dueDate - dateCreated
     }
-
-    var amountRemainingToPayOff: Double { amount - amountPaidOff }
 }

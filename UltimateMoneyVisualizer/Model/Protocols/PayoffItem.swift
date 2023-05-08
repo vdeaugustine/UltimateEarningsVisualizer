@@ -7,26 +7,33 @@
 
 import Foundation
 
+public enum PayoffType: String { case goal, expense }
+
 public protocol PayoffItem {
     
-    var optionalQSlotNumber: Int16? { get set }
-    var dateCreated: Date? { get set }
-    func getID() -> UUID
-    var percentPaidOff: Double { get }
-    var titleStr: String { get }
-    var optionalTempQNum: Int16? { get set }
-    
-    func setOptionalTempQNum(newVal: Int16?)
-    func setOptionalQSlotNumber(newVal: Int16?) 
-    
-    func handleWhenPaidOff() throws
-    func handleWhenTempPaidOff() throws
-    
-    func getAllocations() -> [Allocation]
-    
-    var amountRemainingToPayOff: Double { get }
+
+    // MARK: - Protocol Properties:
     
     var amountMoneyStr: String { get }
+    var amountRemainingToPayOff: Double { get }
+    var dateCreated: Date? { get set }
+    var optionalQSlotNumber: Int16? { get set }
+    var optionalTempQNum: Int16? { get set }
+    var percentPaidOff: Double { get }
+    var titleStr: String { get }
+    var type: PayoffType { get }
+    
+    
+    // MARK: - Protocol Methods:
+    
+    func getAllocations() -> [Allocation]
+    func getID() -> UUID
+    func getMostRecentTemporaryAllocation() -> TemporaryAllocation?
+    func handleWhenPaidOff() throws
+    func handleWhenTempPaidOff() throws
+    func setOptionalQSlotNumber(newVal: Int16?)
+    func setOptionalTempQNum(newVal: Int16?)
+    
 }
 
 
