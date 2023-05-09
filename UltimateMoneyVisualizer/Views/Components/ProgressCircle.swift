@@ -7,23 +7,28 @@
 
 import SwiftUI
 
+// MARK: - ProgressCircle
+
 struct ProgressCircle<Content: View>: View {
     var percent: Double
     var widthHeight: CGFloat = 33
     var lineWidth: CGFloat = 2
+    let showCheckWhenComplete: Bool
     let content: () -> Content
     @ObservedObject var settings = User.main.getSettings()
-    
-    init(percent: Double, widthHeight: CGFloat = 33, lineWidth: CGFloat = 2, @ViewBuilder content: @escaping () -> Content) {
+
+    init(percent: Double, widthHeight: CGFloat = 33, lineWidth: CGFloat = 2, showCheck: Bool = false, @ViewBuilder content: @escaping () -> Content) {
         self.percent = percent
         self.widthHeight = widthHeight
         self.lineWidth = lineWidth
+        self.showCheckWhenComplete = showCheck
         self.content = content
     }
-    
+
     var body: some View {
         ZStack {
-            if percent >= 1 {
+            if percent >= 1,
+               showCheckWhenComplete {
                 Image(systemName: "checkmark.circle")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -51,8 +56,9 @@ struct ProgressCircle<Content: View>: View {
     }
 }
 
+// MARK: - ProgressCircle_Previews
 
-//struct ProgressCircle: View {
+// struct ProgressCircle: View {
 //    var percent: Double
 //    var widthHeight: CGFloat = 33
 //    var textToShowInMiddle: String? = nil
@@ -88,16 +94,14 @@ struct ProgressCircle<Content: View>: View {
 //
 //        .frame(width: widthHeight, height: widthHeight)
 //    }
-//}
-
-// MARK: - ProgressCircle_Previews
+// }
 
 struct ProgressCircle_Previews: PreviewProvider {
     static var previews: some View {
-        ProgressCircle(percent: 0.5, widthHeight: 33, lineWidth: 2) {
+        ProgressCircle(percent: 1, widthHeight: 330, lineWidth: 2) {
             Text("50%")
                 .minimumScaleFactor(0.2)
         }
-            .previewLayout(.sizeThatFits)
+        .previewLayout(.sizeThatFits)
     }
 }

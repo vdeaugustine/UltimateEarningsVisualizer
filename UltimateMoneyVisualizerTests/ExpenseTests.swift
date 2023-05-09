@@ -22,7 +22,7 @@ final class ExpenseTests: XCTestCase {
 
         try TemporaryAllocation(initialAmount: 20, expense: expense, context: context)
         try TemporaryAllocation(initialAmount: 8, expense: expense, context: context)
-        Allocation(amount: 7, expense: expense, shift: shiftForAllocation, context: context)
+        try Allocation(amount: 7, expense: expense, shift: shiftForAllocation, context: context)
 
         let expectedAllocated: Double = 20 + 8 + 7
 
@@ -38,7 +38,7 @@ final class ExpenseTests: XCTestCase {
         try TemporaryAllocation(initialAmount: 20, expense: expense, context: context)
         try TemporaryAllocation(initialAmount: 8, expense: expense, context: context)
         try TemporaryAllocation(initialAmount: 4, expense: expense, context: context)
-        Allocation(amount: 7, expense: expense, shift: shiftForAllocation, context: context)
+        try Allocation(amount: 7, expense: expense, shift: shiftForAllocation, context: context)
 
         let expectedRemaining: Double = 93 - 20 - 8 - 4 - 7
 

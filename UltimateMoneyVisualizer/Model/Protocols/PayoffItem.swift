@@ -7,13 +7,33 @@
 
 import Foundation
 
-public enum PayoffType: String { case goal, expense }
+public enum PayoffType: String {
+    case goal, expense
+    
+    init(_ expense: Expense) {
+        self = .expense
+    }
+    
+    init(_ goal: Goal) {
+        self = .goal
+    }
+    
+    init(_ payoff: PayoffItem) {
+        if let goal = payoff as? Goal {
+            self = .goal
+        }
+        else {
+            self = .expense
+        }
+    }
+}
 
 public protocol PayoffItem {
     
 
     // MARK: - Protocol Properties:
     
+    var amount: Double { get }
     var amountMoneyStr: String { get }
     var amountPaidOff: Double { get }
     var amountRemainingToPayOff: Double { get }
