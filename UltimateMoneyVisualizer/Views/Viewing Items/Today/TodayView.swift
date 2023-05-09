@@ -27,6 +27,8 @@ struct TodayView: View {
     @ObservedObject var user = User.main
     @ObservedObject var settings = User.main.getSettings()
     
+    
+    
     var isCurrentlyMidShift: Bool {
         guard let todayShift,
               let start = todayShift.startTime,
@@ -200,104 +202,108 @@ extension TodayView {
 
     // MARK: - Payoff Item Section
 
-    func payoffItemSection(todayShift: TodayShift) -> AnyView {
-        if let expense = user.getTempQueue().first as? Expense {
-            return VStack {
-                VStack {
-                    HStack {
-                        Text("Current Expense")
-                            .font(.title3)
-                            .fontWeight(.bold)
-                        Spacer()
-                        
-                        NavigationLink("Queue") {
-                            PayoffQueueView()
-                        }
-                    }
-
-                    HStack {
-                        ProgressCircle(percent: todayShift.percentTimeCompleted(nowTime),
-                                       widthHeight: 100,
-                                       lineWidth: 7) {
-                            Text(User.main.getExpenses().first!.temporarilyPaidOff.formattedForMoney())
-                                .font(.title)
-                                .minimumScaleFactor(0.5)
-                                .lineLimit(1)
-                                .padding(5)
-                        }
-
-                        VStack(alignment: .leading) {
-                            Text(expense.titleStr)
-                                .font(.title2)
-                            if let info = expense.info {
-                                Text(info)
-                                    .font(.subheadline)
-                            }
-
-                            Text(expense.amountMoneyStr)
-                                .font(.title2)
-                                .fontWeight(.bold)
-                                .foregroundStyle(settings.getDefaultGradient())
-                        }
-                        .padding([.horizontal])
-                        .pushLeft()
-                    }
-                }
-
-                .padding()
-            }
-            .padding(.vertical)
-            .anyView
-        } else if let goal = user.getTempQueue().first as? Goal {
-            return VStack {
-                VStack {
-                    HStack {
-                        Text("Current Goal")
-                            .font(.title3)
-                            .fontWeight(.bold)
-                        Spacer()
-                        NavigationLink("Queue") {
-                            PayoffQueueView()
-                        }
-                    }
-
-                    HStack {
-                        ProgressCircle(percent: goal.percentTemporarilyPaidOff,
-                                       widthHeight: 100,
-                                       lineWidth: 7) {
-                            Text(goal.temporarilyPaidOff.formattedForMoney())
-                                .font(.title)
-                                .minimumScaleFactor(0.5)
-                                .lineLimit(1)
-                                .padding(5)
-                        }
-
-                        VStack(alignment: .leading) {
-                            Text(goal.titleStr)
-                                .font(.title2)
-                            if let info = goal.info {
-                                Text(info)
-                                    .font(.subheadline)
-                            }
-                            Text(goal.temporarilyPaidOff.formattedForMoney())
-
-                            Text(goal.amountMoneyStr)
-                                .font(.title2)
-                                .fontWeight(.bold)
-                                .foregroundStyle(settings.getDefaultGradient())
-                        }
-                        .padding([.horizontal])
-                        .pushLeft()
-                    }
-                }
-
-                .padding()
-            }
-            .padding(.vertical)
-            .anyView
-        } else {
-            return AnyView(EmptyView())
-        }
+    func payoffItemSection(todayShift: TodayShift) -> some View {
+        
+        TodayPayoffGrid(shiftDuration: todayShift.totalShiftDuration, haveEarned: todayShift.totalEarnedSoFar(nowTime))
+        
+        
+//        if let expense = user.getTempQueue().first as? Expense {
+//            return VStack {
+//                VStack {
+//                    HStack {
+//                        Text("Current Expense")
+//                            .font(.title3)
+//                            .fontWeight(.bold)
+//                        Spacer()
+//
+//                        NavigationLink("Queue") {
+//                            PayoffQueueView()
+//                        }
+//                    }
+//
+//                    HStack {
+//                        ProgressCircle(percent: todayShift.percentTimeCompleted(nowTime),
+//                                       widthHeight: 100,
+//                                       lineWidth: 7) {
+//                            Text(User.main.getExpenses().first!.temporarilyPaidOff.formattedForMoney())
+//                                .font(.title)
+//                                .minimumScaleFactor(0.5)
+//                                .lineLimit(1)
+//                                .padding(5)
+//                        }
+//
+//                        VStack(alignment: .leading) {
+//                            Text(expense.titleStr)
+//                                .font(.title2)
+//                            if let info = expense.info {
+//                                Text(info)
+//                                    .font(.subheadline)
+//                            }
+//
+//                            Text(expense.amountMoneyStr)
+//                                .font(.title2)
+//                                .fontWeight(.bold)
+//                                .foregroundStyle(settings.getDefaultGradient())
+//                        }
+//                        .padding([.horizontal])
+//                        .pushLeft()
+//                    }
+//                }
+//
+//                .padding()
+//            }
+//            .padding(.vertical)
+//            .anyView
+//        } else if let goal = user.getTempQueue().first as? Goal {
+//            return VStack {
+//                VStack {
+//                    HStack {
+//                        Text("Current Goal")
+//                            .font(.title3)
+//                            .fontWeight(.bold)
+//                        Spacer()
+//                        NavigationLink("Queue") {
+//                            PayoffQueueView()
+//                        }
+//                    }
+//
+//                    HStack {
+//                        ProgressCircle(percent: goal.percentTemporarilyPaidOff,
+//                                       widthHeight: 100,
+//                                       lineWidth: 7) {
+//                            Text(goal.temporarilyPaidOff.formattedForMoney())
+//                                .font(.title)
+//                                .minimumScaleFactor(0.5)
+//                                .lineLimit(1)
+//                                .padding(5)
+//                        }
+//
+//                        VStack(alignment: .leading) {
+//                            Text(goal.titleStr)
+//                                .font(.title2)
+//                            if let info = goal.info {
+//                                Text(info)
+//                                    .font(.subheadline)
+//                            }
+//                            Text(goal.temporarilyPaidOff.formattedForMoney())
+//
+//                            Text(goal.amountMoneyStr)
+//                                .font(.title2)
+//                                .fontWeight(.bold)
+//                                .foregroundStyle(settings.getDefaultGradient())
+//                        }
+//                        .padding([.horizontal])
+//                        .pushLeft()
+//                    }
+//                }
+//
+//                .padding()
+//            }
+//            .padding(.vertical)
+//            .anyView
+//        } else {
+//            return AnyView(EmptyView())
+//        }
     }
 
     // MARK: - Today's Spending Section

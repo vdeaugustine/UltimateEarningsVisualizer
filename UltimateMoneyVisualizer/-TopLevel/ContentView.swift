@@ -8,8 +8,6 @@
 import CoreData
 import SwiftUI
 
-
-
 // MARK: - ContentView
 
 struct ContentView: View {
@@ -23,18 +21,15 @@ struct ContentView: View {
 
     var body: some View {
         TabView(selection: $tab) {
-            AssignAllocationToPayoffView(payoffItem: User.main.getGoals().first!)
-                .putInNavView(.inline)
-                .makeTab(tab: Tabs.expenses, systemImage: "star")
 
             HomeView()
                 .putInNavView(.inline)
                 .makeTab(tab: Tabs.home, systemImage: "house")
-            
+
             TodayView()
                 .putInNavView(.inline)
                 .makeTab(tab: Tabs.today, systemImage: "bolt.fill")
-            
+
             SettingsView()
                 .putInTemplate()
                 .putInNavView(.inline)
@@ -50,6 +45,5 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
             .environment(\.managedObjectContext, PersistenceController.context)
-            
     }
 }
