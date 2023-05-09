@@ -91,7 +91,7 @@ struct PayoffTodaySquare_Previews: PreviewProvider {
     }
 
     static var previews: some View {
-        PayoffTodaySquare(title: item.titleStr, itemTotal: item.amount, progressAmount: 25, havedPaidOff: item.amount * 0.4, payoffType: .init(item))
+        PayoffTodaySquare(title: item.titleStr, itemTotal: item.amount, progressAmount: 25, havedPaidOff: item.amount * 1, payoffType: .init(item))
             .frame(width: UIScreen.main.bounds.width / 2 - 10)
             .previewLayout(.sizeThatFits)
     }

@@ -21,7 +21,7 @@ struct TodayPayoffGrid: View {
     let initialPayoffs = User.main.getQueue().map { TempTodayPayoff(payoff: $0) }
 
     private var tempPayoffs: [TempTodayPayoff] {
-        payOffExpenses(with: haveEarned, expenses: initialPayoffs)
+        payOffExpenses(with: haveEarned, expenses: initialPayoffs).reversed()
     }
 
 //    private var itemsAndAmounts: [(item: PayoffItem, amount: Double)] {
@@ -55,19 +55,21 @@ struct TodayPayoffGrid: View {
 //    }
 
     var body: some View {
+//        GeometryReader { geo in
         LazyVGrid(columns: GridItem.flexibleItems(2)) {
-            ForEach(tempPayoffs) { item in
+                ForEach(tempPayoffs) { item in
 
-                if item.progressAmount > 0 {
-                    PayoffTodaySquare(title: item.title,
-                                      itemTotal: item.amount,
-                                      progressAmount: item.progressAmount,
-                                      havedPaidOff: item.amountPaidOff,
-                                      payoffType: item.type)
+                    if item.progressAmount > 0.01 {
+                        PayoffTodaySquare(title: item.title,
+                                          itemTotal: item.amount,
+                                          progressAmount: item.progressAmount,
+                                          havedPaidOff: item.amountPaidOff,
+                                          payoffType: item.type).pushLeft()
+                    }
+                    
                 }
-                
             }
-        }
+        
     }
 }
 

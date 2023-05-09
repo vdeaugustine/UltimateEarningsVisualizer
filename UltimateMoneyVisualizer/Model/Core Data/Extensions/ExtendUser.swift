@@ -247,6 +247,7 @@ public extension User {
 
         return anyArr
     }
+    
 
     func getTempQueue() -> [PayoffItem] {
         var anyArr: [PayoffItem] = []
