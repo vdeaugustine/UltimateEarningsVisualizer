@@ -65,7 +65,15 @@ struct TodayView: View {
         }
         .onAppear(perform: user.updateTempQueue)
         .putInTemplate()
-        .bottomBanner(isVisible: $showBanner, swipeToDismiss: false, buttonText: "Save")
+        .bottomBanner(isVisible: $showBanner, swipeToDismiss: false, buttonText: "Save") {
+            do {
+               try todayShift?.finalizeAndSave(user: user, context: viewContext)
+               print("Saved successfully")
+            }
+            catch {
+                print("Error saving")
+            }
+        }
         .background(Color.targetGray.frame(maxHeight: .infinity).ignoresSafeArea())
         .navigationTitle("Today Live")
         .sheet(isPresented: $showHoursSheet) {
@@ -473,8 +481,8 @@ struct SelectHours: View {
 struct TodayView_Previews: PreviewProvider {
     static let ts: TodayShift = {
         let ts = TodayShift(context: PersistenceController.context)
-        ts.startTime = Date.now.addMinutes(-20)
-        ts.endTime = Date.now.addMinutes(4)
+        ts.startTime = .nineAM
+        ts.endTime = Date.now.addMinutes(3 / 60)
         ts.user = User.main
         ts.expiration = Date.endOfDay()
         ts.dateCreated = .now

@@ -11,6 +11,18 @@ import SwiftUI
 
 struct PayoffTodaySquare: View {
     @ObservedObject private var settings = User.main.getSettings()
+    @ObservedObject private var user = User.main
+
+    let item: TempTodayPayoff
+
+    init(item: TempTodayPayoff) {
+        self.item = item
+        self.title = item.title
+        self.itemTotal = item.amount
+        self.progressAmount = item.progressAmount
+        self.havedPaidOff = item.amountPaidOff
+        self.payoffType = item.type
+    }
 
     let title: String
     let itemTotal: Double
@@ -21,21 +33,28 @@ struct PayoffTodaySquare: View {
     var progressToShow: Double {
         progressAmount > 0 ? progressAmount : 0
     }
-    
+
     let payoffType: PayoffType
 
     var percent: Double {
         havedPaidOff / itemTotal
     }
 
-    var body: some View {
+    var correspondingGoal: Goal? {
+        user.getGoals().first(where: { $0.getID() == item.id })
+    }
+
+    var correspondingExpense: Expense? {
+        user.getExpenses().first(where: { $0.getID() == item.id })
+    }
+
+    var mainContent: some View {
         VStack {
             HStack {
                 ProgressCircle(percent: percent,
                                widthHeight: 75,
                                lineWidth: 5) {
-                    
-                    VStack(spacing: 2){
+                    VStack(spacing: 2) {
                         Text(havedPaidOff.formattedForMoney())
                             .lineLimit(1)
                             .minimumScaleFactor(0.85)
@@ -46,7 +65,6 @@ struct PayoffTodaySquare: View {
                             .font(.caption2)
                             .minimumScaleFactor(0.5)
                             .lineLimit(1)
-                            
                     }
                     .offset(y: 5)
                     .padding(.horizontal, 2)
@@ -56,29 +74,41 @@ struct PayoffTodaySquare: View {
                     Text(title)
                         .font(.headline)
                         .lineLimit(2)
-                    
-                   
+                        .multilineTextAlignment(.leading)
 
                     HStack(alignment: .bottom, spacing: 5) {
-                        
-                        
-                        
                         Text(itemTotal.formattedForMoney())
                             .lineLimit(1)
                             .font(.subheadline)
                             .fontWeight(.bold)
                             .foregroundStyle(settings.getDefaultGradient())
-
-                        
                     }
-                    
+
                     Text(payoffType.rawValue.uppercased())
                         .font(.system(size: 12, weight: .bold, design: .rounded))
                         .foregroundColor(.gray)
                 }
-//                .padding([.horizontal])
-//                .pushLeft()
+                //                .padding([.horizontal])
+                //                .pushLeft()
             }
+        }
+    }
+
+    var body: some View {
+        if let correspondingGoal {
+            NavigationLink {
+                GoalDetailView(goal: correspondingGoal)
+            } label: {
+                mainContent
+            }
+        } else if let correspondingExpense {
+            NavigationLink {
+                ExpenseDetailView(expense: correspondingExpense)
+            } label: {
+                mainContent
+            }
+        } else {
+            mainContent
         }
     }
 }
@@ -91,7 +121,7 @@ struct PayoffTodaySquare_Previews: PreviewProvider {
     }
 
     static var previews: some View {
-        PayoffTodaySquare(title: item.titleStr, itemTotal: item.amount, progressAmount: 25, havedPaidOff: item.amount * 1, payoffType: .init(item))
+        PayoffTodaySquare(item: .init(payoff: item))
             .frame(width: UIScreen.main.bounds.width / 2 - 10)
             .previewLayout(.sizeThatFits)
     }

@@ -57,19 +57,15 @@ struct TodayPayoffGrid: View {
     var body: some View {
 //        GeometryReader { geo in
         LazyVGrid(columns: GridItem.flexibleItems(2)) {
-                ForEach(tempPayoffs) { item in
+            ForEach(tempPayoffs) { item in
 
-                    if item.progressAmount > 0.01 {
-                        PayoffTodaySquare(title: item.title,
-                                          itemTotal: item.amount,
-                                          progressAmount: item.progressAmount,
-                                          havedPaidOff: item.amountPaidOff,
-                                          payoffType: item.type).pushLeft()
-                    }
-                    
+                if item.progressAmount > 0.01 {
+                    PayoffTodaySquare(item: item)
+
+                        .pushLeft()
                 }
             }
-        
+        }
     }
 }
 
