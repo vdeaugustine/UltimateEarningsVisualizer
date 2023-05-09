@@ -20,9 +20,9 @@ public extension TodayShift {
         self.dateCreated = .now
         self.startTime = startTime
         self.endTime = endTime
-        
+
         user.updateTempQueue()
-        
+
         try context.save()
     }
 
@@ -124,6 +124,40 @@ public extension TodayShift {
         payoffItemQueue = payoffItemQueueArray.joined(separator: ",")
 
         try managedObjectContext?.save()
+    }
+
+    func finalizeAndSave(user: User, context: NSManagedObjectContext) throws {
+        guard let startTime, let endTime else { throw NSError(domain: "Could not get start time and end time for TodayShift", code: 123) }
+
+        let initialPayoffs = user.getQueue().map { TempTodayPayoff(payoff: $0) }
+
+        let haveEarned = totalWillEarn
+
+        var tempPayoffs: [TempTodayPayoff] = payOffExpenses(with: haveEarned, expenses: initialPayoffs)
+
+        let shift = try Shift(day: .init(date: startTime), start: startTime, end: endTime, user: user, context: context)
+
+        for payoff in tempPayoffs {
+            if payoff.type == .goal {
+                guard let goal = user.getGoals().first(where: { $0.getID() == payoff.id })
+                else {
+                    throw NSError(domain: "Could not get goal \(payoff.title)", code: 7)
+                }
+
+                let newAllocation = try Allocation(amount: payoff.progressAmount, expense: nil, goal: goal, shift: shift, saved: nil, date: .now, context: context)
+                print("Saved new allocation", newAllocation.goal?.titleStr ?? "NA")
+            }
+
+            if payoff.type == .expense {
+                guard let expense = user.getExpenses().first(where: { $0.getID() == payoff.id })
+                else {
+                    throw NSError(domain: "Could not get expense \(payoff.title)", code: 7)
+                }
+
+                let newAllocation = try Allocation(amount: payoff.progressAmount, expense: expense, goal: nil, shift: shift, saved: nil, date: .now, context: context)
+                print("Saved new allocation", newAllocation.expense?.titleStr ?? "NA")
+            }
+        }
     }
 }
 
