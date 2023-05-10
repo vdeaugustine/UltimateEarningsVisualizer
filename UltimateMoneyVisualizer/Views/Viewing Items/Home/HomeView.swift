@@ -15,7 +15,6 @@ struct HomeView: View {
     @ObservedObject private var user = User.main
 
     @State private var currentPayoffQueueSlot: Int = 1
-    
 
     var body: some View {
         ZStack {
@@ -37,27 +36,59 @@ struct HomeView: View {
                             }
                         }
                     } content: {
-                        HorizontalDataDisplay(data: [
-                            .init(label: "Earnings", value: user.totalEarned().formattedForMoney(), view: ShiftListView().anyView),
+                        HStack {
                             
-                                .init(label: "Time", value: user.totalTimeWorked().formatForTime(), view: ShiftListView().anyView),
+                            NavigationLink(destination: ShiftListView()) {
+                                VStack {
+                                    Text("Earnings")
+                                        .fontWeight(.medium)
+                                        .minimumScaleFactor(0.01)
+                                    Text(user.totalEarned().formattedForMoney())
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(settings.getDefaultGradient())
+                                        .minimumScaleFactor(0.01)
+                                }.padding(.horizontal)
+                            }.buttonStyle(PlainButtonStyle())
                             
-                                .init(label: "Time Saved", value: user.totalTimeSaved().formatForTime(), view: SavedListView().anyView)
-                        
-                        
-                        ])
+                            
+                            Divider()
+                            
+                            NavigationLink(destination: ShiftListView()) {
+                                VStack {
+                                    Text("Time Worked")
+                                        .fontWeight(.medium)
+                                        .minimumScaleFactor(0.01)
+                                    Text(user.totalTimeWorked().formatForTime())
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(settings.getDefaultGradient())
+                                        .minimumScaleFactor(0.01)
+                                }.padding(.horizontal)
+                            }.buttonStyle(PlainButtonStyle())
+                            
+                            Divider()
+                            
+                            NavigationLink(destination: SavedListView()) {
+                                VStack {
+                                    Text("Time Saved")
+                                        .fontWeight(.medium)
+                                        .minimumScaleFactor(0.01)
+                                    Text(user.totalTimeSaved().formatForTime())
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(settings.getDefaultGradient())
+                                        .minimumScaleFactor(0.01)
+                                }.padding(.horizontal)
+                            }.buttonStyle(PlainButtonStyle())
+                            
+                        }
+                        .padding(.vertical)
+
                     }
                     .padding(.top)
-
 
                     NavigationLink {
                         ShiftListView()
                     } label: {
                         Text("")
-//                        HorizontalDataDisplay(data: [.init(label: "earnings", value: user.totalEarned().formattedForMoney(), view: ShiftListView().anyView),
-//                                                     .init(label: "time worked", value: user.totalWorked().formatForTime(), view: ShiftListView().anyView),
-//                                                     .init(label: "time saved", value: user.totalTimeSaved().formatForTime(), view: SavedListView().anyView)])
-//                            .centerInParentView()
                     }
                     .buttonStyle(.plain)
                 }
@@ -75,7 +106,7 @@ struct HomeView: View {
 
                 // MARK: - Current Payoff Item Section
 
-                VStack() {
+                VStack {
                     HStack {
                         Text("Payoff queue")
                             .font(.headline)
@@ -176,20 +207,18 @@ struct HomeView: View {
 
                                             HStack {
                                                 VStack {
-                                                    
                                                     if let image = goal.loadImageIfPresent() {
                                                         Image(uiImage: image)
                                                             .resizable()
-                                                            
+
                                                             //                            .clipShape(Circle())
                                                             //                            .height(90)
                                                             .aspectRatio(contentMode: .fit)
                                                             .frame(height: 75)
                                                             .frame(width: 125)
-                                                            
+
                                                             .cornerRadius(8)
                                                     }
-                                                    
 
                                                     if let dueDate = goal.dueDate {
                                                         Text(dueDate.getFormattedDate(format: .abreviatedMonth))
@@ -210,13 +239,11 @@ struct HomeView: View {
                     }
                 }
                 .padding(.top)
-                
-                
+
                 // MARK: - My Wage Breakdown
+
                 WageBreakdownBox()
                     .padding()
-                
-                
             }
         }
         .background(Color.targetGray)
@@ -224,13 +251,10 @@ struct HomeView: View {
         .putInTemplate()
         .navigationTitle(Date.now.getFormattedDate(format: .abreviatedMonth))
         .safeAreaInset(edge: .bottom) {
-            
             QuickAddButton()
-            
-            
         }
     }
-    
+
     struct QuickAddButton: View {
         @State private var didTapQuickAdd = false
         @ObservedObject private var settings = User.main.getSettings()
@@ -260,9 +284,8 @@ struct HomeView: View {
             }
             .padding(.bottom, 5)
         }
-        
     }
-    
+
     struct PlusMenu: View {
         let widthAndHeight: CGFloat
 
@@ -293,7 +316,6 @@ struct HomeView: View {
             .transition(.scale)
         }
     }
-
 }
 
 // MARK: - HomeView_Previews

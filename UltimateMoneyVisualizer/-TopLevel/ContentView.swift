@@ -18,16 +18,11 @@ struct ContentView: View {
 
     @State private var tab: Tabs = .shifts
     @ObservedObject var settings = User.main.getSettings()
-    
-    @State private var saved = User.main.getSaved().first!
+
 
     var body: some View {
         TabView(selection: $tab) {
-
-            
-            
-            
-            EditSavedItemView(saved: $saved)
+            HomeView()
                 .putInNavView(.inline)
                 .makeTab(tab: Tabs.home, systemImage: "house")
 

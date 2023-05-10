@@ -5,6 +5,7 @@
 //  Created by Vincent DeAugustine on 4/26/23.
 //
 
+import AlertToast
 import SwiftUI
 
 // MARK: - SavedListView
@@ -12,11 +13,20 @@ import SwiftUI
 struct SavedListView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Saved.date, ascending: false)],
-                  predicate: NSPredicate(format: "user == %@", User.main),
-                  animation: .default)
-    private var savedItems: FetchedResults<Saved>
+//    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Saved.date, ascending: false)],
+//                  predicate: NSPredicate(format: "user == %@", User.main),
+//                  animation: .default)
+//    private var savedItems: FetchedResults<Saved>
     @State private var searchText: String = ""
+    @ObservedObject private var user = User.main
+    @State private var showAlert = false
+    @State private var alertConfig = AlertToast(displayMode: .alert, type: .complete(User.main.getSettings().themeColor))
+    
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Saved.date, ascending: false)],
+                      predicate: NSPredicate(format: "user == %@", User.main),
+                      animation: .default)
+        private var savedItems: FetchedResults<Saved>
+//    @State private var savedItems = User.main.getSaved()
 
     var showItems: [Saved] {
         let unfiltered = Array(savedItems)
@@ -47,6 +57,19 @@ struct SavedListView: View {
                 }
             }
             .onDelete(perform: deleteSavedItems)
+            
+            Button("Delete") {
+                
+                guard let item = showItems.first else {
+                    print("no item")
+                    return
+                }
+                user.removeFromSavedItems(item)
+                viewContext.delete(item)
+                
+                
+                
+            }
         }
         .searchable(text: $searchText)
         .putInTemplate()
@@ -63,7 +86,7 @@ struct SavedListView: View {
                 EditButton()
             }
         }
-        
+//        .toast(isPresenting: $showAlert, alert: {alertConfig})
     }
 
     private func addSavedItem() {
@@ -72,20 +95,28 @@ struct SavedListView: View {
             newSavedItem.date = Date()
             do {
                 try viewContext.save()
+                alertConfig = .successWith(message: "Successfully added item.")
             } catch {
-                print("Error saving new saved item: \(error)")
+                alertConfig = .errorWith(message: "Error saving new saved item: \(error)")
+                showAlert = true
             }
         }
     }
 
     private func deleteSavedItems(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { savedItems[$0] }.forEach(viewContext.delete)
-            do {
-                try viewContext.save()
-            } catch {
-                print("Error deleting saved items: \(error)")
-            }
+        offsets.map { savedItems[$0] }.forEach {
+            user.removeFromSavedItems($0)
+            user.managedObjectContext!.delete($0)
+        }
+        do {
+            try viewContext.save()
+            print("Saved successfully")
+//            alertConfig = .successWith(message: "Successfully deleted item.")
+//            showAlert = true
+        } catch {
+            print("Saved")
+//            alertConfig = .errorWith(message: "Error deleting saved items: \(error)")
+//            showAlert = true
         }
     }
 }

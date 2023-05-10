@@ -18,7 +18,7 @@ struct SavedDetailView: View {
 
     var last4Shifts: [Shift] { user.getShifts().prefixArray(4) }
 
-    let saved: Saved
+    @State var saved: Saved
 
     var payoffItems: [PayoffItem] {
         saved.getPayoffItemsAllocatedTo()
@@ -70,6 +70,9 @@ struct SavedDetailView: View {
                     }
 
                     NavigationLink {
+                        
+                        
+                        
                     } label: {
                         HStack {
                             Label("Add Another", systemImage: "plus")
@@ -106,7 +109,7 @@ struct SavedDetailView: View {
         .toolbar {
             ToolbarItem {
                 NavigationLink("Edit") {
-                    
+                    EditSavedItemView(saved: $saved)
                 }
             }
         }
