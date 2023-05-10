@@ -40,6 +40,52 @@ public extension Saved {
         self.amount
     }
     
+    func goalsAllocatedTo() -> [Goal] {
+        let allocations = getAllocations()
+
+        let goals = allocations.compactMap { $0.goal }
+        let asSet = Set(goals)
+
+        return Array(asSet)
+    }
+
+    func expensesAllocatedTo() -> [Expense] {
+        let allocations = getAllocations()
+
+        let expenses = allocations.compactMap { $0.expense }
+        let asSet = Set(expenses)
+
+        return Array(asSet)
+    }
+    
+    func getPayoffItemsAllocatedTo() -> [PayoffItem] {
+        let expenses = expensesAllocatedTo()
+        let goals = goalsAllocatedTo()
+        let combined: [PayoffItem] = goals + expenses
+
+        return combined.sorted(by: { self.amountAllocated(for: $0) > self.amountAllocated(for: $1) })
+    }
+    
+    func amountAllocated(for payoffItem: PayoffItem) -> Double {
+        var sum: Double = 0
+
+        for alloc in getAllocations() {
+            var id: UUID?
+            if let goal = alloc.goal {
+                id = goal.id
+            } else if let expense = alloc.expense {
+                id = expense.id
+            }
+
+            if let id,
+               id == payoffItem.getID() {
+                sum += alloc.amount
+            }
+        }
+
+        return sum
+    }
+    
     var totalAllocated: Double {
         let allocations = getAllocations()
         return allocations.reduce(Double(0)) { $0 + $1.amount }

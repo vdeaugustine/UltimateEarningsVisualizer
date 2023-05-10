@@ -149,10 +149,6 @@ extension Shift {
     }
 
     func amountAllocated(for payoffItem: PayoffItem) -> Double {
-        let expenses = expensesAllocatedTo()
-        let goals = goalsAllocatedTo()
-//        let combined: [PayoffItem] = goals + expenses
-
         var sum: Double = 0
 
         for alloc in getAllocations() {

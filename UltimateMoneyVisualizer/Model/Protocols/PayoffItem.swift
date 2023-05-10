@@ -19,7 +19,7 @@ public enum PayoffType: String {
     }
     
     init(_ payoff: PayoffItem) {
-        if let goal = payoff as? Goal {
+        if payoff is Goal {
             self = .goal
         }
         else {

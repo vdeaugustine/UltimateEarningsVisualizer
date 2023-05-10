@@ -67,7 +67,7 @@ struct HomeView: View {
 
                 homeSection(header: "Total Money") {
                     VStack {
-                        Text("Chart will go here")
+                        StatsViewChart()
                     }
                     .frame(height: 300)
                 }

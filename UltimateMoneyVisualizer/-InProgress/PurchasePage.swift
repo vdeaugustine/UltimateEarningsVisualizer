@@ -7,31 +7,33 @@
 
 import SwiftUI
 
-// MARK: - GoPremiumView
+// MARK: - PurchasePage
 
 struct PurchasePage: View {
-
     let benefitsList: [String] = ["Unlimited items", "Customizable theme", "Customize icon", "More graphs and stats", "Support an independent developer!"]
 
     @State private var selectedItem: SelectedItem = .trial
     @ObservedObject private var user = User.main
     @ObservedObject private var settings = User.main.getSettings()
-    
+    @State private var currentPlan = SelectedItem.trial
+
     var body: some View {
-        VStack(alignment: .leading) {
-            header
-            benefitsListWithImage
-                .padding(.bottom)
-            options
-                .padding(.vertical)
-                .centerInParentView()
+        ScrollView {
+            VStack(alignment: .leading) {
+                header
+                benefitsListWithImage
+                    .padding(.bottom)
+                options
+                    .padding(.vertical)
+                    .centerInParentView()
 
-            VStack(spacing: 30) {
-                button
-                footer
+                VStack(spacing: 30) {
+                    button
+                    footer
+                }
+
+                Spacer()
             }
-
-            Spacer()
         }
         .padding()
         .putInTemplate()
@@ -75,9 +77,22 @@ struct PurchasePage: View {
     }
 
     var options: some View {
-        HStack {
+        HStack(alignment: .bottom) {
             ForEach(SelectedItem.allCases, id: \.self) { option in
-                OptionRect(thisItem: option, selectedItem: $selectedItem)
+                VStack(spacing: 5) {
+                    if option == currentPlan {
+                        Text("Current")
+                            .foregroundStyle(Color.white)
+                            .padding(.vertical, 5)
+                            .padding(.horizontal)
+                            .background {
+                                Capsule()
+                                    .foregroundStyle(settings.getDefaultGradient())
+                            }
+                    }
+
+                    OptionRect(thisItem: option, selectedItem: $selectedItem)
+                }
             }
         }
         .frame(maxWidth: .infinity)
@@ -109,7 +124,6 @@ struct PurchasePage: View {
     }
 
     struct OptionRect: View {
-
         let thisItem: SelectedItem
         @Binding var selectedItem: SelectedItem
         var isSelected: Bool { thisItem == selectedItem }
@@ -164,6 +178,7 @@ struct PurchasePage: View {
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                 Button {
+                    currentPlan = selectedItem
                 } label: {
                     ZStack {
                         RoundedRectangle(cornerRadius: 8)
@@ -183,9 +198,6 @@ struct PurchasePage: View {
             }
 
             Button {
-                
-                
-                
             } label: {
                 Text("Restore Premium")
                     .font(.headline)

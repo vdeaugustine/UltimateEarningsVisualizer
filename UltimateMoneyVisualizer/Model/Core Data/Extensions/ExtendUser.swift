@@ -262,7 +262,7 @@ public extension User {
     }
 
     func updateTempQueue() {
-        var items = getQueue()
+        let items = getQueue()
         items.forEach { $0.setOptionalTempQNum(newVal: $0.optionalQSlotNumber) }
     }
 

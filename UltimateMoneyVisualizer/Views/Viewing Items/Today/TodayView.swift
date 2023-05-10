@@ -14,7 +14,7 @@ struct TodayView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
     @State private var showHoursSheet = false
-    @State private var showTimeOrMoney = "time"
+    @State private var showTimeOrMoney = "money"
     @State private var nowTime: Date = .now
     @State private var showBanner = false
     @State private var hasShownBanner = false
@@ -67,10 +67,9 @@ struct TodayView: View {
         .putInTemplate()
         .bottomBanner(isVisible: $showBanner, swipeToDismiss: false, buttonText: "Save") {
             do {
-               try todayShift?.finalizeAndSave(user: user, context: viewContext)
-               print("Saved successfully")
-            }
-            catch {
+                try todayShift?.finalizeAndSave(user: user, context: viewContext)
+                print("Saved successfully")
+            } catch {
                 print("Error saving")
             }
         }
@@ -97,32 +96,32 @@ struct TodayView: View {
                 showBanner = true
             }
         }
-        processTemporaryAllocation()
+//        processTemporaryAllocation()
     }
 
-    private func processTemporaryAllocation() {
-        if let currentGoal = user.getTempQueue().first as? Goal {
-            do {
-                var recentTempAlloc = currentGoal.getMostRecentTemporaryAllocation()
-                if recentTempAlloc == nil {
-                    recentTempAlloc = try TemporaryAllocation(initialAmount: 0,
-                                                              expense: nil,
-                                                              goal: currentGoal,
-                                                              context: user.managedObjectContext ?? PersistenceController.context)
-                }
-
-                try recentTempAlloc?.add(amount: user.getWage().secondly, context: user.managedObjectContext ?? PersistenceController.context)
-
-            } catch {
-                print(error)
-            }
-        } else if let currentExpense = user.getTempQueue().first as? Expense {
-            if let tempAlloc = currentExpense.temporaryAllocations?.allObjects as? [Expense] {
-            }
-        } else {
-            print("no current item")
-        }
-    }
+//    private func processTemporaryAllocation() {
+//        if let currentGoal = user.getTempQueue().first as? Goal {
+//            do {
+//                var recentTempAlloc = currentGoal.getMostRecentTemporaryAllocation()
+//                if recentTempAlloc == nil {
+//                    recentTempAlloc = try TemporaryAllocation(initialAmount: 0,
+//                                                              expense: nil,
+//                                                              goal: currentGoal,
+//                                                              context: user.managedObjectContext ?? PersistenceController.context)
+//                }
+//
+//                try recentTempAlloc?.add(amount: user.getWage().secondly, context: user.managedObjectContext ?? PersistenceController.context)
+//
+//            } catch {
+//                print(error)
+//            }
+//        } else if let currentExpense = user.getTempQueue().first as? Expense {
+//            if let tempAlloc = currentExpense.temporaryAllocations?.allObjects as? [Expense] {
+//            }
+//        } else {
+//            print("no current item")
+//        }
+//    }
 }
 
 // MARK: - View functions and computed properties
@@ -132,10 +131,10 @@ extension TodayView {
 
     var timeMoneyPicker: some View {
         Picker("Time/Money", selection: $showTimeOrMoney) {
-            Text("Time")
-                .tag("time")
             Text("Money")
                 .tag("money")
+            Text("Time")
+                .tag("time")
         }
         .pickerStyle(.segmented)
         .padding(.horizontal)
@@ -206,122 +205,6 @@ extension TodayView {
     }
 
     // MARK: - Payoff Item Section
-
-//    func payoffItemSection(todayShift: TodayShift) -> some View {
-//        ScrollView(.horizontal) {
-//            HStack {
-//                ForEach(user.getQueue().indices, id: \.self) { index in
-//                    if let item = user.getQueue().safeGet(at: index) {
-//
-//                        PayoffTodaySquare(title: item.titleStr, itemTotal: item.amount, progressAmount: item., havedPaidOff: <#T##Double#>, payoffType: <#T##PayoffType#>)
-//
-//
-//                    }
-//
-//
-//
-//                }
-//            }
-//        }
-//
-////        if let expense = user.getTempQueue().first as? Expense {
-////            return VStack {
-////                VStack {
-////                    HStack {
-////                        Text("Current Expense")
-////                            .font(.title3)
-////                            .fontWeight(.bold)
-////                        Spacer()
-////
-////                        NavigationLink("Queue") {
-////                            PayoffQueueView()
-////                        }
-////                    }
-////
-////                    HStack {
-////                        ProgressCircle(percent: todayShift.percentTimeCompleted(nowTime),
-////                                       widthHeight: 100,
-////                                       lineWidth: 7) {
-////                            Text(User.main.getExpenses().first!.temporarilyPaidOff.formattedForMoney())
-////                                .font(.title)
-////                                .minimumScaleFactor(0.5)
-////                                .lineLimit(1)
-////                                .padding(5)
-////                        }
-////
-////                        VStack(alignment: .leading) {
-////                            Text(expense.titleStr)
-////                                .font(.title2)
-////                            if let info = expense.info {
-////                                Text(info)
-////                                    .font(.subheadline)
-////                            }
-////
-////                            Text(expense.amountMoneyStr)
-////                                .font(.title2)
-////                                .fontWeight(.bold)
-////                                .foregroundStyle(settings.getDefaultGradient())
-////                        }
-////                        .padding([.horizontal])
-////                        .pushLeft()
-////                    }
-////                }
-////
-////                .padding()
-////            }
-////            .padding(.vertical)
-////            .anyView
-////        } else if let goal = user.getTempQueue().first as? Goal {
-////            return VStack {
-////                VStack {
-////                    HStack {
-////                        Text("Current Goal")
-////                            .font(.title3)
-////                            .fontWeight(.bold)
-////                        Spacer()
-////                        NavigationLink("Queue") {
-////                            PayoffQueueView()
-////                        }
-////                    }
-////
-////                    HStack {
-////                        ProgressCircle(percent: goal.percentTemporarilyPaidOff,
-////                                       widthHeight: 100,
-////                                       lineWidth: 7) {
-////                            Text(goal.temporarilyPaidOff.formattedForMoney())
-////                                .font(.title)
-////                                .minimumScaleFactor(0.5)
-////                                .lineLimit(1)
-////                                .padding(5)
-////                        }
-////
-////                        VStack(alignment: .leading) {
-////                            Text(goal.titleStr)
-////                                .font(.title2)
-////                            if let info = goal.info {
-////                                Text(info)
-////                                    .font(.subheadline)
-////                            }
-////                            Text(goal.temporarilyPaidOff.formattedForMoney())
-////
-////                            Text(goal.amountMoneyStr)
-////                                .font(.title2)
-////                                .fontWeight(.bold)
-////                                .foregroundStyle(settings.getDefaultGradient())
-////                        }
-////                        .padding([.horizontal])
-////                        .pushLeft()
-////                    }
-////                }
-////
-////                .padding()
-////            }
-////            .padding(.vertical)
-////            .anyView
-////        } else {
-////            return AnyView(EmptyView())
-////        }
-//    }
 
     // MARK: - Today's Spending Section
 
