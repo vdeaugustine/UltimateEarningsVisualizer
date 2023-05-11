@@ -25,6 +25,10 @@ struct GoalDetailView: View {
     @State private var showAlert = false
 
     @State private var toastConfiguration: AlertToast = AlertToast(type: .regular)
+    
+    @State private var isShowingFullScreenImage = false
+    @State private var isBlurred = false
+
 
     var body: some View {
         VStack {
@@ -85,8 +89,13 @@ struct GoalDetailView: View {
 
                                 .centerInParentView()
                                 .onTapGesture {
-                                    showImageSelector = true
-                                }
+                                        withAnimation {
+                                            if self.shownImage != nil {
+                                                self.isShowingFullScreenImage = true
+                                                self.isBlurred = true
+                                            }
+                                        }
+                                    }
                         } else {
                             Image(systemName: "photo")
                                 .resizable()
@@ -126,6 +135,27 @@ struct GoalDetailView: View {
                 // TODO: Put a clock countdown here
             }
         }
+        .blur(radius: isBlurred ? 10 : 0)
+        .overlay(
+            VStack {
+                if isShowingFullScreenImage, let shownImage = shownImage {
+                    Image(uiImage: shownImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .onTapGesture {
+                            withAnimation {
+                                self.isShowingFullScreenImage = false
+                                self.isBlurred = false
+                            }
+                        }
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.black.opacity(0.7))
+            .edgesIgnoringSafeArea(.all)
+            .opacity(isShowingFullScreenImage ? 1 : 0)
+        )
         .background(Color.targetGray)
 
         .confirmationDialog("Are you sure you want to delete this goal?", isPresented: $presentConfirmation, titleVisibility: .visible, actions: {

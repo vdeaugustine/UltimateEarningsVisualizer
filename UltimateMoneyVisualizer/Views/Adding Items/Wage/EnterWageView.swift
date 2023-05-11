@@ -13,7 +13,7 @@ import SwiftUI
 struct EnterWageView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @State private var hourlyWageStringEntered: String = ""
-    @State private var isSalaried: Bool = true
+    @State private var isSalaried: Bool = false
     @State private var salaryStringEntered: String = ""
     @State private var hoursPerWeek: String = ""
     @State private var vacationDays: String = ""
@@ -88,11 +88,11 @@ struct EnterWageView: View {
     }
 
     var stringOfSalary: String {
-        doubleFromEnteredSalaryString.formattedForMoneyExtended(decimalPlaces: 2).replacingOccurrences(of: "$", with: "")
+        doubleFromEnteredSalaryString.formattedForMoney(trimZeroCents: false).replacingOccurrences(of: "$", with: "")
     }
 
     var stringOfHourly: String {
-        doubleFromEnteredHourlyWageString.formattedForMoneyExtended(decimalPlaces: 2).replacingOccurrences(of: "$", with: "")
+        doubleFromEnteredHourlyWageString.formattedForMoney(trimZeroCents: false).replacingOccurrences(of: "$", with: "")
     }
 
     @State private var showHourlyField = false
@@ -173,6 +173,14 @@ struct EnterWageView: View {
                             .tag(num)
                     }
                 }
+                Button {
+                    hoursPerDay = User.main.getWage().hoursPerDay
+                    daysPerWeek = Int(User.main.getWage().daysPerWeek)
+                    weeksPerYear = Int(User.main.getWage().weeksPerYear)
+                } label: {
+                    Label("Reset", systemImage: "arrow.uturn.backward")
+                        .labelStyle(.titleOnly)
+                }
 
             } header: {
                 Text("Calculation Assumptions")
@@ -192,17 +200,20 @@ struct EnterWageView: View {
             AlertToast(displayMode: .banner(.slide), type: .complete(.green), title: "Wage saved successfully", style: .style(backgroundColor: .white, titleColor: nil, subTitleColor: nil, titleFont: nil, subTitleFont: nil))
         }
         .bottomButton(label: "Save", gradient: settings.getDefaultGradient()) {
-            guard let dub = Double(hourlyWageStringEntered) else {
+            guard let dub = Double(hourlyWageStringEntered),
+                  dub > 1
+            else {
                 showErrorToast = true
                 errorMessage = "Please enter a valid hourly wage"
                 return
             }
 
             do {
-                let wage = try Wage(amount: dub, user: user, context: viewContext)
+                let wage = try Wage(amount: dub / 100, user: user, context: viewContext)
                 wage.daysPerWeek = Double(daysPerWeek)
                 wage.hoursPerDay = Double(hoursPerDay)
                 wage.weeksPerYear = Double(weeksPerYear)
+                
 
                 try viewContext.save()
                 showSuccessfulSaveToast = true
