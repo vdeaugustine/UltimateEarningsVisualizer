@@ -32,47 +32,6 @@ struct CreateExpenseView: View {
                 TextField("Info", text: $info)
                 DatePicker("Due Date", selection: $dueDate, displayedComponents: .date)
             }
-
-            Section {
-                Button("Save") {
-                    // Create a new expense object and save it to Core Data
-
-                    guard !title.isEmpty else {
-                        alertToastConfig = AlertToast(displayMode: .alert, type: .error(.blue), title: "Title must not be empty")
-                        showToast = true
-                        return
-                    }
-                    guard let dub = Double(amount) else {
-                        alertToastConfig = AlertToast(displayMode: .alert, type: .error(.blue), title: "Please enter a valid amount")
-                        showToast = true
-                        return
-                    }
-
-                    do {
-                        let expense = Expense(context: viewContext)
-                        expense.title = title
-                        expense.amount = dub
-                        expense.info = info
-                        expense.dueDate = dueDate
-
-                        try viewContext.save()
-
-                        // Reset the fields
-                        title = ""
-                        amount = ""
-                        info = ""
-                        dueDate = Date()
-
-                        // Show a success alert toast
-                        alertToastConfig.title = "Item saved successfully."
-                        showToast = true
-                    } catch let error {
-                        // Show an error alert toast
-                        alertToastConfig.title = "Error: \(error.localizedDescription)"
-                        showToast = true
-                    }
-                }
-            }
         }
         .putInTemplate()
         .navigationTitle("New Expense")
@@ -82,11 +41,42 @@ struct CreateExpenseView: View {
         } onTap: {
             showToast = false
         }
-        .toolbar {
-            ToolbarItem {
-                NavigationLink("Expenses") {
-                    ExpenseListView()
-                }
+        .bottomButton(label: "Save") {
+            // Create a new expense object and save it to Core Data
+
+            guard !title.isEmpty else {
+                alertToastConfig = AlertToast(displayMode: .alert, type: .error(.blue), title: "Title must not be empty")
+                showToast = true
+                return
+            }
+            guard let dub = Double(amount) else {
+                alertToastConfig = AlertToast(displayMode: .alert, type: .error(.blue), title: "Please enter a valid amount")
+                showToast = true
+                return
+            }
+
+            do {
+                let expense = Expense(context: viewContext)
+                expense.title = title
+                expense.amount = dub
+                expense.info = info
+                expense.dueDate = dueDate
+
+                try viewContext.save()
+
+                // Reset the fields
+                title = ""
+                amount = ""
+                info = ""
+                dueDate = Date()
+
+                // Show a success alert toast
+                alertToastConfig.title = "Item saved successfully."
+                showToast = true
+            } catch let error {
+                // Show an error alert toast
+                alertToastConfig.title = "Error: \(error.localizedDescription)"
+                showToast = true
             }
         }
     }

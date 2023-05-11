@@ -8,6 +8,8 @@
 import AlertToast
 import SwiftUI
 
+// MARK: - CreateGoalView
+
 struct CreateGoalView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
@@ -29,48 +31,8 @@ struct CreateGoalView: View {
                 TextField("Info", text: $info)
                 DatePicker("Due Date", selection: $dueDate, displayedComponents: .date)
             }
-
-            Section {
-                Button("Save") {
-                    // Create a new goal object and save it to Core Data
-
-                    guard !title.isEmpty else {
-                        alertToastConfig = AlertToast(displayMode: .alert, type: .error(.blue), title: "Title must not be empty")
-                        showToast = true
-                        return
-                    }
-                    guard let dub = Double(amount) else {
-                        alertToastConfig = AlertToast(displayMode: .alert, type: .error(.blue), title: "Please enter a valid amount")
-                        showToast = true
-                        return
-                    }
-
-                    do {
-                        let goal = Goal(context: viewContext)
-                        goal.title = title
-                        goal.amount = dub
-                        goal.info = info
-                        goal.dueDate = dueDate
-
-                        try viewContext.save()
-
-                        // Reset the fields
-                        title = ""
-                        amount = ""
-                        info = ""
-                        dueDate = Date()
-
-                        // Show a success alert toast
-                        alertToastConfig.title = "Item saved successfully."
-                        showToast = true
-                    } catch let error {
-                        // Show an error alert toast
-                        alertToastConfig.title = "Error: \(error.localizedDescription)"
-                        showToast = true
-                    }
-                }
-            }
         }
+        .putInTemplate()
         .navigationTitle("New Goal")
         // Add the alert toast modifier to the view
         .toast(isPresenting: $showToast, duration: 2, tapToDismiss: true) {
@@ -78,15 +40,49 @@ struct CreateGoalView: View {
         } onTap: {
             showToast = false
         }
-        .toolbar {
-            ToolbarItem {
-                NavigationLink("Goals") {
-                    GoalListView()
-                }
+       
+        .bottomButton(label: "Save") {
+            // Create a new goal object and save it to Core Data
+
+            guard !title.isEmpty else {
+                alertToastConfig = AlertToast(displayMode: .alert, type: .error(.blue), title: "Title must not be empty")
+                showToast = true
+                return
+            }
+            guard let dub = Double(amount) else {
+                alertToastConfig = AlertToast(displayMode: .alert, type: .error(.blue), title: "Please enter a valid amount")
+                showToast = true
+                return
+            }
+
+            do {
+                let goal = Goal(context: viewContext)
+                goal.title = title
+                goal.amount = dub
+                goal.info = info
+                goal.dueDate = dueDate
+
+                try viewContext.save()
+
+                // Reset the fields
+                title = ""
+                amount = ""
+                info = ""
+                dueDate = Date()
+
+                // Show a success alert toast
+                alertToastConfig.title = "Item saved successfully."
+                showToast = true
+            } catch let error {
+                // Show an error alert toast
+                alertToastConfig.title = "Error: \(error.localizedDescription)"
+                showToast = true
             }
         }
     }
 }
+
+// MARK: - CreateGoalView_Previews
 
 struct CreateGoalView_Previews: PreviewProvider {
     static var previews: some View {
@@ -94,4 +90,3 @@ struct CreateGoalView_Previews: PreviewProvider {
             .environment(\.managedObjectContext, PersistenceController.context)
     }
 }
-

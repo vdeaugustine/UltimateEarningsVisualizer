@@ -15,19 +15,18 @@ struct GoalListView: View {
 
     var body: some View {
         List {
-            ForEach(goals, id: \.self) { goal in
+            ForEach(goals) { goal in
                 NavigationLink(destination: GoalDetailView(goal: goal)) {
-                    VStack(alignment: .leading) {
-                        Text(goal.title ?? "")
-                            .font(.headline)
-                        Text("\(goal.amount)")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                    }
+                    
+                    GoalRow(goal: goal)
                 }
             }
         }
+        .putInTemplate()
         .navigationTitle("Goals")
+        .toolbarAdd {
+            CreateGoalView()
+        }
     }
 }
 

@@ -10,6 +10,7 @@
 		9C3C58622A0C8BE200169A0F /* DateCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3C58612A0C8BE200169A0F /* DateCircle.swift */; };
 		9C3C58642A0C9ED500169A0F /* AddAllocationForExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3C58632A0C9ED500169A0F /* AddAllocationForExpenseView.swift */; };
 		9C3C58662A0CB89800169A0F /* AddAllocationForGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3C58652A0CB89800169A0F /* AddAllocationForGoalView.swift */; };
+		9C3C58682A0CBF5900169A0F /* AllItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3C58672A0CBF5900169A0F /* AllItemsView.swift */; };
 		9C442A372A03792800D61C3E /* WageBreakdownBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C442A362A03792800D61C3E /* WageBreakdownBox.swift */; };
 		9C442A392A03798C00D61C3E /* WageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C442A382A03798C00D61C3E /* WageTests.swift */; };
 		9C460EE02A038B9F0007EBA9 /* MultipleNewShiftsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C460EDF2A038B9F0007EBA9 /* MultipleNewShiftsView.swift */; };
@@ -119,6 +120,7 @@
 		9C3C58612A0C8BE200169A0F /* DateCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCircle.swift; sourceTree = "<group>"; };
 		9C3C58632A0C9ED500169A0F /* AddAllocationForExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAllocationForExpenseView.swift; sourceTree = "<group>"; };
 		9C3C58652A0CB89800169A0F /* AddAllocationForGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAllocationForGoalView.swift; sourceTree = SOURCE_ROOT; };
+		9C3C58672A0CBF5900169A0F /* AllItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllItemsView.swift; sourceTree = "<group>"; };
 		9C442A362A03792800D61C3E /* WageBreakdownBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WageBreakdownBox.swift; sourceTree = "<group>"; };
 		9C442A382A03798C00D61C3E /* WageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WageTests.swift; sourceTree = "<group>"; };
 		9C460EDF2A038B9F0007EBA9 /* MultipleNewShiftsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleNewShiftsView.swift; sourceTree = "<group>"; };
@@ -473,15 +475,16 @@
 		9C7F96A429F8FEEB00F5035C /* -InProgress */ = {
 			isa = PBXGroup;
 			children = (
-				9C3C58652A0CB89800169A0F /* AddAllocationForGoalView.swift */,
 				9C3C58632A0C9ED500169A0F /* AddAllocationForExpenseView.swift */,
-				9CED53452A08AA77002DC183 /* PurchasePage.swift */,
+				9C3C58652A0CB89800169A0F /* AddAllocationForGoalView.swift */,
+				9C3C58672A0CBF5900169A0F /* AllItemsView.swift */,
 				9CED53412A077985002DC183 /* AllocateSavedToGoalView.swift */,
-				9C7C985529FB722D0077EA25 /* Components */,
+				9CB418C32A0B2C81006F44AB /* EditSavedItemView.swift */,
+				9CED53452A08AA77002DC183 /* PurchasePage.swift */,
 				9C460EE82A049DFA0007EBA9 /* StatsView.swift */,
 				9CED53432A089C77002DC183 /* StatsViewChart.swift */,
 				9CB418C12A0A0E07006F44AB /* TempTodayPayoff.swift */,
-				9CB418C32A0B2C81006F44AB /* EditSavedItemView.swift */,
+				9C7C985529FB722D0077EA25 /* Components */,
 			);
 			path = "-InProgress";
 			sourceTree = "<group>";
@@ -796,6 +799,7 @@
 				9C7F96A629F8FF0100F5035C /* CreateExpenseView.swift in Sources */,
 				9C7F968D29F8FD2D00F5035C /* ExtendExpense.swift in Sources */,
 				9C7C984729FA0E130077EA25 /* HomeView.swift in Sources */,
+				9C3C58682A0CBF5900169A0F /* AllItemsView.swift in Sources */,
 				9C7C984129F9F7B20077EA25 /* AllSchedulesView.swift in Sources */,
 				9C514DB52A00A480003DC43C /* PayoffQueueView.swift in Sources */,
 				9CEEE34329F90A7D001FA4FB /* CreateShiftView.swift in Sources */,

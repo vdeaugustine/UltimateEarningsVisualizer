@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import Vin
 
 struct ShiftListView: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -74,11 +75,15 @@ struct ShiftListView: View {
                         }
 //
                         if upcomingShifts.isEmpty {
-                            NavigationLink("Add upcoming shifts") {
+                            NavigationLink {
                                 MultipleNewShiftsView()
+                            } label: {
+                                Label("Add shifts", systemImage: "plus")
+                                    .padding()
+        //                            .padding(.horizontal)
+                                    .rectContainer(shadowRadius: 0, cornerRadius: 7)
                             }
-                            .padding()
-//                            .putInRect(withShadow: false)
+                            
                             .padding(.vertical)
                             .padding(.leading, 6)
                         }
@@ -87,7 +92,7 @@ struct ShiftListView: View {
                 }
                 .frame(height: 100)
             }
-            .background(Color.targetGray)
+            .background(Color.listBackgroundColor)
 
             VStack(alignment: .leading, spacing: 0) {
                 List {
@@ -100,7 +105,6 @@ struct ShiftListView: View {
                                     ShiftDetailView(shift: shift)
                                 } label: {
                                     ShiftRowView(shift: shift)
-//                                    Text(shift.startTime.getFormattedDate(format: .abreviatedMonth))
                                 }
                             }
                             .onDelete(perform: deleteShifts)
@@ -137,15 +141,21 @@ struct ShiftListView: View {
         .safeAreaInset(edge: .bottom, content: {
             if editMode.isEditing {
                 Button {
-                    withAnimation {
-                        showDeleteConfirmation.toggle()
+                    if upcomingToDelete.isEmpty {
+                        editMode = .inactive
+                    } else {
+                        withAnimation {
+                            showDeleteConfirmation.toggle()
+                        }
                     }
+                    
+                    
 
                 } label: {
                     if upcomingToDelete.isEmpty {
                         BottomViewButton(label: "Cancel")
                     } else {
-                        BottomViewButton(label: "Delete", gradient: Color.red.getGradient())
+                        BottomViewButton(label: "Delete", gradient: Color.niceRed.getGradient())
                         
                     }
                 }
@@ -154,12 +164,6 @@ struct ShiftListView: View {
         })
         
         
-//        .if(editMode == .inactive, content: { selfView in
-//            selfView
-//                .bottomPlusNav(destination: {
-//                    MultipleNewShiftsView()
-//                })
-//        })
         
         .navigationTitle("Shifts")
         .putInTemplate()
@@ -178,46 +182,6 @@ struct ShiftListView: View {
     }
 
     
-
-    
-    
-    
-    
-    
-
-//    var body: some View {
-//
-//
-        
-        
-//            List {
-//                ForEach(shifts) { shift in
-//                    NavigationLink(destination: ShiftDetailView(shift: shift)) {
-//                        VStack(alignment: .leading) {
-//                            Text("\(shift.startDate?.getFormattedDate(format: .abreviatedMonthAndMinimalTime) ?? "")")
-//                                .font(.headline)
-//                            Text("\(shift.dayOfWeek ?? "")")
-//                                .font(.subheadline)
-//                                .foregroundColor(.secondary)
-//                        }
-//                    }
-//                }
-//                .onDelete(perform: deleteShifts)
-//            }
-//            .putInTemplate()
-//            .navigationTitle("Shifts")
-//            .toolbar {
-//                ToolbarItem(placement: .navigationBarTrailing) {
-//                    EditButton()
-//                }
-//                ToolbarItem(placement: .navigationBarLeading) {
-//                    NavigationLink(destination: CreateShiftView()) {
-//                        Image(systemName: "plus")
-//                    }
-//                }
-//            }
-        
-//    }
     
     private func deleteShifts(offsets: IndexSet) {
         withAnimation {

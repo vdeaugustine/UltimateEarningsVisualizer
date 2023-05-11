@@ -15,19 +15,14 @@ struct ExpenseListView: View {
         List {
             ForEach(User.main.getExpenses(), id: \.self) { expense in
                 NavigationLink(destination: ExpenseDetailView(expense: expense)) {
-                    VStack(alignment: .leading) {
-                        Text(expense.title ?? "")
-                            .font(.headline)
-                        Text(expense.amountMoneyStr)
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                    }
+                    ExpenseRow(expense: expense)
                 }
             }
         }
+        .putInTemplate()
         .navigationTitle("Expenses")
-        .onAppear {
-            print("expenses", User.main.getExpenses().count)
+        .toolbarAdd {
+            CreateExpenseView()
         }
     }
 }

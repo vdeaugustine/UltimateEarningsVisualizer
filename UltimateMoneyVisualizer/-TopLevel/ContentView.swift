@@ -13,7 +13,7 @@ import SwiftUI
 struct ContentView: View {
     enum Tabs: String, Hashable, CustomStringConvertible {
         var description: String { rawValue.capitalized }
-        case settings, expenses, home, shifts, today, addShifts
+        case settings, expenses, home, shifts, today, addShifts, allItems
     }
 
     @State private var tab: Tabs = .shifts
@@ -23,6 +23,9 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $tab) {
             
+            AllItemsView()
+                .putInNavView(.inline)
+                .makeTab(tab: Tabs.allItems, systemImage: "dollarsign")
             
             HomeView()
                 .putInNavView(.inline)
