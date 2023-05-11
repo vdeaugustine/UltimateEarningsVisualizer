@@ -90,7 +90,7 @@ struct TodayView: View {
         if let todayShift,
            let endTime = todayShift.endTime,
            !hasShownBanner {
-            let shiftIsOver = nowTime >= endTime
+//            let shiftIsOver = nowTime >= endTime
 
             if isCurrentlyMidShift == false {
                 showBanner = true

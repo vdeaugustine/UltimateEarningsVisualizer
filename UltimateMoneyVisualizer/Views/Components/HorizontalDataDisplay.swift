@@ -34,9 +34,22 @@ struct HorizontalDataDisplay: View {
     var body: some View {
         Section {
             HStack {
-                ForEach(data) { datum in
-                    if let view = datum.view {
-                        NavigationLink(destination: view) {
+                ForEach(data.indices, id: \.self) { index in
+                    if let datum = data.safeGet(at: index) {
+                        if let view = datum.view {
+                            NavigationLink(destination: view) {
+                                VStack {
+                                    Text(datum.label)
+                                        .fontWeight(.medium)
+                                        .minimumScaleFactor(0.01)
+                                    Text(datum.value)
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(settings.getDefaultGradient())
+                                        .minimumScaleFactor(0.01)
+                                }.padding(.horizontal)
+                            }.buttonStyle(PlainButtonStyle())
+                        }
+                        else {
                             VStack {
                                 Text(datum.label)
                                     .fontWeight(.medium)
@@ -45,24 +58,14 @@ struct HorizontalDataDisplay: View {
                                     .fontWeight(.bold)
                                     .foregroundStyle(settings.getDefaultGradient())
                                     .minimumScaleFactor(0.01)
-                            }.padding(.horizontal)
-                        }.buttonStyle(PlainButtonStyle())
-                    }
-                    else {
-                        VStack {
-                            Text(datum.label)
-                                .fontWeight(.medium)
-                                .minimumScaleFactor(0.01)
-                            Text(datum.value)
-                                .fontWeight(.bold)
-                                .foregroundStyle(settings.getDefaultGradient())
-                                .minimumScaleFactor(0.01)
-                        }.padding(.horizontal)
-                    }
-                    
+                            }
+                            .padding(.horizontal)
+                        }
+                        
 
-                    if let last = data.last,
-                       last != datum {
+                        
+                    }
+                    if index < data.count - 1 {
                         Divider().padding(.vertical)
                     }
                 }

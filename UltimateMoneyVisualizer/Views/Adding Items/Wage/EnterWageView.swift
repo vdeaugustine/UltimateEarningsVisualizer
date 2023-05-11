@@ -12,9 +12,9 @@ import SwiftUI
 
 struct EnterWageView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @State private var hourlyWage: String = User.main.getWage().hourly.simpleStr()
-    @State private var isSalaried: Bool = false
-    @State private var salary: String = ""
+    @State private var hourlyWageStringEntered: String = ""
+    @State private var isSalaried: Bool = true
+    @State private var salaryStringEntered: String = ""
     @State private var hoursPerWeek: String = ""
     @State private var vacationDays: String = ""
     @State private var calculatedHourlyWage: Double?
@@ -31,63 +31,128 @@ struct EnterWageView: View {
     @State private var hoursPerDay: Double = User.main.getWage().hoursPerDay
     @State private var daysPerWeek: Int = Int(User.main.getWage().daysPerWeek)
     @State private var weeksPerYear: Int = Int(User.main.getWage().weeksPerYear)
-    let hoursOptions = stride(from: 1.0, to: 24.25, by: 0.5).map({$0})
+    let hoursOptions = stride(from: 1.0, to: 24.25, by: 0.5).map { $0 }
+    
+    var hourlyFromSalary: Double? {
+        
+        guard let initialSalaryValue = Double(salaryStringEntered)
+              
+//              let hoursPerWeekValue = Double(hoursPerWeek)
+        else { return nil }
+        
+        let diviedSalaryValue = initialSalaryValue / 100
 
+        let weeksPerYear = Double(weeksPerYear)
+//        let vacationWeeks = vacationDaysValue / 5.0
+        let workingWeeks = Double(weeksPerYear)
+        let totalWorkingHours = workingWeeks * hoursPerDay * Double(daysPerWeek)
+        let thisHourlyWage = diviedSalaryValue / totalWorkingHours
+        
+        return thisHourlyWage
+    }
 
     private func calculateHourlyWage() {
-        guard let salaryValue = Double(salary),
-              let hoursPerWeekValue = Double(hoursPerWeek),
-              let vacationDaysValue = Double(vacationDays) else { return }
+        guard let salaryValue = Double(salaryStringEntered.prefix(salaryStringEntered.count - 2))
+//              let hoursPerWeekValue = Double(hoursPerWeek)
+        else { return }
 
-        let weeksPerYear = 52.0
-        let vacationWeeks = vacationDaysValue / 5.0
-        let workingWeeks = weeksPerYear - vacationWeeks
-        let totalWorkingHours = workingWeeks * hoursPerWeekValue
-        let hourlyWage = salaryValue / totalWorkingHours
+        let weeksPerYear = Double(weeksPerYear)
+//        let vacationWeeks = vacationDaysValue / 5.0
+        let workingWeeks = Double(weeksPerYear)
+        let totalWorkingHours = workingWeeks * hoursPerDay * Double(daysPerWeek)
+        let thisHourlyWage = salaryValue / totalWorkingHours
 
-        calculatedHourlyWage = hourlyWage
+        calculatedHourlyWage = thisHourlyWage
     }
 
     private func populateHourlyWage() {
         if let calculatedHourlyWage = calculatedHourlyWage {
-            hourlyWage = String(format: "%.2f", calculatedHourlyWage)
+//            hourlyWage = (calcul)
         }
     }
 
+    var doubleFromEnteredHourlyWageString: Double {
+        if let dub = Double(hourlyWageStringEntered) {
+            return dub / 100
+        }
+
+        return 0
+    }
+    
+    var doubleFromEnteredSalaryString: Double {
+        if let dub = Double(salaryStringEntered) {
+            return dub / 100
+        }
+
+        return 0
+    }
+
+    var stringOfSalary: String {
+        doubleFromEnteredSalaryString.formattedForMoneyExtended(decimalPlaces: 2).replacingOccurrences(of: "$", with: "")
+    }
+
+    var stringOfHourly: String {
+        doubleFromEnteredHourlyWageString.formattedForMoneyExtended(decimalPlaces: 2).replacingOccurrences(of: "$", with: "")
+    }
+
+    @State private var showHourlyField = false
+    @FocusState var hourlyFieldFocused
+    @FocusState var salaryFieldFocused
+
     var body: some View {
         Form {
-            Section {
-                TextField("Hourly Wage", text: $hourlyWage)
-                    .keyboardType(.decimalPad)
-            }
-
-            Toggle("I have a salary", isOn: $isSalaried)
-
-            if isSalaried {
-                Section(header: Text("Salary Information")) {
-                    TextField("Salary", text: $salary)
-                        .keyboardType(.decimalPad)
-                    TextField("Hours per Week", text: $hoursPerWeek)
-                        .keyboardType(.decimalPad)
-                    TextField("Vacation Days", text: $vacationDays)
-                        .keyboardType(.decimalPad)
-
-                    Button("Calculate Hourly Wage") {
-                        calculateHourlyWage()
+            Section("Hourly Wage") {
+                HStack {
+                    SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
+                    Text(stringOfHourly)
+                        .font(.title2)
+                    Spacer()
+                    Button(showHourlyField ? "Done" : "Edit") {
+                        showHourlyField.toggle()
+                        hourlyFieldFocused = showHourlyField
                     }
                 }
 
-                if let calculatedHourlyWage = calculatedHourlyWage {
+                if showHourlyField {
+                    TextField("Hourly Wage", text: $hourlyWageStringEntered)
+                        .focused($hourlyFieldFocused)
+                        .keyboardType(.decimalPad)
+                }
+            }
+
+            Toggle("I have a yearly salary", isOn: $isSalaried)
+
+            if isSalaried {
+                Section(header: Text("Salary")) {
+                    HStack {
+                        SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
+                        Text(stringOfSalary)
+                            .font(.title2)
+                    }
+
+                    TextField("Salary", text: $salaryStringEntered)
+                        
+                        .keyboardType(.decimalPad)
+
+//                    TextField("Hours per Week", text: $hoursPerWeek)
+//                        .keyboardType(.decimalPad)
+//                    TextField("Vacation Days", text: $vacationDays)
+//                        .keyboardType(.decimalPad)
+
+//                    Button("Calculate Hourly Wage") {
+//                        calculateHourlyWage()
+//                    }
+                }
+
+                if let calculatedHourlyWage = hourlyFromSalary {
                     Section {
                         Text("Calculated Hourly Wage: \(String(format: "%.2f", calculatedHourlyWage))")
                         Button("Use Calculated Wage") {
-                            populateHourlyWage()
+                            hourlyWageStringEntered = "\((calculatedHourlyWage * 100).roundTo(places: 2))"
                         }
                     }
                 }
             }
-
-           
 
             Section {
                 Picker("Hours Per Day", selection: $hoursPerDay) {
@@ -114,13 +179,8 @@ struct EnterWageView: View {
             } footer: {
                 Text("When calculating daily, weekly, monthly, and yearly, these values will be used respectively")
             }
-            
-//            Section {
-//                Button("Save") {
-//
-//                }
-//            }
         }
+        
         .putInTemplate()
         .navigationTitle("Enter Hourly Wage")
         .toast(isPresenting: $showErrorToast, duration: 2, tapToDismiss: true) {
@@ -132,14 +192,13 @@ struct EnterWageView: View {
             AlertToast(displayMode: .banner(.slide), type: .complete(.green), title: "Wage saved successfully", style: .style(backgroundColor: .white, titleColor: nil, subTitleColor: nil, titleFont: nil, subTitleFont: nil))
         }
         .bottomButton(label: "Save", gradient: settings.getDefaultGradient()) {
-            guard let dub = Double(hourlyWage) else {
+            guard let dub = Double(hourlyWageStringEntered) else {
                 showErrorToast = true
                 errorMessage = "Please enter a valid hourly wage"
                 return
             }
 
             do {
-
                 let wage = try Wage(amount: dub, user: user, context: viewContext)
                 wage.daysPerWeek = Double(daysPerWeek)
                 wage.hoursPerDay = Double(hoursPerDay)
