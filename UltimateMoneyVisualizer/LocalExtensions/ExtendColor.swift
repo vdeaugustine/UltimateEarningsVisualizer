@@ -15,6 +15,9 @@ extension Color {
     
     static let defaultColorOptions: [Color] = defaultColorHexes.map { .hexStringToColor(hex: $0) }
     
+    static let niceRed: Color = .hexStringToColor(hex: "B04632")
+    static let okGreen: Color = .hexStringToColor(hex: "519839")
+    
     func getHex() -> String {
         let components = self.components
         let r = Int(components.red * 255)

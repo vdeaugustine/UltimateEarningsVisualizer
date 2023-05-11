@@ -49,15 +49,19 @@ struct GoalDetailView: View {
 
                 Section("Insight") {
                     Text("Time required to pay off")
-                        .spacedOut(text: goal.totalTime.formatForTime())
+                        .spacedOut(text: goal.totalTime.formatForTime([.day, .hour, .minute]))
 
                     Text("Time remaining to pay off")
-                        .spacedOut(text: goal.timeRemaining.formatForTime())
+                        .spacedOut(text: goal.timeRemaining.formatForTime([.day, .hour, .minute]))
                 }
 
                 Section("Contributions") {
-                    NavigationLink("Add Allocation") {
-                        
+                    if goal.amountRemainingToPayOff.roundTo(places: 2) >= 0.01 {
+                        NavigationLink {
+                            AddAllocationForGoalView(goal: goal)
+                        } label: {
+                            Label("Add Another", systemImage: "plus")
+                        }
                     }
                     ForEach(goal.getAllocations()) { alloc in
 

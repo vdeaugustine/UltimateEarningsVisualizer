@@ -41,9 +41,33 @@ struct ShiftDetailView: View {
                                 Text(shift.totalEarned.formattedForMoney())
                             }
                     }
+
+                    HStack {
+                        SystemImageWithFilledBackground(systemName: "chart.line.downtrend.xyaxis", backgroundColor: .niceRed)
+                        Text("Spent")
+                            .spacedOut {
+                                Text(shift.totalAllocated.formattedForMoney())
+                            }
+                    }
+                    
+                    
+                    HStack {
+                        SystemImageWithFilledBackground(systemName: "dollarsign.arrow.circlepath", backgroundColor: .okGreen)
+                        Text("Available")
+                            .spacedOut {
+                                Text(shift.totalAvailable.formattedForMoney())
+                            }
+                    }
+                    
+                    
                 }
 
                 Section("Allocations") {
+                    NavigationLink {
+                    } label: {
+                            Label("Add Another", systemImage: "plus")
+                        
+                    }
                     ForEach(payoffItems.indices, id: \.self) { index in
 
                         if let goal = payoffItems.safeGet(at: index) as? Goal {
@@ -83,16 +107,6 @@ struct ShiftDetailView: View {
 //                            }
 //
 //                        }
-                    }
-
-                    NavigationLink {
-                        
-//                        AllocateShiftToExpense(shift: shift, expense: <#T##Expense#>)
-                    } label: {
-                        HStack {
-                            Label("Add Another", systemImage: "plus")
-                            
-                        }
                     }
                 }
             }

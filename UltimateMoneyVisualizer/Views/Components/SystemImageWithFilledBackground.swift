@@ -9,13 +9,19 @@ import SwiftUI
 
 struct SystemImageWithFilledBackground: View {
     let systemName: String
-    let backgroundColor: Color
+    let backgroundColor: Color?
     var rotationDegrees: CGFloat = 0
     @ObservedObject var settings = User.main.getSettings()
     
     var body: some View {
         ZStack {
-            settings.getDefaultGradient()
+            if let backgroundColor {
+                backgroundColor
+            }
+            else {
+                settings.getDefaultGradient()
+            }
+            
             Image(systemName: systemName)
                 .font(.headline)
                 .foregroundColor(.white)

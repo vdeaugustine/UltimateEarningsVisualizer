@@ -129,7 +129,6 @@ struct SpendNewMoneyFirstView: View {
     }
 
     func button(header: NewItemSelection) -> some View {
-//        ZStack(alignment: .top) {
         VStack(alignment: .leading, spacing: 10) {
             Text(header.rawValue.capitalized)
                 .font(.title3)

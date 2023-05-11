@@ -83,6 +83,10 @@ public extension User {
             fatalError("Error retrieving or creating main user: \(error)")
         }
     }
+    
+    func getContext() -> NSManagedObjectContext {
+        self.managedObjectContext ?? PersistenceController.context
+    }
 
     /// Gives you the amount of money the user has netted between the two dates. So it in
     func totalNetMoneyBetween(_ startDate: Date, _ endDate: Date) -> Double {

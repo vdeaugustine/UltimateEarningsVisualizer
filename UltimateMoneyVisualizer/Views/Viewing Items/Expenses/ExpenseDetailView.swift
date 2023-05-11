@@ -42,13 +42,22 @@ struct ExpenseDetailView: View {
 
             Section("Insight") {
                 Text("Time required to pay off")
-                    .spacedOut(text: expense.totalTime.formatForTime())
+                    .spacedOut(text: expense.totalTime.formatForTime([.day, .hour, .minute]))
 
                 Text("Time remaining to pay off")
-                    .spacedOut(text: expense.timeRemaining.formatForTime())
+                    .spacedOut(text: expense.timeRemaining.formatForTime([.day, .hour, .minute]))
             }
 
             Section("Contributions") {
+                
+                if expense.amountRemainingToPayOff.roundTo(places: 2) >= 0.01 {
+                    NavigationLink {
+                        AddAllocationForExpenseView(expense: expense)
+                    } label: {
+                        Label("Add Another", systemImage: "plus")
+                    }
+                }
+                
                 ForEach(expense.getAllocations()) { alloc in
 
                     if let shift = alloc.shift {
@@ -115,7 +124,7 @@ struct ExpenseDetailView: View {
 
 struct ExpenseDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        ExpenseDetailView(expense: User.main.getExpenses().first!)
+        ExpenseDetailView(expense: User.main.getExpenses().first { $0.amountRemainingToPayOff > 3 }!)
             .putInNavView(.inline)
             .environment(\.managedObjectContext, PersistenceController.context)
             
