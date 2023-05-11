@@ -54,7 +54,7 @@ struct EditSavedItemView: View {
             Section("Description") {
                 TextEditor(text: $info)
                     .focused($focusedField, equals: .description)
-                    .frame(height: 200)
+                    .frame(height: 150)
             }
 
             Section("Total Amount") {
@@ -63,6 +63,10 @@ struct EditSavedItemView: View {
                     TextField("$", text: $amountStr)
                         .focused($focusedField, equals: .amount)
                 }
+            }
+            
+            Section {
+                DatePicker("Date", selection: $date, displayedComponents: .date)
             }
 
             Section("Instances") {

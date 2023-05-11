@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C3C58622A0C8BE200169A0F /* DateCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3C58612A0C8BE200169A0F /* DateCircle.swift */; };
 		9C442A372A03792800D61C3E /* WageBreakdownBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C442A362A03792800D61C3E /* WageBreakdownBox.swift */; };
 		9C442A392A03798C00D61C3E /* WageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C442A382A03798C00D61C3E /* WageTests.swift */; };
 		9C460EE02A038B9F0007EBA9 /* MultipleNewShiftsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C460EDF2A038B9F0007EBA9 /* MultipleNewShiftsView.swift */; };
@@ -113,6 +114,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9C3C58612A0C8BE200169A0F /* DateCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCircle.swift; sourceTree = "<group>"; };
 		9C442A362A03792800D61C3E /* WageBreakdownBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WageBreakdownBox.swift; sourceTree = "<group>"; };
 		9C442A382A03798C00D61C3E /* WageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WageTests.swift; sourceTree = "<group>"; };
 		9C460EDF2A038B9F0007EBA9 /* MultipleNewShiftsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleNewShiftsView.swift; sourceTree = "<group>"; };
@@ -347,6 +349,7 @@
 		9C7F964E29F8F03C00F5035C = {
 			isa = PBXGroup;
 			children = (
+				9C3C58612A0C8BE200169A0F /* DateCircle.swift */,
 				9C7F965929F8F03C00F5035C /* UltimateMoneyVisualizer */,
 				9C7F965829F8F03C00F5035C /* Products */,
 				9C7F967029F8F03E00F5035C /* UltimateMoneyVisualizerTests */,
@@ -804,6 +807,7 @@
 				9C7F969C29F8FE3500F5035C /* ExtendSettings.swift in Sources */,
 				9CB418C42A0B2C81006F44AB /* EditSavedItemView.swift in Sources */,
 				9C7C986F29FE30290077EA25 /* SystemImageWithFilledBackground.swift in Sources */,
+				9C3C58622A0C8BE200169A0F /* DateCircle.swift in Sources */,
 				9CEEE34029F909CC001FA4FB /* WageType.swift in Sources */,
 				9C460EE92A049DFA0007EBA9 /* StatsView.swift in Sources */,
 				9C7C985F29FCD5AB0077EA25 /* HorizontalDataDisplay.swift in Sources */,

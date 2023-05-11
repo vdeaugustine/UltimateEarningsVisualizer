@@ -13,9 +13,9 @@ import SwiftUI
 struct CreateSavedView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
-    @State private var title: String = "Didn't go to lunch"
-    @State private var amount: String = "10"
-    @State private var info: String = "Ate at home"
+    @State private var title: String = ""
+    @State private var amount: String = ""
+    @State private var info: String = ""
     @State private var date: Date = Date()
 
     // Alert toast state variables

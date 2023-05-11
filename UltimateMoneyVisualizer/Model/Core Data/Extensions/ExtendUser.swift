@@ -283,8 +283,11 @@ public extension User {
     }
 
     func getSaved() -> [Saved] {
-        guard let savedItems else { return [] }
-        return Array(savedItems) as? [Saved] ?? []
+        guard let savedItems = Array(savedItems ?? []) as? [Saved] else {
+            return []
+        }
+        
+        return savedItems.sorted(by: { $0.getDate() > $1.getDate() })
     }
 
     func totalDollarsSaved() -> Double {
