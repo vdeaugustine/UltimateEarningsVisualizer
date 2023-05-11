@@ -22,7 +22,7 @@ struct ShiftListView: View {
     @State private var upcomingToDelete: [Shift] = []
 
     var upcomingShifts: [Shift] {
-        user.getShiftsBetween(startDate: .now.addHours(1), endDate: .distantFuture)
+        user.getShiftsBetween(startDate: .now.addHours(1), endDate: .distantFuture).reversed()
     }
 
     var pastShifts: [Shift] {

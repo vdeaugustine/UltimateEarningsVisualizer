@@ -65,11 +65,7 @@ struct EnterWageView: View {
         calculatedHourlyWage = thisHourlyWage
     }
 
-    private func populateHourlyWage() {
-        if let calculatedHourlyWage = calculatedHourlyWage {
-//            hourlyWage = (calcul)
-        }
-    }
+    
 
     var doubleFromEnteredHourlyWageString: Double {
         if let dub = Double(hourlyWageStringEntered) {

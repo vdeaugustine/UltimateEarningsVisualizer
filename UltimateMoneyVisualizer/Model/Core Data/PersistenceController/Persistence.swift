@@ -11,7 +11,7 @@ public struct PersistenceController {
     public static let context = shared.container.viewContext
 
     public static let testing: NSManagedObjectContext = {
-        let pc = PersistenceController(inMemory: false)
+        let pc = PersistenceController(inMemory: true)
         let context = pc.container.viewContext
 
         return context

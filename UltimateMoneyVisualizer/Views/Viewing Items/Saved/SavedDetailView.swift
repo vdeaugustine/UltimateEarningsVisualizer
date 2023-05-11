@@ -69,15 +69,22 @@ struct SavedDetailView: View {
                         }
                     }
 
-                    NavigationLink {
-                        
-                        
-                        
-                    } label: {
-                        HStack {
-                            Label("Add Another", systemImage: "plus")
-                        }
-                    }
+//                    Menu {
+//                        
+//                        NavigationLink("Expense") {
+//                            
+//                        }
+//                        
+//                        NavigationLink("Goal") {
+//                            
+//                        }
+//                         
+//                        
+//                    } label: {
+//                        HStack {
+//                            Label("Add Another", systemImage: "plus")
+//                        }
+//                    }
                 }
             }
             .listStyle(.insetGrouped)

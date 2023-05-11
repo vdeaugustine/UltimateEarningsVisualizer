@@ -63,11 +63,11 @@ struct ShiftDetailView: View {
                 }
 
                 Section("Allocations") {
-                    NavigationLink {
-                    } label: {
-                            Label("Add Another", systemImage: "plus")
-                        
-                    }
+//                    NavigationLink {
+//                    } label: {
+//                            Label("Add Another", systemImage: "plus")
+//                        
+//                    }
                     ForEach(payoffItems.indices, id: \.self) { index in
 
                         if let goal = payoffItems.safeGet(at: index) as? Goal {
@@ -111,11 +111,13 @@ struct ShiftDetailView: View {
                 }
             }
             .listStyle(.insetGrouped)
+            .padding(.bottom, 15)
         }
         .padding(.bottom)
         .bottomButton(label: "Delete", action: {
             showDeleteConfirmation = true
         })
+        
         .background(Color.targetGray)
         .putInTemplate()
         .navigationTitle("Shift for \(shift.start.getFormattedDate(format: .abreviatedMonth))")
