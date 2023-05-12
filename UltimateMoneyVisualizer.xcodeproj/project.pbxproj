@@ -75,6 +75,7 @@
 		9C97358E2A0D5EC200F651A1 /* ChooseExpenseForSavedAlloc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C97358D2A0D5EC200F651A1 /* ChooseExpenseForSavedAlloc.swift */; };
 		9C9735942A0D795600F651A1 /* AllocationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9735932A0D795600F651A1 /* AllocationDetailView.swift */; };
 		9C9735962A0D84D500F651A1 /* ExtendText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9735952A0D84D500F651A1 /* ExtendText.swift */; };
+		9C9735982A0D9B9000F651A1 /* NetMoneyGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9735972A0D9B9000F651A1 /* NetMoneyGraph.swift */; };
 		9CB418C22A0A0E07006F44AB /* TempTodayPayoff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB418C12A0A0E07006F44AB /* TempTodayPayoff.swift */; };
 		9CB418C42A0B2C81006F44AB /* EditSavedItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB418C32A0B2C81006F44AB /* EditSavedItemView.swift */; };
 		9CB418C62A0B616A006F44AB /* ExtendAlertToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB418C52A0B616A006F44AB /* ExtendAlertToast.swift */; };
@@ -191,6 +192,7 @@
 		9C97358D2A0D5EC200F651A1 /* ChooseExpenseForSavedAlloc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseExpenseForSavedAlloc.swift; sourceTree = "<group>"; };
 		9C9735932A0D795600F651A1 /* AllocationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllocationDetailView.swift; sourceTree = SOURCE_ROOT; };
 		9C9735952A0D84D500F651A1 /* ExtendText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendText.swift; sourceTree = "<group>"; };
+		9C9735972A0D9B9000F651A1 /* NetMoneyGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetMoneyGraph.swift; sourceTree = "<group>"; };
 		9CB418C12A0A0E07006F44AB /* TempTodayPayoff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempTodayPayoff.swift; sourceTree = "<group>"; };
 		9CB418C32A0B2C81006F44AB /* EditSavedItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSavedItemView.swift; sourceTree = "<group>"; };
 		9CB418C52A0B616A006F44AB /* ExtendAlertToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendAlertToast.swift; sourceTree = "<group>"; };
@@ -340,6 +342,7 @@
 				9CED53492A08ADCF002DC183 /* AllocShiftRow.swift */,
 				9CED53472A08ACC7002DC183 /* AllocSavedRow.swift */,
 				9CED534B2A09BAD5002DC183 /* PayoffTodaySquare.swift */,
+				9C9735972A0D9B9000F651A1 /* NetMoneyGraph.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -845,6 +848,7 @@
 				9C7C984729FA0E130077EA25 /* HomeView.swift in Sources */,
 				9C3C58682A0CBF5900169A0F /* AllItemsView.swift in Sources */,
 				9C9735962A0D84D500F651A1 /* ExtendText.swift in Sources */,
+				9C9735982A0D9B9000F651A1 /* NetMoneyGraph.swift in Sources */,
 				9C7C984129F9F7B20077EA25 /* AllSchedulesView.swift in Sources */,
 				9C514DB52A00A480003DC43C /* PayoffQueueView.swift in Sources */,
 				9CEEE34329F90A7D001FA4FB /* CreateShiftView.swift in Sources */,

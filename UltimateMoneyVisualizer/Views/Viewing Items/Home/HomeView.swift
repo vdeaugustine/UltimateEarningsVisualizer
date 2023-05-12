@@ -98,7 +98,8 @@ struct HomeView: View {
 
                 homeSection(header: "Total Money") {
                     VStack {
-                        StatsViewChart()
+                        NetMoneyGraph()
+                            .padding()
                     }
                     .frame(height: 300)
                 }

@@ -32,6 +32,15 @@ struct ShiftListView: View {
     func isSelected(_ shift: Shift) -> Bool {
         return upcomingToDelete.contains(where: { $0 == shift })
     }
+    
+    var shiftsByWeek: [Date: [Shift]] {
+        Dictionary(grouping: pastShifts, by: { $0.start.startOfWeek() })
+    }
+    
+    var sortedWeeks: [Date] {
+        shiftsByWeek.keys.sorted(by: >)
+    }
+
 
     @State private var mostRecentSelected = false
 

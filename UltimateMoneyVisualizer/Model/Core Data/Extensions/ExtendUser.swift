@@ -141,7 +141,7 @@ public extension User {
 
     func getExpensesBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [Expense] {
         let filteredExpenses = getExpenses().filter { expense in
-            guard let date = expense.dateCreated else { return false }
+            guard let date = expense.dueDate else { return false }
             return (date >= startDate && date <= endDate)
         }
         return filteredExpenses

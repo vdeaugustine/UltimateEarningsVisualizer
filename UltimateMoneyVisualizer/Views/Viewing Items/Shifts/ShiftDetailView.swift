@@ -24,6 +24,10 @@ struct ShiftDetailView: View {
     var payoffItems: [PayoffItem] {
         shift.getPayoffItemsAllocatedTo()
     }
+    
+    var allocations: [Allocation] {
+        shift.getAllocations().sorted(by: { $0.amount > $1.amount })
+    }
 
     var body: some View {
         VStack {
@@ -63,28 +67,29 @@ struct ShiftDetailView: View {
                 }
 
                 Section("Allocations") {
-//                    NavigationLink {
-//                    } label: {
-//                            Label("Add Another", systemImage: "plus")
-//                        
-//                    }
-                    ForEach(payoffItems.indices, id: \.self) { index in
+                    ForEach(allocations) { alloc in
 
-                        if let goal = payoffItems.safeGet(at: index) as? Goal {
-                            HStack {
-                                SystemImageWithFilledBackground(systemName: "target", backgroundColor: settings.themeColor)
+                        NavigationLink {
+                            AllocationDetailView(allocation: alloc)
+                            
+                            
+                        } label: {
+                            if let goal = alloc.goal {
+                                HStack {
+                                    SystemImageWithFilledBackground(systemName: "target", backgroundColor: settings.themeColor)
 
-                                Text(goal.titleStr)
-                                    .spacedOut(text: shift.amountAllocated(for: goal).formattedForMoney())
+                                    Text(goal.titleStr)
+                                        .spacedOut(text: alloc.amount.formattedForMoney())
+                                }
                             }
-                        }
 
-                        if let expense = payoffItems.safeGet(at: index) as? Expense {
-                            HStack {
-                                SystemImageWithFilledBackground(systemName: "creditcard.fill", backgroundColor: settings.themeColor)
+                            if let expense = alloc.expense {
+                                HStack {
+                                    SystemImageWithFilledBackground(systemName: "creditcard.fill", backgroundColor: settings.themeColor)
 
-                                Text(expense.titleStr)
-                                    .spacedOut(text: shift.amountAllocated(for: expense).formattedForMoney())
+                                    Text(expense.titleStr)
+                                        .spacedOut(text: alloc.amount.formattedForMoney())
+                                }
                             }
                         }
 
@@ -123,21 +128,29 @@ struct ShiftDetailView: View {
         .navigationTitle("Shift for \(shift.start.getFormattedDate(format: .abreviatedMonth))")
         .confirmationDialog("Are you sure you want to delete this shift?", isPresented: $showDeleteConfirmation) {
             Button("Delete", role: .destructive) {
-                user.removeFromShifts(shift)
-                viewContext.delete(shift)
-
-                do {
-                    try viewContext.save()
-                } catch {
-                    print("Error saving after delete", error)
-                }
-
-                dismiss()
+                deleteAction()
             }
             Button("Cancel", role: .cancel) {}
         } message: {
             Text("This action cannot be undone")
         }
+        
+        
+        
+        
+    }
+    
+    func deleteAction() {
+        user.removeFromShifts(shift)
+        viewContext.delete(shift)
+
+        do {
+            try viewContext.save()
+        } catch {
+            print("Error saving after delete", error)
+        }
+
+        dismiss()
     }
 
 //    var chart: some View {

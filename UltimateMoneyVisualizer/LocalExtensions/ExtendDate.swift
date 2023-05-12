@@ -23,4 +23,12 @@ extension Date {
             return String(firstLetter)
         }
     }
+    
+    
+    func startOfWeek() -> Date {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)
+        return calendar.date(from: components)!
+    }
+
 }
