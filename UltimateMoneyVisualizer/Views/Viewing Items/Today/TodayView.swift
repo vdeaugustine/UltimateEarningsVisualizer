@@ -90,38 +90,14 @@ struct TodayView: View {
         if let todayShift,
            let endTime = todayShift.endTime,
            !hasShownBanner {
-//            let shiftIsOver = nowTime >= endTime
 
             if isCurrentlyMidShift == false {
                 showBanner = true
             }
         }
-//        processTemporaryAllocation()
     }
 
-//    private func processTemporaryAllocation() {
-//        if let currentGoal = user.getTempQueue().first as? Goal {
-//            do {
-//                var recentTempAlloc = currentGoal.getMostRecentTemporaryAllocation()
-//                if recentTempAlloc == nil {
-//                    recentTempAlloc = try TemporaryAllocation(initialAmount: 0,
-//                                                              expense: nil,
-//                                                              goal: currentGoal,
-//                                                              context: user.managedObjectContext ?? PersistenceController.context)
-//                }
-//
-//                try recentTempAlloc?.add(amount: user.getWage().secondly, context: user.managedObjectContext ?? PersistenceController.context)
-//
-//            } catch {
-//                print(error)
-//            }
-//        } else if let currentExpense = user.getTempQueue().first as? Expense {
-//            if let tempAlloc = currentExpense.temporaryAllocations?.allObjects as? [Expense] {
-//            }
-//        } else {
-//            print("no current item")
-//        }
-//    }
+
 }
 
 // MARK: - View functions and computed properties

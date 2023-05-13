@@ -21,13 +21,15 @@ struct ExpenseRow: View {
                     .pushLeft()
 
                 if expense.dueDate != nil {
-                    Text("due in " + expense.timeRemaining.formatForTime([.year, .hour, .minute, .second]))
+                    Text("due in " + expense.timeRemaining.formatForTime([.year, .day, .hour, .minute, .second]))
                         .font(.subheadline)
                 }
             }
 
             VStack(alignment: .leading, spacing: 5) {
-                ProgressBar(percentage: expense.percentPaidOff, color: settings.themeColor)
+//                ProgressBar(percentage: expense.percentPaidOff, color: settings.themeColor)
+                PayoffItemProgressBar(item: expense)
+                    .frame(height: 10)
                 Text(expense.amountPaidOff.formattedForMoney())
                     .font(.subheadline)
                     .spacedOut {
@@ -43,7 +45,29 @@ struct ExpenseRow: View {
 }
 
 struct ExpenseRow_Previews: PreviewProvider {
+    
+    static let expense: Expense = {
+       
+        do {
+            let user = User.main
+            let expense = Expense(title: "Car payment", info: nil, amount: 800, dueDate: .now.addDays(10), user: user)
+            let shift = try Shift(day: .friday, start: .nineAM.addDays(-1), end: .fivePM.addDays(-1), user: user, context: user.getContext())
+            let alloc1 = try Allocation(amount: 100, expense: expense, goal: nil, shift: shift, saved: nil, date: .fivePM.addDays(-1), context: user.getContext())
+            let saved = try Saved(amount: 490, title: "No new laptop", date: .now.addDays(-10), user: user, context: user.getContext())
+            let alloc2 = try Allocation(amount: 459, expense: expense, saved: saved)
+            
+            return expense
+        }
+        catch {
+            fatalError(String(describing: error))
+        }
+        
+        
+    }()
+    
+    
+    
     static var previews: some View {
-        ExpenseRow(expense: User.main.getExpenses().first!)
+        ExpenseRow(expense: expense)
     }
 }
