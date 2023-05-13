@@ -82,8 +82,6 @@ struct NetMoneyGraph: View {
               "Expenses": Color.niceRed.getGradient(),
               "Earnings": Color.okGreen.getGradient()
             ])
-//            .chartXAxis(.hidden)
-//            .xax
         }
     }
 }

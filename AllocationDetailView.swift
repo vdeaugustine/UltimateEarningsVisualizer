@@ -58,7 +58,7 @@ struct AllocationDetailView: View {
         if allocation.shift != nil {
             return "Shift"
         } else if allocation.savedItem != nil {
-            return "Saved"
+            return "Saved Item"
         }
 
         return ""
@@ -79,8 +79,20 @@ struct AllocationDetailView: View {
 
     var body: some View {
         List {
-            Section("Source") {
+            Section(sourceTypeString) {
                 if let saved = allocation.savedItem {
+                    NavigationLink {
+                        SavedDetailView(saved: saved)
+                    } label: {
+                        HStack {
+                            Text(saved.getTitle())
+                            Spacer()
+
+                            Text(saved.getAmount().formattedForMoney())
+                                .fontWeight(.bold)
+                                .foregroundStyle(user.getSettings().getDefaultGradient())
+                        }
+                    }
                 }
                 if let shift = allocation.shift {
                     NavigationLink {
@@ -146,8 +158,29 @@ struct AllocationDetailView: View {
 // MARK: - AllocationDetailView_Previews
 
 struct AllocationDetailView_Previews: PreviewProvider {
+    
+//    static let shiftAlloc = User.main.getExpenses().first(where: { $0.getAllocations().isEmpty == false })!.getAllocations().first!
+    
+    static let savedAlloc: Allocation = {
+        let context = PersistenceController.context
+        do {
+            let saved = try Saved(amount: 123, title: "Laptop", date: .now.addDays(-2), user: User.main, context: User.main.getContext())
+            let expense = Expense(title: "Car payment", info: "Monthly", amount: 800, dueDate: .now.addDays(20), user: User.main)
+            
+            let alloc = try Allocation(amount: 100, expense: expense, goal: nil, shift: nil, saved: saved, date: .now, context: context)
+            return alloc
+        } catch {
+            print("Error", error)
+            fatalError(String(describing: error))
+        }
+        
+        
+        
+    }()
+    
+    
     static var previews: some View {
-        AllocationDetailView(allocation: User.main.getExpenses().first(where: { $0.getAllocations().isEmpty == false })!.getAllocations().first!)
+        AllocationDetailView(allocation: savedAlloc)
             .putInNavView(.inline)
     }
 }
