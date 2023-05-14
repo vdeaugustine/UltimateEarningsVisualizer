@@ -17,8 +17,6 @@ struct ExpenseDetailView: View {
     @State private var showDeleteWarning = false
     @Environment(\.dismiss) private var dismiss
 
-
-
     var body: some View {
         List {
             Text("Amount")
@@ -26,12 +24,18 @@ struct ExpenseDetailView: View {
 
             if let dueDate = expense.dueDate {
                 Text("Due")
-                    .spacedOut(text: dueDate.getFormattedDate(format: .abreviatedMonth))
+                    .spacedOut {
+                        Text(dueDate.getFormattedDate(format: .abreviatedMonth))
+                            .foregroundColor(expense.isPassedDue ? Color.red : Color.black)
+                    }
             }
 
             Section("Progress") {
                 Text("Due in")
-                    .spacedOut(text: expense.timeRemaining.formatForTime([.day, .hour, .minute, .second]))
+                    .spacedOut {
+                        Text(expense.timeRemaining.formatForTime([.day, .hour, .minute, .second]))
+                            .foregroundColor(expense.isPassedDue ? Color.red : Color.black)
+                    }
 
                 Text("Paid off")
                     .spacedOut(text: expense.amountPaidOff.formattedForMoney())
@@ -49,7 +53,6 @@ struct ExpenseDetailView: View {
             }
 
             Section("Contributions") {
-                
                 if expense.amountRemainingToPayOff.roundTo(places: 2) >= 0.01 {
                     NavigationLink {
                         AddAllocationForExpenseView(expense: expense)
@@ -57,18 +60,16 @@ struct ExpenseDetailView: View {
                         Label("Add Another", systemImage: "plus")
                     }
                 }
-                
+
                 ForEach(expense.getAllocations()) { alloc in
 
                     if let shift = alloc.shift {
                         AllocShiftRow(shift: shift, allocation: alloc)
                     }
-                    
+
                     if let saved = alloc.savedItem {
                         AllocSavedRow(saved: saved, allocation: alloc)
                     }
-
-                    
                 }
             }
 
@@ -115,11 +116,6 @@ struct ExpenseDetailView: View {
     }
 }
 
-
-
-
-
-
 // MARK: - ExpenseDetailView_Previews
 
 struct ExpenseDetailView_Previews: PreviewProvider {
@@ -127,6 +123,5 @@ struct ExpenseDetailView_Previews: PreviewProvider {
         ExpenseDetailView(expense: User.main.getExpenses().first { $0.amountRemainingToPayOff > 3 }!)
             .putInNavView(.inline)
             .environment(\.managedObjectContext, PersistenceController.context)
-            
     }
 }

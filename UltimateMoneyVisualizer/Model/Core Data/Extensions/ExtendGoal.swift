@@ -182,7 +182,7 @@ public extension Goal {
         return dueDate - .now
     }
 
-    var totalTime: TimeInterval {
+    var totalTimeRemaining: TimeInterval {
         guard let dateCreated, let dueDate else { return 0 }
         return dueDate - dateCreated
     }

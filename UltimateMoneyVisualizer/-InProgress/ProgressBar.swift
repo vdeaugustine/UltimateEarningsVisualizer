@@ -33,7 +33,8 @@ struct ProgressBar: View {
                 .foregroundColor(.gray)
                 .frame(width: entireBarWidth)
             RoundedRectangle(cornerRadius: cornerRadius)
-                .foregroundColor(isComplete ? .green : color)
+                .foregroundStyle(isComplete ? Color.okGreen.getGradient() : color.getGradient())
+//                .foregroundColor(isComplete ? .green : color)
                 .frame(width: percentageToUse * entireBarWidth)
         }
         .frame(height: height)

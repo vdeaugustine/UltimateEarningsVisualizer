@@ -37,6 +37,8 @@ extension Expense: PayoffItem {
     }
 
     public var amountRemainingToPayOff: Double { return amount - amountPaidOff }
+    
+    public var isPassedDue: Bool { timeRemaining <= 0 }
 
     public var optionalQSlotNumber: Int16? {
         get {
@@ -220,16 +222,16 @@ public extension Expense {
     }
 
     static func makeExampleExpenses(user: User, context: NSManagedObjectContext) throws {
-        _ = Expense(title: "Groceries", info: "Weekly grocery shopping", amount: 150.0, dueDate: Date().addDays(-10), user: user, context: context)
-        _ = Expense(title: "Netflix", info: "Monthly subscription", amount: 14.99, dueDate: Date().addDays(-9), user: user, context: context)
-        _ = Expense(title: "Gym Membership", info: "Monthly gym membership", amount: 50.0, dueDate: Date().addDays(-8), user: user, context: context)
-        _ = Expense(title: "Car Insurance", info: "Six-month premium", amount: 600.0, dueDate: Date().addDays(-7), user: user, context: context)
-        _ = Expense(title: "Phone Bill", info: "Monthly phone bill", amount: 80.0, dueDate: Date().addDays(-6), user: user, context: context)
-        _ = Expense(title: "Birthday Gift", info: "Gift for friend's birthday", amount: 50.0, dueDate: Date().addDays(-5), user: user, context: context)
-        _ = Expense(title: "Airfare", info: "Roundtrip flight for vacation", amount: 500.0, dueDate: Date().addDays(-4), user: user, context: context)
-        _ = Expense(title: "Concert Tickets", info: "Tickets for upcoming concert", amount: 200.0, dueDate: Date().addDays(-3), user: user, context: context)
-        _ = Expense(title: "Dinner Date", info: "Dinner at fancy restaurant", amount: 100.0, dueDate: Date().addDays(-2), user: user, context: context)
-        _ = Expense(title: "Home Decor", info: "New furniture for living room", amount: 1_000.0, dueDate: Date().addDays(-1), user: user, context: context)
+        _ = Expense(title: "Groceries", info: "Weekly grocery shopping", amount: 150.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), user: user, context: context)
+        _ = Expense(title: "Netflix", info: "Monthly subscription", amount: 14.99, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), user: user, context: context)
+        _ = Expense(title: "Gym Membership", info: "Monthly gym membership", amount: 50.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), user: user, context: context)
+        _ = Expense(title: "Car Insurance", info: "Six-month premium", amount: 600.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), user: user, context: context)
+        _ = Expense(title: "Phone Bill", info: "Monthly phone bill", amount: 80.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), user: user, context: context)
+        _ = Expense(title: "Birthday Gift", info: "Gift for friend's birthday", amount: 50.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), user: user, context: context)
+        _ = Expense(title: "Airfare", info: "Roundtrip flight for vacation", amount: 500.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), user: user, context: context)
+        _ = Expense(title: "Concert Tickets", info: "Tickets for upcoming concert", amount: 200.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), user: user, context: context)
+        _ = Expense(title: "Dinner Date", info: "Dinner at fancy restaurant", amount: 100.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), user: user, context: context)
+        _ = Expense(title: "Home Decor", info: "New furniture for living room", amount: 1_000.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), user: user, context: context)
         try context.save()
     }
 }

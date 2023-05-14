@@ -43,12 +43,16 @@ struct TodayView: View {
         VStack {
             if let todayShift {
                 ScrollView {
-                    timeMoneyPicker
+                    TimeMoneyPicker(showTimeOrMoney: $showTimeOrMoney)
                         .padding(.vertical)
                     VStack {
-                        startEndTotal(todayShift: todayShift)
+                        StartEndTotalView(showHoursSheet: $showHoursSheet, showingTime: showingTime, todayShift: todayShift)
                             .padding(.top)
-                        progressSection(todayShift: todayShift)
+                        ProgressSectionView(todayShift: todayShift,
+                                            nowTime: nowTime,
+                                            settings: settings,
+                                            isCurrentlyMidShift: isCurrentlyMidShift,
+                                            user: user)
                     }
                     .padding([.vertical, .top])
                     .background(Color.white)
@@ -104,81 +108,108 @@ struct TodayView: View {
 
 extension TodayView {
     // MARK: - timeMoneyPicker
-
-    var timeMoneyPicker: some View {
-        Picker("Time/Money", selection: $showTimeOrMoney) {
-            Text("Money")
-                .tag("money")
-            Text("Time")
-                .tag("time")
+    
+    struct TimeMoneyPicker: View {
+        @Binding var showTimeOrMoney: String
+        
+        var body: some View {
+            Picker("Time/Money", selection: $showTimeOrMoney) {
+                Text("Money")
+                    .tag("money")
+                Text("Time")
+                    .tag("time")
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            .padding(.horizontal)
         }
-        .pickerStyle(.segmented)
-        .padding(.horizontal)
     }
+
+
+  
 
     // MARK: - Start End Total
 
-    func startEndTotal(todayShift: TodayShift) -> some View {
-        VStack {
-            Text("Hours for \(Date.now.getFormattedDate(format: .abreviatedMonth))")
-                .font(.headline)
-                .spacedOut {
-                    Button {
-                        showHoursSheet.toggle()
-                    } label: {
-                        Text("Edit")
-                            .font(.subheadline)
-                    }
+    struct StartEndTotalView: View {
+        @Binding var showHoursSheet: Bool
+        let showingTime: Bool
+        let todayShift: TodayShift
+        
+        var body: some View {
+            VStack {
+                Text("Hours for \(Date.now.getFormattedDate(format: .abreviatedMonth))")
+                    .font(.headline)
+                    .spacedOut {
+                                        Button {
+                                            showHoursSheet.toggle()
+                                        } label: {
+                                            Text("Edit")
+                                                .font(.subheadline)
+                                        }
+                                    }
+                    .padding(.horizontal)
+
+                if let start = todayShift.startTime,
+                   let end = todayShift.endTime {
+                    HorizontalDataDisplay(data: [
+                        .init(label: "Start",
+                              value: start.getFormattedDate(format: .minimalTime, amPMCapitalized: false),
+                              view: nil),
+                        .init(label: "End",
+                              value: end.getFormattedDate(format: .minimalTime, amPMCapitalized: false),
+                              view: nil),
+                        showingTime ?
+                            .init(label: "Total",
+                                  value: todayShift.totalShiftDuration.formatForTime(),
+                                  view: nil) :
+                            .init(label: "Will Earn",
+                                  value: todayShift.totalWillEarn.formattedForMoney(),
+                                  view: nil)
+                    ])
                 }
-                .padding(.horizontal)
-
-            if let start = todayShift.startTime,
-               let end = todayShift.endTime {
-                HorizontalDataDisplay(
-                    data: [.init(label: "Start",
-                                 value: start.getFormattedDate(format: .minimalTime, amPMCapitalized: false),
-                                 view: nil),
-                           .init(label: "End",
-                                 value: end.getFormattedDate(format: .minimalTime, amPMCapitalized: false),
-                                 view: nil),
-
-                           showingTime ? .init(label: "Total",
-                                               value: todayShift.totalShiftDuration.formatForTime(),
-                                               view: nil) :
-                               .init(label: "Will Earn",
-                                     value: todayShift.totalWillEarn.formattedForMoney(), view: nil)]
-                )
             }
         }
     }
+
 
     // MARK: - Individual Views
 
-    func progressSection(todayShift: TodayShift) -> some View {
-        VStack {
-            HStack {
-                Text(showingTime ? "Time" : "Money")
-                Spacer()
-                Text(showingTime ? todayShift.totalShiftDuration.formatForTime() : todayShift.totalWillEarn.formattedForMoney())
-            }
+    struct ProgressSectionView: View {
+        @State private var showingTime = true
+        let todayShift: TodayShift
+        let nowTime: Date
+        let settings: Settings // Assuming you have a `Settings` model
+        
+        var isCurrentlyMidShift: Bool
+        
+        var user: User
+        
+        var body: some View {
+            VStack {
+                HStack {
+                    Text(showingTime ? "Time" : "Money")
+                    Spacer()
+                    Text(showingTime ? todayShift.totalShiftDuration.formatForTime() : todayShift.totalWillEarn.formattedForMoney())
+                }
 
-            ProgressBar(percentage: todayShift.percentTimeCompleted(nowTime), color: settings.themeColor)
+                ProgressBar(percentage: todayShift.percentTimeCompleted(nowTime), color: settings.themeColor)
 
-            HStack {
-                Text(showingTime ? todayShift.elapsedTime(nowTime).formatForTime([.hour, .minute, .second]) : todayShift.totalEarnedSoFar(nowTime).formattedForMoney())
-                Spacer()
-                Text(showingTime ? todayShift.remainingTime(nowTime).formatForTime([.hour, .minute, .second]) : todayShift.remainingToEarn(nowTime).formattedForMoney())
+                HStack {
+                    Text(showingTime ? todayShift.elapsedTime(nowTime).formatForTime([.hour, .minute, .second]) : todayShift.totalEarnedSoFar(nowTime).formattedForMoney())
+                    Spacer()
+                    Text(showingTime ? todayShift.remainingTime(nowTime).formatForTime([.hour, .minute, .second]) : todayShift.remainingToEarn(nowTime).formattedForMoney())
+                }
             }
-        }
-        .font(.footnote)
-        .padding()
-        .padding(.top)
-        .overlay {
-            if isCurrentlyMidShift {
-                AnimatePlusAmount(str: "+" + (user.getWage().secondly * 2).formattedForMoneyExtended())
+            .font(.footnote)
+            .padding()
+            .padding(.top)
+            .overlay {
+                if isCurrentlyMidShift {
+                    AnimatePlusAmount(str: "+" + (user.getWage().secondly * 2).formattedForMoneyExtended())
+                }
             }
         }
     }
+
 
     // MARK: - Payoff Item Section
 
@@ -194,12 +225,43 @@ extension TodayView {
             }
 
             TodayPayoffGrid(shiftDuration: todayShift.totalShiftDuration, haveEarned: todayShift.totalEarnedSoFar(nowTime))
+            
+            NavigationLink("Edit Queue") {
+                PayoffQueueView()
+            }
         }
 
         .padding()
         .padding(.vertical)
         .background(Color.white)
     }
+    
+////    struct TodaysSpendingView: View {
+////        let todayShift: TodayShift
+////        let nowTime: Date
+////
+////        var body: some View {
+////            VStack {
+////                HStack {
+////                    Text("Today's Spending")
+////                        .font(.title3)
+////                        .fontWeight(.bold)
+////                    Spacer()
+////
+////                    NavigationLink("Edit Queue") {
+////                        PayoffQueueView()
+////                    }
+////                }
+////
+////                TodayPayoffGrid(shiftDuration: todayShift.totalShiftDuration, haveEarned: todayShift.totalEarnedSoFar(nowTime))
+////            }
+////            .padding()
+////            .padding(.vertical)
+////            .background(Color.white)
+////        }
+////    }
+//
+//}
 }
 
 // MARK: - AnimatePlusAmount
@@ -341,7 +403,7 @@ struct TodayView_Previews: PreviewProvider {
     static let ts: TodayShift = {
         let ts = TodayShift(context: PersistenceController.context)
         ts.startTime = .nineAM
-        ts.endTime = Date.now.addMinutes(3 / 60)
+        ts.endTime = .now.addHours(5)
         ts.user = User.main
         ts.expiration = Date.endOfDay()
         ts.dateCreated = .now

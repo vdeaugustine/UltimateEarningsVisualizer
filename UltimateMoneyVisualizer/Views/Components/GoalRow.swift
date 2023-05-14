@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+// MARK: - GoalRow
+
 struct GoalRow: View {
     let goal: Goal
     @ObservedObject private var user: User = User.main
@@ -60,25 +62,23 @@ struct GoalRow: View {
                         Image(uiImage: image)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            //                            .clipShape(Circle())
-                            //                            .height(90)
                             .frame(width: 150)
                             .cornerRadius(8)
-                    }
-                    
-                    
 
-                    if let dueDate = goal.dueDate {
-                        Text(dueDate.getFormattedDate(format: .abreviatedMonth))
-                            .font(.caption).foregroundColor(Color.hexStringToColor(hex: "8E8E93"))
+                        if let dueDate = goal.dueDate {
+                            Text(dueDate.getFormattedDate(format: .abreviatedMonth))
+                                .font(.caption).foregroundColor(Color.hexStringToColor(hex: "8E8E93"))
+                        }
                     }
                 }
-                .padding(.horizontal)
+//                .padding(.horizontal)
             }
         }
         .allPartsTappable()
     }
 }
+
+// MARK: - GoalRow_Previews
 
 struct GoalRow_Previews: PreviewProvider {
     static var previews: some View {

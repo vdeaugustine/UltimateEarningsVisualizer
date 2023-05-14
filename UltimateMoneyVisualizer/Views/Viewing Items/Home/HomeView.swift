@@ -128,7 +128,6 @@ struct HomeView: View {
                                     NavigationLink {
                                         ExpenseDetailView(expense: expense)
                                     } label: {
-                                        // Zstack with transparent top layer needed so you can press any part of button
 
                                         VStack(spacing: 15) {
                                             HStack {
@@ -212,21 +211,21 @@ struct HomeView: View {
                                                         Image(uiImage: image)
                                                             .resizable()
 
-                                                            //                            .clipShape(Circle())
-                                                            //                            .height(90)
                                                             .aspectRatio(contentMode: .fit)
                                                             .frame(height: 75)
                                                             .frame(width: 125)
 
                                                             .cornerRadius(8)
+                                                        
+                                                        if let dueDate = goal.dueDate {
+                                                            Text(dueDate.getFormattedDate(format: .abreviatedMonth))
+                                                                .font(.caption).foregroundColor(Color.hexStringToColor(hex: "8E8E93"))
+                                                        }
                                                     }
 
-                                                    if let dueDate = goal.dueDate {
-                                                        Text(dueDate.getFormattedDate(format: .abreviatedMonth))
-                                                            .font(.caption).foregroundColor(Color.hexStringToColor(hex: "8E8E93"))
-                                                    }
+                                                    
                                                 }
-                                                .padding()
+//                                                .padding()
                                             }
                                         }
                                         .allPartsTappable()

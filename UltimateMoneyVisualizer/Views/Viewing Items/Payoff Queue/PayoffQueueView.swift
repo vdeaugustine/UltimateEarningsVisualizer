@@ -14,7 +14,6 @@ struct PayoffQueueView: View {
     @ObservedObject private var settings: Settings = User.main.getSettings()
 
     @State private var newPayoffQueue: [PayoffItem] = User.main.getQueue()
-//    @State private var editMode: EditMode = .inactive
 
     
     @State private var someArr: [Int] = (0 ... 10).map { $0 }
@@ -42,7 +41,6 @@ struct PayoffQueueView: View {
                 }
             }
             .onMove(perform: move)
-//            .moveDisabled(editMode != .active)
         }
         .listStyle(.plain)
         .navigationTitle("Payoff Queue")

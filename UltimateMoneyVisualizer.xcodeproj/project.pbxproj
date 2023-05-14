@@ -192,7 +192,7 @@
 		9C7F96A529F8FF0100F5035C /* CreateExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateExpenseView.swift; sourceTree = "<group>"; };
 		9C97358B2A0D5EB800F651A1 /* ChooseGoalForSavedAlloc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseGoalForSavedAlloc.swift; sourceTree = "<group>"; };
 		9C97358D2A0D5EC200F651A1 /* ChooseExpenseForSavedAlloc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseExpenseForSavedAlloc.swift; sourceTree = "<group>"; };
-		9C9735932A0D795600F651A1 /* AllocationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllocationDetailView.swift; sourceTree = SOURCE_ROOT; };
+		9C9735932A0D795600F651A1 /* AllocationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AllocationDetailView.swift; path = "UltimateMoneyVisualizer/Views/Viewing Items/Allocations/AllocationDetailView.swift"; sourceTree = SOURCE_ROOT; };
 		9C9735952A0D84D500F651A1 /* ExtendText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendText.swift; sourceTree = "<group>"; };
 		9C9735972A0D9B9000F651A1 /* NetMoneyGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetMoneyGraph.swift; sourceTree = "<group>"; };
 		9CB418C12A0A0E07006F44AB /* TempTodayPayoff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempTodayPayoff.swift; sourceTree = "<group>"; };
@@ -250,6 +250,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9C0505942A1085C500FC6511 /* Allocations */ = {
+			isa = PBXGroup;
+			children = (
+				9C9735932A0D795600F651A1 /* AllocationDetailView.swift */,
+			);
+			path = Allocations;
+			sourceTree = "<group>";
+		};
 		9C460EE72A049DC30007EBA9 /* New Money Items */ = {
 			isa = PBXGroup;
 			children = (
@@ -495,7 +503,6 @@
 		9C7F96A429F8FEEB00F5035C /* -InProgress */ = {
 			isa = PBXGroup;
 			children = (
-				9C9735932A0D795600F651A1 /* AllocationDetailView.swift */,
 				9C7C985529FB722D0077EA25 /* Components */,
 				9C97358F2A0D789000F651A1 /* Incomplete */,
 			);
@@ -583,6 +590,7 @@
 		9CEEE32F29F904BB001FA4FB /* Viewing Items */ = {
 			isa = PBXGroup;
 			children = (
+				9C0505942A1085C500FC6511 /* Allocations */,
 				9C9735922A0D790000F651A1 /* Store */,
 				9C9735912A0D78F700F651A1 /* Stats */,
 				9C9735902A0D78BC00F651A1 /* All Items */,

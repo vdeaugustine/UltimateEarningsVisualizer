@@ -186,7 +186,7 @@ struct EnterWageView: View {
         }
         
         .putInTemplate()
-        .navigationTitle("Enter Hourly Wage")
+        .navigationTitle("My Wage")
         .toast(isPresenting: $showErrorToast, duration: 2, tapToDismiss: true) {
             AlertToast(displayMode: .alert, type: .error(.blue), title: errorMessage)
         } onTap: {

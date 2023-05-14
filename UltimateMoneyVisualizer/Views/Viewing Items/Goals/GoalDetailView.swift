@@ -25,24 +25,42 @@ struct GoalDetailView: View {
     @State private var showAlert = false
 
     @State private var toastConfiguration: AlertToast = AlertToast(type: .regular)
-    
+
     @State private var isShowingFullScreenImage = false
     @State private var isBlurred = false
-
 
     var body: some View {
         VStack {
             List {
+                
+                // MARK: - Initial Section
                 Section("Initial") {
                     Text("Amount")
-                        .spacedOut(text: goal.amount.formattedForMoney())
+                        .spacedOut {
+                            Text(goal.amount.formattedForMoney())
+                                .fontWeight(.bold)
+                                .foregroundStyle(settings.getDefaultGradient())
+                        }
+                    
 
                     if let dueDate = goal.dueDate {
                         Text("Goal date")
                             .spacedOut(text: dueDate.getFormattedDate(format: .abreviatedMonth))
                     }
+                    
+                    HStack(spacing: 5) {
+                        Text(goal.amount.formattedForMoney())
+                            .fontWeight(.bold)
+                            .foregroundStyle(settings.getDefaultGradient())
+                        Text("is equivalent to")
+                        Spacer()
+                        Text(user.convertMoneyToTime(money: goal.amount).formatForTime())
+                        
+                    }
                 }
 
+                
+                // MARK: - Progress Section
                 Section("Progress") {
                     Text("Paid off")
                         .spacedOut(text: goal.amountPaidOff.formattedForMoney())
@@ -51,22 +69,19 @@ struct GoalDetailView: View {
                         .spacedOut(text: goal.amountRemainingToPayOff.formattedForMoney())
                 }
 
+                
+                // MARK: - Insight Section
                 Section("Insight") {
                     Text("Time required to pay off")
-                        .spacedOut(text: goal.totalTime.formatForTime([.day, .hour, .minute]))
+                        .spacedOut(text: goal.totalTimeRemaining.formatForTime([.day, .hour, .minute]))
 
-                    Text("Time remaining to pay off")
-                        .spacedOut(text: goal.timeRemaining.formatForTime([.day, .hour, .minute]))
+//                    Text("Time remaining to pay off")
+//                        .spacedOut(text: goal.timeRemaining.formatForTime([.day, .hour, .minute]))
                 }
 
+                
+                // MARK: - Contributions Section
                 Section("Contributions") {
-                    if goal.amountRemainingToPayOff.roundTo(places: 2) >= 0.01 {
-                        NavigationLink {
-                            AddAllocationForGoalView(goal: goal)
-                        } label: {
-                            Label("Add Another", systemImage: "plus")
-                        }
-                    }
                     ForEach(goal.getAllocations()) { alloc in
 
                         if let shift = alloc.shift {
@@ -79,6 +94,8 @@ struct GoalDetailView: View {
                     }
                 }
 
+                
+                // MARK: - Image section
                 Section("Image") {
                     VStack {
                         if let uiImage = shownImage {
@@ -89,13 +106,13 @@ struct GoalDetailView: View {
 
                                 .centerInParentView()
                                 .onTapGesture {
-                                        withAnimation {
-                                            if self.shownImage != nil {
-                                                self.isShowingFullScreenImage = true
-                                                self.isBlurred = true
-                                            }
+                                    withAnimation {
+                                        if self.shownImage != nil {
+                                            self.isShowingFullScreenImage = true
+                                            self.isBlurred = true
                                         }
                                     }
+                                }
                         } else {
                             Image(systemName: "photo")
                                 .resizable()
@@ -180,13 +197,6 @@ struct GoalDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .putInTemplate()
         .navigationTitle(goal.titleStr)
-//        .sheet(isPresented: $showSheet) {
-//            AddToPaidOffSheet(goal: $goal)
-//
-//                .putInNavView()
-//                .putInTemplate(navTitle: "Add to paid off")
-//                .presentationDetents([.medium])
-//        }
         .sheet(isPresented: $showImageSelector) {
             ImagePicker(isShown: self.$showImageSelector, image: self.$shownImage)
         }
@@ -217,9 +227,7 @@ struct GoalDetailView: View {
                duration: 2,
                tapToDismiss: false,
                offsetY: 40,
-               alert: {
-                   toastConfiguration
-               })
+               alert: { toastConfiguration })
 
         .ignoresSafeArea(.keyboard, edges: .bottom)
     }
