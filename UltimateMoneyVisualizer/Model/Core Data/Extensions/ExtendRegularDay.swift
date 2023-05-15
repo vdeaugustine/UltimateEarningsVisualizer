@@ -9,7 +9,7 @@ import CoreData
 import Foundation
 import Vin
 
-
+ 
 
 public extension RegularDay {
     /// Not set up to save when created. Not sure if we care if it does that yet
@@ -33,5 +33,13 @@ public extension RegularDay {
     func getDayOfWeek() -> DayOfWeek? {
         guard let dayName else { return nil }
         return DayOfWeek(fromString: dayName)
+    }
+    
+    func getStartTime() -> Date? {
+        Date.stringToDate(self.startTime ?? "")
+    }
+    
+    func getEndTime() -> Date? {
+        Date.stringToDate(self.endTime ?? "")
     }
 }

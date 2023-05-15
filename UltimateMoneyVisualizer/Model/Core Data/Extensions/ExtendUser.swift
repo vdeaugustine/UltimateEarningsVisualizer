@@ -37,6 +37,8 @@ public extension User {
 
                 // Make today shift
                 try TodayShift.makeExampleTodayShift(user: self, context: viewContext)
+                
+                RegularSchedule([.monday, .tuesday, .wednesday, .thursday, .friday], user: self, context: viewContext)
 
                 // Make temporary allocations
             } catch {
@@ -293,6 +295,7 @@ public extension User {
         
         return savedItems.sorted(by: { $0.getDate() > $1.getDate() })
     }
+   
 
     func totalDollarsSaved() -> Double {
         getSaved().reduce(Double(0)) { $0 + $1.getAmount() }

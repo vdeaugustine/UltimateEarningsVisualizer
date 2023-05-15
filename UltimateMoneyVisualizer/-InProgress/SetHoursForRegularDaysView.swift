@@ -5,19 +5,89 @@
 //  Created by Vincent DeAugustine on 5/13/23.
 //
 
+import AlertToast
 import SwiftUI
+import Vin
 
 // MARK: - SetHoursForRegularDaysView
 
 struct SetHoursForRegularDaysView: View {
-    @ObservedObject private var daysContainer = RegularDaysContainer.shared
+    @Environment(\.managedObjectContext) private var viewContext
+    @ObservedObject var daysContainer: RegularDaysContainer
 
     @State private var showTimeSheet = false
 
     @State private var selectedDay: DayOfWeek = .monday
 
+    @State private var showAlert = false
+
+    @State private var alertConfig = AlertToast.successWith(message: "")
+
+    @ObservedObject private var user = User.main
+
+    var totalTime: Double {
+        var total: Double = 0
+        for day in daysContainer.daysOfWeekSelected {
+            guard let start = daysContainer.startTimeDict[day],
+                  let end = daysContainer.endTimeDict[day]
+            else {
+                continue
+            }
+            let duration = end - start
+            total += duration
+        }
+
+        return total
+    }
+
+    var totalDays: Int {
+        daysContainer.daysOfWeekSelected.count
+    }
+
     var body: some View {
         List {
+            Section {
+                HStack {
+                    VStack {
+                        Text(totalDays.str)
+                            .fontWeight(.medium)
+                            .minimumScaleFactor(0.01)
+                        Text("Days")
+                            .fontWeight(.bold)
+                            .foregroundStyle(user.getSettings().getDefaultGradient())
+                            .minimumScaleFactor(0.01)
+                    }
+
+                    Divider().padding(.horizontal)
+
+                    VStack {
+                        Text(totalTime.formatForTime([.hour]))
+                            .fontWeight(.medium)
+                            .minimumScaleFactor(0.01)
+                        Text("Hours")
+                            .fontWeight(.bold)
+                            .foregroundStyle(user.getSettings().getDefaultGradient())
+                            .minimumScaleFactor(0.01)
+                    }
+                    
+                    Divider().padding(.horizontal)
+                    
+                    VStack {
+                        Text((totalTime / Double(totalDays)).formatForTime([.hour, .minute]))
+                            .fontWeight(.medium)
+                            .minimumScaleFactor(0.01)
+                        Text("Avg")
+                            .fontWeight(.bold)
+                            .foregroundStyle(user.getSettings().getDefaultGradient())
+                            .minimumScaleFactor(0.01)
+                    }
+                }
+                .padding(.horizontal)
+                
+                .centerInParentView()
+                .listRowBackground(Color.listBackgroundColor)
+            }
+
             ForEach(daysContainer.daysOfWeekSelected) { day in
 
                 Section(day.rawValue) {
@@ -62,20 +132,25 @@ struct SetHoursForRegularDaysView: View {
                 }
             }
         }
-        .onAppear {
-            // TODO: Get rid of this. Only for building
-            #if DEBUG
-                DayOfWeek.orderedCases.forEach {
-                    daysContainer.handleDayOfWeek($0)
-                }
-            #endif
-        }
-
+        .listStyle(.insetGrouped)
         .sheet(isPresented: $showTimeSheet) {
             TimeSheet(day: selectedDay, showHoursSheet: $showTimeSheet)
         }
         .navigationTitle("Set Hours")
         .putInTemplate()
+        .bottomButton(label: "Save", padding: 50) {
+            do {
+                try daysContainer.finalizeAndSave(user: user, context: viewContext)
+                alertConfig = .successWith(message: "Successfully saved schedule")
+                showAlert.toggle()
+            } catch {
+                alertConfig = .errorWith(message: "Error saving schedule. Please try again.")
+                showAlert.toggle()
+            }
+        }
+        .toast(isPresenting: $showAlert) {
+            alertConfig
+        }
     }
 
     struct TimeSheet: View {
@@ -83,8 +158,8 @@ struct SetHoursForRegularDaysView: View {
 
         @ObservedObject private var daysContainer = RegularDaysContainer.shared
 
-        @State private var start: Date = .nineAM
-        @State private var end: Date = .fivePM
+        @State private var start: Date = RegularDaysContainer.shared.lastStart
+        @State private var end: Date = RegularDaysContainer.shared.lastEnd
         @Binding var showHoursSheet: Bool
 
         @ObservedObject var settings = User.main.getSettings()
@@ -129,7 +204,7 @@ struct SetHoursForRegularDaysView: View {
 
 struct SetHoursForRegularDaysView_Previews: PreviewProvider {
     static var previews: some View {
-        SetHoursForRegularDaysView()
+        SetHoursForRegularDaysView(daysContainer: RegularDaysContainer.shared)
             .putInNavView(.inline)
     }
 }

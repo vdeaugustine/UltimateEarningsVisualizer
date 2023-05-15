@@ -22,11 +22,13 @@ struct ContentView: View {
 
     var body: some View {
         TabView(selection: $tab) {
-            HomeView()
+            
+            RegularScheduleView()
+//            HomeView()
                 .putInNavView(.inline)
                 .makeTab(tab: Tabs.home, systemImage: "house")
             
-            AllItemsView()
+            HomeView()
                 .putInNavView(.inline)
                 .makeTab(tab: Tabs.allItems, systemImage: "dollarsign")
             
