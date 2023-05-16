@@ -22,6 +22,7 @@ struct ContentView: View {
 
     var body: some View {
         TabView(selection: $tab) {
+            
             HomeView()
                 .putInNavView(.inline)
                 .makeTab(tab: Tabs.home, systemImage: "house")

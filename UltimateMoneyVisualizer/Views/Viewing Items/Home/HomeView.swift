@@ -298,7 +298,7 @@ struct HomeView: View {
                     Image(systemName: "chart.line.downtrend.xyaxis.circle.fill")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .foregroundStyle(.red.getGradient())
+                        .foregroundStyle(Color.niceRed.getGradient())
                         .background(Circle().fill(.white))
                         .frame(width: widthAndHeight, height: widthAndHeight)
                 }
@@ -308,7 +308,7 @@ struct HomeView: View {
                     Image(systemName: "chart.line.uptrend.xyaxis.circle.fill")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .foregroundStyle(.green.getGradient())
+                        .foregroundStyle(Color.okGreen.getGradient())
                         .background(Circle().fill(.white))
                         .frame(width: widthAndHeight, height: widthAndHeight)
                 }

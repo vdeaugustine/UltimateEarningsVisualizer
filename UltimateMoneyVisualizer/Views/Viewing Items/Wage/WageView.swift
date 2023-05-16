@@ -14,7 +14,7 @@ import SwiftUI
 struct WageView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Wage.amount, ascending: false)]) private var wages: FetchedResults<Wage>
-    
+
     @FetchRequest(sortDescriptors: []) var users: FetchedResults<User>
 
     #if DEBUG
@@ -55,121 +55,55 @@ struct WageView: View {
     }
 
     var body: some View {
-//        VStack {
-//            if isEditing {
-//                Form {
-//                    Section(header: Text("Edit Wage")) {
-//                        TextField("Hourly Wage", text: $hourlyWage)
-//                            .keyboardType(.decimalPad)
-//
-//                        Toggle("I have a salary", isOn: $isSalaried)
-//
-//                        if isSalaried {
-//                            TextField("Salary", text: $salary)
-//                                .keyboardType(.decimalPad)
-//                            TextField("Hours per Week", text: $hoursPerWeek)
-//                                .keyboardType(.decimalPad)
-//                            TextField("Vacation Days", text: $vacationDays)
-//                                .keyboardType(.decimalPad)
-//
-//                            Button("Calculate Hourly Wage") {
-//                                calculateHourlyWage()
-//                            }
-//
-//                            if let calculatedHourlyWage = calculatedHourlyWage {
-//                                Text("Calculated Hourly Wage: \(String(format: "%.2f", calculatedHourlyWage))")
-//                                    .foregroundColor(.secondary)
-//                                Button("Use Calculated Wage") {
-//                                    populateHourlyWage()
-//                                }
-//                            }
-//                        }
-//                    }
-//
-//                    Section {
-//                        Button("Save") {
-//                            guard let dub = Double(hourlyWage) else {
-//                                showErrorToast = true
-//                                errorMessage = "Please enter a valid hourly wage"
-//                                return
-//                            }
-//
-//                            do {
-//                                let wage = Wage(context: viewContext)
-//                                wage.amount = dub
-//
-//                                guard let user = users.first else {
-//                                    throw NSError(domain: "No user present", code: 99)
-//                                }
-//
-//                                user.wage = wage
-//                                wage.user = user
-//
-//                                try viewContext.save()
-//                                showSuccessfulSaveToast = true
-//                            } catch {
-//                                print(error)
-//                            }
-//                        }
-//                    }
-//                }
-//                .navigationTitle("Edit Wage")
-//            } else {
-                List {
-                    Section(header: Text("Current Wage")) {
-                        Text("\(wages.first?.amount ?? 0.0, specifier: "%.2f") per hour")
-                    }
-                    
-                    
-                    Section {
-                        VStack(spacing: 12) {
-                            Text("Period")
+        List {
+            Section(header: Text("Current Wage")) {
+                Text("\(wages.first?.amount ?? 0.0, specifier: "%.2f") per hour")
+            }
+
+            Section {
+                VStack(spacing: 12) {
+                    Text("Period")
+                        .font(.headline)
+                        .fontWeight(.medium)
+                        .spacedOut {
+                            Text("Amount")
                                 .font(.headline)
                                 .fontWeight(.medium)
-                                .spacedOut {
-                                    Text("Amount")
-                                        .font(.headline)
-                                        .fontWeight(.medium)
-                                }
-                            VStack {
-                                Group {
-                                    Text("Year")
-                                        .spacedOut(text: wage.perYear.formattedForMoney())
-                                    Divider()
-                                    Text("Month")
-                                        .spacedOut(text: wage.perMonth.formattedForMoney())
-                                    Divider()
-                                    Text("Week")
-                                        .spacedOut(text: wage.perWeek.formattedForMoney())
-                                    Divider()
-                                    Text("Day")
-                                        .spacedOut(text: wage.perDay.formattedForMoney())
-                                    Divider()
-                                    Text("Hour")
-                                        .spacedOut(text: wage.hourly.formattedForMoney())
-                                }
-                                Divider()
-                                Text("Minute")
-                                    .spacedOut(text: wage.perMinute.formattedForMoney())
-                                Divider()
-                                Text("Second")
-                                    .spacedOut(text: wage.perSecond.formattedForMoney())
-                            }
-                            .font(.subheadline)
                         }
+                    VStack {
+                        Group {
+                            Text("Year")
+                                .spacedOut(text: wage.perYear.formattedForMoney())
+                            Divider()
+                            Text("Month")
+                                .spacedOut(text: wage.perMonth.formattedForMoney())
+                            Divider()
+                            Text("Week")
+                                .spacedOut(text: wage.perWeek.formattedForMoney())
+                            Divider()
+                            Text("Day")
+                                .spacedOut(text: wage.perDay.formattedForMoney())
+                            Divider()
+                            Text("Hour")
+                                .spacedOut(text: wage.hourly.formattedForMoney())
+                        }
+                        Divider()
+                        Text("Minute")
+                            .spacedOut(text: wage.perMinute.formattedForMoney())
+                        Divider()
+                        Text("Second")
+                            .spacedOut(text: wage.perSecond.formattedForMoney())
                     }
-                    
-                    
-                    
+                    .font(.subheadline)
                 }
-                
-                
+            }
+        }
+
 //            }
 //        }
         .putInTemplate()
         .navigationTitle("View Wage")
-        
-        
+
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink("Edit") {
@@ -177,7 +111,7 @@ struct WageView: View {
                 }
             }
         }
-        
+
 //        .navigationBarItems(trailing: Button(action: {
 //            isEditing.toggle()
 //        }) {

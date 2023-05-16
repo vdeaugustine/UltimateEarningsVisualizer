@@ -32,8 +32,8 @@ extension View {
         modifier(RectContainerModifier(shadowRadius: shadowRadius, cornerRadius: cornerRadius))
     }
 
-    func bottomButton(label: String, gradient: LinearGradient? = nil, action: @escaping () -> Void) -> some View {
-        modifier(BottomButtonModifier(label: label, gradient: gradient, action: action))
+    func bottomButton(label: String, gradient: LinearGradient? = nil, padding: CGFloat = 50, action: @escaping () -> Void) -> some View {
+        modifier(BottomButtonModifier(label: label, gradient: gradient, padding: padding, action: action))
     }
 
     func bottomCapsule(label: String,
@@ -119,11 +119,13 @@ struct BottomViewButton: View {
 struct BottomButtonModifier: ViewModifier {
     let label: String
     let gradient: LinearGradient?
+    let padding: CGFloat
     let action: () -> Void
 
     func body(content: Content) -> some View {
         ZStack {
             content
+                .padding(.bottom, padding)
             VStack {
                 Spacer()
                 Button(action: action) {

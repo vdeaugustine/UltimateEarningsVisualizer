@@ -5,34 +5,44 @@
 //  Created by Vincent DeAugustine on 4/26/23.
 //
 
-
-import SwiftUI
 import CoreData
+import SwiftUI
+
+// MARK: - RegularScheduleView
 
 struct RegularScheduleView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \WorkSchedule.dayOfWeek, ascending: true)],
-        animation: .default)
-    private var workSchedules: FetchedResults<WorkSchedule>
+    @ObservedObject private var user: User = .main
 
     var body: some View {
         List {
-            ForEach(workSchedules, id: \.self) { workSchedule in
-                HStack {
-                    Text(workSchedule.dayOfWeek ?? "")
-                    Spacer()
-                    Text("\(workSchedule.startTime!, formatter: timeFormatter) - \(workSchedule.endTime!, formatter: timeFormatter)")
+            if let schedule = user.regularSchedule {
+                ForEach(schedule.getRegularDays()) { day in
+
+                    if let dayOfWeek = day.getDayOfWeek() {
+                        Section(dayOfWeek.rawValue) {
+                            if let startTime = day.getStartTime() {
+                                Text("Start time")
+                                    .spacedOut(text: startTime.getFormattedDate(format: "h:mm a"))
+                            }
+                            if let endTime = day.getEndTime() {
+                                Text("End time")
+                                    .spacedOut(text: endTime.getFormattedDate(format: "h:mm a"))
+                            }
+                        }
+                    }
                 }
+            } else {
+                Text("No schedule")
             }
         }
         .putInTemplate()
-        .navigationTitle("Work Schedules")
+        .navigationTitle("Regular Schedule")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink("Edit") {
-                    SelectRegularDaysView()
+                    SelectDaysView()
                 }
             }
         }
@@ -45,6 +55,8 @@ struct RegularScheduleView: View {
     }
 }
 
+// MARK: - RegularScheduleView_Previews
+
 struct RegularScheduleView_Previews: PreviewProvider {
     static var previews: some View {
         RegularScheduleView()
@@ -53,4 +65,3 @@ struct RegularScheduleView_Previews: PreviewProvider {
             .putInNavView(.inline)
     }
 }
-

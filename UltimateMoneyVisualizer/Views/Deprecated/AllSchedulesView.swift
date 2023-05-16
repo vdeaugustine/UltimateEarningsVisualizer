@@ -22,8 +22,8 @@ struct AllSchedulesView: View {
                         Text(day)
                     }
 
-                    if let datecreated = workSchedule.dateCreated {
-                        Text(datecreated.getFormattedDate(format: .monthDay))
+                    if let dateCreated = workSchedule.dateCreated {
+                        Text(dateCreated.getFormattedDate(format: .monthDay))
                     }
                 }
             }

@@ -34,6 +34,9 @@ public enum DayOfWeek: String, CaseIterable, Identifiable, Hashable {
                 return 8
         }
     }
+    
+    static var orderedCases: [DayOfWeek] = [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday]
+    
 
     public var id: String { rawValue }
 

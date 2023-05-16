@@ -41,9 +41,18 @@
         <attribute name="list" optional="YES" attributeType="String"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="payoffQueue" inverseEntity="User"/>
     </entity>
+    <entity name="RegularDay" representedClassName="RegularDay" syncable="YES" codeGenerationType="class">
+        <attribute name="dayName" optional="YES" attributeType="String"/>
+        <attribute name="endTime" optional="YES" attributeType="String"/>
+        <attribute name="isActive" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="startTime" optional="YES" attributeType="String"/>
+        <relationship name="schedules" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RegularSchedule" inverseName="days" inverseEntity="RegularSchedule"/>
+    </entity>
     <entity name="RegularSchedule" representedClassName="RegularSchedule" syncable="YES" codeGenerationType="class">
         <attribute name="dateCreated" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="daysHours" optional="YES" attributeType="String"/>
+        <attribute name="dateLastModified" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="isActive" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <relationship name="days" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RegularDay" inverseName="schedules" inverseEntity="RegularDay"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="regularSchedule" inverseEntity="User"/>
     </entity>
     <entity name="Saved" representedClassName="Saved" syncable="YES" codeGenerationType="class">
