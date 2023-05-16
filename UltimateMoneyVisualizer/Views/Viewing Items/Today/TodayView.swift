@@ -94,24 +94,21 @@ struct TodayView: View {
         if let todayShift,
            let endTime = todayShift.endTime,
            !hasShownBanner {
-
             if isCurrentlyMidShift == false {
                 showBanner = true
             }
         }
     }
-
-
 }
 
 // MARK: - View functions and computed properties
 
 extension TodayView {
     // MARK: - timeMoneyPicker
-    
+
     struct TimeMoneyPicker: View {
         @Binding var showTimeOrMoney: String
-        
+
         var body: some View {
             Picker("Time/Money", selection: $showTimeOrMoney) {
                 Text("Money")
@@ -124,52 +121,46 @@ extension TodayView {
         }
     }
 
-
-  
-
     // MARK: - Start End Total
 
     struct StartEndTotalView: View {
         @Binding var showHoursSheet: Bool
         let showingTime: Bool
         let todayShift: TodayShift
-        
+
         var body: some View {
             VStack {
                 Text("Hours for \(Date.now.getFormattedDate(format: .abreviatedMonth))")
                     .font(.headline)
                     .spacedOut {
-                                        Button {
-                                            showHoursSheet.toggle()
-                                        } label: {
-                                            Text("Edit")
-                                                .font(.subheadline)
-                                        }
-                                    }
+                        Button {
+                            showHoursSheet.toggle()
+                        } label: {
+                            Text("Edit")
+                                .font(.subheadline)
+                        }
+                    }
                     .padding(.horizontal)
 
                 if let start = todayShift.startTime,
                    let end = todayShift.endTime {
-                    HorizontalDataDisplay(data: [
-                        .init(label: "Start",
-                              value: start.getFormattedDate(format: .minimalTime, amPMCapitalized: false),
-                              view: nil),
-                        .init(label: "End",
-                              value: end.getFormattedDate(format: .minimalTime, amPMCapitalized: false),
-                              view: nil),
-                        showingTime ?
-                            .init(label: "Total",
-                                  value: todayShift.totalShiftDuration.formatForTime(),
-                                  view: nil) :
-                            .init(label: "Will Earn",
-                                  value: todayShift.totalWillEarn.formattedForMoney(),
-                                  view: nil)
-                    ])
+                    HorizontalDataDisplay(data: [.init(label: "Start",
+                                                       value: start.getFormattedDate(format: .minimalTime, amPMCapitalized: false),
+                                                       view: nil),
+                                                 .init(label: "End",
+                                                       value: end.getFormattedDate(format: .minimalTime, amPMCapitalized: false),
+                                                       view: nil),
+                                                 showingTime ?
+                                                     .init(label: "Total",
+                                                           value: todayShift.totalShiftDuration.formatForTime(),
+                                                           view: nil) :
+                                                     .init(label: "Will Earn",
+                                                           value: todayShift.totalWillEarn.formattedForMoney(),
+                                                           view: nil)])
                 }
             }
         }
     }
-
 
     // MARK: - Individual Views
 
@@ -178,11 +169,11 @@ extension TodayView {
         let todayShift: TodayShift
         let nowTime: Date
         let settings: Settings // Assuming you have a `Settings` model
-        
+
         var isCurrentlyMidShift: Bool
-        
+
         var user: User
-        
+
         var body: some View {
             VStack {
                 HStack {
@@ -210,7 +201,6 @@ extension TodayView {
         }
     }
 
-
     // MARK: - Payoff Item Section
 
     // MARK: - Today's Spending Section
@@ -218,50 +208,23 @@ extension TodayView {
     func todaysSpending(todayShift: TodayShift) -> some View {
         VStack {
             HStack {
-                Text("Today's Spending Breakdown")
+                Text("Today's Spending")
                     .font(.title3)
                     .fontWeight(.bold)
                 Spacer()
+
+                NavigationLink("Edit Queue") {
+                    PayoffQueueView()
+                }
             }
 
             TodayPayoffGrid(shiftDuration: todayShift.totalShiftDuration, haveEarned: todayShift.totalEarnedSoFar(nowTime))
-            
-            NavigationLink("Edit Queue") {
-                PayoffQueueView()
-            }
         }
 
         .padding()
         .padding(.vertical)
         .background(Color.white)
     }
-    
-////    struct TodaysSpendingView: View {
-////        let todayShift: TodayShift
-////        let nowTime: Date
-////
-////        var body: some View {
-////            VStack {
-////                HStack {
-////                    Text("Today's Spending")
-////                        .font(.title3)
-////                        .fontWeight(.bold)
-////                    Spacer()
-////
-////                    NavigationLink("Edit Queue") {
-////                        PayoffQueueView()
-////                    }
-////                }
-////
-////                TodayPayoffGrid(shiftDuration: todayShift.totalShiftDuration, haveEarned: todayShift.totalEarnedSoFar(nowTime))
-////            }
-////            .padding()
-////            .padding(.vertical)
-////            .background(Color.white)
-////        }
-////    }
-//
-//}
 }
 
 // MARK: - AnimatePlusAmount

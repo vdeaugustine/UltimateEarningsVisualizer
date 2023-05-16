@@ -13,6 +13,8 @@
 		9C05059A2A10A01B00FC6511 /* RegularScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0505992A10A01B00FC6511 /* RegularScheduleTests.swift */; };
 		9C05059C2A10A5BF00FC6511 /* ExtendRegularDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C05059B2A10A5BF00FC6511 /* ExtendRegularDay.swift */; };
 		9C05059E2A10B0B500FC6511 /* SetHoursForRegularDaysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C05059D2A10B0B500FC6511 /* SetHoursForRegularDaysView.swift */; };
+		9C0505A12A11EBF700FC6511 /* ConfirmTodayShift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0505A02A11EBF700FC6511 /* ConfirmTodayShift.swift */; };
+		9C0505A32A13043F00FC6511 /* DatesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0505A22A13043F00FC6511 /* DatesTests.swift */; };
 		9C3C58622A0C8BE200169A0F /* DateCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3C58612A0C8BE200169A0F /* DateCircle.swift */; };
 		9C3C58642A0C9ED500169A0F /* AddAllocationForExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3C58632A0C9ED500169A0F /* AddAllocationForExpenseView.swift */; };
 		9C3C58662A0CB89800169A0F /* AddAllocationForGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3C58652A0CB89800169A0F /* AddAllocationForGoalView.swift */; };
@@ -134,6 +136,8 @@
 		9C0505992A10A01B00FC6511 /* RegularScheduleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegularScheduleTests.swift; sourceTree = "<group>"; };
 		9C05059B2A10A5BF00FC6511 /* ExtendRegularDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendRegularDay.swift; sourceTree = "<group>"; };
 		9C05059D2A10B0B500FC6511 /* SetHoursForRegularDaysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetHoursForRegularDaysView.swift; sourceTree = "<group>"; };
+		9C0505A02A11EBF700FC6511 /* ConfirmTodayShift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmTodayShift.swift; sourceTree = "<group>"; };
+		9C0505A22A13043F00FC6511 /* DatesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatesTests.swift; sourceTree = "<group>"; };
 		9C3C58612A0C8BE200169A0F /* DateCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCircle.swift; sourceTree = "<group>"; };
 		9C3C58632A0C9ED500169A0F /* AddAllocationForExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAllocationForExpenseView.swift; sourceTree = "<group>"; };
 		9C3C58652A0CB89800169A0F /* AddAllocationForGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AddAllocationForGoalView.swift; path = "UltimateMoneyVisualizer/Views/Adding Items/Allocations/AddAllocationForGoalView.swift"; sourceTree = SOURCE_ROOT; };
@@ -268,6 +272,15 @@
 			path = Allocations;
 			sourceTree = "<group>";
 		};
+		9C05059F2A11E7B500FC6511 /* Deprecated */ = {
+			isa = PBXGroup;
+			children = (
+				9C7C983B29F9EDDF0077EA25 /* SelectRegularDaysView.swift */,
+				9C7C984029F9F7B20077EA25 /* AllSchedulesView.swift */,
+			);
+			path = Deprecated;
+			sourceTree = "<group>";
+		};
 		9C460EE72A049DC30007EBA9 /* New Money Items */ = {
 			isa = PBXGroup;
 			children = (
@@ -341,8 +354,8 @@
 		9C7C984329FA0D840077EA25 /* Schedule */ = {
 			isa = PBXGroup;
 			children = (
-				9C7C983B29F9EDDF0077EA25 /* SelectRegularDaysView.swift */,
-				9C7C984029F9F7B20077EA25 /* AllSchedulesView.swift */,
+				9C0505952A10892800FC6511 /* SelectDaysView.swift */,
+				9C05059D2A10B0B500FC6511 /* SetHoursForRegularDaysView.swift */,
 			);
 			path = Schedule;
 			sourceTree = "<group>";
@@ -444,6 +457,7 @@
 				9C442A382A03798C00D61C3E /* WageTests.swift */,
 				9C460EEA2A04D3060007EBA9 /* UserFunctionsTests.swift */,
 				9C0505992A10A01B00FC6511 /* RegularScheduleTests.swift */,
+				9C0505A22A13043F00FC6511 /* DatesTests.swift */,
 			);
 			path = UltimateMoneyVisualizerTests;
 			sourceTree = "<group>";
@@ -516,8 +530,8 @@
 		9C7F96A429F8FEEB00F5035C /* -InProgress */ = {
 			isa = PBXGroup;
 			children = (
-				9C0505952A10892800FC6511 /* SelectDaysView.swift */,
-				9C05059D2A10B0B500FC6511 /* SetHoursForRegularDaysView.swift */,
+				9C0505A02A11EBF700FC6511 /* ConfirmTodayShift.swift */,
+				9CB418C12A0A0E07006F44AB /* TempTodayPayoff.swift */,
 				9C7C985529FB722D0077EA25 /* Components */,
 				9C97358F2A0D789000F651A1 /* Incomplete(Abandoned) */,
 			);
@@ -527,7 +541,6 @@
 		9C97358F2A0D789000F651A1 /* Incomplete(Abandoned) */ = {
 			isa = PBXGroup;
 			children = (
-				9CB418C12A0A0E07006F44AB /* TempTodayPayoff.swift */,
 			);
 			path = "Incomplete(Abandoned)";
 			sourceTree = "<group>";
@@ -572,9 +585,10 @@
 		9CEEE32C29F904A0001FA4FB /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				9C7C985629FB72320077EA25 /* Components */,
-				9CEEE32F29F904BB001FA4FB /* Viewing Items */,
 				9CEEE32D29F904A3001FA4FB /* Adding Items */,
+				9C7C985629FB72320077EA25 /* Components */,
+				9C05059F2A11E7B500FC6511 /* Deprecated */,
+				9CEEE32F29F904BB001FA4FB /* Viewing Items */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -859,6 +873,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C0505A12A11EBF700FC6511 /* ConfirmTodayShift.swift in Sources */,
 				9C7C983C29F9EDDF0077EA25 /* SelectRegularDaysView.swift in Sources */,
 				9C514DAA29FF71B5003DC43C /* RectContainerModifier.swift in Sources */,
 				9CEEE33629F90873001FA4FB /* CreateGoalView.swift in Sources */,
@@ -961,6 +976,7 @@
 				9C7C985C29FCCF760077EA25 /* TodayShiftTests.swift in Sources */,
 				9C460EEB2A04D3060007EBA9 /* UserFunctionsTests.swift in Sources */,
 				9C7F967229F8F03E00F5035C /* UltimateMoneyVisualizerTests.swift in Sources */,
+				9C0505A32A13043F00FC6511 /* DatesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

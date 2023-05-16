@@ -29,19 +29,7 @@ struct ExpenseRow: View {
                         .font(.caption2)
                 }
 
-//                if let due = expense.dueDate
-//                    {
-//
-//                    if due.timeIntervalSince(.now) > 0 {
-//                        Text("due in " + expense.timeRemaining.formatForTime([.year, .day, .hour, .minute, .second]))
-//                            .font(.caption2)
-//                    }
-//                    else {
-//                        Text("past due")
-//                            .font(.caption2)
-//                    }
-//
-//                }
+
             }
 
             VStack(alignment: .leading, spacing: 5) {

@@ -32,40 +32,33 @@ struct EnterWageView: View {
     @State private var daysPerWeek: Int = Int(User.main.getWage().daysPerWeek)
     @State private var weeksPerYear: Int = Int(User.main.getWage().weeksPerYear)
     let hoursOptions = stride(from: 1.0, to: 24.25, by: 0.5).map { $0 }
-    
+
     var hourlyFromSalary: Double? {
-        
         guard let initialSalaryValue = Double(salaryStringEntered)
-              
-//              let hoursPerWeekValue = Double(hoursPerWeek)
+
         else { return nil }
-        
+
         let diviedSalaryValue = initialSalaryValue / 100
 
         let weeksPerYear = Double(weeksPerYear)
-//        let vacationWeeks = vacationDaysValue / 5.0
         let workingWeeks = Double(weeksPerYear)
         let totalWorkingHours = workingWeeks * hoursPerDay * Double(daysPerWeek)
         let thisHourlyWage = diviedSalaryValue / totalWorkingHours
-        
+
         return thisHourlyWage
     }
 
     private func calculateHourlyWage() {
         guard let salaryValue = Double(salaryStringEntered.prefix(salaryStringEntered.count - 2))
-//              let hoursPerWeekValue = Double(hoursPerWeek)
         else { return }
 
         let weeksPerYear = Double(weeksPerYear)
-//        let vacationWeeks = vacationDaysValue / 5.0
         let workingWeeks = Double(weeksPerYear)
         let totalWorkingHours = workingWeeks * hoursPerDay * Double(daysPerWeek)
         let thisHourlyWage = salaryValue / totalWorkingHours
 
         calculatedHourlyWage = thisHourlyWage
     }
-
-    
 
     var doubleFromEnteredHourlyWageString: Double {
         if let dub = Double(hourlyWageStringEntered) {
@@ -74,7 +67,7 @@ struct EnterWageView: View {
 
         return 0
     }
-    
+
     var doubleFromEnteredSalaryString: Double {
         if let dub = Double(salaryStringEntered) {
             return dub / 100
@@ -101,7 +94,6 @@ struct EnterWageView: View {
                 HStack {
                     SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
                     Text(stringOfHourly)
-                        .font(.title2)
                     Spacer()
                     Button(showHourlyField ? "Done" : "Edit") {
                         showHourlyField.toggle()
@@ -123,21 +115,11 @@ struct EnterWageView: View {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
                         Text(stringOfSalary)
-                            .font(.title2)
                     }
 
                     TextField("Salary", text: $salaryStringEntered)
-                        
+
                         .keyboardType(.decimalPad)
-
-//                    TextField("Hours per Week", text: $hoursPerWeek)
-//                        .keyboardType(.decimalPad)
-//                    TextField("Vacation Days", text: $vacationDays)
-//                        .keyboardType(.decimalPad)
-
-//                    Button("Calculate Hourly Wage") {
-//                        calculateHourlyWage()
-//                    }
                 }
 
                 if let calculatedHourlyWage = hourlyFromSalary {
@@ -184,7 +166,7 @@ struct EnterWageView: View {
                 Text("When calculating daily, weekly, monthly, and yearly, these values will be used respectively")
             }
         }
-        
+
         .putInTemplate()
         .navigationTitle("My Wage")
         .toast(isPresenting: $showErrorToast, duration: 2, tapToDismiss: true) {
@@ -209,7 +191,6 @@ struct EnterWageView: View {
                 wage.daysPerWeek = Double(daysPerWeek)
                 wage.hoursPerDay = Double(hoursPerDay)
                 wage.weeksPerYear = Double(weeksPerYear)
-                
 
                 try viewContext.save()
                 showSuccessfulSaveToast = true

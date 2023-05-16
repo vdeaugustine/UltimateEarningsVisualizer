@@ -53,5 +53,27 @@ public extension Date {
 
         return calendar.date(from: currentDayComponents)
     }
+    
+    func groupDatesByWeek(_ dates: [Date]) -> [[Date]] {
+        var groupedDates: [[Date]] = []
+        
+        // Sort the dates in ascending order
+        let sortedDates = dates.sorted()
+        
+        for date in sortedDates {
+            if let lastWeek = groupedDates.last, let lastDate = lastWeek.last {
+                // Check if the current date is in the same calendar week as the last date
+                if Calendar.current.isDate(date, equalTo: lastDate, toGranularity: .weekOfYear) {
+                    groupedDates[groupedDates.count - 1].append(date)
+                } else {
+                    groupedDates.append([date])
+                }
+            } else {
+                groupedDates.append([date])
+            }
+        }
+        
+        return groupedDates
+    }
 
 }
