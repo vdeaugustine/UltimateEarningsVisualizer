@@ -90,7 +90,6 @@ struct ShiftListView: View {
                             } label: {
                                 Label("Add shifts", systemImage: "plus")
                                     .padding()
-                                    //                            .padding(.horizontal)
                                     .rectContainer(shadowRadius: 0, cornerRadius: 7)
                             }
 
@@ -121,27 +120,6 @@ struct ShiftListView: View {
                             }
                         }
                     }
-
-//                    Section {
-//                        if pastShifts.isEmpty {
-//                            Text("No shifts recorded yet")
-//                        } else {
-//                            ForEach(pastShifts) { shift in
-//                                NavigationLink {
-//                                    ShiftDetailView(shift: shift)
-//                                } label: {
-//                                    ShiftRowView(shift: shift)
-//                                }
-//                            }
-//                            .onDelete(perform: deleteShifts)
-//                        }
-//
-//                    } header: {
-//                        Text("Recent")
-//                            .textCase(nil)
-//                            .font(.headline)
-//                            .foregroundColor(.black)
-//                    }
                 }
                 .listStyle(.insetGrouped)
             }

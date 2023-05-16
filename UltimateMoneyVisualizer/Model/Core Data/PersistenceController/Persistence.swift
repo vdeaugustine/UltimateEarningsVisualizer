@@ -30,9 +30,9 @@ public struct PersistenceController {
         }()
     #endif
 
-    let container: NSPersistentCloudKitContainer
+    public let container: NSPersistentCloudKitContainer
 
-    init(inMemory: Bool = false) {
+    public init(inMemory: Bool = false) {
         self.container = NSPersistentCloudKitContainer(name: "UltimateMoneyVisualizer")
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")

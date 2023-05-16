@@ -96,12 +96,7 @@ struct MultipleNewShiftsView: View {
                     }
                     catch {
                         print("error saving", error)
-//                        fatalError("Error saving shift in MultipleNewShiftsView")
                     }
-                    
-
-//                    let newShift = Shift(startTime: st, endTime: et)
-//                    model.allShifts.addShift(newShift)
                 }
         }
         .toast(isPresenting: $showAlertToast) {

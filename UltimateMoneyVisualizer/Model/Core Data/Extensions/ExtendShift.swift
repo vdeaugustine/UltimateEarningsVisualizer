@@ -16,6 +16,9 @@ public extension Shift {
         self.endDate = end
         self.dayOfWeek = day.rawValue
         self.user = user
+        
+        
+        
         try context.save()
     }
 

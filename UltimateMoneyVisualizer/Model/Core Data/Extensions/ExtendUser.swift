@@ -363,6 +363,23 @@ public extension User {
         return expenseWithMostAllocations
     }
 
+    func getDuplicateShifts() -> [Shift] {
+        let shifts = getShifts()
+
+        var duplicates = [Shift]()
+        var checkedShifts = Set<Shift>()
+
+        for shift in shifts {
+            if checkedShifts.contains(where: { $0.start == shift.start && $0.end == shift.end }) {
+                duplicates.append(shift)
+            } else {
+                checkedShifts.insert(shift)
+            }
+        }
+
+        return duplicates
+    }
+
     // MARK: - Group shifts by week
 
     /**
