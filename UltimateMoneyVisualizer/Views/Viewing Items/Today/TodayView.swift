@@ -329,7 +329,6 @@ struct SelectHours: View {
             Button {
                 do {
                     let ts = try TodayShift(startTime: start, endTime: end, user: user, context: viewContext)
-                    print(user.getTodayShift() ?? "NO TODAY SHIFT")
 
                     todayShift = ts
 

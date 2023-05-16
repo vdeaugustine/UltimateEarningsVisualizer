@@ -145,7 +145,6 @@ public extension TodayShift {
                 }
 
                 let newAllocation = try Allocation(amount: payoff.progressAmount, expense: nil, goal: goal, shift: shift, saved: nil, date: .now, context: context)
-                print("Saved new allocation", newAllocation.goal?.titleStr ?? "NA")
             }
 
             if payoff.type == .expense {
@@ -155,7 +154,6 @@ public extension TodayShift {
                 }
 
                 let newAllocation = try Allocation(amount: payoff.progressAmount, expense: expense, goal: nil, shift: shift, saved: nil, date: .now, context: context)
-                print("Saved new allocation", newAllocation.expense?.titleStr ?? "NA")
             }
         }
     }

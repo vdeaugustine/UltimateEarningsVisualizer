@@ -74,18 +74,7 @@ struct SavedListView: View {
         }
     }
 
-//    private func deleteSavedItems(offsets: IndexSet) {
-//        offsets.map { savedItems[$0] }.forEach {
-//            user.removeFromSavedItems($0)
-//            user.managedObjectContext!.delete($0)
-//        }
-//        do {
-//            try viewContext.save()
-//            print("Saved successfully")
-//        } catch {
-//            print("Saved")
-//        }
-//    }
+
 }
 
 

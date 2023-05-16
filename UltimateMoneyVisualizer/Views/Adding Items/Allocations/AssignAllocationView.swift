@@ -110,16 +110,12 @@ struct AssignAllocationToPayoffView: View {
         }
         .onChange(of: shift) { newShift in
 
-            print("Changed Shift")
             if newShift != nil {
-                print("New shift")
                 saved = nil
             }
         }
         .onChange(of: saved) { newSaved in
-            print("Changed Saved")
             if newSaved != nil {
-                print("New Saved")
                 shift = nil
             }
         }
@@ -145,7 +141,6 @@ struct AssignAllocationToPayoffView: View {
                     try Allocation(amount: allocAmount, expense: nil, goal: goal, shift: shift, saved: saved, date: .now, context: viewContext)
                 }
                 
-                print("Saved")
                 toastConfiguration = AlertToast(displayMode: .alert, type: .complete(settings.themeColor), title: "Saved successfully")
                 showAlert = true
             }

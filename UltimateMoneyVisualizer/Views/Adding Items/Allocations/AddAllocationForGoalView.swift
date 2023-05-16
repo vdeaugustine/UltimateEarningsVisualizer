@@ -149,9 +149,7 @@ struct AddAllocationForGoalView: View {
                         Text(range.lowerBound.formattedForMoney().replacingOccurrences(of: "$", with: ""))
                     } maximumValueLabel: {
                         Text(range.upperBound.formattedForMoney().replacingOccurrences(of: "$", with: ""))
-                    } onEditingChanged: { isEditing in
-                        print(isEditing)
-                    }
+                    } 
                     .padding()
                 }
             }
@@ -235,8 +233,6 @@ struct AddAllocationForGoalView: View {
                         Text(range.lowerBound.formattedForMoney().replacingOccurrences(of: "$", with: ""))
                     } maximumValueLabel: {
                         Text(range.upperBound.formattedForMoney().replacingOccurrences(of: "$", with: ""))
-                    } onEditingChanged: { isEditing in
-                        print(isEditing)
                     }
                     .padding()
                 }

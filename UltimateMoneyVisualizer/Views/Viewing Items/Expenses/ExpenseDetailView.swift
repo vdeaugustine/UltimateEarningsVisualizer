@@ -104,15 +104,7 @@ struct ExpenseDetailView: View {
         }, message: {
             Text("This action cannot be undone.")
         })
-        .onAppear {
-//            let saved = user.getSaved().first!
-//            print(saved.getTitle())
-//            let amount = saved.getAmount() - 1
-//            let alloc = Allocation(amount: amount, expense: expense, goal: nil, shift: nil, saved: saved, date: .now, context: user.managedObjectContext!)
-//            let allocsForSaved = expense.getAllocations().filter({ $0.savedItem as? Saved != nil })
-//
-//            allocsForSaved.forEach({ print($0.getItemTitle()) })
-        }
+        
     }
 }
 
