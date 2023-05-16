@@ -37,7 +37,7 @@ public extension User {
 
                 // Make today shift
                 try TodayShift.makeExampleTodayShift(user: self, context: viewContext)
-                
+
                 RegularSchedule([.monday, .tuesday, .wednesday, .thursday, .friday], user: self, context: viewContext)
 
                 // Make temporary allocations
@@ -51,6 +51,10 @@ public extension User {
 
     static var testing: User {
         try! User(viewContext: PersistenceController.testing)
+    }
+
+    static func getTestingUserWithExamples() throws -> User {
+        try User(exampleItem: true)
     }
 
     static var main: User {
@@ -85,9 +89,9 @@ public extension User {
             fatalError("Error retrieving or creating main user: \(error)")
         }
     }
-    
+
     func getContext() -> NSManagedObjectContext {
-        self.managedObjectContext ?? PersistenceController.context
+        managedObjectContext ?? PersistenceController.context
     }
 
     /// Gives you the amount of money the user has netted between the two dates. So it in
@@ -99,10 +103,8 @@ public extension User {
         let amountSaved = getAmountSavedBetween(startDate: startDate, endDate: endDate)
         let expenses = getExpensesSpentBetween(startDate: startDate, endDate: endDate)
         let goals = getGoalsSpentBetween(startDate: startDate, endDate: endDate)
-        
+
         return (earned + amountSaved) - (expenses + goals)
-        
-        
 
 //        let earned = getTotalEarnedBetween(startDate: startDate, endDate: endDate)
 //        let saved = getSavedBetween(startDate: startDate, endDate: endDate)
@@ -148,7 +150,7 @@ public extension User {
         }
         return filteredExpenses
     }
-    
+
     func getGoalsBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [Goal] {
         let filteredGoals = getGoals().filter { goal in
             guard let date = goal.dateCreated else { return false }
@@ -182,7 +184,7 @@ public extension User {
         let expenses = getExpensesBetween(startDate: startDate, endDate: endDate)
         return expenses.reduce(Double.zero) { $0 + $1.amount }
     }
-    
+
     func getGoalsSpentBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> Double {
         let goals = getGoalsBetween(startDate: startDate, endDate: endDate)
         return goals.reduce(Double.zero) { $0 + $1.amount }
@@ -253,7 +255,6 @@ public extension User {
 
         return anyArr
     }
-    
 
     func getTempQueue() -> [PayoffItem] {
         var anyArr: [PayoffItem] = []
@@ -292,10 +293,9 @@ public extension User {
         guard let savedItems = Array(savedItems ?? []) as? [Saved] else {
             return []
         }
-        
+
         return savedItems.sorted(by: { $0.getDate() > $1.getDate() })
     }
-   
 
     func totalDollarsSaved() -> Double {
         getSaved().reduce(Double(0)) { $0 + $1.getAmount() }
@@ -361,5 +361,50 @@ public extension User {
         }.first
 
         return expenseWithMostAllocations
+    }
+
+    // MARK: - Group shifts by week
+
+    /**
+     Groups the shifts by the week they fall in. This function categorizes each shift into a specific week and returns a dictionary where each key is a week in the format "Week of MMM d, yyyy - MMM d, yyyy" and the value is an array of shifts within that week. It also returns a sorted array of keys (weeks) for easy access.
+
+     - Returns: A tuple containing two elements:
+                - dict: A dictionary where the key is a string that represents a week in the "Week of MMM d, yyyy - MMM d, yyyy" format and the value is an array of shifts within that week.
+                - sortedKeys: An array of strings that contains the sorted keys of the `dict` dictionary. The keys are sorted in the order they were added to the dictionary.
+
+     - Complexity: O(n), where n is the number of shifts.
+
+     - Note: The function uses the `getStartAndEndOfWeek` method of the `Date` object to determine the start and end dates of the week for each shift. If the `getStartAndEndOfWeek` method is not implemented in the `Date` object, this function will not work correctly.
+     */
+    func groupShiftsByWeek() -> (dict: [String: [Shift]], sortedKeys: [String]) {
+        let shifts = getShifts()
+        var groupedShifts: [String: [Shift]] = [:]
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+
+        let keyDateFormatter = DateFormatter()
+        keyDateFormatter.dateFormat = "MMM d, yyyy"
+
+        var sortedKeys: [String] = []
+
+        for shift in shifts {
+            let startOfWeek = shift.start.getStartAndEndOfWeek().start
+            let endOfWeek = shift.start.getStartAndEndOfWeek().end
+
+            let weekKey = "Week of \(keyDateFormatter.string(from: startOfWeek)) - \(keyDateFormatter.string(from: endOfWeek))"
+
+            if Set(sortedKeys).contains(weekKey) == false {
+                sortedKeys.append(weekKey)
+            }
+
+            if groupedShifts[weekKey] == nil {
+                groupedShifts[weekKey] = [shift]
+            } else {
+                groupedShifts[weekKey]?.append(shift)
+            }
+        }
+
+        return (groupedShifts, sortedKeys)
     }
 }

@@ -218,7 +218,8 @@ extension TodayView {
                 }
             }
 
-            TodayPayoffGrid(shiftDuration: todayShift.totalShiftDuration, haveEarned: todayShift.totalEarnedSoFar(nowTime))
+            TodayPayoffGrid(shiftDuration: todayShift.totalShiftDuration,
+                            haveEarned: todayShift.totalEarnedSoFar(nowTime))
         }
 
         .padding()

@@ -5,16 +5,18 @@
 //  Created by Vincent DeAugustine on 4/26/23.
 //
 
-import SwiftUI
 import CoreData
+import SwiftUI
 import Vin
+
+// MARK: - ShiftListView
 
 struct ShiftListView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    
+
     @ObservedObject private var user: User = User.main
     @State private var shifts: [Shift] = User.main.getShifts()
-    
+
     @State private var showNewShiftSheet = false
     @State private var editMode: EditMode = .inactive
 
@@ -32,15 +34,14 @@ struct ShiftListView: View {
     func isSelected(_ shift: Shift) -> Bool {
         return upcomingToDelete.contains(where: { $0 == shift })
     }
-    
+
     var shiftsByWeek: [Date: [Shift]] {
         Dictionary(grouping: pastShifts, by: { $0.start.startOfWeek() })
     }
-    
+
     var sortedWeeks: [Date] {
         shiftsByWeek.keys.sorted(by: >)
     }
-
 
     @State private var mostRecentSelected = false
 
@@ -75,24 +76,24 @@ struct ShiftListView: View {
                                 NavigationLink {
                                     ShiftDetailView(shift: shift)
                                 } label: {
-                                    ShiftCircle(dateComponent: Calendar.current.dateComponents([.month,.day], from: shift.start),
+                                    ShiftCircle(dateComponent: Calendar.current.dateComponents([.month, .day], from: shift.start),
                                                 isEditing: editMode.isEditing,
                                                 isSelected: isSelected(shift))
                                 }
                                 .buttonStyle(.plain)
                             }
                         }
-//
+
                         if upcomingShifts.isEmpty {
                             NavigationLink {
                                 MultipleNewShiftsView()
                             } label: {
                                 Label("Add shifts", systemImage: "plus")
                                     .padding()
-        //                            .padding(.horizontal)
+                                    //                            .padding(.horizontal)
                                     .rectContainer(shadowRadius: 0, cornerRadius: 7)
                             }
-                            
+
                             .padding(.vertical)
                             .padding(.leading, 6)
                         }
@@ -105,31 +106,47 @@ struct ShiftListView: View {
 
             VStack(alignment: .leading, spacing: 0) {
                 List {
-                    Section {
-                        if pastShifts.isEmpty {
-                            Text("No shifts recorded yet")
-                        } else {
-                            ForEach(pastShifts) { shift in
-                                NavigationLink {
-                                    ShiftDetailView(shift: shift)
-                                } label: {
-                                    ShiftRowView(shift: shift)
+                    ForEach(user.groupShiftsByWeek().sortedKeys, id: \.self) { key in
+
+                        if let arrayOfShifts = user.groupShiftsByWeek().dict[key] {
+                            Section(key) {
+                                ForEach(arrayOfShifts) { shift in
+
+                                    NavigationLink {
+                                        ShiftDetailView(shift: shift)
+                                    } label: {
+                                        ShiftRowView(shift: shift)
+                                    }
                                 }
                             }
-                            .onDelete(perform: deleteShifts)
                         }
-
-                    } header: {
-                        Text("Recent")
-                            .textCase(nil)
-                            .font(.headline)
-                            .foregroundColor(.black)
                     }
+
+//                    Section {
+//                        if pastShifts.isEmpty {
+//                            Text("No shifts recorded yet")
+//                        } else {
+//                            ForEach(pastShifts) { shift in
+//                                NavigationLink {
+//                                    ShiftDetailView(shift: shift)
+//                                } label: {
+//                                    ShiftRowView(shift: shift)
+//                                }
+//                            }
+//                            .onDelete(perform: deleteShifts)
+//                        }
+//
+//                    } header: {
+//                        Text("Recent")
+//                            .textCase(nil)
+//                            .font(.headline)
+//                            .foregroundColor(.black)
+//                    }
                 }
                 .listStyle(.insetGrouped)
             }
         }
-        
+
         .toolbar {
             if shifts.isEmpty == false {
                 EditButton()
@@ -139,7 +156,6 @@ struct ShiftListView: View {
                         }
                     }
             }
-
         }
 
         .sheet(isPresented: $showNewShiftSheet) {
@@ -157,23 +173,17 @@ struct ShiftListView: View {
                             showDeleteConfirmation.toggle()
                         }
                     }
-                    
-                    
 
                 } label: {
                     if upcomingToDelete.isEmpty {
                         BottomViewButton(label: "Cancel")
                     } else {
                         BottomViewButton(label: "Delete", gradient: Color.niceRed.getGradient())
-                        
                     }
                 }
-
             }
         })
-        
-        
-        
+
         .navigationTitle("Shifts")
         .putInTemplate()
         .confirmationDialog("Confirm deletion of all selected shifts", isPresented: $showDeleteConfirmation, titleVisibility: .visible, actions: {
@@ -190,8 +200,6 @@ struct ShiftListView: View {
         .environment(\.editMode, $editMode)
     }
 
-    
-    
     private func deleteShifts(offsets: IndexSet) {
         withAnimation {
             offsets.map { shifts[$0] }.forEach(viewContext.delete)
@@ -204,6 +212,8 @@ struct ShiftListView: View {
         }
     }
 }
+
+// MARK: - ShiftRowView
 
 struct ShiftRowView: View {
     let shift: Shift
@@ -236,6 +246,8 @@ struct ShiftRowView: View {
     }
 }
 
+// MARK: - ShiftListView_Previews
+
 struct ShiftListView_Previews: PreviewProvider {
     static var previews: some View {
         ShiftListView()
@@ -243,4 +255,3 @@ struct ShiftListView_Previews: PreviewProvider {
             .putInNavView(.inline)
     }
 }
-

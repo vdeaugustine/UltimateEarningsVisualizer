@@ -16,22 +16,19 @@ public extension Date {
         formatter.dateFormat = "E"
         let oneLetterDay = formatter.string(from: self)
         let firstLetter = oneLetterDay.prefix(1)
-        if ["Su","Sa","Tu","Th"].contains(firstTwoLetters) {
+        if ["Su", "Sa", "Tu", "Th"].contains(firstTwoLetters) {
             return String(firstTwoLetters)
-        }
-        else {
+        } else {
             return String(firstLetter)
         }
     }
-    
-    
+
     func startOfWeek() -> Date {
         let calendar = Calendar.current
         let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)
         return calendar.date(from: components)!
     }
-    
-    
+
     /// This was created for Regular Schedules
     static func stringToDate(_ timeString: String, timeFormat: String = "H:mm", of thisDate: Date = .now) -> Date? {
         let timeFormatter = DateFormatter()
@@ -42,7 +39,7 @@ public extension Date {
 
         let calendar = Calendar.current
         let timeComponents = calendar.dateComponents([.hour, .minute], from: time)
-        
+
         guard let hour = timeComponents.hour, let minute = timeComponents.minute else {
             return nil
         }
@@ -53,13 +50,13 @@ public extension Date {
 
         return calendar.date(from: currentDayComponents)
     }
-    
-    func groupDatesByWeek(_ dates: [Date]) -> [[Date]] {
+
+    static func groupDatesByWeek(_ dates: [Date]) -> [[Date]] {
         var groupedDates: [[Date]] = []
-        
+
         // Sort the dates in ascending order
         let sortedDates = dates.sorted()
-        
+
         for date in sortedDates {
             if let lastWeek = groupedDates.last, let lastDate = lastWeek.last {
                 // Check if the current date is in the same calendar week as the last date
@@ -72,8 +69,21 @@ public extension Date {
                 groupedDates.append([date])
             }
         }
-        
+
         return groupedDates
     }
 
+    func getStartAndEndOfWeek() -> (start: Date, end: Date) {
+        let calendar = Calendar.current
+        var startDate: Date = Date()
+        let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)
+
+        // Calculate the start of the week by finding the first day (Sunday) of the week
+        startDate = calendar.date(from: components)!
+
+        // Calculate the end of the week by adding 6 days to the start date
+        let endDate = calendar.date(byAdding: .day, value: 6, to: startDate)!
+
+        return (start: startDate, end: endDate)
+    }
 }
