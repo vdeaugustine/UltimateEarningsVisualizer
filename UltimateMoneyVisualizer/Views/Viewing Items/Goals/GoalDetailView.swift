@@ -9,33 +9,27 @@ import AlertToast
 import SwiftUI
 import Vin
 
-// MARK: - GoalDetailView
-
 struct GoalDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @ObservedObject private var user: User = User.main
     @ObservedObject private var settings: Settings = User.main.getSettings()
     let goal: Goal
     @Environment(\.dismiss) private var dismiss
+    
     @State private var presentConfirmation = false
     @State private var showSheet = false
     @State private var showImageSelector = false
     @State private var shownImage: UIImage? = nil
     @State private var initialImage: UIImage? = nil
-
     @State private var showAlert = false
-
     @State private var toastConfiguration: AlertToast = AlertToast(type: .regular)
-
     @State private var isShowingFullScreenImage = false
     @State private var isBlurred = false
 
     var body: some View {
         VStack {
             List {
-                
-                // MARK: - Initial Section
-                Section("Initial") {
+                Section(header: Text("Initial")) {
                     Text("Amount")
                         .spacedOut {
                             Text(goal.amount.formattedForMoney())
@@ -43,7 +37,6 @@ struct GoalDetailView: View {
                                 .foregroundStyle(settings.getDefaultGradient())
                         }
                     
-
                     if let dueDate = goal.dueDate {
                         Text("Goal date")
                             .spacedOut(text: dueDate.getFormattedDate(format: .abreviatedMonth))
@@ -56,13 +49,10 @@ struct GoalDetailView: View {
                         Text("is equivalent to")
                         Spacer()
                         Text(user.convertMoneyToTime(money: goal.amount).formatForTime())
-                        
                     }
                 }
 
-                
-                // MARK: - Progress Section
-                Section("Progress") {
+                Section(header: Text("Progress")) {
                     Text("Paid off")
                         .spacedOut(text: goal.amountPaidOff.formattedForMoney())
 
@@ -75,16 +65,10 @@ struct GoalDetailView: View {
                 Section("Insight") {
                     Text("Time required to pay off")
                         .spacedOut(text: goal.totalTimeRemaining.formatForTime([.day, .hour, .minute]))
-
-//                    Text("Time remaining to pay off")
-//                        .spacedOut(text: goal.timeRemaining.formatForTime([.day, .hour, .minute]))
                 }
 
-                
-                // MARK: - Contributions Section
-                Section("Contributions") {
+                Section(header: Text("Contributions")) {
                     ForEach(goal.getAllocations()) { alloc in
-
                         if let shift = alloc.shift {
                             AllocShiftRow(shift: shift, allocation: alloc)
                         }
@@ -95,16 +79,13 @@ struct GoalDetailView: View {
                     }
                 }
 
-                
-                // MARK: - Image section
-                Section("Image") {
+                Section(header: Text("Image")) {
                     VStack {
                         if let uiImage = shownImage {
                             Image(uiImage: uiImage)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .cornerRadius(8)
-
                                 .centerInParentView()
                                 .onTapGesture {
                                     withAnimation {
@@ -119,7 +100,6 @@ struct GoalDetailView: View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .foregroundColor(.gray)
-
                                 .centerInParentView()
                                 .onTapGesture {
                                     showImageSelector = true
@@ -129,7 +109,8 @@ struct GoalDetailView: View {
                         HStack {
                             Button("Choose image") {
                                 showImageSelector = true
-                            }.buttonStyle(.borderedProminent)
+                            }
+                            .buttonStyle(.borderedProminent)
 
                             if shownImage != nil {
                                 Button("Remove image", role: .destructive) {
@@ -149,8 +130,6 @@ struct GoalDetailView: View {
                     .centerInParentView()
                     .listRowBackground(Color.clear)
                 }
-
-                // TODO: Put a clock countdown here
             }
         }
         .blur(radius: isBlurred ? 10 : 0)
@@ -175,7 +154,6 @@ struct GoalDetailView: View {
             .opacity(isShowingFullScreenImage ? 1 : 0)
         )
         .background(Color.targetGray)
-
         .confirmationDialog("Are you sure you want to delete this goal?", isPresented: $presentConfirmation, titleVisibility: .visible, actions: {
             Button("Delete", role: .destructive) {
                 guard let context = user.managedObjectContext else {
@@ -202,8 +180,7 @@ struct GoalDetailView: View {
             ImagePicker(isShown: self.$showImageSelector, image: self.$shownImage)
         }
         .toolbar {
-            if initialImage != shownImage,
-               let shownImage {
+            if initialImage != shownImage, let shownImage {
                 ToolbarItem {
                     Button("Save") {
                         do {
@@ -228,18 +205,10 @@ struct GoalDetailView: View {
             initialImage = goal.loadImageIfPresent()
             shownImage = goal.loadImageIfPresent()
         }
-
-        .toast(isPresenting: $showAlert,
-               duration: 2,
-               tapToDismiss: false,
-               offsetY: 40,
-               alert: { toastConfiguration })
-
+        .toast(isPresenting: $showAlert, duration: 2, tapToDismiss: false, offsetY: 40, alert: { toastConfiguration })
         .ignoresSafeArea(.keyboard, edges: .bottom)
     }
 }
-
-// MARK: - ImagePicker
 
 struct ImagePicker: UIViewControllerRepresentable {
     @Binding var isShown: Bool
@@ -280,8 +249,6 @@ struct ImagePicker: UIViewControllerRepresentable {
     }
 }
 
-// MARK: - ImageContentView
-
 struct ImageContentView: View {
     @State private var isShown = false
     @State private var image: UIImage?
@@ -308,15 +275,11 @@ struct ImageContentView: View {
     }
 }
 
-// MARK: - ChooseImageView
-
 struct ChooseImageView: View {
     var body: some View {
         ImageContentView()
     }
 }
-
-// MARK: - GoalDetailView_Previews
 
 struct GoalDetailView_Previews: PreviewProvider {
     static var previews: some View {
