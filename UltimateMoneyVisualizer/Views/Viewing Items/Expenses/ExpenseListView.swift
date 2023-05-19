@@ -32,7 +32,9 @@ struct ExpenseListView: View {
     var body: some View {
         List {
             
-            Toggle("Show passed due expenses", isOn: $showPassedDue)
+            Section {
+                Toggle("Show passed due expenses", isOn: $showPassedDue)
+            }
             
             
             ForEach(expensesToShow, id: \.self) { expense in

@@ -12,6 +12,7 @@ import Vin
 // MARK: - GoalDetailView
 
 struct GoalDetailView: View {
+    @Environment(\.managedObjectContext) private var viewContext
     @ObservedObject private var user: User = User.main
     @ObservedObject private var settings: Settings = User.main.getSettings()
     let goal: Goal
@@ -210,6 +211,11 @@ struct GoalDetailView: View {
                             try user.managedObjectContext!.save()
                             toastConfiguration = AlertToast(displayMode: .alert, type: .complete(settings.themeColor), title: "Saved successfully")
                             showAlert = true
+                            
+                            let dummyGoalForUpdate = try Goal(title: "", info: nil, amount: 124, dueDate: nil, user: user, context: viewContext)
+                            viewContext.delete(dummyGoalForUpdate)
+                            try viewContext.save()
+                            
                         } catch {
                             toastConfiguration = AlertToast(displayMode: .alert, type: .error(settings.themeColor), title: "Failed to save image")
                             showAlert = true
@@ -316,5 +322,6 @@ struct GoalDetailView_Previews: PreviewProvider {
     static var previews: some View {
         GoalDetailView(goal: User.main.getGoals().first!)
             .putInNavView(.inline)
+            .environment(\.managedObjectContext, PersistenceController.context)
     }
 }

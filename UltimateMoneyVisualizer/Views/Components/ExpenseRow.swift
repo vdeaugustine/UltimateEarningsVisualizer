@@ -19,6 +19,7 @@ struct ExpenseRow: View {
             HStack {
                 Text(expense.titleStr)
                     .font(.headline)
+                    .foregroundStyle(settings.getDefaultGradient())
                     .pushLeft()
 
                 if !expense.isPassedDue {

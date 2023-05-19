@@ -19,7 +19,7 @@ struct HomeView: View {
     var body: some View {
         VStack {
 //            #if DEBUG
-            Text("Is NOT using persisting storage (IN MEMORY): " + (PersistenceController.inMemory ? "TRUE" : "FALSE"))
+            Text("Deletes and recreates data every time " + (PersistenceController.inMemory ? "TRUE" : "FALSE"))
 //            #endif
             ZStack {
                 ScrollView {

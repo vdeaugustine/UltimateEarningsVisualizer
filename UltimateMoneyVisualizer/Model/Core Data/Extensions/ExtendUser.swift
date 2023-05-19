@@ -36,7 +36,7 @@ public extension User {
                 try Saved.makeExampleSavedItems(user: self, context: viewContext)
 
                 // Make today shift
-                try TodayShift.makeExampleTodayShift(user: self, context: viewContext)
+//                try TodayShift.makeExampleTodayShift(user: self, context: viewContext)
 
                 RegularSchedule([.monday, .tuesday, .wednesday, .thursday, .friday], user: self, context: viewContext)
 
@@ -83,7 +83,7 @@ public extension User {
 
                 return user
             } else {
-                return try User(exampleItem: false, viewContext: viewContext)
+                return try User(exampleItem: true, viewContext: viewContext)
             }
         } catch {
             fatalError("Error retrieving or creating main user: \(error)")

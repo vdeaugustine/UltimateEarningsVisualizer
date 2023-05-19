@@ -303,6 +303,7 @@
 		9C4F0A2B2A14614500C78349 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				9C7F968F29F8FD5A00F5035C /* PersistenceController */,
 				9C4F0A292A14614200C78349 /* NotificationManager.swift */,
 			);
 			path = Managers;
@@ -495,7 +496,6 @@
 		9C7F968A29F8FD0300F5035C /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
-				9C7F968F29F8FD5A00F5035C /* PersistenceController */,
 				9C7F968E29F8FD5400F5035C /* Model */,
 				9C7F968B29F8FD1700F5035C /* Extensions */,
 			);
