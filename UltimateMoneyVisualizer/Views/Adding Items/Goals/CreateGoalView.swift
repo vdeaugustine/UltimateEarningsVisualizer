@@ -21,6 +21,8 @@ struct CreateGoalView: View {
     // Alert toast state variables
     @State private var showToast = false
     @State private var alertToastConfig = AlertToast(displayMode: .hud, type: .regular, title: "")
+    
+    @ObservedObject private var user = User.main
 
     var body: some View {
         Form {
@@ -56,19 +58,7 @@ struct CreateGoalView: View {
             }
 
             do {
-                let goal = Goal(context: viewContext)
-                goal.title = title
-                goal.amount = dub
-                goal.info = info
-                goal.dueDate = dueDate
-
-                try viewContext.save()
-
-                // Reset the fields
-                title = ""
-                amount = ""
-                info = ""
-                dueDate = Date()
+                try Goal(title: title, info: info, amount: dub, dueDate: dueDate, user: user, context: viewContext)
 
                 // Show a success alert toast
                 alertToastConfig.title = "Item saved successfully."

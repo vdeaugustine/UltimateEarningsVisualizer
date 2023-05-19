@@ -43,7 +43,7 @@ struct SettingsView: View {
                 // MARK: - Set Hours
 
                 NavigationLink {
-                    SelectDaysView()
+                    RegularScheduleView()
                 } label: {
                     SystemImageWithFilledBackground(systemName: "hourglass", backgroundColor: settings.themeColor)
                     Text("Normal working hours")

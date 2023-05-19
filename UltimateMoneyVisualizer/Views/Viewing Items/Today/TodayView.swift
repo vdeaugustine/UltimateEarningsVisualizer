@@ -11,10 +11,17 @@ import Vin
 // MARK: - TodayView
 
 struct TodayView: View {
+    
+    enum SelectedSegment: String, Identifiable, Hashable {
+        var id: SelectedSegment { self }
+        case money, time
+    }
+    
+    
     @Environment(\.managedObjectContext) private var viewContext
 
     @State private var showHoursSheet = false
-    @State private var showTimeOrMoney = "money"
+    @State private var selectedSegment: SelectedSegment = .money
     @State private var nowTime: Date = .now
     @State private var showBanner = false
     @State private var hasShownBanner = false
@@ -22,8 +29,7 @@ struct TodayView: View {
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     @State var todayShift: TodayShift? = User.main.todayShift
-    var showingTime: Bool { showTimeOrMoney == "time" }
-
+    
     @ObservedObject var user = User.main
     @ObservedObject var settings = User.main.getSettings()
 
@@ -43,12 +49,13 @@ struct TodayView: View {
         VStack {
             if let todayShift {
                 ScrollView {
-                    TimeMoneyPicker(showTimeOrMoney: $showTimeOrMoney)
+                    TimeMoneyPicker(showTimeOrMoney: $selectedSegment)
                         .padding(.vertical)
                     VStack {
-                        StartEndTotalView(showHoursSheet: $showHoursSheet, showingTime: showingTime, todayShift: todayShift)
+                        StartEndTotalView(showHoursSheet: $showHoursSheet, showingTime: selectedSegment == .time, todayShift: todayShift)
                             .padding(.top)
-                        ProgressSectionView(todayShift: todayShift,
+                        ProgressSectionView(showingTime: selectedSegment == .time,
+                                            todayShift: todayShift,
                                             nowTime: nowTime,
                                             settings: settings,
                                             isCurrentlyMidShift: isCurrentlyMidShift,
@@ -57,7 +64,6 @@ struct TodayView: View {
                     .padding([.vertical, .top])
                     .background(Color.white)
 
-//                    payoffItemSection(todayShift: todayShift)
 
                     todaysSpending(todayShift: todayShift)
                 }
@@ -107,14 +113,14 @@ extension TodayView {
     // MARK: - timeMoneyPicker
 
     struct TimeMoneyPicker: View {
-        @Binding var showTimeOrMoney: String
+        @Binding var showTimeOrMoney: TodayView.SelectedSegment
 
         var body: some View {
             Picker("Time/Money", selection: $showTimeOrMoney) {
                 Text("Money")
-                    .tag("money")
+                    .tag(TodayView.SelectedSegment.money)
                 Text("Time")
-                    .tag("time")
+                    .tag(TodayView.SelectedSegment.time)
             }
             .pickerStyle(SegmentedPickerStyle())
             .padding(.horizontal)
@@ -165,7 +171,7 @@ extension TodayView {
     // MARK: - Individual Views
 
     struct ProgressSectionView: View {
-        @State private var showingTime = true
+        let showingTime: Bool
         let todayShift: TodayShift
         let nowTime: Date
         let settings: Settings // Assuming you have a `Settings` model

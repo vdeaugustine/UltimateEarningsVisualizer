@@ -8,9 +8,17 @@
 import CoreData
 import SwiftUI
 
+class NavManager: ObservableObject {
+    @Published var homeNavPath: NavigationPath = .init()
+    @Published var settingsNavPath: NavigationPath = .init()
+}
+
 // MARK: - ContentView
 
 struct ContentView: View {
+    
+    @EnvironmentObject private var navManager: NavManager
+    
     enum Tabs: String, Hashable, CustomStringConvertible {
         var description: String { rawValue.capitalized }
         case settings, expenses, home, shifts, today, addShifts, allItems
@@ -18,7 +26,7 @@ struct ContentView: View {
 
     @State private var tab: Tabs = .shifts
     @ObservedObject var settings = User.main.getSettings()
-   
+    
 
     var body: some View {
         TabView(selection: $tab) {
@@ -30,7 +38,6 @@ struct ContentView: View {
             AllItemsView()
                 .putInNavView(.inline)
                 .makeTab(tab: Tabs.allItems, systemImage: "dollarsign")
-            
 
             TodayView()
                 .putInNavView(.inline)
@@ -51,5 +58,6 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
             .environment(\.managedObjectContext, PersistenceController.context)
+            .environmentObject(NavManager.init())
     }
 }

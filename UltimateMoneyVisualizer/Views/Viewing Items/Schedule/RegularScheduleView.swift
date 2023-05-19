@@ -11,9 +11,14 @@ import SwiftUI
 // MARK: - RegularScheduleView
 
 struct RegularScheduleView: View {
+    @EnvironmentObject private var navPath: NavManager
     @Environment(\.managedObjectContext) private var viewContext
 
     @ObservedObject private var user: User = .main
+    
+    var hasSchedule: Bool {
+        user.regularSchedule != nil
+    }
 
     var body: some View {
         List {
@@ -41,10 +46,20 @@ struct RegularScheduleView: View {
         .navigationTitle("Regular Schedule")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                NavigationLink("Edit") {
+                NavigationLink {
                     SelectDaysView()
+                } label: {
+                    if hasSchedule {
+                        Text("Edit")
+                    }
+                    else {
+                        Label("Add", systemImage: "plus")
+                    }
                 }
             }
+        }
+        .onAppear {
+            print("Nav path", navPath.settingsNavPath)
         }
     }
 
@@ -63,5 +78,6 @@ struct RegularScheduleView_Previews: PreviewProvider {
             .environment(\.managedObjectContext, PersistenceController.context)
             .putInTemplate()
             .putInNavView(.inline)
+            .environmentObject(NavManager.init())
     }
 }

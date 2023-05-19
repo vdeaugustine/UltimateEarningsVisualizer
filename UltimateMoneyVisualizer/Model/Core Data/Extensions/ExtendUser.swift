@@ -17,7 +17,7 @@ public extension User {
         self.email = "TestUser@ExampleForTest.com"
 
         let wage = Wage(context: viewContext)
-        wage.amount = 20
+        wage.amount = 53
         wage.user = self
         self.wage = wage
 
@@ -83,7 +83,7 @@ public extension User {
 
                 return user
             } else {
-                return try User(exampleItem: true, viewContext: viewContext)
+                return try User(exampleItem: false, viewContext: viewContext)
             }
         } catch {
             fatalError("Error retrieving or creating main user: \(error)")

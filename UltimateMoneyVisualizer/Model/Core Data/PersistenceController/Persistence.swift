@@ -9,6 +9,8 @@ import CoreData
 
 public struct PersistenceController {
     public static let context = shared.container.viewContext
+    
+    public static let inMemory: Bool = false
 
     public static let testing: NSManagedObjectContext = {
         let pc = PersistenceController(inMemory: true)
@@ -22,7 +24,7 @@ public struct PersistenceController {
     #else
         static var shared: PersistenceController = {
             let isInPreview = ProcessInfo.processInfo.environment["_XCODE_RUNNING_FOR_PREVIEWS"] == nil
-            let result = PersistenceController(inMemory: true)
+            let result = PersistenceController(inMemory: inMemory)
             let viewContext = result.container.viewContext
 
             return result
