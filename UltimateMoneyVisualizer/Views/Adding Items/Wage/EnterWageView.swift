@@ -1,10 +1,3 @@
-//
-//  EnterWageView.swift
-//  UltimateMoneyVisualizer
-//
-//  Created by Vincent DeAugustine on 4/26/23.
-//
-
 import AlertToast
 import SwiftUI
 
@@ -12,15 +5,10 @@ import SwiftUI
 
 struct EnterWageView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @State private var hourlyWageStringEntered: String = ""
+
     @State private var isSalaried: Bool = false
-    @State private var salaryStringEntered: String = ""
-    @State private var hoursPerWeek: String = ""
-    @State private var vacationDays: String = ""
-    @State private var calculatedHourlyWage: Double?
 
     @State private var showErrorToast: Bool = false
-
     @State private var errorMessage: String = ""
     @State private var showSuccessfulSaveToast = false
 
@@ -33,37 +21,7 @@ struct EnterWageView: View {
     @State private var weeksPerYear: Int = Int(User.main.getWage().weeksPerYear)
     let hoursOptions = stride(from: 1.0, to: 24.25, by: 0.5).map { $0 }
 
-    var hourlyFromSalary: Double? {
-        guard let initialSalaryValue = Double(salaryStringEntered)
-
-        else { return nil }
-
-        let diviedSalaryValue = initialSalaryValue / 100
-
-        let weeksPerYear = Double(weeksPerYear)
-        let workingWeeks = Double(weeksPerYear)
-        let totalWorkingHours = workingWeeks * hoursPerDay * Double(daysPerWeek)
-        let thisHourlyWage = diviedSalaryValue / totalWorkingHours
-
-        return thisHourlyWage
-    }
-
-    private func calculateHourlyWage() {
-        guard let salaryValue = Double(salaryStringEntered.prefix(salaryStringEntered.count - 2))
-        else { return }
-
-        let weeksPerYear = Double(weeksPerYear)
-        let workingWeeks = Double(weeksPerYear)
-        let totalWorkingHours = workingWeeks * hoursPerDay * Double(daysPerWeek)
-        let thisHourlyWage = salaryValue / totalWorkingHours
-
-        calculatedHourlyWage = thisHourlyWage
-    }
-    
     private func getHourlyWage(_ salary: Double) -> Double {
-        
-
-        let weeksPerYear = Double(weeksPerYear)
         let workingWeeks = Double(weeksPerYear)
         let totalWorkingHours = workingWeeks * hoursPerDay * Double(daysPerWeek)
         let thisHourlyWage = salary / totalWorkingHours
@@ -71,39 +29,10 @@ struct EnterWageView: View {
         return thisHourlyWage
     }
 
-    var doubleFromEnteredHourlyWageString: Double {
-        if let dub = Double(hourlyWageStringEntered) {
-            return dub / 100
-        }
-
-        return 0
-    }
-
-    var doubleFromEnteredSalaryString: Double {
-        if let dub = Double(salaryStringEntered) {
-            return dub / 100
-        }
-
-        return 0
-    }
-
-    var stringOfSalary: String {
-        doubleFromEnteredSalaryString.formattedForMoney(trimZeroCents: false).replacingOccurrences(of: "$", with: "")
-    }
-
-    var stringOfHourly: String {
-        doubleFromEnteredHourlyWageString.formattedForMoney(trimZeroCents: false).replacingOccurrences(of: "$", with: "")
-    }
-
-    @State private var showHourlyField = false
-    @FocusState var hourlyFieldFocused
-    @FocusState var salaryFieldFocused
-
     @State private var hourlyDouble: Double = User.main.getWage().hourly
     @State private var salaryDouble: Double = User.main.getWage().perYear
 
     @State private var showHourlySheet = false
-
     @State private var showSalarySheet = false
 
     var body: some View {
@@ -111,23 +40,14 @@ struct EnterWageView: View {
             Section {
                 HStack {
                     SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
-                    Text( isSalaried ? getHourlyWage(salaryDouble).formattedForMoney().replacingOccurrences(of: "$", with: "") : hourlyDouble.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                    Text(isSalaried ? getHourlyWage(salaryDouble).formattedForMoney().replacingOccurrences(of: "$", with: "") : hourlyDouble.formattedForMoney().replacingOccurrences(of: "$", with: ""))
                     Spacer()
-//                    Button(showHourlyField ? "Done" : "Edit") {
-//                        showHourlyField.toggle()
-//                        hourlyFieldFocused = showHourlyField
-//                    }
                 }
                 .allPartsTappable()
                 .onTapGesture {
                     showHourlySheet = true
                 }
 
-                if showHourlyField {
-                    TextField("Hourly Wage", text: $hourlyWageStringEntered)
-                        .focused($hourlyFieldFocused)
-                        .keyboardType(.decimalPad)
-                }
             } header: {
                 Text("Hourly Wage")
             } footer: {
@@ -147,23 +67,10 @@ struct EnterWageView: View {
                     .onTapGesture {
                         showSalarySheet = true
                     }
-
-//                    TextField("Salary", text: $salaryStringEntered)
-//
-//                        .keyboardType(.decimalPad)
                 } header: {
                     Text("Salary")
                 } footer: {
                     Text("Tap to edit")
-                }
-
-                if let calculatedHourlyWage = hourlyFromSalary {
-                    Section {
-                        Text("Calculated Hourly Wage: \(String(format: "%.2f", calculatedHourlyWage))")
-                        Button("Use Calculated Wage") {
-                            hourlyWageStringEntered = "\((calculatedHourlyWage * 100).roundTo(places: 2))"
-                        }
-                    }
                 }
             }
 
@@ -194,14 +101,12 @@ struct EnterWageView: View {
                     Label("Reset", systemImage: "arrow.uturn.backward")
                         .labelStyle(.titleOnly)
                 }
-
             } header: {
                 Text("Calculation Assumptions")
             } footer: {
                 Text("When calculating daily, weekly, monthly, and yearly, these values will be used respectively")
             }
         }
-
         .putInTemplate()
         .navigationTitle("My Wage")
         .toast(isPresenting: $showErrorToast, duration: 2, tapToDismiss: true) {
@@ -213,14 +118,6 @@ struct EnterWageView: View {
             AlertToast(displayMode: .banner(.slide), type: .complete(.green), title: "Wage saved successfully", style: .style(backgroundColor: .white, titleColor: nil, subTitleColor: nil, titleFont: nil, subTitleFont: nil))
         }
         .bottomButton(label: "Save", gradient: settings.getDefaultGradient()) {
-//            guard let dub = Double(hourlyWageStringEntered),
-//                  dub > 1
-//            else {
-//                showErrorToast = true
-//                errorMessage = "Please enter a valid hourly wage"
-//                return
-//            }
-
             do {
                 let hourly = isSalaried ? getHourlyWage(salaryDouble) : hourlyDouble
                 let wage = try Wage(amount: hourly, user: user, context: viewContext)
