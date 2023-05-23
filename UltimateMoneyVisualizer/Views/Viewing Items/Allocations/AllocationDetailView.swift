@@ -11,16 +11,16 @@ import SwiftUI
 
 struct AllocationDetailView: View {
     /**
-      Function that formats a `Double` value to a string with a specified number of decimal points.
+     Function that formats a `Double` value to a string with a specified number of decimal points.
 
-      - Parameters:
-         - value: The `Double` value to format.
-         - decimalPoints: The number of decimal points to keep in the resulting string.
-         - includeLeadingZero: A `Bool` that determines whether to include a leading zero for values between 0 and 1.
+     - Parameters:
+     - value: The `Double` value to format.
+     - decimalPoints: The number of decimal points to keep in the resulting string.
+     - includeLeadingZero: A `Bool` that determines whether to include a leading zero for values between 0 and 1.
 
-      - Returns: A string representation of the `Double` value, rounded to the specified number of decimal points. If there was an error during formatting, it returns the string "Error formatting number".
+     - Returns: A string representation of the `Double` value, rounded to the specified number of decimal points. If there was an error during formatting, it returns the string "Error formatting number".
 
-      # Example #
+     # Example #
      print(formatDouble(value: 0.123456789, decimalPoints: 2, includeLeadingZero: true)) // "0.12"
      print(formatDouble(value: 123.456789, decimalPoints: 3, includeLeadingZero: true)) // "123.457"
 
@@ -112,7 +112,11 @@ struct AllocationDetailView: View {
 
             Section(spentOnHeaderStr) {
                 if let goal = allocation.goal {
-                    GoalRow(goal: goal)
+                    NavigationLink {
+                        GoalDetailView(goal: goal)
+                    } label: {
+                        GoalRow(goal: goal)
+                    }
                 }
                 if let expense = allocation.expense {
                     NavigationLink {
@@ -158,27 +162,23 @@ struct AllocationDetailView: View {
 // MARK: - AllocationDetailView_Previews
 
 struct AllocationDetailView_Previews: PreviewProvider {
-    
-//    static let shiftAlloc = User.main.getExpenses().first(where: { $0.getAllocations().isEmpty == false })!.getAllocations().first!
-    
+    //    static let shiftAlloc = User.main.getExpenses().first(where: { $0.getAllocations().isEmpty == false })!.getAllocations().first!
+
     static let savedAlloc: Allocation = {
         let context = PersistenceController.context
         do {
             let saved = try Saved(amount: 123, title: "Laptop", date: .now.addDays(-2), user: User.main, context: User.main.getContext())
             let expense = Expense(title: "Car payment", info: "Monthly", amount: 800, dueDate: .now.addDays(20), user: User.main)
-            
+
             let alloc = try Allocation(amount: 100, expense: expense, goal: nil, shift: nil, saved: saved, date: .now, context: context)
             return alloc
         } catch {
             print("Error", error)
             fatalError(String(describing: error))
         }
-        
-        
-        
+
     }()
-    
-    
+
     static var previews: some View {
         AllocationDetailView(allocation: savedAlloc)
             .putInNavView(.inline)

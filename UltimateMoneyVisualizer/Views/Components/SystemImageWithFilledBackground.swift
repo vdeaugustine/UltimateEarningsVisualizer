@@ -11,6 +11,9 @@ struct SystemImageWithFilledBackground: View {
     let systemName: String
     let backgroundColor: Color?
     var rotationDegrees: CGFloat = 0
+    var width: CGFloat = 28
+    var height: CGFloat = 28
+    
     @ObservedObject var settings = User.main.getSettings()
     
     var body: some View {
@@ -23,11 +26,12 @@ struct SystemImageWithFilledBackground: View {
             }
             
             Image(systemName: systemName)
-                .font(.headline)
+                .font(.system(size: 18 / 28 * height))
+//                .font(.headline)
                 .foregroundColor(.white)
                 .rotationEffect(.degrees(rotationDegrees))
         }
-        .frame(width: 28, height: 28)
+        .frame(width: width, height: height)
         .cornerRadius(8)
     }
 }
@@ -37,5 +41,6 @@ struct SystemImageWithFilledBackground: View {
 struct SystemImageWithFilledBackground_Previews: PreviewProvider {
     static var previews: some View {
         SystemImageWithFilledBackground(systemName: "calendar", backgroundColor: .blue)
+            .previewLayout(.sizeThatFits)
     }
 }

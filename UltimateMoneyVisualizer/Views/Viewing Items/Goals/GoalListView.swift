@@ -18,7 +18,13 @@ struct GoalListView: View {
             ForEach(goals) { goal in
                 NavigationLink(destination: GoalDetailView(goal: goal)) {
                     
-                    GoalRow(goal: goal)
+//                    if let image = goal.loadImageIfPresent() {
+//                        GradientOverlayView(image: Image(uiImage: image))
+//                    }
+//                    else {
+                        GoalRow(goal: goal)
+//                    }
+                    
                 }
             }
         }

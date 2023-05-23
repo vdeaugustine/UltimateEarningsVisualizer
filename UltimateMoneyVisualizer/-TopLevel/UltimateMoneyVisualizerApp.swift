@@ -36,6 +36,7 @@ struct UltimateMoneyVisualizerApp: App {
         WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, context)
+                .environment(\.sizeCategory, .large) // Set a fixed size category for the entire app
                 .environmentObject(navManager)
                 .onAppear() {
                     NotificationManager.scheduleDailyNotification()

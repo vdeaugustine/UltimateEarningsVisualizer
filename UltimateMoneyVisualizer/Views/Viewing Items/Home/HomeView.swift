@@ -18,9 +18,7 @@ struct HomeView: View {
 
     var body: some View {
         VStack {
-//            #if DEBUG
-            Text("Deletes and recreates data every time " + (PersistenceController.inMemory ? "TRUE" : "FALSE"))
-//            #endif
+
             ZStack {
                 ScrollView {
                     // MARK: - Lifetime Money

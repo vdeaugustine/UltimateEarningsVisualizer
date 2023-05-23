@@ -11,7 +11,7 @@ import SwiftUI
 import Vin
 
 public extension Goal {
-    @discardableResult convenience init(title: String, info: String?, amount: Double, dueDate: Date?, user: User, context: NSManagedObjectContext = PersistenceController.context) throws {
+    @discardableResult convenience init(title: String, info: String?, amount: Double, dueDate: Date?, tagStrings: [String]? = nil, user: User, context: NSManagedObjectContext = PersistenceController.context) throws {
         self.init(context: context)
         self.title = title
         self.info = info
@@ -23,6 +23,22 @@ public extension Goal {
         let currentQueueCount = Int16(user.getQueue().count)
         // Put the item at the back of the queue at first initialization
         self.queueSlotNumber = currentQueueCount
+
+        if let tagStrings {
+            for tagStr in tagStrings {
+                if let existingTag = user.getTags().first(where: { tag in
+                    guard let title = tag.title else { return false }
+                    return title == tagStr
+                }) {
+                    print("found existing tag", tagStr)
+                    existingTag.addToGoals(self)
+                    addToTags(existingTag)
+                    continue
+                } else {
+                    try Tag(tagStr, goal: self, user: user, context: context)
+                }
+            }
+        }
 
         try context.save()
     }
@@ -148,13 +164,13 @@ extension Goal: PayoffItem {
 public extension Goal {
     static func makeExampleGoals(user: User, context: NSManagedObjectContext) throws {
 //        try Goal(title: "Get a basketball", info: "For playing", amount: 7, dueDate: .now.addDays(7), user: user, context: context)
-        try Goal(title: "New car fund", info: "Saving up for a down payment on a new car", amount: 100, dueDate: Date().addingTimeInterval(31_536_000), user: user, context: context)
-        try Goal(title: "Vacation to Hawaii", info: "Planning a trip to Hawaii with my family", amount: 87, dueDate: Date().addingTimeInterval(157_680_000), user: user, context: context)
-        try Goal(title: "Emergency fund", info: "Saving up for unexpected expenses", amount: 12, dueDate: nil, user: user, context: context)
-        try Goal(title: "Home renovations", info: "Renovating my kitchen and bathroom", amount: 432, dueDate: Date().addingTimeInterval(63_072_000), user: user, context: context)
-        try Goal(title: "College fund for kids", info: "Saving up for my kids' college education", amount: 64, dueDate: Date().addingTimeInterval(630_720_000), user: user, context: context)
-        try Goal(title: "Retirement fund", info: "Planning for retirement", amount: 123, dueDate: nil, user: user, context: context)
-        try Goal(title: "Business venture", info: "Investing in a new business opportunity", amount: 154, dueDate: Date().addingTimeInterval(157_680_000), user: user, context: context)
+        try Goal(title: "New car fund", info: "Saving up for a down payment on a new car", amount: 100, dueDate: Date().addingTimeInterval(31_536_000), tagStrings: Tag.getSomeTitles(), user: user, context: context)
+        try Goal(title: "Vacation to Hawaii", info: "Planning a trip to Hawaii with my family", amount: 87, dueDate: Date().addingTimeInterval(157_680_000), tagStrings: Tag.getSomeTitles(), user: user, context: context)
+        try Goal(title: "Emergency fund", info: "Saving up for unexpected expenses", amount: 12, dueDate: nil, tagStrings: Tag.getSomeTitles(), user: user, context: context)
+        try Goal(title: "Home renovations", info: "Renovating my kitchen and bathroom", amount: 432, dueDate: Date().addingTimeInterval(63_072_000), tagStrings: Tag.getSomeTitles(), user: user, context: context)
+        try Goal(title: "College fund for kids", info: "Saving up for my kids' college education", amount: 64, dueDate: Date().addingTimeInterval(630_720_000), tagStrings: Tag.getSomeTitles(), user: user, context: context)
+        try Goal(title: "Retirement fund", info: "Planning for retirement", amount: 123, dueDate: nil, tagStrings: Tag.getSomeTitles(), user: user, context: context)
+        try Goal(title: "Business venture", info: "Investing in a new business opportunity", amount: 154, dueDate: Date().addingTimeInterval(157_680_000), tagStrings: Tag.getSomeTitles(), user: user, context: context)
     }
 
     static let disneyWorld: Goal = {

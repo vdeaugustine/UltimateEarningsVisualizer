@@ -296,6 +296,14 @@ public extension User {
 
         return savedItems.sorted(by: { $0.getDate() > $1.getDate() })
     }
+    
+    func getTags() -> [Tag] {
+        guard let tags = Array(tags ?? []) as? [Tag] else {
+            return []
+        }
+
+        return tags.sorted(by: { $0.getLastUsed() > $1.getLastUsed() })
+    }
 
     func totalDollarsSaved() -> Double {
         getSaved().reduce(Double(0)) { $0 + $1.getAmount() }

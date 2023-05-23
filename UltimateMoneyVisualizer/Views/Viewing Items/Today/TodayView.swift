@@ -11,13 +11,11 @@ import Vin
 // MARK: - TodayView
 
 struct TodayView: View {
-    
     enum SelectedSegment: String, Identifiable, Hashable {
         var id: SelectedSegment { self }
         case money, time
     }
-    
-    
+
     @Environment(\.managedObjectContext) private var viewContext
 
     @State private var showHoursSheet = false
@@ -25,11 +23,12 @@ struct TodayView: View {
     @State private var nowTime: Date = .now
     @State private var showBanner = false
     @State private var hasShownBanner = false
+    @State private var showDeleteWarning = false
 
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     @State var todayShift: TodayShift? = User.main.todayShift
-    
+
     @ObservedObject var user = User.main
     @ObservedObject var settings = User.main.getSettings()
 
@@ -64,7 +63,6 @@ struct TodayView: View {
                     .padding([.vertical, .top])
                     .background(Color.white)
 
-
                     todaysSpending(todayShift: todayShift)
                 }
 
@@ -93,7 +91,23 @@ struct TodayView: View {
 
             addSecond()
         }
-    }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("Delete") {
+                    showDeleteWarning.toggle()
+                }
+            }
+        }
+        .confirmationDialog("Delete Today Shift", isPresented: $showDeleteWarning, titleVisibility: .visible) {
+            Button("Confirm", role: .destructive) {
+                todayShift = nil
+                if let userShift = user.todayShift {
+                    viewContext.delete(userShift)
+                }
+                user.todayShift = nil
+            }
+        }
+    } 
 
     private func addSecond() {
         nowTime = .now

@@ -18,6 +18,10 @@ struct SettingsView: View {
     @ObservedObject var user = User.main
     @ObservedObject var settings = User.main.getSettings()
 
+    #if DEBUG
+        @State private var inMemory = UserDefaults.inMemory
+    #endif
+
     private var wageStr: String {
         if let wage = user.wage {
             return wage.amount.formattedForMoney(includeCents: true)
@@ -100,6 +104,27 @@ struct SettingsView: View {
                                 }
                             }
                         }
+                    }
+                }
+            }
+
+            #if DEBUG
+                Section {
+                    Toggle("In Memory", isOn: $inMemory)
+                        .onChange(of: inMemory) { newValue in
+                            UserDefaults.inMemory = newValue
+                        }
+                }
+            #endif
+
+            Section("Plan") {
+                NavigationLink {
+                    PurchasePage()
+                } label: {
+                    HStack {
+                        SystemImageWithFilledBackground(systemName: "star.fill", backgroundColor: user.getSettings().themeColor)
+                        Text("Manage Plan")
+                        Spacer()
                     }
                 }
             }

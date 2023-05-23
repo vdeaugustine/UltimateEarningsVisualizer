@@ -7,10 +7,21 @@
 
 import CoreData
 
+extension UserDefaults {
+    static var inMemory: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: "inMemory")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "inMemory")
+        }
+    }
+}
+
 public struct PersistenceController {
     public static let context = shared.container.viewContext
     
-    public static let inMemory: Bool = false
+    public static let inMemory: Bool = true //UserDefaults.inMemory
 
     public static let testing: NSManagedObjectContext = {
         let pc = PersistenceController(inMemory: true)
@@ -51,6 +62,7 @@ public struct PersistenceController {
                  * The store could not be migrated to the current model version.
                  Check the error message to determine what the actual problem was.
                  */
+                print("error", error)
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })

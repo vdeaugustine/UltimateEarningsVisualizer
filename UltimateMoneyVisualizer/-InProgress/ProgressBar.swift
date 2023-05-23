@@ -12,7 +12,7 @@ import SwiftUI
 struct ProgressBar: View {
     let percentage: Double
     let cornerRadius: CGFloat = 25
-    let height: CGFloat = 8
+    var height: CGFloat = 8
     var color: Color = .accentColor
 
     private var isComplete: Bool {

@@ -26,7 +26,7 @@ struct ContentView: View {
 
     @State private var tab: Tabs = .shifts
     @ObservedObject var settings = User.main.getSettings()
-    
+    @Environment(\.sizeCategory) var sizeCategory
 
     var body: some View {
         TabView(selection: $tab) {
@@ -49,6 +49,9 @@ struct ContentView: View {
                 .makeTab(tab: Tabs.settings, systemImage: "gear")
         }
         .tint(settings.themeColor)
+        .onAppear {
+            print(sizeCategory)
+        }
     }
 }
 
@@ -59,5 +62,7 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
             .environment(\.managedObjectContext, PersistenceController.context)
             .environmentObject(NavManager.init())
+//            .environment(\.sizeCategory, .large) // Set a fixed size category for the entire app
+
     }
 }
