@@ -9,6 +9,8 @@ import AlertToast
 import SwiftUI
 import Vin
 
+// MARK: - GoalDetailView
+
 struct GoalDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @ObservedObject private var user: User = User.main
@@ -25,11 +27,11 @@ struct GoalDetailView: View {
     @State private var toastConfiguration: AlertToast = AlertToast(type: .regular)
     @State private var isShowingFullScreenImage = false
     @State private var isBlurred = false
-
+    
     var body: some View {
         VStack {
             List {
-                Section(header: Text("Initial")) {
+                Section(header: Text("Info")) {
                     Text("Amount")
                         .spacedOut {
                             Text(goal.amount.formattedForMoney())
@@ -51,34 +53,64 @@ struct GoalDetailView: View {
                         Text(user.convertMoneyToTime(money: goal.amount).formatForTime())
                     }
                 }
-
+                
+                Section("Tags") {
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            NavigationLink {
+                            }
+                        label: {
+                            Label("New Tag", systemImage: "plus")
+                                .foregroundColor(.white)
+                                .padding(10)
+                                .padding(.trailing, 10)
+                                .background {
+                                    PriceTag(height: 30, color: settings.themeColor, holePunchColor: .listBackgroundColor)
+                                }
+                        }
+                            
+                            ForEach(goal.getTags()) { tag in
+                                Text(tag.title ?? "NA")
+                                    .foregroundColor(.white)
+                                    .padding(10)
+                                    .padding(.trailing, 10)
+                                    .background {
+                                        PriceTag(height: 30, color: settings.themeColor, holePunchColor: .listBackgroundColor)
+                                    }
+                            }
+                        }
+                    }
+                    .listRowBackground(Color.listBackgroundColor)
+                }
+                
                 Section(header: Text("Progress")) {
                     Text("Paid off")
                         .spacedOut(text: goal.amountPaidOff.formattedForMoney())
-
+                    
                     Text("Remaining")
                         .spacedOut(text: goal.amountRemainingToPayOff.formattedForMoney())
                 }
-
                 
                 // MARK: - Insight Section
+                
                 Section("Insight") {
                     Text("Time required to pay off")
                         .spacedOut(text: goal.totalTimeRemaining.formatForTime([.day, .hour, .minute]))
                 }
-
+                
                 Section(header: Text("Contributions")) {
                     ForEach(goal.getAllocations()) { alloc in
                         if let shift = alloc.shift {
                             AllocShiftRow(shift: shift, allocation: alloc)
                         }
-
+                        
                         if let saved = alloc.savedItem {
                             AllocSavedRow(saved: saved, allocation: alloc)
                         }
                     }
                 }
-
+                
                 Section(header: Text("Image")) {
                     VStack {
                         if let uiImage = shownImage {
@@ -105,13 +137,13 @@ struct GoalDetailView: View {
                                     showImageSelector = true
                                 }
                         }
-
+                        
                         HStack {
                             Button("Choose image") {
                                 showImageSelector = true
                             }
                             .buttonStyle(.borderedProminent)
-
+                            
                             if shownImage != nil {
                                 Button("Remove image", role: .destructive) {
                                     shownImage = nil
@@ -122,7 +154,7 @@ struct GoalDetailView: View {
                     }
                     .frame(maxHeight: 250)
                 }
-
+                
                 Section {
                     Button("Delete goal", role: .destructive) {
                         presentConfirmation.toggle()
@@ -148,10 +180,10 @@ struct GoalDetailView: View {
                         }
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.black.opacity(0.7))
-            .edgesIgnoringSafeArea(.all)
-            .opacity(isShowingFullScreenImage ? 1 : 0)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.black.opacity(0.7))
+                .edgesIgnoringSafeArea(.all)
+                .opacity(isShowingFullScreenImage ? 1 : 0)
         )
         .background(Color.targetGray)
         .confirmationDialog("Are you sure you want to delete this goal?", isPresented: $presentConfirmation, titleVisibility: .visible, actions: {
@@ -159,14 +191,14 @@ struct GoalDetailView: View {
                 guard let context = user.managedObjectContext else {
                     return
                 }
-
+                
                 do {
                     context.delete(goal)
                     try context.save()
                 } catch {
                     print("Failed to delete")
                 }
-
+                
                 dismiss()
             }
         }, message: {
@@ -210,49 +242,53 @@ struct GoalDetailView: View {
     }
 }
 
+// MARK: - ImagePicker
+
 struct ImagePicker: UIViewControllerRepresentable {
     @Binding var isShown: Bool
     @Binding var image: UIImage?
-
+    
     func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> UIImagePickerController {
         let picker = UIImagePickerController()
         picker.sourceType = .photoLibrary
         picker.delegate = context.coordinator
         return picker
     }
-
+    
     func updateUIViewController(_ uiViewController: UIImagePickerController, context: UIViewControllerRepresentableContext<ImagePicker>) {
     }
-
+    
     func makeCoordinator() -> Coordinator {
         return Coordinator(isShown: $isShown, image: $image)
     }
-
+    
     class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
         @Binding var isShown: Bool
         @Binding var image: UIImage?
-
+        
         init(isShown: Binding<Bool>, image: Binding<UIImage?>) {
             _isShown = isShown
             _image = image
         }
-
+        
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
             let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
             self.image = image
             isShown = false
         }
-
+        
         func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
             isShown = false
         }
     }
 }
 
+// MARK: - ImageContentView
+
 struct ImageContentView: View {
     @State private var isShown = false
     @State private var image: UIImage?
-
+    
     var body: some View {
         VStack {
             if image != nil {
@@ -270,16 +306,20 @@ struct ImageContentView: View {
             ImagePicker(isShown: self.$isShown, image: self.$image)
         }
     }
-
+    
     func saveImage() {
     }
 }
+
+// MARK: - ChooseImageView
 
 struct ChooseImageView: View {
     var body: some View {
         ImageContentView()
     }
 }
+
+// MARK: - GoalDetailView_Previews
 
 struct GoalDetailView_Previews: PreviewProvider {
     static var previews: some View {

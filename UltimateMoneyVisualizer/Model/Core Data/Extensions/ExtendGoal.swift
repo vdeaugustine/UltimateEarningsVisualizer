@@ -204,6 +204,13 @@ public extension Goal {
     }
 
     // MARK: Methods
+    
+    func getTags() -> [Tag] {
+        if let tagsArray = tags?.allObjects as? [Tag] {
+            return tagsArray
+        }
+        return []
+    }
 
     func loadImageIfPresent() -> UIImage? {
         if let imageData {

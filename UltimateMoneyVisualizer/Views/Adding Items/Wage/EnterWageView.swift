@@ -41,6 +41,9 @@ struct EnterWageView: View {
                 HStack {
                     SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
                     Text(isSalaried ? getHourlyWage(salaryDouble).formattedForMoney().replacingOccurrences(of: "$", with: "") : hourlyDouble.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                        .font(.system(size: 24))
+                        .fontWeight(.bold)
+                        .foregroundStyle(user.getSettings().getDefaultGradient())
                     Spacer()
                 }
                 .allPartsTappable()

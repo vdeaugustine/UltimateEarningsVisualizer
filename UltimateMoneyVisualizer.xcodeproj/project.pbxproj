@@ -120,6 +120,7 @@
 		9CF194D92A1C524A000F83A9 /* SFSymbolsNames.swift in Resources */ = {isa = PBXBuildFile; fileRef = 9CF194D82A1C524A000F83A9 /* SFSymbolsNames.swift */; };
 		9CF194DB2A1C7980000F83A9 /* AddTagToExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF194DA2A1C7980000F83A9 /* AddTagToExpenseView.swift */; };
 		9CF194DD2A1C7B21000F83A9 /* ExtendTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF194DC2A1C7B21000F83A9 /* ExtendTag.swift */; };
+		9CF194DF2A1E03E7000F83A9 /* PriceTagShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF194DE2A1E03E7000F83A9 /* PriceTagShape.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -256,6 +257,7 @@
 		9CF194D82A1C524A000F83A9 /* SFSymbolsNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbolsNames.swift; sourceTree = "<group>"; };
 		9CF194DA2A1C7980000F83A9 /* AddTagToExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagToExpenseView.swift; sourceTree = "<group>"; };
 		9CF194DC2A1C7B21000F83A9 /* ExtendTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendTag.swift; sourceTree = "<group>"; };
+		9CF194DE2A1E03E7000F83A9 /* PriceTagShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceTagShape.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -404,6 +406,7 @@
 				9CF194D62A1B241D000F83A9 /* SFSymbolsPicker.swift */,
 				9CF194D82A1C524A000F83A9 /* SFSymbolsNames.swift */,
 				9C69C5CB2A1832E5006F5C23 /* GradientOverlayView.swift */,
+				9CF194DE2A1E03E7000F83A9 /* PriceTagShape.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -978,6 +981,7 @@
 				9C7C986929FDA7880077EA25 /* ExtendTemporaryAllocation.swift in Sources */,
 				9C0505722A0FF56C00FC6511 /* PayoffItemProgressBar.swift in Sources */,
 				9C3C58642A0C9ED500169A0F /* AddAllocationForExpenseView.swift in Sources */,
+				9CF194DF2A1E03E7000F83A9 /* PriceTagShape.swift in Sources */,
 				9C460EE22A038D420007EBA9 /* ShiftCircle.swift in Sources */,
 				9C7F969E29F8FE3500F5035C /* ExtendAllocation.swift in Sources */,
 				9C460EE02A038B9F0007EBA9 /* MultipleNewShiftsView.swift in Sources */,
