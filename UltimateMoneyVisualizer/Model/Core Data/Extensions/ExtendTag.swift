@@ -7,10 +7,15 @@
 
 import CoreData
 import Foundation
+import SwiftUI
+import Vin
 
 public extension Tag {
-    
-    @discardableResult convenience init(_ title: String, symbol: String?, user: User, context: NSManagedObjectContext) throws {
+    @discardableResult convenience init(_ title: String,
+                                        symbol: String?,
+                                        color: Color? = nil,
+                                        user: User,
+                                        context: NSManagedObjectContext) throws {
         self.init(context: context)
         self.title = title
         let now = Date.now
@@ -18,12 +23,19 @@ public extension Tag {
         self.dateCreated = now
         self.user = user
         user.addToTags(self)
-        
+
+        let colorToUse = color ?? user.getSettings().themeColor
+        self.colorHexStr = colorToUse.getHex()
+
         try context.save()
     }
-    
-    
-    @discardableResult convenience init(_ title: String, symbol: String?, goal: Goal, user: User, context: NSManagedObjectContext) throws {
+
+    @discardableResult convenience init(_ title: String,
+                                        symbol: String?,
+                                        color: Color? = nil,
+                                        goal: Goal,
+                                        user: User,
+                                        context: NSManagedObjectContext) throws {
         self.init(context: context)
         self.title = title
         addToGoals(goal)
@@ -32,32 +44,76 @@ public extension Tag {
         self.dateCreated = now
         self.user = user
         user.addToTags(self)
-        
+
+        let colorToUse = color ?? user.getSettings().themeColor
+        self.colorHexStr = colorToUse.getHex()
+
         try context.save()
     }
 
-    @discardableResult convenience init(_ title: String, symbol: String?, expense: Expense, user: User, context: NSManagedObjectContext) throws {
+    @discardableResult convenience init(_ title: String,
+                                        symbol: String?,
+                                        color: Color? = nil,
+                                        expense: Expense,
+                                        user: User,
+                                        context: NSManagedObjectContext) throws {
         self.init(context: context)
         self.title = title
         addToExpenses(expense)
         let now = Date.now
         self.lastUsed = now
         self.dateCreated = now
+
+        let colorToUse = color ?? user.getSettings().themeColor
+        self.colorHexStr = colorToUse.getHex()
         try context.save()
     }
 
-    @discardableResult convenience init(_ title: String, symbol: String?, savedItem: Saved, user: User, context: NSManagedObjectContext) throws {
+    @discardableResult convenience init(_ title: String,
+                                        symbol: String?,
+                                        color: Color? = nil,
+                                        savedItem: Saved,
+                                        user: User,
+                                        context: NSManagedObjectContext) throws {
         self.init(context: context)
         self.title = title
         addToSavedItems(savedItem)
         let now = Date.now
         self.lastUsed = now
         self.dateCreated = now
+
+        let colorToUse = color ?? user.getSettings().themeColor
+        self.colorHexStr = colorToUse.getHex()
+
         try context.save()
     }
 }
 
 public extension Tag {
+    static let defaultSymbolStr: String = "tag.fill"
+
+    func getColor() -> Color {
+        guard let colorStr = colorHexStr else { return User.main.getSettings().themeColor }
+        return Color(hex: colorStr)
+    }
+
+    func setColor(_ hex: String) throws {
+        colorHexStr = hex
+        guard let context = managedObjectContext else {
+            throw NSError(domain: "Tag trying to save but it couldn't get its own context", code: 7)
+        }
+        try context.save()
+    }
+
+    func setColor(_ color: Color) throws {
+        colorHexStr = color.getHex()
+
+        guard let context = managedObjectContext else {
+            throw NSError(domain: "Tag trying to save but it couldn't get its own context", code: 7)
+        }
+        try context.save()
+    }
+
     func getTitle() -> String {
         if let title {
             return title
@@ -84,11 +140,10 @@ public extension Tag {
         try? managedObjectContext?.save()
         return now
     }
-    
+
     func getSymbolStr() -> String {
         symbolString ?? "tag.fill"
     }
-    
 }
 
 public extension Tag {
@@ -110,7 +165,7 @@ public extension Tag {
                                                  "Luxury",
                                                  "Health & Fitness",
                                                  "Hobbies"]
-    
+
     static func getSomeTitles(amount: Int? = nil) -> [String] {
         var options = Tag.someExampleTagTitles
         var returnedArray = [String]()

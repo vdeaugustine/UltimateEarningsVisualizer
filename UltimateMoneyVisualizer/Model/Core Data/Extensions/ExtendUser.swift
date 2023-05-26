@@ -469,4 +469,16 @@ public extension User {
 
         return filtered
     }
+    
+    func getSavedItemsWith(tag: Tag) -> [Saved] {
+        let filtered = getSaved().filter { saved in
+            saved.getTags().contains(where: { savedTag in
+
+                savedTag == tag
+
+            })
+        }
+
+        return filtered
+    }
 }

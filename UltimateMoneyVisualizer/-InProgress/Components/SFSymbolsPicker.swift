@@ -18,6 +18,7 @@ struct SFSymbolsPicker: View {
     var numberOfColumns: Int = 4
     var width: CGFloat = 50
     var height: CGFloat = 50
+    var color: Color = User.main.getSettings().themeColor
     
     var body: some View {
             ScrollView {
@@ -26,7 +27,7 @@ struct SFSymbolsPicker: View {
                         Button(action: {
                             selectedSymbol = symbol
                         }) {
-                            SystemImageWithFilledBackground(systemName: symbol, backgroundColor: settings.themeColor, width: width, height: height)
+                            SystemImageWithFilledBackground(systemName: symbol, backgroundColor: color, width: width, height: height)
                         }
                     }
                 }

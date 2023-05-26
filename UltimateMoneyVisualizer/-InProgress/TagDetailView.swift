@@ -34,16 +34,39 @@ struct TagDetailView: View {
                     }
                 }
             }
-            
+
             Section("Goals") {
                 ForEach(user.getGoalsWith(tag: tag)) { goal in
-                    Text(goal.titleStr)
+
+                    NavigationLink {
+                        GoalDetailView(goal: goal)
+                    } label: {
+                        Text(goal.titleStr)
+                    }
                 }
             }
-            
+
             Section("Expenses") {
                 ForEach(user.getExpensesWith(tag: tag)) { expense in
-                    Text(expense.titleStr)
+
+                    NavigationLink {
+                        ExpenseDetailView(expense: expense)
+                    } label: {
+                        Text(expense.titleStr)
+                    }
+                }
+            }
+
+            Section("Saved Items") {
+                ForEach(user.getSavedItemsWith(tag: tag)) { saved in
+
+                    NavigationLink {
+                        SavedDetailView(saved: saved)
+                        
+                        
+                    } label: {
+                        Text(saved.getTitle())
+                    }
                 }
             }
         }

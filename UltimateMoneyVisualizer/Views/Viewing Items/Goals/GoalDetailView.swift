@@ -61,14 +61,18 @@ struct GoalDetailView: View {
                             NavigationLink {
                             }
                         label: {
+                            
+                            
+                            
                             Label("New Tag", systemImage: "plus")
-                                .foregroundColor(.white)
-                                .padding(10)
-                                .padding(.trailing, 10)
-                                .background {
-                                    PriceTag(height: 30, color: settings.themeColor, holePunchColor: .listBackgroundColor)
-                                }
+//                                .foregroundColor(.white)
+//                                .padding(.trailing, 10)
+//                                .background {
+//                                    PriceTag(height: 30, color: settings.themeColor, holePunchColor: .listBackgroundColor)
+//                                }
                         }
+                        .buttonStyle(.borderedProminent)
+                        .tint(.blue)
                             
                             ForEach(goal.getTags()) { tag in
                                 Text(tag.title ?? "NA")
