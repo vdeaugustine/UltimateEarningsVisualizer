@@ -139,7 +139,7 @@ struct SettingsView: View {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
-            .environment(\.managedObjectContext, PersistenceController.context)
+            .environment(\.managedObjectContext, PersistenceController.testing)
             .putInTemplate()
             .putInNavView(.inline)
     }

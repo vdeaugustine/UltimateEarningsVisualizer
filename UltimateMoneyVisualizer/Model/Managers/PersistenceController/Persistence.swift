@@ -18,10 +18,10 @@ extension UserDefaults {
     }
 }
 
+// MARK: - PersistenceController
+
 public struct PersistenceController {
     public static let context = shared.container.viewContext
-    
-    public static let inMemory: Bool = true
 
     public static let testing: NSManagedObjectContext = {
         let pc = PersistenceController(inMemory: true)
@@ -32,7 +32,9 @@ public struct PersistenceController {
 
     #if !DEBUG
         static let shared = PersistenceController()
+        public static let inMemory: Bool = true
     #else
+        public static let inMemory: Bool = false
         static var shared: PersistenceController = {
             let isInPreview = ProcessInfo.processInfo.environment["_XCODE_RUNNING_FOR_PREVIEWS"] == nil
             let result = PersistenceController(inMemory: inMemory)

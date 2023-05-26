@@ -17,9 +17,7 @@ struct WageView: View {
 
     @FetchRequest(sortDescriptors: []) var users: FetchedResults<User>
 
-    #if DEBUG
-        @State var wage: Wage
-    #endif
+    @State var wage: Wage
 
     @State private var hourlyWage: String = ""
     @State private var isSalaried: Bool = false
