@@ -22,11 +22,13 @@ struct TagDetailView: View {
         Form {
             Section("Tag Title") {
                 Text(tag.getTitle())
+                
+                
             }
 
             Section("Symbol") {
                 HStack {
-                    SystemImageWithFilledBackground(systemName: tag.getSymbolStr(), backgroundColor: user.getSettings().themeColor, width: symbolWidthHeight, height: symbolWidthHeight)
+                    SystemImageWithFilledBackground(systemName: tag.getSymbolStr(), backgroundColor: tag.getColor(), width: symbolWidthHeight, height: symbolWidthHeight)
 
                     Spacer()
 

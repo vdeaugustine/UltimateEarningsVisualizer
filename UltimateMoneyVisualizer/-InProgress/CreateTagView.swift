@@ -10,6 +10,10 @@ import AlertToast
 
 struct CreateTagView: View {
     
+    var goal: Goal?
+    var expense: Expense?
+    var saved: Saved?
+    
    
     @State private var tagTitle = ""
     @State private var symbolStr = Tag.defaultSymbolStr
@@ -103,7 +107,20 @@ struct CreateTagView: View {
         .navigationTitle("Create Tag")
         .bottomButton(label: "Save") {
             do {
-               try Tag(tagTitle, symbol: symbolStr, color: colorSelected, user: user, context: viewContext)
+                
+                if let goal {
+                    try Tag(tagTitle, symbol: symbolStr, color: colorSelected, goal: goal, user: user, context: viewContext)
+                }
+                else if let expense {
+                    try Tag(tagTitle, symbol: symbolStr, color: colorSelected, expense: expense, user: user, context: viewContext)
+                }
+                else if let saved {
+                    try Tag(tagTitle, symbol: symbolStr, color: colorSelected, savedItem: saved, user: user, context: viewContext)
+                }
+                else {
+                    try Tag(tagTitle, symbol: symbolStr, color: colorSelected, user: user, context: viewContext)
+                }
+               
                 try viewContext.save()
                 alertConfig = .successWith(message: "Saved successfully")
                 showAlert.toggle()

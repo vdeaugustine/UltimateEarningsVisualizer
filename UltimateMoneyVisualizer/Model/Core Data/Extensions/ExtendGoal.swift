@@ -31,7 +31,11 @@ public extension Goal {
                     addToTags(existingTag)
                     continue
                 } else {
+                    #if DEBUG
+                    try Tag(tagStr, symbol: nil, color: Color.defaultColorOptions.randomElement()!, goal: self, user: user, context: context)
+                    #else
                     try Tag(tagStr, symbol: nil, goal: self, user: user, context: context)
+                    #endif
                 }
             }
         }
