@@ -11,7 +11,6 @@ import Foundation
 extension WorkSchedule {
     func removeDuplicateWorkSchedules(in context: NSManagedObjectContext) {
         guard let dayOfWeek = self.dayOfWeek else {
-            print("dayOfWeek is nil, cannot remove duplicates")
             return
         }
 

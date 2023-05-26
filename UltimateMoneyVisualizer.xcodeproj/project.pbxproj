@@ -41,6 +41,11 @@
 		9C65A75F2A00D28E00A5BCF1 /* GoalRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C65A75E2A00D28E00A5BCF1 /* GoalRow.swift */; };
 		9C65A7612A00D4B900A5BCF1 /* ExpenseRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C65A7602A00D4B900A5BCF1 /* ExpenseRow.swift */; };
 		9C69C5CC2A1832E5006F5C23 /* GradientOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C69C5CB2A1832E5006F5C23 /* GradientOverlayView.swift */; };
+		9C7B5D522A1EE82600DBB877 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7B5D512A1EE82600DBB877 /* SubscriptionManager.swift */; };
+		9C7B5D542A201AC600DBB877 /* ExtendPayPeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7B5D532A201AC600DBB877 /* ExtendPayPeriod.swift */; };
+		9C7B5D562A2026D000DBB877 /* PayCycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7B5D552A2026D000DBB877 /* PayCycle.swift */; };
+		9C7B5D582A20271400DBB877 /* PayCycleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7B5D572A20271400DBB877 /* PayCycleView.swift */; };
+		9C7B5D5A2A202E8D00DBB877 /* CreateTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7B5D592A202E8D00DBB877 /* CreateTagView.swift */; };
 		9C7C983A29F9EC410077EA25 /* EnterWageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C983929F9EC410077EA25 /* EnterWageView.swift */; };
 		9C7C983C29F9EDDF0077EA25 /* SelectRegularDaysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C983B29F9EDDF0077EA25 /* SelectRegularDaysView.swift */; };
 		9C7C983F29F9F68B0077EA25 /* RegularScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C983E29F9F68B0077EA25 /* RegularScheduleView.swift */; };
@@ -176,6 +181,11 @@
 		9C65A75E2A00D28E00A5BCF1 /* GoalRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalRow.swift; sourceTree = "<group>"; };
 		9C65A7602A00D4B900A5BCF1 /* ExpenseRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRow.swift; sourceTree = "<group>"; };
 		9C69C5CB2A1832E5006F5C23 /* GradientOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientOverlayView.swift; sourceTree = "<group>"; };
+		9C7B5D512A1EE82600DBB877 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
+		9C7B5D532A201AC600DBB877 /* ExtendPayPeriod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendPayPeriod.swift; sourceTree = "<group>"; };
+		9C7B5D552A2026D000DBB877 /* PayCycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayCycle.swift; sourceTree = "<group>"; };
+		9C7B5D572A20271400DBB877 /* PayCycleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayCycleView.swift; sourceTree = "<group>"; };
+		9C7B5D592A202E8D00DBB877 /* CreateTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTagView.swift; sourceTree = "<group>"; };
 		9C7C983929F9EC410077EA25 /* EnterWageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterWageView.swift; sourceTree = "<group>"; };
 		9C7C983B29F9EDDF0077EA25 /* SelectRegularDaysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectRegularDaysView.swift; sourceTree = "<group>"; };
 		9C7C983E29F9F68B0077EA25 /* RegularScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegularScheduleView.swift; sourceTree = "<group>"; };
@@ -255,7 +265,7 @@
 		9CEEE35629F9E77F001FA4FB /* WageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WageView.swift; sourceTree = "<group>"; };
 		9CF194D62A1B241D000F83A9 /* SFSymbolsPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbolsPicker.swift; sourceTree = "<group>"; };
 		9CF194D82A1C524A000F83A9 /* SFSymbolsNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbolsNames.swift; sourceTree = "<group>"; };
-		9CF194DA2A1C7980000F83A9 /* AddTagToExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagToExpenseView.swift; sourceTree = "<group>"; };
+		9CF194DA2A1C7980000F83A9 /* AddTagToExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagToExpenseView.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		9CF194DC2A1C7B21000F83A9 /* ExtendTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendTag.swift; sourceTree = "<group>"; };
 		9CF194DE2A1E03E7000F83A9 /* PriceTagShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceTagShape.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -406,7 +416,6 @@
 				9CF194D62A1B241D000F83A9 /* SFSymbolsPicker.swift */,
 				9CF194D82A1C524A000F83A9 /* SFSymbolsNames.swift */,
 				9C69C5CB2A1832E5006F5C23 /* GradientOverlayView.swift */,
-				9CF194DE2A1E03E7000F83A9 /* PriceTagShape.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -414,6 +423,7 @@
 		9C7C985629FB72320077EA25 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				9CF194DE2A1E03E7000F83A9 /* PriceTagShape.swift */,
 				9CED53472A08ACC7002DC183 /* AllocSavedRow.swift */,
 				9CED53492A08ADCF002DC183 /* AllocShiftRow.swift */,
 				9C460EE32A038D880007EBA9 /* CircleBadgeView.swift */,
@@ -466,8 +476,8 @@
 				9C4F0A282A14534100C78349 /* UltimateMoneyVisualizer.entitlements */,
 				9C7F966829F8F03E00F5035C /* Info.plist */,
 				9C7F965E29F8F03E00F5035C /* Assets.xcassets */,
+				9C7F96A329F8FEB000F5035C /* --TopLevel */,
 				9C7F96A429F8FEEB00F5035C /* -InProgress */,
-				9C7F96A329F8FEB000F5035C /* -TopLevel */,
 				9CEEE32929F90432001FA4FB /* LocalExtensions */,
 				9CEEE33D29F9099D001FA4FB /* Model */,
 				9C7F966029F8F03E00F5035C /* Preview Content */,
@@ -522,6 +532,8 @@
 			isa = PBXGroup;
 			children = (
 				9C7F969729F8FE3500F5035C /* ExtendAllocation.swift */,
+				9C7B5D532A201AC600DBB877 /* ExtendPayPeriod.swift */,
+				9C7B5D552A2026D000DBB877 /* PayCycle.swift */,
 				9C7F968C29F8FD2D00F5035C /* ExtendExpense.swift */,
 				9C7F969429F8FE3500F5035C /* ExtendGoal.swift */,
 				9C514DAF2A002266003DC43C /* ExtendPayoffQueue.swift */,
@@ -556,26 +568,28 @@
 			path = PersistenceController;
 			sourceTree = "<group>";
 		};
-		9C7F96A329F8FEB000F5035C /* -TopLevel */ = {
+		9C7F96A329F8FEB000F5035C /* --TopLevel */ = {
 			isa = PBXGroup;
 			children = (
 				9C7F965C29F8F03C00F5035C /* ContentView.swift */,
 				9C7F965A29F8F03C00F5035C /* UltimateMoneyVisualizerApp.swift */,
 			);
-			path = "-TopLevel";
+			path = "--TopLevel";
 			sourceTree = "<group>";
 		};
 		9C7F96A429F8FEEB00F5035C /* -InProgress */ = {
 			isa = PBXGroup;
 			children = (
+				9CF194DA2A1C7980000F83A9 /* AddTagToExpenseView.swift */,
+				9C4F0A242A1359EC00C78349 /* AnalyzeAmountView.swift */,
 				9C0505A02A11EBF700FC6511 /* ConfirmTodayShift.swift */,
+				9C7B5D592A202E8D00DBB877 /* CreateTagView.swift */,
+				9C4F0A262A135A1500C78349 /* EnterMoneyView.swift */,
+				9C7B5D512A1EE82600DBB877 /* SubscriptionManager.swift */,
 				9CB418C12A0A0E07006F44AB /* TempTodayPayoff.swift */,
+				9C4F0A2C2A152D5500C78349 /* ViewNormalWorkingHoursSet.swift */,
 				9C7C985529FB722D0077EA25 /* Components */,
 				9C97358F2A0D789000F651A1 /* Incomplete(Abandoned) */,
-				9C4F0A242A1359EC00C78349 /* AnalyzeAmountView.swift */,
-				9C4F0A262A135A1500C78349 /* EnterMoneyView.swift */,
-				9C4F0A2C2A152D5500C78349 /* ViewNormalWorkingHoursSet.swift */,
-				9CF194DA2A1C7980000F83A9 /* AddTagToExpenseView.swift */,
 			);
 			path = "-InProgress";
 			sourceTree = "<group>";
@@ -583,6 +597,7 @@
 		9C97358F2A0D789000F651A1 /* Incomplete(Abandoned) */ = {
 			isa = PBXGroup;
 			children = (
+				9C7B5D572A20271400DBB877 /* PayCycleView.swift */,
 			);
 			path = "Incomplete(Abandoned)";
 			sourceTree = "<group>";
@@ -933,12 +948,15 @@
 				9C7F96A629F8FF0100F5035C /* CreateExpenseView.swift in Sources */,
 				9C7F968D29F8FD2D00F5035C /* ExtendExpense.swift in Sources */,
 				9C7C984729FA0E130077EA25 /* HomeView.swift in Sources */,
+				9C7B5D582A20271400DBB877 /* PayCycleView.swift in Sources */,
 				9C3C58682A0CBF5900169A0F /* AllItemsView.swift in Sources */,
 				9C9735962A0D84D500F651A1 /* ExtendText.swift in Sources */,
 				9C9735982A0D9B9000F651A1 /* NetMoneyGraph.swift in Sources */,
 				9C7C984129F9F7B20077EA25 /* AllSchedulesView.swift in Sources */,
 				9C514DB52A00A480003DC43C /* PayoffQueueView.swift in Sources */,
+				9C7B5D542A201AC600DBB877 /* ExtendPayPeriod.swift in Sources */,
 				9CEEE34329F90A7D001FA4FB /* CreateShiftView.swift in Sources */,
+				9C7B5D562A2026D000DBB877 /* PayCycle.swift in Sources */,
 				9C4F0A2A2A14614200C78349 /* NotificationManager.swift in Sources */,
 				9C7C983F29F9F68B0077EA25 /* RegularScheduleView.swift in Sources */,
 				9C7C985A29FCA09C0077EA25 /* TodayView.swift in Sources */,
@@ -964,6 +982,7 @@
 				9C3C58622A0C8BE200169A0F /* DateCircle.swift in Sources */,
 				9CEEE34029F909CC001FA4FB /* WageType.swift in Sources */,
 				9C460EE92A049DFA0007EBA9 /* StatsView.swift in Sources */,
+				9C7B5D5A2A202E8D00DBB877 /* CreateTagView.swift in Sources */,
 				9C7C985F29FCD5AB0077EA25 /* HorizontalDataDisplay.swift in Sources */,
 				9CF194DB2A1C7980000F83A9 /* AddTagToExpenseView.swift in Sources */,
 				9CEEE34929F90BCF001FA4FB /* DayOfWeek.swift in Sources */,
@@ -994,6 +1013,7 @@
 				9C7C986529FCF3B60077EA25 /* PieChart.swift in Sources */,
 				9CEEE35729F9E77F001FA4FB /* WageView.swift in Sources */,
 				9CEEE32B29F9044F001FA4FB /* ExtendView.swift in Sources */,
+				9C7B5D522A1EE82600DBB877 /* SubscriptionManager.swift in Sources */,
 				9C7C984A29FA5BFB0077EA25 /* ExtendTodayShift.swift in Sources */,
 				9C7F969D29F8FE3500F5035C /* ExtendUser.swift in Sources */,
 				9C442A372A03792800D61C3E /* WageBreakdownBox.swift in Sources */,
@@ -1188,9 +1208,11 @@
 				INFOPLIST_FILE = UltimateMoneyVisualizer/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1219,9 +1241,11 @@
 				INFOPLIST_FILE = UltimateMoneyVisualizer/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

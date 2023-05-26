@@ -11,28 +11,29 @@ import Vin
 // MARK: - SFSymbolsPicker
 
 struct SFSymbolsPicker: View {
-    @State private var selectedSymbol: String?
+    @Binding var selectedSymbol: String
 
     @ObservedObject private var settings = User.main.getSettings()
-
+    
+    var numberOfColumns: Int = 4
+    var width: CGFloat = 50
+    var height: CGFloat = 50
+    
     var body: some View {
-        ScrollView {
-            LazyVGrid(columns: GridItem.flexibleItems(4)) {
-                ForEach(sfSymbols, id: \.self) { symbol in
-                    Button(action: {
-                        selectedSymbol = symbol
-                    }) {
-                        SystemImageWithFilledBackground(systemName: symbol, backgroundColor: settings.themeColor, width: 59, height: 59)
+            ScrollView {
+                LazyVGrid(columns: GridItem.flexibleItems(numberOfColumns)) {
+                    ForEach(sfSymbols, id: \.self) { symbol in
+                        Button(action: {
+                            selectedSymbol = symbol
+                        }) {
+                            SystemImageWithFilledBackground(systemName: symbol, backgroundColor: settings.themeColor, width: width, height: height)
+                        }
                     }
                 }
-            }
-            .padding()
 
-            if let selectedSymbol {
-                SystemImageWithFilledBackground(systemName: selectedSymbol, backgroundColor: settings.themeColor)
-                Text(selectedSymbol)
+               
             }
-        }
+            
     }
 
     let sfSymbols: [String] = ["house.fill",
@@ -84,6 +85,7 @@ struct SFSymbolsPicker: View {
 
 struct SFSymbolsPicker_Previews: PreviewProvider {
     static var previews: some View {
-        SFSymbolsPicker()
+        SFSymbolsPicker(selectedSymbol: .constant(""), width: 30, height: 30)
+            .frame(width: 400, height: 150)
     }
 }

@@ -354,6 +354,19 @@ public extension User {
 
         return newSettings
     }
+    
+    
+    
+    
+
+    func getPayCycle() -> PayCycle? {
+        guard let cycle = payPeriod?.payCycle else { return nil }
+        return PayCycle(rawValue: cycle)
+    }
+    
+    func setPayCycle(_ payCycle: PayCycle) {
+        self.payPeriod?.payCycle = payCycle.rawValue
+    }
 
     func expenseWithMostAllocations() -> Expense? {
         // Get the expense with the highest number of allocations

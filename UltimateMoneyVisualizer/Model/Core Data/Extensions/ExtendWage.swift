@@ -47,4 +47,6 @@ public extension Wage {
     var perYear: Double {
         perWeek * weeksPerYear
     }
+    
+    
 }

@@ -49,9 +49,7 @@ struct ContentView: View {
                 .makeTab(tab: Tabs.settings, systemImage: "gear")
         }
         .tint(settings.themeColor)
-        .onAppear {
-            print(sizeCategory)
-        }
+        
     }
 }
 

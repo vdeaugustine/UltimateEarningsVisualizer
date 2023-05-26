@@ -30,12 +30,11 @@ public extension Goal {
                     guard let title = tag.title else { return false }
                     return title == tagStr
                 }) {
-                    print("found existing tag", tagStr)
                     existingTag.addToGoals(self)
                     addToTags(existingTag)
                     continue
                 } else {
-                    try Tag(tagStr, goal: self, user: user, context: context)
+                    try Tag(tagStr, symbol: nil, goal: self, user: user, context: context)
                 }
             }
         }

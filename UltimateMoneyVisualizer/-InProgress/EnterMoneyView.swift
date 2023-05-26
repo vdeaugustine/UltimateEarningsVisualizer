@@ -136,11 +136,7 @@ struct EnterMoneyView: View {
             }
         }
         
-        .onAppear(perform: {
-                print(
-                UIScreen.main.bounds.width
-            )
-        })
+        
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background {
             Color.listBackgroundColor

@@ -84,9 +84,7 @@ struct CreateExpenseView: View {
             EnterMoneyView(dubToEdit: $doubleAmount)
 
         })
-        .onChange(of: dateFocused, perform: { newValue in
-            print("Date is focused: \(newValue.description)")
-        })
+        
 
         .toolbar {
             ToolbarItemGroup(placement: .keyboard) {
@@ -141,12 +139,6 @@ struct CreateExpenseView: View {
                 showToast = true
                 return
             }
-//            guard let dub = Double(amount) else {
-//                alertToastConfig = AlertToast(displayMode: .alert, type: .error(.blue), title: "Please enter a valid amount")
-//                print("This is amount: \(amount)")
-//                showToast = true
-//                return
-//            }
 
             do {
                 Expense(title: title, info: info, amount: doubleAmount, dueDate: dueDate, dateCreated: .now, user: user, context: viewContext)

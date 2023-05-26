@@ -58,9 +58,7 @@ struct RegularScheduleView: View {
                 }
             }
         }
-        .onAppear {
-            print("Nav path", navPath.settingsNavPath)
-        }
+        
     }
 
     private var timeFormatter: DateFormatter {

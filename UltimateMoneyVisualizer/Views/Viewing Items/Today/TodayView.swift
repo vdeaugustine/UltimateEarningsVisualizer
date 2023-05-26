@@ -76,7 +76,6 @@ struct TodayView: View {
         .bottomBanner(isVisible: $showBanner, swipeToDismiss: false, buttonText: "Save") {
             do {
                 try todayShift?.finalizeAndSave(user: user, context: viewContext)
-                print("Saved successfully")
             } catch {
                 print("Error saving")
             }

@@ -9,7 +9,21 @@ import CoreData
 import Foundation
 
 public extension Tag {
-    @discardableResult convenience init(_ title: String, goal: Goal, user: User, context: NSManagedObjectContext) throws {
+    
+    @discardableResult convenience init(_ title: String, symbol: String?, user: User, context: NSManagedObjectContext) throws {
+        self.init(context: context)
+        self.title = title
+        let now = Date.now
+        self.lastUsed = now
+        self.dateCreated = now
+        self.user = user
+        user.addToTags(self)
+        
+        try context.save()
+    }
+    
+    
+    @discardableResult convenience init(_ title: String, symbol: String?, goal: Goal, user: User, context: NSManagedObjectContext) throws {
         self.init(context: context)
         self.title = title
         addToGoals(goal)
@@ -19,11 +33,10 @@ public extension Tag {
         self.user = user
         user.addToTags(self)
         
-        print("Made new tag for goal", goal.titleStr, "tag", title)
         try context.save()
     }
 
-    @discardableResult convenience init(_ title: String, expense: Expense, user: User, context: NSManagedObjectContext) throws {
+    @discardableResult convenience init(_ title: String, symbol: String?, expense: Expense, user: User, context: NSManagedObjectContext) throws {
         self.init(context: context)
         self.title = title
         addToExpenses(expense)
@@ -33,7 +46,7 @@ public extension Tag {
         try context.save()
     }
 
-    @discardableResult convenience init(_ title: String, savedItem: Saved, user: User, context: NSManagedObjectContext) throws {
+    @discardableResult convenience init(_ title: String, symbol: String?, savedItem: Saved, user: User, context: NSManagedObjectContext) throws {
         self.init(context: context)
         self.title = title
         addToSavedItems(savedItem)

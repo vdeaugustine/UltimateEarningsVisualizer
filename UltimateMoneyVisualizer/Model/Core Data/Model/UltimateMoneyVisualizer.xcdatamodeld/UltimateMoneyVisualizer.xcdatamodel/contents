@@ -43,6 +43,12 @@
         <attribute name="list" optional="YES" attributeType="String"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="payoffQueue" inverseEntity="User"/>
     </entity>
+    <entity name="PayPeriod" representedClassName="PayPeriod" syncable="YES" codeGenerationType="class">
+        <attribute name="dayOfWeek" optional="YES" attributeType="String"/>
+        <attribute name="firstDateEntered" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="payCycle" optional="YES" attributeType="String" valueTransformerName="PayCycleTransformer" customClassName="PayCycle"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="payPeriod" inverseEntity="User"/>
+    </entity>
     <entity name="RegularDay" representedClassName="RegularDay" syncable="YES" codeGenerationType="class">
         <attribute name="dayName" optional="YES" attributeType="String"/>
         <attribute name="endTime" optional="YES" attributeType="String"/>
@@ -83,6 +89,7 @@
     <entity name="Tag" representedClassName="Tag" syncable="YES" codeGenerationType="class">
         <attribute name="dateCreated" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="lastUsed" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="symbolString" optional="YES" attributeType="String"/>
         <attribute name="title" attributeType="String" defaultValueString=""/>
         <relationship name="expenses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Expense" inverseName="tags" inverseEntity="Expense"/>
         <relationship name="goals" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Goal" inverseName="tags" inverseEntity="Goal"/>
@@ -114,6 +121,7 @@
         <relationship name="expenses" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Expense" inverseName="user" inverseEntity="Expense"/>
         <relationship name="goals" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Goal" inverseName="user" inverseEntity="Goal"/>
         <relationship name="payoffQueue" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="PayoffQueue" inverseName="user" inverseEntity="PayoffQueue"/>
+        <relationship name="payPeriod" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PayPeriod" inverseName="user" inverseEntity="PayPeriod"/>
         <relationship name="regularSchedule" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RegularSchedule" inverseName="user" inverseEntity="RegularSchedule"/>
         <relationship name="savedItems" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Saved" inverseName="user" inverseEntity="Saved"/>
         <relationship name="settings" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Settings" inverseName="user" inverseEntity="Settings"/>
