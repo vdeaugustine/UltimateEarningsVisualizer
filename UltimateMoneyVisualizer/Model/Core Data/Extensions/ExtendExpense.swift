@@ -6,7 +6,14 @@ import Vin
 // MARK: - Initializer
 
 public extension Expense {
-    @discardableResult convenience init(title: String, info: String?, amount: Double, dueDate: Date?, dateCreated: Date? = nil, user: User, context: NSManagedObjectContext = PersistenceController.context) {
+    @discardableResult convenience init(title: String,
+                                        info: String?,
+                                        amount: Double,
+                                        dueDate: Date?,
+                                        dateCreated: Date? = nil,
+                                        tagStrings: [String]? = nil,
+                                        user: User,
+                                        context: NSManagedObjectContext = PersistenceController.context) throws {
         self.init(context: context)
         self.title = title
         self.info = info
@@ -18,6 +25,18 @@ public extension Expense {
         let currentQueueCount = Int16(user.getQueue().count)
         // Put the item at the back of the queue at first initialization
         self.queueSlotNumber = currentQueueCount
+
+        if let tagStrings {
+            for tagStr in tagStrings {
+                if let existingTag = user.getTags().first(where: { $0.getTitle() == tagStr }) {
+                    existingTag.addToExpenses(self)
+                    addToTags(existingTag)
+                    continue
+                } else {
+                    try Tag(tagStr, symbol: nil, expense: self, user: user, context: context)
+                }
+            }
+        }
 
         self.id = UUID()
     }
@@ -37,7 +56,7 @@ extension Expense: PayoffItem {
     }
 
     public var amountRemainingToPayOff: Double { return amount - amountPaidOff }
-    
+
     public var isPassedDue: Bool { timeRemaining <= 0 }
 
     public var optionalQSlotNumber: Int16? {
@@ -65,7 +84,7 @@ extension Expense: PayoffItem {
     }
 
     public var percentPaidOff: Double { amountPaidOff / amount }
-    
+
     public var percentTemporarilyPaidOff: Double { temporarilyPaidOff / amount }
 
     public var temporarilyPaidOff: Double {
@@ -109,6 +128,13 @@ extension Expense: PayoffItem {
         try? managedObjectContext?.save()
 
         return newID
+    }
+
+    public func getTags() -> [Tag] {
+        if let tagsArray = tags?.allObjects as? [Tag] {
+            return tagsArray
+        }
+        return []
     }
 
     public func getMostRecentTemporaryAllocation() -> TemporaryAllocation? {
@@ -222,16 +248,16 @@ public extension Expense {
     }
 
     static func makeExampleExpenses(user: User, context: NSManagedObjectContext) throws {
-        _ = Expense(title: "Groceries", info: "Weekly grocery shopping", amount: 150.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), user: user, context: context)
-        _ = Expense(title: "Netflix", info: "Monthly subscription", amount: 14.99, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), user: user, context: context)
-        _ = Expense(title: "Gym Membership", info: "Monthly gym membership", amount: 50.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), user: user, context: context)
-        _ = Expense(title: "Car Insurance", info: "Six-month premium", amount: 600.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), user: user, context: context)
-        _ = Expense(title: "Phone Bill", info: "Monthly phone bill", amount: 80.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), user: user, context: context)
-        _ = Expense(title: "Birthday Gift", info: "Gift for friend's birthday", amount: 50.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), user: user, context: context)
-        _ = Expense(title: "Airfare", info: "Roundtrip flight for vacation", amount: 500.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), user: user, context: context)
-        _ = Expense(title: "Concert Tickets", info: "Tickets for upcoming concert", amount: 200.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), user: user, context: context)
-        _ = Expense(title: "Dinner Date", info: "Dinner at fancy restaurant", amount: 100.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), user: user, context: context)
-        _ = Expense(title: "Home Decor", info: "New furniture for living room", amount: 1_000.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), user: user, context: context)
+        _ = try Expense(title: "Groceries", info: "Weekly grocery shopping", amount: 150.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), tagStrings: Tag.getSomeTitles(), user: user, context: context)
+        _ = try Expense(title: "Netflix", info: "Monthly subscription", amount: 14.99, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), tagStrings: Tag.getSomeTitles(), user: user, context: context)
+        _ = try Expense(title: "Gym Membership", info: "Monthly gym membership", amount: 50.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), tagStrings: Tag.getSomeTitles(), user: user, context: context)
+        _ = try Expense(title: "Car Insurance", info: "Six-month premium", amount: 600.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), tagStrings: Tag.getSomeTitles(), user: user, context: context)
+        _ = try Expense(title: "Phone Bill", info: "Monthly phone bill", amount: 80.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), tagStrings: Tag.getSomeTitles(), user: user, context: context)
+        _ = try Expense(title: "Birthday Gift", info: "Gift for friend's birthday", amount: 50.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), tagStrings: Tag.getSomeTitles(), user: user, context: context)
+        _ = try Expense(title: "Airfare", info: "Roundtrip flight for vacation", amount: 500.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), tagStrings: Tag.getSomeTitles(), user: user, context: context)
+        _ = try Expense(title: "Concert Tickets", info: "Tickets for upcoming concert", amount: 200.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), tagStrings: Tag.getSomeTitles(), user: user, context: context)
+        _ = try Expense(title: "Dinner Date", info: "Dinner at fancy restaurant", amount: 100.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), tagStrings: Tag.getSomeTitles(), user: user, context: context)
+        _ = try Expense(title: "Home Decor", info: "New furniture for living room", amount: 1_000.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), tagStrings: Tag.getSomeTitles(), user: user, context: context)
         try context.save()
     }
 }

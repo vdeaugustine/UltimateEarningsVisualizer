@@ -296,7 +296,7 @@ public extension User {
 
         return savedItems.sorted(by: { $0.getDate() > $1.getDate() })
     }
-    
+
     func getTags() -> [Tag] {
         guard let tags = Array(tags ?? []) as? [Tag] else {
             return []
@@ -354,18 +354,14 @@ public extension User {
 
         return newSettings
     }
-    
-    
-    
-    
 
     func getPayCycle() -> PayCycle? {
         guard let cycle = payPeriod?.payCycle else { return nil }
         return PayCycle(rawValue: cycle)
     }
-    
+
     func setPayCycle(_ payCycle: PayCycle) {
-        self.payPeriod?.payCycle = payCycle.rawValue
+        payPeriod?.payCycle = payCycle.rawValue
     }
 
     func expenseWithMostAllocations() -> Expense? {
@@ -444,5 +440,33 @@ public extension User {
         }
 
         return (groupedShifts, sortedKeys)
+    }
+
+    func getItemsWith(tag: Tag) -> [Any] {
+        []
+    }
+
+    func getGoalsWith(tag: Tag) -> [Goal] {
+        let filtered = getGoals().filter { goal in
+            goal.getTags().contains(where: { goalTag in
+
+                goalTag == tag
+
+            })
+        }
+
+        return filtered
+    }
+
+    func getExpensesWith(tag: Tag) -> [Expense] {
+        let filtered = getExpenses().filter { expense in
+            expense.getTags().contains(where: { expenseTag in
+
+                expenseTag == tag
+
+            })
+        }
+
+        return filtered
     }
 }

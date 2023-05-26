@@ -85,7 +85,7 @@ struct SFSymbolsPicker: View {
 
 struct SFSymbolsPicker_Previews: PreviewProvider {
     static var previews: some View {
-        SFSymbolsPicker(selectedSymbol: .constant(""), width: 30, height: 30)
-            .frame(width: 400, height: 150)
+        SFSymbolsPicker(selectedSymbol: .constant(""), width: 60, height: 60)
+           
     }
 }

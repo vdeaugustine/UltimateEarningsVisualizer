@@ -141,7 +141,7 @@ struct CreateExpenseView: View {
             }
 
             do {
-                Expense(title: title, info: info, amount: doubleAmount, dueDate: dueDate, dateCreated: .now, user: user, context: viewContext)
+                try Expense(title: title, info: info, amount: doubleAmount, dueDate: dueDate, dateCreated: .now, user: user, context: viewContext)
 
                 try viewContext.save()
 

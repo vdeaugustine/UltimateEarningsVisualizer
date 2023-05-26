@@ -26,10 +26,7 @@ public extension Goal {
 
         if let tagStrings {
             for tagStr in tagStrings {
-                if let existingTag = user.getTags().first(where: { tag in
-                    guard let title = tag.title else { return false }
-                    return title == tagStr
-                }) {
+                if let existingTag = user.getTags().first(where: { $0.getTitle() == tagStr }) {
                     existingTag.addToGoals(self)
                     addToTags(existingTag)
                     continue

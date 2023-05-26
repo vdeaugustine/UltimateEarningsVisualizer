@@ -10,16 +10,17 @@ import AlertToast
 
 struct CreateTagView: View {
     
-    @Environment(\.managedObjectContext) private var viewContext
+   
     @State private var tagTitle = ""
     @State private var symbolStr = ""
+    @Environment(\.managedObjectContext) private var viewContext
     @ObservedObject private var user = User.main
     @Environment (\.dismiss) private var dismiss
     
     @State private var showAlert = false
     @State private var alertConfig = AlertToast.successWith(message: "")
     
-    let symbolWidthHeight: CGFloat = 50
+    let symbolWidthHeight: CGFloat = 40
     
     var body: some View {
         Form {
@@ -30,6 +31,7 @@ struct CreateTagView: View {
                         Text("Symbol")
                         Spacer()
                         SystemImageWithFilledBackground(systemName: symbolStr, backgroundColor: user.getSettings().themeColor, width: symbolWidthHeight, height: symbolWidthHeight)
+                            
                     }
                         
                 }
@@ -41,6 +43,7 @@ struct CreateTagView: View {
                 
                 
                 SFSymbolsPicker(selectedSymbol: $symbolStr, numberOfColumns: 5, width: symbolWidthHeight, height: symbolWidthHeight)
+                    .padding(.vertical)
             }
         }
         .putInTemplate()

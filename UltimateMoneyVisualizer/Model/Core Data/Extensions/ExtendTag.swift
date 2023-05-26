@@ -84,6 +84,11 @@ public extension Tag {
         try? managedObjectContext?.save()
         return now
     }
+    
+    func getSymbolStr() -> String {
+        symbolString ?? "tag.fill"
+    }
+    
 }
 
 public extension Tag {

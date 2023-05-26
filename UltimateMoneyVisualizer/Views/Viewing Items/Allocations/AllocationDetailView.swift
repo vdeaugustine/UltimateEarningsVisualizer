@@ -168,7 +168,7 @@ struct AllocationDetailView_Previews: PreviewProvider {
         let context = PersistenceController.context
         do {
             let saved = try Saved(amount: 123, title: "Laptop", date: .now.addDays(-2), user: User.main, context: User.main.getContext())
-            let expense = Expense(title: "Car payment", info: "Monthly", amount: 800, dueDate: .now.addDays(20), user: User.main)
+            let expense = try Expense(title: "Car payment", info: "Monthly", amount: 800, dueDate: .now.addDays(20), user: User.main)
 
             let alloc = try Allocation(amount: 100, expense: expense, goal: nil, shift: nil, saved: saved, date: .now, context: context)
             return alloc

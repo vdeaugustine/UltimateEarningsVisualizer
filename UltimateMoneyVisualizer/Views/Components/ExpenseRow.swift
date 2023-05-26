@@ -55,7 +55,7 @@ struct ExpenseRow_Previews: PreviewProvider {
     static let expense: Expense = {
         do {
             let user = User.main
-            let expense = Expense(title: "Car payment", info: nil, amount: 800, dueDate: .now.addDays(-1), user: user)
+            let expense = try Expense(title: "Car payment", info: nil, amount: 800, dueDate: .now.addDays(-1), user: user)
             let shift = try Shift(day: .friday, start: .nineAM.addDays(-1), end: .fivePM.addDays(-1), user: user, context: user.getContext())
             let alloc1 = try Allocation(amount: 100, expense: expense, goal: nil, shift: shift, saved: nil, date: .fivePM.addDays(-1), context: user.getContext())
             let saved = try Saved(amount: 490, title: "No new laptop", date: .now.addDays(-10), user: user, context: user.getContext())
