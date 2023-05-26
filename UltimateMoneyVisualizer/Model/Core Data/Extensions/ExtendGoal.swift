@@ -19,6 +19,7 @@ public extension Goal {
         self.dueDate = dueDate
         self.id = UUID()
         self.user = user
+        self.dateCreated = .now
 
         let currentQueueCount = Int16(user.getQueue().count)
         // Put the item at the back of the queue at first initialization

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Vin
 
 // MARK: - SavedDetailView
 
@@ -42,9 +43,53 @@ struct SavedDetailView: View {
                             }
                     }
                 }
-                
+
+                Section("Tags") {
+                    VStack {
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack {
+                                ForEach(saved.getTags()) { tag in
+                                    NavigationLink {
+                                        TagDetailView(tag: tag)
+
+                                    } label: {
+                                        Text(tag.title ?? "NA")
+                                            .foregroundColor(.white)
+                                            .padding(10)
+                                            .padding(.trailing, 10)
+                                            .background {
+                                                PriceTag(height: 30, color: tag.getColor(), holePunchColor: .listBackgroundColor)
+                                            }
+                                    }
+                                }
+                            }
+                        }
+
+                        NavigationLink {
+                            CreateTagView(saved: saved)
+                        } label: {
+                            Label("New Tag", systemImage: "plus")
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .tint(.blue)
+                        .padding(.top)
+                    }
+                    .listRowBackground(Color.listBackgroundColor)
+                }
+
                 Section("Instances") {
-                    
+                    ForEach(user.getInstancesOf(savedItem: saved)) { thisSaved in
+                        NavigationLink {
+                            SavedDetailView(saved: thisSaved)
+                        } label: {
+                            Text(thisSaved.getDate().getFormattedDate(format: .abreviatedMonth))
+                                .spacedOut(text: thisSaved.getAmount().formattedForMoney())
+                        }
+                    }
+//                    ForEach(user.getInstancesOf(savedItem: saved)) { savedItem in
+//                        Text(savedItem.titleStr)
+//                            .spacedOut(text: savedItem.getDate().getFormattedDate(format: .slashDate))
+//                    }
                 }
 
                 Section("Allocations") {
@@ -68,23 +113,6 @@ struct SavedDetailView: View {
                             }
                         }
                     }
-
-//                    Menu {
-//                        
-//                        NavigationLink("Expense") {
-//                            
-//                        }
-//                        
-//                        NavigationLink("Goal") {
-//                            
-//                        }
-//                         
-//                        
-//                    } label: {
-//                        HStack {
-//                            Label("Add Another", systemImage: "plus")
-//                        }
-//                    }
                 }
             }
             .listStyle(.insetGrouped)
@@ -140,7 +168,7 @@ struct SavedDetailView_Previews: PreviewProvider {
     }()
 
     static var previews: some View {
-        SavedDetailView(saved: saved)
+        SavedDetailView(saved: User.main.getSaved().first!)
             .putInNavView(.inline)
             .environment(\.managedObjectContext, PersistenceController.context)
     }

@@ -17,12 +17,16 @@ struct EditSavedItemView: View {
     @State private var amount: Double
     @State private var date: Date
     @State private var amountStr: String
+    @State private var amountDub: Double
+    
+    @State private var showDoubleEditSheet = false
 
     init(saved: Binding<Saved>) {
         _title = State(initialValue: saved.wrappedValue.getTitle())
         _info = State(initialValue: saved.wrappedValue.info ?? "")
         _amount = State(initialValue: saved.wrappedValue.amount)
         _date = State(initialValue: saved.wrappedValue.getDate())
+        _amountDub = State(initialValue: saved.wrappedValue.amount)
         _amountStr = State(initialValue: saved.wrappedValue.amount.formattedForMoney().replacingOccurrences(of: "$", with: ""))
         _savedItem = saved
     }
@@ -57,12 +61,25 @@ struct EditSavedItemView: View {
                     .frame(height: 150)
             }
 
-            Section("Total Amount") {
-                HStack {
-                    SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: settings.themeColor)
-                    TextField("$", text: $amountStr)
-                        .focused($focusedField, equals: .amount)
+            Section {
+                Button {
+                    showDoubleEditSheet.toggle()
+
+                } label: {
+                    HStack {
+                        SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
+                        Text(amountDub.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                            .font(.system(size: 24))
+                            .fontWeight(.bold)
+                            .foregroundStyle(user.getSettings().getDefaultGradient())
+                    }
                 }
+            }
+            header: {
+                Text("Amount")
+            }
+            footer: {
+                Text("Tap to edit")
             }
             
             Section {
@@ -79,14 +96,18 @@ struct EditSavedItemView: View {
         .putInTemplate()
         .navigationTitle("Edit Item")
         .bottomButton(label: "Save") {
-            guard let dub = Double(amountStr) else {
-                alertConfig = .init(displayMode: .alert, type: .error(settings.themeColor), title: "Please enter a valid number for the amount.")
-                amountStr = ""
-                showAlert = true
-                return
-            }
+//            guard let dub = Double(amountStr) else {
+//                alertConfig = .init(displayMode: .alert, type: .error(settings.themeColor), title: "Please enter a valid number for the amount.")
+//                amountStr = ""
+//                showAlert = true
+//                return
+//            }
+            
+            
+            
+            
             savedItem.title = title
-            savedItem.amount = dub
+            savedItem.amount = amountDub
             savedItem.info = info.isEmpty ? nil : info
             savedItem.date = date
 
@@ -99,6 +120,9 @@ struct EditSavedItemView: View {
                 showAlert = true
             }
         }
+        .sheet(isPresented: $showDoubleEditSheet, content: {
+            EnterMoneyView(dubToEdit: $amountDub)
+        })
         .toast(isPresenting: $showAlert, alert: { alertConfig })
         .toolbar {
             ToolbarItemGroup(placement: .keyboard) {

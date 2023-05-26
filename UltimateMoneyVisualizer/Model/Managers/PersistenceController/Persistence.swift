@@ -21,7 +21,7 @@ extension UserDefaults {
 public struct PersistenceController {
     public static let context = shared.container.viewContext
     
-    public static let inMemory: Bool = false
+    public static let inMemory: Bool = true
 
     public static let testing: NSManagedObjectContext = {
         let pc = PersistenceController(inMemory: true)

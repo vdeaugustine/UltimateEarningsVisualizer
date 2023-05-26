@@ -29,6 +29,41 @@ struct ExpenseDetailView: View {
                             .foregroundColor(expense.isPassedDue ? Color.red : Color.black)
                     }
             }
+            
+            Section("Tags") {
+                VStack {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            
+
+                            ForEach(expense.getTags()) { tag in
+                                NavigationLink {
+                                    TagDetailView(tag: tag)
+
+                                } label: {
+                                    Text(tag.title ?? "NA")
+                                        .foregroundColor(.white)
+                                        .padding(10)
+                                        .padding(.trailing, 10)
+                                        .background {
+                                            PriceTag(height: 30, color: tag.getColor(), holePunchColor: .listBackgroundColor)
+                                        }
+                                }
+                            }
+                        }
+                    }
+                    
+                    NavigationLink {
+                        CreateTagView(expense: expense)
+                    } label: {
+                        Label("New Tag", systemImage: "plus")
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(.blue)
+                    .padding(.top)
+                }
+                .listRowBackground(Color.listBackgroundColor)
+            }
 
             Section("Progress") {
                 Text("Due in")
@@ -42,6 +77,20 @@ struct ExpenseDetailView: View {
 
                 Text("Remaining to pay")
                     .spacedOut(text: expense.amountRemainingToPayOff.formattedForMoney())
+            }
+            
+            Section("Instances") {
+                ForEach(user.getInstancesOf(expense: expense)) { thisExpense in
+                    if let date = thisExpense.dateCreated {
+                        NavigationLink {
+                            ExpenseDetailView(expense: thisExpense)
+                        } label: {
+                            
+                            Text(date.getFormattedDate(format: .abreviatedMonth))
+                                .spacedOut(text: thisExpense.amountMoneyStr)
+                        }
+                    }
+                }
             }
 
             Section("Insight") {
@@ -112,7 +161,7 @@ struct ExpenseDetailView: View {
 
 struct ExpenseDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        ExpenseDetailView(expense: User.main.getExpenses().first { $0.amountRemainingToPayOff > 3 }!)
+        ExpenseDetailView(expense: User.main.getExpenses().first!)
             .putInNavView(.inline)
             .environment(\.managedObjectContext, PersistenceController.context)
     }

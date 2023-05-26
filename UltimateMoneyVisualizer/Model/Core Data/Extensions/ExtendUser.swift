@@ -481,4 +481,25 @@ public extension User {
 
         return filtered
     }
+    
+    func getInstancesOf(savedItem: Saved) -> [Saved] {
+        let filtered = getSaved().filter { saved in
+            saved.getTitle() == savedItem.getTitle()
+        }
+        return filtered
+    }
+    
+    func getInstancesOf(expense: Expense) -> [Expense] {
+        let filtered = getExpenses().filter { thisExpense in
+            thisExpense.titleStr == expense.titleStr
+        }
+        return filtered
+    }
+    
+    func getInstancesOf(goal: Goal) -> [Goal] {
+        let filtered = getGoals().filter { thisGoal in
+            thisGoal.titleStr == goal.titleStr
+        }
+        return filtered
+    }
 }

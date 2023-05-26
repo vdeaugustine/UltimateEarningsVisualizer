@@ -121,29 +121,37 @@ public extension Saved {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
 
-        let savedItem1 = try Saved(amount: 5.0,
-                                   title: "Lunch at Home",
-                                   info: "Didn't go out for lunch today, ate at home instead.",
-                                   date: Date.now.addDays(Double.random(in: -3 ... 0)),
-                                   tagStrings: Tag.getSomeTitles(),
-                                   user: user,
-                                   context: context)
+        try Saved(amount: 5.0,
+                  title: "Lunch at Home",
+                  info: "Didn't go out for lunch today, ate at home instead.",
+                  date: Date.now.addDays(Double.random(in: -3 ... 0)),
+                  tagStrings: Tag.getSomeTitles(),
+                  user: user,
+                  context: context)
 
-        let savedItem2 = try Saved(amount: 12.5,
-                                   title: "Movie Night",
-                                   info: "Watched a movie at home with friends instead of going to the theater.",
-                                   date: Date.now.addDays(Double.random(in: -3 ... 0)),
-                                   tagStrings: Tag.getSomeTitles(),
-                                   user: user,
-                                   context: context)
+        try Saved(amount: 12.5,
+                  title: "Movie Night",
+                  info: "Watched a movie at home with friends instead of going to the theater.",
+                  date: Date.now.addDays(Double.random(in: -3 ... 0)),
+                  tagStrings: Tag.getSomeTitles(),
+                  user: user,
+                  context: context)
 
-        let savedItem3 = try Saved(amount: 30.0,
-                                   title: "Cancelled Gym Membership",
-                                   info: "Decided to cancel gym membership and do workouts at home.",
-                                   date: Date.now.addDays(Double.random(in: -3 ... 0)),
-                                   tagStrings: Tag.getSomeTitles(),
-                                   user: user,
-                                   context: context)
+        try Saved(amount: 30.0,
+                  title: "Cancelled Gym Membership",
+                  info: "Decided to cancel gym membership and do workouts at home.",
+                  date: Date.now.addDays(Double.random(in: -3 ... 0)),
+                  tagStrings: Tag.getSomeTitles(),
+                  user: user,
+                  context: context)
+        
+        try Saved(amount: 5.0,
+                  title: "Lunch at Home",
+                  info: "Didn't go out for lunch today, ate at home instead.",
+                  date: Date.now.addDays(-5),
+                  tagStrings: Tag.getSomeTitles(),
+                  user: user,
+                  context: context)
 
         try context.save()
     }

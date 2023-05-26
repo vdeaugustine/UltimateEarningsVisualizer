@@ -55,32 +55,36 @@ struct GoalDetailView: View {
                 }
 
                 Section("Tags") {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
-                            NavigationLink {
-                                CreateTagView(goal: goal)
-                            }
-                        label: {
-                                Label("New Tag", systemImage: "plus")
-                            }
-                            .buttonStyle(.borderedProminent)
-                            .tint(.blue)
+                    VStack {
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack {
+                                
 
-                            ForEach(goal.getTags()) { tag in
-                                NavigationLink {
-                                    TagDetailView(tag: tag)
-                                    
-                                } label: {
-                                    Text(tag.title ?? "NA")
-                                        .foregroundColor(.white)
-                                        .padding(10)
-                                        .padding(.trailing, 10)
-                                        .background {
-                                            PriceTag(height: 30, color: tag.getColor(), holePunchColor: .listBackgroundColor)
-                                        }
+                                ForEach(goal.getTags()) { tag in
+                                    NavigationLink {
+                                        TagDetailView(tag: tag)
+
+                                    } label: {
+                                        Text(tag.title ?? "NA")
+                                            .foregroundColor(.white)
+                                            .padding(10)
+                                            .padding(.trailing, 10)
+                                            .background {
+                                                PriceTag(height: 30, color: tag.getColor(), holePunchColor: .listBackgroundColor)
+                                            }
+                                    }
                                 }
                             }
                         }
+                        
+                        NavigationLink {
+                            CreateTagView(goal: goal)
+                        } label: {
+                            Label("New Tag", systemImage: "plus")
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .tint(.blue)
+                        .padding(.top)
                     }
                     .listRowBackground(Color.listBackgroundColor)
                 }
@@ -91,6 +95,20 @@ struct GoalDetailView: View {
 
                     Text("Remaining")
                         .spacedOut(text: goal.amountRemainingToPayOff.formattedForMoney())
+                }
+                
+                Section("Instances") {
+                    ForEach(user.getInstancesOf(goal: goal)) { thisExpense in
+                        if let date = thisExpense.dateCreated {
+                            NavigationLink {
+                                GoalDetailView(goal: thisExpense)
+                            } label: {
+                                
+                                Text(date.getFormattedDate(format: .abreviatedMonth))
+                                    .spacedOut(text: thisExpense.amountMoneyStr)
+                            }
+                        }
+                    }
                 }
 
                 // MARK: - Insight Section
