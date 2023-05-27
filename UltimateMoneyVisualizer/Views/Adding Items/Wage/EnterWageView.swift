@@ -112,18 +112,32 @@ struct EnterWageView: View {
         }
         .putInTemplate()
         .navigationTitle("My Wage")
-        .toast(isPresenting: $showErrorToast, duration: 2, tapToDismiss: true) {
-            AlertToast(displayMode: .alert, type: .error(.blue), title: errorMessage)
+        .toast(isPresenting: $showErrorToast,
+               duration: 2,
+               tapToDismiss: true) {
+            AlertToast(displayMode: .alert,
+                       type: .error(.blue),
+                       title: errorMessage)
         } onTap: {
             showErrorToast = false
         }
-        .toast(isPresenting: $showSuccessfulSaveToast, offsetY: -100) {
-            AlertToast(displayMode: .banner(.slide), type: .complete(.green), title: "Wage saved successfully", style: .style(backgroundColor: .white, titleColor: nil, subTitleColor: nil, titleFont: nil, subTitleFont: nil))
+        .toast(isPresenting: $showSuccessfulSaveToast,
+               offsetY: -50) {
+            AlertToast(displayMode: .banner(.slide),
+                       type: .complete(.green),
+                       title: "Wage saved successfully",
+                       style: .style(backgroundColor: .white,
+                                     titleColor: nil,
+                                     subTitleColor: nil,
+                                     titleFont: nil,
+                                     subTitleFont: nil))
         }
         .bottomButton(label: "Save", gradient: settings.getDefaultGradient()) {
             do {
                 let hourly = isSalaried ? getHourlyWage(salaryDouble) : hourlyDouble
-                let wage = try Wage(amount: hourly, user: user, context: viewContext)
+                let wage = try Wage(amount: hourly,
+                                    user: user,
+                                    context: viewContext)
                 wage.daysPerWeek = Double(daysPerWeek)
                 wage.hoursPerDay = Double(hoursPerDay)
                 wage.weeksPerYear = Double(weeksPerYear)

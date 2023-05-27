@@ -157,20 +157,25 @@ struct StatsView: View {
                     ForEach(user.getSavedBetween(startDate: firstDate, endDate: secondDate)) { saved in
 
                         VStack {
-                            HStack {
-                                HStack(spacing: 15) {
-                                    Image(systemName: "chart.line.downtrend.xyaxis")
-                                        .foregroundColor(.red)
-                                    Text(saved.getTitle())
+                            NavigationLink {
+                                SavedDetailView(saved: saved)
+                            } label: {
+                                HStack {
+                                    HStack(spacing: 15) {
+                                        Image(systemName: "chart.line.downtrend.xyaxis")
+                                            .foregroundColor(.red)
+                                        Text(saved.getTitle())
+                                    }
+                                    Spacer()
+                                    Text(saved.getAmount().formattedForMoney())
                                 }
-                                Spacer()
-                                Text(saved.getAmount().formattedForMoney())
                             }
                             .padding([.top, .horizontal])
                             Divider()
                         }
                     }
                 }
+                .padding(.top, 10)
                 .rectContainer(shadowRadius: 0)
             }
             .padding()
@@ -198,14 +203,18 @@ struct StatsView: View {
                     ForEach(user.getExpensesBetween(startDate: firstDate, endDate: secondDate)) { expense in
 
                         VStack {
-                            HStack {
-                                HStack(spacing: 15) {
-                                    Image(systemName: "chart.line.downtrend.xyaxis")
-                                        .foregroundColor(.red)
-                                    Text(expense.titleStr)
+                            NavigationLink {
+                                ExpenseDetailView(expense: expense)
+                            } label: {
+                                HStack {
+                                    HStack(spacing: 15) {
+                                        Image(systemName: "chart.line.downtrend.xyaxis")
+                                            .foregroundColor(.red)
+                                        Text(expense.titleStr)
+                                    }
+                                    Spacer()
+                                    Text(expense.amountMoneyStr)
                                 }
-                                Spacer()
-                                Text(expense.amountMoneyStr)
                             }
                             .padding([.top, .horizontal])
                             Divider()
@@ -236,17 +245,21 @@ struct StatsView: View {
 
             homeSection(rectContainer: false, header: "Expenses") {
                 LazyVStack {
-                    ForEach(user.getExpensesBetween(startDate: firstDate, endDate: secondDate)) { expense in
+                    ForEach(user.getGoalsBetween(startDate: firstDate, endDate: secondDate)) { goal in
 
                         VStack {
-                            HStack {
-                                HStack(spacing: 15) {
-                                    Image(systemName: "chart.line.downtrend.xyaxis")
-                                        .foregroundColor(.red)
-                                    Text(expense.titleStr)
+                            NavigationLink {
+                                GoalDetailView(goal: goal)
+                            } label: {
+                                HStack {
+                                    HStack(spacing: 15) {
+                                        Image(systemName: "chart.line.downtrend.xyaxis")
+                                            .foregroundColor(.red)
+                                        Text(goal.titleStr)
+                                    }
+                                    Spacer()
+                                    Text(goal.amountMoneyStr)
                                 }
-                                Spacer()
-                                Text(expense.amountMoneyStr)
                             }
                             .padding([.top, .horizontal])
                             Divider()

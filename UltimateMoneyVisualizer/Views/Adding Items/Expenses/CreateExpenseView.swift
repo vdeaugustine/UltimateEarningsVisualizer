@@ -37,7 +37,7 @@ struct CreateExpenseView: View {
 
     var body: some View {
         Form {
-            Section(header: Text("Expense Information")) {
+            Section() {
                 TextField("Title", text: $title)
 
                     .focused($titleFocused)
@@ -46,6 +46,10 @@ struct CreateExpenseView: View {
 
                 DatePicker("Due Date", selection: $dueDate, displayedComponents: .date)
                     .focused($dateFocused)
+            }  header: {
+                Text("Expense Information")
+            } footer: {
+                Text("Tap on a recent expense to create a new instance of that same expense")
             }
 
             Section {
@@ -68,6 +72,24 @@ struct CreateExpenseView: View {
             footer: {
                 Text("Tap to edit")
             }
+            
+            
+            Section("Recent Goals") {
+                ForEach(user.getExpenses().sorted(by: {$0.dateCreated ?? Date.now > $1.dateCreated ?? Date.now})) { expense in
+                    HStack {
+                        Text(expense.titleStr)
+                        Spacer()
+                        Text(expense.dateCreated?.getFormattedDate(format: .slashDate) ?? "")
+                    }
+                    .onTapGesture {
+                        title = expense.titleStr
+                        doubleAmount = expense.amount
+                        info = expense.info ?? ""
+                    }
+                }
+            }
+            
+            
         }
         .putInTemplate()
         .navigationTitle("New Expense")

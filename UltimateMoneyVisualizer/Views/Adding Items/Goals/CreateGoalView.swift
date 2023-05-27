@@ -22,23 +22,21 @@ struct CreateGoalView: View {
     // Alert toast state variables
     @State private var showToast = false
     @State private var alertToastConfig = AlertToast(displayMode: .hud, type: .regular, title: "")
-    
+
     @ObservedObject private var user = User.main
-    
+
     @State private var showEditDoubleSheet = false
 
     var body: some View {
         Form {
-            Section(header: Text("Goal Information")) {
+            Section {
                 TextField("Title", text: $title)
                 HStack {
                     SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
                     Text(amountDouble.formattedForMoney().replacingOccurrences(of: "$", with: ""))
-                        .font(.system(size: 24))
+                        .font(.system(size: 20))
                         .fontWeight(.bold)
                         .foregroundStyle(user.getSettings().getDefaultGradient())
-                    
-                    
                 }
                 .allPartsTappable(alignment: .leading)
                 .onTapGesture {
@@ -46,12 +44,26 @@ struct CreateGoalView: View {
                 }
                 TextField("Info", text: $info)
                 DatePicker("Due Date", selection: $dueDate, displayedComponents: .date)
-                
-                
-                
+            } header: {
+                Text("Goal Information")
+            } footer: {
+                Text("Tap on a recent goal to create a new instance of that same goal")
             }
             
-            
+            Section("Recent Goals") {
+                ForEach(user.getGoals().sorted(by: {$0.dateCreated ?? Date.now > $1.dateCreated ?? Date.now})) { goal in
+                    HStack {
+                        Text(goal.titleStr)
+                        Spacer()
+                        Text(goal.dateCreated?.getFormattedDate(format: .slashDate) ?? "")
+                    }
+                    .onTapGesture {
+                        title = goal.titleStr
+                        amountDouble = goal.amount
+                        info = goal.info ?? ""
+                    }
+                }
+            }
         }
         .putInTemplate()
         .navigationTitle("New Goal")
@@ -61,11 +73,11 @@ struct CreateGoalView: View {
         } onTap: {
             showToast = false
         }
-        
+
         .sheet(isPresented: $showEditDoubleSheet, content: {
             EnterMoneyView(dubToEdit: $amountDouble)
         })
-       
+
         .bottomButton(label: "Save") {
             // Create a new goal object and save it to Core Data
 
