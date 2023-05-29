@@ -31,7 +31,7 @@ struct AddNewMoneyFirstView: View {
                 homeSection(rectContainer: false, header: "Made Money") {
                     HStack {
                         NavigationLink {
-                            CreateShiftView()
+                            NewShiftView()
                         } label: {
                             button(header: .shift)
                         }

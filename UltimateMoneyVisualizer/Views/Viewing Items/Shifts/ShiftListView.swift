@@ -15,6 +15,7 @@ struct ShiftListView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
     @ObservedObject private var user: User = User.main
+    @ObservedObject private var settings = User.main.getSettings()
     @State private var shifts: [Shift] = User.main.getShifts()
 
     @State private var showNewShiftSheet = false
@@ -55,6 +56,35 @@ struct ShiftListView: View {
 
                 ScrollView(.horizontal, showsIndicators: false) {
                     LazyHStack {
+//                        if upcomingShifts.isEmpty {
+                        NavigationLink {
+                            NewShiftView()
+                        } label: {
+                            Label("Add shifts", systemImage: "plus")
+                                .padding()
+                                .rectContainer(shadowRadius: 0, cornerRadius: 7)
+                        }
+
+                        .padding(.vertical)
+                        .padding(.leading, 6)
+//                        }
+
+//                        if upcomingShifts.isEmpty == false {
+//                            ZStack {
+//                               Circle()
+//                                    .fill(Color.white)
+//                                VStack(spacing: 5) {
+//                                   Text("New")
+//
+//                                       .font(.system(size: 10))
+//                                   Image(systemName: "plus")
+//                                       .font(.system(size: 14, weight: .medium))
+//                               }
+//                                .foregroundStyle(settings.getDefaultGradient())
+//                           }
+//                           .frame(height: 50)
+//                        }
+
                         ForEach(upcomingShifts) { shift in
                             if editMode.isEditing {
                                 Button {
@@ -82,19 +112,6 @@ struct ShiftListView: View {
                                 }
                                 .buttonStyle(.plain)
                             }
-                        }
-
-                        if upcomingShifts.isEmpty {
-                            NavigationLink {
-                                MultipleNewShiftsView()
-                            } label: {
-                                Label("Add shifts", systemImage: "plus")
-                                    .padding()
-                                    .rectContainer(shadowRadius: 0, cornerRadius: 7)
-                            }
-
-                            .padding(.vertical)
-                            .padding(.leading, 6)
                         }
                     }
                     .padding(.horizontal)
@@ -137,7 +154,7 @@ struct ShiftListView: View {
         }
 
         .sheet(isPresented: $showNewShiftSheet) {
-            CreateShiftView()
+            NewShiftView()
                 .presentationDragIndicator(.visible)
                 .presentationDetents([.medium])
         }
