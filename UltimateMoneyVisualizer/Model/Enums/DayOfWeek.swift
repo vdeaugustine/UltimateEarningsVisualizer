@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum DayOfWeek: String, CaseIterable, Identifiable, Hashable {
+public enum DayOfWeek: String, CaseIterable, Identifiable, Hashable, CustomStringConvertible {
     case sunday = "Sunday"
     case monday = "Monday"
     case tuesday = "Tuesday"
@@ -15,6 +15,8 @@ public enum DayOfWeek: String, CaseIterable, Identifiable, Hashable {
     case thursday = "Thursday"
     case friday = "Friday"
     case saturday = "Saturday"
+    
+    public var description: String { self.rawValue }
 
     public var dayNum: Int {
         switch self {
