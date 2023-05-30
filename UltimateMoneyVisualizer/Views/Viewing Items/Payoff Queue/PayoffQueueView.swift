@@ -16,7 +16,6 @@ struct PayoffQueueView: View {
 
     @State private var newPayoffQueue: [PayoffItem] = User.main.getQueue()
 
-    @State private var someArr: [Int] = (0 ... 10).map { $0 }
     @State private var goalToDelete: Goal? = nil
     @State private var expenseToDelete: Expense? = nil
     

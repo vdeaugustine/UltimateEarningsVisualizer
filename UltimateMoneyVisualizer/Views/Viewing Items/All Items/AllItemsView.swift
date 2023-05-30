@@ -9,7 +9,8 @@ import SwiftUI
 
 struct AllItemsView: View {
     
-    @ObservedObject var user = User.main
+    @ObservedObject private var user = User.main
+    @ObservedObject private var settings = User.main.getSettings()
     @State private var selectionType: SelectionType = .shifts
 
     var body: some View {
@@ -36,17 +37,20 @@ struct AllItemsView: View {
            
         }
         .background(Color.listBackgroundColor)
+        .tint(settings.themeColor)
+        .putInTemplate()
+        
         
     }
     
-    
-    var shiftsView: some View {
-        List {
-            ForEach(user.getShifts()) { shift in
-                Text(shift.start.getFormattedDate(format: .abreviatedMonth))
-            }
-        }
-    }
+//
+//    var shiftsView: some View {
+//        List {
+//            ForEach(user.getShifts()) { shift in
+//                Text(shift.start.getFormattedDate(format: .abreviatedMonth))
+//            }
+//        }
+//    }
     
     
     

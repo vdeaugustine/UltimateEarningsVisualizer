@@ -44,7 +44,6 @@ struct ContentView: View {
                 .makeTab(tab: Tabs.today, systemImage: "bolt.fill")
 
             SettingsView()
-                .putInTemplate()
                 .putInNavView(.inline)
                 .makeTab(tab: Tabs.settings, systemImage: "gear")
         }
