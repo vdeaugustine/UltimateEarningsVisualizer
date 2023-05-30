@@ -7,8 +7,9 @@
 
 import SwiftUI
 
+// MARK: - AllItemsView
+
 struct AllItemsView: View {
-    
     @ObservedObject private var user = User.main
     @ObservedObject private var settings = User.main.getSettings()
     @State private var selectionType: SelectionType = .shifts
@@ -22,38 +23,22 @@ struct AllItemsView: View {
             }
             .pickerStyle(.segmented)
             .padding([.horizontal, .top])
-            
+
             switch selectionType {
-            case .goals:
-                GoalListView()
-            case .saved:
-                SavedListView()
-            case .shifts:
-                ShiftListView()
-            case .expenses:
-                ExpenseListView()
+                case .goals:
+                    GoalListView()
+                case .saved:
+                    SavedListView()
+                case .shifts:
+                    ShiftListView()
+                case .expenses:
+                    ExpenseListView()
             }
-            
-           
         }
         .background(Color.listBackgroundColor)
         .tint(settings.themeColor)
         .putInTemplate()
-        
-        
     }
-    
-//
-//    var shiftsView: some View {
-//        List {
-//            ForEach(user.getShifts()) { shift in
-//                Text(shift.start.getFormattedDate(format: .abreviatedMonth))
-//            }
-//        }
-//    }
-    
-    
-    
 }
 
 extension AllItemsView {
@@ -71,4 +56,3 @@ struct AllItemsView_Previews: PreviewProvider {
             .putInNavView(.inline)
     }
 }
-

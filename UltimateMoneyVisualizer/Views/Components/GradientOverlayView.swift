@@ -15,6 +15,8 @@ struct GradientOverlayView: View {
 
     var body: some View {
         ZStack {
+            Color.hexStringToColor(hex: "86A57A")
+            
             if let image = image {
                 image
                     .resizable()
@@ -26,8 +28,8 @@ struct GradientOverlayView: View {
 
         .overlay(
             ZStack {
-                LinearGradient(gradient: Gradient(stops: [.init(color: Color.black.opacity(0.8), location: 0.1),
-                                                          .init(color: Color.black.opacity(0.7), location: 0.25),
+                LinearGradient(gradient: Gradient(stops: [.init(color: Color.black.opacity(0.7), location: 0.1),
+                                                          .init(color: Color.black.opacity(0.5), location: 0.25),
                                                           .init(color: Color.black.opacity(0.1), location: 1)]),
                 startPoint: .bottom,
                 endPoint: .top)
@@ -63,6 +65,7 @@ struct GradientOverlayView: View {
             }
         )
         .frame(maxHeight: maxHeight)
+        
     }
 }
 
@@ -70,6 +73,6 @@ struct GradientOverlayView: View {
 
 struct GradientOverlayView_Previews: PreviewProvider {
     static var previews: some View {
-        GradientOverlayView(image: Image("disneyworld"))
+        GradientOverlayView(image: Image("dollar3d"))
     }
 }
