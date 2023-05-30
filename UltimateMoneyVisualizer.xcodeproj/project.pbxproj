@@ -21,7 +21,7 @@
 		9C3C58682A0CBF5900169A0F /* AllItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3C58672A0CBF5900169A0F /* AllItemsView.swift */; };
 		9C442A372A03792800D61C3E /* WageBreakdownBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C442A362A03792800D61C3E /* WageBreakdownBox.swift */; };
 		9C442A392A03798C00D61C3E /* WageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C442A382A03798C00D61C3E /* WageTests.swift */; };
-		9C460EE02A038B9F0007EBA9 /* MultipleNewShiftsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C460EDF2A038B9F0007EBA9 /* MultipleNewShiftsView.swift */; };
+		9C460EE02A038B9F0007EBA9 /* MultipleNewShiftsView(Deprecated).swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C460EDF2A038B9F0007EBA9 /* MultipleNewShiftsView(Deprecated).swift */; };
 		9C460EE22A038D420007EBA9 /* ShiftCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C460EE12A038D420007EBA9 /* ShiftCircle.swift */; };
 		9C460EE42A038D880007EBA9 /* CircleBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C460EE32A038D880007EBA9 /* CircleBadgeView.swift */; };
 		9C460EE62A047D900007EBA9 /* AddNewItemFirstView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C460EE52A047D900007EBA9 /* AddNewItemFirstView.swift */; };
@@ -101,6 +101,7 @@
 		9CC5BE632A09C08C006A2262 /* TodayPayoffGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC5BE622A09C08C006A2262 /* TodayPayoffGrid.swift */; };
 		9CC65D942A20867800D81712 /* TagDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC65D932A20867800D81712 /* TagDetailView.swift */; };
 		9CDBE0E42A2462A200741EEE /* NewShiftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDBE0E32A2462A200741EEE /* NewShiftView.swift */; };
+		9CDBE0E62A2520D200741EEE /* CustomStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDBE0E52A2520D200741EEE /* CustomStatsView.swift */; };
 		9CEA17692A05DF2800E8DFD7 /* ExtendDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEA17682A05DF2800E8DFD7 /* ExtendDate.swift */; };
 		9CED53422A077985002DC183 /* AllocateSavedToGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CED53412A077985002DC183 /* AllocateSavedToGoalView.swift */; };
 		9CED53442A089C77002DC183 /* StatsViewChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CED53432A089C77002DC183 /* StatsViewChart.swift */; };
@@ -115,7 +116,7 @@
 		9CEEE33A29F908BE001FA4FB /* GoalListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEE33929F908BE001FA4FB /* GoalListView.swift */; };
 		9CEEE33C29F908E8001FA4FB /* GoalDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEE33B29F908E8001FA4FB /* GoalDetailView.swift */; };
 		9CEEE34029F909CC001FA4FB /* WageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEE33F29F909CC001FA4FB /* WageType.swift */; };
-		9CEEE34329F90A7D001FA4FB /* CreateShiftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEE34229F90A7D001FA4FB /* CreateShiftView.swift */; };
+		9CEEE34329F90A7D001FA4FB /* CreateShiftView(Deprecated).swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEE34229F90A7D001FA4FB /* CreateShiftView(Deprecated).swift */; };
 		9CEEE34529F90ABA001FA4FB /* ShiftListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEE34429F90ABA001FA4FB /* ShiftListView.swift */; };
 		9CEEE34729F90ADA001FA4FB /* ShiftDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEE34629F90ADA001FA4FB /* ShiftDetailView.swift */; };
 		9CEEE34929F90BCF001FA4FB /* DayOfWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEE34829F90BCF001FA4FB /* DayOfWeek.swift */; };
@@ -162,7 +163,7 @@
 		9C3C58672A0CBF5900169A0F /* AllItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllItemsView.swift; sourceTree = "<group>"; };
 		9C442A362A03792800D61C3E /* WageBreakdownBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WageBreakdownBox.swift; sourceTree = "<group>"; };
 		9C442A382A03798C00D61C3E /* WageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WageTests.swift; sourceTree = "<group>"; };
-		9C460EDF2A038B9F0007EBA9 /* MultipleNewShiftsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleNewShiftsView.swift; sourceTree = "<group>"; };
+		9C460EDF2A038B9F0007EBA9 /* MultipleNewShiftsView(Deprecated).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MultipleNewShiftsView(Deprecated).swift"; sourceTree = "<group>"; };
 		9C460EE12A038D420007EBA9 /* ShiftCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftCircle.swift; sourceTree = "<group>"; };
 		9C460EE32A038D880007EBA9 /* CircleBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleBadgeView.swift; sourceTree = "<group>"; };
 		9C460EE52A047D900007EBA9 /* AddNewItemFirstView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewItemFirstView.swift; sourceTree = "<group>"; };
@@ -245,6 +246,7 @@
 		9CC5BE622A09C08C006A2262 /* TodayPayoffGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TodayPayoffGrid.swift; path = UltimateMoneyVisualizer/Views/Components/TodayPayoffGrid.swift; sourceTree = SOURCE_ROOT; };
 		9CC65D932A20867800D81712 /* TagDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailView.swift; sourceTree = "<group>"; };
 		9CDBE0E32A2462A200741EEE /* NewShiftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewShiftView.swift; sourceTree = "<group>"; };
+		9CDBE0E52A2520D200741EEE /* CustomStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStatsView.swift; sourceTree = "<group>"; };
 		9CEA17682A05DF2800E8DFD7 /* ExtendDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendDate.swift; sourceTree = "<group>"; };
 		9CED53412A077985002DC183 /* AllocateSavedToGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AllocateSavedToGoalView.swift; path = "UltimateMoneyVisualizer/Views/Adding Items/Allocations/AllocateSavedToGoalView.swift"; sourceTree = SOURCE_ROOT; };
 		9CED53432A089C77002DC183 /* StatsViewChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewChart.swift; sourceTree = "<group>"; };
@@ -259,7 +261,7 @@
 		9CEEE33929F908BE001FA4FB /* GoalListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalListView.swift; sourceTree = "<group>"; };
 		9CEEE33B29F908E8001FA4FB /* GoalDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailView.swift; sourceTree = "<group>"; };
 		9CEEE33F29F909CC001FA4FB /* WageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WageType.swift; sourceTree = "<group>"; };
-		9CEEE34229F90A7D001FA4FB /* CreateShiftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateShiftView.swift; sourceTree = "<group>"; };
+		9CEEE34229F90A7D001FA4FB /* CreateShiftView(Deprecated).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CreateShiftView(Deprecated).swift"; sourceTree = "<group>"; };
 		9CEEE34429F90ABA001FA4FB /* ShiftListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftListView.swift; sourceTree = "<group>"; };
 		9CEEE34629F90ADA001FA4FB /* ShiftDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftDetailView.swift; sourceTree = "<group>"; };
 		9CEEE34829F90BCF001FA4FB /* DayOfWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOfWeek.swift; sourceTree = "<group>"; };
@@ -591,7 +593,7 @@
 				9C7B5D512A1EE82600DBB877 /* SubscriptionManager.swift */,
 				9C7C985529FB722D0077EA25 /* Components */,
 				9C97358F2A0D789000F651A1 /* Incomplete(Abandoned) */,
-				9CDBE0E32A2462A200741EEE /* NewShiftView.swift */,
+				9CDBE0E52A2520D200741EEE /* CustomStatsView.swift */,
 			);
 			path = "-InProgress";
 			sourceTree = "<group>";
@@ -775,8 +777,9 @@
 		9CEEE34B29F90D81001FA4FB /* Shifts */ = {
 			isa = PBXGroup;
 			children = (
-				9C460EDF2A038B9F0007EBA9 /* MultipleNewShiftsView.swift */,
-				9CEEE34229F90A7D001FA4FB /* CreateShiftView.swift */,
+				9CDBE0E32A2462A200741EEE /* NewShiftView.swift */,
+				9C460EDF2A038B9F0007EBA9 /* MultipleNewShiftsView(Deprecated).swift */,
+				9CEEE34229F90A7D001FA4FB /* CreateShiftView(Deprecated).swift */,
 			);
 			path = Shifts;
 			sourceTree = "<group>";
@@ -965,6 +968,7 @@
 				9CB418C22A0A0E07006F44AB /* TempTodayPayoff.swift in Sources */,
 				9C514DB02A002266003DC43C /* ExtendPayoffQueue.swift in Sources */,
 				9C7F966429F8F03E00F5035C /* Persistence.swift in Sources */,
+				9CDBE0E62A2520D200741EEE /* CustomStatsView.swift in Sources */,
 				9C7C986329FCEB3E0077EA25 /* ProgressCircle.swift in Sources */,
 				9C7C986729FD7A390077EA25 /* TodayLiveCompletedBanner.swift in Sources */,
 				9C7F96A629F8FF0100F5035C /* CreateExpenseView.swift in Sources */,
@@ -977,7 +981,7 @@
 				9C7C984129F9F7B20077EA25 /* AllSchedulesView.swift in Sources */,
 				9C514DB52A00A480003DC43C /* PayoffQueueView.swift in Sources */,
 				9C7B5D542A201AC600DBB877 /* ExtendPayPeriod.swift in Sources */,
-				9CEEE34329F90A7D001FA4FB /* CreateShiftView.swift in Sources */,
+				9CEEE34329F90A7D001FA4FB /* CreateShiftView(Deprecated).swift in Sources */,
 				9C7B5D562A2026D000DBB877 /* PayCycle.swift in Sources */,
 				9C4F0A2A2A14614200C78349 /* NotificationManager.swift in Sources */,
 				9C7C983F29F9F68B0077EA25 /* RegularScheduleView.swift in Sources */,
@@ -1027,7 +1031,7 @@
 				9CF194DF2A1E03E7000F83A9 /* PriceTagShape.swift in Sources */,
 				9C460EE22A038D420007EBA9 /* ShiftCircle.swift in Sources */,
 				9C7F969E29F8FE3500F5035C /* ExtendAllocation.swift in Sources */,
-				9C460EE02A038B9F0007EBA9 /* MultipleNewShiftsView.swift in Sources */,
+				9C460EE02A038B9F0007EBA9 /* MultipleNewShiftsView(Deprecated).swift in Sources */,
 				9CEEE35129F90E37001FA4FB /* SavedDetailView.swift in Sources */,
 				9C7C985229FB613E0077EA25 /* ExtendColor.swift in Sources */,
 				9C7C984529FA0DA80077EA25 /* SettingsView.swift in Sources */,

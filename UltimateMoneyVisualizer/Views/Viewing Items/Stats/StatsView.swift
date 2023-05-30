@@ -243,33 +243,34 @@ struct StatsView: View {
             }
             .padding([.horizontal, .bottom])
 
-            homeSection(rectContainer: false, header: "Expenses") {
-                LazyVStack {
-                    ForEach(user.getGoalsBetween(startDate: firstDate, endDate: secondDate)) { goal in
+            homeSection(rectContainer: false, header: "Goals") {
+                    List {
+                        ForEach(user.getGoalsBetween(startDate: firstDate, endDate: secondDate)) { goal in
 
-                        VStack {
-                            NavigationLink {
-                                GoalDetailView(goal: goal)
-                            } label: {
-                                HStack {
-                                    HStack(spacing: 15) {
-                                        Image(systemName: "chart.line.downtrend.xyaxis")
-                                            .foregroundColor(.red)
-                                        Text(goal.titleStr)
+                            VStack {
+                                NavigationLink {
+                                    GoalDetailView(goal: goal)
+                                } label: {
+                                    HStack {
+                                        HStack(spacing: 15) {
+                                            Image(systemName: "chart.line.downtrend.xyaxis")
+                                                .foregroundColor(.red)
+                                            Text(goal.titleStr)
+                                                .foregroundStyle(user.getSettings().getDefaultGradient())
+                                        }
+                                        Spacer()
+                                        Text(goal.amountMoneyStr)
+                                            .foregroundStyle(user.getSettings().getDefaultGradient())
                                     }
-                                    Spacer()
-                                    Text(goal.amountMoneyStr)
                                 }
                             }
-                            .padding([.top, .horizontal])
-                            Divider()
                         }
                     }
-                }
-                .rectContainer(shadowRadius: 0)
+                    .cornerRadius(10)
+                    .frame(height: 300)
+                    .listStyle(.plain)
             }
             .padding()
-            .padding(.horizontal, 5)
         }
     }
 

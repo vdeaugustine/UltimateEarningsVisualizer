@@ -8,19 +8,7 @@
 import SwiftUI
 import Vin
 
-extension Array where Element: Equatable {
-    mutating func insertOrRemove(element: Element, atIndex index: Int? = nil) {
-        if let existingIndex = firstIndex(of: element) {
-            remove(at: existingIndex)
-        } else {
-            if let index = index {
-                insert(element, at: index)
-            } else {
-                append(element)
-            }
-        }
-    }
-}
+
 
 // MARK: - NewShiftView
 
@@ -131,7 +119,6 @@ struct NewShiftView: View {
             }
         }
         .onAppear(perform: {
-            print("Called")
             selectedDateComponents = dates(from: rangeStartDay, to: rangeEndDay, matching: daysOfTheWeek)
         })
         .navigationTitle("New Shifts")

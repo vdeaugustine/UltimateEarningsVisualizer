@@ -57,6 +57,7 @@ struct CreateGoalView: View {
                         Spacer()
                         Text(goal.dateCreated?.getFormattedDate(format: .slashDate) ?? "")
                     }
+                    .allPartsTappable(alignment: .leading)
                     .onTapGesture {
                         title = goal.titleStr
                         amountDouble = goal.amount
