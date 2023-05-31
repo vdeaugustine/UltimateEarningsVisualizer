@@ -26,7 +26,8 @@ struct AllItemsView: View {
 
             switch selectionType {
                 case .goals:
-                    GoalListView()
+                    GoalsGridView()
+//                    GoalListView()
                 case .saved:
                     SavedListView()
                 case .shifts:

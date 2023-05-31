@@ -1,41 +1,24 @@
 //
-//  GradientOverlayView.swift
+//  ExpenseWithImageAndGradientView.swift
 //  UltimateMoneyVisualizer
 //
-//  Created by Vincent DeAugustine on 5/19/23.
+//  Created by Vincent DeAugustine on 5/30/23.
 //
 
 import SwiftUI
 import Vin
 
-extension Image {
-    init?(_ optionalImage: UIImage?) {
-        guard let optionalImage else { return nil }
-        self.init(uiImage: optionalImage)
-    }
-    
-    static func defaultImage() -> Image {
-        let imageStrings = [
-            "dollar3d",
-//            "creditCard"
-        ]
-        guard let chosenString = imageStrings.randomElement()
-        else {
-            return Image("dollar3d")
-        }
-        return Image(chosenString)
-    }
-}
+
 
 // MARK: - GradientOverlayView
 
-struct GradientOverlayView: View {
-    let goal: Goal
+struct ExpenseWithImageAndGradientView: View {
+    let expense: Expense
     var maxHeight: CGFloat = 150
     
     var moneyString: String {
-        let completed: String = goal.amountPaidOff.formattedForMoney()
-        let total: String = goal.amountMoneyStr
+        let completed: String = expense.amountPaidOff.formattedForMoney()
+        let total: String = expense.amountMoneyStr
         //            .replacingOccurrences(of: "$", with: "")
         
         return completed + " / " + total
@@ -45,7 +28,7 @@ struct GradientOverlayView: View {
     
     var body: some View {
         ZStack {
-            if let image = Image(goal.loadImageIfPresent()) {
+            if let image = Image(expense.loadImageIfPresent()) {
                 image
                     .resizable()
                     .scaledToFit()
@@ -77,6 +60,9 @@ struct GradientOverlayView: View {
                                 Text(goal.titleStr)
                                     .font(.headline)
                                     .fontWeight(.bold)
+                                    .multilineTextAlignment(.leading)
+                                    .lineLimit(2)
+                                    .minimumScaleFactor(0.7)
                                 Spacer()
                                 Text(moneyString)
                                     .font(.caption2)
@@ -100,31 +86,33 @@ struct GradientOverlayView: View {
             }
         )
         .frame(maxWidth: .infinity, maxHeight: maxHeight)
+        .cornerRadius(8)
         
     }
 }
 
 // MARK: - GradientOverlayView_Previews
 
-struct GradientOverlayView_Previews: PreviewProvider {
+struct ExpenseWithImageAndGradientView_Previews: PreviewProvider {
     static var previews: some View {
-        //        GradientOverlayView(goal: User.main.getGoals().first(where: {$0.titleStr == "New car fund"})!)
+        ExpenseWithImageAndGradientView(goal: User.main.getGoals().first(where: {$0.titleStr == "New car fund"})!)
         
-        ZStack {
-            
-            HStack(spacing: 0) {
-                Color.hexStringToColor(hex: "302E5B")
-                Color.hexStringToColor(hex: "8B68B0")
-            }
-            
-            Image("creditCard")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .padding()
-            
-        }
+//        ZStack {
+//
+//            HStack(spacing: 0) {
+//                Color.hexStringToColor(hex: "302E5B")
+//                Color.hexStringToColor(hex: "8B68B0")
+//            }
+//
+//            Image("creditCard")
+//                .resizable()
+//                .aspectRatio(contentMode: .fit)
+//                .padding()
+//
+//        }
         
         
         
     }
 }
+

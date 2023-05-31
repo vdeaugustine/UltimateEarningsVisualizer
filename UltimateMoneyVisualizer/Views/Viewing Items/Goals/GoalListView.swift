@@ -19,7 +19,7 @@ struct GoalListView: View {
                 NavigationLink(destination: GoalDetailView(goal: goal)) {
                     
 
-                    GradientOverlayView(goal: goal, maxHeight: 100)
+                    GoalWithImageAndGradientView(goal: goal, maxHeight: 100)
 //                        GoalRow(goal: goal)
                     
                 }

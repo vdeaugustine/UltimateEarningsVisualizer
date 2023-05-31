@@ -18,7 +18,11 @@ struct GoalsGridView: View {
             LazyVGrid(columns: GridItem.fixedItems(2, size: 180),
                       alignment: .center) {
                 ForEach(user.getGoals()) { goal in
-                    GradientOverlayView(goal: goal, maxHeight: 180)
+                    NavigationLink {
+                        GoalDetailView(goal: goal)
+                    } label: {
+                        GoalWithImageAndGradientView(goal: goal, maxHeight: 180)
+                    }
                 }
             }
         }
