@@ -11,7 +11,7 @@ import SwiftUI
 import Vin
 
 public extension Goal {
-    @discardableResult convenience init(title: String, info: String?, amount: Double, dueDate: Date?, tagStrings: [String]? = nil, user: User, context: NSManagedObjectContext = PersistenceController.context) throws {
+    @discardableResult convenience init(title: String, info: String?, amount: Double, dueDate: Date?, tagStrings: [String]? = nil, image: UIImage? = nil, user: User, context: NSManagedObjectContext = PersistenceController.context) throws {
         self.init(context: context)
         self.title = title
         self.info = info
@@ -25,6 +25,11 @@ public extension Goal {
         // Put the item at the back of the queue at first initialization
         self.queueSlotNumber = currentQueueCount
 
+        if let image,
+           let imageData = image.jpegData(compressionQuality: 1.0) {
+            self.imageData = imageData
+        }
+
         if let tagStrings {
             for tagStr in tagStrings {
                 if let existingTag = user.getTags().first(where: { $0.getTitle() == tagStr }) {
@@ -33,9 +38,9 @@ public extension Goal {
                     continue
                 } else {
                     #if DEBUG
-                    try Tag(tagStr, symbol: nil, color: Color.defaultColorOptions.randomElement()!, goal: self, user: user, context: context)
+                        try Tag(tagStr, symbol: nil, color: Color.defaultColorOptions.randomElement()!, goal: self, user: user, context: context)
                     #else
-                    try Tag(tagStr, symbol: nil, goal: self, user: user, context: context)
+                        try Tag(tagStr, symbol: nil, goal: self, user: user, context: context)
                     #endif
                 }
             }
@@ -165,7 +170,16 @@ extension Goal: PayoffItem {
 public extension Goal {
     static func makeExampleGoals(user: User, context: NSManagedObjectContext) throws {
 //        try Goal(title: "Get a basketball", info: "For playing", amount: 7, dueDate: .now.addDays(7), user: user, context: context)
-        try Goal(title: "New car fund", info: "Saving up for a down payment on a new car", amount: 100, dueDate: Date().addingTimeInterval(31_536_000), tagStrings: Tag.getSomeTitles(), user: user, context: context)
+        try Goal(
+            title: "New car fund",
+            info: "Saving up for a down payment on a new car",
+            amount: 100,
+            dueDate: Date().addingTimeInterval(31_536_000),
+            tagStrings: Tag.getSomeTitles(),
+            image: UIImage(named: "disneyworld"),
+            user: user,
+            context: context
+        )
         try Goal(title: "Vacation to Hawaii", info: "Planning a trip to Hawaii with my family", amount: 87, dueDate: Date().addingTimeInterval(157_680_000), tagStrings: Tag.getSomeTitles(), user: user, context: context)
         try Goal(title: "Emergency fund", info: "Saving up for unexpected expenses", amount: 12, dueDate: nil, tagStrings: Tag.getSomeTitles(), user: user, context: context)
         try Goal(title: "Home renovations", info: "Renovating my kitchen and bathroom", amount: 432, dueDate: Date().addingTimeInterval(63_072_000), tagStrings: Tag.getSomeTitles(), user: user, context: context)
@@ -205,7 +219,7 @@ public extension Goal {
     }
 
     // MARK: Methods
-    
+
     func getTags() -> [Tag] {
         if let tagsArray = tags?.allObjects as? [Tag] {
             return tagsArray

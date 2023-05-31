@@ -103,6 +103,7 @@
 		9CDBE0E42A2462A200741EEE /* NewShiftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDBE0E32A2462A200741EEE /* NewShiftView.swift */; };
 		9CDBE0E62A2520D200741EEE /* CustomStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDBE0E52A2520D200741EEE /* CustomStatsView.swift */; };
 		9CDBE0E82A25B7B000741EEE /* RedesignedPayoffRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDBE0E72A25B7B000741EEE /* RedesignedPayoffRow.swift */; };
+		9CDBE0EA2A25CD6300741EEE /* GoalsGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDBE0E92A25CD6300741EEE /* GoalsGridView.swift */; };
 		9CEA17692A05DF2800E8DFD7 /* ExtendDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEA17682A05DF2800E8DFD7 /* ExtendDate.swift */; };
 		9CED53422A077985002DC183 /* AllocateSavedToGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CED53412A077985002DC183 /* AllocateSavedToGoalView.swift */; };
 		9CED53442A089C77002DC183 /* StatsViewChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CED53432A089C77002DC183 /* StatsViewChart.swift */; };
@@ -249,6 +250,7 @@
 		9CDBE0E32A2462A200741EEE /* NewShiftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewShiftView.swift; sourceTree = "<group>"; };
 		9CDBE0E52A2520D200741EEE /* CustomStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStatsView.swift; sourceTree = "<group>"; };
 		9CDBE0E72A25B7B000741EEE /* RedesignedPayoffRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedesignedPayoffRow.swift; sourceTree = "<group>"; };
+		9CDBE0E92A25CD6300741EEE /* GoalsGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsGridView.swift; sourceTree = "<group>"; };
 		9CEA17682A05DF2800E8DFD7 /* ExtendDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendDate.swift; sourceTree = "<group>"; };
 		9CED53412A077985002DC183 /* AllocateSavedToGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AllocateSavedToGoalView.swift; path = "UltimateMoneyVisualizer/Views/Adding Items/Allocations/AllocateSavedToGoalView.swift"; sourceTree = SOURCE_ROOT; };
 		9CED53432A089C77002DC183 /* StatsViewChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewChart.swift; sourceTree = "<group>"; };
@@ -597,6 +599,7 @@
 				9C97358F2A0D789000F651A1 /* Incomplete(Abandoned) */,
 				9CDBE0E52A2520D200741EEE /* CustomStatsView.swift */,
 				9CDBE0E72A25B7B000741EEE /* RedesignedPayoffRow.swift */,
+				9CDBE0E92A25CD6300741EEE /* GoalsGridView.swift */,
 			);
 			path = "-InProgress";
 			sourceTree = "<group>";
@@ -1009,6 +1012,7 @@
 				9CF194D72A1B241D000F83A9 /* SFSymbolsPicker.swift in Sources */,
 				9C7C986F29FE30290077EA25 /* SystemImageWithFilledBackground.swift in Sources */,
 				9C3C58622A0C8BE200169A0F /* DateCircle.swift in Sources */,
+				9CDBE0EA2A25CD6300741EEE /* GoalsGridView.swift in Sources */,
 				9CEEE34029F909CC001FA4FB /* WageType.swift in Sources */,
 				9C460EE92A049DFA0007EBA9 /* StatsView.swift in Sources */,
 				9C7B5D5A2A202E8D00DBB877 /* CreateTagView.swift in Sources */,
