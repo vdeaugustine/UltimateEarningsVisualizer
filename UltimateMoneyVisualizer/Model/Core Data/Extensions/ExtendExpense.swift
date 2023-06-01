@@ -2,6 +2,7 @@
 import CoreData
 import Foundation
 import Vin
+import SwiftUI
 
 // MARK: - Initializer
 
@@ -178,6 +179,30 @@ public extension Expense {
         guard let dueDate else { return 0 }
         return dueDate - .now
     }
+    
+    
+    func loadImageIfPresent() -> UIImage? {
+        if let imageData {
+            return UIImage(data: imageData)
+        }
+        return nil
+    }
+
+    func saveImage(image: UIImage) throws {
+        if let imageData = image.jpegData(compressionQuality: 1.0) {
+            self.imageData = imageData
+
+            guard let context = user?.managedObjectContext else {
+                throw NSError(domain: "No context found", code: 99)
+            }
+            try context.save()
+
+        } else {
+            throw NSError(domain: "Error converting image to data", code: 99)
+        }
+    }
+    
+    
 }
 
 // MARK: - Examples for Testing

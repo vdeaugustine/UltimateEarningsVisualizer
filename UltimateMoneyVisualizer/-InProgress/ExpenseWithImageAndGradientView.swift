@@ -57,7 +57,7 @@ struct ExpenseWithImageAndGradientView: View {
                     HStack {
                         VStack(alignment: .leading, spacing: 3) {
                             HStack(alignment: .bottom) {
-                                Text(goal.titleStr)
+                                Text(expense.titleStr)
                                     .font(.headline)
                                     .fontWeight(.bold)
                                     .multilineTextAlignment(.leading)
@@ -68,13 +68,13 @@ struct ExpenseWithImageAndGradientView: View {
                                     .font(.caption2)
                             }
                             
-                            ProgressBar(percentage: goal.percentPaidOff, height: 3)
+                            ProgressBar(percentage: expense.percentPaidOff, height: 3)
                             
                             HStack {
-                                Text(goal.dueDate?.getFormattedDate(format: .abreviatedMonth) ?? "")
+                                Text(expense.dueDate?.getFormattedDate(format: .abreviatedMonth) ?? "")
                                 
                                 Spacer()
-                                Text( (goal.percentPaidOff * 100).simpleStr() + "%")
+                                Text( (expense.percentPaidOff * 100).simpleStr() + "%")
                             }
                             .font(.caption2)
                         }
@@ -95,7 +95,7 @@ struct ExpenseWithImageAndGradientView: View {
 
 struct ExpenseWithImageAndGradientView_Previews: PreviewProvider {
     static var previews: some View {
-        ExpenseWithImageAndGradientView(goal: User.main.getGoals().first(where: {$0.titleStr == "New car fund"})!)
+        ExpenseWithImageAndGradientView(expense: User.main.getExpenses().first!)
         
 //        ZStack {
 //
