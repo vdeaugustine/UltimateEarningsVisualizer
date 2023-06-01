@@ -100,6 +100,7 @@
 		9CB418C62A0B616A006F44AB /* ExtendAlertToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB418C52A0B616A006F44AB /* ExtendAlertToast.swift */; };
 		9CC5BE632A09C08C006A2262 /* TodayPayoffGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC5BE622A09C08C006A2262 /* TodayPayoffGrid.swift */; };
 		9CC65D942A20867800D81712 /* TagDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC65D932A20867800D81712 /* TagDetailView.swift */; };
+		9CD2F2E72A287E7B00718667 /* EnterPaycheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD2F2E62A287E7B00718667 /* EnterPaycheckView.swift */; };
 		9CDBE0E42A2462A200741EEE /* NewShiftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDBE0E32A2462A200741EEE /* NewShiftView.swift */; };
 		9CDBE0E62A2520D200741EEE /* CustomStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDBE0E52A2520D200741EEE /* CustomStatsView.swift */; };
 		9CDBE0E82A25B7B000741EEE /* RedesignedPayoffRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDBE0E72A25B7B000741EEE /* RedesignedPayoffRow.swift */; };
@@ -248,6 +249,7 @@
 		9CB418C52A0B616A006F44AB /* ExtendAlertToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendAlertToast.swift; sourceTree = "<group>"; };
 		9CC5BE622A09C08C006A2262 /* TodayPayoffGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TodayPayoffGrid.swift; path = UltimateMoneyVisualizer/Views/Components/TodayPayoffGrid.swift; sourceTree = SOURCE_ROOT; };
 		9CC65D932A20867800D81712 /* TagDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailView.swift; sourceTree = "<group>"; };
+		9CD2F2E62A287E7B00718667 /* EnterPaycheckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPaycheckView.swift; sourceTree = "<group>"; };
 		9CDBE0E32A2462A200741EEE /* NewShiftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewShiftView.swift; sourceTree = "<group>"; };
 		9CDBE0E52A2520D200741EEE /* CustomStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStatsView.swift; sourceTree = "<group>"; };
 		9CDBE0E72A25B7B000741EEE /* RedesignedPayoffRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedesignedPayoffRow.swift; sourceTree = "<group>"; };
@@ -594,6 +596,7 @@
 		9C7F96A429F8FEEB00F5035C /* -InProgress */ = {
 			isa = PBXGroup;
 			children = (
+				9CD2F2E62A287E7B00718667 /* EnterPaycheckView.swift */,
 				9CDBE0EB2A26F6C600741EEE /* ExpenseWithImageAndGradientView.swift */,
 				9C4F0A242A1359EC00C78349 /* AnalyzeAmountView.swift */,
 				9C0505A02A11EBF700FC6511 /* ConfirmTodayShift.swift */,
@@ -979,6 +982,7 @@
 				9C7F966429F8F03E00F5035C /* Persistence.swift in Sources */,
 				9CDBE0E62A2520D200741EEE /* CustomStatsView.swift in Sources */,
 				9C7C986329FCEB3E0077EA25 /* ProgressCircle.swift in Sources */,
+				9CD2F2E72A287E7B00718667 /* EnterPaycheckView.swift in Sources */,
 				9C7C986729FD7A390077EA25 /* TodayLiveCompletedBanner.swift in Sources */,
 				9C7F96A629F8FF0100F5035C /* CreateExpenseView.swift in Sources */,
 				9C7F968D29F8FD2D00F5035C /* ExtendExpense.swift in Sources */,
