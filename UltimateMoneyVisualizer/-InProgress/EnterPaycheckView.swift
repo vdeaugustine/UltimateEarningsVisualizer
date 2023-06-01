@@ -19,21 +19,35 @@ struct EnterPaycheckView: View {
     @State private var showCheckTaxSheet = false
     @State private var showYTDGrossSheet = false
     @State private var showYTDTaxSheet = false
-    
+
     @State private var typeSelected = TypeChoice.YTD
-    
+
+    @State private var includeDeductions = false
+    @State private var deductionsIncluded: [Deductions] = []
 
     @ObservedObject private var user = User.main
     
+    @State private var includeRetirement = false
+    @State private var includeInsurance = false
+    @State private var includeStocks = false
+
     enum TypeChoice: String {
         case YTD, paycheck = "Paycheck"
+    }
+
+    enum Deductions: String, CaseIterable, Identifiable {
+        case retirement
+        case insurance
+        case stock = "Stock Options"
+
+        var id: Deductions { self }
     }
 
     private var YTDTaxRate: Double {
         guard YTDGross > 0 else { return 0 }
         return YTDTax / YTDGross * 100
     }
-    
+
     private var paycheckTaxRate: Double {
         guard thisCheckGross > 0 else { return 0 }
         return thisCheckTax / thisCheckGross * 100
@@ -41,64 +55,75 @@ struct EnterPaycheckView: View {
 
     var body: some View {
         Form {
-            Section("Paycheck Gross") {
-                HStack {
-                    SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
-                    Text(thisCheckGross.formattedForMoney().replacingOccurrences(of: "$", with: ""))
-                        .font(.system(size: 20))
-                        .fontWeight(.bold)
-                        .foregroundStyle(user.getSettings().getDefaultGradient())
-                    Spacer()
+            Group {
+                Section("Paycheck Gross") {
+                    HStack {
+                        SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
+                        Text(thisCheckGross.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                            .font(.system(size: 20))
+                            .fontWeight(.bold)
+                            .foregroundStyle(user.getSettings().getDefaultGradient())
+                        Spacer()
+                    }
+                    .allPartsTappable()
+                    .onTapGesture {
+                        showCheckGrossSheet = true
+                    }
                 }
-                .allPartsTappable()
-                .onTapGesture {
-                    showCheckGrossSheet = true
+
+                Section("Paycheck Taxes") {
+                    HStack {
+                        SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
+                        Text(thisCheckTax.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                            .font(.system(size: 20))
+                            .fontWeight(.bold)
+                            .foregroundStyle(user.getSettings().getDefaultGradient())
+                        Spacer()
+                    }
+                    .allPartsTappable()
+                    .onTapGesture {
+                        showCheckTaxSheet = true
+                    }
+                }
+
+                Section("YTD Gross") {
+                    HStack {
+                        SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
+                        Text(YTDGross.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                            .font(.system(size: 20))
+                            .fontWeight(.bold)
+                            .foregroundStyle(user.getSettings().getDefaultGradient())
+                        Spacer()
+                    }
+                    .allPartsTappable()
+                    .onTapGesture {
+                        showYTDGrossSheet = true
+                    }
+                }
+
+                Section("YTD Taxes") {
+                    HStack {
+                        SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
+                        Text(YTDTax.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                            .font(.system(size: 20))
+                            .fontWeight(.bold)
+                            .foregroundStyle(user.getSettings().getDefaultGradient())
+                        Spacer()
+                    }
+                    .allPartsTappable()
+                    .onTapGesture {
+                        showYTDTaxSheet = true
+                    }
                 }
             }
 
-            Section("Paycheck Taxes") {
-                HStack {
-                    SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
-                    Text(thisCheckTax.formattedForMoney().replacingOccurrences(of: "$", with: ""))
-                        .font(.system(size: 20))
-                        .fontWeight(.bold)
-                        .foregroundStyle(user.getSettings().getDefaultGradient())
-                    Spacer()
-                }
-                .allPartsTappable()
-                .onTapGesture {
-                    showCheckTaxSheet = true
-                }
-            }
-
-            Section("YTD Gross") {
-                HStack {
-                    SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
-                    Text(YTDGross.formattedForMoney().replacingOccurrences(of: "$", with: ""))
-                        .font(.system(size: 20))
-                        .fontWeight(.bold)
-                        .foregroundStyle(user.getSettings().getDefaultGradient())
-                    Spacer()
-                }
-                .allPartsTappable()
-                .onTapGesture {
-                    showYTDGrossSheet = true
-                }
-            }
-
-            Section("YTD Taxes") {
-                HStack {
-                    SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
-                    Text(YTDTax.formattedForMoney().replacingOccurrences(of: "$", with: ""))
-                        .font(.system(size: 20))
-                        .fontWeight(.bold)
-                        .foregroundStyle(user.getSettings().getDefaultGradient())
-                    Spacer()
-                }
-                .allPartsTappable()
-                .onTapGesture {
-                    showYTDTaxSheet = true
-                }
+            Section("Deductions") {
+                Toggle(Deductions.retirement.rawValue.capitalized,
+                       isOn: $includeRetirement)
+                Toggle(Deductions.insurance.rawValue.capitalized,
+                       isOn: $includeInsurance)
+                Toggle(Deductions.stock.rawValue,
+                       isOn: $includeStocks)
             }
 
             Section("Rates") {
@@ -112,7 +137,7 @@ struct EnterPaycheckView: View {
                             SystemImageWithFilledBackground(systemName: "percent", backgroundColor: user.getSettings().themeColor)
                         }
                     }
-                
+
                 Text("Paycheck Tax")
                     .spacedOut {
                         HStack {
@@ -124,8 +149,8 @@ struct EnterPaycheckView: View {
                         }
                     }
             }
-            
-            Section ("Set Rate") {
+
+            Section("Set Rate") {
                 Picker("Rate to Use", selection: $typeSelected) {
                     Text(TypeChoice.YTD.rawValue)
                         .tag(TypeChoice.YTD)
@@ -133,8 +158,6 @@ struct EnterPaycheckView: View {
                         .tag(TypeChoice.paycheck)
                 }
             }
-            
-            
         }
         .putInTemplate()
         .navigationTitle("Enter Paycheck")
