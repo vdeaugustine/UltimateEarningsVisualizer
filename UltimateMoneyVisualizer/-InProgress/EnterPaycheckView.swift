@@ -69,6 +69,9 @@ struct EnterPaycheckView: View {
                     .onTapGesture {
                         showCheckGrossSheet = true
                     }
+                    .sheet(isPresented: $showCheckGrossSheet) {
+                        EnterMoneyView(dubToEdit: $thisCheckGross)
+                    }
                 }
 
                 Section("Paycheck Taxes") {
@@ -83,6 +86,9 @@ struct EnterPaycheckView: View {
                     .allPartsTappable()
                     .onTapGesture {
                         showCheckTaxSheet = true
+                    }
+                    .sheet(isPresented: $showCheckTaxSheet) {
+                        EnterMoneyView(dubToEdit: $thisCheckTax)
                     }
                 }
 
@@ -99,6 +105,9 @@ struct EnterPaycheckView: View {
                     .onTapGesture {
                         showYTDGrossSheet = true
                     }
+                    .sheet(isPresented: $showYTDGrossSheet) {
+                        EnterMoneyView(dubToEdit: $YTDGross)
+                    }
                 }
 
                 Section("YTD Taxes") {
@@ -113,6 +122,9 @@ struct EnterPaycheckView: View {
                     .allPartsTappable()
                     .onTapGesture {
                         showYTDTaxSheet = true
+                    }
+                    .sheet(isPresented: $showYTDTaxSheet) {
+                        EnterMoneyView(dubToEdit: $YTDTax)
                     }
                 }
             }
@@ -161,18 +173,10 @@ struct EnterPaycheckView: View {
         }
         .putInTemplate()
         .navigationTitle("Enter Paycheck")
-        .sheet(isPresented: $showCheckGrossSheet) {
-            EnterMoneyView(dubToEdit: $thisCheckGross)
-        }
-        .sheet(isPresented: $showCheckTaxSheet) {
-            EnterMoneyView(dubToEdit: $thisCheckTax)
-        }
-        .sheet(isPresented: $showYTDGrossSheet) {
-            EnterMoneyView(dubToEdit: $YTDGross)
-        }
-        .sheet(isPresented: $showYTDTaxSheet) {
-            EnterMoneyView(dubToEdit: $YTDTax)
-        }
+        
+        
+        
+        
         .bottomButton(label: "Save") {
         }
     }

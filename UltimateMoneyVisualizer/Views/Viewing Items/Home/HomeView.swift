@@ -166,69 +166,71 @@ struct HomeView: View {
                                             GoalDetailView(goal: goal)
                                         } label: {
                                             HStack {
-                                                VStack(alignment: .leading, spacing: 0) {
-                                                    Text(goal.titleStr)
-                                                        .font(.headline)
-                                                        .foregroundStyle(settings.getDefaultGradient())
-                                                        .pushLeft()
-
-                                                    HStack(alignment: .bottom, spacing: 5) {
-                                                        Text(goal.amountMoneyStr)
-                                                        Spacer()
-                                                        Text("GOAL")
-                                                            .font(.system(size: 10, weight: .bold, design: .rounded))
-                                                            .foregroundColor(.gray)
-                                                    }
-                                                    .padding(.top, 4)
-
-                                                    VStack {
-                                                        VStack(spacing: 1) {
-                                                            Text("Paid off")
-                                                                .font(.caption2)
-                                                                .spacedOut {
-                                                                    Text(goal.amountPaidOff.formattedForMoney())
-                                                                        .font(.caption2)
-                                                                }
-                                                            ProgressBar(percentage: goal.percentPaidOff, color: settings.themeColor)
-                                                        }
-
-                                                        VStack(spacing: 1) {
-                                                            Text("Remaining")
-                                                                .font(.caption2)
-                                                                .spacedOut {
-                                                                    Text(goal.timeRemaining.formatForTime([.year, .day, .hour, .minute]))
-                                                                        .font(.caption2)
-                                                                }
-                                                        }
-                                                    }
-                                                    .padding(.top)
-                                                    .pushTop(alignment: .leading)
-                                                }
-                                                .frame(maxWidth: .infinity)
-                                                .padding()
-
-                                                HStack {
-                                                    VStack {
-                                                        if let image = goal.loadImageIfPresent() {
-                                                            Image(uiImage: image)
-                                                                .resizable()
-
-                                                                .aspectRatio(contentMode: .fit)
-                                                                .frame(height: 75)
-                                                                .frame(width: 125)
-
-                                                                .cornerRadius(8)
-                                                            
-                                                            if let dueDate = goal.dueDate {
-                                                                Text(dueDate.getFormattedDate(format: .abreviatedMonth))
-                                                                    .font(.caption).foregroundColor(Color.hexStringToColor(hex: "8E8E93"))
-                                                            }
-                                                        }
-
-                                                        
-                                                    }
-    //                                                .padding()
-                                                }
+                                                
+                                                GoalWithImageAndGradientView(goal: goal)
+//                                                VStack(alignment: .leading, spacing: 0) {
+//                                                    Text(goal.titleStr)
+//                                                        .font(.headline)
+//                                                        .foregroundStyle(settings.getDefaultGradient())
+//                                                        .pushLeft()
+//
+//                                                    HStack(alignment: .bottom, spacing: 5) {
+//                                                        Text(goal.amountMoneyStr)
+//                                                        Spacer()
+//                                                        Text("GOAL")
+//                                                            .font(.system(size: 10, weight: .bold, design: .rounded))
+//                                                            .foregroundColor(.gray)
+//                                                    }
+//                                                    .padding(.top, 4)
+//
+//                                                    VStack {
+//                                                        VStack(spacing: 1) {
+//                                                            Text("Paid off")
+//                                                                .font(.caption2)
+//                                                                .spacedOut {
+//                                                                    Text(goal.amountPaidOff.formattedForMoney())
+//                                                                        .font(.caption2)
+//                                                                }
+//                                                            ProgressBar(percentage: goal.percentPaidOff, color: settings.themeColor)
+//                                                        }
+//
+//                                                        VStack(spacing: 1) {
+//                                                            Text("Remaining")
+//                                                                .font(.caption2)
+//                                                                .spacedOut {
+//                                                                    Text(goal.timeRemaining.formatForTime([.year, .day, .hour, .minute]))
+//                                                                        .font(.caption2)
+//                                                                }
+//                                                        }
+//                                                    }
+//                                                    .padding(.top)
+//                                                    .pushTop(alignment: .leading)
+//                                                }
+//                                                .frame(maxWidth: .infinity)
+//                                                .padding()
+//
+//                                                HStack {
+//                                                    VStack {
+//                                                        if let image = goal.loadImageIfPresent() {
+//                                                            Image(uiImage: image)
+//                                                                .resizable()
+//
+//                                                                .aspectRatio(contentMode: .fit)
+//                                                                .frame(height: 75)
+//                                                                .frame(width: 125)
+//
+//                                                                .cornerRadius(8)
+//
+//                                                            if let dueDate = goal.dueDate {
+//                                                                Text(dueDate.getFormattedDate(format: .abreviatedMonth))
+//                                                                    .font(.caption).foregroundColor(Color.hexStringToColor(hex: "8E8E93"))
+//                                                            }
+//                                                        }
+//
+//
+//                                                    }
+//    //                                                .padding()
+//                                                }
                                             }
                                             .allPartsTappable()
                                             .rectContainer()

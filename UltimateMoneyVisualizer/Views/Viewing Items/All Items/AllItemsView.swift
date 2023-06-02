@@ -23,11 +23,11 @@ struct AllItemsView: View {
             }
             .pickerStyle(.segmented)
             .padding([.horizontal, .top])
+            
 
             switch selectionType {
                 case .goals:
                     GoalsGridView()
-//                    GoalListView()
                 case .saved:
                     SavedListView()
                 case .shifts:
@@ -39,8 +39,42 @@ struct AllItemsView: View {
         .background(Color.listBackgroundColor)
         .tint(settings.themeColor)
         .putInTemplate()
+        .gesture(
+            DragGesture()
+                .onEnded { value in
+                    if value.translation.width < 0 {
+                        // Swiped to the left
+                        changeSelectionType(forward: true)
+                    } else if value.translation.width > 0 {
+                        // Swiped to the right
+                        changeSelectionType(forward: false)
+                    }
+                }
+        )
+    }
+
+    private func changeSelectionType(forward: Bool) {
+        guard let currentIndex = SelectionType.allCases.firstIndex(of: selectionType) else {
+            return
+        }
+
+        var newIndex: Int
+        if forward {
+            newIndex = currentIndex + 1
+            if newIndex >= SelectionType.allCases.count {
+                newIndex = 0
+            }
+        } else {
+            newIndex = currentIndex - 1
+            if newIndex < 0 {
+                newIndex = SelectionType.allCases.count - 1
+            }
+        }
+
+        selectionType = SelectionType.allCases[newIndex]
     }
 }
+
 
 extension AllItemsView {
     enum SelectionType: String, CaseIterable {
