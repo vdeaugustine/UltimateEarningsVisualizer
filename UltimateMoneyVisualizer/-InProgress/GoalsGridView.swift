@@ -21,7 +21,8 @@ struct GoalsGridView: View {
                     NavigationLink {
                         GoalDetailView(goal: goal)
                     } label: {
-                        GoalWithImageAndGradientView(goal: goal, maxHeight: 180)
+                        PayoffWithImageAndGradientView(item: goal)
+
                     }
                 }
             }

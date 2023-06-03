@@ -29,14 +29,13 @@ extension Image {
 
 // MARK: - GradientOverlayView
 
-struct GoalWithImageAndGradientView: View {
-    let goal: Goal
+struct PayoffWithImageAndGradientView: View {
+    let item: PayoffItem
     var maxHeight: CGFloat = 150
     
     var moneyString: String {
-        let completed: String = goal.amountPaidOff.formattedForMoney()
-        let total: String = goal.amountMoneyStr
-        //            .replacingOccurrences(of: "$", with: "")
+        let completed: String = item.amountPaidOff.formattedForMoney()
+        let total: String = item.amountMoneyStr
         
         return completed + " / " + total
         
@@ -45,7 +44,7 @@ struct GoalWithImageAndGradientView: View {
     
     var body: some View {
         ZStack {
-            if let image = Image(goal.loadImageIfPresent()) {
+            if let image = Image(item.loadImageIfPresent()) {
                 image
                     .resizable()
                     .scaledToFit()
@@ -74,7 +73,7 @@ struct GoalWithImageAndGradientView: View {
                     HStack {
                         VStack(alignment: .leading, spacing: 3) {
                             HStack(alignment: .bottom) {
-                                Text(goal.titleStr)
+                                Text(item.titleStr)
                                     .font(.headline)
                                     .fontWeight(.bold)
                                     .multilineTextAlignment(.leading)
@@ -85,13 +84,13 @@ struct GoalWithImageAndGradientView: View {
                                     .font(.caption2)
                             }
                             
-                            ProgressBar(percentage: goal.percentPaidOff, height: 3)
+                            ProgressBar(percentage: item.percentPaidOff, height: 3)
                             
                             HStack {
-                                Text(goal.dueDate?.getFormattedDate(format: .abreviatedMonth) ?? "")
+                                Text(item.dueDate?.getFormattedDate(format: .abreviatedMonth) ?? "")
                                 
                                 Spacer()
-                                Text( (goal.percentPaidOff * 100).simpleStr() + "%")
+                                Text( (item.percentPaidOff * 100).simpleStr() + "%")
                             }
                             .font(.caption2)
                         }
@@ -112,7 +111,7 @@ struct GoalWithImageAndGradientView: View {
 
 struct GoalWithImageAndGradientView_Previews: PreviewProvider {
     static var previews: some View {
-        GoalWithImageAndGradientView(goal: User.main.getGoals().first(where: {$0.titleStr == "New car fund"})!)
+        PayoffWithImageAndGradientView(item: User.main.getGoals().first(where: {$0.titleStr == "New car fund"})!)
         
 //        ZStack {
 //

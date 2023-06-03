@@ -19,8 +19,7 @@ struct GoalListView: View {
                 NavigationLink(destination: GoalDetailView(goal: goal)) {
                     
 
-                    GoalWithImageAndGradientView(goal: goal, maxHeight: 100)
-//                        GoalRow(goal: goal)
+                    PayoffWithImageAndGradientView(item: goal, maxHeight: 100)
                     
                 }
             }
