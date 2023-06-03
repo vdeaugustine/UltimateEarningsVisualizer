@@ -15,6 +15,7 @@
 		9C05059E2A10B0B500FC6511 /* SetHoursForRegularDaysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C05059D2A10B0B500FC6511 /* SetHoursForRegularDaysView.swift */; };
 		9C0505A12A11EBF700FC6511 /* ConfirmTodayShift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0505A02A11EBF700FC6511 /* ConfirmTodayShift.swift */; };
 		9C0505A32A13043F00FC6511 /* DatesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0505A22A13043F00FC6511 /* DatesTests.swift */; };
+		9C3A7B302A2BD63300F2AC88 /* ExtendTimeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3A7B2F2A2BD63300F2AC88 /* ExtendTimeBlock.swift */; };
 		9C3C58622A0C8BE200169A0F /* DateCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3C58612A0C8BE200169A0F /* DateCircle.swift */; };
 		9C3C58642A0C9ED500169A0F /* AddAllocationForExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3C58632A0C9ED500169A0F /* AddAllocationForExpenseView.swift */; };
 		9C3C58662A0CB89800169A0F /* AddAllocationForGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3C58652A0CB89800169A0F /* AddAllocationForGoalView.swift */; };
@@ -161,6 +162,7 @@
 		9C05059D2A10B0B500FC6511 /* SetHoursForRegularDaysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetHoursForRegularDaysView.swift; sourceTree = "<group>"; };
 		9C0505A02A11EBF700FC6511 /* ConfirmTodayShift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmTodayShift.swift; sourceTree = "<group>"; };
 		9C0505A22A13043F00FC6511 /* DatesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatesTests.swift; sourceTree = "<group>"; };
+		9C3A7B2F2A2BD63300F2AC88 /* ExtendTimeBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendTimeBlock.swift; sourceTree = "<group>"; };
 		9C3C58612A0C8BE200169A0F /* DateCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCircle.swift; sourceTree = "<group>"; };
 		9C3C58632A0C9ED500169A0F /* AddAllocationForExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAllocationForExpenseView.swift; sourceTree = "<group>"; };
 		9C3C58652A0CB89800169A0F /* AddAllocationForGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AddAllocationForGoalView.swift; path = "UltimateMoneyVisualizer/Views/Adding Items/Allocations/AddAllocationForGoalView.swift"; sourceTree = SOURCE_ROOT; };
@@ -564,6 +566,7 @@
 				9C7F969629F8FE3500F5035C /* ExtendUser.swift */,
 				9C7F969329F8FE3500F5035C /* ExtendWage.swift */,
 				9C7C984B29FA5C1D0077EA25 /* ExtendWorkSchedule.swift */,
+				9C3A7B2F2A2BD63300F2AC88 /* ExtendTimeBlock.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1026,6 +1029,7 @@
 				9C7B5D5A2A202E8D00DBB877 /* CreateTagView.swift in Sources */,
 				9C7C985F29FCD5AB0077EA25 /* HorizontalDataDisplay.swift in Sources */,
 				9CDBE0E82A25B7B000741EEE /* RedesignedPayoffRow.swift in Sources */,
+				9C3A7B302A2BD63300F2AC88 /* ExtendTimeBlock.swift in Sources */,
 				9CF194DB2A1C7980000F83A9 /* AddTagToGoalView.swift in Sources */,
 				9CEEE34929F90BCF001FA4FB /* DayOfWeek.swift in Sources */,
 				9CED53462A08AA77002DC183 /* PurchasePage.swift in Sources */,

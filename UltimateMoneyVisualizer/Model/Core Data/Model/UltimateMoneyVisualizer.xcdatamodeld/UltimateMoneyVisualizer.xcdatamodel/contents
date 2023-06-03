@@ -85,6 +85,7 @@
         <attribute name="endDate" attributeType="Date" defaultDateTimeInterval="704182140" usesScalarValueType="NO"/>
         <attribute name="startDate" attributeType="Date" defaultDateTimeInterval="704182140" usesScalarValueType="NO"/>
         <relationship name="allocations" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Allocation" inverseName="shift" inverseEntity="Allocation"/>
+        <relationship name="timeBlocks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TimeBlock" inverseName="shift" inverseEntity="TimeBlock"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="shifts" inverseEntity="User"/>
     </entity>
     <entity name="Tag" representedClassName="Tag" syncable="YES" codeGenerationType="class">
@@ -107,6 +108,13 @@
         <relationship name="expense" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Expense" inverseName="temporaryAllocations" inverseEntity="Expense"/>
         <relationship name="goal" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Goal" inverseName="temporaryAllocations" inverseEntity="Goal"/>
         <relationship name="todayShift" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TodayShift" inverseName="temporaryAllocations" inverseEntity="TodayShift"/>
+    </entity>
+    <entity name="TimeBlock" representedClassName="TimeBlock" syncable="YES" codeGenerationType="class">
+        <attribute name="dateCreated" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="endTime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="startTime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="shift" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Shift" inverseName="timeBlocks" inverseEntity="Shift"/>
     </entity>
     <entity name="TodayShift" representedClassName="TodayShift" syncable="YES" codeGenerationType="class">
         <attribute name="dateCreated" attributeType="Date" defaultDateTimeInterval="704424360" usesScalarValueType="NO"/>
