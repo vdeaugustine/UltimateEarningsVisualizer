@@ -8,6 +8,7 @@
 import CoreData
 import Foundation
 import Vin
+import SwiftUI
 
 public extension Shift {
     @discardableResult convenience init(day: DayOfWeek, start: Date, end: Date, user: User, context: NSManagedObjectContext) throws {
@@ -56,6 +57,7 @@ public extension Shift {
                 try TimeBlock(title: "Breakfast",
                               start: Date.getThisTime(hour: 7, minute: 15, from: shiftStart)!,
                               end: Date.getThisTime(hour: 8, minute: 0, from: shiftStart)!,
+                              colorHex: Color.overcastColors.randomElement()!,
                               shift: shift,
                               user: user,
                               context: context)
@@ -64,6 +66,7 @@ public extension Shift {
                 try TimeBlock(title: "Talk on Phone",
                               start: Date.getThisTime(hour: 8, minute: 0, from: shiftStart)!,
                               end: Date.getThisTime(hour: 9, minute: 55, from: shiftStart)!,
+                              colorHex: Color.overcastColors.randomElement()!,
                               shift: shift,
                               user: user,
                               context: context)
@@ -72,6 +75,7 @@ public extension Shift {
                 try TimeBlock(title: "Worked",
                               start: Date.getThisTime(hour: 10, minute: 30, from: shiftStart)!,
                               end: Date.getThisTime(hour: 11, minute: 30, from: shiftStart)!,
+                              colorHex: Color.overcastColors.randomElement()!,
                               shift: shift,
                               user: user,
                               context: context)
@@ -79,6 +83,7 @@ public extension Shift {
                 try TimeBlock(title: "Balled out",
                               start: Date.getThisTime(hour: 11, minute: 35, from: shiftStart)!,
                               end: Date.getThisTime(hour: 13, minute: 30, from: shiftStart)!,
+                              colorHex: Color.overcastColors.randomElement()!,
                               shift: shift,
                               user: user,
                               context: context)

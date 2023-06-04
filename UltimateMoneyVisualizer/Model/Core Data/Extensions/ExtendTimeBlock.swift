@@ -10,11 +10,12 @@ import Foundation
 import Vin
 
 extension TimeBlock {
-    @discardableResult convenience init(title: String, start: Date, end: Date, shift: Shift, user: User, context: NSManagedObjectContext) throws {
+    @discardableResult convenience init(title: String, start: Date, end: Date, colorHex: String, shift: Shift, user: User, context: NSManagedObjectContext) throws {
         self.init(context: context)
         self.title = title
         self.startTime = start
         self.endTime = end
+        self.colorHex = colorHex
         self.user = user
         user.addToTimeBlocks(self)
         self.dateCreated = Date.now

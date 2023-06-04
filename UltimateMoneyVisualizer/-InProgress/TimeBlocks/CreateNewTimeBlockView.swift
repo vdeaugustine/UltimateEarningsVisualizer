@@ -19,6 +19,8 @@ struct CreateNewTimeBlockView: View {
     @State private var title: String = ""
     @State var start: Date = .now
     @State var end: Date = .now
+    @State private var selectedColorHex: String = Color.overcastColors.first!
+    @State private var showColorOptions = false
 
     var pastBlocks: [TimeBlock] {
         guard let blocks = user.timeBlocks?.allObjects as? [TimeBlock] else {
@@ -54,6 +56,60 @@ struct CreateNewTimeBlockView: View {
             DatePicker("End Time", selection: $end,
                        in: shift.start ... shift.end,
                        displayedComponents: .hourAndMinute)
+            VStack {
+                
+                Button {
+                    withAnimation {
+                        showColorOptions.toggle()
+                    }
+
+                } label: {
+                    Text("Color")
+                        .foregroundColor(.black)
+                        .spacedOut {
+                            HStack {
+                                Circle()
+                                    .fill(Color.hexStringToColor(hex: selectedColorHex))
+                                    .frame(height: 20)
+
+                                    .overlay(content: {
+                                        Circle()
+                                            .stroke(lineWidth: 1)
+                                            .foregroundColor(.gray)
+                                    })
+
+                                Image(systemName: "chevron.right")
+                                    .font(.system(size: 14))
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.hexStringToColor(hex: "BFBFBF"))
+                                    .rotationEffect(showColorOptions ? .degrees(90) : .degrees(0))
+                            }
+                        }
+                        .padding(.top, showColorOptions ? 10 : 0)
+                }
+
+                if showColorOptions {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        LazyHStack {
+                            ForEach(Color.overcastColors, id: \.self) { colorHex in
+                                Button {
+                                    selectedColorHex = colorHex
+                                } label: {
+                                    Circle()
+                                        .frame(height: 20)
+                                        .foregroundColor(.hexStringToColor(hex: colorHex))
+                                        .overlay {
+                                            Circle()
+                                                .stroke(lineWidth: 1)
+                                                .foregroundColor(.gray)
+                                        }
+                                }
+                            }
+                        }
+                    }
+                }
+                
+            }
 
             Section {
                 ForEach(titles, id: \.self) { blockTitle in
@@ -89,7 +145,15 @@ extension CreateNewTimeBlockView {
         // TODO: Check that the times are ok
         // TODO: Handle errors 
         do {
-            try TimeBlock(title: title, start: start, end: end, shift: shift, user: user, context: viewContext)
+            try TimeBlock(
+                title: title,
+                start: start,
+                end: end,
+                colorHex: selectedColorHex,
+                shift: shift,
+                user: user,
+                context: viewContext
+            )
             print("Saved timeblock")
             dismiss()
         }
