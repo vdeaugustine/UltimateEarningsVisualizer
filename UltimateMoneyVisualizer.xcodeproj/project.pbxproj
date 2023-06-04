@@ -16,6 +16,9 @@
 		9C0505A12A11EBF700FC6511 /* ConfirmTodayShift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0505A02A11EBF700FC6511 /* ConfirmTodayShift.swift */; };
 		9C0505A32A13043F00FC6511 /* DatesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0505A22A13043F00FC6511 /* DatesTests.swift */; };
 		9C3A7B302A2BD63300F2AC88 /* ExtendTimeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3A7B2F2A2BD63300F2AC88 /* ExtendTimeBlock.swift */; };
+		9C3A7B322A2BD80300F2AC88 /* AllTimeBlocksForShiftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3A7B312A2BD80300F2AC88 /* AllTimeBlocksForShiftView.swift */; };
+		9C3A7B342A2C3A4400F2AC88 /* CreateNewTimeBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3A7B332A2C3A4400F2AC88 /* CreateNewTimeBlockView.swift */; };
+		9C3A7B372A2C44F300F2AC88 /* ItemizedPartOfShiftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3A7B362A2C44F300F2AC88 /* ItemizedPartOfShiftView.swift */; };
 		9C3C58622A0C8BE200169A0F /* DateCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3C58612A0C8BE200169A0F /* DateCircle.swift */; };
 		9C3C58642A0C9ED500169A0F /* AddAllocationForExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3C58632A0C9ED500169A0F /* AddAllocationForExpenseView.swift */; };
 		9C3C58662A0CB89800169A0F /* AddAllocationForGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3C58652A0CB89800169A0F /* AddAllocationForGoalView.swift */; };
@@ -163,6 +166,9 @@
 		9C0505A02A11EBF700FC6511 /* ConfirmTodayShift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmTodayShift.swift; sourceTree = "<group>"; };
 		9C0505A22A13043F00FC6511 /* DatesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatesTests.swift; sourceTree = "<group>"; };
 		9C3A7B2F2A2BD63300F2AC88 /* ExtendTimeBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendTimeBlock.swift; sourceTree = "<group>"; };
+		9C3A7B312A2BD80300F2AC88 /* AllTimeBlocksForShiftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTimeBlocksForShiftView.swift; sourceTree = "<group>"; };
+		9C3A7B332A2C3A4400F2AC88 /* CreateNewTimeBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewTimeBlockView.swift; sourceTree = "<group>"; };
+		9C3A7B362A2C44F300F2AC88 /* ItemizedPartOfShiftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemizedPartOfShiftView.swift; sourceTree = "<group>"; };
 		9C3C58612A0C8BE200169A0F /* DateCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCircle.swift; sourceTree = "<group>"; };
 		9C3C58632A0C9ED500169A0F /* AddAllocationForExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAllocationForExpenseView.swift; sourceTree = "<group>"; };
 		9C3C58652A0CB89800169A0F /* AddAllocationForGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AddAllocationForGoalView.swift; path = "UltimateMoneyVisualizer/Views/Adding Items/Allocations/AddAllocationForGoalView.swift"; sourceTree = SOURCE_ROOT; };
@@ -329,6 +335,16 @@
 				9C7C984029F9F7B20077EA25 /* AllSchedulesView.swift */,
 			);
 			path = Deprecated;
+			sourceTree = "<group>";
+		};
+		9C3A7B352A2C445E00F2AC88 /* TimeBlocks */ = {
+			isa = PBXGroup;
+			children = (
+				9C3A7B332A2C3A4400F2AC88 /* CreateNewTimeBlockView.swift */,
+				9C3A7B362A2C44F300F2AC88 /* ItemizedPartOfShiftView.swift */,
+				9C3A7B312A2BD80300F2AC88 /* AllTimeBlocksForShiftView.swift */,
+			);
+			path = TimeBlocks;
 			sourceTree = "<group>";
 		};
 		9C460EE72A049DC30007EBA9 /* New Money Items */ = {
@@ -599,6 +615,7 @@
 		9C7F96A429F8FEEB00F5035C /* -InProgress */ = {
 			isa = PBXGroup;
 			children = (
+				9C3A7B352A2C445E00F2AC88 /* TimeBlocks */,
 				9CD2F2E62A287E7B00718667 /* EnterPaycheckView.swift */,
 				9CDBE0EB2A26F6C600741EEE /* ExpenseWithImageAndGradientView.swift */,
 				9C4F0A242A1359EC00C78349 /* AnalyzeAmountView.swift */,
@@ -990,6 +1007,7 @@
 				9C7F96A629F8FF0100F5035C /* CreateExpenseView.swift in Sources */,
 				9C7F968D29F8FD2D00F5035C /* ExtendExpense.swift in Sources */,
 				9C7C984729FA0E130077EA25 /* HomeView.swift in Sources */,
+				9C3A7B342A2C3A4400F2AC88 /* CreateNewTimeBlockView.swift in Sources */,
 				9C7B5D582A20271400DBB877 /* PayCycleView.swift in Sources */,
 				9C3C58682A0CBF5900169A0F /* AllItemsView.swift in Sources */,
 				9C9735962A0D84D500F651A1 /* ExtendText.swift in Sources */,
@@ -1019,6 +1037,7 @@
 				9CF194DD2A1C7B21000F83A9 /* ExtendTag.swift in Sources */,
 				9C9735942A0D795600F651A1 /* AllocationDetailView.swift in Sources */,
 				9C7F969C29F8FE3500F5035C /* ExtendSettings.swift in Sources */,
+				9C3A7B372A2C44F300F2AC88 /* ItemizedPartOfShiftView.swift in Sources */,
 				9CB418C42A0B2C81006F44AB /* EditSavedItemView.swift in Sources */,
 				9CF194D72A1B241D000F83A9 /* SFSymbolsPicker.swift in Sources */,
 				9C7C986F29FE30290077EA25 /* SystemImageWithFilledBackground.swift in Sources */,
@@ -1068,6 +1087,7 @@
 				9C460EE62A047D900007EBA9 /* AddNewItemFirstView.swift in Sources */,
 				9C7C986129FCE6A80077EA25 /* ProgressBar.swift in Sources */,
 				9C97358E2A0D5EC200F651A1 /* ChooseExpenseForSavedAlloc.swift in Sources */,
+				9C3A7B322A2BD80300F2AC88 /* AllTimeBlocksForShiftView.swift in Sources */,
 				9CEEE34729F90ADA001FA4FB /* ShiftDetailView.swift in Sources */,
 				9C4F0A2D2A152D5500C78349 /* ViewNormalWorkingHoursSet.swift in Sources */,
 				9C97358C2A0D5EB800F651A1 /* ChooseGoalForSavedAlloc.swift in Sources */,

@@ -17,7 +17,7 @@ public extension User {
         self.email = "TestUser@ExampleForTest.com"
 
         let wage = Wage(context: viewContext)
-        wage.amount = 53
+        wage.amount = 35
         wage.user = self
         self.wage = wage
 

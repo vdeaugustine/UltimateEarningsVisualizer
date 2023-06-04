@@ -115,6 +115,7 @@
         <attribute name="startTime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="shift" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Shift" inverseName="timeBlocks" inverseEntity="Shift"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="timeBlocks" inverseEntity="User"/>
     </entity>
     <entity name="TodayShift" representedClassName="TodayShift" syncable="YES" codeGenerationType="class">
         <attribute name="dateCreated" attributeType="Date" defaultDateTimeInterval="704424360" usesScalarValueType="NO"/>
@@ -137,6 +138,7 @@
         <relationship name="settings" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Settings" inverseName="user" inverseEntity="Settings"/>
         <relationship name="shifts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Shift" inverseName="user" inverseEntity="Shift"/>
         <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tag" inverseName="user" inverseEntity="Tag"/>
+        <relationship name="timeBlocks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TimeBlock" inverseName="user" inverseEntity="TimeBlock"/>
         <relationship name="todayShift" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TodayShift" inverseName="user" inverseEntity="TodayShift"/>
         <relationship name="wage" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Wage" inverseName="user" inverseEntity="Wage"/>
     </entity>

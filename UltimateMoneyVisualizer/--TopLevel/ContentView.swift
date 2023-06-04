@@ -31,7 +31,8 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $tab) {
             
-            HomeView()
+            CreateNewTimeBlockView(shift: User.main.getShifts().first!)
+//            HomeView()
                 .putInNavView(.inline)
                 .makeTab(tab: Tabs.home, systemImage: "house")
             

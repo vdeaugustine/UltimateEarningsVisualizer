@@ -16,9 +16,7 @@ public extension Shift {
         self.endDate = end
         self.dayOfWeek = day.rawValue
         self.user = user
-        
-        
-        
+
         try context.save()
     }
 
@@ -41,11 +39,50 @@ public extension Shift {
         // Create 20 shifts, starting from today and going back in time, one shift per day.
         for i in 0 ..< 20 {
             let day = startDate.addDays(-Double(i))
+            let shiftStart = Date.getThisTime(hour: 7, minute: 0, second: 0, from: day)!
+            let shiftEnd = Date.getThisTime(hour: 15, minute: 30, second: 0, from: day)!
+
+            // Create 3 TimeBlocks (but only for the first one)
+            // TODO: Add for other ones
+
             let shift = try Shift(day: .init(date: day),
-                                  start: Date.getThisTime(hour: 9, minute: 0, second: 0, from: day)!,
-                                  end: Date.getThisTime(hour: 17, minute: 0, second: 0, from: day)!,
+                                  start: shiftStart,
+                                  end: shiftEnd,
                                   user: user,
                                   context: context)
+
+            if i == 0 {
+                // first block (9am to 11am)
+                try TimeBlock(title: "Breakfast",
+                              start: Date.getThisTime(hour: 7, minute: 15, from: shiftStart)!,
+                              end: Date.getThisTime(hour: 8, minute: 0, from: shiftStart)!,
+                              shift: shift,
+                              user: user,
+                              context: context)
+
+                // second block (11:15am to 12pm)
+                try TimeBlock(title: "Talk on Phone",
+                              start: Date.getThisTime(hour: 8, minute: 0, from: shiftStart)!,
+                              end: Date.getThisTime(hour: 9, minute: 55, from: shiftStart)!,
+                              shift: shift,
+                              user: user,
+                              context: context)
+
+                // third block (12:30 to 3pm)
+                try TimeBlock(title: "Worked",
+                              start: Date.getThisTime(hour: 10, minute: 30, from: shiftStart)!,
+                              end: Date.getThisTime(hour: 11, minute: 30, from: shiftStart)!,
+                              shift: shift,
+                              user: user,
+                              context: context)
+
+                try TimeBlock(title: "Balled out",
+                              start: Date.getThisTime(hour: 11, minute: 35, from: shiftStart)!,
+                              end: Date.getThisTime(hour: 13, minute: 30, from: shiftStart)!,
+                              shift: shift,
+                              user: user,
+                              context: context)
+            }
 
             // For each shift, create 20 random allocations to goals and expenses.
             for _ in 0 ..< 20 {
@@ -151,6 +188,14 @@ extension Shift {
         return combined.sorted(by: { self.amountAllocated(for: $0) > self.amountAllocated(for: $1) })
     }
 
+    func getTimeBlocks() -> [TimeBlock] {
+        guard let blocks = timeBlocks?.allObjects as? [TimeBlock] else {
+            return []
+        }
+
+        return blocks.sorted(by: { ($0.startTime ?? .distantFuture) < ($1.endTime ?? .distantFuture) })
+    }
+
     func amountAllocated(for payoffItem: PayoffItem) -> Double {
         var sum: Double = 0
 
@@ -170,10 +215,6 @@ extension Shift {
 
         return sum
     }
-    
-    
-
-
 }
 
 // MARK: - Just for previews
