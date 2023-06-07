@@ -31,7 +31,7 @@ struct UltimateMoneyVisualizerApp: App {
     let persistenceController = PersistenceController.shared
     let context = PersistenceController.context
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    @StateObject private var navManager = NavManager()
+    @StateObject private var navManager = NavManager.shared
 
     var body: some Scene {
         WindowGroup {

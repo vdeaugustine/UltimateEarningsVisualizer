@@ -24,7 +24,7 @@ struct ShiftDetailView: View {
     var payoffItems: [PayoffItem] {
         shift.getPayoffItemsAllocatedTo()
     }
-    
+
     var allocations: [Allocation] {
         shift.getAllocations().sorted(by: { $0.amount > $1.amount })
     }
@@ -53,8 +53,7 @@ struct ShiftDetailView: View {
                                 Text(shift.totalAllocated.formattedForMoney())
                             }
                     }
-                    
-                    
+
                     HStack {
                         SystemImageWithFilledBackground(systemName: "dollarsign.arrow.circlepath", backgroundColor: .okGreen)
                         Text("Available")
@@ -62,8 +61,12 @@ struct ShiftDetailView: View {
                                 Text(shift.totalAvailable.formattedForMoney())
                             }
                     }
-                    
-                    
+                }
+
+                Section {
+                    ItemizedPartOfShiftView(shift: shift)
+                        .padding(.vertical)
+//                        .frame(height:  CGFloat(shift.getTimeBlocks().count) * 75 + 75)
                 }
 
                 Section("Allocations") {
@@ -71,8 +74,7 @@ struct ShiftDetailView: View {
 
                         NavigationLink {
                             AllocationDetailView(allocation: alloc)
-                            
-                            
+
                         } label: {
                             if let goal = alloc.goal {
                                 HStack {
@@ -92,26 +94,6 @@ struct ShiftDetailView: View {
                                 }
                             }
                         }
-
-//                        HStack {
-//
-//                            if let goal = alloc.goal {
-//                                HStack {
-//                                    SystemImageWithFilledBackground(systemName: "target", backgroundColor: settings.themeColor)
-//
-//                                    Text(goal.titleStr)
-//                                        .spacedOut(text: alloc.amount.formattedForMoney())
-//                                }
-//                            }
-//
-//                            if let expense = alloc.expense {
-//                                SystemImageWithFilledBackground(systemName: "creditcard.fill", backgroundColor: settings.themeColor)
-//
-//                                Text(expense.titleStr)
-//                                    .spacedOut(text: alloc.amount.formattedForMoney())
-//                            }
-//
-//                        }
                     }
                 }
             }
@@ -122,7 +104,7 @@ struct ShiftDetailView: View {
         .bottomButton(label: "Delete", action: {
             showDeleteConfirmation = true
         })
-        
+
         .background(Color.targetGray)
         .putInTemplate()
         .navigationTitle("Shift for \(shift.start.getFormattedDate(format: .abreviatedMonth))")
@@ -134,12 +116,11 @@ struct ShiftDetailView: View {
         } message: {
             Text("This action cannot be undone")
         }
-        
-        
-        
-        
+        .onAppear {
+            print(shift.getTimeBlocks())
+        }
     }
-    
+
     func deleteAction() {
         user.removeFromShifts(shift)
         viewContext.delete(shift)
@@ -173,7 +154,7 @@ struct ShiftDetailView: View {
 
 struct ShiftDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        ShiftDetailView(shift: User.main.getShifts().last!)
+        ShiftDetailView(shift: User.main.getShifts().first!)
             .putInNavView(.large)
             .environment(\.managedObjectContext, PersistenceController.context)
     }

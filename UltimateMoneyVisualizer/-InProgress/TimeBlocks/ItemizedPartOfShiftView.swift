@@ -7,9 +7,14 @@
 
 import SwiftUI
 
+
+
 // MARK: - ItemizedPartOfShiftView
 
 struct ItemizedPartOfShiftView: View {
+    @EnvironmentObject private var navManager: NavManager
+    @ObservedObject private var settings = User.main.getSettings()
+
     let shift: Shift
 
     @State private var timesToShow: [Date] = []
@@ -31,43 +36,62 @@ struct ItemizedPartOfShiftView: View {
 
         return retArr
     }
+    
+    struct StartAndEnd: Hashable {
+        let start: Date
+        let end: Date
+    }
+
+    func plusNavigation(start: Date, end: Date) -> some View {
+//        NavigationLink {
+//            CreateNewTimeBlockView(shift: shift,
+//                                   start: start,
+//                                   end: end)
+//        } label: {
+            Image(systemName: "plus.circle")
+//                .font(.title2)
+                .padding(.top, -12)
+                .foregroundStyle(settings.getDefaultGradient())
+                .onTapGesture {
+                    navManager.homeNavPath.append(StartAndEnd(start: start, end: end))
+                }
+                
+//        }
+    }
 
     var body: some View {
-        ScrollView {
-            VStack {
-                
-                if let first = shift.getTimeBlocks().first,
-                   let startOfFirst = first.startTime,
-                   let shiftStart = shift.startDate,
-                   startOfFirst > shiftStart {
-                    NavigationLink {
-                        
-                      CreateNewTimeBlockView(shift: shift, start: shiftStart, end: startOfFirst)
-                    } label: {
-                        Image(systemName: "plus.circle")
-                            .font(.title2)
-                    }
-                        
-                }
-                
-                ForEach(shift.getTimeBlocks()) { timeBlock in
-                    timeBlockSection(timeBlock: timeBlock)
-                }
-                
-                if let last = shift.getTimeBlocks().last,
-                   let endOfLast = last.endTime,
-                   let shiftEnd = shift.endDate,
-                   endOfLast < shiftEnd {
-                    NavigationLink {
-                      CreateNewTimeBlockView(shift: shift, start: endOfLast, end: shiftEnd)
-                    } label: {
-                        Image(systemName: "plus.circle")
-                            .font(.title2)
-                    }
-                        
-                }
+        // ScrollView {
+        VStack {
+            divider(time: shift.start)
+
+            if let first = shift.getTimeBlocks().first,
+               let startOfFirst = first.startTime,
+               let shiftStart = shift.startDate,
+               startOfFirst > shiftStart {
+                plusNavigation(start: shiftStart, end: startOfFirst)
             }
+
+            ForEach(shift.getTimeBlocks()) { timeBlock in
+                timeBlockSection(timeBlock: timeBlock)
+            }
+
+            if let last = shift.getTimeBlocks().last,
+               let endOfLast = last.endTime,
+               let shiftEnd = shift.endDate,
+               endOfLast < shiftEnd {
+                plusNavigation(start: endOfLast, end: shiftEnd)
+            }
+
+            if shift.getTimeBlocks().isEmpty {
+                plusNavigation(start: shift.start, end: shift.end)
+            }
+
+            divider(time: shift.end)
         }
+        .navigationDestination(for: StartAndEnd.self) { newVal in
+            CreateNewTimeBlockView(shift: shift, start: newVal.start, end: newVal.end)
+        }
+        // }
     }
 
     func timeBlockSection(timeBlock: TimeBlock) -> some View {
@@ -79,23 +103,11 @@ struct ItemizedPartOfShiftView: View {
             timeBlockPill(timeBlock: timeBlock)
             if let endTime = timeBlock.endTime {
                 divider(time: endTime)
-                
+
                 if gaps.contains(endTime) {
-                    NavigationLink {
-                      CreateNewTimeBlockView(shift: shift,
-                                             start: endTime,
-                                             end: getBlockAfter(this: timeBlock)?.startTime ?? endTime )
-                    } label: {
-                        Image(systemName: "plus.circle")
-                            .font(.title2)
-                            .padding(.top, -15)
-                    }
-                    
+                    plusNavigation(start: endTime, end: getBlockAfter(this: timeBlock)?.startTime ?? endTime)
                 }
             }
-            
-            
-            
         }
     }
 
@@ -103,29 +115,30 @@ struct ItemizedPartOfShiftView: View {
         HStack {
             if let title = timeBlock.title {
                 Text(title)
-                    .font(.system(size: 16))
-                    .foregroundColor(Color.black)
+                    .font(.system(size: 12))
+                    .foregroundColor(.white)
 
                 Spacer()
 
                 Text(timeBlock.amountEarned().formattedForMoney())
-                    .font(.system(size: 16))
+                    .font(.system(size: 12))
                     .fontWeight(.semibold)
-                    .foregroundColor(Color(hex: "#003649"))
+                    .foregroundColor(.white)
             }
         }
-        .padding()
+        .padding(10)
         .background {
             RoundedRectangle(cornerRadius: 10)
-                .foregroundColor(Color(hex: "#F9DB8C"))
+                .foregroundColor(timeBlock.getColor())
         }
     }
 
     func divider(time: Date) -> some View {
         HStack(spacing: 9) {
             Text(time.getFormattedDate(format: .minimalTime))
+                .font(.system(size: 13))
             Rectangle()
-                .frame(height: 2.5)
+                .frame(height: 1.5)
                 .foregroundColor(Color.black)
                 .cornerRadius(2)
         }
@@ -133,14 +146,12 @@ struct ItemizedPartOfShiftView: View {
 }
 
 extension ItemizedPartOfShiftView {
-    
     func getBlockAfter(this block: TimeBlock) -> TimeBlock? {
         guard let indexOfThisBlock = shift.getTimeBlocks().firstIndex(of: block)
         else { return nil }
         return shift.getTimeBlocks().safeGet(at: indexOfThisBlock + 1)
     }
-    
-    
+
     func startMatchesAnotherBlocksEnd(_ timeBlock: TimeBlock) -> Bool {
         guard let start = timeBlock.startTime else { return false }
         for block in shift.getTimeBlocks() {
@@ -188,8 +199,10 @@ extension ItemizedPartOfShiftView {
 
 struct ItemizedPartOfShiftView_Previews: PreviewProvider {
     static var previews: some View {
-        ItemizedPartOfShiftView(shift: User.main.getShifts().first!)
-            .padding()
-            .putInNavView(.inline)
+        NavigationStack(path: .constant(NavigationPath())) {
+            ItemizedPartOfShiftView(shift: User.main.getShifts().first!)
+                .padding()
+        }
+            
     }
 }

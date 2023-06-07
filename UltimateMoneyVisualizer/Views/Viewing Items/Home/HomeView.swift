@@ -11,6 +11,8 @@ import Vin
 // MARK: - HomeView
 
 struct HomeView: View {
+    
+    @EnvironmentObject private var navManager: NavManager
     @ObservedObject private var settings = User.main.getSettings()
     @ObservedObject private var user = User.main
 
@@ -243,6 +245,7 @@ struct HomeView_Previews: PreviewProvider {
         Group {
             HomeView()
                 .putInNavView(.inline)
+                .environmentObject(NavManager())
         }
     }
 }

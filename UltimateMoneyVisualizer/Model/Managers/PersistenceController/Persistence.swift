@@ -34,7 +34,7 @@ public struct PersistenceController {
         static let shared = PersistenceController()
         public static let inMemory: Bool = false
     #else
-        public static let inMemory: Bool = true
+        public static let inMemory: Bool = false
         static var shared: PersistenceController = {
             let isInPreview = ProcessInfo.processInfo.environment["_XCODE_RUNNING_FOR_PREVIEWS"] == nil
             let result = PersistenceController(inMemory: inMemory)

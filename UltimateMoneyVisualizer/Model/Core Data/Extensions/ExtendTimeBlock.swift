@@ -8,6 +8,7 @@
 import CoreData
 import Foundation
 import Vin
+import SwiftUI
 
 extension TimeBlock {
     @discardableResult convenience init(title: String, start: Date, end: Date, colorHex: String, shift: Shift, user: User, context: NSManagedObjectContext) throws {
@@ -34,5 +35,10 @@ extension TimeBlock {
     func amountEarned() -> Double {
         let perSecond = User.main.getWage().perSecond
         return duration * perSecond
+    }
+    
+    func getColor() -> Color {
+        guard let colorHex else { return Color(hex: "#003649") }
+        return Color.hexStringToColor(hex: colorHex)
     }
 }
