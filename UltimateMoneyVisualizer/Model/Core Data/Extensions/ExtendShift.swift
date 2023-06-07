@@ -7,8 +7,8 @@
 
 import CoreData
 import Foundation
-import Vin
 import SwiftUI
+import Vin
 
 public extension Shift {
     @discardableResult convenience init(day: DayOfWeek, start: Date, end: Date, user: User, context: NSManagedObjectContext) throws {
@@ -52,42 +52,40 @@ public extension Shift {
                                   user: user,
                                   context: context)
 
-            if i == 0 {
-                // first block (9am to 11am)
-                try TimeBlock(title: "Breakfast",
-                              start: Date.getThisTime(hour: 7, minute: 15, from: shiftStart)!,
-                              end: Date.getThisTime(hour: 8, minute: 0, from: shiftStart)!,
-                              colorHex: Color.overcastColors.randomElement()!,
-                              shift: shift,
-                              user: user,
-                              context: context)
+            // first block (9am to 11am)
+            try TimeBlock(title: "Breakfast",
+                          start: Date.getThisTime(hour: 7, minute: 15, from: shiftStart)!,
+                          end: Date.getThisTime(hour: 8, minute: 0, from: shiftStart)!,
+                          colorHex: Color.overcastColors.randomElement()!,
+                          shift: shift,
+                          user: user,
+                          context: context)
 
-                // second block (11:15am to 12pm)
-                try TimeBlock(title: "Talk on Phone",
-                              start: Date.getThisTime(hour: 8, minute: 0, from: shiftStart)!,
-                              end: Date.getThisTime(hour: 9, minute: 55, from: shiftStart)!,
-                              colorHex: Color.overcastColors.randomElement()!,
-                              shift: shift,
-                              user: user,
-                              context: context)
+            // second block (11:15am to 12pm)
+            try TimeBlock(title: "Talk on Phone",
+                          start: Date.getThisTime(hour: 8, minute: 0, from: shiftStart)!,
+                          end: Date.getThisTime(hour: 9, minute: 55, from: shiftStart)!,
+                          colorHex: Color.overcastColors.randomElement()!,
+                          shift: shift,
+                          user: user,
+                          context: context)
 
-                // third block (12:30 to 3pm)
-                try TimeBlock(title: "Worked",
-                              start: Date.getThisTime(hour: 10, minute: 30, from: shiftStart)!,
-                              end: Date.getThisTime(hour: 11, minute: 30, from: shiftStart)!,
-                              colorHex: Color.overcastColors.randomElement()!,
-                              shift: shift,
-                              user: user,
-                              context: context)
+            // third block (12:30 to 3pm)
+            try TimeBlock(title: "Worked",
+                          start: Date.getThisTime(hour: 10, minute: 30, from: shiftStart)!,
+                          end: Date.getThisTime(hour: 11, minute: 30, from: shiftStart)!,
+                          colorHex: Color.overcastColors.randomElement()!,
+                          shift: shift,
+                          user: user,
+                          context: context)
 
-                try TimeBlock(title: "Balled out",
-                              start: Date.getThisTime(hour: 11, minute: 35, from: shiftStart)!,
-                              end: Date.getThisTime(hour: 13, minute: 30, from: shiftStart)!,
-                              colorHex: Color.overcastColors.randomElement()!,
-                              shift: shift,
-                              user: user,
-                              context: context)
-            }
+            try TimeBlock(title: "Balled out",
+                          start: Date.getThisTime(hour: 11, minute: 35, from: shiftStart)!,
+                          end: Date.getThisTime(hour: 13, minute: 30, from: shiftStart)!,
+                          colorHex: Color.overcastColors.randomElement()!,
+                          shift: shift,
+                          user: user,
+                          context: context)
 
             // For each shift, create 20 random allocations to goals and expenses.
             for _ in 0 ..< 20 {

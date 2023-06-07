@@ -190,6 +190,12 @@ public extension User {
         return goals.reduce(Double.zero) { $0 + $1.amount }
     }
 
+    func getTimeBlocksBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [TimeBlock] {
+        let shifts = getShiftsBetween(startDate: startDate, endDate: endDate)
+
+        return shifts.flatMap { $0.getTimeBlocks() }
+    }
+
     /// Returns the amount of seconds the given amount of money translates to
     func convertMoneyToTime(money: Double) -> TimeInterval {
         money / getWage().perSecond
@@ -469,7 +475,7 @@ public extension User {
 
         return filtered
     }
-    
+
     func getSavedItemsWith(tag: Tag) -> [Saved] {
         let filtered = getSaved().filter { saved in
             saved.getTags().contains(where: { savedTag in
@@ -481,21 +487,21 @@ public extension User {
 
         return filtered
     }
-    
+
     func getInstancesOf(savedItem: Saved) -> [Saved] {
         let filtered = getSaved().filter { saved in
             saved.getTitle() == savedItem.getTitle()
         }
         return filtered
     }
-    
+
     func getInstancesOf(expense: Expense) -> [Expense] {
         let filtered = getExpenses().filter { thisExpense in
             thisExpense.titleStr == expense.titleStr
         }
         return filtered
     }
-    
+
     func getInstancesOf(goal: Goal) -> [Goal] {
         let filtered = getGoals().filter { thisGoal in
             thisGoal.titleStr == goal.titleStr

@@ -16,7 +16,7 @@
 		9C0505A12A11EBF700FC6511 /* ConfirmTodayShift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0505A02A11EBF700FC6511 /* ConfirmTodayShift.swift */; };
 		9C0505A32A13043F00FC6511 /* DatesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0505A22A13043F00FC6511 /* DatesTests.swift */; };
 		9C3A7B302A2BD63300F2AC88 /* ExtendTimeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3A7B2F2A2BD63300F2AC88 /* ExtendTimeBlock.swift */; };
-		9C3A7B322A2BD80300F2AC88 /* AllTimeBlocksForShiftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3A7B312A2BD80300F2AC88 /* AllTimeBlocksForShiftView.swift */; };
+		9C3A7B322A2BD80300F2AC88 /* AllTimeBlocksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3A7B312A2BD80300F2AC88 /* AllTimeBlocksView.swift */; };
 		9C3A7B342A2C3A4400F2AC88 /* CreateNewTimeBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3A7B332A2C3A4400F2AC88 /* CreateNewTimeBlockView.swift */; };
 		9C3A7B372A2C44F300F2AC88 /* ItemizedPartOfShiftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3A7B362A2C44F300F2AC88 /* ItemizedPartOfShiftView.swift */; };
 		9C3C58622A0C8BE200169A0F /* DateCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3C58612A0C8BE200169A0F /* DateCircle.swift */; };
@@ -42,6 +42,7 @@
 		9C514DB02A002266003DC43C /* ExtendPayoffQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C514DAF2A002266003DC43C /* ExtendPayoffQueue.swift */; };
 		9C514DB32A0024E9003DC43C /* PayoffItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C514DB22A0024E9003DC43C /* PayoffItem.swift */; };
 		9C514DB52A00A480003DC43C /* PayoffQueueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C514DB42A00A480003DC43C /* PayoffQueueView.swift */; };
+		9C5F0B852A3056C9006AAB46 /* VinPieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5F0B842A3056C9006AAB46 /* VinPieChart.swift */; };
 		9C65A75F2A00D28E00A5BCF1 /* GoalRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C65A75E2A00D28E00A5BCF1 /* GoalRow.swift */; };
 		9C65A7612A00D4B900A5BCF1 /* ExpenseRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C65A7602A00D4B900A5BCF1 /* ExpenseRow.swift */; };
 		9C69C5CC2A1832E5006F5C23 /* PayoffWithImageAndGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C69C5CB2A1832E5006F5C23 /* PayoffWithImageAndGradientView.swift */; };
@@ -166,7 +167,7 @@
 		9C0505A02A11EBF700FC6511 /* ConfirmTodayShift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmTodayShift.swift; sourceTree = "<group>"; };
 		9C0505A22A13043F00FC6511 /* DatesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatesTests.swift; sourceTree = "<group>"; };
 		9C3A7B2F2A2BD63300F2AC88 /* ExtendTimeBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendTimeBlock.swift; sourceTree = "<group>"; };
-		9C3A7B312A2BD80300F2AC88 /* AllTimeBlocksForShiftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTimeBlocksForShiftView.swift; sourceTree = "<group>"; };
+		9C3A7B312A2BD80300F2AC88 /* AllTimeBlocksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTimeBlocksView.swift; sourceTree = "<group>"; };
 		9C3A7B332A2C3A4400F2AC88 /* CreateNewTimeBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewTimeBlockView.swift; sourceTree = "<group>"; };
 		9C3A7B362A2C44F300F2AC88 /* ItemizedPartOfShiftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemizedPartOfShiftView.swift; sourceTree = "<group>"; };
 		9C3C58612A0C8BE200169A0F /* DateCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCircle.swift; sourceTree = "<group>"; };
@@ -193,6 +194,7 @@
 		9C514DAF2A002266003DC43C /* ExtendPayoffQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendPayoffQueue.swift; sourceTree = "<group>"; };
 		9C514DB22A0024E9003DC43C /* PayoffItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayoffItem.swift; sourceTree = "<group>"; };
 		9C514DB42A00A480003DC43C /* PayoffQueueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayoffQueueView.swift; sourceTree = "<group>"; };
+		9C5F0B842A3056C9006AAB46 /* VinPieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VinPieChart.swift; sourceTree = "<group>"; };
 		9C65A75E2A00D28E00A5BCF1 /* GoalRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalRow.swift; sourceTree = "<group>"; };
 		9C65A7602A00D4B900A5BCF1 /* ExpenseRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRow.swift; sourceTree = "<group>"; };
 		9C69C5CB2A1832E5006F5C23 /* PayoffWithImageAndGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayoffWithImageAndGradientView.swift; sourceTree = "<group>"; };
@@ -342,7 +344,7 @@
 			children = (
 				9C3A7B332A2C3A4400F2AC88 /* CreateNewTimeBlockView.swift */,
 				9C3A7B362A2C44F300F2AC88 /* ItemizedPartOfShiftView.swift */,
-				9C3A7B312A2BD80300F2AC88 /* AllTimeBlocksForShiftView.swift */,
+				9C3A7B312A2BD80300F2AC88 /* AllTimeBlocksView.swift */,
 			);
 			path = TimeBlocks;
 			sourceTree = "<group>";
@@ -446,6 +448,7 @@
 		9C7C985529FB722D0077EA25 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				9C5F0B842A3056C9006AAB46 /* VinPieChart.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1079,6 +1082,7 @@
 				9CEEE33A29F908BE001FA4FB /* GoalListView.swift in Sources */,
 				9C7C986529FCF3B60077EA25 /* PieChart.swift in Sources */,
 				9CEEE35729F9E77F001FA4FB /* WageView.swift in Sources */,
+				9C5F0B852A3056C9006AAB46 /* VinPieChart.swift in Sources */,
 				9CEEE32B29F9044F001FA4FB /* ExtendView.swift in Sources */,
 				9C7B5D522A1EE82600DBB877 /* SubscriptionManager.swift in Sources */,
 				9C7C984A29FA5BFB0077EA25 /* ExtendTodayShift.swift in Sources */,
@@ -1087,7 +1091,7 @@
 				9C460EE62A047D900007EBA9 /* AddNewItemFirstView.swift in Sources */,
 				9C7C986129FCE6A80077EA25 /* ProgressBar.swift in Sources */,
 				9C97358E2A0D5EC200F651A1 /* ChooseExpenseForSavedAlloc.swift in Sources */,
-				9C3A7B322A2BD80300F2AC88 /* AllTimeBlocksForShiftView.swift in Sources */,
+				9C3A7B322A2BD80300F2AC88 /* AllTimeBlocksView.swift in Sources */,
 				9CEEE34729F90ADA001FA4FB /* ShiftDetailView.swift in Sources */,
 				9C4F0A2D2A152D5500C78349 /* ViewNormalWorkingHoursSet.swift in Sources */,
 				9C97358C2A0D5EB800F651A1 /* ChooseGoalForSavedAlloc.swift in Sources */,
