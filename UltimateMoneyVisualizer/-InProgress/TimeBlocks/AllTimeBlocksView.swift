@@ -19,27 +19,38 @@ struct AllTimeBlocksView: View {
     var body: some View {
         List {
             ForEach(removeRedundant(user.getTimeBlocksBetween())) { block in
+//                NavigationLink {
+//                } label: {
                 VStack {
                     HStack {
-                        if let title = block.title {
-                            Text(title)
+                        Circle()
+                            .fill(block.getColor())
+                            .frame(height: 10)
+
+                        VStack(alignment: .leading) {
+                            if let title = block.title {
+                                Text(title)
+                            }
                         }
                         Spacer()
                         VStack {
+                            Text("\(totalDurationFor(block: block).formatForTime())")
+                                .font(.caption2)
                             Text(occurrencesOf(block).str + " times")
-                            Text(totalMadeFor(block: block).formattedForMoney())
                         }
+                        .font(.caption2)
                     }
                     .foregroundStyle(isSelected(block) ? Color.white : Color.black)
                     .allPartsTappable(alignment: .leading)
-                    .onTapGesture {
-                        if isSelected(block) {
-                            selectedBlock = nil
-                        } else {
-                            selectedBlock = block
-                        }
-                    }
+//                        .onTapGesture {
+//                            if isSelected(block) {
+//                                selectedBlock = nil
+//                            } else {
+//                                selectedBlock = block
+//                            }
+//                        }
                 }
+//                }
 
                 .conditionalModifier(isSelected(block)) {
                     $0
@@ -56,16 +67,17 @@ struct AllTimeBlocksView: View {
                         if let blockTitle = block.title {
                             BarMark(x: .value("Earned", totalMadeFor(block: block)),
                                     y: .value("Title", blockTitle))
-                            
-                            .annotation(position: .overlay) {
-                                Text(totalMadeFor(block: block).formattedForMoney())
-                                    .font(.caption2)
-                                    .foregroundStyle(Color.white)
-                            }
+                                .foregroundStyle(block.getColor())
+                                .annotation(position: .overlay) {
+                                    Text(totalMadeFor(block: block).formattedForMoney())
+                                        .font(.caption2)
+                                        .fontWeight(.medium)
+                                        .foregroundStyle(Color.white)
+                                }
                         }
                     }
                 }
-                
+
                 .chartXAxis(.hidden)
                 .chartLegend(.visible)
                 .padding()
@@ -115,6 +127,16 @@ extension AllTimeBlocksView {
             return false
         }.reduce(Double.zero) { $0 + $1.amountEarned() }
     }
+
+    func totalDurationFor(block: TimeBlock) -> TimeInterval {
+        guard let mainBlockTitle = block.title else { return 0 }
+        return user.getTimeBlocksBetween().filter {
+            if let title = $0.title {
+                return title == mainBlockTitle
+            }
+            return false
+        }.reduce(Double.zero) { $0 + $1.duration }
+    }
 }
 
 // MARK: - AllTimeBlocksView_Previews
@@ -123,5 +145,6 @@ struct AllTimeBlocksView_Previews: PreviewProvider {
     static var previews: some View {
         AllTimeBlocksView()
             .putInNavView(.inline)
+            .environment(\.managedObjectContext, PersistenceController.context)
     }
 }

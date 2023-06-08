@@ -42,7 +42,6 @@
 		9C514DB02A002266003DC43C /* ExtendPayoffQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C514DAF2A002266003DC43C /* ExtendPayoffQueue.swift */; };
 		9C514DB32A0024E9003DC43C /* PayoffItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C514DB22A0024E9003DC43C /* PayoffItem.swift */; };
 		9C514DB52A00A480003DC43C /* PayoffQueueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C514DB42A00A480003DC43C /* PayoffQueueView.swift */; };
-		9C5F0B852A3056C9006AAB46 /* VinPieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5F0B842A3056C9006AAB46 /* VinPieChart.swift */; };
 		9C5F0B882A3057CD006AAB46 /* SwiftPieChart in Frameworks */ = {isa = PBXBuildFile; productRef = 9C5F0B872A3057CD006AAB46 /* SwiftPieChart */; };
 		9C65A75F2A00D28E00A5BCF1 /* GoalRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C65A75E2A00D28E00A5BCF1 /* GoalRow.swift */; };
 		9C65A7612A00D4B900A5BCF1 /* ExpenseRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C65A7602A00D4B900A5BCF1 /* ExpenseRow.swift */; };
@@ -195,7 +194,6 @@
 		9C514DAF2A002266003DC43C /* ExtendPayoffQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendPayoffQueue.swift; sourceTree = "<group>"; };
 		9C514DB22A0024E9003DC43C /* PayoffItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayoffItem.swift; sourceTree = "<group>"; };
 		9C514DB42A00A480003DC43C /* PayoffQueueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayoffQueueView.swift; sourceTree = "<group>"; };
-		9C5F0B842A3056C9006AAB46 /* VinPieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VinPieChart.swift; sourceTree = "<group>"; };
 		9C65A75E2A00D28E00A5BCF1 /* GoalRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalRow.swift; sourceTree = "<group>"; };
 		9C65A7602A00D4B900A5BCF1 /* ExpenseRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRow.swift; sourceTree = "<group>"; };
 		9C69C5CB2A1832E5006F5C23 /* PayoffWithImageAndGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayoffWithImageAndGradientView.swift; sourceTree = "<group>"; };
@@ -450,7 +448,6 @@
 		9C7C985529FB722D0077EA25 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				9C5F0B842A3056C9006AAB46 /* VinPieChart.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1086,7 +1083,6 @@
 				9CEEE33A29F908BE001FA4FB /* GoalListView.swift in Sources */,
 				9C7C986529FCF3B60077EA25 /* PieChart.swift in Sources */,
 				9CEEE35729F9E77F001FA4FB /* WageView.swift in Sources */,
-				9C5F0B852A3056C9006AAB46 /* VinPieChart.swift in Sources */,
 				9CEEE32B29F9044F001FA4FB /* ExtendView.swift in Sources */,
 				9C7B5D522A1EE82600DBB877 /* SubscriptionManager.swift in Sources */,
 				9C7C984A29FA5BFB0077EA25 /* ExtendTodayShift.swift in Sources */,
