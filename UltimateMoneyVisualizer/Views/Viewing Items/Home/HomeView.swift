@@ -11,7 +11,6 @@ import Vin
 // MARK: - HomeView
 
 struct HomeView: View {
-    
     @EnvironmentObject private var navManager: NavManager
     @ObservedObject private var settings = User.main.getSettings()
     @ObservedObject private var user = User.main
@@ -20,7 +19,6 @@ struct HomeView: View {
 
     var body: some View {
         VStack {
-
             ZStack {
                 ScrollView {
                     // MARK: - Lifetime Money
@@ -31,17 +29,22 @@ struct HomeView: View {
                                 Text("Lifetime")
                                     .font(.headline)
                                 Spacer()
-                                NavigationLink {
-                                    StatsView()
-                                } label: {
+
+                                NavigationLink(value: "stats") {
                                     Text("Stats")
                                         .font(.subheadline)
                                         .padding(.trailing)
                                 }
+//                                NavigationLink {
+//                                    StatsView()
+//                                } label: {
+//                                    Text("Stats")
+//                                        .font(.subheadline)
+//                                        .padding(.trailing)
+//                                }
                             }
                         } content: {
                             HStack {
-                                
                                 NavigationLink(destination: ShiftListView()) {
                                     VStack {
                                         Text("Earnings")
@@ -53,10 +56,9 @@ struct HomeView: View {
                                             .minimumScaleFactor(0.01)
                                     }.padding(.horizontal)
                                 }.buttonStyle(PlainButtonStyle())
-                                
-                                
+
                                 Divider()
-                                
+
                                 NavigationLink(destination: ShiftListView()) {
                                     VStack {
                                         Text("Time Worked")
@@ -68,9 +70,9 @@ struct HomeView: View {
                                             .minimumScaleFactor(0.01)
                                     }.padding(.horizontal)
                                 }.buttonStyle(PlainButtonStyle())
-                                
+
                                 Divider()
-                                
+
                                 NavigationLink(destination: SavedListView()) {
                                     VStack {
                                         Text("Time Saved")
@@ -82,10 +84,8 @@ struct HomeView: View {
                                             .minimumScaleFactor(0.01)
                                     }.padding(.horizontal)
                                 }.buttonStyle(PlainButtonStyle())
-                                
                             }
                             .padding(.vertical)
-
                         }
                         .padding(.top)
 
@@ -132,11 +132,10 @@ struct HomeView: View {
                                         NavigationLink {
                                             ExpenseDetailView(expense: expense)
                                         } label: {
-
                                             PayoffWithImageAndGradientView(item: expense)
 
-                                            .allPartsTappable()
-                                            .rectContainer()
+                                                .allPartsTappable()
+                                                .rectContainer()
                                         }
                                         .buttonStyle(.plain)
                                     }
@@ -145,10 +144,9 @@ struct HomeView: View {
                                         NavigationLink {
                                             GoalDetailView(goal: goal)
                                         } label: {
-                                           
                                             PayoffWithImageAndGradientView(item: goal)
-                                            .allPartsTappable()
-                                            .rectContainer()
+                                                .allPartsTappable()
+                                                .rectContainer()
                                         }
                                         .buttonStyle(.plain)
                                     }
@@ -167,7 +165,9 @@ struct HomeView: View {
             }
         }
         .background(Color.targetGray)
-
+        .navigationDestination(for: String.self, destination: { _ in
+            StatsView()
+        })
         .putInTemplate()
         .navigationTitle(Date.now.getFormattedDate(format: .abreviatedMonth))
         .safeAreaInset(edge: .bottom) {

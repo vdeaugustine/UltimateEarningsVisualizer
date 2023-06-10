@@ -34,7 +34,7 @@ struct ExpenseWithImageAndGradientView: View {
                     .scaledToFit()
             } else {
                 //                Color.hexStringToColor(hex: "86A57A")
-                Image.defaultImage()
+                Image.defaultImage(payoffItem: expense)
                 
                     .resizable()
                 

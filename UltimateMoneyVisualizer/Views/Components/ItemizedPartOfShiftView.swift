@@ -43,20 +43,14 @@ struct ItemizedPartOfShiftView: View {
     }
 
     func plusNavigation(start: Date, end: Date) -> some View {
-//        NavigationLink {
-//            CreateNewTimeBlockView(shift: shift,
-//                                   start: start,
-//                                   end: end)
-//        } label: {
+
             Image(systemName: "plus.circle")
-//                .font(.title2)
                 .padding(.top, -12)
                 .foregroundStyle(settings.getDefaultGradient())
                 .onTapGesture {
                     navManager.homeNavPath.append(StartAndEnd(start: start, end: end))
                 }
-                
-//        }
+             
     }
 
     var body: some View {
@@ -73,6 +67,9 @@ struct ItemizedPartOfShiftView: View {
 
             ForEach(shift.getTimeBlocks()) { timeBlock in
                 timeBlockSection(timeBlock: timeBlock)
+                    .onTapGesture {
+                        navManager.homeNavPath.append(timeBlock)
+                    }
             }
 
             if let last = shift.getTimeBlocks().last,
@@ -88,8 +85,11 @@ struct ItemizedPartOfShiftView: View {
 
             divider(time: shift.end)
         }
-        .navigationDestination(for: StartAndEnd.self) { newVal in
-            CreateNewTimeBlockView(shift: shift, start: newVal.start, end: newVal.end)
+//        .navigationDestination(for: StartAndEnd.self) { newVal in
+//            CreateNewTimeBlockView(shift: shift, start: newVal.start, end: newVal.end)
+//        }
+        .navigationDestination(for: TimeBlock.self) { block in
+            TimeBlockDetailView(block: block)
         }
         // }
     }
@@ -101,6 +101,7 @@ struct ItemizedPartOfShiftView: View {
                 divider(time: startTime)
             }
             timeBlockPill(timeBlock: timeBlock)
+                
             if let endTime = timeBlock.endTime {
                 divider(time: endTime)
 
@@ -199,7 +200,7 @@ extension ItemizedPartOfShiftView {
 
 struct ItemizedPartOfShiftView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationStack(path: .constant(NavigationPath())) {
+        NavigationStack(path: .constant(NavManager.shared.homeNavPath)) {
             ItemizedPartOfShiftView(shift: User.main.getShifts().first!)
                 .padding()
         }

@@ -25,7 +25,9 @@ struct GoalRow: View {
                     Text(goal.amountMoneyStr)
                     Spacer()
                     Text("GOAL")
-                        .font(.system(size: 10, weight: .bold, design: .rounded))
+                        .font(.system(size: 10,
+                                      weight: .bold,
+                                      design: .rounded))
                         .foregroundColor(.gray)
                 }
                 .padding(.top, 4)
@@ -38,7 +40,8 @@ struct GoalRow: View {
                                 Text(goal.amountPaidOff.formattedForMoney())
                                     .font(.caption2)
                             }
-                        ProgressBar(percentage: goal.percentPaidOff, color: settings.themeColor)
+                        ProgressBar(percentage: goal.percentPaidOff,
+                                    color: settings.themeColor)
                     }
 
                     VStack(spacing: 1) {
@@ -67,7 +70,8 @@ struct GoalRow: View {
 
                         if let dueDate = goal.dueDate {
                             Text(dueDate.getFormattedDate(format: .abreviatedMonth))
-                                .font(.caption).foregroundColor(Color.hexStringToColor(hex: "8E8E93"))
+                                .font(.caption)
+                                .foregroundColor(Color.hexStringToColor(hex: "8E8E93"))
                         }
                     }
                 }

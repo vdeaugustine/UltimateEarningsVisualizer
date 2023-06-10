@@ -14,16 +14,24 @@ extension Image {
         self.init(uiImage: optionalImage)
     }
     
-    static func defaultImage() -> Image {
-        let imageStrings = [
-            "dollar3d",
-            "creditCard"
-        ]
-        guard let chosenString = imageStrings.randomElement()
-        else {
+    static func defaultImage(payoffItem: PayoffItem) -> Image {
+//        let imageStrings = [
+//            "dollar3d",
+//            "creditCard"
+//        ]
+        
+        if payoffItem is Goal {
             return Image("dollar3d")
         }
-        return Image(chosenString)
+        else {
+            return Image("creditCard")
+        }
+        
+//        guard let chosenString = imageStrings.randomElement()
+//        else {
+//            return Image("dollar3d")
+//        }
+//        return Image(chosenString)
     }
 }
 
@@ -47,14 +55,15 @@ struct PayoffWithImageAndGradientView: View {
             if let image = Image(item.loadImageIfPresent()) {
                 image
                     .resizable()
+                    .aspectRatio(contentMode: .fill)
                     .scaledToFit()
             } else {
                 //                Color.hexStringToColor(hex: "86A57A")
-                Image.defaultImage()
+                Image.defaultImage(payoffItem: item)
                 
                     .resizable()
-                
                     .aspectRatio(contentMode: .fill)
+                    .scaledToFill()
                     .clipped()
                 
             }
@@ -111,7 +120,9 @@ struct PayoffWithImageAndGradientView: View {
 
 struct GoalWithImageAndGradientView_Previews: PreviewProvider {
     static var previews: some View {
-        PayoffWithImageAndGradientView(item: User.main.getGoals().first(where: {$0.titleStr == "New car fund"})!)
+//        PayoffWithImageAndGradientView(item: User.main.getGoals().first(where: {$0.titleStr == "New car fund"})!)
+        
+        PayoffWithImageAndGradientView(item: User.main.getGoals().first!)
         
 //        ZStack {
 //

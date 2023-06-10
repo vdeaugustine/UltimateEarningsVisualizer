@@ -116,9 +116,7 @@ struct ShiftDetailView: View {
         } message: {
             Text("This action cannot be undone")
         }
-        .onAppear {
-            print(shift.getTimeBlocks())
-        }
+        
     }
 
     func deleteAction() {

@@ -154,7 +154,7 @@ extension CreateNewTimeBlockView {
                 user: user,
                 context: viewContext
             )
-            print("Saved timeblock")
+//            print("Saved timeblock")
             dismiss()
         }
         catch {

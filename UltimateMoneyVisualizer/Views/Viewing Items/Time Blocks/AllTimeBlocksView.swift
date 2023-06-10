@@ -20,28 +20,29 @@ struct AllTimeBlocksView: View {
         List {
             ForEach(removeRedundant(user.getTimeBlocksBetween())) { block in
 //                NavigationLink {
+//                    TimeBlockDetailView(block: block)
 //                } label: {
-                VStack {
-                    HStack {
-                        Circle()
-                            .fill(block.getColor())
-                            .frame(height: 10)
+                    VStack {
+                        HStack {
+                            Circle()
+                                .fill(block.getColor())
+                                .frame(height: 10)
 
-                        VStack(alignment: .leading) {
-                            if let title = block.title {
-                                Text(title)
+                            VStack(alignment: .leading) {
+                                if let title = block.title {
+                                    Text(title)
+                                }
                             }
+                            Spacer()
+                            VStack {
+                                Text("\(totalDurationFor(block: block).formatForTime())")
+                                    .font(.caption2)
+                                Text(occurrencesOf(block).str + " times")
+                            }
+                            .font(.caption2)
                         }
-                        Spacer()
-                        VStack {
-                            Text("\(totalDurationFor(block: block).formatForTime())")
-                                .font(.caption2)
-                            Text(occurrencesOf(block).str + " times")
-                        }
-                        .font(.caption2)
-                    }
-                    .foregroundStyle(isSelected(block) ? Color.white : Color.black)
-                    .allPartsTappable(alignment: .leading)
+                        .foregroundStyle(isSelected(block) ? Color.white : Color.black)
+                        .allPartsTappable(alignment: .leading)
 //                        .onTapGesture {
 //                            if isSelected(block) {
 //                                selectedBlock = nil
@@ -49,7 +50,7 @@ struct AllTimeBlocksView: View {
 //                                selectedBlock = block
 //                            }
 //                        }
-                }
+                    }
 //                }
 
                 .conditionalModifier(isSelected(block)) {
