@@ -351,6 +351,7 @@ struct SelectHours: View {
 
                     todayShift = ts
 
+                    user.todayShift = ts
                     showHoursSheet = false
 
                 } catch {
