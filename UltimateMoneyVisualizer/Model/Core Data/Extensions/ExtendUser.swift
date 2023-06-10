@@ -20,6 +20,7 @@ public extension User {
         wage.amount = 35
         wage.user = self
         self.wage = wage
+//        let four01K = try PercentShiftExpense(title: "401K", percent: 0.06, user: self, context: viewContext)
 
         if exampleItem {
             do {
@@ -68,12 +69,26 @@ public extension User {
             if results.count > 1 {
                 fatalError("MORE THAN ONE USER")
             }
+
+            // Get the user from the results
             if let user = results.first {
-                if user.todayShift != nil {
-                    return user
+                // If the user has a TodayShift
+                if let today = user.todayShift,
+                   let endOfToday = today.endTime {
+                    // If the shift is from a previous day (so it is expired)
+                    if endOfToday < Date.beginningOfDay() {
+                        // We want to set todayShift to nil and not return that user
+                        user.todayShift = nil
+                    } else {
+                        // Nothing else needs to be done so the user can be returned
+                        return user
+                    }
                 }
 
+                // There is no valid todayShift *but* has a shift today
                 if let shiftThatIsToday = user.getTodayShift() {
+                    
+                    // Create a todayShift 
                     let todayShift = TodayShift(context: viewContext)
                     todayShift.startTime = shiftThatIsToday.startDate
                     todayShift.endTime = shiftThatIsToday.endDate
@@ -180,11 +195,15 @@ public extension User {
         getAmountSavedBetween(startDate: startDate, endDate: endDate) / getWage().perSecond
     }
 
+    /// The amount of money spent by expenses in between the two given dates.
+    /// Parameters default to include all dates
     func getExpensesSpentBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> Double {
         let expenses = getExpensesBetween(startDate: startDate, endDate: endDate)
         return expenses.reduce(Double.zero) { $0 + $1.amount }
     }
 
+    /// The amount of money spent by goals in between the two given dates.
+    /// Parameters default to include all dates
     func getGoalsSpentBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> Double {
         let goals = getGoalsBetween(startDate: startDate, endDate: endDate)
         return goals.reduce(Double.zero) { $0 + $1.amount }
@@ -194,6 +213,14 @@ public extension User {
         let shifts = getShiftsBetween(startDate: startDate, endDate: endDate)
 
         return shifts.flatMap { $0.getTimeBlocks() }
+    }
+
+    func getPercentShiftExpenses() -> [PercentShiftExpense] {
+        guard let percentExpenses = percentShiftExpenses?.allObjects as? [PercentShiftExpense] else {
+            return []
+        }
+
+        return percentExpenses
     }
 
     /// Returns the amount of seconds the given amount of money translates to
@@ -226,26 +253,41 @@ public extension User {
         return array.sorted(by: { $0.start > $1.start })
     }
 
+    /// Retrieves the shift happening today from a collection of shifts.
+    /// - Returns: The shift object that matches the current day, or nil if no shift is found or an error occurs.
     func getTodayShift() -> Shift? {
+        // Get the current date and time
         let now = Date()
+
+        // Create a Calendar instance
         let calendar = Calendar.current
+
+        // Extract the year, month, and day components from the current date
         let todayComponents = calendar.dateComponents([.year, .month, .day], from: now)
 
-        guard let shifts = shifts, let allShifts = Array(shifts) as? [Shift] else { return nil }
+        // Check if shifts variable is not nil and can be converted to an array of Shift objects
+        guard let shifts = shifts, let allShifts = Array(shifts) as? [Shift] else {
+            return nil // Return nil if shifts is nil or cannot be converted to an array of Shift objects
+        }
 
+        // Iterate through each shift
         for shift in allShifts {
-            guard let start = shift.startDate,
-                  let end = shift.endDate else { continue }
+            // Check if the shift has both startDate and endDate
+            guard let start = shift.startDate, let end = shift.endDate else {
+                continue // Skip to the next iteration if startDate or endDate is nil
+            }
 
+            // Extract the year, month, and day components from the start and end dates
             let startComponents = calendar.dateComponents([.year, .month, .day], from: start)
             let endComponents = calendar.dateComponents([.year, .month, .day], from: end)
 
+            // Check if the startComponents or endComponents match the todayComponents
             if startComponents == todayComponents || endComponents == todayComponents {
-                return shift
+                return shift // Return the shift if it matches the current day
             }
         }
 
-        return nil
+        return nil // Return nil if no shift matches the current day
     }
 
     var hasShiftToday: Bool { getTodayShift() != nil }

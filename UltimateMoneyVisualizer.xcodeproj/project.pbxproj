@@ -45,6 +45,8 @@
 		9C5F0B882A3057CD006AAB46 /* SwiftPieChart in Frameworks */ = {isa = PBXBuildFile; productRef = 9C5F0B872A3057CD006AAB46 /* SwiftPieChart */; };
 		9C5F0B8A2A31B419006AAB46 /* TimeBlockDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5F0B892A31B419006AAB46 /* TimeBlockDetailView.swift */; };
 		9C5F0B8C2A31B5ED006AAB46 /* EditTimeBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5F0B8B2A31B5ED006AAB46 /* EditTimeBlockView.swift */; };
+		9C5F0B942A35017A006AAB46 /* SetUpFixedExpenses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5F0B932A35017A006AAB46 /* SetUpFixedExpenses.swift */; };
+		9C5F0B962A3502E7006AAB46 /* ExtendPercentShiftExpense.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5F0B952A3502E6006AAB46 /* ExtendPercentShiftExpense.swift */; };
 		9C65A75F2A00D28E00A5BCF1 /* GoalRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C65A75E2A00D28E00A5BCF1 /* GoalRow.swift */; };
 		9C65A7612A00D4B900A5BCF1 /* ExpenseRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C65A7602A00D4B900A5BCF1 /* ExpenseRow.swift */; };
 		9C69C5CC2A1832E5006F5C23 /* PayoffWithImageAndGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C69C5CB2A1832E5006F5C23 /* PayoffWithImageAndGradientView.swift */; };
@@ -198,6 +200,8 @@
 		9C514DB42A00A480003DC43C /* PayoffQueueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayoffQueueView.swift; sourceTree = "<group>"; };
 		9C5F0B892A31B419006AAB46 /* TimeBlockDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeBlockDetailView.swift; sourceTree = "<group>"; };
 		9C5F0B8B2A31B5ED006AAB46 /* EditTimeBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTimeBlockView.swift; sourceTree = "<group>"; };
+		9C5F0B932A35017A006AAB46 /* SetUpFixedExpenses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetUpFixedExpenses.swift; sourceTree = "<group>"; };
+		9C5F0B952A3502E6006AAB46 /* ExtendPercentShiftExpense.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendPercentShiftExpense.swift; sourceTree = "<group>"; };
 		9C65A75E2A00D28E00A5BCF1 /* GoalRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalRow.swift; sourceTree = "<group>"; };
 		9C65A7602A00D4B900A5BCF1 /* ExpenseRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRow.swift; sourceTree = "<group>"; };
 		9C69C5CB2A1832E5006F5C23 /* PayoffWithImageAndGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayoffWithImageAndGradientView.swift; sourceTree = "<group>"; };
@@ -529,10 +533,10 @@
 		9C7F965929F8F03C00F5035C /* UltimateMoneyVisualizer */ = {
 			isa = PBXGroup;
 			children = (
+				9C7F96A329F8FEB000F5035C /* --TopLevel */,
 				9C4F0A282A14534100C78349 /* UltimateMoneyVisualizer.entitlements */,
 				9C7F966829F8F03E00F5035C /* Info.plist */,
 				9C7F965E29F8F03E00F5035C /* Assets.xcassets */,
-				9C7F96A329F8FEB000F5035C /* --TopLevel */,
 				9C7F96A429F8FEEB00F5035C /* -InProgress */,
 				9CEEE32929F90432001FA4FB /* LocalExtensions */,
 				9CEEE33D29F9099D001FA4FB /* Model */,
@@ -605,6 +609,7 @@
 				9C7F969329F8FE3500F5035C /* ExtendWage.swift */,
 				9C7C984B29FA5C1D0077EA25 /* ExtendWorkSchedule.swift */,
 				9C3A7B2F2A2BD63300F2AC88 /* ExtendTimeBlock.swift */,
+				9C5F0B952A3502E6006AAB46 /* ExtendPercentShiftExpense.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -637,15 +642,16 @@
 		9C7F96A429F8FEEB00F5035C /* -InProgress */ = {
 			isa = PBXGroup;
 			children = (
-				9CDBE0EB2A26F6C600741EEE /* ExpenseWithImageAndGradientView.swift */,
 				9C4F0A242A1359EC00C78349 /* AnalyzeAmountView.swift */,
-				9C0505A02A11EBF700FC6511 /* ConfirmTodayShift.swift */,
-				9C7B5D512A1EE82600DBB877 /* SubscriptionManager.swift */,
 				9C7C985529FB722D0077EA25 /* Components */,
-				9C97358F2A0D789000F651A1 /* Incomplete(Abandoned) */,
+				9C0505A02A11EBF700FC6511 /* ConfirmTodayShift.swift */,
 				9CDBE0E52A2520D200741EEE /* CustomStatsView.swift */,
-				9CDBE0E72A25B7B000741EEE /* RedesignedPayoffRow.swift */,
+				9CDBE0EB2A26F6C600741EEE /* ExpenseWithImageAndGradientView.swift */,
 				9CDBE0E92A25CD6300741EEE /* GoalsGridView.swift */,
+				9C97358F2A0D789000F651A1 /* Incomplete(Abandoned) */,
+				9CDBE0E72A25B7B000741EEE /* RedesignedPayoffRow.swift */,
+				9C5F0B932A35017A006AAB46 /* SetUpFixedExpenses.swift */,
+				9C7B5D512A1EE82600DBB877 /* SubscriptionManager.swift */,
 			);
 			path = "-InProgress";
 			sourceTree = "<group>";
@@ -1102,6 +1108,7 @@
 				9CEEE35129F90E37001FA4FB /* SavedDetailView.swift in Sources */,
 				9C7C985229FB613E0077EA25 /* ExtendColor.swift in Sources */,
 				9C7C984529FA0DA80077EA25 /* SettingsView.swift in Sources */,
+				9C5F0B962A3502E7006AAB46 /* ExtendPercentShiftExpense.swift in Sources */,
 				9C7C986D29FDF1EA0077EA25 /* ConfirmTodayShiftView.swift in Sources */,
 				9C4F0A272A135A1500C78349 /* EnterMoneyView.swift in Sources */,
 				9CEEE33A29F908BE001FA4FB /* GoalListView.swift in Sources */,
@@ -1129,6 +1136,7 @@
 				9C7C985029FB606E0077EA25 /* ExtendUserDefaults.swift in Sources */,
 				9CEEE34D29F90DD4001FA4FB /* CreateSavedView.swift in Sources */,
 				9C7C985429FB6D500077EA25 /* AllocateShiftToExpense.swift in Sources */,
+				9C5F0B942A35017A006AAB46 /* SetUpFixedExpenses.swift in Sources */,
 				9C7F966729F8F03E00F5035C /* UltimateMoneyVisualizer.xcdatamodeld in Sources */,
 				9C7F969F29F8FE3500F5035C /* ExtendSaved.swift in Sources */,
 			);

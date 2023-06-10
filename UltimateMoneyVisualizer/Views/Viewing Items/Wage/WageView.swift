@@ -19,6 +19,7 @@ struct WageView: View {
 
     @State var wage: Wage
 
+    @ObservedObject private var user = User.main
     @State private var hourlyWage: String = ""
     @State private var isSalaried: Bool = false
     @State private var salary: String = ""
@@ -55,7 +56,8 @@ struct WageView: View {
     var body: some View {
         List {
             Section(header: Text("Current Wage")) {
-                Text("\(wages.first?.amount ?? 0.0, specifier: "%.2f") per hour")
+                
+                Text(user.getWage().hourly.formattedForMoney())
             }
 
             Section {
@@ -71,19 +73,19 @@ struct WageView: View {
                     VStack {
                         Group {
                             Text("Year")
-                                .spacedOut(text: wage.perYear.formattedForMoney())
+                                .spacedOut(text: user.getWage().perYear.formattedForMoney())
                             Divider()
                             Text("Month")
-                                .spacedOut(text: wage.perMonth.formattedForMoney())
+                                .spacedOut(text: user.getWage().perMonth.formattedForMoney())
                             Divider()
                             Text("Week")
-                                .spacedOut(text: wage.perWeek.formattedForMoney())
+                                .spacedOut(text: user.getWage().perWeek.formattedForMoney())
                             Divider()
                             Text("Day")
-                                .spacedOut(text: wage.perDay.formattedForMoney())
+                                .spacedOut(text: user.getWage().perDay.formattedForMoney())
                             Divider()
                             Text("Hour")
-                                .spacedOut(text: wage.hourly.formattedForMoney())
+                                .spacedOut(text: user.getWage().hourly.formattedForMoney())
                         }
                         Divider()
                         Text("Minute")

@@ -50,6 +50,12 @@
         <attribute name="payCycle" optional="YES" attributeType="String" valueTransformerName="PayCycleTransformer" customClassName="PayCycle"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="payPeriod" inverseEntity="User"/>
     </entity>
+    <entity name="PercentShiftExpense" representedClassName="PercentShiftExpense" syncable="YES" codeGenerationType="class">
+        <attribute name="percent" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="shifts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Shift" inverseName="percentShiftExpenses" inverseEntity="Shift"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="percentShiftExpenses" inverseEntity="User"/>
+    </entity>
     <entity name="RegularDay" representedClassName="RegularDay" syncable="YES" codeGenerationType="class">
         <attribute name="dayName" optional="YES" attributeType="String"/>
         <attribute name="endTime" optional="YES" attributeType="String"/>
@@ -85,6 +91,7 @@
         <attribute name="endDate" attributeType="Date" defaultDateTimeInterval="704182140" usesScalarValueType="NO"/>
         <attribute name="startDate" attributeType="Date" defaultDateTimeInterval="704182140" usesScalarValueType="NO"/>
         <relationship name="allocations" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Allocation" inverseName="shift" inverseEntity="Allocation"/>
+        <relationship name="percentShiftExpenses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PercentShiftExpense" inverseName="shifts" inverseEntity="PercentShiftExpense"/>
         <relationship name="timeBlocks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TimeBlock" inverseName="shift" inverseEntity="TimeBlock"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="shifts" inverseEntity="User"/>
     </entity>
@@ -134,6 +141,7 @@
         <relationship name="goals" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Goal" inverseName="user" inverseEntity="Goal"/>
         <relationship name="payoffQueue" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="PayoffQueue" inverseName="user" inverseEntity="PayoffQueue"/>
         <relationship name="payPeriod" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PayPeriod" inverseName="user" inverseEntity="PayPeriod"/>
+        <relationship name="percentShiftExpenses" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PercentShiftExpense" inverseName="user" inverseEntity="PercentShiftExpense"/>
         <relationship name="regularSchedule" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RegularSchedule" inverseName="user" inverseEntity="RegularSchedule"/>
         <relationship name="savedItems" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Saved" inverseName="user" inverseEntity="Saved"/>
         <relationship name="settings" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Settings" inverseName="user" inverseEntity="Settings"/>

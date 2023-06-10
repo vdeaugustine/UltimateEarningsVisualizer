@@ -11,12 +11,21 @@ import SwiftUI
 import Vin
 
 public extension Shift {
-    @discardableResult convenience init(day: DayOfWeek, start: Date, end: Date, user: User, context: NSManagedObjectContext) throws {
+    @discardableResult convenience init(day: DayOfWeek, start: Date, end: Date, fixedExpense: PercentShiftExpense? = nil, user: User, context: NSManagedObjectContext) throws {
         self.init(context: context)
         self.startDate = start
         self.endDate = end
         self.dayOfWeek = day.rawValue
         self.user = user
+        if let fixedExpense = fixedExpense {
+            self.addToPercentShiftExpenses(fixedExpense)
+        }
+        
+        if let fixedExpenses = user.percentShiftExpenses?.allObjects as? [PercentShiftExpense] {
+            for fixedExpense in fixedExpenses {
+                addToPercentShiftExpenses(fixedExpense)
+            }
+        }
 
         try context.save()
     }
@@ -181,6 +190,14 @@ extension Shift {
         let asSet = Set(expenses)
 
         return Array(asSet)
+    }
+
+    func getPercentShiftExpenses() -> [PercentShiftExpense] {
+        guard let percentExpenses = percentShiftExpenses?.allObjects as? [PercentShiftExpense] else {
+            return []
+        }
+
+        return percentExpenses
     }
 
     func getPayoffItemsAllocatedTo() -> [PayoffItem] {
