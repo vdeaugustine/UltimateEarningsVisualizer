@@ -104,6 +104,16 @@ struct EnterWageView: View {
                     Label("Reset", systemImage: "arrow.uturn.backward")
                         .labelStyle(.titleOnly)
                 }
+                
+                Button {
+                    hoursPerDay = 8
+                    daysPerWeek = 5
+                    weeksPerYear = 50
+                } label: {
+                    Label("Standard", systemImage: "arrow.uturn.backward")
+                        .labelStyle(.titleOnly)
+                }
+                
             } header: {
                 Text("Calculation Assumptions")
             } footer: {
