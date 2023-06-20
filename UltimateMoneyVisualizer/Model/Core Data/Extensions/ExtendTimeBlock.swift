@@ -7,11 +7,17 @@
 
 import CoreData
 import Foundation
-import Vin
 import SwiftUI
+import Vin
 
 extension TimeBlock {
-    @discardableResult convenience init(title: String, start: Date, end: Date, colorHex: String, shift: Shift, user: User, context: NSManagedObjectContext) throws {
+    @discardableResult convenience init(title: String,
+                                        start: Date,
+                                        end: Date,
+                                        colorHex: String,
+                                        shift: Shift,
+                                        user: User,
+                                        context: NSManagedObjectContext) throws {
         self.init(context: context)
         self.title = title
         self.startTime = start
@@ -36,11 +42,9 @@ extension TimeBlock {
         let perSecond = User.main.getWage().perSecond
         return duration * perSecond
     }
-    
+
     func getColor() -> Color {
         guard let colorHex else { return Color(hex: "#003649") }
         return Color.hexStringToColor(hex: colorHex)
     }
-    
-    
 }

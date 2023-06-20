@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SubscriptionManager {
+class SubscriptionManager: ObservableObject {
     static let shared = SubscriptionManager()
 
     private var isPremiumUser: Bool = false

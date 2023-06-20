@@ -8,24 +8,19 @@
 import SwiftUI
 import Vin
 
-
-
-// MARK: - GradientOverlayView
+// MARK: - ExpenseWithImageAndGradientView
 
 struct ExpenseWithImageAndGradientView: View {
     let expense: Expense
     var maxHeight: CGFloat = 150
-    
+
     var moneyString: String {
         let completed: String = expense.amountPaidOff.formattedForMoney()
         let total: String = expense.amountMoneyStr
-        //            .replacingOccurrences(of: "$", with: "")
-        
+
         return completed + " / " + total
-        
     }
-    
-    
+
     var body: some View {
         ZStack {
             if let image = Image(expense.loadImageIfPresent()) {
@@ -33,25 +28,21 @@ struct ExpenseWithImageAndGradientView: View {
                     .resizable()
                     .scaledToFit()
             } else {
-                //                Color.hexStringToColor(hex: "86A57A")
                 Image.defaultImage(payoffItem: expense)
-                
                     .resizable()
-                
                     .aspectRatio(contentMode: .fill)
                     .clipped()
-                
             }
         }
-        
+
         .overlay(
             ZStack {
                 LinearGradient(gradient: Gradient(stops: [.init(color: Color.black.opacity(0.7), location: 0.1),
                                                           .init(color: Color.black.opacity(0.5), location: 0.25),
                                                           .init(color: Color.black.opacity(0.1), location: 1)]),
-                               startPoint: .bottom,
-                               endPoint: .top)
-                
+                startPoint: .bottom,
+                endPoint: .top)
+
                 VStack {
                     Spacer()
                     HStack {
@@ -67,14 +58,14 @@ struct ExpenseWithImageAndGradientView: View {
                                 Text(moneyString)
                                     .font(.caption2)
                             }
-                            
+
                             ProgressBar(percentage: expense.percentPaidOff, height: 3)
-                            
+
                             HStack {
                                 Text(expense.dueDate?.getFormattedDate(format: .abreviatedMonth) ?? "")
-                                
+
                                 Spacer()
-                                Text( (expense.percentPaidOff * 100).simpleStr() + "%")
+                                Text((expense.percentPaidOff * 100).simpleStr() + "%")
                             }
                             .font(.caption2)
                         }
@@ -87,32 +78,13 @@ struct ExpenseWithImageAndGradientView: View {
         )
         .frame(maxWidth: .infinity, maxHeight: maxHeight)
         .cornerRadius(8)
-        
     }
 }
 
-// MARK: - GradientOverlayView_Previews
+// MARK: - ExpenseWithImageAndGradientView_Previews
 
 struct ExpenseWithImageAndGradientView_Previews: PreviewProvider {
     static var previews: some View {
         ExpenseWithImageAndGradientView(expense: User.main.getExpenses().first!)
-        
-//        ZStack {
-//
-//            HStack(spacing: 0) {
-//                Color.hexStringToColor(hex: "302E5B")
-//                Color.hexStringToColor(hex: "8B68B0")
-//            }
-//
-//            Image("creditCard")
-//                .resizable()
-//                .aspectRatio(contentMode: .fit)
-//                .padding()
-//
-//        }
-        
-        
-        
     }
 }
-

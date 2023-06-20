@@ -6,72 +6,38 @@
 //
 
 import SwiftUI
-
-// MARK: - CreateNewTimeBlockView
+import CoreData
 
 struct CreateNewTimeBlockView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @ObservedObject private var user = User.main
-    @Environment (\.dismiss) private var dismiss
-    
-    let shift: Shift
+    @ObservedObject private var viewModel: CreateNewTimeBlockViewModel
 
-    @State private var title: String = ""
-    @State var start: Date = .now
-    @State var end: Date = .now
-    @State private var selectedColorHex: String = Color.overcastColors.first!
-    @State private var showColorOptions = false
-
-    var pastBlocks: [TimeBlock] {
-        guard let blocks = user.timeBlocks?.allObjects as? [TimeBlock] else {
-            return []
-        }
-        if title.isEmpty == false {
-            return blocks
-                .filter { thisBlock in
-                    let thisTitle = thisBlock.title ?? ""
-                    return thisTitle.contains(title)
-                }
-                .sorted { $0.dateCreated ?? .distantPast > $1.dateCreated ?? .distantPast }
-        }
-        return blocks
-    }
-
-    var titles: [String] {
-        var retArr: [String] = []
-        for block in pastBlocks {
-            guard let title = block.title else { continue }
-            if retArr.contains(title) { continue }
-            retArr.append(title)
-        }
-        return retArr
+    init(shift: Shift) {
+        self.viewModel = CreateNewTimeBlockViewModel(shift: shift)
     }
 
     var body: some View {
         Form {
-            TextField("Title", text: $title)
-            DatePicker("Start Time", selection: $start,
-                       in: shift.start ... shift.end,
+            TextField("Title", text: $viewModel.title)
+            DatePicker("Start Time", selection: $viewModel.start,
+                       in: viewModel.shift.start ... viewModel.shift.end,
                        displayedComponents: .hourAndMinute)
-            DatePicker("End Time", selection: $end,
-                       in: shift.start ... shift.end,
+            DatePicker("End Time", selection: $viewModel.end,
+                       in: viewModel.shift.start ... viewModel.shift.end,
                        displayedComponents: .hourAndMinute)
             VStack {
-                
                 Button {
                     withAnimation {
-                        showColorOptions.toggle()
+                        viewModel.showColorOptions.toggle()
                     }
-
                 } label: {
                     Text("Color")
                         .foregroundColor(.black)
                         .spacedOut {
                             HStack {
                                 Circle()
-                                    .fill(Color.hexStringToColor(hex: selectedColorHex))
+                                    .fill(Color.hexStringToColor(hex: viewModel.selectedColorHex))
                                     .frame(height: 20)
-
                                     .overlay(content: {
                                         Circle()
                                             .stroke(lineWidth: 1)
@@ -82,18 +48,18 @@ struct CreateNewTimeBlockView: View {
                                     .font(.system(size: 14))
                                     .fontWeight(.semibold)
                                     .foregroundColor(.hexStringToColor(hex: "BFBFBF"))
-                                    .rotationEffect(showColorOptions ? .degrees(90) : .degrees(0))
+                                    .rotationEffect(viewModel.showColorOptions ? .degrees(90) : .degrees(0))
                             }
                         }
-                        .padding(.top, showColorOptions ? 10 : 0)
+                        .padding(.top, viewModel.showColorOptions ? 10 : 0)
                 }
 
-                if showColorOptions {
+                if viewModel.showColorOptions {
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHStack {
                             ForEach(Color.overcastColors, id: \.self) { colorHex in
                                 Button {
-                                    selectedColorHex = colorHex
+                                    viewModel.selectedColorHex = colorHex
                                 } label: {
                                     Circle()
                                         .frame(height: 20)
@@ -108,18 +74,16 @@ struct CreateNewTimeBlockView: View {
                         }
                     }
                 }
-                
             }
 
             Section {
-                ForEach(titles, id: \.self) { blockTitle in
+                ForEach(viewModel.titles, id: \.self) { blockTitle in
                     Text(blockTitle)
                         .allPartsTappable(alignment: .leading)
                         .onTapGesture {
-                            title = blockTitle
+                            viewModel.title = blockTitle
                         }
                 }
-
             } header: {
                 Text("Recent")
             } footer: {
@@ -128,45 +92,16 @@ struct CreateNewTimeBlockView: View {
         }
         .navigationTitle("Create TimeBlock")
         .putInTemplate()
-        .conditionalModifier(title.isEmpty == false, { thisView in
+        .conditionalModifier(viewModel.title.isEmpty == false) { thisView in
             thisView
                 .bottomButton(label: "Save") {
-                    saveAction()
+                    viewModel.saveAction(context: viewContext)
                 }
-        })
-        
+        }
     }
 }
 
-extension CreateNewTimeBlockView {
-    
-    func saveAction() {
-        
-        // TODO: Check that the times are ok
-        // TODO: Handle errors 
-        do {
-            try TimeBlock(
-                title: title,
-                start: start,
-                end: end,
-                colorHex: selectedColorHex,
-                shift: shift,
-                user: user,
-                context: viewContext
-            )
-//            print("Saved timeblock")
-            dismiss()
-        }
-        catch {
-            print("Error saving time block")
-        }
-        
-    }
-    
-    
-}
 
-// MARK: - CreateNewTimeBlockView_Previews
 
 struct CreateNewTimeBlockView_Previews: PreviewProvider {
     static var previews: some View {

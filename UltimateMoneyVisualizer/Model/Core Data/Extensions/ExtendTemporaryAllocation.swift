@@ -9,7 +9,10 @@ import CoreData
 import Foundation
 
 public extension TemporaryAllocation {
-    @discardableResult convenience init(initialAmount: Double, expense: Expense? = nil, goal: Goal? = nil, context: NSManagedObjectContext = PersistenceController.context) throws {
+    @discardableResult convenience init(initialAmount: Double,
+                                        expense: Expense? = nil,
+                                        goal: Goal? = nil,
+                                        context: NSManagedObjectContext = PersistenceController.context) throws {
         self.init(context: context)
         self.id = UUID()
         self.startedTracking = .now
@@ -22,11 +25,9 @@ public extension TemporaryAllocation {
     func add(amount: Double, context: NSManagedObjectContext) throws {
         self.amount += amount
         lastEdited = .now
-            try context.save()
+        try context.save()
     }
-    
-    
-    
+
     func getItemTitle() -> String {
         if let goal {
             return goal.titleStr

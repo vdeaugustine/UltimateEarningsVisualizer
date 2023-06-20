@@ -9,7 +9,9 @@ import CoreData
 import Foundation
 
 public extension Wage {
-    @discardableResult convenience init(amount: Double, user: User, context: NSManagedObjectContext) throws {
+    @discardableResult convenience init(amount: Double,
+                                        user: User,
+                                        context: NSManagedObjectContext) throws {
         self.init(context: context)
         self.amount = amount
         self.user = user
@@ -47,6 +49,4 @@ public extension Wage {
     var perYear: Double {
         perWeek * weeksPerYear
     }
-    
-    
 }

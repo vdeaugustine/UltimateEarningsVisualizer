@@ -11,16 +11,21 @@ import SwiftUI
 import Vin
 
 public extension Shift {
-    @discardableResult convenience init(day: DayOfWeek, start: Date, end: Date, fixedExpense: PercentShiftExpense? = nil, user: User, context: NSManagedObjectContext) throws {
+    @discardableResult convenience init(day: DayOfWeek,
+                                        start: Date,
+                                        end: Date,
+                                        fixedExpense: PercentShiftExpense? = nil,
+                                        user: User,
+                                        context: NSManagedObjectContext) throws {
         self.init(context: context)
         self.startDate = start
         self.endDate = end
         self.dayOfWeek = day.rawValue
         self.user = user
         if let fixedExpense = fixedExpense {
-            self.addToPercentShiftExpenses(fixedExpense)
+            addToPercentShiftExpenses(fixedExpense)
         }
-        
+
         if let fixedExpenses = user.percentShiftExpenses?.allObjects as? [PercentShiftExpense] {
             for fixedExpense in fixedExpenses {
                 addToPercentShiftExpenses(fixedExpense)

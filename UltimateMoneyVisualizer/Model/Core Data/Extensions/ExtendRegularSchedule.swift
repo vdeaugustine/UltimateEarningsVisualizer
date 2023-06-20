@@ -10,7 +10,9 @@ import Foundation
 import Vin
 
 public extension RegularSchedule {
-    @discardableResult convenience init(days: [RegularDay], user: User, context: NSManagedObjectContext? = nil) throws {
+    @discardableResult convenience init(days: [RegularDay],
+                                        user: User,
+                                        context: NSManagedObjectContext? = nil) throws {
         let usingContext = context ?? user.getContext()
 
         self.init(context: usingContext)
@@ -29,7 +31,9 @@ public extension RegularSchedule {
     }
 
     /// Just for previews and testing. Will always set to 9am to 5pm
-    @discardableResult convenience init(_ days: [DayOfWeek], user: User, context: NSManagedObjectContext) {
+    @discardableResult convenience init(_ days: [DayOfWeek],
+                                        user: User,
+                                        context: NSManagedObjectContext) {
         let startTime = Date.stringToDate("9:00")!
         let endTime = Date.stringToDate("17:00")!
 

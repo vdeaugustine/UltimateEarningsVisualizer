@@ -11,18 +11,17 @@ import SwiftUI
 // MARK: - NavManager
 
 class NavManager: ObservableObject {
-    
-    static var shared: NavManager = NavManager.init()
-    
+    static var shared: NavManager = NavManager()
+
     @Published var homeNavPath: NavigationPath = .init()
     @Published var settingsNavPath: NavigationPath = .init()
     @Published var lastPath: PossiblePaths = .none
-    
+
     func clearAllPaths() {
         homeNavPath = .init()
         settingsNavPath = .init()
     }
-    
+
     enum PossiblePaths: Hashable {
         case home
         case settings
@@ -51,12 +50,7 @@ struct ContentView: View {
                 HomeView()
             }
             .makeTab(tab: Tabs.home, systemImage: "house")
-            
-//            CreateNewTimeBlockView(shift: User.main.getShifts().first!)
-////            HomeView()
-//                .putInNavView(.inline)
-//                .makeTab(tab: Tabs.home, systemImage: "house")
-            
+
             AllItemsView()
                 .putInNavView(.inline)
                 .makeTab(tab: Tabs.allItems, systemImage: "dollarsign")

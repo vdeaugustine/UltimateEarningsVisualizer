@@ -11,9 +11,11 @@ import Foundation
 import Vin
 
 public extension TodayShift {
-    @discardableResult convenience init(startTime: Date, endTime: Date, user: User, context: NSManagedObjectContext = PersistenceController.context) throws {
+    @discardableResult convenience init(startTime: Date,
+                                        endTime: Date,
+                                        user: User,
+                                        context: NSManagedObjectContext = PersistenceController.context) throws {
         self.init(context: context)
-
         self.user = user
         self.payoffItemQueue = makeInitialPayoffItemQueueStr()
         self.expiration = .endOfDay(startTime)
@@ -144,7 +146,7 @@ public extension TodayShift {
                     throw NSError(domain: "Could not get goal \(payoff.title)", code: 7)
                 }
 
-                let newAllocation = try Allocation(amount: payoff.progressAmount, expense: nil, goal: goal, shift: shift, saved: nil, date: .now, context: context)
+                try Allocation(amount: payoff.progressAmount, expense: nil, goal: goal, shift: shift, saved: nil, date: .now, context: context)
             }
 
             if payoff.type == .expense {
@@ -153,7 +155,7 @@ public extension TodayShift {
                     throw NSError(domain: "Could not get expense \(payoff.title)", code: 7)
                 }
 
-                let newAllocation = try Allocation(amount: payoff.progressAmount, expense: expense, goal: nil, shift: shift, saved: nil, date: .now, context: context)
+                try Allocation(amount: payoff.progressAmount, expense: expense, goal: nil, shift: shift, saved: nil, date: .now, context: context)
             }
         }
     }

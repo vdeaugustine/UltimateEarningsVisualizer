@@ -11,7 +11,8 @@ import SwiftUI
 import Vin
 
 public extension User {
-    @discardableResult convenience init(exampleItem: Bool = true, viewContext: NSManagedObjectContext = PersistenceController.testing) throws {
+    @discardableResult convenience init(exampleItem: Bool = true,
+                                        viewContext: NSManagedObjectContext = PersistenceController.testing) throws {
         self.init(context: viewContext)
         self.username = "Testing User"
         self.email = "TestUser@ExampleForTest.com"
@@ -87,8 +88,7 @@ public extension User {
 
                 // There is no valid todayShift *but* has a shift today
                 if let shiftThatIsToday = user.getTodayShift() {
-                    
-                    // Create a todayShift 
+                    // Create a todayShift
                     let todayShift = TodayShift(context: viewContext)
                     todayShift.startTime = shiftThatIsToday.startDate
                     todayShift.endTime = shiftThatIsToday.endDate
