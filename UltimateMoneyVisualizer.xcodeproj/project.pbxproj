@@ -99,8 +99,6 @@
 		9C7F96A229F8FE6700F5035C /* Vin in Frameworks */ = {isa = PBXBuildFile; productRef = 9C7F96A129F8FE6700F5035C /* Vin */; };
 		9C7F96A629F8FF0100F5035C /* CreateExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F96A529F8FF0100F5035C /* CreateExpenseView.swift */; };
 		9C7F96A929F9004000F5035C /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 9C7F96A829F9004000F5035C /* AlertToast */; };
-		9C97358C2A0D5EB800F651A1 /* ChooseGoalForSavedAlloc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C97358B2A0D5EB800F651A1 /* ChooseGoalForSavedAlloc.swift */; };
-		9C97358E2A0D5EC200F651A1 /* ChooseExpenseForSavedAlloc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C97358D2A0D5EC200F651A1 /* ChooseExpenseForSavedAlloc.swift */; };
 		9C9735942A0D795600F651A1 /* AllocationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9735932A0D795600F651A1 /* AllocationDetailView.swift */; };
 		9C9735962A0D84D500F651A1 /* ExtendText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9735952A0D84D500F651A1 /* ExtendText.swift */; };
 		9C9735982A0D9B9000F651A1 /* NetMoneyGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9735972A0D9B9000F651A1 /* NetMoneyGraph.swift */; };
@@ -118,7 +116,6 @@
 		9CE288DB2A42700B0050A4DC /* CreateNewTimeBlockViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE288DA2A42700B0050A4DC /* CreateNewTimeBlockViewModel.swift */; };
 		9CE288DD2A4270C20050A4DC /* EnterPaycheckViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE288DC2A4270C20050A4DC /* EnterPaycheckViewModel.swift */; };
 		9CEA17692A05DF2800E8DFD7 /* ExtendDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEA17682A05DF2800E8DFD7 /* ExtendDate.swift */; };
-		9CED53422A077985002DC183 /* AllocateSavedToGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CED53412A077985002DC183 /* AllocateSavedToGoalView.swift */; };
 		9CED53442A089C77002DC183 /* StatsViewChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CED53432A089C77002DC183 /* StatsViewChart.swift */; };
 		9CED53462A08AA77002DC183 /* PurchasePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CED53452A08AA77002DC183 /* PurchasePage.swift */; };
 		9CED53482A08ACC7002DC183 /* AllocSavedRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CED53472A08ACC7002DC183 /* AllocSavedRow.swift */; };
@@ -258,8 +255,6 @@
 		9C7F969729F8FE3500F5035C /* ExtendAllocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendAllocation.swift; sourceTree = "<group>"; };
 		9C7F969829F8FE3500F5035C /* ExtendSaved.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendSaved.swift; sourceTree = "<group>"; };
 		9C7F96A529F8FF0100F5035C /* CreateExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateExpenseView.swift; sourceTree = "<group>"; };
-		9C97358B2A0D5EB800F651A1 /* ChooseGoalForSavedAlloc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseGoalForSavedAlloc.swift; sourceTree = "<group>"; };
-		9C97358D2A0D5EC200F651A1 /* ChooseExpenseForSavedAlloc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseExpenseForSavedAlloc.swift; sourceTree = "<group>"; };
 		9C9735932A0D795600F651A1 /* AllocationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AllocationDetailView.swift; path = "UltimateMoneyVisualizer/Views/Viewing Items/Allocations/AllocationDetailView.swift"; sourceTree = SOURCE_ROOT; };
 		9C9735952A0D84D500F651A1 /* ExtendText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendText.swift; sourceTree = "<group>"; };
 		9C9735972A0D9B9000F651A1 /* NetMoneyGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetMoneyGraph.swift; sourceTree = "<group>"; };
@@ -277,7 +272,6 @@
 		9CE288DA2A42700B0050A4DC /* CreateNewTimeBlockViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewTimeBlockViewModel.swift; sourceTree = "<group>"; };
 		9CE288DC2A4270C20050A4DC /* EnterPaycheckViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPaycheckViewModel.swift; sourceTree = "<group>"; };
 		9CEA17682A05DF2800E8DFD7 /* ExtendDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendDate.swift; sourceTree = "<group>"; };
-		9CED53412A077985002DC183 /* AllocateSavedToGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AllocateSavedToGoalView.swift; path = "UltimateMoneyVisualizer/Views/Adding Items/Allocations/AllocateSavedToGoalView.swift"; sourceTree = SOURCE_ROOT; };
 		9CED53432A089C77002DC183 /* StatsViewChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewChart.swift; sourceTree = "<group>"; };
 		9CED53452A08AA77002DC183 /* PurchasePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchasePage.swift; sourceTree = "<group>"; };
 		9CED53472A08ACC7002DC183 /* AllocSavedRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AllocSavedRow.swift; path = UltimateMoneyVisualizer/Views/Components/AllocSavedRow.swift; sourceTree = SOURCE_ROOT; };
@@ -428,9 +422,6 @@
 		9C65A7672A00DABA00A5BCF1 /* Allocations */ = {
 			isa = PBXGroup;
 			children = (
-				9CED53412A077985002DC183 /* AllocateSavedToGoalView.swift */,
-				9C97358D2A0D5EC200F651A1 /* ChooseExpenseForSavedAlloc.swift */,
-				9C97358B2A0D5EB800F651A1 /* ChooseGoalForSavedAlloc.swift */,
 				9C3C58632A0C9ED500169A0F /* AddAllocationForExpenseView.swift */,
 				9C3C58652A0CB89800169A0F /* AddAllocationForGoalView.swift */,
 				9C7C984D29FB35E10077EA25 /* AssignAllocationView.swift */,
@@ -1129,12 +1120,9 @@
 				9C442A372A03792800D61C3E /* WageBreakdownBox.swift in Sources */,
 				9C460EE62A047D900007EBA9 /* AddNewItemFirstView.swift in Sources */,
 				9C7C986129FCE6A80077EA25 /* ProgressBar.swift in Sources */,
-				9C97358E2A0D5EC200F651A1 /* ChooseExpenseForSavedAlloc.swift in Sources */,
 				9C3A7B322A2BD80300F2AC88 /* AllTimeBlocksView.swift in Sources */,
 				9CEEE34729F90ADA001FA4FB /* ShiftDetailView.swift in Sources */,
 				9C4F0A2D2A152D5500C78349 /* ViewNormalWorkingHoursSet.swift in Sources */,
-				9C97358C2A0D5EB800F651A1 /* ChooseGoalForSavedAlloc.swift in Sources */,
-				9CED53422A077985002DC183 /* AllocateSavedToGoalView.swift in Sources */,
 				9C7F969A29F8FE3500F5035C /* ExtendWage.swift in Sources */,
 				9C7C983A29F9EC410077EA25 /* EnterWageView.swift in Sources */,
 				9CED53442A089C77002DC183 /* StatsViewChart.swift in Sources */,
