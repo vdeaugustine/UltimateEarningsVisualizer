@@ -31,6 +31,8 @@
 		9C460EE62A047D900007EBA9 /* AddNewItemFirstView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C460EE52A047D900007EBA9 /* AddNewItemFirstView.swift */; };
 		9C460EE92A049DFA0007EBA9 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C460EE82A049DFA0007EBA9 /* StatsView.swift */; };
 		9C460EEB2A04D3060007EBA9 /* UserFunctionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C460EEA2A04D3060007EBA9 /* UserFunctionsTests.swift */; };
+		9C4DDCC42A44F73B00560535 /* TodayView+SubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4DDCC32A44F73B00560535 /* TodayView+SubViews.swift */; };
+		9C4DDCC62A44F96900560535 /* TodayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4DDCC52A44F96900560535 /* TodayViewModel.swift */; };
 		9C4F0A232A13483D00C78349 /* ShiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4F0A222A13483D00C78349 /* ShiftTests.swift */; };
 		9C4F0A252A1359EC00C78349 /* AnalyzeAmountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4F0A242A1359EC00C78349 /* AnalyzeAmountView.swift */; };
 		9C4F0A272A135A1500C78349 /* EnterMoneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4F0A262A135A1500C78349 /* EnterMoneyView.swift */; };
@@ -185,6 +187,8 @@
 		9C460EE52A047D900007EBA9 /* AddNewItemFirstView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewItemFirstView.swift; sourceTree = "<group>"; };
 		9C460EE82A049DFA0007EBA9 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		9C460EEA2A04D3060007EBA9 /* UserFunctionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFunctionsTests.swift; sourceTree = "<group>"; };
+		9C4DDCC32A44F73B00560535 /* TodayView+SubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodayView+SubViews.swift"; sourceTree = SOURCE_ROOT; };
+		9C4DDCC52A44F96900560535 /* TodayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewModel.swift; sourceTree = "<group>"; };
 		9C4F0A222A13483D00C78349 /* ShiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftTests.swift; sourceTree = "<group>"; };
 		9C4F0A242A1359EC00C78349 /* AnalyzeAmountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyzeAmountView.swift; sourceTree = "<group>"; };
 		9C4F0A262A135A1500C78349 /* EnterMoneyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterMoneyView.swift; sourceTree = "<group>"; };
@@ -433,8 +437,10 @@
 		9C65A7682A00DAC700A5BCF1 /* Today */ = {
 			isa = PBXGroup;
 			children = (
+				9C4DDCC32A44F73B00560535 /* TodayView+SubViews.swift */,
 				9C7C986C29FDF1EA0077EA25 /* ConfirmTodayShiftView.swift */,
 				9C7C985929FCA09C0077EA25 /* TodayView.swift */,
+				9C4DDCC52A44F96900560535 /* TodayViewModel.swift */,
 			);
 			path = Today;
 			sourceTree = "<group>";
@@ -1047,9 +1053,11 @@
 				9C7B5D542A201AC600DBB877 /* ExtendPayPeriod.swift in Sources */,
 				9CEEE34329F90A7D001FA4FB /* CreateShiftView(Deprecated).swift in Sources */,
 				9C7B5D562A2026D000DBB877 /* PayCycle.swift in Sources */,
+				9C4DDCC62A44F96900560535 /* TodayViewModel.swift in Sources */,
 				9C4F0A2A2A14614200C78349 /* NotificationManager.swift in Sources */,
 				9C7C983F29F9F68B0077EA25 /* RegularScheduleView.swift in Sources */,
 				9C7C985A29FCA09C0077EA25 /* TodayView.swift in Sources */,
+				9C4DDCC42A44F73B00560535 /* TodayView+SubViews.swift in Sources */,
 				9C7F965D29F8F03C00F5035C /* ContentView.swift in Sources */,
 				9CEA17692A05DF2800E8DFD7 /* ExtendDate.swift in Sources */,
 				9C460EE42A038D880007EBA9 /* CircleBadgeView.swift in Sources */,
