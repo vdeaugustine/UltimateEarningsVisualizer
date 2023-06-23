@@ -8,42 +8,73 @@
 import AlertToast
 import SwiftUI
 
+class CreateGoalViewModel: ObservableObject {
+    @Published var title: String = ""
+    @Published var amount: String = ""
+    @Published var info: String = ""
+    @Published var dueDate: Date = Date()
+    @Published var amountDouble: Double = 0
+
+    @Published var showToast = false
+    @Published var alertToastConfig = AlertToast(displayMode: .hud, type: .regular, title: "")
+    @Published var showEditDoubleSheet = false
+
+    let user = User.main
+    let viewContext = User.main.getContext()
+
+
+    func saveGoal() {
+        guard !title.isEmpty else {
+            alertToastConfig = AlertToast(displayMode: .alert, type: .error(.blue), title: "Title must not be empty")
+            showToast = true
+            return
+        }
+        guard let dub = Double(amount) else {
+            alertToastConfig = AlertToast(displayMode: .alert, type: .error(.blue), title: "Please enter a valid amount")
+            showToast = true
+            return
+        }
+
+        do {
+            try Goal(title: title, info: info, amount: dub, dueDate: dueDate, user: user, context: viewContext)
+
+            // Show a success alert toast
+            alertToastConfig.title = "Item saved successfully."
+            showToast = true
+        } catch let error {
+            // Show an error alert toast
+            alertToastConfig.title = "Error: \(error.localizedDescription)"
+            showToast = true
+        }
+    }
+}
+
+
 // MARK: - CreateGoalView
 
 struct CreateGoalView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @ObservedObject var viewModel = CreateGoalViewModel()
 
-    @State private var title: String = ""
-    @State private var amount: String = ""
-    @State private var info: String = ""
-    @State private var dueDate: Date = Date()
-    @State private var amountDouble: Double = 0
-
-    // Alert toast state variables
-    @State private var showToast = false
-    @State private var alertToastConfig = AlertToast(displayMode: .hud, type: .regular, title: "")
-
-    @ObservedObject private var user = User.main
-
-    @State private var showEditDoubleSheet = false
+    
 
     var body: some View {
         Form {
             Section {
-                TextField("Title", text: $title)
+                TextField("Title", text: $viewModel.title)
                 HStack {
-                    SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
-                    Text(amountDouble.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                    SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: viewModel.user.getSettings().themeColor)
+                    Text(viewModel.amountDouble.formattedForMoney().replacingOccurrences(of: "$", with: ""))
                         .font(.system(size: 20))
                         .fontWeight(.bold)
-                        .foregroundStyle(user.getSettings().getDefaultGradient())
+                        .foregroundStyle(viewModel.user.getSettings().getDefaultGradient())
                 }
                 .allPartsTappable(alignment: .leading)
                 .onTapGesture {
-                    showEditDoubleSheet.toggle()
+                    viewModel.showEditDoubleSheet.toggle()
                 }
-                TextField("Info", text: $info)
-                DatePicker("Due Date", selection: $dueDate, displayedComponents: .date)
+                TextField("Info", text: $viewModel.info)
+                DatePicker("Due Date", selection: $viewModel.dueDate, displayedComponents: .date)
             } header: {
                 Text("Goal Information")
             } footer: {
@@ -51,7 +82,7 @@ struct CreateGoalView: View {
             }
             
             Section("Recent Goals") {
-                ForEach(user.getGoals().sorted(by: {$0.dateCreated ?? Date.now > $1.dateCreated ?? Date.now})) { goal in
+                ForEach(viewModel.user.getGoals().sorted(by: {$0.dateCreated ?? Date.now > $1.dateCreated ?? Date.now})) { goal in
                     HStack {
                         Text(goal.titleStr)
                         Spacer()
@@ -59,9 +90,9 @@ struct CreateGoalView: View {
                     }
                     .allPartsTappable(alignment: .leading)
                     .onTapGesture {
-                        title = goal.titleStr
-                        amountDouble = goal.amount
-                        info = goal.info ?? ""
+                        viewModel.title = goal.titleStr
+                        viewModel.amountDouble = goal.amount
+                        viewModel.info = goal.info ?? ""
                     }
                 }
             }
@@ -69,44 +100,20 @@ struct CreateGoalView: View {
         .putInTemplate()
         .navigationTitle("New Goal")
         // Add the alert toast modifier to the view
-        .toast(isPresenting: $showToast, duration: 2, tapToDismiss: true) {
-            alertToastConfig
+        .toast(isPresenting: $viewModel.showToast, duration: 2, tapToDismiss: true) {
+            viewModel.alertToastConfig
         } onTap: {
-            showToast = false
+            viewModel.showToast = false
         }
 
-        .sheet(isPresented: $showEditDoubleSheet, content: {
-            EnterMoneyView(dubToEdit: $amountDouble)
+        .sheet(isPresented: $viewModel.showEditDoubleSheet, content: {
+            EnterMoneyView(dubToEdit: $viewModel.amountDouble)
         })
 
-        .bottomButton(label: "Save") {
-            // Create a new goal object and save it to Core Data
-
-            guard !title.isEmpty else {
-                alertToastConfig = AlertToast(displayMode: .alert, type: .error(.blue), title: "Title must not be empty")
-                showToast = true
-                return
-            }
-            guard let dub = Double(amount) else {
-                alertToastConfig = AlertToast(displayMode: .alert, type: .error(.blue), title: "Please enter a valid amount")
-                showToast = true
-                return
-            }
-
-            do {
-                try Goal(title: title, info: info, amount: dub, dueDate: dueDate, user: user, context: viewContext)
-
-                // Show a success alert toast
-                alertToastConfig.title = "Item saved successfully."
-                showToast = true
-            } catch let error {
-                // Show an error alert toast
-                alertToastConfig.title = "Error: \(error.localizedDescription)"
-                showToast = true
-            }
-        }
+        .bottomButton(label: "Save", action: viewModel.saveGoal)
     }
 }
+
 
 // MARK: - CreateGoalView_Previews
 

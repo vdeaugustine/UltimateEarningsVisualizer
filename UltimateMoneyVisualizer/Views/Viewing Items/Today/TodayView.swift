@@ -13,11 +13,11 @@ import Vin
 // MARK: - TodayView
 
 struct TodayView: View {
-    @StateObject var viewModel: TodayViewModel = TodayViewModel()
+    @StateObject var viewModel = TodayViewModel()
 
     var body: some View {
         VStack {
-            if let _ = viewModel.todayShift {
+            if viewModel.todayShift != nil {
                 ScrollView {
                     TimeMoneyPicker(viewModel: viewModel)
                         .padding(.vertical)
