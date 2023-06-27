@@ -18,7 +18,7 @@ struct EditSavedItemView: View {
     @State private var date: Date
     @State private var amountStr: String
     @State private var amountDub: Double
-    
+
     @State private var showDoubleEditSheet = false
 
     init(saved: Binding<Saved>) {
@@ -81,7 +81,7 @@ struct EditSavedItemView: View {
             footer: {
                 Text("Tap to edit")
             }
-            
+
             Section {
                 DatePicker("Date", selection: $date, displayedComponents: .date)
             }
@@ -96,16 +96,6 @@ struct EditSavedItemView: View {
         .putInTemplate()
         .navigationTitle("Edit Item")
         .bottomButton(label: "Save") {
-//            guard let dub = Double(amountStr) else {
-//                alertConfig = .init(displayMode: .alert, type: .error(settings.themeColor), title: "Please enter a valid number for the amount.")
-//                amountStr = ""
-//                showAlert = true
-//                return
-//            }
-            
-            
-            
-            
             savedItem.title = title
             savedItem.amount = amountDub
             savedItem.info = info.isEmpty ? nil : info

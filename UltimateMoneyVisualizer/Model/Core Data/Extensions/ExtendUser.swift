@@ -120,23 +120,6 @@ public extension User {
         let goals = getGoalsSpentBetween(startDate: startDate, endDate: endDate)
 
         return (earned + amountSaved) - (expenses + goals)
-
-//        let earned = getTotalEarnedBetween(startDate: startDate, endDate: endDate)
-//        let saved = getSavedBetween(startDate: startDate, endDate: endDate)
-//        let amountSaved = getAmountSavedBetween(startDate: startDate, endDate: endDate)
-//
-//        let shifts = getShiftsBetween(startDate: startDate, endDate: endDate)
-//        let shiftAllocsArrays = shifts.map { $0.getAllocations() }
-//        let shiftAllocs = shiftAllocsArrays.flatMap { $0 }
-//
-//        let savedAllocArrays = saved.map { $0.getAllocations() }
-//        let savedAllocs = savedAllocArrays.flatMap { $0 }
-//
-//        let allAllocs = savedAllocs + shiftAllocs
-//        let spentOnAllocs = allAllocs.reduce(Double.zero, {$0 + $1.amount})
-//
-//        let totalPositive = earned + amountSaved
-//        return totalPositive - spentOnAllocs
     }
 
     func totalEarned() -> Double {
@@ -147,6 +130,9 @@ public extension User {
         return totalDuration * secondlyRate
     }
 
+    
+
+    /// Gives a list of shifts falling in between the two given dates that have already been saved.
     func getShiftsBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [Shift] {
         let filteredShifts = getShifts().filter { shift in
             (shift.start >= startDate && shift.start <= endDate) || // Shift starts within the range

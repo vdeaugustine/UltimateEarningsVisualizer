@@ -8,8 +8,6 @@
 import SwiftUI
 import Vin
 
-
-
 // MARK: - TodayView
 
 struct TodayView: View {
@@ -39,7 +37,9 @@ struct TodayView: View {
         }
         .onAppear(perform: viewModel.user.updateTempQueue)
         .putInTemplate()
-        .bottomBanner(isVisible: $viewModel.showBanner, swipeToDismiss: false, buttonText: "Save") {
+        .bottomBanner(isVisible: $viewModel.showBanner,
+                      swipeToDismiss: false,
+                      buttonText: "Save") {
             do {
                 try viewModel.todayShift?.finalizeAndSave(user: viewModel.user, context: viewModel.viewContext)
             } catch {
@@ -69,14 +69,10 @@ struct TodayView: View {
     }
 }
 
+// MARK: - YouHaveNoShiftView
+
 // Views like TimeMoneyPicker, SelectHours, ProgressSectionView,
 // TodaysSpendingView, StartEndTotalView, YouHaveNoShiftView will remain same as I have mentioned in previous responses.
-
-
-
-
-
-// MARK: - YouHaveNoShiftView
 
 struct YouHaveNoShiftView: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -125,8 +121,6 @@ struct YouHaveNoShiftView: View {
         .background(Color.clear)
     }
 }
-
-
 
 // MARK: - TodayView_Previews
 
