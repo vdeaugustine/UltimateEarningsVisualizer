@@ -22,7 +22,9 @@ struct TodayPayoffGrid: View {
     let initialPayoffs = User.main.getQueue().map { TempTodayPayoff(payoff: $0) }
 
     private var tempPayoffs: [TempTodayPayoff] {
-        payOffExpenses(with: haveEarned, expenses: initialPayoffs).reversed()
+        let tax = TempTodayPayoff(amount: willEarn * 0.2, amountPaidOff: 0, title: "Taxes", id: .init())
+        let expensesToPay = [tax] + initialPayoffs
+        return payOffExpenses(with: haveEarned, expenses: expensesToPay).reversed()
     }
 
     var body: some View {

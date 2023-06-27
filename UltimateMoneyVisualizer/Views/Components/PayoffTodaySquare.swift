@@ -60,7 +60,8 @@ struct PayoffTodaySquare: View {
                             .minimumScaleFactor(0.85)
                             .font(.subheadline)
                             .fontWeight(.bold)
-                            .foregroundStyle(settings.getDefaultGradient())
+                            
+                            .foregroundStyle( title.lowercased() == "taxes" ? Color.niceRed.getGradient() : settings.getDefaultGradient())
                         Text(progressToShow.formattedForMoney(includeCents: true).replacingOccurrences(of: "$", with: "+"))
                             .font(.caption2)
                             .minimumScaleFactor(0.5)
