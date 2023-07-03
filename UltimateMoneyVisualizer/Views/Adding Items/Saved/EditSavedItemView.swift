@@ -68,10 +68,8 @@ struct EditSavedItemView: View {
                 } label: {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
-                        Text(amountDub.formattedForMoney().replacingOccurrences(of: "$", with: ""))
-                            .font(.system(size: 24))
-                            .fontWeight(.bold)
-                            .foregroundStyle(user.getSettings().getDefaultGradient())
+                        Text(amountDub.formattedForMoney(trimZeroCents: false).replacingOccurrences(of: "$", with: ""))
+                            .boldNumber()
                     }
                 }
             }

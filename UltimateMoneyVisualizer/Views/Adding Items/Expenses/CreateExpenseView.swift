@@ -60,9 +60,7 @@ struct CreateExpenseView: View {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
                         Text(doubleAmount.formattedForMoney().replacingOccurrences(of: "$", with: ""))
-                            .font(.system(size: 24))
-                            .fontWeight(.bold)
-                            .foregroundStyle(user.getSettings().getDefaultGradient())
+                            .boldNumber()
                     }
                 }
             }

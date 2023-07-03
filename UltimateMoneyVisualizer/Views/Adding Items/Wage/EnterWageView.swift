@@ -35,23 +35,23 @@ struct EnterWageView: View {
     @State private var showHourlySheet = false
     @State private var showSalarySheet = false
 
-    @State private var includeTaxes = false
-    @State private var stateTax = Double.zero
-    @State private var federalTax = Double.zero
+    @State private var includeTaxes = User.main.getWage().includeTaxes
+    @State private var stateTax = User.main.getWage().stateTaxPercentage
+    @State private var federalTax = User.main.getWage().federalTaxPercentage
 
     @State private var showStateSheet = false
     @State private var showFederalSheet = false
-    
+
     @State private var showAssumptions = false
 
     var wageToShow: String {
         if isSalaried {
             getHourlyWage(salaryDouble)
-                .formattedForMoney()
+                .formattedForMoney(trimZeroCents: false)
                 .replacingOccurrences(of: "$", with: "")
         } else {
             hourlyDouble
-                .formattedForMoney()
+                .formattedForMoney(trimZeroCents: false)
                 .replacingOccurrences(of: "$", with: "")
         }
     }
@@ -62,9 +62,7 @@ struct EnterWageView: View {
                 HStack {
                     SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
                     Text(wageToShow)
-                        .font(.system(size: 24))
-                        .fontWeight(.bold)
-                        .foregroundStyle(user.getSettings().getDefaultGradient())
+                        .boldNumber()
                     Spacer()
                 }
                 .allPartsTappable()
@@ -89,6 +87,7 @@ struct EnterWageView: View {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
                         Text(salaryDouble.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                            .boldNumber()
                         Spacer()
                     }
                     .allPartsTappable()
@@ -142,8 +141,7 @@ struct EnterWageView: View {
                     Button("Hide") {
                         showAssumptions.toggle()
                     }
-                }
-                else {
+                } else {
                     Button("Show") {
                         showAssumptions.toggle()
                     }
@@ -152,10 +150,7 @@ struct EnterWageView: View {
             } header: {
                 Text("Calculation Assumptions")
             } footer: {
-                if showAssumptions {
-                    Text("When calculating daily, weekly, monthly, and yearly, these values will be used respectively")
-                }
-                
+                Text("When calculating daily, weekly, monthly, and yearly, these values will be used respectively")
             }
 
             Section {
@@ -166,15 +161,18 @@ struct EnterWageView: View {
                 Section("State tax") {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "percent", backgroundColor: user.getSettings().themeColor)
-                        Text(stateTax.simpleStr())
-                            .font(.system(size: 24))
-                            .fontWeight(.bold)
-                            .foregroundStyle(user.getSettings().getDefaultGradient())
+                        Text(stateTax.simpleStr(3, false))
+                            .boldNumber()
                         Spacer()
                     }
                     .allPartsTappable()
                     .onTapGesture {
                         showStateSheet = true
+                    }
+                    NavigationLink {
+                        CalculateStateTaxView(stateRate: $stateTax)
+                    } label: {
+                        Label("Calculate for me", systemImage: "info.circle")
                     }
                 }
 
@@ -182,9 +180,7 @@ struct EnterWageView: View {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "percent", backgroundColor: user.getSettings().themeColor)
                         Text(federalTax.simpleStr())
-                            .font(.system(size: 24))
-                            .fontWeight(.bold)
-                            .foregroundStyle(user.getSettings().getDefaultGradient())
+                            .boldNumber()
                         Spacer()
                     }
                     .allPartsTappable()
@@ -223,7 +219,7 @@ struct EnterWageView: View {
                                     user: user,
                                     includeTaxes: includeTaxes,
                                     stateTax: includeTaxes ? stateTax : nil,
-                                    federalTax: includeTaxes ? stateTax : nil,
+                                    federalTax: includeTaxes ? federalTax : nil,
                                     context: viewContext)
                 wage.daysPerWeek = Double(daysPerWeek)
                 wage.hoursPerDay = Double(hoursPerDay)

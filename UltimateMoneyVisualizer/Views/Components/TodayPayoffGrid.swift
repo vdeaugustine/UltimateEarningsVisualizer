@@ -23,8 +23,28 @@ struct TodayPayoffGrid: View {
     }
 
     private var tempPayoffs: [TempTodayPayoff] {
-        let tax = TempTodayPayoff(amount: willEarn * 0.2, amountPaidOff: 0, title: "Taxes", id: .init())
-        let expensesToPay = [tax] + initialPayoffs
+        var expenses: [TempTodayPayoff] = []
+        let wage = user.getWage()
+        if wage.includeTaxes {
+            if wage.stateTaxPercentage > 0 {
+                expenses.append(
+                    .init(amount: willEarn * wage.stateTaxPercentage,
+                          amountPaidOff: 0,
+                          title: "State Tax",
+                          id: .init())
+                )
+            }
+            if wage.federalTaxPercentage > 0 {
+                expenses.append(
+                    .init(amount: willEarn * wage.federalTaxPercentage,
+                          amountPaidOff: 0,
+                          title: "Federal Tax",
+                          id: .init())
+                )
+            }
+        }
+
+        let expensesToPay = expenses + initialPayoffs
         return payOffExpenses(with: haveEarned, expenses: expensesToPay).reversed()
     }
 
