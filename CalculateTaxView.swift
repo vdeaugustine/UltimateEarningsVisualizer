@@ -9,11 +9,17 @@ import SwiftUI
 
 // MARK: - CalculateStateTaxView
 
-struct CalculateStateTaxView: View {
-    @Binding var stateRate: Double
+struct CalculateTaxView: View {
+    
+    enum TaxType: String {
+        case state, federal
+    }
+    
+    let taxType: TaxType
+    @Binding var bindedRate: Double
     @State private var grossEarnings: Double = 0
     @State private var preTaxDeductions: Double = 0
-    @State private var stateTaxesPaid: Double = 0
+    @State private var taxesPaid: Double = 0
     @State private var showEarningsSheet = false
     @State private var showPreTaxSheet = false
     @State private var showTaxesSheet = false
@@ -23,7 +29,7 @@ struct CalculateStateTaxView: View {
         if taxableIncome <= 0 {
             return 0
         }
-        let taxRate = stateTaxesPaid / taxableIncome
+        let taxRate = taxesPaid / taxableIncome
         return taxRate * 100
     }
 
@@ -55,10 +61,10 @@ struct CalculateStateTaxView: View {
                 }
             }
 
-            Section("State Taxes Paid") {
+            Section("\(taxType.rawValue.capitalized) Taxes Paid") {
                 HStack {
                     SystemImageWithFilledBackground(systemName: "dollarsign")
-                    Text(stateTaxesPaid.formattedForMoney(trimZeroCents: false).replacingOccurrences(of: "$", with: "")).boldNumber()
+                    Text(taxesPaid.formattedForMoney(trimZeroCents: false).replacingOccurrences(of: "$", with: "")).boldNumber()
                     Spacer()
                     Text("Edit")
                 }
@@ -91,18 +97,21 @@ struct CalculateStateTaxView: View {
             EnterDoubleView(dubToEdit: $preTaxDeductions, format: .dollar)
         })
         .sheet(isPresented: $showTaxesSheet, content: {
-            EnterDoubleView(dubToEdit: $stateTaxesPaid, format: .dollar)
+            EnterDoubleView(dubToEdit: $taxesPaid, format: .dollar)
         })
         .bottomButton(label: "Save") {
-            stateRate = taxRate
+            bindedRate = taxRate
         }
+        .navigationTitle("Calculate \(taxType.rawValue.capitalized) Tax")
+        .putInTemplate()
     }
 }
 
 // MARK: - CalculateStateTaxView_Previews
 
-struct CalculateStateTaxView_Previews: PreviewProvider {
+struct CalculateTaxView_Previews: PreviewProvider {
     static var previews: some View {
-        CalculateStateTaxView(stateRate: .constant(10))
+        CalculateTaxView(taxType: .federal, bindedRate: .constant(10))
+            .putInNavView(.inline)
     }
 }

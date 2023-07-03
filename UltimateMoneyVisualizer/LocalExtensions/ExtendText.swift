@@ -14,8 +14,8 @@ import SwiftUI
 struct BoldNumber: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .font(.system(size: 24))
-            .fontWeight(.bold)
+            .font(.system(size: 20))
+            .fontWeight(.semibold)
             .foregroundStyle(User.main.getSettings().getDefaultGradient())
     }
 }

@@ -164,13 +164,16 @@ struct EnterWageView: View {
                         Text(stateTax.simpleStr(3, false))
                             .boldNumber()
                         Spacer()
+                        Button("Edit") {
+                            showFederalSheet = true
+                        }
                     }
                     .allPartsTappable()
                     .onTapGesture {
                         showStateSheet = true
                     }
                     NavigationLink {
-                        CalculateStateTaxView(stateRate: $stateTax)
+                        CalculateTaxView(taxType: .state, bindedRate: $stateTax)
                     } label: {
                         Label("Calculate for me", systemImage: "info.circle")
                     }
@@ -182,10 +185,19 @@ struct EnterWageView: View {
                         Text(federalTax.simpleStr())
                             .boldNumber()
                         Spacer()
+                        Button("Edit") {
+                            showFederalSheet = true
+                        }
                     }
                     .allPartsTappable()
                     .onTapGesture {
                         showFederalSheet = true
+                    }
+
+                    NavigationLink {
+                        CalculateTaxView(taxType: .federal, bindedRate: $federalTax)
+                    } label: {
+                        Label("Calculate for me", systemImage: "info.circle")
                     }
                 }
             }
