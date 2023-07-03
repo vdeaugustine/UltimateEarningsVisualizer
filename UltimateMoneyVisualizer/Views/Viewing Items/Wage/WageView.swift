@@ -109,7 +109,9 @@ struct WageView: View {
                 NavigationLink("Edit") {
                     EnterWageView()
                 }
+                .tint(Color.white)
             }
+            
         }
 
 //        .navigationBarItems(trailing: Button(action: {

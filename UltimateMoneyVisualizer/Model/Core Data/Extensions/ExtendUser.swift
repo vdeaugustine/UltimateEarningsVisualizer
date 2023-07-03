@@ -73,6 +73,8 @@ public extension User {
 
             // Get the user from the results
             if let user = results.first {
+                try user.createRecurredExpenses()
+
                 // If the user has a TodayShift
                 if let today = user.todayShift,
                    let endOfToday = today.endTime {
@@ -129,8 +131,6 @@ public extension User {
         let secondlyRate = hourlyRate / 60 / 60
         return totalDuration * secondlyRate
     }
-
-    
 
     /// Gives a list of shifts falling in between the two given dates that have already been saved.
     func getShiftsBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [Shift] {
@@ -344,7 +344,18 @@ public extension User {
     }
 
     func getWage() -> Wage {
-        wage ?? (try! Wage(amount: 20, user: self, context: managedObjectContext ?? PersistenceController.context))
+        wage ?? (try! Wage(amount: 20,
+                           user: self,
+                           includeTaxes: false,
+                           stateTax: nil,
+                           federalTax: nil,
+                           context: managedObjectContext ?? PersistenceController.context)
+//            try! Wage(amount: 20,
+//                      user: self,
+//                      includeTaxes: true,
+//                      taxRate: 0.2,
+//                      context: managedObjectContext ?? PersistenceController.context)
+        )
     }
 
     /// Measured in seconds
@@ -535,5 +546,38 @@ public extension User {
             thisGoal.titleStr == goal.titleStr
         }
         return filtered
+    }
+
+    func getRecurringExpenses() -> [Expense] {
+        getExpenses().filter { $0.isRecurring }
+    }
+
+    // MARK: - Recurring Expenses
+
+    func expensesThatNeedRecurring() -> [Expense] {
+        getExpenses().filter { expense in
+            guard expense.isRecurring,
+                  let recurringDayNumber = expense.recurringDayNumber
+            else { return false }
+            let todayDayNumber = min(Calendar.current.component(.day, from: Date()), 30)
+            return todayDayNumber == recurringDayNumber
+        }
+    }
+
+    func createRecurredExpenses() throws {
+        let expenses = expensesThatNeedRecurring()
+
+        for expense in expenses {
+            try Expense(title: expense.titleStr,
+                        info: expense.info,
+                        amount: expense.amount,
+                        dueDate: expense.dueDate,
+                        dateCreated: Date(),
+                        isRecurring: true,
+                        recurringDate: expense.recurringDate,
+                        tagStrings: expense.getTags().map { $0.getTitle() },
+                        user: self,
+                        context: getContext())
+        }
     }
 }

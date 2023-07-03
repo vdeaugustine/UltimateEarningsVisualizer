@@ -12,6 +12,8 @@ public extension Expense {
                                         amount: Double,
                                         dueDate: Date?,
                                         dateCreated: Date? = nil,
+                                        isRecurring: Bool = false,
+                                        recurringDate: Date? = nil,
                                         tagStrings: [String]? = nil,
                                         user: User,
                                         context: NSManagedObjectContext = PersistenceController.context) throws {
@@ -20,6 +22,8 @@ public extension Expense {
         self.info = info
         self.amount = amount
         self.dueDate = dueDate
+        self.isRecurring = isRecurring
+        self.recurringDate = recurringDate
         self.user = user
         self.dateCreated = dateCreated ?? .now
 
@@ -40,6 +44,20 @@ public extension Expense {
         }
 
         self.id = UUID()
+    }
+    
+    
+    
+}
+
+// MARK: - Recurring Expenses
+
+extension Expense {
+    var recurringDayNumber: Int? {
+        guard let recurringDate
+        else { return nil }
+        let dayNumber = Calendar.current.component(.day, from: recurringDate)
+        return min(dayNumber, 30)
     }
 }
 

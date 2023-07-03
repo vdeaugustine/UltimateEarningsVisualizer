@@ -23,7 +23,9 @@
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="imageData" optional="YES" attributeType="Binary"/>
         <attribute name="info" optional="YES" attributeType="String"/>
+        <attribute name="isRecurring" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="queueSlotNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="recurringDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="tempQNum" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="title" attributeType="String" defaultValueString=""/>
         <relationship name="allocations" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Allocation" inverseName="expense" inverseEntity="Allocation"/>
@@ -87,9 +89,6 @@
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="savedItems" inverseEntity="User"/>
     </entity>
     <entity name="Settings" representedClassName="Settings" syncable="YES" codeGenerationType="class">
-        <attribute name="includeTaxes" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="stateForTaxes" optional="YES" attributeType="String"/>
-        <attribute name="taxRate" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="themeColorStr" optional="YES" attributeType="String"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="settings" inverseEntity="User"/>
     </entity>
@@ -162,7 +161,10 @@
     <entity name="Wage" representedClassName="Wage" syncable="YES" codeGenerationType="class">
         <attribute name="amount" attributeType="Double" defaultValueString="10" usesScalarValueType="YES"/>
         <attribute name="daysPerWeek" attributeType="Double" defaultValueString="5" usesScalarValueType="YES"/>
+        <attribute name="federalTaxPercentage" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="hoursPerDay" attributeType="Double" defaultValueString="8" usesScalarValueType="YES"/>
+        <attribute name="includeTaxes" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="stateTaxPercentage" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="weeksPerYear" optional="YES" attributeType="Double" defaultValueString="52" usesScalarValueType="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="wage" inverseEntity="User"/>
     </entity>

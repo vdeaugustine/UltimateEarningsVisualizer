@@ -35,12 +35,33 @@ struct EnterWageView: View {
     @State private var showHourlySheet = false
     @State private var showSalarySheet = false
 
+    @State private var includeTaxes = false
+    @State private var stateTax = Double.zero
+    @State private var federalTax = Double.zero
+
+    @State private var showStateSheet = false
+    @State private var showFederalSheet = false
+    
+    @State private var showAssumptions = false
+
+    var wageToShow: String {
+        if isSalaried {
+            getHourlyWage(salaryDouble)
+                .formattedForMoney()
+                .replacingOccurrences(of: "$", with: "")
+        } else {
+            hourlyDouble
+                .formattedForMoney()
+                .replacingOccurrences(of: "$", with: "")
+        }
+    }
+
     var body: some View {
         Form {
             Section {
                 HStack {
                     SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
-                    Text(isSalaried ? getHourlyWage(salaryDouble).formattedForMoney().replacingOccurrences(of: "$", with: "") : hourlyDouble.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                    Text(wageToShow)
                         .font(.system(size: 24))
                         .fontWeight(.bold)
                         .foregroundStyle(user.getSettings().getDefaultGradient())
@@ -48,13 +69,17 @@ struct EnterWageView: View {
                 }
                 .allPartsTappable()
                 .onTapGesture {
-                    showHourlySheet = true
+                    showHourlySheet = !isSalaried
                 }
 
             } header: {
                 Text("Hourly Wage")
             } footer: {
-                Text("Tap to edit")
+                if isSalaried {
+                    Text("An hourly representation of your yearly salary")
+                } else {
+                    Text("Tap to edit")
+                }
             }
 
             Toggle("I have a yearly salary", isOn: $isSalaried)
@@ -78,46 +103,95 @@ struct EnterWageView: View {
             }
 
             Section {
-                Picker("Hours Per Day", selection: $hoursPerDay) {
-                    ForEach(hoursOptions, id: \.self) { num in
-                        Text(num.simpleStr())
-                            .tag(num)
+                if showAssumptions {
+                    Picker("Hours Per Day", selection: $hoursPerDay) {
+                        ForEach(hoursOptions, id: \.self) { num in
+                            Text(num.simpleStr())
+                                .tag(num)
+                        }
+                    }
+                    Picker("Days Per Week", selection: $daysPerWeek) {
+                        ForEach(1 ..< 8, id: \.self) { num in
+                            Text(num.str)
+                                .tag(num)
+                        }
+                    }
+                    Picker("Weeks Per Year", selection: $weeksPerYear) {
+                        ForEach(1 ..< 53, id: \.self) { num in
+                            Text(num.str)
+                                .tag(num)
+                        }
+                    }
+                    Button {
+                        hoursPerDay = User.main.getWage().hoursPerDay
+                        daysPerWeek = Int(User.main.getWage().daysPerWeek)
+                        weeksPerYear = Int(User.main.getWage().weeksPerYear)
+                    } label: {
+                        Label("Reset", systemImage: "arrow.uturn.backward")
+                            .labelStyle(.titleOnly)
+                    }
+
+                    Button {
+                        hoursPerDay = 8
+                        daysPerWeek = 5
+                        weeksPerYear = 50
+                    } label: {
+                        Label("Standard", systemImage: "arrow.uturn.backward")
+                            .labelStyle(.titleOnly)
+                    }
+                    Button("Hide") {
+                        showAssumptions.toggle()
                     }
                 }
-                Picker("Days Per Week", selection: $daysPerWeek) {
-                    ForEach(1 ..< 8, id: \.self) { num in
-                        Text(num.str)
-                            .tag(num)
+                else {
+                    Button("Show") {
+                        showAssumptions.toggle()
                     }
                 }
-                Picker("Weeks Per Year", selection: $weeksPerYear) {
-                    ForEach(1 ..< 53, id: \.self) { num in
-                        Text(num.str)
-                            .tag(num)
-                    }
-                }
-                Button {
-                    hoursPerDay = User.main.getWage().hoursPerDay
-                    daysPerWeek = Int(User.main.getWage().daysPerWeek)
-                    weeksPerYear = Int(User.main.getWage().weeksPerYear)
-                } label: {
-                    Label("Reset", systemImage: "arrow.uturn.backward")
-                        .labelStyle(.titleOnly)
-                }
-                
-                Button {
-                    hoursPerDay = 8
-                    daysPerWeek = 5
-                    weeksPerYear = 50
-                } label: {
-                    Label("Standard", systemImage: "arrow.uturn.backward")
-                        .labelStyle(.titleOnly)
-                }
-                
+
             } header: {
                 Text("Calculation Assumptions")
             } footer: {
-                Text("When calculating daily, weekly, monthly, and yearly, these values will be used respectively")
+                if showAssumptions {
+                    Text("When calculating daily, weekly, monthly, and yearly, these values will be used respectively")
+                }
+                
+            }
+
+            Section {
+                Toggle("Include taxes", isOn: $includeTaxes)
+            }
+
+            if includeTaxes {
+                Section("State tax") {
+                    HStack {
+                        SystemImageWithFilledBackground(systemName: "percent", backgroundColor: user.getSettings().themeColor)
+                        Text(stateTax.simpleStr())
+                            .font(.system(size: 24))
+                            .fontWeight(.bold)
+                            .foregroundStyle(user.getSettings().getDefaultGradient())
+                        Spacer()
+                    }
+                    .allPartsTappable()
+                    .onTapGesture {
+                        showStateSheet = true
+                    }
+                }
+
+                Section("Federal tax") {
+                    HStack {
+                        SystemImageWithFilledBackground(systemName: "percent", backgroundColor: user.getSettings().themeColor)
+                        Text(federalTax.simpleStr())
+                            .font(.system(size: 24))
+                            .fontWeight(.bold)
+                            .foregroundStyle(user.getSettings().getDefaultGradient())
+                        Spacer()
+                    }
+                    .allPartsTappable()
+                    .onTapGesture {
+                        showFederalSheet = true
+                    }
+                }
             }
         }
         .putInTemplate()
@@ -147,6 +221,9 @@ struct EnterWageView: View {
                 let hourly = isSalaried ? getHourlyWage(salaryDouble) : hourlyDouble
                 let wage = try Wage(amount: hourly,
                                     user: user,
+                                    includeTaxes: includeTaxes,
+                                    stateTax: includeTaxes ? stateTax : nil,
+                                    federalTax: includeTaxes ? stateTax : nil,
                                     context: viewContext)
                 wage.daysPerWeek = Double(daysPerWeek)
                 wage.hoursPerDay = Double(hoursPerDay)
@@ -159,10 +236,16 @@ struct EnterWageView: View {
             }
         }
         .sheet(isPresented: $showHourlySheet) {
-            EnterMoneyView(dubToEdit: $hourlyDouble)
+            EnterDoubleView(dubToEdit: $hourlyDouble, format: .dollar)
         }
         .sheet(isPresented: $showSalarySheet) {
-            EnterMoneyView(dubToEdit: $salaryDouble)
+            EnterDoubleView(dubToEdit: $salaryDouble, format: .dollar)
+        }
+        .sheet(isPresented: $showStateSheet) {
+            EnterDoubleView(dubToEdit: $stateTax, format: .percent)
+        }
+        .sheet(isPresented: $showFederalSheet) {
+            EnterDoubleView(dubToEdit: $federalTax, format: .percent)
         }
     }
 }

@@ -24,8 +24,16 @@ class EnterPayslipViewModel: ObservableObject {
 
     public static var shared = EnterPayslipViewModel()
 
-    func getDeductions(_ type: PayslipItem.PayslipItemType) -> [PayslipItem] {
-        deductions.filter { $0.type == type }
+    func getDeductions(_ type: PayslipItem.PayslipItemType? = nil) -> [PayslipItem] {
+        if let type {
+            return deductions.filter { $0.type == type }
+        }
+        return deductions
+    }
+
+    func amount(for deductionType: PayslipItem.PayslipItemType) -> Double {
+        getDeductions(deductionType)
+            .reduce(Double.zero) { $0 + $1.amount }
     }
 
     let decimalFormatter: NumberFormatter = {
@@ -62,16 +70,16 @@ class EnterPayslipViewModel: ObservableObject {
         var id: Self { self }
 
         enum AmountType: String, CaseIterable, Identifiable, Hashable {
-            case percentage = "Percentage of Earnings"
+            case percentage = "Percentage"
             case fixedAmount = "Fixed Amount"
 
             var id: Self { self }
         }
 
         enum PayslipItemType: String, CaseIterable, Identifiable, Hashable {
-            case preTaxDeductions = "Pre Tax Deductions"
-            case taxes = "Taxes"
-            case afterTaxDeductions = "After Tax Deductions"
+            case preTaxDeductions = "Pre Tax Deduction"
+            case taxes = "Tax"
+            case afterTaxDeductions = "After Tax Deduction"
 
             var id: Self { self }
         }
@@ -126,14 +134,14 @@ struct EnterNewPayslipView: View {
                 HStack {
                     SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: User.main.getSettings().themeColor)
 
-                    TextField("Gross Earnings", value: $viewModel.grossEarnings, formatter: formatter)
+                    TextField("Gross Earnings", text: $viewModel.grossEarningsString)
                 }
             }
 
             Section("Hours") {
                 HStack {
                     SystemImageWithFilledBackground(systemName: "clock", backgroundColor: User.main.getSettings().themeColor)
-                    TextField("Hours", value: $viewModel.hours, formatter: viewModel.decimalFormatter)
+                    TextField("Hours", value: $viewModel.hours, formatter: NumberFormatter.custom(decimalPlaces: 2))
                         .keyboardType(.decimalPad)
 
                     Text(viewModel.hoursAsSeconds.formatForTime([.hour, .minute, .second]))
@@ -142,26 +150,38 @@ struct EnterNewPayslipView: View {
 
             Section("Total") {
                 Text("Net Earnings")
+//                    .spacedOut(text: )
                 Text("Deductions")
                     .spacedOut(text: viewModel.totalDeductionAmount.formattedForMoney())
+                Text("Pre Tax")
+                    .spacedOut(text: viewModel.amount(for: .preTaxDeductions).formattedForMoney())
+                Text("Tax")
+                    .spacedOut(text: viewModel.amount(for: .taxes).formattedForMoney())
+                Text("After Tax")
+                    .spacedOut(text: viewModel.amount(for: .afterTaxDeductions).formattedForMoney())
             }
 
-            ForEach(PayslipType.allCases) { itemType in
+            ForEach(viewModel.getDeductions()) { item in
+                HStack {
+                    Text(item.description)
+                    Text(item.type.rawValue)
+                        .font(.system(size: 8, weight: .light))
+                    Spacer()
+                    Text(item.amount.str)
+                }
+            }
 
-                Section(itemType.rawValue) {
-                    ForEach(viewModel.getDeductions(itemType)) { deduction in
-                        Text(deduction.description)
-                            .spacedOut(text: deduction.amount.formattedForMoney())
-                    }
-                    .onDelete(perform: { indexSet in
-                        viewModel.deductions.remove(atOffsets: indexSet)
-                    })
-                    Label("Add another", systemImage: "plus")
-                        .allPartsTappable(alignment: .leading)
-                        .onTapGesture {
-                            viewModel.newItemType = itemType
-                            viewModel.showSheet.toggle()
-                        }
+            Button("New") {
+//                let newItem = EnterPayslipViewModel.PayslipItem(description: "something",
+//                                                                amount: Double.random(in: 100 ... 1000 ),
+//                                                                type: .allCases.randomElement()!,
+//                                                                amountType: .allCases.randomElement()!)
+//                viewModel.deductions.append(newItem)
+                viewModel.showSheet.toggle()
+            }
+
+            if !viewModel.getDeductions().isEmpty {
+                Section("Rates") {
                 }
             }
         }
@@ -204,7 +224,7 @@ struct EnterNewPayslipView: View {
                         TextField("Description", text: $descriptionString)
                     }
                 }
-                
+
                 Section("Amount Type") {
                     Picker("Amount Type", selection: $amountType) {
                         ForEach(AmountType.allCases) {
@@ -213,28 +233,57 @@ struct EnterNewPayslipView: View {
                     }
                 }
             }
-            .navigationTitle("New Deduction")
-            .toolbarSave {
-                guard let double = Double(amountString),
-                      !descriptionString.isEmpty
-                else {
-                    return
+            .safeAreaInset(edge: .bottom, content: {
+                HStack(spacing: 1) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        BottomViewButton(label: "Cancel")
+                    }
+
+                    Button {
+                        guard let double = Double(amountString),
+                              !descriptionString.isEmpty
+                        else {
+                            return
+                        }
+
+                        let newItem = EnterPayslipViewModel
+                            .PayslipItem(description: descriptionString,
+                                         amount: double,
+                                         type: type,
+                                         amountType: amountType)
+                        viewModel.deductions.append(newItem)
+                        dismiss()
+                    } label: {
+                        BottomViewButton(label: "Save")
+                    }
                 }
 
-                let newItem = EnterPayslipViewModel.PayslipItem(description: descriptionString,
-                                                                amount: double,
-                                                                type: type,
-                                                                amountType: amountType)
-                viewModel.deductions.append(newItem)
-                dismiss()
-            }
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button("Cancel", role: .cancel) { dismiss() }
-                }
-            }
+            })
+//            .toolbarSave {
+//                guard let double = Double(amountString),
+//                      !descriptionString.isEmpty
+//                else {
+//                    return
+//                }
+//
+//                let newItem = EnterPayslipViewModel
+//                    .PayslipItem(description: descriptionString,
+//                                 amount: double,
+//                                 type: type,
+//                                 amountType: amountType)
+//                viewModel.deductions.append(newItem)
+//                dismiss()
+//            }
+//            .toolbar {
+//                ToolbarItem(placement: .topBarLeading) {
+//                    Button("Cancel", role: .cancel) { dismiss() }
+//                }
+//            }
+            .putInNavView(.inline)
+            .putInTemplate()
 
-            .putInNavView(.large)
             .presentationDragIndicator(.visible)
         }
     }
@@ -244,6 +293,7 @@ struct EnterNewPayslipView: View {
 
 struct EnterNewPayslipView_Previews: PreviewProvider {
     static var previews: some View {
-        EnterNewPayslipView.CreateItemSheet(viewModel: EnterPayslipViewModel())
+        EnterNewPayslipView()
+            .putInNavView(.inline)
     }
 }
