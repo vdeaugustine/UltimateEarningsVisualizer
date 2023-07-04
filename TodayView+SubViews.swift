@@ -188,7 +188,8 @@ extension TodayView {
             .padding(.top)
             .overlay {
                 if viewModel.isCurrentlyMidShift {
-                    AnimatePlusAmount(str: "+" + (viewModel.user.getWage().secondly * 2).formattedForMoneyExtended())
+                    AnimatePlusAmount(str: "+" + (viewModel.wage.perSecond * 2)
+                        .formattedForMoneyExtended())
                 }
             }
         }

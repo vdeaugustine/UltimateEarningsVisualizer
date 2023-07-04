@@ -50,17 +50,26 @@ struct WageView: View {
         }
     }
 
+    private var wageToShow: Double {
+        if wage.isSalary {
+            return wage.perYear
+        } else {
+            return wage.hourly
+        }
+    }
+
     var body: some View {
         List {
             Section(header: Text("Current Wage")) {
                 HStack {
                     SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
-                    Text(user.getWage().hourly.formattedForMoney(trimZeroCents: false)
+                    Text(wageToShow.formattedForMoney(trimZeroCents: false)
                         .replacingOccurrences(of: "$", with: ""))
                         .boldNumber()
                     Spacer()
-
-//                    Text(user.)
+                    Text(wage.isSalary ? "SALARY" : "HOURLY")
+                        .font(.caption)
+                        .fontWeight(.medium)
                 }
             }
 
@@ -77,19 +86,19 @@ struct WageView: View {
                     VStack {
                         Group {
                             Text("Year")
-                                .spacedOut(text: user.getWage().perYear.formattedForMoney())
+                                .spacedOut(text: wage.perYear.formattedForMoney())
                             Divider()
                             Text("Month")
-                                .spacedOut(text: user.getWage().perMonth.formattedForMoney())
+                                .spacedOut(text: wage.perMonth.formattedForMoney())
                             Divider()
                             Text("Week")
-                                .spacedOut(text: user.getWage().perWeek.formattedForMoney())
+                                .spacedOut(text: wage.perWeek.formattedForMoney())
                             Divider()
                             Text("Day")
-                                .spacedOut(text: user.getWage().perDay.formattedForMoney())
+                                .spacedOut(text: wage.perDay.formattedForMoney())
                             Divider()
                             Text("Hour")
-                                .spacedOut(text: user.getWage().hourly.formattedForMoney())
+                                .spacedOut(text: wage.hourly.formattedForMoney())
                         }
                         Divider()
                         Text("Minute")
@@ -100,6 +109,11 @@ struct WageView: View {
                     }
                     .font(.subheadline)
                 }
+            } header: {
+                Text("Breakdown")
+
+            } footer: {
+                Text("These values are based on your wage settings and can be edited by tapping the **Edit** button.")
             }
         }
 

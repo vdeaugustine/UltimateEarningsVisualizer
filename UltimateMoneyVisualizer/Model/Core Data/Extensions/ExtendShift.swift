@@ -151,7 +151,11 @@ extension Shift {
 
     var totalEarned: Double {
         guard let wage = User.main.wage else { return 0 }
-        return wage.secondly * duration
+        if wage.isSalary {
+            return wage.perDay
+        } else {
+            return wage.perSecond * duration
+        }
     }
 
     var totalAllocated: Double {

@@ -126,10 +126,14 @@ public extension User {
 
     func totalEarned() -> Double {
         guard let wage else { return 0 }
-        let totalDuration = totalTimeWorked()
-        let hourlyRate = wage.amount
-        let secondlyRate = hourlyRate / 60 / 60
-        return totalDuration * secondlyRate
+
+        if wage.isSalary {
+            return getShifts().reduce(Double.zero) { partialResult, shift in
+                partialResult + shift.totalEarned
+            }
+        } else {
+            return totalTimeWorked() * wage.perSecond
+        }
     }
 
     /// Gives a list of shifts falling in between the two given dates that have already been saved.
@@ -361,9 +365,7 @@ public extension User {
 
     /// Measured in seconds
     func totalTimeSaved() -> Double {
-        let savedAmount = totalDollarsSaved()
-        let secondlyWage = getWage().secondly
-        return savedAmount / secondlyWage
+        totalDollarsSaved() / getWage().perSecond
     }
 
     func getValidTodayShift() -> TodayShift? {

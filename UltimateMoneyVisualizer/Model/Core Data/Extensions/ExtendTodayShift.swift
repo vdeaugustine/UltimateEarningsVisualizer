@@ -180,9 +180,13 @@ public extension TodayShift {
         return endTime - startTime
     }
 
-    /// Based on total duration x wage.secondly
     var totalWillEarn: Double {
-        totalShiftDuration * (user?.wage?.secondly ?? 0)
+        guard let wage = User.main.wage else { return 0 }
+        if wage.isSalary {
+            return wage.perDay
+        } else {
+            return wage.perSecond * totalShiftDuration
+        }
     }
 
     /// Date.now - startTime. Measured in seconds
@@ -197,7 +201,11 @@ public extension TodayShift {
             return 0
         }
 
-        return wage.secondly * elapsedTime(nowTime)
+        if wage.isSalary {
+            return percentTimeCompleted(nowTime) * wage.perDay
+        } else {
+            return wage.secondly * elapsedTime(nowTime)
+        }
     }
 
     /// Amount of money that has already been allocated
@@ -217,8 +225,8 @@ public extension TodayShift {
     }
 
     func remainingToEarn(_ nowTime: Date) -> Double {
-        let amount = remainingTime(nowTime) * (user?.wage?.secondly ?? 0)
-        return amount >= 0 ? amount : 0
+        let amount = totalWillEarn - totalEarnedSoFar(nowTime)
+        return max(amount, 0)
     }
 
     func percentTimeCompleted(_ nowTime: Date) -> Double {

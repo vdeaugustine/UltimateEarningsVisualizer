@@ -26,7 +26,11 @@ class TodayViewModel: ObservableObject {
     @ObservedObject var wage = User.main.getWage()
 
     var willEarn: Double {
-        user.getWage().perSecond * (todayShift?.totalShiftDuration ?? 0)
+        if wage.isSalary {
+            return wage.perDay
+        } else {
+            return wage.perSecond * (todayShift?.totalShiftDuration ?? 0)
+        }
     }
 
     let initialPayoffs = User.main.getQueue().map {
@@ -61,7 +65,7 @@ class TodayViewModel: ObservableObject {
         }
         return expenses
     }
-    
+
     var taxesPaidSoFar: Double {
         taxesTempPayoffs.reduce(Double.zero) { partialResult, taxTempPayoff in
             partialResult + taxTempPayoff.amountPaidOff

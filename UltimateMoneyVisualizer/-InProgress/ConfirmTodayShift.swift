@@ -16,7 +16,12 @@ struct ConfirmTodayShift: View {
     @State private var showConfirmation = false
 
     private var willEarn: Double {
-        user.getWage().perSecond * shiftDuration
+        let wage = user.getWage()
+        if wage.isSalary {
+            return wage.perDay
+        } else {
+            return wage.perSecond * shiftDuration
+        }
     }
 
     let haveEarned: Double
