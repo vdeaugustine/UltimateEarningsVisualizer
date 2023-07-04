@@ -14,15 +14,17 @@ struct CalculateTaxView: View {
     enum TaxType: String {
         case state, federal
     }
-    
+    @Environment(\.managedObjectContext) private var viewContext
     let taxType: TaxType
     @Binding var bindedRate: Double
-    @State private var grossEarnings: Double = 0
-    @State private var preTaxDeductions: Double = 0
+    @State private var grossEarnings: Double = User.main.getWage().mostRecentGrossEarningsAmount
+    @State private var preTaxDeductions: Double = User.main.getWage().mostRecentPreTaxDeductionsAmount
     @State private var taxesPaid: Double = 0
     @State private var showEarningsSheet = false
     @State private var showPreTaxSheet = false
     @State private var showTaxesSheet = false
+    @ObservedObject private var wage = User.main.getWage()
+    @Environment (\.dismiss) private var dismiss
 
     var taxRate: Double {
         let taxableIncome = grossEarnings - preTaxDeductions
@@ -101,6 +103,17 @@ struct CalculateTaxView: View {
         })
         .bottomButton(label: "Save") {
             bindedRate = taxRate
+            wage.mostRecentGrossEarningsAmount = grossEarnings
+            wage.mostRecentPreTaxDeductionsAmount = preTaxDeductions
+            switch taxType {
+            case .state:
+                wage.mostRecentStateTaxesPaid = taxesPaid
+            case .federal:
+                wage.mostRecentFederalTaxesPaid = taxesPaid
+            }
+            
+            try? viewContext.save()
+            dismiss()
         }
         .navigationTitle("Calculate \(taxType.rawValue.capitalized) Tax")
         .putInTemplate()

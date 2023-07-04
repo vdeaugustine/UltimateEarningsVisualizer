@@ -345,6 +345,7 @@ public extension User {
 
     func getWage() -> Wage {
         wage ?? (try! Wage(amount: 20,
+                           isSalary: false,
                            user: self,
                            includeTaxes: false,
                            stateTax: nil,

@@ -40,7 +40,7 @@ struct SettingsView: View {
                 } label: {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "calendar", backgroundColor: settings.themeColor)
-                        Text("Set wage")
+                        Text("My Wage")
                     }
                 }
 

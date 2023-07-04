@@ -164,6 +164,11 @@
         <attribute name="federalTaxPercentage" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="hoursPerDay" attributeType="Double" defaultValueString="8" usesScalarValueType="YES"/>
         <attribute name="includeTaxes" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isSalary" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="mostRecentFederalTaxesPaid" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="mostRecentGrossEarningsAmount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="mostRecentPreTaxDeductionsAmount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="mostRecentStateTaxesPaid" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="stateTaxPercentage" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="weeksPerYear" optional="YES" attributeType="Double" defaultValueString="52" usesScalarValueType="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="wage" inverseEntity="User"/>

@@ -5,8 +5,8 @@
 //  Created by Vincent DeAugustine on 7/2/23.
 //
 
-import SwiftUI
 import AlertToast
+import SwiftUI
 
 // MARK: - EnterDoubleView
 
@@ -35,7 +35,6 @@ struct EnterDoubleView: View {
     var dubValue: Double {
         guard let double = Double(enteredStr)
         else {
-            showErrorToast.toggle()
             return dubToEdit
         }
 
@@ -78,14 +77,30 @@ struct EnterDoubleView: View {
 
     var body: some View {
         VStack {
-            Text(formattedString)
-                .font(.system(size: 55))
-                .fontWeight(.bold)
-                .foregroundStyle(settings.getDefaultGradient())
-                .padding(.bottom)
-                .lineLimit(1)
-                .minimumScaleFactor(0.06)
-                .padding(.horizontal)
+            Menu {
+                Button {
+                    let pasteboard = UIPasteboard.general
+                    if let clipboardString = pasteboard.string,
+                       let number = Double(clipboardString) {
+                        enteredStr = "\(Int(number * 100))"
+                        print(enteredStr)
+                    }
+
+                } label: {
+                    Label("Paste", systemImage: "doc.on.clipboard")
+                }
+            } label: {
+                Text(formattedString)
+                    .frame(maxWidth: .infinity)
+                    .font(.system(size: 55))
+                    .fontWeight(.bold)
+                    .foregroundStyle(settings.getDefaultGradient())
+                    .padding(.bottom)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+                    .padding(.horizontal)
+            }
+
 
             ForEach(numbers, id: \.self) { row in
                 HStack {
@@ -94,7 +109,10 @@ struct EnterDoubleView: View {
                             if enteredStr == "0" {
                                 enteredStr = ""
                             }
-                            append(num)
+                            if enteredStr.count < 11 {
+                                append(num)
+                            }
+
                         } label: {
                             Text("\(num)")
                                 .font(.title)

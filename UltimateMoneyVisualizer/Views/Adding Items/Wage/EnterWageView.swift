@@ -6,7 +6,7 @@ import SwiftUI
 struct EnterWageView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
-    @State private var isSalaried: Bool = false
+    @State private var isSalaried: Bool = User.main.getWage().isSalary
 
     @State private var showErrorToast: Bool = false
     @State private var errorMessage: String = ""
@@ -64,6 +64,9 @@ struct EnterWageView: View {
                     Text(wageToShow)
                         .boldNumber()
                     Spacer()
+                    Button("Edit") {
+                        showHourlySheet = !isSalaried
+                    }
                 }
                 .allPartsTappable()
                 .onTapGesture {
@@ -75,12 +78,10 @@ struct EnterWageView: View {
             } footer: {
                 if isSalaried {
                     Text("An hourly representation of your yearly salary")
-                } else {
-                    Text("Tap to edit")
                 }
             }
 
-            Toggle("I have a yearly salary", isOn: $isSalaried)
+            Toggle("Salary", isOn: $isSalaried)
 
             if isSalaried {
                 Section {
@@ -89,6 +90,9 @@ struct EnterWageView: View {
                         Text(salaryDouble.formattedForMoney().replacingOccurrences(of: "$", with: ""))
                             .boldNumber()
                         Spacer()
+                        Button("Edit") {
+                            showSalarySheet = true
+                        }
                     }
                     .allPartsTappable()
                     .onTapGesture {
@@ -96,9 +100,10 @@ struct EnterWageView: View {
                     }
                 } header: {
                     Text("Salary")
-                } footer: {
-                    Text("Tap to edit")
                 }
+//            footer: {
+//                    Text("Tap to edit")
+//                }
             }
 
             Section {
@@ -182,7 +187,7 @@ struct EnterWageView: View {
                 Section("Federal tax") {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "percent", backgroundColor: user.getSettings().themeColor)
-                        Text(federalTax.simpleStr())
+                        Text(federalTax.simpleStr(3, false))
                             .boldNumber()
                         Spacer()
                         Button("Edit") {
@@ -228,6 +233,7 @@ struct EnterWageView: View {
             do {
                 let hourly = isSalaried ? getHourlyWage(salaryDouble) : hourlyDouble
                 let wage = try Wage(amount: hourly,
+                                    isSalary: isSalaried,
                                     user: user,
                                     includeTaxes: includeTaxes,
                                     stateTax: includeTaxes ? stateTax : nil,

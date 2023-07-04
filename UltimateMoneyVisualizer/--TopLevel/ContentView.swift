@@ -47,9 +47,6 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $tab) {
             
-            EnterNewPayslipView()
-            
-            
             NavigationStack(path: $navManager.homeNavPath) {
                 HomeView()
             }

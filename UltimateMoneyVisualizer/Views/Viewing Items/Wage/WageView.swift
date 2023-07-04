@@ -13,9 +13,6 @@ import SwiftUI
 
 struct WageView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Wage.amount, ascending: false)]) private var wages: FetchedResults<Wage>
-
-    @FetchRequest(sortDescriptors: []) var users: FetchedResults<User>
 
     @State var wage: Wage
 
@@ -56,8 +53,15 @@ struct WageView: View {
     var body: some View {
         List {
             Section(header: Text("Current Wage")) {
-                
-                Text(user.getWage().hourly.formattedForMoney())
+                HStack {
+                    SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
+                    Text(user.getWage().hourly.formattedForMoney(trimZeroCents: false)
+                        .replacingOccurrences(of: "$", with: ""))
+                        .boldNumber()
+                    Spacer()
+
+//                    Text(user.)
+                }
             }
 
             Section {
@@ -99,10 +103,8 @@ struct WageView: View {
             }
         }
 
-//            }
-//        }
         .putInTemplate()
-        .navigationTitle("View Wage")
+        .navigationTitle("My Wage")
 
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -111,14 +113,8 @@ struct WageView: View {
                 }
                 .tint(Color.white)
             }
-            
         }
 
-//        .navigationBarItems(trailing: Button(action: {
-//            isEditing.toggle()
-//        }) {
-//            Text(isEditing ? "Cancel" : "Edit")
-//        })
         .toast(isPresenting: $showErrorToast, duration: 2, tapToDismiss: true) {
             AlertToast(displayMode: .alert, type: .error(.blue), title: errorMessage)
         } onTap: {

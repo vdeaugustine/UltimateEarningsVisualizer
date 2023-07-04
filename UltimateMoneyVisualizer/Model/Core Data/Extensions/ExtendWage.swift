@@ -10,6 +10,7 @@ import Foundation
 
 public extension Wage {
     @discardableResult convenience init(amount: Double,
+                                        isSalary: Bool,
                                         user: User,
                                         includeTaxes: Bool,
                                         stateTax: Double?,
@@ -17,6 +18,7 @@ public extension Wage {
                                         context: NSManagedObjectContext) throws {
         self.init(context: context)
         self.amount = amount
+        self.isSalary = isSalary
         self.user = user
         self.includeTaxes = includeTaxes
         if let stateTax {
@@ -27,6 +29,14 @@ public extension Wage {
         }
         
         try context.save()
+    }
+    
+    var stateTaxMultiplier: Double {
+        stateTaxPercentage / 100
+    }
+    
+    var federalTaxMultiplier: Double {
+        federalTaxPercentage / 100
     }
 
     var hourly: Double {

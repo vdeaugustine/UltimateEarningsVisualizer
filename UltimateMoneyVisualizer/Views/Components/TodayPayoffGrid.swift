@@ -19,7 +19,8 @@ struct TodayPayoffGrid: View {
 
     let haveEarned: Double
 
-    let initialPayoffs = User.main.getQueue().map { TempTodayPayoff(payoff: $0)
+    let initialPayoffs = User.main.getQueue().map {
+        TempTodayPayoff(payoff: $0)
     }
 
     private var tempPayoffs: [TempTodayPayoff] {
@@ -28,7 +29,7 @@ struct TodayPayoffGrid: View {
         if wage.includeTaxes {
             if wage.stateTaxPercentage > 0 {
                 expenses.append(
-                    .init(amount: willEarn * wage.stateTaxPercentage,
+                    .init(amount: willEarn * wage.stateTaxMultiplier,
                           amountPaidOff: 0,
                           title: "State Tax",
                           id: .init())
@@ -36,7 +37,7 @@ struct TodayPayoffGrid: View {
             }
             if wage.federalTaxPercentage > 0 {
                 expenses.append(
-                    .init(amount: willEarn * wage.federalTaxPercentage,
+                    .init(amount: willEarn * wage.federalTaxMultiplier,
                           amountPaidOff: 0,
                           title: "Federal Tax",
                           id: .init())
