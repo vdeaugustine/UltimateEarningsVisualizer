@@ -15,7 +15,7 @@ struct TodayView: View {
 
     var body: some View {
         VStack {
-            if viewModel.todayShift != nil {
+            if viewModel.user.todayShift != nil {
                 ScrollView {
                     TimeMoneyPicker(viewModel: viewModel)
                         .padding(.vertical)
@@ -41,7 +41,7 @@ struct TodayView: View {
                       swipeToDismiss: false,
                       buttonText: "Save") {
             do {
-                try viewModel.todayShift?.finalizeAndSave(user: viewModel.user, context: viewModel.viewContext)
+                try viewModel.user.todayShift?.finalizeAndSave(user: viewModel.user, context: viewModel.viewContext)
             } catch {
                 print("Error saving")
             }

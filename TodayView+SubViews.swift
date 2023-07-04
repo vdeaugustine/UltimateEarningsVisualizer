@@ -55,15 +55,18 @@ extension TodayView {
             .safeAreaInset(edge: .bottom) {
                 Button {
                     do {
-                        let ts = try TodayShift(startTime: viewModel.start, endTime: viewModel.end, user: viewModel.user, context: viewModel.viewContext)
+                        let ts = try TodayShift(startTime: viewModel.start,
+                                                endTime: viewModel.end,
+                                                user: viewModel.user,
+                                                context: viewModel.viewContext)
 
                         // TODO: See if these are needed
-                        viewModel.todayShift = ts
-                        viewModel.user.todayShift = ts
+//                        viewModel.todayShift = ts
+//                        viewModel.user.todayShift = ts
                         viewModel.showHoursSheet = false
 
                     } catch {
-                        print(error)
+                        fatalError(error.localizedDescription)
                     }
 
                 } label: {
@@ -122,10 +125,10 @@ extension TodayView {
                     }
                     .padding(.horizontal)
 
-                if let start = viewModel.todayShift?.startTime,
-                   let end = viewModel.todayShift?.endTime,
-                   let totalDuration = viewModel.todayShift?.totalShiftDuration,
-                   let totalWillEarn = viewModel.todayShift?.totalWillEarn {
+                if let start = viewModel.user.todayShift?.startTime,
+                   let end = viewModel.user.todayShift?.endTime,
+                   let totalDuration = viewModel.user.todayShift?.totalShiftDuration,
+                   let totalWillEarn = viewModel.user.todayShift?.totalWillEarn {
                     HorizontalDataDisplay(data: [.init(label: "Start",
                                                        value: start.getFormattedDate(format: .minimalTime, amPMCapitalized: false),
                                                        view: nil),
@@ -161,7 +164,8 @@ extension TodayView {
                     ProgressBar(percentage: viewModel.todayShiftPercentCompleted,
                                 color: viewModel.settings.themeColor)
                     if viewModel.wage.includeTaxes {
-                        ProgressBar(percentage: min(viewModel.todayShiftPercentCompleted, viewModel.wage.totalTaxMultiplier),
+                        ProgressBar(percentage: min(viewModel.todayShiftPercentCompleted,
+                                                    viewModel.wage.totalTaxMultiplier),
                                     color: .niceRed,
                                     showBackgroundBar: false)
                     }
@@ -172,7 +176,7 @@ extension TodayView {
                     Spacer()
                     Text(viewModel.todayShiftRemainingValue)
                 }
-                
+
                 HStack {
                     Circle()
                         .frame(width: 8)

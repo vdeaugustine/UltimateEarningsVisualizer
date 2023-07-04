@@ -76,8 +76,8 @@ public extension User {
                 try user.createRecurredExpenses()
 
                 // If the user has a TodayShift
-                if let today = user.todayShift,
-                   let endOfToday = today.endTime {
+                if let existingTodayShift = user.todayShift,
+                   let endOfToday = existingTodayShift.endTime {
                     // If the shift is from a previous day (so it is expired)
                     if endOfToday < Date.beginningOfDay() {
                         // We want to set todayShift to nil and not return that user
@@ -88,6 +88,7 @@ public extension User {
                     }
                 }
 
+                
                 // There is no valid todayShift *but* has a shift today
                 if let shiftThatIsToday = user.getTodayShift() {
                     // Create a todayShift

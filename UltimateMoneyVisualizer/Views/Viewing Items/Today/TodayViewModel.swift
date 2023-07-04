@@ -19,7 +19,6 @@ class TodayViewModel: ObservableObject {
     @Published var showBanner = false
     @Published var showDeleteWarning = false
     @Published var showHoursSheet = false
-    @Published var todayShift: TodayShift? = User.main.todayShift
 
     @ObservedObject var settings = User.main.getSettings()
     @ObservedObject var user = User.main
@@ -29,7 +28,7 @@ class TodayViewModel: ObservableObject {
         if wage.isSalary {
             return wage.perDay
         } else {
-            return wage.perSecond * (todayShift?.totalShiftDuration ?? 0)
+            return wage.perSecond * (user.todayShift?.totalShiftDuration ?? 0)
         }
     }
 
@@ -38,7 +37,7 @@ class TodayViewModel: ObservableObject {
     }
 
     var haveEarned: Double {
-        todayShift?.totalEarnedSoFar(nowTime) ?? 0
+        user.todayShift?.totalEarnedSoFar(nowTime) ?? 0
     }
 
     var taxesTempPayoffs: [TempTodayPayoff] {
@@ -78,12 +77,12 @@ class TodayViewModel: ObservableObject {
     }
 
     var todayShiftPercentCompleted: Double {
-        guard let todayShift else { return 0 }
+        guard let todayShift = user.todayShift else { return 0 }
         return todayShift.percentTimeCompleted(nowTime)
     }
 
     var todayShiftValueSoFar: String {
-        guard let todayShift else { return "" }
+        guard let todayShift = user.todayShift else { return "" }
         switch selectedSegment {
             case .money:
                 return todayShift.totalEarnedSoFar(nowTime).formattedForMoney()
@@ -94,7 +93,7 @@ class TodayViewModel: ObservableObject {
     }
 
     var todayShiftRemainingValue: String {
-        guard let todayShift else { return "" }
+        guard let todayShift = user.todayShift else { return "" }
         switch selectedSegment {
             case .money:
                 return todayShift.remainingToEarn(nowTime).formattedForMoney()
@@ -111,7 +110,7 @@ class TodayViewModel: ObservableObject {
     }
 
     var isCurrentlyMidShift: Bool {
-        guard let todayShift,
+        guard let todayShift = user.todayShift,
               let start = todayShift.startTime,
               let end = todayShift.endTime,
               nowTime >= start,
@@ -124,7 +123,7 @@ class TodayViewModel: ObservableObject {
 
     func addSecond() {
         nowTime = .now
-        if todayShift != nil,
+        if user.todayShift != nil,
            !hasShownBanner {
             if isCurrentlyMidShift == false {
                 showBanner = true
@@ -133,7 +132,7 @@ class TodayViewModel: ObservableObject {
     }
 
     func deleteShift() {
-        todayShift = nil
+        user.todayShift = nil
         if let userShift = user.todayShift {
             viewContext.delete(userShift)
         }
@@ -142,14 +141,14 @@ class TodayViewModel: ObservableObject {
 
     func saveShift() {
         do {
-            try todayShift?.finalizeAndSave(user: user, context: viewContext)
+            try user.todayShift?.finalizeAndSave(user: user, context: viewContext)
         } catch {
             print("Error saving")
         }
     }
 
     func totalValueForProgressSection() -> String {
-        guard let todayShift else { return "" }
+        guard let todayShift = user.todayShift else { return "" }
         switch selectedSegment {
             case .money:
                 return todayShift.totalWillEarn.formattedForMoney()

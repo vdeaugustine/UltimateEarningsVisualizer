@@ -22,6 +22,7 @@ public extension TodayShift {
         self.dateCreated = .now
         self.startTime = startTime
         self.endTime = endTime
+        user.todayShift = self
 
         user.updateTempQueue()
 
@@ -29,7 +30,10 @@ public extension TodayShift {
     }
 
     static func makeExampleTodayShift(user: User, context: NSManagedObjectContext) throws {
-        let todayShift = try TodayShift(startTime: .nineAM, endTime: .fivePM, user: user, context: context)
+        let todayShift = try TodayShift(startTime: .nineAM,
+                                        endTime: .fivePM,
+                                        user: user,
+                                        context: context)
 
         // Get the list of expenses that still have remaining amounts to be paid off.
         var expensesNotFinished: [Expense] {
@@ -52,14 +56,20 @@ public extension TodayShift {
 
             if let expense = chosen as? Expense {
                 let amount = Double.random(in: 0 ... min(amountRemaining, expense.amountRemainingToPayOff))
-                let temp = try TemporaryAllocation(initialAmount: amount, expense: expense, goal: nil, context: context)
+                let temp = try TemporaryAllocation(initialAmount: amount,
+                                                   expense: expense,
+                                                   goal: nil,
+                                                   context: context)
                 try todayShift.addTemporaryAllocation(temp, context: context)
                 amountRemaining -= amount
             }
 
             if let goal = chosen as? Goal {
                 let amount = Double.random(in: 0 ... min(amountRemaining, goal.amountRemainingToPayOff))
-                let temp = try TemporaryAllocation(initialAmount: amount, expense: nil, goal: goal, context: context)
+                let temp = try TemporaryAllocation(initialAmount: amount,
+                                                   expense: nil,
+                                                   goal: goal,
+                                                   context: context)
                 try todayShift.addTemporaryAllocation(temp, context: context)
                 amountRemaining -= amount
             }
