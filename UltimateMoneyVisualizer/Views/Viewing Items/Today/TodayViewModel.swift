@@ -23,6 +23,51 @@ class TodayViewModel: ObservableObject {
 
     @ObservedObject var settings = User.main.getSettings()
     @ObservedObject var user = User.main
+    @ObservedObject var wage = User.main.getWage()
+
+    var willEarn: Double {
+        user.getWage().perSecond * (todayShift?.totalShiftDuration ?? 0)
+    }
+
+    let initialPayoffs = User.main.getQueue().map {
+        TempTodayPayoff(payoff: $0)
+    }
+    
+    var haveEarned: Double {
+        todayShift?.totalEarnedSoFar(nowTime) ?? 0
+    }
+    
+    var taxesTempPayoffs: [TempTodayPayoff] {
+        var expenses: [TempTodayPayoff] = []
+        if wage.includeTaxes {
+            if wage.stateTaxPercentage > 0 {
+                expenses.append(
+                    .init(amount: willEarn * wage.stateTaxMultiplier,
+                          amountPaidOff: 0,
+                          title: "State Tax",
+                          id: .init())
+                )
+            }
+            if wage.federalTaxPercentage > 0 {
+                expenses.append(
+                    .init(amount: willEarn * wage.federalTaxMultiplier,
+                          amountPaidOff: 0,
+                          title: "Federal Tax",
+                          id: .init())
+                )
+            }
+        }
+        return expenses
+    }
+
+    var tempPayoffs: [TempTodayPayoff] {
+        var expenses: [TempTodayPayoff] = []
+        let wage = user.getWage()
+        
+
+        let expensesToPay = taxesTempPayoffs + initialPayoffs
+        return payOffExpenses(with: haveEarned, expenses: expensesToPay).reversed()
+    }
 
     var todayShiftPercentCompleted: Double {
         guard let todayShift else { return 0 }

@@ -64,9 +64,12 @@ struct EnterWageView: View {
                     Text(wageToShow)
                         .boldNumber()
                     Spacer()
-                    Button("Edit") {
-                        showHourlySheet = !isSalaried
+                    if !isSalaried {
+                        Button("Edit") {
+                            showHourlySheet = !isSalaried
+                        }
                     }
+                    
                 }
                 .allPartsTappable()
                 .onTapGesture {

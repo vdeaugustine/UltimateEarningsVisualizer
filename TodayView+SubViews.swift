@@ -152,14 +152,16 @@ extension TodayView {
         var body: some View {
             VStack {
                 HStack {
-                    
                     Text(viewModel.selectedSegment.rawValue.capitalized)
                     Spacer()
                     Text(viewModel.totalValueForProgressSection())
                 }
 
-                ProgressBar(percentage: viewModel.todayShiftPercentCompleted,
-                            color: viewModel.settings.themeColor)
+                ZStack {
+                    ProgressBar(percentage: viewModel.todayShiftPercentCompleted,
+                                color: viewModel.settings.themeColor)
+                    
+                }
 
                 HStack {
                     Text(viewModel.todayShiftValueSoFar)
@@ -178,7 +180,6 @@ extension TodayView {
         }
     }
 
-
     // MARK: - Payoff Item Section
 
     // MARK: - Today's Spending Section
@@ -195,12 +196,11 @@ extension TodayView {
                     Spacer()
 
                     NavigationLink("Edit Queue") {
-                        PayoffQueueView() 
+                        PayoffQueueView()
                     }
                 }
 
-                TodayPayoffGrid(shiftDuration: viewModel.todayShift?.totalShiftDuration ?? 0,
-                                haveEarned: viewModel.todayShift?.totalEarnedSoFar(viewModel.nowTime) ?? 0)
+                TodayPayoffGrid(viewModel: viewModel)
             }
             .padding()
             .padding(.vertical)
@@ -208,3 +208,10 @@ extension TodayView {
         }
     }
 }
+
+//struct TodayViewSubviews_Previews: PreviewProvider {
+//    static var previews: some View {
+//        TodayView.ProgressSectionView(viewModel: .init())
+//            .environment(\.managedObjectContext, PersistenceController.context)
+//    }
+//}
