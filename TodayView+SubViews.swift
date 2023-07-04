@@ -160,7 +160,11 @@ extension TodayView {
                 ZStack {
                     ProgressBar(percentage: viewModel.todayShiftPercentCompleted,
                                 color: viewModel.settings.themeColor)
-                    
+                    if viewModel.wage.includeTaxes {
+                        ProgressBar(percentage: min(viewModel.todayShiftPercentCompleted, viewModel.wage.totalTaxMultiplier),
+                                    color: .niceRed,
+                                    showBackgroundBar: false)
+                    }
                 }
 
                 HStack {
@@ -209,9 +213,9 @@ extension TodayView {
     }
 }
 
-//struct TodayViewSubviews_Previews: PreviewProvider {
+// struct TodayViewSubviews_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TodayView.ProgressSectionView(viewModel: .init())
 //            .environment(\.managedObjectContext, PersistenceController.context)
 //    }
-//}
+// }

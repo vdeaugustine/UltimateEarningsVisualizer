@@ -32,11 +32,11 @@ class TodayViewModel: ObservableObject {
     let initialPayoffs = User.main.getQueue().map {
         TempTodayPayoff(payoff: $0)
     }
-    
+
     var haveEarned: Double {
         todayShift?.totalEarnedSoFar(nowTime) ?? 0
     }
-    
+
     var taxesTempPayoffs: [TempTodayPayoff] {
         var expenses: [TempTodayPayoff] = []
         if wage.includeTaxes {
@@ -59,12 +59,14 @@ class TodayViewModel: ObservableObject {
         }
         return expenses
     }
+    
+    var taxesPaidSoFar: Double {
+        taxesTempPayoffs.reduce(Double.zero) { partialResult, taxTempPayoff in
+            partialResult + taxTempPayoff.amountPaidOff
+        }
+    }
 
     var tempPayoffs: [TempTodayPayoff] {
-        var expenses: [TempTodayPayoff] = []
-        let wage = user.getWage()
-        
-
         let expensesToPay = taxesTempPayoffs + initialPayoffs
         return payOffExpenses(with: haveEarned, expenses: expensesToPay).reversed()
     }

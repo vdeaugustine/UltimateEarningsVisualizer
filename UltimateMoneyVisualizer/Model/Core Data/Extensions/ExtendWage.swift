@@ -35,6 +35,10 @@ public extension Wage {
         stateTaxPercentage / 100
     }
     
+    var totalTaxMultiplier: Double {
+        stateTaxMultiplier + federalTaxMultiplier
+    }
+    
     var federalTaxMultiplier: Double {
         federalTaxPercentage / 100
     }
