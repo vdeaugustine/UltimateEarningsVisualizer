@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 public enum PayoffType: String {
-    case goal, expense
+    case goal, expense, tax
     
     init(_ expense: Expense) {
         self = .expense

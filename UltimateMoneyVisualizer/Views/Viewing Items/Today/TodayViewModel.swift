@@ -45,6 +45,7 @@ class TodayViewModel: ObservableObject {
                     .init(amount: willEarn * wage.stateTaxMultiplier,
                           amountPaidOff: 0,
                           title: "State Tax",
+                          type: .tax,
                           id: .init())
                 )
             }
@@ -53,6 +54,7 @@ class TodayViewModel: ObservableObject {
                     .init(amount: willEarn * wage.federalTaxMultiplier,
                           amountPaidOff: 0,
                           title: "Federal Tax",
+                          type: .tax,
                           id: .init())
                 )
             }

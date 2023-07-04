@@ -49,7 +49,8 @@ struct PayoffTodaySquare: View {
     }
 
     var gradient: LinearGradient {
-        title.lowercased() == "taxes" ? Color.niceRed.getGradient() : settings.getDefaultGradient()
+        
+        item.type == .tax ? Color.niceRed.getGradient() : settings.getDefaultGradient()
     }
 
     var mainContent: some View {

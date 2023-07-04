@@ -42,13 +42,13 @@ struct TempTodayPayoff: Identifiable, Equatable {
         self.type = .goal
     }
 
-    init(amount: Double, amountPaidOff: Double, title: String, id: UUID) {
+    init(amount: Double, amountPaidOff: Double, title: String, type: PayoffType, id: UUID) {
         self.amount = amount
         self.amountPaidOff = amountPaidOff
         self.initialAmountPaidOff = amountPaidOff
         self.id = id
         self.title = title
-        self.type = .expense
+        self.type = type
     }
 
     init(payoff: PayoffItem) {

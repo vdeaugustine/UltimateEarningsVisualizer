@@ -172,6 +172,16 @@ extension TodayView {
                     Spacer()
                     Text(viewModel.todayShiftRemainingValue)
                 }
+                
+                HStack {
+                    Circle()
+                        .frame(width: 8)
+                        .foregroundStyle(Color.niceRed)
+                    Text("Taxes")
+                        .font(.caption2)
+                    Spacer()
+                }
+                .offset(y: 20)
             }
             .font(.footnote)
             .padding()
