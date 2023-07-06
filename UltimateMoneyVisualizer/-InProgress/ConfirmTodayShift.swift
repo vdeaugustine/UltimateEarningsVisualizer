@@ -14,10 +14,14 @@ struct ConfirmTodayShift: View {
     @ObservedObject private var user: User = .main
     @State private var temporaryItems: [TempTodayPayoff] = []
     @State private var showConfirmation = false
-    
-    
+
     private var willEarn: Double {
-        user.getWage().perSecond * shiftDuration
+        let wage = user.getWage()
+        if wage.isSalary {
+            return wage.perDay
+        } else {
+            return wage.perSecond * shiftDuration
+        }
     }
 
     let haveEarned: Double
@@ -28,14 +32,9 @@ struct ConfirmTodayShift: View {
         payOffExpenses(with: haveEarned, expenses: initialPayoffs).reversed()
     }
 
-    
-    
     private var filteredTempPayoffs: [TempTodayPayoff] {
         tempPayoffs.filter { $0.progressAmount > 0.01 }
     }
-    
-    
-    
 
     var body: some View {
         List {
@@ -49,14 +48,10 @@ struct ConfirmTodayShift: View {
                                 .foregroundStyle(user.getSettings().getDefaultGradient())
                         }
                 }
-
-                
             }
             .onDelete { indexSet in
                 temporaryItems.remove(atOffsets: indexSet)
             }
-            
-            
         }
         .putInTemplate()
         .navigationTitle("Confirm Today Shift")
@@ -74,26 +69,10 @@ struct ConfirmTodayShift: View {
             }
         }
         .confirmationDialog("Save this shift and all allocations?", isPresented: $showConfirmation, titleVisibility: .visible) {
-            
             Button("Save", role: .destructive) {
-                
-                
-                
-                temporaryItems.forEach { item in
-                        
-                    
-                    
-                    
-                    
-                    
+                temporaryItems.forEach { _ in
                 }
-                
-                
-                
             }
-            
-            
-            
         }
     }
 }

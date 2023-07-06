@@ -9,11 +9,38 @@ import CoreData
 import Foundation
 
 public extension Wage {
-    @discardableResult convenience init(amount: Double, user: User, context: NSManagedObjectContext) throws {
+    @discardableResult convenience init(amount: Double,
+                                        isSalary: Bool,
+                                        user: User,
+                                        includeTaxes: Bool,
+                                        stateTax: Double?,
+                                        federalTax: Double?,
+                                        context: NSManagedObjectContext) throws {
         self.init(context: context)
         self.amount = amount
+        self.isSalary = isSalary
         self.user = user
+        self.includeTaxes = includeTaxes
+        if let stateTax {
+            self.stateTaxPercentage = stateTax
+        }
+        if let federalTax {
+            self.federalTaxPercentage = federalTax
+        }
+        
         try context.save()
+    }
+    
+    var stateTaxMultiplier: Double {
+        stateTaxPercentage / 100
+    }
+    
+    var totalTaxMultiplier: Double {
+        stateTaxMultiplier + federalTaxMultiplier
+    }
+    
+    var federalTaxMultiplier: Double {
+        federalTaxPercentage / 100
     }
 
     var hourly: Double {
@@ -47,6 +74,4 @@ public extension Wage {
     var perYear: Double {
         perWeek * weeksPerYear
     }
-    
-    
 }

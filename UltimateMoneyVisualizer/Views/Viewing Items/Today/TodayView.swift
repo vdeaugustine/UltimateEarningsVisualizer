@@ -11,273 +11,68 @@ import Vin
 // MARK: - TodayView
 
 struct TodayView: View {
-    enum SelectedSegment: String, Identifiable, Hashable {
-        var id: SelectedSegment { self }
-        case money, time
-    }
-
-    @Environment(\.managedObjectContext) private var viewContext
-
-    @State private var showHoursSheet = false
-    @State private var selectedSegment: SelectedSegment = .money
-    @State private var nowTime: Date = .now
-    @State private var showBanner = false
-    @State private var hasShownBanner = false
-    @State private var showDeleteWarning = false
-
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-
-    @State var todayShift: TodayShift? = User.main.todayShift
-
-    @ObservedObject var user = User.main
-    @ObservedObject var settings = User.main.getSettings()
-
-    var isCurrentlyMidShift: Bool {
-        guard let todayShift,
-              let start = todayShift.startTime,
-              let end = todayShift.endTime,
-              nowTime >= start,
-              nowTime <= end
-        else {
-            return false
-        }
-        return true
-    }
+    @StateObject var viewModel = TodayViewModel()
 
     var body: some View {
         VStack {
-            if let todayShift {
+            if viewModel.user.todayShift != nil {
                 ScrollView {
-                    TimeMoneyPicker(showTimeOrMoney: $selectedSegment)
+                    TimeMoneyPicker(viewModel: viewModel)
                         .padding(.vertical)
                     VStack {
-                        StartEndTotalView(showHoursSheet: $showHoursSheet, showingTime: selectedSegment == .time, todayShift: todayShift)
+                        StartEndTotalView(viewModel: viewModel)
                             .padding(.top)
-                        ProgressSectionView(showingTime: selectedSegment == .time,
-                                            todayShift: todayShift,
-                                            nowTime: nowTime,
-                                            settings: settings,
-                                            isCurrentlyMidShift: isCurrentlyMidShift,
-                                            user: user)
+                        ProgressSectionView(viewModel: viewModel)
                     }
                     .padding([.vertical, .top])
                     .background(Color.white)
 
-                    todaysSpending(todayShift: todayShift)
+                    TodaysSpendingView(viewModel: viewModel)
                 }
 
             } else {
                 Spacer()
-                YouHaveNoShiftView(showHoursSheet: $showHoursSheet)
+                YouHaveNoShiftView(showHoursSheet: $viewModel.showHoursSheet)
             }
         }
-        .onAppear(perform: user.updateTempQueue)
+        .onAppear(perform: viewModel.user.updateTempQueue)
         .putInTemplate()
-        .bottomBanner(isVisible: $showBanner, swipeToDismiss: false, buttonText: "Save") {
+        .bottomBanner(isVisible: $viewModel.showBanner,
+                      swipeToDismiss: false,
+                      buttonText: "Save") {
             do {
-                try todayShift?.finalizeAndSave(user: user, context: viewContext)
+                try viewModel.user.todayShift?.finalizeAndSave(user: viewModel.user, context: viewModel.viewContext)
             } catch {
                 print("Error saving")
             }
         }
         .background(Color.targetGray.frame(maxHeight: .infinity).ignoresSafeArea())
         .navigationTitle("Today Live")
-        .sheet(isPresented: $showHoursSheet) {
-            SelectHours(showHoursSheet: $showHoursSheet, todayShift: $todayShift)
+        .sheet(isPresented: $viewModel.showHoursSheet) {
+            SelectHours(viewModel: viewModel)
         }
-        .onReceive(timer) { _ in
-            guard isCurrentlyMidShift else { return }
-
-            addSecond()
+        .onReceive(viewModel.timer) { _ in
+            viewModel.addSecond()
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button("Delete") {
-                    showDeleteWarning.toggle()
+                    viewModel.showDeleteWarning.toggle()
                 }
             }
         }
-        .confirmationDialog("Delete Today Shift", isPresented: $showDeleteWarning, titleVisibility: .visible) {
+        .confirmationDialog("Delete Today Shift", isPresented: $viewModel.showDeleteWarning, titleVisibility: .visible) {
             Button("Confirm", role: .destructive) {
-                todayShift = nil
-                if let userShift = user.todayShift {
-                    viewContext.delete(userShift)
-                }
-                user.todayShift = nil
-            }
-        }
-    } 
-
-    private func addSecond() {
-        nowTime = .now
-        if let todayShift,
-           let endTime = todayShift.endTime,
-           !hasShownBanner {
-            if isCurrentlyMidShift == false {
-                showBanner = true
-            }
-        }
-    }
-}
-
-// MARK: - View functions and computed properties
-
-extension TodayView {
-    // MARK: - timeMoneyPicker
-
-    struct TimeMoneyPicker: View {
-        @Binding var showTimeOrMoney: TodayView.SelectedSegment
-
-        var body: some View {
-            Picker("Time/Money", selection: $showTimeOrMoney) {
-                Text("Money")
-                    .tag(TodayView.SelectedSegment.money)
-                Text("Time")
-                    .tag(TodayView.SelectedSegment.time)
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding(.horizontal)
-        }
-    }
-
-    // MARK: - Start End Total
-
-    struct StartEndTotalView: View {
-        @Binding var showHoursSheet: Bool
-        let showingTime: Bool
-        let todayShift: TodayShift
-
-        var body: some View {
-            VStack {
-                Text("Hours for \(Date.now.getFormattedDate(format: .abreviatedMonth))")
-                    .font(.headline)
-                    .spacedOut {
-                        Button {
-                            showHoursSheet.toggle()
-                        } label: {
-                            Text("Edit")
-                                .font(.subheadline)
-                        }
-                    }
-                    .padding(.horizontal)
-
-                if let start = todayShift.startTime,
-                   let end = todayShift.endTime {
-                    HorizontalDataDisplay(data: [.init(label: "Start",
-                                                       value: start.getFormattedDate(format: .minimalTime, amPMCapitalized: false),
-                                                       view: nil),
-                                                 .init(label: "End",
-                                                       value: end.getFormattedDate(format: .minimalTime, amPMCapitalized: false),
-                                                       view: nil),
-                                                 showingTime ?
-                                                     .init(label: "Total",
-                                                           value: todayShift.totalShiftDuration.formatForTime(),
-                                                           view: nil) :
-                                                     .init(label: "Will Earn",
-                                                           value: todayShift.totalWillEarn.formattedForMoney(),
-                                                           view: nil)])
-                }
-            }
-        }
-    }
-
-    // MARK: - Individual Views
-
-    struct ProgressSectionView: View {
-        let showingTime: Bool
-        let todayShift: TodayShift
-        let nowTime: Date
-        let settings: Settings // Assuming you have a `Settings` model
-
-        var isCurrentlyMidShift: Bool
-
-        var user: User
-
-        var body: some View {
-            VStack {
-                HStack {
-                    Text(showingTime ? "Time" : "Money")
-                    Spacer()
-                    Text(showingTime ? todayShift.totalShiftDuration.formatForTime() : todayShift.totalWillEarn.formattedForMoney())
-                }
-
-                ProgressBar(percentage: todayShift.percentTimeCompleted(nowTime), color: settings.themeColor)
-
-                HStack {
-                    Text(showingTime ? todayShift.elapsedTime(nowTime).formatForTime([.hour, .minute, .second]) : todayShift.totalEarnedSoFar(nowTime).formattedForMoney())
-                    Spacer()
-                    Text(showingTime ? todayShift.remainingTime(nowTime).formatForTime([.hour, .minute, .second]) : todayShift.remainingToEarn(nowTime).formattedForMoney())
-                }
-            }
-            .font(.footnote)
-            .padding()
-            .padding(.top)
-            .overlay {
-                if isCurrentlyMidShift {
-                    AnimatePlusAmount(str: "+" + (user.getWage().secondly * 2).formattedForMoneyExtended())
-                }
-            }
-        }
-    }
-
-    // MARK: - Payoff Item Section
-
-    // MARK: - Today's Spending Section
-
-    func todaysSpending(todayShift: TodayShift) -> some View {
-        VStack {
-            HStack {
-                Text("Today's Spending")
-                    .font(.title3)
-                    .fontWeight(.bold)
-                Spacer()
-
-                NavigationLink("Edit Queue") {
-                    PayoffQueueView()
-                }
-            }
-
-            TodayPayoffGrid(shiftDuration: todayShift.totalShiftDuration,
-                            haveEarned: todayShift.totalEarnedSoFar(nowTime))
-        }
-
-        .padding()
-        .padding(.vertical)
-        .background(Color.white)
-    }
-}
-
-// MARK: - AnimatePlusAmount
-
-struct AnimatePlusAmount: View {
-    let str: String
-    @State private var animate: Bool = true
-    @ObservedObject private var settings = User.main.getSettings()
-    var body: some View {
-        VStack {
-            Text(str)
-                .font(.footnote)
-                .foregroundColor(settings.themeColor)
-                .offset(y: animate ? -15 : -5)
-                .opacity(animate ? 1 : 0)
-                .scaleEffect(animate ? 1.3 : 0.7)
-        }
-        .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { _ in
-
-            if self.animate == true {
-                self.animate = false
-            } else {
-                withAnimation(Animation.easeOut(duration: 1)) {
-                    if self.animate == false {
-                        self.animate = true
-                    }
-                }
+                viewModel.deleteShift()
             }
         }
     }
 }
 
 // MARK: - YouHaveNoShiftView
+
+// Views like TimeMoneyPicker, SelectHours, ProgressSectionView,
+// TodaysSpendingView, StartEndTotalView, YouHaveNoShiftView will remain same as I have mentioned in previous responses.
 
 struct YouHaveNoShiftView: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -327,73 +122,11 @@ struct YouHaveNoShiftView: View {
     }
 }
 
-// MARK: - SelectHours
-
-struct SelectHours: View {
-    @Environment(\.managedObjectContext) private var viewContext
-    @State private var start: Date = .nineAM
-    @State private var end: Date = .fivePM
-    @Binding var showHoursSheet: Bool
-    @Binding var todayShift: TodayShift?
-
-    @ObservedObject var settings = User.main.getSettings()
-    @ObservedObject var user = User.main
-
-    var body: some View {
-        Form {
-            DatePicker("Start Time", selection: $start, displayedComponents: .hourAndMinute)
-            DatePicker("End Time", selection: $end, displayedComponents: .hourAndMinute)
-        }
-        .safeAreaInset(edge: .bottom) {
-            Button {
-                do {
-                    let ts = try TodayShift(startTime: start, endTime: end, user: user, context: viewContext)
-
-                    todayShift = ts
-
-                    showHoursSheet = false
-
-                } catch {
-                    print(error)
-                }
-
-            } label: {
-                ZStack {
-                    Capsule()
-                        .fill(settings.getDefaultGradient())
-                    Text("Save")
-                        .fontWeight(.medium)
-                        .foregroundColor(.white)
-                }
-                .frame(width: 135, height: 50)
-            }
-        }
-        .navigationTitle("Set hours")
-        .background(Color.clear)
-        .putInTemplate()
-        .putInNavView(.inline)
-        .presentationDetents([.medium, .fraction(0.9_999_999_999_999_999)])
-        .presentationDragIndicator(.visible)
-        .tint(.white)
-        .accentColor(.white)
-    }
-}
-
 // MARK: - TodayView_Previews
 
 struct TodayView_Previews: PreviewProvider {
-    static let ts: TodayShift = {
-        let ts = TodayShift(context: PersistenceController.context)
-        ts.startTime = .nineAM
-        ts.endTime = .now.addHours(5)
-        ts.user = User.main
-        ts.expiration = Date.endOfDay()
-        ts.dateCreated = .now
-        return ts
-    }()
-
     static var previews: some View {
-        TodayView(todayShift: ts)
+        TodayView(viewModel: TodayViewModel())
             .putInTemplate()
             .putInNavView(.inline)
             .environment(\.managedObjectContext, PersistenceController.context)

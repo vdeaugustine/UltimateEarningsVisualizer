@@ -1,6 +1,7 @@
 
 import CoreData
 import Foundation
+import SwiftUI
 import Vin
 
 // MARK: - Initializer
@@ -11,6 +12,8 @@ public extension Expense {
                                         amount: Double,
                                         dueDate: Date?,
                                         dateCreated: Date? = nil,
+                                        isRecurring: Bool = false,
+                                        recurringDate: Date? = nil,
                                         tagStrings: [String]? = nil,
                                         user: User,
                                         context: NSManagedObjectContext = PersistenceController.context) throws {
@@ -19,6 +22,8 @@ public extension Expense {
         self.info = info
         self.amount = amount
         self.dueDate = dueDate
+        self.isRecurring = isRecurring
+        self.recurringDate = recurringDate
         self.user = user
         self.dateCreated = dateCreated ?? .now
 
@@ -39,6 +44,20 @@ public extension Expense {
         }
 
         self.id = UUID()
+    }
+    
+    
+    
+}
+
+// MARK: - Recurring Expenses
+
+extension Expense {
+    var recurringDayNumber: Int? {
+        guard let recurringDate
+        else { return nil }
+        let dayNumber = Calendar.current.component(.day, from: recurringDate)
+        return min(dayNumber, 30)
     }
 }
 
@@ -178,6 +197,27 @@ public extension Expense {
         guard let dueDate else { return 0 }
         return dueDate - .now
     }
+
+    func loadImageIfPresent() -> UIImage? {
+        if let imageData {
+            return UIImage(data: imageData)
+        }
+        return nil
+    }
+
+    func saveImage(image: UIImage) throws {
+        if let imageData = image.jpegData(compressionQuality: 1.0) {
+            self.imageData = imageData
+
+            guard let context = user?.managedObjectContext else {
+                throw NSError(domain: "No context found", code: 99)
+            }
+            try context.save()
+
+        } else {
+            throw NSError(domain: "Error converting image to data", code: 99)
+        }
+    }
 }
 
 // MARK: - Examples for Testing
@@ -248,16 +288,76 @@ public extension Expense {
     }
 
     static func makeExampleExpenses(user: User, context: NSManagedObjectContext) throws {
-        _ = try Expense(title: "Groceries", info: "Weekly grocery shopping", amount: 150.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), tagStrings: Tag.getSomeTitles(), user: user, context: context)
-        _ = try Expense(title: "Netflix", info: "Monthly subscription", amount: 14.99, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), tagStrings: Tag.getSomeTitles(), user: user, context: context)
-        _ = try Expense(title: "Gym Membership", info: "Monthly gym membership", amount: 50.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), tagStrings: Tag.getSomeTitles(), user: user, context: context)
-        _ = try Expense(title: "Car Insurance", info: "Six-month premium", amount: 600.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), tagStrings: Tag.getSomeTitles(), user: user, context: context)
-        _ = try Expense(title: "Phone Bill", info: "Monthly phone bill", amount: 80.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), tagStrings: Tag.getSomeTitles(), user: user, context: context)
-        _ = try Expense(title: "Birthday Gift", info: "Gift for friend's birthday", amount: 50.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), tagStrings: Tag.getSomeTitles(), user: user, context: context)
-        _ = try Expense(title: "Airfare", info: "Roundtrip flight for vacation", amount: 500.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), tagStrings: Tag.getSomeTitles(), user: user, context: context)
-        _ = try Expense(title: "Concert Tickets", info: "Tickets for upcoming concert", amount: 200.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), tagStrings: Tag.getSomeTitles(), user: user, context: context)
-        _ = try Expense(title: "Dinner Date", info: "Dinner at fancy restaurant", amount: 100.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), tagStrings: Tag.getSomeTitles(), user: user, context: context)
-        _ = try Expense(title: "Home Decor", info: "New furniture for living room", amount: 1_000.0, dueDate: Date().addDays(Double.random(in: -5 ..< 5)), tagStrings: Tag.getSomeTitles(), user: user, context: context)
+        try Expense(title: "Groceries",
+                    info: "Weekly grocery shopping",
+                    amount: 150.0,
+                    dueDate: Date().addDays(Double.random(in: -5 ..< 5)),
+                    tagStrings: Tag.getSomeTitles(),
+                    user: user,
+                    context: context)
+        try Expense(title: "Netflix",
+                    info: "Monthly subscription",
+                    amount: 14.99,
+                    dueDate: Date().addDays(Double.random(in: -5 ..< 5)),
+                    tagStrings: Tag.getSomeTitles(),
+                    user: user,
+                    context: context)
+        try Expense(title: "Gym Membership",
+                    info: "Monthly gym membership",
+                    amount: 50.0,
+                    dueDate: Date().addDays(Double.random(in: -5 ..< 5)),
+                    tagStrings: Tag.getSomeTitles(),
+                    user: user,
+                    context: context)
+        try Expense(title: "Car Insurance",
+                    info: "Six-month premium",
+                    amount: 600.0,
+                    dueDate: Date().addDays(Double.random(in: -5 ..< 5)),
+                    tagStrings: Tag.getSomeTitles(),
+                    user: user,
+                    context: context)
+        try Expense(title: "Phone Bill",
+                    info: "Monthly phone bill",
+                    amount: 80.0,
+                    dueDate: Date().addDays(Double.random(in: -5 ..< 5)),
+                    tagStrings: Tag.getSomeTitles(),
+                    user: user,
+                    context: context)
+        try Expense(title: "Birthday Gift",
+                    info: "Gift for friend's birthday",
+                    amount: 50.0,
+                    dueDate: Date().addDays(Double.random(in: -5 ..< 5)),
+                    tagStrings: Tag.getSomeTitles(),
+                    user: user,
+                    context: context)
+        try Expense(title: "Airfare",
+                    info: "Roundtrip flight for vacation",
+                    amount: 500.0,
+                    dueDate: Date().addDays(Double.random(in: -5 ..< 5)),
+                    tagStrings: Tag.getSomeTitles(),
+                    user: user,
+                    context: context)
+        try Expense(title: "Concert Tickets",
+                    info: "Tickets for upcoming concert",
+                    amount: 200.0,
+                    dueDate: Date().addDays(Double.random(in: -5 ..< 5)),
+                    tagStrings: Tag.getSomeTitles(),
+                    user: user,
+                    context: context)
+        try Expense(title: "Dinner Date",
+                    info: "Dinner at fancy restaurant",
+                    amount: 100.0,
+                    dueDate: Date().addDays(Double.random(in: -5 ..< 5)),
+                    tagStrings: Tag.getSomeTitles(),
+                    user: user,
+                    context: context)
+        try Expense(title: "Home Decor",
+                    info: "New furniture for living room",
+                    amount: 1_000.0,
+                    dueDate: Date().addDays(Double.random(in: -5 ..< 5)),
+                    tagStrings: Tag.getSomeTitles(),
+                    user: user,
+                    context: context)
         try context.save()
     }
 }

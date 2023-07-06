@@ -32,7 +32,7 @@ public struct PersistenceController {
 
     #if !DEBUG
         static let shared = PersistenceController()
-        public static let inMemory: Bool = true
+        public static let inMemory: Bool = false
     #else
         public static let inMemory: Bool = false
         static var shared: PersistenceController = {

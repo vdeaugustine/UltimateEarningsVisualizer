@@ -14,6 +14,7 @@ struct ProgressBar: View {
     let cornerRadius: CGFloat = 25
     var height: CGFloat = 8
     var color: Color = .accentColor
+    var showBackgroundBar = true
 
     private var isComplete: Bool {
         percentage >= 1
@@ -29,13 +30,14 @@ struct ProgressBar: View {
     private func barPart(width: CGFloat) -> some View {
         let entireBarWidth = width
         return ZStack(alignment: .leading) {
-            RoundedRectangle(cornerRadius: cornerRadius)
-                .foregroundColor(.gray)
-                .frame(width: entireBarWidth)
+            if showBackgroundBar {
+                RoundedRectangle(cornerRadius: cornerRadius)
+                    .foregroundColor(.gray)
+                    .frame(width: entireBarWidth)
+            }
             RoundedRectangle(cornerRadius: cornerRadius)
                 .foregroundStyle(isComplete ? Color.okGreen.getGradient() : color.getGradient())
-//                .foregroundColor(isComplete ? .green : color)
-                .frame(width: percentageToUse * entireBarWidth)
+                .frame(width: max(0, percentageToUse * entireBarWidth))
         }
         .frame(height: height)
     }

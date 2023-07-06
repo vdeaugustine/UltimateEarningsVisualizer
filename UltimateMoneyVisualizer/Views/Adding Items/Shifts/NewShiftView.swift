@@ -8,20 +8,6 @@
 import SwiftUI
 import Vin
 
-extension Array where Element: Equatable {
-    mutating func insertOrRemove(element: Element, atIndex index: Int? = nil) {
-        if let existingIndex = firstIndex(of: element) {
-            remove(at: existingIndex)
-        } else {
-            if let index = index {
-                insert(element, at: index)
-            } else {
-                append(element)
-            }
-        }
-    }
-}
-
 // MARK: - NewShiftView
 
 struct NewShiftView: View {
@@ -131,17 +117,16 @@ struct NewShiftView: View {
             }
         }
         .onAppear(perform: {
-            print("Called")
-            selectedDateComponents = dates(from: rangeStartDay, to: rangeEndDay, matching: daysOfTheWeek)
+            selectedDateComponents = dates(from: rangeStartDay,
+                                           to: rangeEndDay,
+                                           matching: daysOfTheWeek)
         })
         .navigationTitle("New Shifts")
         .putInTemplate()
         .bottomButton(label: "Save") {
-//            let dates = selectedDateComponents.compactMap { dateComponents in
-//                return Calendar.current.date(from:dateComponents)
-//            }
             let selectedStartComponent = Calendar.current.dateComponents([.hour, .minute], from: startTime)
-            let selectedEndComponent = Calendar.current.dateComponents([.hour, .minute], from: endTime)
+            let selectedEndComponent = Calendar.current.dateComponents([.hour, .minute],
+                                                                       from: endTime)
 
             for components in selectedDateComponents {
                 var startComponent = components
@@ -155,7 +140,11 @@ struct NewShiftView: View {
                 if let thisStartDate = Calendar.current.date(from: startComponent),
                    let thisEndDate = Calendar.current.date(from: endComponent) {
                     do {
-                        try Shift(day: .init(date: thisStartDate), start: thisStartDate, end: thisEndDate, user: user, context: viewContext)
+                        try Shift(day: .init(date: thisStartDate),
+                                  start: thisStartDate,
+                                  end: thisEndDate,
+                                  user: user,
+                                  context: viewContext)
                     } catch {
                         fatalError("Error making shift")
                     }
@@ -163,11 +152,12 @@ struct NewShiftView: View {
                     fatalError("Couldn't make dates for shift")
                 }
             }
-
         }
     }
 
-    func dates(from startDate: Date, to endDate: Date, matching daysOfWeek: [DayOfWeek]) -> Set<DateComponents> {
+    func dates(from startDate: Date,
+               to endDate: Date,
+               matching daysOfWeek: [DayOfWeek]) -> Set<DateComponents> {
         var dates = Set<DateComponents>()
         var date = startDate
 
@@ -181,34 +171,34 @@ struct NewShiftView: View {
 
         return dates
     }
-}
 
-// MARK: - ShiftGrid
+    // MARK: - ShiftGrid
 
-struct ShiftGrid: View {
-    init(dateComponents: Set<DateComponents>) {
-        self.dateComponents = dateComponents
-    }
-
-    let dateComponents: Set<DateComponents>
-    var sortedDates: [DateComponents] {
-        dateComponents.sorted { dateC1, dateC2 in
-            guard let date1 = Calendar.current.date(from: dateC1),
-                  let date2 = Calendar.current.date(from: dateC2) else {
-                return false
-            }
-            return date1 < date2
+    struct ShiftGrid: View {
+        init(dateComponents: Set<DateComponents>) {
+            self.dateComponents = dateComponents
         }
-    }
 
-    var body: some View {
-        LazyVGrid(columns: [GridItem(), GridItem(), GridItem(), GridItem(), GridItem()], spacing: 16) {
-            ForEach(sortedDates, id: \.self) { dateComponent in
-                ShiftCircle(dateComponent: dateComponent)
+        let dateComponents: Set<DateComponents>
+        var sortedDates: [DateComponents] {
+            dateComponents.sorted { dateC1, dateC2 in
+                guard let date1 = Calendar.current.date(from: dateC1),
+                      let date2 = Calendar.current.date(from: dateC2) else {
+                    return false
+                }
+                return date1 < date2
             }
+        }
 
-            Section {
-                HStack {
+        var body: some View {
+            LazyVGrid(columns: Array(repeating: GridItem(), count: 5), spacing: 16) {
+                ForEach(sortedDates, id: \.self) { dateComponent in
+                    ShiftCircle(dateComponent: dateComponent)
+                }
+
+                Section {
+                    HStack {
+                    }
                 }
             }
         }

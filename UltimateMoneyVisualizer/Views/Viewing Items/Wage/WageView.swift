@@ -13,12 +13,10 @@ import SwiftUI
 
 struct WageView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Wage.amount, ascending: false)]) private var wages: FetchedResults<Wage>
-
-    @FetchRequest(sortDescriptors: []) var users: FetchedResults<User>
 
     @State var wage: Wage
 
+    @ObservedObject private var user = User.main
     @State private var hourlyWage: String = ""
     @State private var isSalaried: Bool = false
     @State private var salary: String = ""
@@ -52,10 +50,27 @@ struct WageView: View {
         }
     }
 
+    private var wageToShow: Double {
+        if wage.isSalary {
+            return wage.perYear
+        } else {
+            return wage.hourly
+        }
+    }
+
     var body: some View {
         List {
             Section(header: Text("Current Wage")) {
-                Text("\(wages.first?.amount ?? 0.0, specifier: "%.2f") per hour")
+                HStack {
+                    SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
+                    Text(wageToShow.formattedForMoney(trimZeroCents: false)
+                        .replacingOccurrences(of: "$", with: ""))
+                        .boldNumber()
+                    Spacer()
+                    Text(wage.isSalary ? "SALARY" : "HOURLY")
+                        .font(.caption)
+                        .fontWeight(.medium)
+                }
             }
 
             Section {
@@ -94,27 +109,26 @@ struct WageView: View {
                     }
                     .font(.subheadline)
                 }
+            } header: {
+                Text("Breakdown")
+
+            } footer: {
+                Text("These values are based on your wage settings and can be edited by tapping the **Edit** button.")
             }
         }
 
-//            }
-//        }
         .putInTemplate()
-        .navigationTitle("View Wage")
+        .navigationTitle("My Wage")
 
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink("Edit") {
                     EnterWageView()
                 }
+                .tint(Color.white)
             }
         }
 
-//        .navigationBarItems(trailing: Button(action: {
-//            isEditing.toggle()
-//        }) {
-//            Text(isEditing ? "Cancel" : "Edit")
-//        })
         .toast(isPresenting: $showErrorToast, duration: 2, tapToDismiss: true) {
             AlertToast(displayMode: .alert, type: .error(.blue), title: errorMessage)
         } onTap: {

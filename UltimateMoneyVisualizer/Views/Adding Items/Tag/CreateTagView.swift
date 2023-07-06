@@ -14,7 +14,8 @@ struct CreateTagView: View {
     var expense: Expense?
     var saved: Saved?
     
-   
+    @EnvironmentObject private var navManager: NavManager
+    
     @State private var tagTitle = ""
     @State private var symbolStr = Tag.defaultSymbolStr
     @Environment(\.managedObjectContext) private var viewContext
@@ -142,5 +143,6 @@ struct CreateTagView_Previews: PreviewProvider {
         CreateTagView()
         .environment(\.managedObjectContext, PersistenceController.context)
         .putInNavView(.inline)
+        .environmentObject(NavManager())
     }
 }

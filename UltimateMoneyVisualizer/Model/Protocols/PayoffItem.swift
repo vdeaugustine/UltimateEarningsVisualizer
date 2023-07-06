@@ -6,9 +6,10 @@
 //
 
 import Foundation
+import SwiftUI
 
 public enum PayoffType: String {
-    case goal, expense
+    case goal, expense, tax
     
     init(_ expense: Expense) {
         self = .expense
@@ -44,6 +45,7 @@ public protocol PayoffItem {
     var percentTemporarilyPaidOff: Double { get }
     var titleStr: String { get }
     var type: PayoffType { get }
+    var dueDate: Date? { get set }
     
     
     // MARK: - Protocol Methods:
@@ -56,6 +58,7 @@ public protocol PayoffItem {
     func handleWhenTempPaidOff() throws
     func setOptionalQSlotNumber(newVal: Int16?)
     func setOptionalTempQNum(newVal: Int16?)
+    func loadImageIfPresent() -> UIImage?
     
 }
 

@@ -11,6 +11,7 @@ import Vin
 // MARK: - HomeView
 
 struct HomeView: View {
+    @EnvironmentObject private var navManager: NavManager
     @ObservedObject private var settings = User.main.getSettings()
     @ObservedObject private var user = User.main
 
@@ -18,7 +19,6 @@ struct HomeView: View {
 
     var body: some View {
         VStack {
-
             ZStack {
                 ScrollView {
                     // MARK: - Lifetime Money
@@ -29,17 +29,22 @@ struct HomeView: View {
                                 Text("Lifetime")
                                     .font(.headline)
                                 Spacer()
-                                NavigationLink {
-                                    StatsView()
-                                } label: {
+
+                                NavigationLink(value: "stats") {
                                     Text("Stats")
                                         .font(.subheadline)
                                         .padding(.trailing)
                                 }
+//                                NavigationLink {
+//                                    StatsView()
+//                                } label: {
+//                                    Text("Stats")
+//                                        .font(.subheadline)
+//                                        .padding(.trailing)
+//                                }
                             }
                         } content: {
                             HStack {
-                                
                                 NavigationLink(destination: ShiftListView()) {
                                     VStack {
                                         Text("Earnings")
@@ -51,10 +56,9 @@ struct HomeView: View {
                                             .minimumScaleFactor(0.01)
                                     }.padding(.horizontal)
                                 }.buttonStyle(PlainButtonStyle())
-                                
-                                
+
                                 Divider()
-                                
+
                                 NavigationLink(destination: ShiftListView()) {
                                     VStack {
                                         Text("Time Worked")
@@ -66,9 +70,9 @@ struct HomeView: View {
                                             .minimumScaleFactor(0.01)
                                     }.padding(.horizontal)
                                 }.buttonStyle(PlainButtonStyle())
-                                
+
                                 Divider()
-                                
+
                                 NavigationLink(destination: SavedListView()) {
                                     VStack {
                                         Text("Time Saved")
@@ -80,10 +84,8 @@ struct HomeView: View {
                                             .minimumScaleFactor(0.01)
                                     }.padding(.horizontal)
                                 }.buttonStyle(PlainButtonStyle())
-                                
                             }
                             .padding(.vertical)
-
                         }
                         .padding(.top)
 
@@ -130,33 +132,10 @@ struct HomeView: View {
                                         NavigationLink {
                                             ExpenseDetailView(expense: expense)
                                         } label: {
+                                            PayoffWithImageAndGradientView(item: expense)
 
-                                            VStack(spacing: 15) {
-                                                HStack {
-                                                    Text(expense.titleStr)
-                                                        .font(.headline)
-                                                        .pushLeft()
-
-                                                    if expense.dueDate != nil {
-                                                        Text("due in " + expense.timeRemaining.formatForTime([.year, .hour, .minute, .second]))
-                                                            .font(.subheadline)
-                                                    }
-                                                }
-
-                                                VStack(alignment: .leading, spacing: 5) {
-                                                    ProgressBar(percentage: expense.percentPaidOff, color: settings.themeColor)
-                                                    Text(expense.amountPaidOff.formattedForMoney())
-                                                        .font(.subheadline)
-                                                        .spacedOut {
-                                                            Text(expense.amountRemainingToPayOff.formattedForMoney())
-                                                                .font(.subheadline)
-                                                        }
-                                                }
-                                            }
-
-                                            .padding()
-                                            .allPartsTappable()
-                                            .rectContainer()
+                                                .allPartsTappable()
+                                                .rectContainer()
                                         }
                                         .buttonStyle(.plain)
                                     }
@@ -165,73 +144,9 @@ struct HomeView: View {
                                         NavigationLink {
                                             GoalDetailView(goal: goal)
                                         } label: {
-                                            HStack {
-                                                VStack(alignment: .leading, spacing: 0) {
-                                                    Text(goal.titleStr)
-                                                        .font(.headline)
-                                                        .foregroundStyle(settings.getDefaultGradient())
-                                                        .pushLeft()
-
-                                                    HStack(alignment: .bottom, spacing: 5) {
-                                                        Text(goal.amountMoneyStr)
-                                                        Spacer()
-                                                        Text("GOAL")
-                                                            .font(.system(size: 10, weight: .bold, design: .rounded))
-                                                            .foregroundColor(.gray)
-                                                    }
-                                                    .padding(.top, 4)
-
-                                                    VStack {
-                                                        VStack(spacing: 1) {
-                                                            Text("Paid off")
-                                                                .font(.caption2)
-                                                                .spacedOut {
-                                                                    Text(goal.amountPaidOff.formattedForMoney())
-                                                                        .font(.caption2)
-                                                                }
-                                                            ProgressBar(percentage: goal.percentPaidOff, color: settings.themeColor)
-                                                        }
-
-                                                        VStack(spacing: 1) {
-                                                            Text("Remaining")
-                                                                .font(.caption2)
-                                                                .spacedOut {
-                                                                    Text(goal.timeRemaining.formatForTime([.year, .day, .hour, .minute]))
-                                                                        .font(.caption2)
-                                                                }
-                                                        }
-                                                    }
-                                                    .padding(.top)
-                                                    .pushTop(alignment: .leading)
-                                                }
-                                                .frame(maxWidth: .infinity)
-                                                .padding()
-
-                                                HStack {
-                                                    VStack {
-                                                        if let image = goal.loadImageIfPresent() {
-                                                            Image(uiImage: image)
-                                                                .resizable()
-
-                                                                .aspectRatio(contentMode: .fit)
-                                                                .frame(height: 75)
-                                                                .frame(width: 125)
-
-                                                                .cornerRadius(8)
-                                                            
-                                                            if let dueDate = goal.dueDate {
-                                                                Text(dueDate.getFormattedDate(format: .abreviatedMonth))
-                                                                    .font(.caption).foregroundColor(Color.hexStringToColor(hex: "8E8E93"))
-                                                            }
-                                                        }
-
-                                                        
-                                                    }
-    //                                                .padding()
-                                                }
-                                            }
-                                            .allPartsTappable()
-                                            .rectContainer()
+                                            PayoffWithImageAndGradientView(item: goal)
+                                                .allPartsTappable()
+                                                .rectContainer()
                                         }
                                         .buttonStyle(.plain)
                                     }
@@ -250,7 +165,9 @@ struct HomeView: View {
             }
         }
         .background(Color.targetGray)
-
+        .navigationDestination(for: String.self, destination: { _ in
+            StatsView()
+        })
         .putInTemplate()
         .navigationTitle(Date.now.getFormattedDate(format: .abreviatedMonth))
         .safeAreaInset(edge: .bottom) {
@@ -328,6 +245,7 @@ struct HomeView_Previews: PreviewProvider {
         Group {
             HomeView()
                 .putInNavView(.inline)
+                .environmentObject(NavManager())
         }
     }
 }

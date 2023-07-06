@@ -18,15 +18,12 @@ struct GoalListView: View {
             ForEach(goals) { goal in
                 NavigationLink(destination: GoalDetailView(goal: goal)) {
                     
-//                    if let image = goal.loadImageIfPresent() {
-//                        GradientOverlayView(image: Image(uiImage: image))
-//                    }
-//                    else {
-                        GoalRow(goal: goal)
-//                    }
+
+                    PayoffWithImageAndGradientView(item: goal, maxHeight: 100)
                     
                 }
             }
+            .listRowBackground(Color.listBackgroundColor)
         }
         .putInTemplate()
         .navigationTitle("Goals")

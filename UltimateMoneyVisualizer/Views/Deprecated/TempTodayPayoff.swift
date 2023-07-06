@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: - TempTodayPayoff
+
 struct TempTodayPayoff: Identifiable, Equatable {
     var amount: Double
     let initialAmountPaidOff: Double
@@ -40,15 +42,15 @@ struct TempTodayPayoff: Identifiable, Equatable {
         self.type = .goal
     }
 
-    init(amount: Double, amountPaidOff: Double, title: String, id: UUID) {
+    init(amount: Double, amountPaidOff: Double, title: String, type: PayoffType, id: UUID) {
         self.amount = amount
         self.amountPaidOff = amountPaidOff
         self.initialAmountPaidOff = amountPaidOff
         self.id = id
         self.title = title
-        self.type = .expense
+        self.type = type
     }
-    
+
     init(payoff: PayoffItem) {
         self.amount = payoff.amount
         self.amountPaidOff = payoff.amountPaidOff
@@ -71,7 +73,6 @@ func payOffExpenses(with amount: Double, expenses: [TempTodayPayoff]) -> [TempTo
         newExp.append(thisExp)
 
         if remainingAmount <= 0 {
-            
             let countDifference = expenses.count - newExp.count
             if countDifference != 0 {
                 newExp += expenses.suffixArray(countDifference)
@@ -79,8 +80,6 @@ func payOffExpenses(with amount: Double, expenses: [TempTodayPayoff]) -> [TempTo
             break
         }
     }
-    
-    
 
     return newExp
 }

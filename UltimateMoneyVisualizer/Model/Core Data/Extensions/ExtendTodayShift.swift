@@ -11,59 +11,26 @@ import Foundation
 import Vin
 
 public extension TodayShift {
-    @discardableResult convenience init(startTime: Date, endTime: Date, user: User, context: NSManagedObjectContext = PersistenceController.context) throws {
+    @discardableResult convenience init(startTime: Date,
+                                        endTime: Date,
+                                        user: User,
+                                        context: NSManagedObjectContext = PersistenceController.context) throws {
         self.init(context: context)
-
         self.user = user
-        self.payoffItemQueue = makeInitialPayoffItemQueueStr()
         self.expiration = .endOfDay(startTime)
         self.dateCreated = .now
         self.startTime = startTime
         self.endTime = endTime
-
-        user.updateTempQueue()
+        user.todayShift = self
 
         try context.save()
     }
 
     static func makeExampleTodayShift(user: User, context: NSManagedObjectContext) throws {
-        let todayShift = try TodayShift(startTime: .nineAM, endTime: .fivePM, user: user, context: context)
-
-        // Get the list of expenses that still have remaining amounts to be paid off.
-        var expensesNotFinished: [Expense] {
-            user.getExpenses().filter { $0.amountRemainingToPayOff > 0 }
-        }
-
-        // Get the list of goals that still have remaining amounts to be paid off.
-        var goalsNotFinished: [Goal] {
-            user.getGoals().filter { $0.amountRemainingToPayOff > 0 }
-        }
-
-        var amountRemaining = todayShift.totalEarnedSoFar(.now)
-
-        while amountRemaining > 0 {
-            let combined: [Any] = goalsNotFinished + expensesNotFinished
-
-            guard let chosen = combined.randomElement() else {
-                return
-            }
-
-            if let expense = chosen as? Expense {
-                let amount = Double.random(in: 0 ... min(amountRemaining, expense.amountRemainingToPayOff))
-                let temp = try TemporaryAllocation(initialAmount: amount, expense: expense, goal: nil, context: context)
-                try todayShift.addTemporaryAllocation(temp, context: context)
-                amountRemaining -= amount
-            }
-
-            if let goal = chosen as? Goal {
-                let amount = Double.random(in: 0 ... min(amountRemaining, goal.amountRemainingToPayOff))
-                let temp = try TemporaryAllocation(initialAmount: amount, expense: nil, goal: goal, context: context)
-                try todayShift.addTemporaryAllocation(temp, context: context)
-                amountRemaining -= amount
-            }
-        }
-
-        try context.save()
+        try TodayShift(startTime: .nineAM,
+                       endTime: .fivePM,
+                       user: user,
+                       context: context)
     }
 }
 
@@ -88,7 +55,7 @@ public extension TodayShift {
         let unfinishedExpenses = User.main.getExpenses().filter { $0.amountRemainingToPayOff > 0 }
         let unfinishedGoals = User.main.getGoals().filter { $0.amountRemainingToPayOff > 0 }
         let both: [PayoffItem] = (unfinishedGoals + unfinishedExpenses)
-        let sorted = both.sorted { ($0.dateCreated ?? .distantFuture) < ($1.dateCreated ?? .distantFuture) }
+        let sorted = both.filter { $0.dateCreated != nil }.sorted { $0.dateCreated! < $1.dateCreated! }
 
         return sorted.map { $0.getID().uuidString }.joinString(",")
     }
@@ -144,7 +111,7 @@ public extension TodayShift {
                     throw NSError(domain: "Could not get goal \(payoff.title)", code: 7)
                 }
 
-                let newAllocation = try Allocation(amount: payoff.progressAmount, expense: nil, goal: goal, shift: shift, saved: nil, date: .now, context: context)
+                try Allocation(amount: payoff.progressAmount, expense: nil, goal: goal, shift: shift, saved: nil, date: .now, context: context)
             }
 
             if payoff.type == .expense {
@@ -153,7 +120,7 @@ public extension TodayShift {
                     throw NSError(domain: "Could not get expense \(payoff.title)", code: 7)
                 }
 
-                let newAllocation = try Allocation(amount: payoff.progressAmount, expense: expense, goal: nil, shift: shift, saved: nil, date: .now, context: context)
+                try Allocation(amount: payoff.progressAmount, expense: expense, goal: nil, shift: shift, saved: nil, date: .now, context: context)
             }
         }
     }
@@ -178,9 +145,13 @@ public extension TodayShift {
         return endTime - startTime
     }
 
-    /// Based on total duration x wage.secondly
     var totalWillEarn: Double {
-        totalShiftDuration * (user?.wage?.secondly ?? 0)
+        guard let wage = User.main.wage else { return 0 }
+        if wage.isSalary {
+            return wage.perDay
+        } else {
+            return wage.perSecond * totalShiftDuration
+        }
     }
 
     /// Date.now - startTime. Measured in seconds
@@ -195,7 +166,11 @@ public extension TodayShift {
             return 0
         }
 
-        return wage.secondly * elapsedTime(nowTime)
+        if wage.isSalary {
+            return percentTimeCompleted(nowTime) * wage.perDay
+        } else {
+            return wage.secondly * elapsedTime(nowTime)
+        }
     }
 
     /// Amount of money that has already been allocated
@@ -215,8 +190,8 @@ public extension TodayShift {
     }
 
     func remainingToEarn(_ nowTime: Date) -> Double {
-        let amount = remainingTime(nowTime) * (user?.wage?.secondly ?? 0)
-        return amount >= 0 ? amount : 0
+        let amount = totalWillEarn - totalEarnedSoFar(nowTime)
+        return max(amount, 0)
     }
 
     func percentTimeCompleted(_ nowTime: Date) -> Double {

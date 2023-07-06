@@ -18,7 +18,7 @@ struct EditSavedItemView: View {
     @State private var date: Date
     @State private var amountStr: String
     @State private var amountDub: Double
-    
+
     @State private var showDoubleEditSheet = false
 
     init(saved: Binding<Saved>) {
@@ -68,10 +68,8 @@ struct EditSavedItemView: View {
                 } label: {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
-                        Text(amountDub.formattedForMoney().replacingOccurrences(of: "$", with: ""))
-                            .font(.system(size: 24))
-                            .fontWeight(.bold)
-                            .foregroundStyle(user.getSettings().getDefaultGradient())
+                        Text(amountDub.formattedForMoney(trimZeroCents: false).replacingOccurrences(of: "$", with: ""))
+                            .boldNumber()
                     }
                 }
             }
@@ -81,7 +79,7 @@ struct EditSavedItemView: View {
             footer: {
                 Text("Tap to edit")
             }
-            
+
             Section {
                 DatePicker("Date", selection: $date, displayedComponents: .date)
             }
@@ -96,16 +94,6 @@ struct EditSavedItemView: View {
         .putInTemplate()
         .navigationTitle("Edit Item")
         .bottomButton(label: "Save") {
-//            guard let dub = Double(amountStr) else {
-//                alertConfig = .init(displayMode: .alert, type: .error(settings.themeColor), title: "Please enter a valid number for the amount.")
-//                amountStr = ""
-//                showAlert = true
-//                return
-//            }
-            
-            
-            
-            
             savedItem.title = title
             savedItem.amount = amountDub
             savedItem.info = info.isEmpty ? nil : info

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SystemImageWithFilledBackground: View {
     let systemName: String
-    let backgroundColor: Color?
+    var backgroundColor: Color? = User.main.getSettings().themeColor
     var rotationDegrees: CGFloat = 0
     var width: CGFloat = 28
     var height: CGFloat = 28

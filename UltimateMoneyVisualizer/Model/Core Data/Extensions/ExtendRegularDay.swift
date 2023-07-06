@@ -9,11 +9,13 @@ import CoreData
 import Foundation
 import Vin
 
- 
-
 public extension RegularDay {
     /// Not set up to save when created. Not sure if we care if it does that yet
-    convenience init(dayOfWeek: DayOfWeek, startTime: Date, endTime: Date, user: User, context: NSManagedObjectContext? = nil) {
+    convenience init(dayOfWeek: DayOfWeek,
+                     startTime: Date,
+                     endTime: Date,
+                     user: User,
+                     context: NSManagedObjectContext? = nil) {
         let dayString = dayOfWeek.rawValue
         let startString = startTime.getFormattedDate(format: .militaryTime)
         let endString = endTime.getFormattedDate(format: .militaryTime)
@@ -28,18 +30,17 @@ public extension RegularDay {
 
 // MARK: - RegularDay + Identifiable
 
-
 public extension RegularDay {
     func getDayOfWeek() -> DayOfWeek? {
         guard let dayName else { return nil }
         return DayOfWeek(fromString: dayName)
     }
-    
+
     func getStartTime() -> Date? {
-        Date.stringToDate(self.startTime ?? "")
+        Date.stringToDate(startTime ?? "")
     }
-    
+
     func getEndTime() -> Date? {
-        Date.stringToDate(self.endTime ?? "")
+        Date.stringToDate(endTime ?? "")
     }
 }

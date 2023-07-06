@@ -10,7 +10,13 @@ import Foundation
 import Vin
 
 public extension Saved {
-    @discardableResult convenience init(amount: Double, title: String, info: String? = nil, date: Date, tagStrings: [String]? = nil, user: User, context: NSManagedObjectContext) throws {
+    @discardableResult convenience init(amount: Double,
+                                        title: String,
+                                        info: String? = nil,
+                                        date: Date,
+                                        tagStrings: [String]? = nil,
+                                        user: User,
+                                        context: NSManagedObjectContext) throws {
         self.init(context: context)
         self.amount = amount
         self.title = title
@@ -144,7 +150,7 @@ public extension Saved {
                   tagStrings: Tag.getSomeTitles(),
                   user: user,
                   context: context)
-        
+
         try Saved(amount: 5.0,
                   title: "Lunch at Home",
                   info: "Didn't go out for lunch today, ate at home instead.",

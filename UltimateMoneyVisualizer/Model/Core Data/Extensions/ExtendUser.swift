@@ -11,15 +11,17 @@ import SwiftUI
 import Vin
 
 public extension User {
-    @discardableResult convenience init(exampleItem: Bool = true, viewContext: NSManagedObjectContext = PersistenceController.testing) throws {
+    @discardableResult convenience init(exampleItem: Bool = true,
+                                        viewContext: NSManagedObjectContext = PersistenceController.testing) throws {
         self.init(context: viewContext)
         self.username = "Testing User"
         self.email = "TestUser@ExampleForTest.com"
 
         let wage = Wage(context: viewContext)
-        wage.amount = 53
+        wage.amount = 35
         wage.user = self
         self.wage = wage
+//        let four01K = try PercentShiftExpense(title: "401K", percent: 0.06, user: self, context: viewContext)
 
         if exampleItem {
             do {
@@ -36,7 +38,7 @@ public extension User {
                 try Saved.makeExampleSavedItems(user: self, context: viewContext)
 
                 // Make today shift
-//                try TodayShift.makeExampleTodayShift(user: self, context: viewContext)
+                try TodayShift.makeExampleTodayShift(user: self, context: viewContext)
 
                 RegularSchedule([.monday, .tuesday, .wednesday, .thursday, .friday], user: self, context: viewContext)
 
@@ -58,32 +60,63 @@ public extension User {
     }
 
     static var main: User {
-        let viewContext = PersistenceController.context
+        let userContext = PersistenceController.context
 
         let request: NSFetchRequest<User> = User.fetchRequest()
         request.fetchLimit = 1
 
         do {
-            let results = try viewContext.fetch(request)
+            let results = try userContext.fetch(request)
             if results.count > 1 {
                 fatalError("MORE THAN ONE USER")
             }
+
+            // Get the user from the results
             if let user = results.first {
-                if user.todayShift != nil {
-                    return user
+                try user.createRecurredExpenses()
+
+                // If the user has a TodayShift
+                if let existingTodayShift = user.todayShift,
+                   let endOfToday = existingTodayShift.endTime {
+                    // If the shift is from a previous day (so it is expired)
+                    if endOfToday < Date.beginningOfDay() {
+                        // We want to set todayShift to nil and not return that user
+                        user.todayShift = nil
+                    } else {
+                        // Nothing else needs to be done so the user can be returned
+                        return user
+                    }
                 }
 
-                if let shiftThatIsToday = user.getTodayShift() {
-                    let todayShift = TodayShift(context: viewContext)
-                    todayShift.startTime = shiftThatIsToday.startDate
-                    todayShift.endTime = shiftThatIsToday.endDate
-                    todayShift.user = user
-                    user.todayShift = todayShift
+                // There is no valid todayShift *but* has a shift today
+                if let shiftThatIsToday = user.getShiftOnToday(),
+                   let shiftStart = shiftThatIsToday.startDate,
+                   let shiftEnd = shiftThatIsToday.endDate {
+                    // Create a todayShift
+                    do {
+                        try TodayShift(startTime: shiftStart,
+                                       endTime: shiftEnd,
+                                       user: user,
+                                       context: userContext)
+                    } catch {
+                        fatalError(String(describing: error))
+                    }
+                }
+
+                // There is no shift already created but it is a Regular Day
+                if let schedule = user.regularSchedule,
+                   let regularDay = schedule.getRegularDays().first(where: { $0.getDayOfWeek() == DayOfWeek(date: .now) }),
+                   let start = regularDay.getStartTime(),
+                   let end = regularDay.getEndTime() {
+                    try TodayShift(startTime: start,
+                                   endTime: end,
+                                   user: user,
+                                   context: userContext)
                 }
 
                 return user
             } else {
-                return try User(exampleItem: true, viewContext: viewContext)
+                return try User(exampleItem: true, viewContext: userContext)
             }
         } catch {
             fatalError("Error retrieving or creating main user: \(error)")
@@ -105,33 +138,21 @@ public extension User {
         let goals = getGoalsSpentBetween(startDate: startDate, endDate: endDate)
 
         return (earned + amountSaved) - (expenses + goals)
-
-//        let earned = getTotalEarnedBetween(startDate: startDate, endDate: endDate)
-//        let saved = getSavedBetween(startDate: startDate, endDate: endDate)
-//        let amountSaved = getAmountSavedBetween(startDate: startDate, endDate: endDate)
-//
-//        let shifts = getShiftsBetween(startDate: startDate, endDate: endDate)
-//        let shiftAllocsArrays = shifts.map { $0.getAllocations() }
-//        let shiftAllocs = shiftAllocsArrays.flatMap { $0 }
-//
-//        let savedAllocArrays = saved.map { $0.getAllocations() }
-//        let savedAllocs = savedAllocArrays.flatMap { $0 }
-//
-//        let allAllocs = savedAllocs + shiftAllocs
-//        let spentOnAllocs = allAllocs.reduce(Double.zero, {$0 + $1.amount})
-//
-//        let totalPositive = earned + amountSaved
-//        return totalPositive - spentOnAllocs
     }
 
     func totalEarned() -> Double {
         guard let wage else { return 0 }
-        let totalDuration = totalTimeWorked()
-        let hourlyRate = wage.amount
-        let secondlyRate = hourlyRate / 60 / 60
-        return totalDuration * secondlyRate
+
+        if wage.isSalary {
+            return getShifts().reduce(Double.zero) { partialResult, shift in
+                partialResult + shift.totalEarned
+            }
+        } else {
+            return totalTimeWorked() * wage.perSecond
+        }
     }
 
+    /// Gives a list of shifts falling in between the two given dates that have already been saved.
     func getShiftsBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [Shift] {
         let filteredShifts = getShifts().filter { shift in
             (shift.start >= startDate && shift.start <= endDate) || // Shift starts within the range
@@ -180,14 +201,32 @@ public extension User {
         getAmountSavedBetween(startDate: startDate, endDate: endDate) / getWage().perSecond
     }
 
+    /// The amount of money spent by expenses in between the two given dates.
+    /// Parameters default to include all dates
     func getExpensesSpentBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> Double {
         let expenses = getExpensesBetween(startDate: startDate, endDate: endDate)
         return expenses.reduce(Double.zero) { $0 + $1.amount }
     }
 
+    /// The amount of money spent by goals in between the two given dates.
+    /// Parameters default to include all dates
     func getGoalsSpentBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> Double {
         let goals = getGoalsBetween(startDate: startDate, endDate: endDate)
         return goals.reduce(Double.zero) { $0 + $1.amount }
+    }
+
+    func getTimeBlocksBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [TimeBlock] {
+        let shifts = getShiftsBetween(startDate: startDate, endDate: endDate)
+
+        return shifts.flatMap { $0.getTimeBlocks() }
+    }
+
+    func getPercentShiftExpenses() -> [PercentShiftExpense] {
+        guard let percentExpenses = percentShiftExpenses?.allObjects as? [PercentShiftExpense] else {
+            return []
+        }
+
+        return percentExpenses
     }
 
     /// Returns the amount of seconds the given amount of money translates to
@@ -220,29 +259,44 @@ public extension User {
         return array.sorted(by: { $0.start > $1.start })
     }
 
-    func getTodayShift() -> Shift? {
+    /// Retrieves the shift happening today from a collection of shifts.
+    /// - Returns: The shift object that matches the current day, or nil if no shift is found or an error occurs.
+    func getShiftOnToday() -> Shift? {
+        // Get the current date and time
         let now = Date()
+
+        // Create a Calendar instance
         let calendar = Calendar.current
+
+        // Extract the year, month, and day components from the current date
         let todayComponents = calendar.dateComponents([.year, .month, .day], from: now)
 
-        guard let shifts = shifts, let allShifts = Array(shifts) as? [Shift] else { return nil }
+        // Check if shifts variable is not nil and can be converted to an array of Shift objects
+        guard let shifts = shifts, let allShifts = Array(shifts) as? [Shift] else {
+            return nil // Return nil if shifts is nil or cannot be converted to an array of Shift objects
+        }
 
+        // Iterate through each shift
         for shift in allShifts {
-            guard let start = shift.startDate,
-                  let end = shift.endDate else { continue }
+            // Check if the shift has both startDate and endDate
+            guard let start = shift.startDate, let end = shift.endDate else {
+                continue // Skip to the next iteration if startDate or endDate is nil
+            }
 
+            // Extract the year, month, and day components from the start and end dates
             let startComponents = calendar.dateComponents([.year, .month, .day], from: start)
             let endComponents = calendar.dateComponents([.year, .month, .day], from: end)
 
+            // Check if the startComponents or endComponents match the todayComponents
             if startComponents == todayComponents || endComponents == todayComponents {
-                return shift
+                return shift // Return the shift if it matches the current day
             }
         }
 
-        return nil
+        return nil // Return nil if no shift matches the current day
     }
 
-    var hasShiftToday: Bool { getTodayShift() != nil }
+    var hasShiftToday: Bool { getShiftOnToday() != nil }
 
     func getQueue() -> [PayoffItem] {
         var anyArr: [PayoffItem] = []
@@ -310,14 +364,24 @@ public extension User {
     }
 
     func getWage() -> Wage {
-        wage ?? (try! Wage(amount: 20, user: self, context: managedObjectContext ?? PersistenceController.context))
+        wage ?? (try! Wage(amount: 20,
+                           isSalary: false,
+                           user: self,
+                           includeTaxes: false,
+                           stateTax: nil,
+                           federalTax: nil,
+                           context: managedObjectContext ?? PersistenceController.context)
+//            try! Wage(amount: 20,
+//                      user: self,
+//                      includeTaxes: true,
+//                      taxRate: 0.2,
+//                      context: managedObjectContext ?? PersistenceController.context)
+        )
     }
 
     /// Measured in seconds
     func totalTimeSaved() -> Double {
-        let savedAmount = totalDollarsSaved()
-        let secondlyWage = getWage().secondly
-        return savedAmount / secondlyWage
+        totalDollarsSaved() / getWage().perSecond
     }
 
     func getValidTodayShift() -> TodayShift? {
@@ -469,7 +533,7 @@ public extension User {
 
         return filtered
     }
-    
+
     func getSavedItemsWith(tag: Tag) -> [Saved] {
         let filtered = getSaved().filter { saved in
             saved.getTags().contains(where: { savedTag in
@@ -481,25 +545,58 @@ public extension User {
 
         return filtered
     }
-    
+
     func getInstancesOf(savedItem: Saved) -> [Saved] {
         let filtered = getSaved().filter { saved in
             saved.getTitle() == savedItem.getTitle()
         }
         return filtered
     }
-    
+
     func getInstancesOf(expense: Expense) -> [Expense] {
         let filtered = getExpenses().filter { thisExpense in
             thisExpense.titleStr == expense.titleStr
         }
         return filtered
     }
-    
+
     func getInstancesOf(goal: Goal) -> [Goal] {
         let filtered = getGoals().filter { thisGoal in
             thisGoal.titleStr == goal.titleStr
         }
         return filtered
+    }
+
+    func getRecurringExpenses() -> [Expense] {
+        getExpenses().filter { $0.isRecurring }
+    }
+
+    // MARK: - Recurring Expenses
+
+    func expensesThatNeedRecurring() -> [Expense] {
+        getExpenses().filter { expense in
+            guard expense.isRecurring,
+                  let recurringDayNumber = expense.recurringDayNumber
+            else { return false }
+            let todayDayNumber = min(Calendar.current.component(.day, from: Date()), 30)
+            return todayDayNumber == recurringDayNumber
+        }
+    }
+
+    func createRecurredExpenses() throws {
+        let expenses = expensesThatNeedRecurring()
+
+        for expense in expenses {
+            try Expense(title: expense.titleStr,
+                        info: expense.info,
+                        amount: expense.amount,
+                        dueDate: expense.dueDate,
+                        dateCreated: Date(),
+                        isRecurring: true,
+                        recurringDate: expense.recurringDate,
+                        tagStrings: expense.getTags().map { $0.getTitle() },
+                        user: self,
+                        context: getContext())
+        }
     }
 }

@@ -7,9 +7,11 @@
 
 import SwiftUI
 
+// MARK: - AllItemsView
+
 struct AllItemsView: View {
-    
-    @ObservedObject var user = User.main
+    @ObservedObject private var user = User.main
+    @ObservedObject private var settings = User.main.getSettings()
     @State private var selectionType: SelectionType = .shifts
 
     var body: some View {
@@ -22,35 +24,57 @@ struct AllItemsView: View {
             .pickerStyle(.segmented)
             .padding([.horizontal, .top])
             
+
             switch selectionType {
-            case .goals:
-                GoalListView()
-            case .saved:
-                SavedListView()
-            case .shifts:
-                ShiftListView()
-            case .expenses:
-                ExpenseListView()
+                case .goals:
+                    GoalsGridView()
+                case .saved:
+                    SavedListView()
+                case .shifts:
+                    ShiftListView()
+                case .expenses:
+                    ExpenseListView()
             }
-            
-           
         }
         .background(Color.listBackgroundColor)
-        
+        .tint(settings.themeColor)
+        .putInTemplate()
+        .gesture(
+            DragGesture()
+                .onEnded { value in
+                    if value.translation.width < 0 {
+                        // Swiped to the left
+                        changeSelectionType(forward: true)
+                    } else if value.translation.width > 0 {
+                        // Swiped to the right
+                        changeSelectionType(forward: false)
+                    }
+                }
+        )
     }
-    
-    
-    var shiftsView: some View {
-        List {
-            ForEach(user.getShifts()) { shift in
-                Text(shift.start.getFormattedDate(format: .abreviatedMonth))
+
+    private func changeSelectionType(forward: Bool) {
+        guard let currentIndex = SelectionType.allCases.firstIndex(of: selectionType) else {
+            return
+        }
+
+        var newIndex: Int
+        if forward {
+            newIndex = currentIndex + 1
+            if newIndex >= SelectionType.allCases.count {
+                newIndex = 0
+            }
+        } else {
+            newIndex = currentIndex - 1
+            if newIndex < 0 {
+                newIndex = SelectionType.allCases.count - 1
             }
         }
+
+        selectionType = SelectionType.allCases[newIndex]
     }
-    
-    
-    
 }
+
 
 extension AllItemsView {
     enum SelectionType: String, CaseIterable {
@@ -67,4 +91,3 @@ struct AllItemsView_Previews: PreviewProvider {
             .putInNavView(.inline)
     }
 }
-

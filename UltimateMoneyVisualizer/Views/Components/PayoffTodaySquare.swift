@@ -48,11 +48,17 @@ struct PayoffTodaySquare: View {
         user.getExpenses().first(where: { $0.getID() == item.id })
     }
 
+    var gradient: LinearGradient {
+        
+        item.type == .tax ? Color.niceRed.getGradient() : settings.getDefaultGradient()
+    }
+
     var mainContent: some View {
         VStack {
             HStack {
                 ProgressCircle(percent: percent,
                                widthHeight: 75,
+                               gradient: gradient,
                                lineWidth: 5) {
                     VStack(spacing: 2) {
                         Text(havedPaidOff.formattedForMoney())
@@ -60,7 +66,8 @@ struct PayoffTodaySquare: View {
                             .minimumScaleFactor(0.85)
                             .font(.subheadline)
                             .fontWeight(.bold)
-                            .foregroundStyle(settings.getDefaultGradient())
+                            .foregroundStyle(gradient)
+
                         Text(progressToShow.formattedForMoney(includeCents: true).replacingOccurrences(of: "$", with: "+"))
                             .font(.caption2)
                             .minimumScaleFactor(0.5)
@@ -81,15 +88,13 @@ struct PayoffTodaySquare: View {
                             .lineLimit(1)
                             .font(.subheadline)
                             .fontWeight(.bold)
-                            .foregroundStyle(settings.getDefaultGradient())
+                            .foregroundStyle(gradient)
                     }
 
                     Text(payoffType.rawValue.uppercased())
                         .font(.system(size: 12, weight: .bold, design: .rounded))
                         .foregroundColor(.gray)
                 }
-                //                .padding([.horizontal])
-                //                .pushLeft()
             }
         }
     }
