@@ -88,31 +88,31 @@ public extension User {
                     }
                 }
 
-                // There is no valid todayShift *but* has a shift today
-                if let shiftThatIsToday = user.getShiftOnToday(),
-                   let shiftStart = shiftThatIsToday.startDate,
-                   let shiftEnd = shiftThatIsToday.endDate {
-                    // Create a todayShift
-                    do {
-                        try TodayShift(startTime: shiftStart,
-                                       endTime: shiftEnd,
-                                       user: user,
-                                       context: userContext)
-                    } catch {
-                        fatalError(String(describing: error))
-                    }
-                }
-
-                // There is no shift already created but it is a Regular Day
-                if let schedule = user.regularSchedule,
-                   let regularDay = schedule.getRegularDays().first(where: { $0.getDayOfWeek() == DayOfWeek(date: .now) }),
-                   let start = regularDay.getStartTime(),
-                   let end = regularDay.getEndTime() {
-                    try TodayShift(startTime: start,
-                                   endTime: end,
-                                   user: user,
-                                   context: userContext)
-                }
+//                // There is no valid todayShift *but* has a shift today
+//                if let shiftThatIsToday = user.getShiftOnToday(),
+//                   let shiftStart = shiftThatIsToday.startDate,
+//                   let shiftEnd = shiftThatIsToday.endDate {
+//                    // Create a todayShift
+//                    do {
+//                        try TodayShift(startTime: shiftStart,
+//                                       endTime: shiftEnd,
+//                                       user: user,
+//                                       context: userContext)
+//                    } catch {
+//                        fatalError(String(describing: error))
+//                    }
+//                }
+//
+//                // There is no shift already created but it is a Regular Day
+//                if let schedule = user.regularSchedule,
+//                   let regularDay = schedule.getRegularDays().first(where: { $0.getDayOfWeek() == DayOfWeek(date: .now) }),
+//                   let start = regularDay.getStartTime(),
+//                   let end = regularDay.getEndTime() {
+//                    try TodayShift(startTime: start,
+//                                   endTime: end,
+//                                   user: user,
+//                                   context: userContext)
+//                }
 
                 return user
             } else {

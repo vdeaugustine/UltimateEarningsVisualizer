@@ -136,7 +136,12 @@ class TodayViewModel: ObservableObject {
         if let userShift = user.todayShift {
             viewContext.delete(userShift)
         }
-        user.todayShift = nil
+        showBanner = false 
+        do {
+            try user.getContext().save()
+        } catch {
+            fatalError(String(describing: error))
+        }
     }
 
     func saveShift() {
