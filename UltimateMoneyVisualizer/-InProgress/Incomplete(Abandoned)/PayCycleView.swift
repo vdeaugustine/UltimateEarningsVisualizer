@@ -12,17 +12,18 @@ import Vin
 // MARK: - PayCycleView
 
 struct PayCycleView: View {
-    @ObservedObject private var user = User.main
-    @Environment(\.managedObjectContext) private var viewContext
-    @State private var selectedCycle: PayCycle = .biWeekly
-    @State private var dayOfWeek: DayOfWeek = .friday
-    @State private var toastConfig = AlertToast.errorWith(message: "")
-    @State private var showToast = false
-    
+    @StateObject private var viewModel: PayCycleViewModel = .init()
+
     var body: some View {
         Form {
             Section {
-                Picker("Duration", selection: $selectedCycle) {
+                DatePicker("Next pay day",
+                           selection: $viewModel.nextPayDay,
+                           displayedComponents: .date)
+            }
+
+            Section {
+                Picker("Pay period length", selection: $viewModel.selectedCycle) {
                     ForEach(PayCycle.allCases) { cycle in
                         Text(cycle.rawValue.capitalized)
                             .tag(cycle)
@@ -30,31 +31,27 @@ struct PayCycleView: View {
                 }
             }
             
-            Section {
-                Picker("Day of Week", selection: $dayOfWeek) {
-                    ForEach(DayOfWeek.allCases) { day in
-                        Text(day.rawValue.capitalized)
-                            .tag(day)
-                    }
+            Section("Upcoming pay days") {
+                ForEach(viewModel.next3PayDays(), id: \.self ) { day in
+                    Text(day.getFormattedDate(format: "EEEE M/d/yy"))
+
                 }
             }
         }
         .putInTemplate()
         .navigationTitle("Pay Cycle")
-        .bottomButton(label: "Save") {
+        .bottomButton(label: "Confirm") {
             do {
-                try PayPeriod(day: dayOfWeek, cycle: selectedCycle, user: user, context: viewContext)
-                toastConfig = .successWith(message: "Successfully saved pay cycle")
-                showToast.toggle()
+                try PayPeriod(day: viewModel.dayOfWeek, cycle: viewModel.selectedCycle, user: viewModel.user, context: viewModel.viewContext)
+                viewModel.toastConfig = .successWith(message: "Successfully saved pay cycle")
+                viewModel.showToast.toggle()
+            } catch {
+                viewModel.toastConfig = .errorWith(message: "Error saving pay cycle")
+                viewModel.showToast.toggle()
             }
-            catch {
-                toastConfig = .errorWith(message: "Error saving pay cycle")
-                showToast.toggle()
-            }
-            
         }
-        .toast(isPresenting: $showToast) {
-            toastConfig
+        .toast(isPresenting: $viewModel.showToast) {
+            viewModel.toastConfig
         }
     }
 }

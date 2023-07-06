@@ -12,16 +12,31 @@ public enum PayCycle: String, CaseIterable, Hashable, Identifiable {
     case daily
     case weekly
     case biWeekly = "Bi-Weekly"
-    case semiMonthly = "Semi-Monthly"
+//    case semiMonthly = "Semi-Monthly"
     case monthly
-    case quarterly
-    case semiAnnually = "Semi-Annually"
-    case annually
-    case biAnnually = "Bi-Annually"
-    case custom
+//    case quarterly
+//    case semiAnnually = "Semi-Annually"
+//    case annually
+//    case biAnnually = "Bi-Annually"
+//    case custom
 
     /// For identifiable
     public var id: PayCycle { self }
+
+    func nextPayDay(from date: Date? = .now) -> Date? {
+        guard let date else { return nil }
+        let calendar = Calendar.current
+        switch self {
+            case .daily:
+                return date.addDays(1)
+            case .weekly:
+                return date.addDays(7)
+            case .biWeekly:
+                return date.addDays(14)
+            case .monthly:
+                return date.addDays(28)
+        }
+    }
 
 //    /// So the core data can convert its string property to and from a PayCycle
 //    init?(raw: String) {
@@ -38,7 +53,7 @@ public enum PayCycle: String, CaseIterable, Hashable, Identifiable {
 //            default: return nil
 //        }
 //    }
-    
+
     /// Number of days in between paychecks
 //    var daysBetweenChecks: Double {
 //        switch self {
@@ -64,7 +79,4 @@ public enum PayCycle: String, CaseIterable, Hashable, Identifiable {
 //            <#code#>
 //        }
 //    }
-    
-    
-    
 }
