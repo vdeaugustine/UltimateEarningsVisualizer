@@ -19,27 +19,26 @@ public class RegularDaysContainer: ObservableObject {
         guard let days = User.main.regularSchedule?.getDays() else {
             return [:]
         }
-        
+
         return days.reduce(into: [DayOfWeek: Date]()) { partialResult, day in
             partialResult[day] = .nineAM
         }
-        
+
     }()
+
     @Published var endTimeDict: [DayOfWeek: Date] = {
         guard let days = User.main.regularSchedule?.getDays() else {
             return [:]
         }
-        
+
         return days.reduce(into: [DayOfWeek: Date]()) { partialResult, day in
             partialResult[day] = .fivePM
         }
-        
+
     }()
-    
-    
+
     @Published var lastStart: Date = .nineAM
     @Published var lastEnd: Date = .fivePM
-    
 
     static var shared: RegularDaysContainer = .init()
 
@@ -52,7 +51,6 @@ public class RegularDaysContainer: ObservableObject {
     }
 
     func handleDayOfWeek(_ day: DayOfWeek) {
-        
         var set = Set(daysOfWeekSelected)
         if set.contains(day) {
             set.remove(day)
@@ -86,7 +84,11 @@ public class RegularDaysContainer: ObservableObject {
     func finalizeAndSave(user: User, context: NSManagedObjectContext) throws {
         let regularDays: [RegularDay] = daysOfWeekSelected.map { dayOfWeek in
 
-            let regularDay = RegularDay(dayOfWeek: dayOfWeek, startTime: startTimeDict[dayOfWeek] ?? .nineAM, endTime: endTimeDict[dayOfWeek] ?? .fivePM, user: user, context: context)
+            let regularDay = RegularDay(dayOfWeek: dayOfWeek,
+                                        startTime: startTimeDict[dayOfWeek] ?? .nineAM,
+                                        endTime: endTimeDict[dayOfWeek] ?? .fivePM,
+                                        user: user,
+                                        context: context)
 
             return regularDay
         }

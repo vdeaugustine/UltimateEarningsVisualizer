@@ -55,7 +55,7 @@ extension TodayView {
             .safeAreaInset(edge: .bottom) {
                 Button {
                     do {
-                        let ts = try TodayShift(startTime: viewModel.start,
+                        try TodayShift(startTime: viewModel.start,
                                                 endTime: viewModel.end,
                                                 user: viewModel.user,
                                                 context: viewModel.viewContext)

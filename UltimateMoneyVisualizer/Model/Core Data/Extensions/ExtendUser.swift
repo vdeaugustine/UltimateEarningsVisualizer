@@ -38,7 +38,7 @@ public extension User {
                 try Saved.makeExampleSavedItems(user: self, context: viewContext)
 
                 // Make today shift
-//                try TodayShift.makeExampleTodayShift(user: self, context: viewContext)
+                try TodayShift.makeExampleTodayShift(user: self, context: viewContext)
 
                 RegularSchedule([.monday, .tuesday, .wednesday, .thursday, .friday], user: self, context: viewContext)
 
@@ -60,13 +60,13 @@ public extension User {
     }
 
     static var main: User {
-        let viewContext = PersistenceController.context
+        let userContext = PersistenceController.context
 
         let request: NSFetchRequest<User> = User.fetchRequest()
         request.fetchLimit = 1
 
         do {
-            let results = try viewContext.fetch(request)
+            let results = try userContext.fetch(request)
             if results.count > 1 {
                 fatalError("MORE THAN ONE USER")
             }
@@ -88,20 +88,35 @@ public extension User {
                     }
                 }
 
-                
                 // There is no valid todayShift *but* has a shift today
-                if let shiftThatIsToday = user.getTodayShift() {
+                if let shiftThatIsToday = user.getShiftOnToday(),
+                   let shiftStart = shiftThatIsToday.startDate,
+                   let shiftEnd = shiftThatIsToday.endDate {
                     // Create a todayShift
-                    let todayShift = TodayShift(context: viewContext)
-                    todayShift.startTime = shiftThatIsToday.startDate
-                    todayShift.endTime = shiftThatIsToday.endDate
-                    todayShift.user = user
-                    user.todayShift = todayShift
+                    do {
+                        try TodayShift(startTime: shiftStart,
+                                       endTime: shiftEnd,
+                                       user: user,
+                                       context: userContext)
+                    } catch {
+                        fatalError(String(describing: error))
+                    }
+                }
+
+                // There is no shift already created but it is a Regular Day
+                if let schedule = user.regularSchedule,
+                   let regularDay = schedule.getRegularDays().first(where: { $0.getDayOfWeek() == DayOfWeek(date: .now) }),
+                   let start = regularDay.getStartTime(),
+                   let end = regularDay.getEndTime() {
+                    try TodayShift(startTime: start,
+                                   endTime: end,
+                                   user: user,
+                                   context: userContext)
                 }
 
                 return user
             } else {
-                return try User(exampleItem: true, viewContext: viewContext)
+                return try User(exampleItem: true, viewContext: userContext)
             }
         } catch {
             fatalError("Error retrieving or creating main user: \(error)")
@@ -246,7 +261,7 @@ public extension User {
 
     /// Retrieves the shift happening today from a collection of shifts.
     /// - Returns: The shift object that matches the current day, or nil if no shift is found or an error occurs.
-    func getTodayShift() -> Shift? {
+    func getShiftOnToday() -> Shift? {
         // Get the current date and time
         let now = Date()
 
@@ -281,7 +296,7 @@ public extension User {
         return nil // Return nil if no shift matches the current day
     }
 
-    var hasShiftToday: Bool { getTodayShift() != nil }
+    var hasShiftToday: Bool { getShiftOnToday() != nil }
 
     func getQueue() -> [PayoffItem] {
         var anyArr: [PayoffItem] = []

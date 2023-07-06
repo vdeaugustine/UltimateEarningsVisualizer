@@ -125,16 +125,6 @@ struct YouHaveNoShiftView: View {
 // MARK: - TodayView_Previews
 
 struct TodayView_Previews: PreviewProvider {
-    static let ts: TodayShift = {
-        let ts = TodayShift(context: PersistenceController.context)
-        ts.startTime = .nineAM
-        ts.endTime = .now.addHours(5)
-        ts.user = User.main
-        ts.expiration = Date.endOfDay()
-        ts.dateCreated = .now
-        return ts
-    }()
-
     static var previews: some View {
         TodayView(viewModel: TodayViewModel())
             .putInTemplate()

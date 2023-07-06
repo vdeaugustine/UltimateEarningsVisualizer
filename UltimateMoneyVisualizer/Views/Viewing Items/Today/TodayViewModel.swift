@@ -11,8 +11,8 @@ import SwiftUI
 import Vin
 
 class TodayViewModel: ObservableObject {
-    @Published var start: Date = .nineAM
-    @Published var end: Date = .fivePM
+    @Published var start: Date = User.main.regularSchedule?.getStartTime(for: .now) ?? .nineAM
+    @Published var end: Date = User.main.regularSchedule?.getEndTime(for: .now) ?? .fivePM
     @Published var hasShownBanner = false
     @Published var nowTime: Date = .now
     @Published var selectedSegment: SelectedSegment = .money

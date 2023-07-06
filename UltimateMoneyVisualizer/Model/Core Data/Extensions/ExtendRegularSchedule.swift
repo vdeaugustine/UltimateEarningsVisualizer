@@ -18,7 +18,6 @@ public extension RegularSchedule {
         self.init(context: usingContext)
 
         days.forEach { day in
-
             self.addToDays(day)
         }
 
@@ -53,6 +52,7 @@ public extension RegularSchedule {
 }
 
 public extension RegularSchedule {
+    /// Days of the week that our Regular Days are on
     func getDays() -> [DayOfWeek] {
         guard let daysArr = Array(days ?? []) as? [RegularDay]
         else {
@@ -72,5 +72,34 @@ public extension RegularSchedule {
             let day2Val = day2.getDayOfWeek() ?? .sunday
             return day1Val < day2Val
         }
+    }
+
+    /// Checks regular schedule to see if today is one of the days of thew week in which the user has work
+    func todayIsWorkday() -> Bool {
+        getDays().contains(DayOfWeek(date: .now))
+    }
+
+    func getStartTime(for date: Date) -> Date? {
+        guard let today = getRegularDays().first(where: { $0.getDayOfWeek() == DayOfWeek(date: date) })
+        else { return nil }
+        return today.getStartTime()
+    }
+
+    func getEndTime(for date: Date) -> Date? {
+        guard let today = getRegularDays().first(where: { $0.getDayOfWeek() == DayOfWeek(date: date) })
+        else { return nil }
+        return today.getEndTime()
+    }
+
+    /// Checks if the current time is in the middle of a regular day work shift
+    func isMidShiftRightNow() -> Bool {
+        guard let regularDay = getRegularDays().first(where: { $0.getDayOfWeek() == DayOfWeek(date: .now) }),
+              let start = regularDay.getStartTime(),
+              let end = regularDay.getEndTime()
+        else { return false }
+
+        let nowIsAfterStart = Date.now >= start
+        let nowIsBeforeEnd = Date.now <= end
+        return nowIsAfterStart && nowIsBeforeEnd
     }
 }
