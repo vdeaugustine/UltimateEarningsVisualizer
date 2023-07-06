@@ -75,6 +75,7 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
             .environment(\.managedObjectContext, PersistenceController.context)
             .environmentObject(NavManager())
+            
 //            .environment(\.sizeCategory, .large) // Set a fixed size category for the entire app
     }
 }

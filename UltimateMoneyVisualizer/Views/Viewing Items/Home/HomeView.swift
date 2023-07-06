@@ -185,10 +185,12 @@ struct HomeView: View {
                         .offset(y: -60)
                 }
 
-                Button {
-                    withAnimation(.easeInOut(duration: 0.7)) {
-                        didTapQuickAdd.toggle()
-                    }
+                NavigationLink {
+//                    withAnimation(.easeInOut(duration: 0.7)) {
+//                        didTapQuickAdd.toggle()
+//                    }
+                    
+                    NewItemCreationView()
 
                 } label: {
                     VStack {
@@ -242,10 +244,8 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            HomeView()
-                .putInNavView(.inline)
-                .environmentObject(NavManager())
-        }
+        HomeView()
+            .putInNavView(.inline)
+            .environmentObject(NavManager())
     }
 }

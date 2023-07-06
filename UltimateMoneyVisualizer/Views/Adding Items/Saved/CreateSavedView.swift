@@ -12,7 +12,7 @@ import SwiftUI
 
 struct CreateSavedView: View {
     @Environment(\.managedObjectContext) private var viewContext
-
+    @EnvironmentObject private var newItemViewModel: NewItemViewModel
     @State private var title: String = ""
     @State private var amount: String = ""
     @State private var info: String = ""
@@ -120,6 +120,9 @@ struct CreateSavedView: View {
         } completion: {
             alertToastConfig = Self.emptyToast
         }
+        .onAppear(perform: {
+            amount = "\(newItemViewModel.dubValue)"
+        })
         
 
     }

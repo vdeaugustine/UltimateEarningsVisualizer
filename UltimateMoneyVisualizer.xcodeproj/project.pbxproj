@@ -58,6 +58,8 @@
 		9C65A7612A00D4B900A5BCF1 /* ExpenseRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C65A7602A00D4B900A5BCF1 /* ExpenseRow.swift */; };
 		9C69C5CC2A1832E5006F5C23 /* PayoffWithImageAndGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C69C5CB2A1832E5006F5C23 /* PayoffWithImageAndGradientView.swift */; };
 		9C743AE72A52A873000A7A2B /* CalculateTaxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C743AE62A52A873000A7A2B /* CalculateTaxView.swift */; };
+		9C76B2EE2A56819C001E40FC /* NewItemCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C76B2ED2A56819C001E40FC /* NewItemCreationView.swift */; };
+		9C76B2F02A5689B2001E40FC /* NewItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C76B2EF2A5689B2001E40FC /* NewItemViewModel.swift */; };
 		9C7B5D522A1EE82600DBB877 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7B5D512A1EE82600DBB877 /* SubscriptionManager.swift */; };
 		9C7B5D542A201AC600DBB877 /* ExtendPayPeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7B5D532A201AC600DBB877 /* ExtendPayPeriod.swift */; };
 		9C7B5D562A2026D000DBB877 /* PayCycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7B5D552A2026D000DBB877 /* PayCycle.swift */; };
@@ -221,6 +223,8 @@
 		9C65A7602A00D4B900A5BCF1 /* ExpenseRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRow.swift; sourceTree = "<group>"; };
 		9C69C5CB2A1832E5006F5C23 /* PayoffWithImageAndGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayoffWithImageAndGradientView.swift; sourceTree = "<group>"; };
 		9C743AE62A52A873000A7A2B /* CalculateTaxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculateTaxView.swift; sourceTree = SOURCE_ROOT; };
+		9C76B2ED2A56819C001E40FC /* NewItemCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewItemCreationView.swift; path = "UltimateMoneyVisualizer/Views/Adding Items/Shifts/NewItemCreationView.swift"; sourceTree = SOURCE_ROOT; };
+		9C76B2EF2A5689B2001E40FC /* NewItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewItemViewModel.swift; sourceTree = SOURCE_ROOT; };
 		9C7B5D512A1EE82600DBB877 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
 		9C7B5D532A201AC600DBB877 /* ExtendPayPeriod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendPayPeriod.swift; sourceTree = "<group>"; };
 		9C7B5D552A2026D000DBB877 /* PayCycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayCycle.swift; sourceTree = "<group>"; };
@@ -661,6 +665,8 @@
 		9C7F96A429F8FEEB00F5035C /* -InProgress */ = {
 			isa = PBXGroup;
 			children = (
+				9C76B2EF2A5689B2001E40FC /* NewItemViewModel.swift */,
+				9C76B2ED2A56819C001E40FC /* NewItemCreationView.swift */,
 				9C743AE62A52A873000A7A2B /* CalculateTaxView.swift */,
 				9C38890B2A4D04CE002C1690 /* CalculateTaxesView.swift */,
 				9C53211D2A46A278008D0F92 /* EnterNewPayslipView.swift */,
@@ -1099,6 +1105,7 @@
 				9CF194DD2A1C7B21000F83A9 /* ExtendTag.swift in Sources */,
 				9C9735942A0D795600F651A1 /* AllocationDetailView.swift in Sources */,
 				9CE288DB2A42700B0050A4DC /* CreateNewTimeBlockViewModel.swift in Sources */,
+				9C76B2F02A5689B2001E40FC /* NewItemViewModel.swift in Sources */,
 				9C7F969C29F8FE3500F5035C /* ExtendSettings.swift in Sources */,
 				9C3A7B372A2C44F300F2AC88 /* ItemizedPartOfShiftView.swift in Sources */,
 				9CB418C42A0B2C81006F44AB /* EditSavedItemView.swift in Sources */,
@@ -1123,6 +1130,7 @@
 				9C7F965B29F8F03C00F5035C /* UltimateMoneyVisualizerApp.swift in Sources */,
 				9C7F969929F8FE3500F5035C /* ExtendShift.swift in Sources */,
 				9CDBE0E42A2462A200741EEE /* NewShiftView.swift in Sources */,
+				9C76B2EE2A56819C001E40FC /* NewItemCreationView.swift in Sources */,
 				9C514DAC29FF7359003DC43C /* HomePageSectionContainerModifier.swift in Sources */,
 				9CC5BE632A09C08C006A2262 /* TodayPayoffGrid.swift in Sources */,
 				9CEEE34529F90ABA001FA4FB /* ShiftListView.swift in Sources */,

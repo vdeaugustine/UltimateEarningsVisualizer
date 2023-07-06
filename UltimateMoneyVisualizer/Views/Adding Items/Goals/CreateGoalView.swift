@@ -12,6 +12,7 @@ import SwiftUI
 
 struct CreateGoalView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @EnvironmentObject private var newItemViewModel: NewItemViewModel
     @ObservedObject var viewModel = CreateGoalViewModel()
 
     var body: some View {
@@ -67,6 +68,9 @@ struct CreateGoalView: View {
         })
 
         .bottomButton(label: "Save", action: viewModel.saveGoal)
+        .onAppear {
+            viewModel.amountDouble = newItemViewModel.dubValue
+        }
     }
 }
 
