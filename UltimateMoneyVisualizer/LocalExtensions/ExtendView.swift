@@ -36,10 +36,19 @@ extension View {
         modifier(BottomButtonModifier(label: label, gradient: gradient, padding: padding, action: action))
     }
 
+    func bottomNavigation<Destination: View>(label: String,
+                                             gradient: LinearGradient? = nil,
+                                             padding: CGFloat = 10,
+                                             @ViewBuilder destination: @escaping () -> Destination)
+        -> some View {
+        modifier(BottomNavigationModifier(label: label, gradient: gradient, padding: padding, destination: destination))
+    }
+
     func bottomCapsule(label: String,
                        gradient: LinearGradient = User.main.getSettings().getDefaultGradient(),
                        bool: Bool = true, bottomPadding: CGFloat = 0,
-                       action: @escaping () -> Void) -> some View {
+                       action: @escaping () -> Void)
+        -> some View {
         modifier(BottomCapsuleModifier(label: label, gradient: gradient, bool: bool, bottomPadding: bottomPadding, action: action))
     }
 
@@ -92,9 +101,9 @@ extension View {
     }
 }
 
-// MARK: - BottomViewButton
+// MARK: - BottomButtonView
 
-struct BottomViewButton: View {
+struct BottomButtonView: View {
     let label: String
     var gradient: LinearGradient? = nil
     var brightnessConstant: CGFloat? = nil
@@ -129,7 +138,31 @@ struct BottomButtonModifier: ViewModifier {
             VStack {
                 Spacer()
                 Button(action: action) {
-                    BottomViewButton(label: label, gradient: gradient)
+                    BottomButtonView(label: label, gradient: gradient)
+                }
+            }
+        }
+    }
+}
+
+// MARK: - BottomNavigationModifier
+
+struct BottomNavigationModifier<Destination: View>: ViewModifier {
+    let label: String
+    let gradient: LinearGradient?
+    let padding: CGFloat
+    @ViewBuilder let destination: () -> Destination
+
+    func body(content: Content) -> some View {
+        ZStack {
+            content
+                .padding(.bottom, padding)
+            VStack {
+                Spacer()
+                NavigationLink {
+                    destination()
+                } label: {
+                    BottomButtonView(label: label, gradient: gradient)
                 }
             }
         }
@@ -176,7 +209,3 @@ struct BottomCapsuleModifier: ViewModifier {
         }
     }
 }
-
-// ```
-//
-// In this reorganized code, we first have the main function `putInTemplate()`, which is followed by a group of view modifiers. Then we have two sets of functions for creating home section views, one that takes a string header and the other that takes a navigation view for the header. Lastly, we have the `BottomViewButton` view struct, followed by two view modifiers for creating buttons with either a rectangular or capsule shape.

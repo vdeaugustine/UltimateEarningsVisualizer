@@ -8,6 +8,8 @@
 import Foundation
 import SwiftUI
 class NewItemViewModel: ObservableObject {
+    @ObservedObject var settings = User.main.getSettings()
+    @ObservedObject var user = User.main
     @Published var enteredStr = ""
     @Published var selectedType: SelectedType = .expense
 
@@ -17,32 +19,7 @@ class NewItemViewModel: ObservableObject {
         var id: Self { self }
     }
 
-    @ObservedObject var settings = User.main.getSettings()
-    @ObservedObject var user = User.main
-
     let numbers = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-
-    var isPayoff: Bool {
-        selectedType != .saved
-    }
-
-    func color(_ type: SelectedType) -> Color {
-        selectedType == type ? .init(hex: "E8F0FE") : .clear
-    }
-
-    func foreground(_ type: SelectedType) -> Color {
-        selectedType == type ? Color(hex: "2867D2") : Color(hex: "202124")
-    }
-
-    func borderColor(_ type: SelectedType) -> Color {
-        selectedType == type ? Color.clear : Color(hex: "DADCE0")
-    }
-
-    func tapAction(_ type: SelectedType) {
-//        withAnimation {
-        selectedType = type
-//        }
-    }
 
     var toTime: Double {
         user.convertMoneyToTime(money: dubValue)
@@ -63,31 +40,46 @@ class NewItemViewModel: ObservableObject {
         return "Time required to pay off"
     }
 
+    var isPayoff: Bool {
+        selectedType != .saved
+    }
+
+    var navLinkForNextView: some View {
+        VStack {
+            if selectedType == .expense {
+                CreateExpenseView()
+                    .environmentObject(self)
+            }
+            if selectedType == .goal {
+                CreateGoalView()
+                    .environmentObject(self)
+            }
+            if selectedType == .saved {
+                CreateSavedView()
+                    .environmentObject(self)
+            }
+        }
+    }
+
+    func color(_ type: SelectedType) -> Color {
+        selectedType == type ? .init(hex: "E8F0FE") : .clear
+    }
+
+    func foreground(_ type: SelectedType) -> Color {
+        selectedType == type ? Color(hex: "2867D2") : Color(hex: "202124")
+    }
+
+    func borderColor(_ type: SelectedType) -> Color {
+        selectedType == type ? Color.clear : Color(hex: "DADCE0")
+    }
+
+    func tapAction(_ type: SelectedType) {
+        selectedType = type
+    }
+
     func append(_ num: Int) {
         if enteredStr.count < 14 {
             enteredStr += "\(num)"
         }
-    }
-
-    func saveAction() throws {
-//        switch selectedType {
-//            case .expense:
-//                try Expense(
-//                    title: <#T##String#>,
-//                    info: <#T##String?#>,
-//                    amount: <#T##Double#>,
-//                    dueDate: <#T##Date?#>,
-//                    dateCreated: <#T##Date?#>,
-//                    isRecurring: <#T##Bool#>,
-//                    recurringDate: <#T##Date?#>,
-//                    tagStrings: <#T##[String]?#>,
-//                    user: user,
-//                    context: user.getContext()
-//                )
-//            case .goal:
-//                <#code#>
-//            case .saved:
-//                <#code#>
-//        }
     }
 }

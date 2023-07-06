@@ -15,12 +15,9 @@ struct NewItemCreationView: View {
     var body: some View {
         GeometryReader { geo in
             ScrollView {
-                VStack {
+                VStack(spacing: 40) {
                     EnterDoublePart(viewModel: viewModel, geo: geo)
-                    HStack {
-                        Text(viewModel.timeLabelPrefix)
-                        Text(viewModel.toTime.formatForTime([.day, .hour, .minute, .second]))
-                    }
+                   
 
                     HStack {
                         ForEach(NewItemViewModel.SelectedType.allCases) { type in
@@ -36,45 +33,26 @@ struct NewItemCreationView: View {
                                 .onTapGesture { viewModel.tapAction(type) }
                         }
                     }
+                    
+                    VStack {
+                        Text(viewModel.timeLabelPrefix)
+                            .fontWeight(.medium)
+                            .minimumScaleFactor(0.01)
+                        Text(viewModel.toTime.formatForTime([.day, .hour, .minute, .second]))
+                            .fontWeight(.bold)
+                            .foregroundStyle(viewModel.settings.getDefaultGradient())
+                            .minimumScaleFactor(0.01)
+                    }
 
-                    if viewModel.selectedType == .expense {
-                        NavigationLink("Create") {
-                            CreateExpenseView()
-                                .environmentObject(viewModel)
-                        }
-                    }
-                    if viewModel.selectedType == .goal {
-                        NavigationLink("Create") {
-                            CreateGoalView()
-                                .environmentObject(viewModel)
-                        }
-                    }
-                    if viewModel.selectedType == .saved {
-                        NavigationLink("Create") {
-                            CreateSavedView()
-                                .environmentObject(viewModel)
-                        }
-                    }
                 }
                 .frame(maxHeight: .infinity)
             }
+            
         }
-        .padding(.top)
+        .padding(.top).padding(.top)
         .navigationTitle("Enter")
         .putInTemplate()
-
-//        .bottomButton(label: "Save") {
-//            do {
-//                try viewModel.saveAction()
-//            } catch {
-//                fatalError("Error saving \(error)")
-//            }
-//        }
-
-//        .background {
-//            Color.listBackgroundColor
-//                .ignoresSafeArea()
-//        }
+        .bottomNavigation(label: "Create", destination: { viewModel.navLinkForNextView })
     }
 
     struct EnterDoublePart: View {
@@ -182,9 +160,6 @@ struct NewItemCreationView: View {
             }
             .foregroundStyle(viewModel.settings.getDefaultGradient())
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-//            .background {
-//                Color.listBackgroundColor
-//            }
             .onChange(of: viewModel.enteredStr) { newValue in
                 if newValue.isEmpty {
                     viewModel.enteredStr = "0"

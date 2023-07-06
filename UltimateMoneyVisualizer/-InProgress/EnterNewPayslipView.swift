@@ -238,7 +238,7 @@ struct EnterNewPayslipView: View {
                     Button {
                         dismiss()
                     } label: {
-                        BottomViewButton(label: "Cancel")
+                        BottomButtonView(label: "Cancel")
                     }
 
                     Button {
@@ -256,7 +256,7 @@ struct EnterNewPayslipView: View {
                         viewModel.deductions.append(newItem)
                         dismiss()
                     } label: {
-                        BottomViewButton(label: "Save")
+                        BottomButtonView(label: "Save")
                     }
                 }
 

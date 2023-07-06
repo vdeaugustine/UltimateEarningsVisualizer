@@ -171,9 +171,9 @@ struct ShiftListView: View {
 
                 } label: {
                     if upcomingToDelete.isEmpty {
-                        BottomViewButton(label: "Cancel")
+                        BottomButtonView(label: "Cancel")
                     } else {
-                        BottomViewButton(label: "Delete", gradient: Color.niceRed.getGradient())
+                        BottomButtonView(label: "Delete", gradient: Color.niceRed.getGradient())
                     }
                 }
             }
