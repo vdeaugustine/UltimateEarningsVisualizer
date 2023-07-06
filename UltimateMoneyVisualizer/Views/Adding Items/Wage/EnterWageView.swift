@@ -19,6 +19,7 @@ struct EnterWageView: View {
     @State private var hoursPerDay: Double = User.main.getWage().hoursPerDay
     @State private var daysPerWeek: Int = Int(User.main.getWage().daysPerWeek)
     @State private var weeksPerYear: Int = Int(User.main.getWage().weeksPerYear)
+
     let hoursOptions = stride(from: 1.0, to: 24.25, by: 0.5).map { $0 }
 
     private func getHourlyWage(_ salary: Double) -> Double {
@@ -60,7 +61,8 @@ struct EnterWageView: View {
         Form {
             Section {
                 HStack {
-                    SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
+                    SystemImageWithFilledBackground(systemName: "dollarsign",
+                                                    backgroundColor: user.getSettings().themeColor)
                     Text(wageToShow)
                         .boldNumber()
                     Spacer()
@@ -69,7 +71,6 @@ struct EnterWageView: View {
                             showHourlySheet = !isSalaried
                         }
                     }
-                    
                 }
                 .allPartsTappable()
                 .onTapGesture {
@@ -89,8 +90,11 @@ struct EnterWageView: View {
             if isSalaried {
                 Section {
                     HStack {
-                        SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
-                        Text(salaryDouble.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                        SystemImageWithFilledBackground(systemName: "dollarsign",
+                                                        backgroundColor: user.getSettings().themeColor)
+                        Text(salaryDouble
+                            .formattedForMoney()
+                            .replacingOccurrences(of: "$", with: ""))
                             .boldNumber()
                         Spacer()
                         Button("Edit") {
@@ -104,9 +108,6 @@ struct EnterWageView: View {
                 } header: {
                     Text("Salary")
                 }
-//            footer: {
-//                    Text("Tap to edit")
-//                }
             }
 
             Section {
@@ -168,7 +169,8 @@ struct EnterWageView: View {
             if includeTaxes {
                 Section("State tax") {
                     HStack {
-                        SystemImageWithFilledBackground(systemName: "percent", backgroundColor: user.getSettings().themeColor)
+                        SystemImageWithFilledBackground(systemName: "percent",
+                                                        backgroundColor: user.getSettings().themeColor)
                         Text(stateTax.simpleStr(3, false))
                             .boldNumber()
                         Spacer()
@@ -189,7 +191,8 @@ struct EnterWageView: View {
 
                 Section("Federal tax") {
                     HStack {
-                        SystemImageWithFilledBackground(systemName: "percent", backgroundColor: user.getSettings().themeColor)
+                        SystemImageWithFilledBackground(systemName: "percent",
+                                                        backgroundColor: user.getSettings().themeColor)
                         Text(federalTax.simpleStr(3, false))
                             .boldNumber()
                         Spacer()

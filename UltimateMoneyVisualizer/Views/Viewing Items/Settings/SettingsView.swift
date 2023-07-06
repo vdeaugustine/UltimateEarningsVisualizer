@@ -43,6 +43,13 @@ struct SettingsView: View {
                         Text("My Wage")
                     }
                 }
+                
+                NavigationLink {
+                    EnterWageView()
+                } label: {
+                    SystemImageWithFilledBackground(systemName: "percent")
+                    Text("Taxes")
+                }
 
                 // MARK: - Set Hours
 

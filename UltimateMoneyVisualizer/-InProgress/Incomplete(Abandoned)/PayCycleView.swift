@@ -14,11 +14,8 @@ import Vin
 struct PayCycleView: View {
     @ObservedObject private var user = User.main
     @Environment(\.managedObjectContext) private var viewContext
-    
     @State private var selectedCycle: PayCycle = .biWeekly
-    
     @State private var dayOfWeek: DayOfWeek = .friday
-    
     @State private var toastConfig = AlertToast.errorWith(message: "")
     @State private var showToast = false
     

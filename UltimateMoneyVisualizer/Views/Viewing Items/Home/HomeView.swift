@@ -35,13 +35,6 @@ struct HomeView: View {
                                         .font(.subheadline)
                                         .padding(.trailing)
                                 }
-//                                NavigationLink {
-//                                    StatsView()
-//                                } label: {
-//                                    Text("Stats")
-//                                        .font(.subheadline)
-//                                        .padding(.trailing)
-//                                }
                             }
                         } content: {
                             HStack {
@@ -133,7 +126,6 @@ struct HomeView: View {
                                             ExpenseDetailView(expense: expense)
                                         } label: {
                                             PayoffWithImageAndGradientView(item: expense)
-
                                                 .allPartsTappable()
                                                 .rectContainer()
                                         }
@@ -170,9 +162,7 @@ struct HomeView: View {
         })
         .putInTemplate()
         .navigationTitle(Date.now.getFormattedDate(format: .abreviatedMonth))
-        .safeAreaInset(edge: .bottom) {
-            QuickAddButton()
-        }
+        .safeAreaInset(edge: .bottom) { QuickAddButton() }
     }
 
     struct QuickAddButton: View {
@@ -186,12 +176,7 @@ struct HomeView: View {
                 }
 
                 NavigationLink {
-//                    withAnimation(.easeInOut(duration: 0.7)) {
-//                        didTapQuickAdd.toggle()
-//                    }
-                    
                     NewItemCreationView()
-
                 } label: {
                     VStack {
                         Image(systemName: "plus.circle.fill")
@@ -215,7 +200,6 @@ struct HomeView: View {
             HStack(spacing: 50) {
                 NavigationLink {
                     SpendNewMoneyFirstView()
-
                 } label: {
                     Image(systemName: "chart.line.downtrend.xyaxis.circle.fill")
                         .resizable()
