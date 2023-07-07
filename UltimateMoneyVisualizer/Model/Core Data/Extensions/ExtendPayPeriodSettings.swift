@@ -21,3 +21,11 @@ public extension PayPeriodSettings {
         try context.save()
     }
 }
+
+public extension PayPeriodSettings {
+    /// Gets the `PayCycle` enum case if it exists. Defaults to **biWeekly** if not.
+    func getCycleCadence() -> PayCycle {
+        guard let cycleCadence else { return PayCycle.biWeekly }
+        return PayCycle(rawValue: cycleCadence) ?? .biWeekly
+    }
+}

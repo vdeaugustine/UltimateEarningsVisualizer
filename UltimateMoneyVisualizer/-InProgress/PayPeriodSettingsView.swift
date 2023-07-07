@@ -49,6 +49,11 @@ struct PayPeriodSettingsView: View {
         .toast(isPresenting: $viewModel.showToast) {
             viewModel.toastConfig
         }
+        .alert(viewModel.createPreviousText, isPresented: $viewModel.showAlertToCreatePreviousPeriods) {
+            Button("Create", action: viewModel.confirmedCreateOnAlert)
+            
+            Button("No", role: .cancel) {}
+        }
     }
 }
 

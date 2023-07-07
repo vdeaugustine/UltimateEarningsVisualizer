@@ -329,8 +329,6 @@ public extension User {
 
     func getItemWith(queueSlot index: Int) -> PayoffItem? {
         getQueue().first(where: { $0.optionalQSlotNumber == Int16(index) })
-
-//        getQueue().safeGet(at: index)
     }
 
     func getExpenses() -> [Expense] {
@@ -357,6 +355,65 @@ public extension User {
         }
 
         return tags.sorted(by: { $0.getLastUsed() > $1.getLastUsed() })
+    }
+
+    func getPayPeriods() -> [PayPeriod] {
+        guard let periods = Array(payPeriods ?? []) as? [PayPeriod] else {
+            return []
+        }
+
+        return periods.filter { $0.payDay != nil }.sorted(by: { $0.payDay! > $1.payDay! })
+    }
+
+    func getCurrentPayPeriod() -> PayPeriod {
+        // Get one if it already exists
+        if let foundPeriod = getPayPeriods().first(where: { period in
+            guard let firstDate = period.firstDate,
+                  let lastDate = period.payDay
+            else {
+                return false
+            }
+
+            let beginning = Calendar.current.startOfDay(for: firstDate)
+            let end = Date.endOfDay(lastDate)
+
+            let nowIsAfterBeginning = Date.now >= beginning
+            let nowIsBeforeEnd = Date.now <= end
+
+            return nowIsAfterBeginning && nowIsBeforeEnd
+        }) {
+            return foundPeriod
+        }
+
+        // Make a current pay period if one doesn't already exist
+        let settings = getPayPeriodSettings()
+        let period: PayPeriod
+
+        do {
+            period = try PayPeriod(firstDate: .now,
+                                   payDay: .now.addDays(settings.getCycleCadence().days),
+                                   settings: settings,
+                                   user: self,
+                                   context: getContext())
+        } catch {
+            fatalError("Error creating default pay period")
+        }
+        return period
+    }
+
+    func getPayPeriodSettings() -> PayPeriodSettings {
+        if let payPeriodSettings {
+            return payPeriodSettings
+        }
+        let settings: PayPeriodSettings
+        do {
+            settings = try PayPeriodSettings(cycleCadence: .biWeekly,
+                                             user: self,
+                                             context: getContext())
+        } catch {
+            fatalError("Error creating default pay period settings \(error)")
+        }
+        return settings
     }
 
     func totalDollarsSaved() -> Double {
@@ -418,8 +475,6 @@ public extension User {
 
         return newSettings
     }
-
-    
 
     func expenseWithMostAllocations() -> Expense? {
         // Get the expense with the highest number of allocations

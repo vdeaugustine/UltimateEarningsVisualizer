@@ -58,11 +58,14 @@
         <attribute name="dateSet" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="firstDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="payDay" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="settings" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PayPeriodSettings" inverseName="periods" inverseEntity="PayPeriodSettings"/>
+        <relationship name="shifts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Shift" inverseName="payPeriod" inverseEntity="Shift"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="payPeriods" inverseEntity="User"/>
     </entity>
     <entity name="PayPeriodSettings" representedClassName="PayPeriodSettings" syncable="YES" codeGenerationType="class">
         <attribute name="cycleCadence" optional="YES" attributeType="String"/>
         <attribute name="dateSet" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="periods" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PayPeriod" inverseName="settings" inverseEntity="PayPeriod"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="payPeriodSettings" inverseEntity="User"/>
     </entity>
     <entity name="PercentShiftExpense" representedClassName="PercentShiftExpense" syncable="YES" codeGenerationType="class">
@@ -103,6 +106,7 @@
         <attribute name="endDate" attributeType="Date" defaultDateTimeInterval="704182140" usesScalarValueType="NO"/>
         <attribute name="startDate" attributeType="Date" defaultDateTimeInterval="704182140" usesScalarValueType="NO"/>
         <relationship name="allocations" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Allocation" inverseName="shift" inverseEntity="Allocation"/>
+        <relationship name="payPeriod" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PayPeriod" inverseName="shifts" inverseEntity="PayPeriod"/>
         <relationship name="percentShiftExpenses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PercentShiftExpense" inverseName="shifts" inverseEntity="PercentShiftExpense"/>
         <relationship name="timeBlocks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TimeBlock" inverseName="shift" inverseEntity="TimeBlock"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="shifts" inverseEntity="User"/>

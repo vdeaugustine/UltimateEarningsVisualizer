@@ -108,9 +108,10 @@
 		9C9735982A0D9B9000F651A1 /* NetMoneyGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9735972A0D9B9000F651A1 /* NetMoneyGraph.swift */; };
 		9C9FFB1D2A577E1000565B78 /* PayPeriodSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9FFB1C2A577E1000565B78 /* PayPeriodSettingsViewModel.swift */; };
 		9C9FFB1F2A57C59700565B78 /* PayPeriodsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9FFB1E2A57C59700565B78 /* PayPeriodsView.swift */; };
-		9C9FFB212A57C60900565B78 /* PayPeriodsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9FFB202A57C60900565B78 /* PayPeriodsManager.swift */; };
+		9C9FFB212A57C60900565B78 /* PayPeriodsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9FFB202A57C60900565B78 /* PayPeriodsViewModel.swift */; };
 		9C9FFB232A57C99400565B78 /* ExtendPayPeriodSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9FFB222A57C99400565B78 /* ExtendPayPeriodSettings.swift */; };
 		9C9FFB252A57CD8700565B78 /* ExtendSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9FFB242A57CD8700565B78 /* ExtendSection.swift */; };
+		9C9FFB272A57D8A200565B78 /* ExtendArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9FFB262A57D8A200565B78 /* ExtendArray.swift */; };
 		9CB418C22A0A0E07006F44AB /* TempTodayPayoff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB418C12A0A0E07006F44AB /* TempTodayPayoff.swift */; };
 		9CB418C42A0B2C81006F44AB /* EditSavedItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB418C32A0B2C81006F44AB /* EditSavedItemView.swift */; };
 		9CB418C62A0B616A006F44AB /* ExtendAlertToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB418C52A0B616A006F44AB /* ExtendAlertToast.swift */; };
@@ -272,9 +273,10 @@
 		9C9735972A0D9B9000F651A1 /* NetMoneyGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetMoneyGraph.swift; sourceTree = "<group>"; };
 		9C9FFB1C2A577E1000565B78 /* PayPeriodSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPeriodSettingsViewModel.swift; sourceTree = SOURCE_ROOT; };
 		9C9FFB1E2A57C59700565B78 /* PayPeriodsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PayPeriodsView.swift; path = PayPeriods/PayPeriodsView.swift; sourceTree = SOURCE_ROOT; };
-		9C9FFB202A57C60900565B78 /* PayPeriodsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPeriodsManager.swift; sourceTree = "<group>"; };
+		9C9FFB202A57C60900565B78 /* PayPeriodsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPeriodsViewModel.swift; sourceTree = "<group>"; };
 		9C9FFB222A57C99400565B78 /* ExtendPayPeriodSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendPayPeriodSettings.swift; sourceTree = "<group>"; };
 		9C9FFB242A57CD8700565B78 /* ExtendSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendSection.swift; sourceTree = "<group>"; };
+		9C9FFB262A57D8A200565B78 /* ExtendArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendArray.swift; sourceTree = "<group>"; };
 		9CB418C12A0A0E07006F44AB /* TempTodayPayoff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempTodayPayoff.swift; sourceTree = "<group>"; };
 		9CB418C32A0B2C81006F44AB /* EditSavedItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSavedItemView.swift; sourceTree = "<group>"; };
 		9CB418C52A0B616A006F44AB /* ExtendAlertToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendAlertToast.swift; sourceTree = "<group>"; };
@@ -663,7 +665,7 @@
 			isa = PBXGroup;
 			children = (
 				9C9FFB1E2A57C59700565B78 /* PayPeriodsView.swift */,
-				9C9FFB202A57C60900565B78 /* PayPeriodsManager.swift */,
+				9C9FFB202A57C60900565B78 /* PayPeriodsViewModel.swift */,
 				9C9FFB1C2A577E1000565B78 /* PayPeriodSettingsViewModel.swift */,
 				9C7B5D572A20271400DBB877 /* PayPeriodSettingsView.swift */,
 				9C7C985529FB722D0077EA25 /* Components */,
@@ -750,6 +752,7 @@
 				9CB418C52A0B616A006F44AB /* ExtendAlertToast.swift */,
 				9C9735952A0D84D500F651A1 /* ExtendText.swift */,
 				9C9FFB242A57CD8700565B78 /* ExtendSection.swift */,
+				9C9FFB262A57D8A200565B78 /* ExtendArray.swift */,
 			);
 			path = LocalExtensions;
 			sourceTree = "<group>";
@@ -1071,6 +1074,7 @@
 				9C514DB02A002266003DC43C /* ExtendPayoffQueue.swift in Sources */,
 				9C7F966429F8F03E00F5035C /* Persistence.swift in Sources */,
 				9CDBE0E62A2520D200741EEE /* CustomStatsView.swift in Sources */,
+				9C9FFB272A57D8A200565B78 /* ExtendArray.swift in Sources */,
 				9C7C986329FCEB3E0077EA25 /* ProgressCircle.swift in Sources */,
 				9CD2F2E72A287E7B00718667 /* EnterPaycheckView.swift in Sources */,
 				9C18C1B42A4A8A7500B74C92 /* ExtendDeduction.swift in Sources */,
@@ -1119,7 +1123,7 @@
 				9C7C986F29FE30290077EA25 /* SystemImageWithFilledBackground.swift in Sources */,
 				9C3C58622A0C8BE200169A0F /* DateCircle.swift in Sources */,
 				9CDBE0EA2A25CD6300741EEE /* GoalsGridView.swift in Sources */,
-				9C9FFB212A57C60900565B78 /* PayPeriodsManager.swift in Sources */,
+				9C9FFB212A57C60900565B78 /* PayPeriodsViewModel.swift in Sources */,
 				9CEEE34029F909CC001FA4FB /* WageType.swift in Sources */,
 				9C460EE92A049DFA0007EBA9 /* StatsView.swift in Sources */,
 				9C7B5D5A2A202E8D00DBB877 /* CreateTagView.swift in Sources */,

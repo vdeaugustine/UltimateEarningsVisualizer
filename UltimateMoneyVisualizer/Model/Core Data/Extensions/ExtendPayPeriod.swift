@@ -18,6 +18,9 @@ public extension PayPeriod {
                      context: NSManagedObjectContext) throws {
         self.init(context: context)
         self.dateSet = Date()
+        self.firstDate = firstDate
+        self.payDay = payDay
+        self.settings = settings
         self.cycleCadence = settings.cycleCadence
         self.user = user
         try context.save()

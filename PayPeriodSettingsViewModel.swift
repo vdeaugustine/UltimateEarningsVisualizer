@@ -18,6 +18,8 @@ class PayPeriodSettingsViewModel: ObservableObject {
     @Published var firstDay: Date = .now
     @Published var nextPayDay: Date = .now.addDays(PayCycle.biWeekly.days)
     @Published var automaticallyGeneratePayPeriods: Bool = true
+    
+    @Published var showAlertToCreatePreviousPeriods = false
 
     var autoGenerateFooterString: String {
         if automaticallyGeneratePayPeriods {
@@ -25,6 +27,10 @@ class PayPeriodSettingsViewModel: ObservableObject {
         } else {
             return "You will create your own pay periods manually."
         }
+    }
+    
+    var createPreviousText: String {
+        "Would you like to automatically generate pay periods for previous shifts?"
     }
 
     func next3PayDays(from date: Date = Date()) -> [Date] {
@@ -42,10 +48,16 @@ class PayPeriodSettingsViewModel: ObservableObject {
             try PayPeriod(firstDate: firstDay, payDay: nextPayDay, settings: settings, user: user, context: user.getContext())
             toastConfig = .successWith(message: "Successfully saved pay period.")
             showToast.toggle()
+            showAlertToCreatePreviousPeriods.toggle()
         } catch {
             toastConfig = .errorWith(message: "Error saving pay cycle.")
             showToast.toggle()
         }
+    }
+    
+    
+    func confirmedCreateOnAlert() {
+        
     }
 
 //    var customIsSelected: Bool {
