@@ -66,7 +66,6 @@ struct ShiftDetailView: View {
                 Section {
                     ItemizedPartOfShiftView(shift: shift)
                         .padding(.vertical)
-//                        .frame(height:  CGFloat(shift.getTimeBlocks().count) * 75 + 75)
                 }
 
                 Section("Allocations") {
@@ -87,7 +86,8 @@ struct ShiftDetailView: View {
 
                             if let expense = alloc.expense {
                                 HStack {
-                                    SystemImageWithFilledBackground(systemName: "creditcard.fill", backgroundColor: settings.themeColor)
+                                    SystemImageWithFilledBackground(systemName: "creditcard.fill",
+                                                                    backgroundColor: settings.themeColor)
 
                                     Text(expense.titleStr)
                                         .spacedOut(text: alloc.amount.formattedForMoney())

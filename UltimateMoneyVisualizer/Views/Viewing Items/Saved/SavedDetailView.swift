@@ -17,8 +17,6 @@ struct SavedDetailView: View {
     @ObservedObject private var settings = User.main.getSettings()
     @Environment(\.managedObjectContext) private var viewContext
 
-    var last4Shifts: [Shift] { user.getShifts().prefixArray(4) }
-
     @State var saved: Saved
 
     var payoffItems: [PayoffItem] {
@@ -126,9 +124,8 @@ struct SavedDetailView: View {
         .navigationTitle(saved.getTitle())
         .confirmationDialog("Are you sure you want to delete this saved item?", isPresented: $showDeleteConfirmation) {
             Button("Delete", role: .destructive) {
-                user.removeFromSavedItems(saved)
+//                user.removeFromSavedItems(saved)
                 viewContext.delete(saved)
-
                 do {
                     try viewContext.save()
                 } catch {

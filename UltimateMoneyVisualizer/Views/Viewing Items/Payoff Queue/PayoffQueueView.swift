@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlertToast
 
 // MARK: - PayoffQueueView
 
@@ -18,13 +19,17 @@ struct PayoffQueueView: View {
 
     @State private var goalToDelete: Goal? = nil
     @State private var expenseToDelete: Expense? = nil
-    
+
     @State private var showGoalDeleteConformation = false
     @State private var showExpenseDeleteConformation = false
+    
+    @State private var showDeleteError = false
+
+    @State private var queue = User.main.getQueue()
 
     var body: some View {
         List {
-            ForEach(user.getQueue().indices, id: \.self) { index in
+            ForEach(queue.indices, id: \.self) { index in
 
                 if let expense = user.getItemWith(queueSlot: index + 1) as? Expense {
                     NavigationLink {
@@ -58,6 +63,23 @@ struct PayoffQueueView: View {
                 }
             }
             .onMove(perform: move)
+            .onDelete { indexSet in
+                do {
+                    for item in indexSet {
+                        if let expense = queue.safeGet(at: item) as? Goal {
+                            viewContext.delete(expense)
+                            try viewContext.save()
+                        }
+
+                        if let goal = queue.safeGet(at: item) as? Expense {
+                            viewContext.delete(goal)
+                            try viewContext.save()
+                        }
+                    }
+                } catch {
+                    showDeleteError.toggle()
+                }
+            }
         }
 
         .listStyle(.plain)
@@ -68,21 +90,19 @@ struct PayoffQueueView: View {
                 EditButton()
             }
         }
+        .toast(isPresenting: $showDeleteError, alert: {
+            .errorWith(message: "Could not delete")
+        })
         .confirmationDialog("Delete \(goalToDelete?.titleStr ?? "")?", isPresented: $showGoalDeleteConformation, titleVisibility: .visible) {
             Button("Delete", role: .destructive) {
-                
                 guard let goalToDelete else { return }
-                
+
                 do {
-                     viewContext.delete(goalToDelete)
+                    viewContext.delete(goalToDelete)
                     try viewContext.save()
-                }
-                catch {
+                } catch {
                     print("Error saving after delete")
                 }
-                
-                
-                
             }
             Button("Cancel", role: .cancel) {
                 goalToDelete = nil
@@ -91,8 +111,6 @@ struct PayoffQueueView: View {
         .confirmationDialog("Delete \(expenseToDelete?.titleStr ?? "")?", isPresented: $showExpenseDeleteConformation, titleVisibility: .visible) {
             Button("Delete", role: .destructive) {
                 guard let expenseToDelete else { return }
-                
-                
             }
             Button("Cancel", role: .cancel) {
                 expenseToDelete = nil

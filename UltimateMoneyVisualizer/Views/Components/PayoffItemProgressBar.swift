@@ -64,13 +64,13 @@ struct PayoffItemProgressBar: View {
             VStack {
                 HStack(spacing: 0) {
                     savedColor.getGradient()
-                        .frame(width: paidBySavedPercent * geo.size.width)
+                        .frame(width: max(paidBySavedPercent * geo.size.width, 0))
 
                     shiftColor.getGradient()
-                        .frame(width: paidByShiftPercent * geo.size.width)
+                        .frame(width: max(0,paidByShiftPercent * geo.size.width))
 
                     Color.targetGray
-                        .frame(width: remainingPercent * geo.size.width)
+                        .frame(width: max(remainingPercent * geo.size.width, 0))
                 }
                 .cornerRadius(2)
                 

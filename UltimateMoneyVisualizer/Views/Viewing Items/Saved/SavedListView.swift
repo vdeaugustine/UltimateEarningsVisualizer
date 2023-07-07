@@ -24,27 +24,35 @@ struct SavedListView: View {
     var body: some View {
         List {
             ForEach(savedItems) { saved in
-                NavigationLink {
-                    
-                    SavedDetailView(saved: saved)
-                    
-                } label: {
-                    HStack {
-                        
-                        DateCircle(date: saved.getDate(), height: 40)
-                            
-                        
-                        VStack(alignment: .leading) {
-                            Text(saved.getTitle())
-                                .font(.headline)
-                            Text(saved.getAmount().formattedForMoney())
-                                .font(.subheadline)
-                                .fontWeight(.semibold)
-                                .foregroundStyle(user.getSettings().getDefaultGradient())
+                if let title = saved.title,
+                   let date = saved.date,
+                   saved.amount > 0 {
+                    NavigationLink {
+                        SavedDetailView(saved: saved)
+                    } label: {
+                        HStack {
+                            DateCircle(date: date, height: 40)
+
+                            VStack(alignment: .leading) {
+                                Text(title)
+                                    .font(.headline)
+                                Text(saved.amount.formattedForMoney())
+                                    .font(.subheadline)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(user.getSettings().getDefaultGradient())
+                            }
                         }
                     }
                 }
             }
+            .onDelete(perform: { indexSet in
+                for index in indexSet {
+                    if let item = savedItems.safeGet(at: index) {
+                        viewContext.delete(item)
+                        savedItems.removeAll(where: { $0 == item })
+                    }
+                }
+            })
         }
 
         .putInTemplate()
@@ -57,7 +65,6 @@ struct SavedListView: View {
                     Label("Add Saved Item", systemImage: "plus")
                 }
             }
-           
         }
     }
 
@@ -73,11 +80,7 @@ struct SavedListView: View {
             }
         }
     }
-
-
 }
-
-
 
 // MARK: - SavedListView_Previews
 

@@ -39,7 +39,8 @@ struct SettingsView: View {
                     else { EnterWageView() }
                 } label: {
                     HStack {
-                        SystemImageWithFilledBackground(systemName: "calendar", backgroundColor: settings.themeColor)
+                        SystemImageWithFilledBackground(systemName: "calendar",
+                                                        backgroundColor: settings.themeColor)
                         Text("My Wage")
                     }
                 }
@@ -56,7 +57,8 @@ struct SettingsView: View {
                 NavigationLink {
                     RegularScheduleView()
                 } label: {
-                    SystemImageWithFilledBackground(systemName: "hourglass", backgroundColor: settings.themeColor)
+                    SystemImageWithFilledBackground(systemName: "hourglass",
+                                                    backgroundColor: settings.themeColor)
                     Text("Normal working hours")
                 }
 

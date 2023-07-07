@@ -17,7 +17,6 @@ struct NewItemCreationView: View {
             ScrollView {
                 VStack(spacing: 40) {
                     EnterDoublePart(viewModel: viewModel, geo: geo)
-                   
 
                     HStack {
                         ForEach(NewItemViewModel.SelectedType.allCases) { type in
@@ -33,9 +32,10 @@ struct NewItemCreationView: View {
                                 .onTapGesture { viewModel.tapAction(type) }
                         }
                     }
-                    
+
                     VStack {
                         Text(viewModel.timeLabelPrefix)
+
                             .fontWeight(.medium)
                             .minimumScaleFactor(0.01)
                         Text(viewModel.toTime.formatForTime([.day, .hour, .minute, .second]))
@@ -43,16 +43,15 @@ struct NewItemCreationView: View {
                             .foregroundStyle(viewModel.settings.getDefaultGradient())
                             .minimumScaleFactor(0.01)
                     }
-
+                    .font(.title2)
                 }
                 .frame(maxHeight: .infinity)
             }
-            
         }
         .padding(.top).padding(.top)
         .navigationTitle("Enter")
         .putInTemplate()
-        .bottomNavigation(label: "Create", destination: { viewModel.navLinkForNextView })
+        .bottomNavigation(label: "Next", destination: { viewModel.navLinkForNextView })
     }
 
     struct EnterDoublePart: View {
