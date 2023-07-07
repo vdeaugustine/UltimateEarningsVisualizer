@@ -44,7 +44,7 @@ struct SettingsView: View {
                         Text("My Wage")
                     }
                 }
-                
+
                 NavigationLink {
                     EnterWageView()
                 } label: {
@@ -62,7 +62,15 @@ struct SettingsView: View {
                     Text("Normal working hours")
                 }
 
-                // TODO: - Add a taxes section
+                // MARK: - Pay Period
+
+                NavigationLink {
+                    PayPeriodSettingsView()
+                } label: {
+                    SystemImageWithFilledBackground(systemName: "calendar",
+                                                    backgroundColor: settings.themeColor)
+                    Text("Pay Periods")
+                }
             }
 
             Section("Visuals") {

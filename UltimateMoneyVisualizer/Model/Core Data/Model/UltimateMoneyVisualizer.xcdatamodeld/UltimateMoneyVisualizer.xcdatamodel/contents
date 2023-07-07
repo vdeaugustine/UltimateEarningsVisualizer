@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22158.8" systemVersion="23A5276g" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22158.8" systemVersion="23A5286g" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="Allocation" representedClassName="Allocation" syncable="YES" codeGenerationType="class">
         <attribute name="amount" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="date" attributeType="Date" defaultDateTimeInterval="704182320" usesScalarValueType="NO"/>
@@ -54,10 +54,16 @@
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="payoffQueue" inverseEntity="User"/>
     </entity>
     <entity name="PayPeriod" representedClassName="PayPeriod" syncable="YES" codeGenerationType="class">
-        <attribute name="dayOfWeek" optional="YES" attributeType="String"/>
-        <attribute name="firstDateEntered" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="payCycle" optional="YES" attributeType="String" valueTransformerName="PayCycleTransformer" customClassName="PayCycle"/>
-        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="payPeriod" inverseEntity="User"/>
+        <attribute name="cycleCadence" optional="YES" attributeType="String"/>
+        <attribute name="dateSet" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="firstDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="payDay" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="payPeriods" inverseEntity="User"/>
+    </entity>
+    <entity name="PayPeriodSettings" representedClassName="PayPeriodSettings" syncable="YES" codeGenerationType="class">
+        <attribute name="cycleCadence" optional="YES" attributeType="String"/>
+        <attribute name="dateSet" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="payPeriodSettings" inverseEntity="User"/>
     </entity>
     <entity name="PercentShiftExpense" representedClassName="PercentShiftExpense" syncable="YES" codeGenerationType="class">
         <attribute name="percent" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
@@ -147,7 +153,8 @@
         <relationship name="expenses" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Expense" inverseName="user" inverseEntity="Expense"/>
         <relationship name="goals" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Goal" inverseName="user" inverseEntity="Goal"/>
         <relationship name="payoffQueue" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="PayoffQueue" inverseName="user" inverseEntity="PayoffQueue"/>
-        <relationship name="payPeriod" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PayPeriod" inverseName="user" inverseEntity="PayPeriod"/>
+        <relationship name="payPeriods" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PayPeriod" inverseName="user" inverseEntity="PayPeriod"/>
+        <relationship name="payPeriodSettings" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="PayPeriodSettings" inverseName="user" inverseEntity="PayPeriodSettings"/>
         <relationship name="percentShiftExpenses" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PercentShiftExpense" inverseName="user" inverseEntity="PercentShiftExpense"/>
         <relationship name="regularSchedule" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RegularSchedule" inverseName="user" inverseEntity="RegularSchedule"/>
         <relationship name="savedItems" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Saved" inverseName="user" inverseEntity="Saved"/>
