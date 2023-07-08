@@ -7,6 +7,7 @@
 
 import CoreData
 import SwiftUI
+import Vin
 
 // MARK: - NavManager
 
@@ -22,6 +23,30 @@ class NavManager: ObservableObject {
         settingsNavPath = .init()
     }
 
+    func sameTabTapped(tabTapped: Tabs) {
+        switch tabTapped {
+            case .settings:
+                break
+            case .expenses:
+                break
+            case .home:
+                homeNavPath = .init()
+            case .shifts:
+                break
+            case .today:
+                break
+            case .addShifts:
+                break
+            case .allItems:
+                break
+        }
+    }
+
+    enum Tabs: String, Hashable, CustomStringConvertible, Equatable {
+        var description: String { rawValue.capitalized }
+        case settings, expenses, home, shifts, today, addShifts, allItems
+    }
+
     enum PossiblePaths: Hashable {
         case home
         case settings
@@ -34,19 +59,14 @@ class NavManager: ObservableObject {
 
 struct ContentView: View {
     @EnvironmentObject private var navManager: NavManager
-
-    enum Tabs: String, Hashable, CustomStringConvertible {
-        var description: String { rawValue.capitalized }
-        case settings, expenses, home, shifts, today, addShifts, allItems
-    }
-
-    @State private var tab: Tabs = .shifts
+    typealias Tabs = NavManager.Tabs
+    @State private var tab: Tabs = .home
     @ObservedObject var settings = User.main.getSettings()
     @Environment(\.sizeCategory) var sizeCategory
+    @State private var lastTab: Tabs = .home
 
     var body: some View {
-        TabView(selection: $tab) {
-            
+        TabView(selection: $tab.onUpdate(ifNoChange: navManager.sameTabTapped)) {
             NavigationStack(path: $navManager.homeNavPath) {
                 HomeView()
             }
@@ -75,7 +95,7 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
             .environment(\.managedObjectContext, PersistenceController.context)
             .environmentObject(NavManager())
-            
+
 //            .environment(\.sizeCategory, .large) // Set a fixed size category for the entire app
     }
 }

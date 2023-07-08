@@ -14,7 +14,6 @@ struct CreateSavedView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject private var newItemViewModel: NewItemViewModel
     @State private var title: String = ""
-    @State private var amount: String = ""
     @State private var info: String = ""
     @State private var date: Date = Date()
     @State private var doubleAmount: Double = 0
@@ -37,7 +36,7 @@ struct CreateSavedView: View {
 
     var readyToSave: Bool {
         doubleAmount > 0 && !title.isEmpty &&
-        !info.isEmpty && !titleFocused && !infoFocused && !showEditSheet
+            !info.isEmpty && !titleFocused && !infoFocused && !showEditSheet
     }
 
     var body: some View {
@@ -74,7 +73,6 @@ struct CreateSavedView: View {
             alertToastConfig = Self.emptyToast
         }
         .onAppear(perform: {
-            amount = "\(newItemViewModel.dubValue)"
             doubleAmount = newItemViewModel.dubValue
             titleFocused = true
         })
@@ -100,31 +98,16 @@ struct CreateSavedView: View {
                         return
                     }
 
-                    guard let dub = Double(amount),
-                          dub > 0 else {
-                        alertToastConfig = AlertToast(displayMode: .alert,
-                                                      type: .error(settings.themeColor),
-                                                      title: "Please enter a valid amount",
-                                                      subTitle: nil,
-                                                      style: .style(backgroundColor: nil,
-                                                                    titleColor: nil,
-                                                                    subTitleColor: nil,
-                                                                    titleFont: nil,
-                                                                    subTitleFont: nil))
-                        showToast = true
-                        toastType = "e"
-                        return
-                    }
-
                     do {
-                        try Saved(amount: dub, title: title,
+                        try Saved(amount: doubleAmount,
+                                  title: title,
                                   info: info.isEmpty ? nil : info,
-                                  date: date, user: User.main,
+                                  date: date,
+                                  user: User.main,
                                   context: viewContext)
 
                         // Reset the fields
                         title = ""
-                        amount = "0.0"
                         info = ""
                         date = Date()
 
@@ -189,11 +172,10 @@ struct CreateSavedView: View {
                     }
 
                     Spacer()
-                    
+
                     Button("Next") {
                         showEditSheet = true
                     }
-                    
                 }
 
                 if dateFocused {
