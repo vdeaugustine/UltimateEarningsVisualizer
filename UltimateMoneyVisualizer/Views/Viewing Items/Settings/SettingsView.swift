@@ -65,7 +65,7 @@ struct SettingsView: View {
                 // MARK: - Pay Period
 
                 NavigationLink {
-                    PayPeriodSettingsView()
+                    PayPeriodsView()
                 } label: {
                     SystemImageWithFilledBackground(systemName: "calendar",
                                                     backgroundColor: settings.themeColor)

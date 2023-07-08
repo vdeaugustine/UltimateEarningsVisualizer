@@ -22,6 +22,34 @@ public extension Shift {
         self.endDate = end
         self.dayOfWeek = day.rawValue
         self.user = user
+//        if let period = user.getPeriodFor(date: start) {
+//            self.payPeriod = period
+//        } else {
+//            do {
+//                // Get closest pay period
+//                let settings = user.getPayPeriodSettings()
+//                let movingBackwards: Bool = {
+//                    guard let closestToStart = user.getClosestPayPeriod(to: start) else { return false }
+//                    let startMinusPeriodEnd = start - closestToStart.getLastDate()
+//                    let startMinusPeriodStart = start - closestToStart.getFirstDate()
+//                    let closest = min(abs(startMinusPeriodEnd),
+//                                      abs(startMinusPeriodStart))
+//                    return startMinusPeriodEnd <= 0
+//                }()
+//
+//                let multiplier: Double = movingBackwards ? -1 : 1
+//
+//                //
+//                self.payPeriod = try PayPeriod(firstDate: start,
+//                                               payDay: start.addDays((settings.getCycleCadence().days) * multiplier),
+//                                               settings: settings,
+//                                               user: user,
+//                                               context: context)
+//            } catch {
+//                fatalError("Error creating default pay period when creating a new shift -> \(error)")
+//            }
+//        }
+
         if let fixedExpense = fixedExpense {
             addToPercentShiftExpenses(fixedExpense)
         }
@@ -146,6 +174,10 @@ public extension Shift {
 }
 
 extension Shift {
+    var title: String {
+        "Shift for \(start.getFormattedDate(format: .minimalTime)) - \(end.getFormattedDate(format: .minimalTime)) \(end.getFormattedDate(format: .slashDate))"
+    }
+
     var start: Date { startDate ?? .nineAM }
     var end: Date { endDate ?? .fivePM }
 

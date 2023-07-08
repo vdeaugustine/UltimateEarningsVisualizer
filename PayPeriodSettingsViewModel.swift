@@ -11,14 +11,14 @@ import SwiftUI
 
 class PayPeriodSettingsViewModel: ObservableObject {
     @ObservedObject var user = User.main
-    @Published var selectedCycle: PayCycle = .biWeekly
+    @Published var selectedCycle: PayCycle = User.main.payPeriodSettings?.getCycleCadence() ?? .biWeekly
     @Published var dayOfWeek: DayOfWeek = .friday
     @Published var toastConfig = AlertToast.errorWith(message: "")
     @Published var showToast = false
     @Published var firstDay: Date = .now
     @Published var nextPayDay: Date = .now.addDays(PayCycle.biWeekly.days)
-    @Published var automaticallyGeneratePayPeriods: Bool = true
-    
+    @Published var automaticallyGeneratePayPeriods: Bool = User.main.payPeriodSettings?.autoGeneratePeriods ?? true
+
     @Published var showAlertToCreatePreviousPeriods = false
 
     var autoGenerateFooterString: String {
@@ -28,7 +28,7 @@ class PayPeriodSettingsViewModel: ObservableObject {
             return "You will create your own pay periods manually."
         }
     }
-    
+
     var createPreviousText: String {
         "Would you like to automatically generate pay periods for previous shifts?"
     }
@@ -44,8 +44,15 @@ class PayPeriodSettingsViewModel: ObservableObject {
 
     func confirmAction() {
         do {
-            let settings = try PayPeriodSettings(cycleCadence: selectedCycle, user: user, context: user.getContext())
-            try PayPeriod(firstDate: firstDay, payDay: nextPayDay, settings: settings, user: user, context: user.getContext())
+            let settings = try PayPeriodSettings(cycleCadence: selectedCycle,
+                                                 autoGenerate: automaticallyGeneratePayPeriods,
+                                                 user: user,
+                                                 context: user.getContext())
+            try PayPeriod(firstDate: firstDay,
+                          payDay: nextPayDay,
+                          settings: settings,
+                          user: user,
+                          context: user.getContext())
             toastConfig = .successWith(message: "Successfully saved pay period.")
             showToast.toggle()
             showAlertToCreatePreviousPeriods.toggle()
@@ -54,10 +61,8 @@ class PayPeriodSettingsViewModel: ObservableObject {
             showToast.toggle()
         }
     }
-    
-    
+
     func confirmedCreateOnAlert() {
-        
     }
 
 //    var customIsSelected: Bool {

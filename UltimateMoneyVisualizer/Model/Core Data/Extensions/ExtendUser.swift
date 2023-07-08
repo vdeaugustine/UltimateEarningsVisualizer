@@ -12,35 +12,45 @@ import Vin
 
 public extension User {
     @discardableResult convenience init(exampleItem: Bool = true,
-                                        viewContext: NSManagedObjectContext = PersistenceController.testing) throws {
-        self.init(context: viewContext)
+                                        context: NSManagedObjectContext = PersistenceController.testing) throws {
+        self.init(context: context)
         self.username = "Testing User"
         self.email = "TestUser@ExampleForTest.com"
 
-        let wage = Wage(context: viewContext)
+        let wage = Wage(context: context)
         wage.amount = 35
         wage.user = self
         self.wage = wage
-//        let four01K = try PercentShiftExpense(title: "401K", percent: 0.06, user: self, context: viewContext)
 
         if exampleItem {
             do {
+                // Make Pay Period Settings
+                try PayPeriodSettings(cycleCadence: .monthly,
+                                      autoGenerate: true,
+                                      user: self,
+                                      context: context)
+
                 // Make Goals
-                try Goal.makeExampleGoals(user: self, context: viewContext)
+                try Goal.makeExampleGoals(user: self, context: context)
 
                 // Make Expenses
-                try Expense.makeExampleExpenses(user: self, context: viewContext)
+                try Expense.makeExampleExpenses(user: self, context: context)
 
                 // Make Shifts
-                try Shift.makeExampleShifts(user: self, context: viewContext)
+                try Shift.makeExampleShifts(user: self, context: context)
+                
+                // Make pay periods for existing shifts
+                try PayPeriod.assignShiftsToPayPeriods()
 
                 // Make Saved items
-                try Saved.makeExampleSavedItems(user: self, context: viewContext)
+                try Saved.makeExampleSavedItems(user: self, context: context)
 
                 // Make today shift
-                try TodayShift.makeExampleTodayShift(user: self, context: viewContext)
+                try TodayShift.makeExampleTodayShift(user: self, context: context)
 
-                RegularSchedule([.monday, .tuesday, .wednesday, .thursday, .friday], user: self, context: viewContext)
+                RegularSchedule([.tuesday, .wednesday, .thursday],
+                                user: self,
+                                context: context)
 
                 // Make temporary allocations
             } catch {
@@ -48,11 +58,11 @@ public extension User {
             }
         }
 
-        try viewContext.save()
+        try context.save()
     }
 
     static var testing: User {
-        try! User(viewContext: PersistenceController.testing)
+        User(context: PersistenceController.testing)
     }
 
     static func getTestingUserWithExamples() throws -> User {
@@ -88,35 +98,35 @@ public extension User {
                     }
                 }
 
-//                // There is no valid todayShift *but* has a shift today
-//                if let shiftThatIsToday = user.getShiftOnToday(),
-//                   let shiftStart = shiftThatIsToday.startDate,
-//                   let shiftEnd = shiftThatIsToday.endDate {
-//                    // Create a todayShift
-//                    do {
-//                        try TodayShift(startTime: shiftStart,
-//                                       endTime: shiftEnd,
-//                                       user: user,
-//                                       context: userContext)
-//                    } catch {
-//                        fatalError(String(describing: error))
-//                    }
-//                }
-//
-//                // There is no shift already created but it is a Regular Day
-//                if let schedule = user.regularSchedule,
-//                   let regularDay = schedule.getRegularDays().first(where: { $0.getDayOfWeek() == DayOfWeek(date: .now) }),
-//                   let start = regularDay.getStartTime(),
-//                   let end = regularDay.getEndTime() {
-//                    try TodayShift(startTime: start,
-//                                   endTime: end,
-//                                   user: user,
-//                                   context: userContext)
-//                }
+                //                // There is no valid todayShift *but* has a shift today
+                //                if let shiftThatIsToday = user.getShiftOnToday(),
+                //                   let shiftStart = shiftThatIsToday.startDate,
+                //                   let shiftEnd = shiftThatIsToday.endDate {
+                //                    // Create a todayShift
+                //                    do {
+                //                        try TodayShift(startTime: shiftStart,
+                //                                       endTime: shiftEnd,
+                //                                       user: user,
+                //                                       context: userContext)
+                //                    } catch {
+                //                        fatalError(String(describing: error))
+                //                    }
+                //                }
+                //
+                //                // There is no shift already created but it is a Regular Day
+                //                if let schedule = user.regularSchedule,
+                //                   let regularDay = schedule.getRegularDays().first(where: { $0.getDayOfWeek() == DayOfWeek(date: .now) }),
+                //                   let start = regularDay.getStartTime(),
+                //                   let end = regularDay.getEndTime() {
+                //                    try TodayShift(startTime: start,
+                //                                   endTime: end,
+                //                                   user: user,
+                //                                   context: userContext)
+                //                }
 
                 return user
             } else {
-                return try User(exampleItem: true, viewContext: userContext)
+                return try User(exampleItem: true, context: userContext)
             }
         } catch {
             fatalError("Error retrieving or creating main user: \(error)")
@@ -365,6 +375,18 @@ public extension User {
         return periods.filter { $0.payDay != nil }.sorted(by: { $0.payDay! > $1.payDay! })
     }
 
+    func getPeriodFor(date: Date) -> PayPeriod? {
+        getPayPeriods().first(where: { thisPeriod in
+            guard let firstDate = thisPeriod.firstDate,
+                  let lastDate = thisPeriod.payDay else { return false }
+            let isAfterStart = date >= Date.beginningOfDay(firstDate)
+            let isBeforeEnd = date <= Date.endOfDay(lastDate)
+            return isAfterStart && isBeforeEnd
+        })
+    }
+
+   
+
     func getCurrentPayPeriod() -> PayPeriod {
         // Get one if it already exists
         if let foundPeriod = getPayPeriods().first(where: { period in
@@ -401,6 +423,35 @@ public extension User {
         return period
     }
 
+    func getClosestPayPeriod(to givenDate: Date) -> PayPeriod? {
+        var closestPayPeriod: PayPeriod?
+        var closestInterval: TimeInterval = .greatestFiniteMagnitude
+
+        for payPeriod in getPayPeriods() {
+            let isWithinRange = givenDate > payPeriod.getFirstDate() && givenDate < payPeriod.getLastDate()
+            let intervalToFirstDate = abs(givenDate.timeIntervalSince(payPeriod.getFirstDate()))
+            let intervalToLastDate = abs(givenDate.timeIntervalSince(payPeriod.getLastDate()))
+
+            if isWithinRange {
+                // Given date falls within the range of this pay period
+                return payPeriod
+            } else {
+                // Check if this pay period is closer than the previous closest
+                if intervalToFirstDate < closestInterval {
+                    closestPayPeriod = payPeriod
+                    closestInterval = intervalToFirstDate
+                }
+
+                if intervalToLastDate < closestInterval {
+                    closestPayPeriod = payPeriod
+                    closestInterval = intervalToLastDate
+                }
+            }
+        }
+
+        return closestPayPeriod
+    }
+
     func getPayPeriodSettings() -> PayPeriodSettings {
         if let payPeriodSettings {
             return payPeriodSettings
@@ -408,6 +459,7 @@ public extension User {
         let settings: PayPeriodSettings
         do {
             settings = try PayPeriodSettings(cycleCadence: .biWeekly,
+                                             autoGenerate: true,
                                              user: self,
                                              context: getContext())
         } catch {

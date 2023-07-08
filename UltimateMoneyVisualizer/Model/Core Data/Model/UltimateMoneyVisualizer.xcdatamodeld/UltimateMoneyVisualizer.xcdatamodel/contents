@@ -63,6 +63,7 @@
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="payPeriods" inverseEntity="User"/>
     </entity>
     <entity name="PayPeriodSettings" representedClassName="PayPeriodSettings" syncable="YES" codeGenerationType="class">
+        <attribute name="autoGeneratePeriods" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <attribute name="cycleCadence" optional="YES" attributeType="String"/>
         <attribute name="dateSet" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <relationship name="periods" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PayPeriod" inverseName="settings" inverseEntity="PayPeriod"/>

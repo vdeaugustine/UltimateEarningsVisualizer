@@ -11,11 +11,16 @@ import SwiftUI
 
 struct PayPeriodsView: View {
     @StateObject private var viewModel: PayPeriodsViewModel = .init()
-    
-    
-    
+
     var body: some View {
         List {
+            Section {
+                NavigationLink {
+                    PayPeriodSettingsView()
+                } label: {
+                    Text("Pay Period Settings")
+                }
+            }
             Section("Current") {
                 payPeriodRow(viewModel.user.getCurrentPayPeriod())
             }
@@ -28,14 +33,14 @@ struct PayPeriodsView: View {
         .navigationTitle("Pay Periods")
         .putInTemplate()
     }
-    
-    
+
     func payPeriodRow(_ period: PayPeriod) -> some View {
         VStack(alignment: .leading) {
+            Text(period.title)
             Text("Cadence: " + period.getCadence().rawValue)
-            Text("Date Set " + viewModel.format(period.dateSet))
-            Text("Start Date: " + viewModel.format(period.firstDate))
-            Text("Pay date: " + viewModel.format(period.payDay))
+            ForEach(period.getShifts()) { shift in
+                Text(shift.title)
+            }
         }
     }
 }
@@ -47,7 +52,6 @@ struct PayPeriodsView_Previews: PreviewProvider {
         PayPeriodsView()
             .putInNavView(.inline)
             .onAppear(perform: {
-                
             })
     }
 }

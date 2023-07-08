@@ -12,10 +12,12 @@ import Vin
 public extension PayPeriodSettings {
     @discardableResult
     convenience init(cycleCadence: PayCycle,
+                     autoGenerate: Bool,
                      user: User,
                      context: NSManagedObjectContext) throws {
         self.init(context: context)
         self.dateSet = Date()
+        self.autoGeneratePeriods = autoGenerate
         self.cycleCadence = cycleCadence.rawValue
         self.user = user
         try context.save()
