@@ -24,6 +24,8 @@
 		9C3C58642A0C9ED500169A0F /* AddAllocationForExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3C58632A0C9ED500169A0F /* AddAllocationForExpenseView.swift */; };
 		9C3C58662A0CB89800169A0F /* AddAllocationForGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3C58652A0CB89800169A0F /* AddAllocationForGoalView.swift */; };
 		9C3C58682A0CBF5900169A0F /* AllItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3C58672A0CBF5900169A0F /* AllItemsView.swift */; };
+		9C3F80C22A593C6C00FCF040 /* PayPeriodDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3F80C12A593C6C00FCF040 /* PayPeriodDetailView.swift */; };
+		9C3F80C42A5949BE00FCF040 /* GPTPieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3F80C32A5949BE00FCF040 /* GPTPieChart.swift */; };
 		9C442A372A03792800D61C3E /* WageBreakdownBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C442A362A03792800D61C3E /* WageBreakdownBox.swift */; };
 		9C442A392A03798C00D61C3E /* WageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C442A382A03798C00D61C3E /* WageTests.swift */; };
 		9C460EE02A038B9F0007EBA9 /* MultipleNewShiftsView(Deprecated).swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C460EDF2A038B9F0007EBA9 /* MultipleNewShiftsView(Deprecated).swift */; };
@@ -187,6 +189,8 @@
 		9C3C58632A0C9ED500169A0F /* AddAllocationForExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAllocationForExpenseView.swift; sourceTree = "<group>"; };
 		9C3C58652A0CB89800169A0F /* AddAllocationForGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AddAllocationForGoalView.swift; path = "UltimateMoneyVisualizer/Views/Adding Items/Allocations/AddAllocationForGoalView.swift"; sourceTree = SOURCE_ROOT; };
 		9C3C58672A0CBF5900169A0F /* AllItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllItemsView.swift; sourceTree = "<group>"; };
+		9C3F80C12A593C6C00FCF040 /* PayPeriodDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPeriodDetailView.swift; sourceTree = SOURCE_ROOT; };
+		9C3F80C32A5949BE00FCF040 /* GPTPieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTPieChart.swift; sourceTree = "<group>"; };
 		9C442A362A03792800D61C3E /* WageBreakdownBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WageBreakdownBox.swift; sourceTree = "<group>"; };
 		9C442A382A03798C00D61C3E /* WageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WageTests.swift; sourceTree = "<group>"; };
 		9C460EDF2A038B9F0007EBA9 /* MultipleNewShiftsView(Deprecated).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MultipleNewShiftsView(Deprecated).swift"; sourceTree = "<group>"; };
@@ -513,6 +517,7 @@
 				9CED534B2A09BAD5002DC183 /* PayoffTodaySquare.swift */,
 				9C69C5CB2A1832E5006F5C23 /* PayoffWithImageAndGradientView.swift */,
 				9C7C986429FCF3B60077EA25 /* PieChart.swift */,
+				9C3F80C32A5949BE00FCF040 /* GPTPieChart.swift */,
 				9CF194DE2A1E03E7000F83A9 /* PriceTagShape.swift */,
 				9C7C986029FCE6A80077EA25 /* ProgressBar.swift */,
 				9C7C986229FCEB3E0077EA25 /* ProgressCircle.swift */,
@@ -664,6 +669,7 @@
 		9C7F96A429F8FEEB00F5035C /* -InProgress */ = {
 			isa = PBXGroup;
 			children = (
+				9C3F80C12A593C6C00FCF040 /* PayPeriodDetailView.swift */,
 				9C9FFB1E2A57C59700565B78 /* PayPeriodsView.swift */,
 				9C9FFB202A57C60900565B78 /* PayPeriodsViewModel.swift */,
 				9C9FFB1C2A577E1000565B78 /* PayPeriodSettingsViewModel.swift */,
@@ -1086,6 +1092,7 @@
 				9C5F0B8A2A31B419006AAB46 /* TimeBlockDetailView.swift in Sources */,
 				9C7B5D582A20271400DBB877 /* PayPeriodSettingsView.swift in Sources */,
 				9C3C58682A0CBF5900169A0F /* AllItemsView.swift in Sources */,
+				9C3F80C22A593C6C00FCF040 /* PayPeriodDetailView.swift in Sources */,
 				9C9735962A0D84D500F651A1 /* ExtendText.swift in Sources */,
 				9C9735982A0D9B9000F651A1 /* NetMoneyGraph.swift in Sources */,
 				9C7C984129F9F7B20077EA25 /* AllSchedulesView.swift in Sources */,
@@ -1163,6 +1170,7 @@
 				9C4F0A272A135A1500C78349 /* EnterMoneyView.swift in Sources */,
 				9CEEE33A29F908BE001FA4FB /* GoalListView.swift in Sources */,
 				9C9FFB252A57CD8700565B78 /* ExtendSection.swift in Sources */,
+				9C3F80C42A5949BE00FCF040 /* GPTPieChart.swift in Sources */,
 				9C7C986529FCF3B60077EA25 /* PieChart.swift in Sources */,
 				9CEEE35729F9E77F001FA4FB /* WageView.swift in Sources */,
 				9CEEE32B29F9044F001FA4FB /* ExtendView.swift in Sources */,

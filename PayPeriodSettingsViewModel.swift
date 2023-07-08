@@ -49,7 +49,6 @@ class PayPeriodSettingsViewModel: ObservableObject {
                                                  user: user,
                                                  context: user.getContext())
             try PayPeriod(firstDate: firstDay,
-                          payDay: nextPayDay,
                           settings: settings,
                           user: user,
                           context: user.getContext())

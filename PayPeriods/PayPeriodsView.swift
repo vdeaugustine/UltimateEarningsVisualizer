@@ -35,11 +35,16 @@ struct PayPeriodsView: View {
     }
 
     func payPeriodRow(_ period: PayPeriod) -> some View {
-        VStack(alignment: .leading) {
-            Text(period.title)
-            Text("Cadence: " + period.getCadence().rawValue)
-            ForEach(period.getShifts()) { shift in
-                Text(shift.title)
+        NavigationLink {
+            PayPeriodDetailView(payPeriod: period)
+        } label: {
+            VStack(alignment: .leading) {
+                Text(period.title)
+                    .spacedOut {
+                        Text("Cadence: " + period.getCadence().rawValue)
+                    }
+
+                Text(period.getShifts().count.str + " shifts")
             }
         }
     }

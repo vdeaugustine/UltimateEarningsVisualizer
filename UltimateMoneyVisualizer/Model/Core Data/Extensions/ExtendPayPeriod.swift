@@ -12,14 +12,13 @@ import Vin
 public extension PayPeriod {
     @discardableResult
     convenience init(firstDate: Date,
-                     payDay: Date,
                      settings: PayPeriodSettings,
                      user: User,
                      context: NSManagedObjectContext) throws {
         self.init(context: context)
         self.dateSet = Date()
         self.firstDate = firstDate
-        self.payDay = payDay
+        self.payDay = firstDate.addDays(settings.getCycleCadence().days)
         self.settings = settings
         self.cycleCadence = settings.cycleCadence
         self.user = user
@@ -77,6 +76,30 @@ public extension PayPeriod {
         }
         return shifts.sorted(by: { $0.start > $1.start })
     }
+    
+    func totalTimeWorked() -> Double {
+        getShifts().reduce(Double.zero, { $0 + $1.duration })
+    }
+    
+    func totalEarned() -> Double {
+        getShifts().reduce(Double.zero, { $0 + $1.totalEarned })
+    }
+    
+    func totalEarnedAfterTaxes() -> Double {
+        totalEarned() - taxesPaid()
+    }
+    
+    func taxesPaid() -> Double {
+        getShifts().reduce(Double.zero, { $0 + $1.taxesPaid })
+    }
+    
+    func stateTaxesPaid() -> Double {
+        getShifts().reduce(Double.zero, { $0 + $1.stateTaxesPaid })
+    }
+    
+    func federalTaxesPaid() -> Double {
+        getShifts().reduce(Double.zero, { $0 + $1.federalTaxesPaid })
+    }
 
     // Function to assign shifts to pay periods
     static func assignShiftsToPayPeriods() throws {
@@ -101,7 +124,6 @@ public extension PayPeriod {
                 // Otherwise, create a new pay period starting the day after the last one ended
                 let firstDate = currentPayPeriod?.payDay?.addDays(1) ?? shift.start
                 currentPayPeriod = try PayPeriod(firstDate: firstDate,
-                                                 payDay: firstDate.addDays(payPeriodSettings.getCycleCadence().days),
                                                  settings: payPeriodSettings,
                                                  user: user,
                                                  context: context)

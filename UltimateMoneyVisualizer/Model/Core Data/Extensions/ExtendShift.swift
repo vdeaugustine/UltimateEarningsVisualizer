@@ -22,33 +22,6 @@ public extension Shift {
         self.endDate = end
         self.dayOfWeek = day.rawValue
         self.user = user
-//        if let period = user.getPeriodFor(date: start) {
-//            self.payPeriod = period
-//        } else {
-//            do {
-//                // Get closest pay period
-//                let settings = user.getPayPeriodSettings()
-//                let movingBackwards: Bool = {
-//                    guard let closestToStart = user.getClosestPayPeriod(to: start) else { return false }
-//                    let startMinusPeriodEnd = start - closestToStart.getLastDate()
-//                    let startMinusPeriodStart = start - closestToStart.getFirstDate()
-//                    let closest = min(abs(startMinusPeriodEnd),
-//                                      abs(startMinusPeriodStart))
-//                    return startMinusPeriodEnd <= 0
-//                }()
-//
-//                let multiplier: Double = movingBackwards ? -1 : 1
-//
-//                //
-//                self.payPeriod = try PayPeriod(firstDate: start,
-//                                               payDay: start.addDays((settings.getCycleCadence().days) * multiplier),
-//                                               settings: settings,
-//                                               user: user,
-//                                               context: context)
-//            } catch {
-//                fatalError("Error creating default pay period when creating a new shift -> \(error)")
-//            }
-//        }
 
         if let fixedExpense = fixedExpense {
             addToPercentShiftExpenses(fixedExpense)
@@ -205,6 +178,21 @@ extension Shift {
             return 0
         }
         return endDate.timeIntervalSince(startDate)
+    }
+    
+    var taxesPaid: Double {
+        guard let includesTaxes = user?.wage?.includeTaxes,
+              includesTaxes
+        else { return 0 }
+        return stateTaxesPaid + federalTaxesPaid
+    }
+    
+    var stateTaxesPaid: Double {
+        (user?.wage?.stateTaxMultiplier ?? 0) * totalEarned
+    }
+    
+    var federalTaxesPaid: Double {
+        (user?.wage?.federalTaxMultiplier ?? 0) * totalEarned
     }
 
     func getAllocations() -> [Allocation] {

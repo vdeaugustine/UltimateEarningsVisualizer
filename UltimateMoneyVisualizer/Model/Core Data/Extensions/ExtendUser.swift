@@ -17,10 +17,13 @@ public extension User {
         self.username = "Testing User"
         self.email = "TestUser@ExampleForTest.com"
 
-        let wage = Wage(context: context)
-        wage.amount = 35
-        wage.user = self
-        self.wage = wage
+        let wage = try Wage(amount: 35,
+                            isSalary: false,
+                            user: self,
+                            includeTaxes: true,
+                            stateTax: 7,
+                            federalTax: 19,
+                            context: context)
 
         if exampleItem {
             do {
@@ -38,7 +41,7 @@ public extension User {
 
                 // Make Shifts
                 try Shift.makeExampleShifts(user: self, context: context)
-                
+
                 // Make pay periods for existing shifts
                 try PayPeriod.assignShiftsToPayPeriods()
 
@@ -98,31 +101,18 @@ public extension User {
                     }
                 }
 
-                //                // There is no valid todayShift *but* has a shift today
-                //                if let shiftThatIsToday = user.getShiftOnToday(),
-                //                   let shiftStart = shiftThatIsToday.startDate,
-                //                   let shiftEnd = shiftThatIsToday.endDate {
-                //                    // Create a todayShift
-                //                    do {
-                //                        try TodayShift(startTime: shiftStart,
-                //                                       endTime: shiftEnd,
-                //                                       user: user,
-                //                                       context: userContext)
-                //                    } catch {
-                //                        fatalError(String(describing: error))
-                //                    }
-                //                }
-                //
-                //                // There is no shift already created but it is a Regular Day
-                //                if let schedule = user.regularSchedule,
-                //                   let regularDay = schedule.getRegularDays().first(where: { $0.getDayOfWeek() == DayOfWeek(date: .now) }),
-                //                   let start = regularDay.getStartTime(),
-                //                   let end = regularDay.getEndTime() {
-                //                    try TodayShift(startTime: start,
-                //                                   endTime: end,
-                //                                   user: user,
-                //                                   context: userContext)
-                //                }
+                // Check if next pay period needs to be made
+                if let payPeriodSettings = user.payPeriodSettings,
+                   payPeriodSettings.autoGeneratePeriods {
+                    if let mostRecent = user.getPayPeriods().first,
+                       let lastDate = mostRecent.payDay,
+                       Date.now >= lastDate {
+                        try PayPeriod(firstDate: Date.endOfDay(lastDate).advanced(by: 1),
+                                      settings: payPeriodSettings,
+                                      user: user,
+                                      context: userContext)
+                    }
+                }
 
                 return user
             } else {
@@ -385,8 +375,6 @@ public extension User {
         })
     }
 
-   
-
     func getCurrentPayPeriod() -> PayPeriod {
         // Get one if it already exists
         if let foundPeriod = getPayPeriods().first(where: { period in
@@ -413,7 +401,6 @@ public extension User {
 
         do {
             period = try PayPeriod(firstDate: .now,
-                                   payDay: .now.addDays(settings.getCycleCadence().days),
                                    settings: settings,
                                    user: self,
                                    context: getContext())

@@ -17,7 +17,7 @@ struct ShiftListView: View {
     @ObservedObject private var user: User = User.main
     @ObservedObject private var settings = User.main.getSettings()
     @ObservedObject private var wage = User.main.getWage()
-    
+
     @State private var shifts: [Shift] = User.main.getShifts()
 
     @State private var showNewShiftSheet = false
@@ -36,14 +36,6 @@ struct ShiftListView: View {
 
     func isSelected(_ shift: Shift) -> Bool {
         return upcomingToDelete.contains(where: { $0 == shift })
-    }
-
-    var shiftsByWeek: [Date: [Shift]] {
-        Dictionary(grouping: pastShifts, by: { $0.start.startOfWeek() })
-    }
-
-    var sortedWeeks: [Date] {
-        shiftsByWeek.keys.sorted(by: >)
     }
 
     @State private var mostRecentSelected = false
@@ -106,16 +98,21 @@ struct ShiftListView: View {
 
             VStack(alignment: .leading, spacing: 0) {
                 List {
-                    ForEach(user.groupShiftsByWeek().sortedKeys, id: \.self) { key in
-
-                        if let arrayOfShifts = user.groupShiftsByWeek().dict[key] {
-                            Section(key) {
-                                ForEach(arrayOfShifts) { shift in
-                                    NavigationLink {
-                                        ShiftDetailView(shift: shift)
-                                    } label: {
-                                        ShiftRowView(shift: shift)
-                                    }
+                    ForEach(user.getPayPeriods()) { period in
+                        Section(period.title) {
+                            
+                            NavigationLink {
+                                PayPeriodDetailView(payPeriod: period)
+                            } label: {
+                                Text("Pay period")
+                                    .spacedOut(text: period.totalEarned().formattedForMoney())
+                            }
+                            
+                            ForEach(period.getShifts()) { shift in
+                                NavigationLink {
+                                    ShiftDetailView(shift: shift)
+                                } label: {
+                                    ShiftRowView(shift: shift)
                                 }
                             }
                         }
@@ -124,7 +121,7 @@ struct ShiftListView: View {
                 .listStyle(.insetGrouped)
             }
         }
-        .onChange(of: wage, perform: { val in
+        .onChange(of: wage, perform: { _ in
             shifts = user.getShifts()
         })
         .toolbar {
@@ -199,7 +196,7 @@ struct ShiftRowView: View {
     let shift: Shift
     @ObservedObject private var settings = User.main.getSettings()
     @ObservedObject private var wage = User.main.getWage()
-    
+
     var body: some View {
         HStack {
             Text(shift.start.firstLetterOrTwoOfWeekday())
