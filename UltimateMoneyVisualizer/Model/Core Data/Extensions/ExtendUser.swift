@@ -25,7 +25,7 @@ public extension User {
         if exampleItem {
             do {
                 // Make Pay Period Settings
-                try PayPeriodSettings(cycleCadence: .monthly,
+                try PayPeriodSettings(cycleCadence: .weekly,
                                       autoGenerate: true,
                                       user: self,
                                       context: context)

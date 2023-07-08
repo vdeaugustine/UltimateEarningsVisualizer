@@ -25,6 +25,22 @@ public extension PayPeriod {
         self.user = user
         try context.save()
     }
+
+    @discardableResult
+    static func nonSavingInit(firstDate: Date,
+                              settings: PayPeriodSettings,
+                              user: User,
+                              context: NSManagedObjectContext = PersistenceController.testing)
+        -> PayPeriod {
+        let period = PayPeriod(context: context)
+        period.dateSet = Date()
+        period.firstDate = firstDate
+        period.payDay = firstDate.addDays(settings.getCycleCadence().days)
+        period.settings = settings
+        period.cycleCadence = settings.cycleCadence
+        period.user = user
+        return period
+    }
 }
 
 public extension PayPeriod {
@@ -83,40 +99,16 @@ public extension PayPeriod {
                 shift.payPeriod = payPeriod
             } else {
                 // Otherwise, create a new pay period starting the day after the last one ended
-
-                let firstDate = (currentPayPeriod?.payDay ?? shift.start).addDays(1)
+                let firstDate = currentPayPeriod?.payDay?.addDays(1) ?? shift.start
                 currentPayPeriod = try PayPeriod(firstDate: firstDate,
-                              payDay: firstDate.addDays(payPeriodSettings.getCycleCadence().days),
-                              settings: payPeriodSettings,
-                              user: user,
-                              context: context)
+                                                 payDay: firstDate.addDays(payPeriodSettings.getCycleCadence().days),
+                                                 settings: payPeriodSettings,
+                                                 user: user,
+                                                 context: context)
                 shift.payPeriod = currentPayPeriod
             }
         }
         try context.save()
     }
 
-//    static func makePayPeriodsForExistingShifts() throws {
-//        /// Shifts ordered from oldest to newest
-//
-//        let user = User.main
-//        let shifts = user.getShifts().reversed()
-//        guard let firstShift = shifts.first,
-//              let lastShift = shifts.last,
-//              let settings = user.payPeriodSettings
-//        else { return }
-//        let firstDateOfAllPeriods = firstShift.start
-//        var workingDate = Date.beginningOfDay(firstDateOfAllPeriods)
-//        // Starting from the first date, work your way up making all the periods you need
-//        while workingDate < lastShift.end {
-//            let payDate = Date.endOfDay(workingDate.addDays(settings.getCycleCadence().days))
-//            // Create a pay period
-//            let thisPeriod = try PayPeriod(firstDate: workingDate,
-//                                           payDay: payDate,
-//                                           settings: settings,
-//                                           user: user,
-//                                           context: user.getContext())
-//            workingDate = payDate.advanced(by: 1)
-//        }
-//    }
 }
