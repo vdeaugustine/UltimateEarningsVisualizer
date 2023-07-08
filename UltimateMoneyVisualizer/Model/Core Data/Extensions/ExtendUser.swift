@@ -136,17 +136,15 @@ public extension User {
 
     // MARK: - Wage and Money
 
-    /// Gives you the amount of money the user has netted between the two dates. So it in
-    func totalNetMoneyBetween(_ startDate: Date, _ endDate: Date) -> Double {
-        // Total net money should be this formula
-        // Earned + Saved - (AllocatedUpToThisDay)
-
-        let earned = getTotalEarnedBetween(startDate: startDate, endDate: endDate)
-        let amountSaved = getAmountSavedBetween(startDate: startDate, endDate: endDate)
-        let expenses = getExpensesSpentBetween(startDate: startDate, endDate: endDate)
-        let goals = getGoalsSpentBetween(startDate: startDate, endDate: endDate)
-
-        return (earned + amountSaved) - (expenses + goals)
+    func getWage() -> Wage {
+        wage ?? (try! Wage(amount: 20,
+                           isSalary: false,
+                           user: self,
+                           includeTaxes: false,
+                           stateTax: nil,
+                           federalTax: nil,
+                           context: managedObjectContext ?? PersistenceController.context)
+        )
     }
 
     func totalEarned() -> Double {
@@ -161,66 +159,24 @@ public extension User {
         }
     }
 
-    func getWage() -> Wage {
-        wage ?? (try! Wage(amount: 20,
-                           isSalary: false,
-                           user: self,
-                           includeTaxes: false,
-                           stateTax: nil,
-                           federalTax: nil,
-                           context: managedObjectContext ?? PersistenceController.context)
-//            try! Wage(amount: 20,
-//                      user: self,
-//                      includeTaxes: true,
-//                      taxRate: 0.2,
-//                      context: managedObjectContext ?? PersistenceController.context)
-        )
+    func totalNetMoneyBetween(_ startDate: Date, _ endDate: Date) -> Double {
+        // Total net money should be this formula
+        // Earned + Saved - (AllocatedUpToThisDay)
+        let earned = getTotalEarnedBetween(startDate: startDate, endDate: endDate)
+        let amountSaved = getAmountSavedBetween(startDate: startDate, endDate: endDate)
+        let expenses = getExpensesSpentBetween(startDate: startDate, endDate: endDate)
+        let goals = getGoalsSpentBetween(startDate: startDate, endDate: endDate)
+
+        return (earned + amountSaved) - (expenses + goals)
     }
 
     // MARK: - Shifts
-
-    /// Gives a list of shifts falling in between the two given dates that have already been saved.
-    func getShiftsBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [Shift] {
-        let filteredShifts = getShifts().filter { shift in
-            (shift.start >= startDate && shift.start <= endDate) || // Shift starts within the range
-                (shift.end >= startDate && shift.end <= endDate) || // Shift ends within the range
-                (shift.start <= startDate && shift.end >= endDate) || // Shift spans the entire range
-                (shift.start <= startDate && shift.end >= startDate) || // Shift starts before the range and ends within the range
-                (shift.start <= endDate && shift.end >= endDate) // Shift starts within the range and ends after the range
-        }
-        return filteredShifts
-    }
-
-    // MARK: Shifts - Time Blocks
-
-    func getTimeBlocksBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [TimeBlock] {
-        let shifts = getShiftsBetween(startDate: startDate, endDate: endDate)
-
-        return shifts.flatMap { $0.getTimeBlocks() }
-    }
-
-    func getTimeWorkedBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> TimeInterval {
-        let shifts = getShiftsBetween(startDate: startDate, endDate: endDate)
-        return shifts.reduce(TimeInterval.zero) { $0 + $1.duration }
-    }
-
-    func getTotalEarnedBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> Double {
-        let timeWorked = getTimeWorkedBetween(startDate: startDate, endDate: endDate)
-        return timeWorked * getWage().perSecond
-    }
-
-    func totalTimeWorked() -> TimeInterval {
-        let shifts = getShifts()
-        return shifts.reduce(TimeInterval.zero) { $0 + $1.duration }
-    }
 
     /// Returns an array of the user's shifts. If the shifts set is nil, returns an empty array.
     ///
     /// - Returns: An array of the user's shifts.
     func getShifts() -> [Shift] {
-        guard let shifts,
-              let array = Array(shifts) as? [Shift] else { return [] }
-
+        guard let shifts, let array = Array(shifts) as? [Shift] else { return [] }
         return array.sorted(by: { $0.start > $1.start })
     }
 
@@ -280,6 +236,39 @@ public extension User {
         return duplicates
     }
 
+    func getShiftsBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [Shift] {
+        let filteredShifts = getShifts().filter { shift in
+            (shift.start >= startDate && shift.start <= endDate) || // Shift starts within the range
+                (shift.end >= startDate && shift.end <= endDate) || // Shift ends within the range
+                (shift.start <= startDate && shift.end >= endDate) || // Shift spans the entire range
+                (shift.start <= startDate && shift.end >= startDate) || // Shift starts before the range and ends within the range
+                (shift.start <= endDate && shift.end >= endDate) // Shift starts within the range and ends after the range
+        }
+        return filteredShifts
+    }
+
+    // MARK: Shifts - Time Blocks
+
+    func getTimeBlocksBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [TimeBlock] {
+        let shifts = getShiftsBetween(startDate: startDate, endDate: endDate)
+        return shifts.flatMap { $0.getTimeBlocks() }
+    }
+
+    func getTimeWorkedBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> TimeInterval {
+        let shifts = getShiftsBetween(startDate: startDate, endDate: endDate)
+        return shifts.reduce(TimeInterval.zero) { $0 + $1.duration }
+    }
+
+    func getTotalEarnedBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> Double {
+        let timeWorked = getTimeWorkedBetween(startDate: startDate, endDate: endDate)
+        return timeWorked * getWage().perSecond
+    }
+
+    func totalTimeWorked() -> TimeInterval {
+        let shifts = getShifts()
+        return shifts.reduce(TimeInterval.zero) { $0 + $1.duration }
+    }
+
     // MARK: - Settings
 
     func getSettings() -> Settings {
@@ -302,6 +291,11 @@ public extension User {
 
     // MARK: - Expenses
 
+    func getExpenses() -> [Expense] {
+        guard let expenses else { return [] }
+        return Array(expenses) as? [Expense] ?? []
+    }
+
     func getExpensesBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [Expense] {
         let filteredExpenses = getExpenses().filter { expense in
             guard let date = expense.dueDate else { return false }
@@ -310,21 +304,28 @@ public extension User {
         return filteredExpenses
     }
 
-    /// The amount of money spent by expenses in between the two given dates.
-    /// Parameters default to include all dates
     func getExpensesSpentBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> Double {
         let expenses = getExpensesBetween(startDate: startDate, endDate: endDate)
         return expenses.reduce(Double.zero) { $0 + $1.amount }
     }
 
-    func getExpenses() -> [Expense] {
-        guard let expenses else { return [] }
-        return Array(expenses) as? [Expense] ?? []
+    func getInstancesOf(expense: Expense) -> [Expense] {
+        let filtered = getExpenses().filter { thisExpense in
+            thisExpense.titleStr == expense.titleStr
+        }
+        return filtered
+    }
+
+    func getExpensesWith(tag: Tag) -> [Expense] {
+        let filtered = getExpenses().filter { expense in
+            expense.getTags().contains(where: { expenseTag in
+                expenseTag == tag
+            })
+        }
+        return filtered
     }
 
     func expenseWithMostAllocations() -> Expense? {
-        // Get the expense with the highest number of allocations
-
         guard let expensesArr = Array(expenses ?? []) as? [Expense] else {
             return nil
         }
@@ -338,44 +339,11 @@ public extension User {
         return expenseWithMostAllocations
     }
 
-    func getExpensesWith(tag: Tag) -> [Expense] {
-        let filtered = getExpenses().filter { expense in
-            expense.getTags().contains(where: { expenseTag in
-
-                expenseTag == tag
-
-            })
-        }
-
-        return filtered
-    }
-
-    func getInstancesOf(expense: Expense) -> [Expense] {
-        let filtered = getExpenses().filter { thisExpense in
-            thisExpense.titleStr == expense.titleStr
-        }
-        return filtered
-    }
-
     // MARK: - Goals
 
-    func getGoalsWith(tag: Tag) -> [Goal] {
-        let filtered = getGoals().filter { goal in
-            goal.getTags().contains(where: { goalTag in
-
-                goalTag == tag
-
-            })
-        }
-
-        return filtered
-    }
-
-    func getInstancesOf(goal: Goal) -> [Goal] {
-        let filtered = getGoals().filter { thisGoal in
-            thisGoal.titleStr == goal.titleStr
-        }
-        return filtered
+    func getGoals() -> [Goal] {
+        guard let goals else { return [] }
+        return Array(goals) as? [Goal] ?? []
     }
 
     func getGoalsBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [Goal] {
@@ -386,24 +354,37 @@ public extension User {
         return filteredGoals
     }
 
-    /// The amount of money spent by goals in between the two given dates.
-    /// Parameters default to include all dates
     func getGoalsSpentBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> Double {
         let goals = getGoalsBetween(startDate: startDate, endDate: endDate)
         return goals.reduce(Double.zero) { $0 + $1.amount }
     }
 
-    func getGoals() -> [Goal] {
-        guard let goals else { return [] }
-        return Array(goals) as? [Goal] ?? []
+    func getInstancesOf(goal: Goal) -> [Goal] {
+        let filtered = getGoals().filter { thisGoal in
+            thisGoal.titleStr == goal.titleStr
+        }
+        return filtered
+    }
+
+    func getGoalsWith(tag: Tag) -> [Goal] {
+        let filtered = getGoals().filter { goal in
+            goal.getTags().contains(where: { goalTag in
+                goalTag == tag
+            })
+        }
+        return filtered
     }
 
     // MARK: - Saved items
 
-    /**
-     - Parameters: Default - distant past and distant future. So calling this with no parameter will give all saved items
-     - Returns: all the saved items that have a `date` that is between the two parameters
-     */
+    func getSaved() -> [Saved] {
+        guard let savedItems = Array(savedItems ?? []) as? [Saved] else {
+            return []
+        }
+
+        return savedItems.sorted(by: { $0.getDate() > $1.getDate() })
+    }
+
     func getSavedBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [Saved] {
         let filteredSaved = getSaved().filter { saved in
             guard let date = saved.date else { return false }
@@ -421,19 +402,10 @@ public extension User {
         getAmountSavedBetween(startDate: startDate, endDate: endDate) / getWage().perSecond
     }
 
-    func getSaved() -> [Saved] {
-        guard let savedItems = Array(savedItems ?? []) as? [Saved] else {
-            return []
-        }
-
-        return savedItems.sorted(by: { $0.getDate() > $1.getDate() })
-    }
-
     func totalDollarsSaved() -> Double {
         getSaved().reduce(Double(0)) { $0 + $1.getAmount() }
     }
 
-    /// Measured in seconds
     func totalTimeSaved() -> Double {
         totalDollarsSaved() / getWage().perSecond
     }
@@ -441,12 +413,9 @@ public extension User {
     func getSavedItemsWith(tag: Tag) -> [Saved] {
         let filtered = getSaved().filter { saved in
             saved.getTags().contains(where: { savedTag in
-
                 savedTag == tag
-
             })
         }
-
         return filtered
     }
 
@@ -483,13 +452,13 @@ public extension User {
         return anyArr
     }
 
+    func getItemWith(queueSlot index: Int) -> PayoffItem? {
+        getQueue().first(where: { $0.optionalQSlotNumber == Int16(index) })
+    }
+
     func updateTempQueue() {
         let items = getQueue()
         items.forEach { $0.setOptionalTempQNum(newVal: $0.optionalQSlotNumber) }
-    }
-
-    func getItemWith(queueSlot index: Int) -> PayoffItem? {
-        getQueue().first(where: { $0.optionalQSlotNumber == Int16(index) })
     }
 
     // MARK: - Tags
@@ -676,15 +645,11 @@ public extension User {
         return (groupedShifts, sortedKeys)
     }
 
-    func getItemsWith(tag: Tag) -> [Any] {
-        []
-    }
+    // MARK: - Recurring Expenses
 
     func getRecurringExpenses() -> [Expense] {
         getExpenses().filter { $0.isRecurring }
     }
-
-    // MARK: - Recurring Expenses
 
     func expensesThatNeedRecurring() -> [Expense] {
         getExpenses().filter { expense in
