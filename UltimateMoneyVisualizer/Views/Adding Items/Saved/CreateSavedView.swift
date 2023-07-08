@@ -17,29 +17,74 @@ struct CreateSavedView: View {
     @State private var amount: String = ""
     @State private var info: String = ""
     @State private var date: Date = Date()
+    @State private var doubleAmount: Double = 0
 
     // Alert toast state variables
     @State private var showToast = false
     @State private var alertToastConfig = emptyToast
 
+    @State private var showEditSheet = false
+
     @ObservedObject var settings = User.main.getSettings()
 
     static let emptyToast = AlertToast(displayMode: .hud, type: .regular, title: "")
-    
+
     @State private var toastType = "s"
+
+    @FocusState private var titleFocused
+    @FocusState private var infoFocused
+    @FocusState private var dateFocused
+
+    var readyToSave: Bool {
+        doubleAmount > 0 && !title.isEmpty &&
+        !info.isEmpty && !titleFocused && !infoFocused && !showEditSheet
+    }
 
     var body: some View {
         Form {
             Section(header: Text("Saved Information")) {
                 TextField("Title", text: $title)
-                TextField("Amount", text: $amount)
-                    .keyboardType(.decimalPad)
+                    .focused($titleFocused)
                 TextField("Info", text: $info)
-                DatePicker("Date", selection: $date, displayedComponents: .date)
+                    .focused($infoFocused)
+                DatePicker("Saved on", selection: $date, displayedComponents: .date)
+                    .focused($dateFocused)
+                HStack {
+                    SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: newItemViewModel.user.getSettings().themeColor)
+                    Text(doubleAmount.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                        .boldNumber()
+                    Spacer()
+                    Text("Edit")
+                }
+                .onTapGesture {
+                    showEditSheet.toggle()
+                }
             }
+        }
+        .putInTemplate()
+        .navigationTitle("New Saved Item")
+        .toast(isPresenting: $showToast,
+               duration: 2.5,
+               tapToDismiss: false,
+               offsetY: toastType == "s" ? 65 : 0) {
+            alertToastConfig
+        } onTap: {
+            showToast = false
+        } completion: {
+            alertToastConfig = Self.emptyToast
+        }
+        .onAppear(perform: {
+            amount = "\(newItemViewModel.dubValue)"
+            doubleAmount = newItemViewModel.dubValue
+            titleFocused = true
+        })
+        .sheet(isPresented: $showEditSheet, content: {
+            EnterDoubleView(dubToEdit: $doubleAmount, format: .dollar)
 
-            Section {
-                Button("Save") {
+        })
+        .conditionalModifier(readyToSave) { mainView in
+            mainView
+                .bottomButton(label: "Save") {
                     guard !title.isEmpty else {
                         alertToastConfig = AlertToast(displayMode: .alert,
                                                       type: .error(settings.themeColor),
@@ -106,25 +151,62 @@ struct CreateSavedView: View {
                         showToast = true
                     }
                 }
+        }
+
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                if titleFocused {
+                    if !title.isEmpty {
+                        Button("Clear") {
+                            if titleFocused {
+                                title = ""
+                            }
+                        }
+                    } else {
+                        Button("Cancel") {
+                            titleFocused = false
+                        }
+                    }
+
+                    Spacer()
+
+                    Button("Next") {
+                        infoFocused = true
+                    }
+                }
+
+                if infoFocused {
+                    if !info.isEmpty {
+                        Button("Clear") {
+                            if infoFocused {
+                                info = ""
+                            }
+                        }
+                    } else {
+                        Button("Back") {
+                            titleFocused = true
+                        }
+                    }
+
+                    Spacer()
+                    
+                    Button("Next") {
+                        showEditSheet = true
+                    }
+                    
+                }
+
+                if dateFocused {
+                    Button("Cancel") {
+                        dateFocused = false
+                    }
+                    Button("Next") {
+                        dateFocused = false
+                        showEditSheet.toggle()
+                    }
+                }
             }
         }
-        .putInTemplate()
-        .navigationTitle("New Saved Item")
-        .toast(isPresenting: $showToast,
-               duration: 2.5,
-               tapToDismiss: false,
-               offsetY: toastType == "s" ? 65 : 0) {
-            alertToastConfig
-        } onTap: {
-            showToast = false
-        } completion: {
-            alertToastConfig = Self.emptyToast
-        }
-        .onAppear(perform: {
-            amount = "\(newItemViewModel.dubValue)"
-        })
-        
-
     }
 }
 
@@ -135,5 +217,6 @@ struct CreateSavedView_Previews: PreviewProvider {
         CreateSavedView()
             .environment(\.managedObjectContext, PersistenceController.context)
             .putInNavView(.inline)
+            .environmentObject(NewItemViewModel())
     }
 }

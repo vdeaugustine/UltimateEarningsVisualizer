@@ -213,6 +213,11 @@ struct EnterDoubleView: View {
             }
         }
         .putInNavView(.inline)
+        .onAppear {
+            if dubToEdit != 0 {
+                enteredStr = "\(dubToEdit * 100)"
+            }
+        }
     }
 }
 
