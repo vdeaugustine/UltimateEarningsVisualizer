@@ -28,9 +28,16 @@ struct GoalDetailView: View {
     @State private var isShowingFullScreenImage = false
     @State private var isBlurred = false
 
+    @State private var showSpinner = false
+
     var body: some View {
         VStack {
-            List {
+            ScrollView {
+                GoalDetailHeaderView(goal: goal) {
+                    showImageSelector.toggle()
+                    showSpinner = true
+                }
+
                 Section(header: Text("Info")) {
                     Text("Amount")
                         .spacedOut {
@@ -58,8 +65,6 @@ struct GoalDetailView: View {
                     VStack {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack {
-                                
-
                                 ForEach(goal.getTags()) { tag in
                                     NavigationLink {
                                         TagDetailView(tag: tag)
@@ -76,7 +81,7 @@ struct GoalDetailView: View {
                                 }
                             }
                         }
-                        
+
                         NavigationLink {
                             CreateTagView(goal: goal)
                         } label: {
@@ -96,14 +101,13 @@ struct GoalDetailView: View {
                     Text("Remaining")
                         .spacedOut(text: goal.amountRemainingToPayOff.formattedForMoney())
                 }
-                
+
                 Section("Instances") {
                     ForEach(user.getInstancesOf(goal: goal)) { thisExpense in
                         if let date = thisExpense.dateCreated {
                             NavigationLink {
                                 GoalDetailView(goal: thisExpense)
                             } label: {
-                                
                                 Text(date.getFormattedDate(format: .abreviatedMonth))
                                     .spacedOut(text: thisExpense.amountMoneyStr)
                             }
@@ -183,7 +187,13 @@ struct GoalDetailView: View {
                 }
             }
         }
-        .blur(radius: isBlurred ? 10 : 0)
+        
+        .blur(radius: isBlurred || showSpinner ? 10 : 0)
+        .overlay {
+            if showSpinner {
+                ProgressView()
+            }
+        }
         .overlay(
             VStack {
                 if isShowingFullScreenImage, let shownImage = shownImage {
@@ -204,7 +214,7 @@ struct GoalDetailView: View {
             .edgesIgnoringSafeArea(.all)
             .opacity(isShowingFullScreenImage ? 1 : 0)
         )
-        .background(Color.targetGray)
+        .background(Color.listBackgroundColor)
         .confirmationDialog("Are you sure you want to delete this goal?", isPresented: $presentConfirmation, titleVisibility: .visible, actions: {
             Button("Delete", role: .destructive) {
                 guard let context = user.managedObjectContext else {
@@ -226,9 +236,12 @@ struct GoalDetailView: View {
         .listStyle(.insetGrouped)
         .navigationBarTitleDisplayMode(.inline)
         .putInTemplate()
-        .navigationTitle(goal.titleStr)
+        .navigationTitle("Goal")
         .sheet(isPresented: $showImageSelector) {
             ImagePicker(isShown: self.$showImageSelector, image: self.$shownImage)
+                .onAppear {
+                    showSpinner = false
+                }
         }
         .toolbar {
             if initialImage != shownImage, let shownImage {

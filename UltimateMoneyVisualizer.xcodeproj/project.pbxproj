@@ -19,6 +19,7 @@
 		9C0CFCDB2A5A7B08005C7C81 /* ExpenseGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0CFCDA2A5A7B08005C7C81 /* ExpenseGrid.swift */; };
 		9C0CFCDE2A5BC2A1005C7C81 /* NavManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0CFCDD2A5BC2A1005C7C81 /* NavManager.swift */; };
 		9C0CFCE02A5C5989005C7C81 /* ShiftHasntStartedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0CFCDF2A5C5989005C7C81 /* ShiftHasntStartedView.swift */; };
+		9C0CFCE22A5CAE42005C7C81 /* GoalDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0CFCE12A5CAE42005C7C81 /* GoalDetailHeaderView.swift */; };
 		9C18C1B42A4A8A7500B74C92 /* ExtendDeduction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C18C1B32A4A8A7500B74C92 /* ExtendDeduction.swift */; };
 		9C3A7B302A2BD63300F2AC88 /* ExtendTimeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3A7B2F2A2BD63300F2AC88 /* ExtendTimeBlock.swift */; };
 		9C3A7B322A2BD80300F2AC88 /* AllTimeBlocksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3A7B312A2BD80300F2AC88 /* AllTimeBlocksView.swift */; };
@@ -188,6 +189,7 @@
 		9C0CFCDA2A5A7B08005C7C81 /* ExpenseGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseGrid.swift; sourceTree = "<group>"; };
 		9C0CFCDD2A5BC2A1005C7C81 /* NavManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NavManager.swift; path = "UltimateMoneyVisualizer/--TopLevel/NavManager.swift"; sourceTree = SOURCE_ROOT; };
 		9C0CFCDF2A5C5989005C7C81 /* ShiftHasntStartedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHasntStartedView.swift; sourceTree = "<group>"; };
+		9C0CFCE12A5CAE42005C7C81 /* GoalDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailHeaderView.swift; sourceTree = SOURCE_ROOT; };
 		9C18C1B32A4A8A7500B74C92 /* ExtendDeduction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendDeduction.swift; sourceTree = "<group>"; };
 		9C3A7B2F2A2BD63300F2AC88 /* ExtendTimeBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendTimeBlock.swift; sourceTree = "<group>"; };
 		9C3A7B312A2BD80300F2AC88 /* AllTimeBlocksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTimeBlocksView.swift; sourceTree = "<group>"; };
@@ -699,6 +701,7 @@
 		9C7F96A429F8FEEB00F5035C /* -InProgress */ = {
 			isa = PBXGroup;
 			children = (
+				9C0CFCE12A5CAE42005C7C81 /* GoalDetailHeaderView.swift */,
 				9C0CFCDF2A5C5989005C7C81 /* ShiftHasntStartedView.swift */,
 				9C7C985529FB722D0077EA25 /* Components */,
 				9C0505A02A11EBF700FC6511 /* ConfirmTodayShift.swift */,
@@ -1153,6 +1156,7 @@
 				9C76B2F02A5689B2001E40FC /* NewItemViewModel.swift in Sources */,
 				9C0CFCD92A5A70CC005C7C81 /* ExpenseGridBlock.swift in Sources */,
 				9C7F969C29F8FE3500F5035C /* ExtendSettings.swift in Sources */,
+				9C0CFCE22A5CAE42005C7C81 /* GoalDetailHeaderView.swift in Sources */,
 				9C3A7B372A2C44F300F2AC88 /* ItemizedPartOfShiftView.swift in Sources */,
 				9CB418C42A0B2C81006F44AB /* EditSavedItemView.swift in Sources */,
 				9CF194D72A1B241D000F83A9 /* SFSymbolsPicker.swift in Sources */,

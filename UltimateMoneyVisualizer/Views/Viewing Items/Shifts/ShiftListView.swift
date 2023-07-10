@@ -100,13 +100,6 @@ struct ShiftListView: View {
                 List {
                     ForEach(user.getPayPeriods()) { period in
                         Section {
-//                            NavigationLink {
-//                                PayPeriodDetailView(payPeriod: period)
-//                            } label: {
-//                                Text("Pay period")
-//                                    .spacedOut(text: period.totalEarned().formattedForMoney())
-//                            }
-
                             ForEach(period.getShifts()) { shift in
                                 NavigationLink {
                                     ShiftDetailView(shift: shift)
