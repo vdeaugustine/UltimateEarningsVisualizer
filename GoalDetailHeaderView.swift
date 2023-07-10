@@ -11,6 +11,7 @@ import SwiftUI
 
 struct CircleOverlayModifier<V: View>: ViewModifier {
     var degrees: Double
+    let widthHeight: Double
     var overlayView: V
 
     func points(width: CGFloat) -> (x: CGFloat, y: CGFloat) {
@@ -30,21 +31,21 @@ struct CircleOverlayModifier<V: View>: ViewModifier {
     }
 
     func body(content: Content) -> some View {
-        GeometryReader { geo in
-            ZStack {
-                content
-                overlayView
-                    .position(x: points(width: geo.size.width).x,
-                              y: points(width: geo.size.width).y)
-            }
+//        GeometryReader { geo in
+        ZStack {
+            content
+            overlayView
+                .position(x: points(width: widthHeight).x,
+                          y: points(width: widthHeight).y)
         }
+//        }
     }
 }
 
 extension View {
-    func overlayOnCircle<V: View>(degrees: Double, @ViewBuilder overlayView: () -> V) -> some View {
+    func overlayOnCircle<V: View>(degrees: Double, widthHeight: CGFloat, @ViewBuilder overlayView: () -> V) -> some View {
         modifier(
-            CircleOverlayModifier(degrees: degrees,
+            CircleOverlayModifier(degrees: degrees, widthHeight: widthHeight,
                                   overlayView: overlayView())
         )
     }
@@ -53,8 +54,8 @@ extension View {
 // MARK: - GoalDetailHeaderView
 
 struct GoalDetailHeaderView: View {
-    let goal: Goal
-
+    @ObservedObject var goal: Goal
+    let shownImage: UIImage?
     let tappedImageAction: (() -> Void)?
     var tappedDateAction: (() -> Void)? = nil
 
@@ -66,14 +67,26 @@ struct GoalDetailHeaderView: View {
         }
     }
 
+    var image: Image {
+        if let shownImage {
+            return Image(uiImage: shownImage)
+        }
+        else if let image = goal.loadImageIfPresent() {
+            return Image(uiImage: image)
+        } else {
+            return Image("dollar3d")
+        }
+    }
+
     var body: some View {
         VStack {
-            Image("dollar3d")
+            image
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .clipShape(Circle())
+                .frame(width: 150, height: 150)
 //                .overlay(Circle().stroke(Color.white, lineWidth: 4))
-                .overlayOnCircle(degrees: 37) {
+                .overlayOnCircle(degrees: 37, widthHeight: 150) {
                     Image(systemName: "pencil.circle.fill")
                         .font(.largeTitle)
                         .overlay(Circle().stroke(Color.white, lineWidth: 4))
@@ -107,7 +120,8 @@ struct GoalDetailHeaderView: View {
 
 struct UserProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        GoalDetailHeaderView(goal: User.main.getGoals().first!) {
+        GoalDetailHeaderView(goal: User.main.getGoals().first!,
+                             shownImage: nil) {
         } tappedDateAction: {
         }
     }

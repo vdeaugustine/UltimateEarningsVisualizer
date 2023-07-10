@@ -15,7 +15,7 @@ struct GoalDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @ObservedObject private var user: User = User.main
     @ObservedObject private var settings: Settings = User.main.getSettings()
-    let goal: Goal
+    @ObservedObject var goal: Goal
     @Environment(\.dismiss) private var dismiss
 
     @State private var presentConfirmation = false
@@ -29,165 +29,163 @@ struct GoalDetailView: View {
     @State private var isBlurred = false
 
     @State private var showSpinner = false
+    @State private var viewIDForReload: UUID = UUID()
 
     var body: some View {
-        VStack {
-            ScrollView {
-                GoalDetailHeaderView(goal: goal) {
-                    showImageSelector.toggle()
-                    showSpinner = true
-                }
+        ScrollView {
+            GoalDetailHeaderView(goal: goal, shownImage: shownImage) {
+                showImageSelector.toggle()
+                showSpinner = true
+            }
 
-                Section(header: Text("Info")) {
-                    Text("Amount")
-                        .spacedOut {
-                            Text(goal.amount.formattedForMoney())
-                                .fontWeight(.bold)
-                                .foregroundStyle(settings.getDefaultGradient())
-                        }
-
-                    if let dueDate = goal.dueDate {
-                        Text("Goal date")
-                            .spacedOut(text: dueDate.getFormattedDate(format: .abreviatedMonth))
-                    }
-
-                    HStack(spacing: 5) {
+            Section(header: Text("Info")) {
+                Text("Amount")
+                    .spacedOut {
                         Text(goal.amount.formattedForMoney())
                             .fontWeight(.bold)
                             .foregroundStyle(settings.getDefaultGradient())
-                        Text("is equivalent to")
-                        Spacer()
-                        Text(user.convertMoneyToTime(money: goal.amount).formatForTime())
                     }
+
+                if let dueDate = goal.dueDate {
+                    Text("Goal date")
+                        .spacedOut(text: dueDate.getFormattedDate(format: .abreviatedMonth))
                 }
 
-                Section("Tags") {
-                    VStack {
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack {
-                                ForEach(goal.getTags()) { tag in
-                                    NavigationLink {
-                                        TagDetailView(tag: tag)
-
-                                    } label: {
-                                        Text(tag.title ?? "NA")
-                                            .foregroundColor(.white)
-                                            .padding(10)
-                                            .padding(.trailing, 10)
-                                            .background {
-                                                PriceTag(height: 30, color: tag.getColor(), holePunchColor: .listBackgroundColor)
-                                            }
-                                    }
-                                }
-                            }
-                        }
-
-                        NavigationLink {
-                            CreateTagView(goal: goal)
-                        } label: {
-                            Label("New Tag", systemImage: "plus")
-                        }
-                        .buttonStyle(.borderedProminent)
-                        .tint(.blue)
-                        .padding(.top)
-                    }
-                    .listRowBackground(Color.listBackgroundColor)
-                }
-
-                Section(header: Text("Progress")) {
-                    Text("Paid off")
-                        .spacedOut(text: goal.amountPaidOff.formattedForMoney())
-
-                    Text("Remaining")
-                        .spacedOut(text: goal.amountRemainingToPayOff.formattedForMoney())
-                }
-
-                Section("Instances") {
-                    ForEach(user.getInstancesOf(goal: goal)) { thisExpense in
-                        if let date = thisExpense.dateCreated {
-                            NavigationLink {
-                                GoalDetailView(goal: thisExpense)
-                            } label: {
-                                Text(date.getFormattedDate(format: .abreviatedMonth))
-                                    .spacedOut(text: thisExpense.amountMoneyStr)
-                            }
-                        }
-                    }
-                }
-
-                // MARK: - Insight Section
-
-                Section("Insight") {
-                    Text("Time required to pay off")
-                        .spacedOut(text: goal.totalTimeRemaining.formatForTime([.day, .hour, .minute]))
-                }
-
-                Section(header: Text("Contributions")) {
-                    ForEach(goal.getAllocations()) { alloc in
-                        if let shift = alloc.shift {
-                            AllocShiftRow(shift: shift, allocation: alloc)
-                        }
-
-                        if let saved = alloc.savedItem {
-                            AllocSavedRow(saved: saved, allocation: alloc)
-                        }
-                    }
-                }
-
-                Section(header: Text("Image")) {
-                    VStack {
-                        if let uiImage = shownImage {
-                            Image(uiImage: uiImage)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .cornerRadius(8)
-                                .centerInParentView()
-                                .onTapGesture {
-                                    withAnimation {
-                                        if self.shownImage != nil {
-                                            self.isShowingFullScreenImage = true
-                                            self.isBlurred = true
-                                        }
-                                    }
-                                }
-                        } else {
-                            Image(systemName: "photo")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .foregroundColor(.gray)
-                                .centerInParentView()
-                                .onTapGesture {
-                                    showImageSelector = true
-                                }
-                        }
-
-                        HStack {
-                            Button("Choose image") {
-                                showImageSelector = true
-                            }
-                            .buttonStyle(.borderedProminent)
-
-                            if shownImage != nil {
-                                Button("Remove image", role: .destructive) {
-                                    shownImage = nil
-                                }
-                                .buttonStyle(.borderedProminent)
-                            }
-                        }
-                    }
-                    .frame(maxHeight: 250)
-                }
-
-                Section {
-                    Button("Delete goal", role: .destructive) {
-                        presentConfirmation.toggle()
-                    }
-                    .centerInParentView()
-                    .listRowBackground(Color.clear)
+                HStack(spacing: 5) {
+                    Text(goal.amount.formattedForMoney())
+                        .fontWeight(.bold)
+                        .foregroundStyle(settings.getDefaultGradient())
+                    Text("is equivalent to")
+                    Spacer()
+                    Text(user.convertMoneyToTime(money: goal.amount).formatForTime())
                 }
             }
+
+            Section("Tags") {
+                VStack {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(goal.getTags()) { tag in
+                                NavigationLink {
+                                    TagDetailView(tag: tag)
+
+                                } label: {
+                                    Text(tag.title ?? "NA")
+                                        .foregroundColor(.white)
+                                        .padding(10)
+                                        .padding(.trailing, 10)
+                                        .background {
+                                            PriceTag(height: 30, color: tag.getColor(), holePunchColor: .listBackgroundColor)
+                                        }
+                                }
+                            }
+                        }
+                    }
+
+                    NavigationLink {
+                        CreateTagView(goal: goal)
+                    } label: {
+                        Label("New Tag", systemImage: "plus")
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(.blue)
+                    .padding(.top)
+                }
+                .listRowBackground(Color.listBackgroundColor)
+            }
+
+            Section(header: Text("Progress")) {
+                Text("Paid off")
+                    .spacedOut(text: goal.amountPaidOff.formattedForMoney())
+
+                Text("Remaining")
+                    .spacedOut(text: goal.amountRemainingToPayOff.formattedForMoney())
+            }
+
+            Section("Instances") {
+                ForEach(user.getInstancesOf(goal: goal)) { thisExpense in
+                    if let date = thisExpense.dateCreated {
+                        NavigationLink {
+                            GoalDetailView(goal: thisExpense)
+                        } label: {
+                            Text(date.getFormattedDate(format: .abreviatedMonth))
+                                .spacedOut(text: thisExpense.amountMoneyStr)
+                        }
+                    }
+                }
+            }
+
+            // MARK: - Insight Section
+
+            Section("Insight") {
+                Text("Time required to pay off")
+                    .spacedOut(text: goal.totalTimeRemaining.formatForTime([.day, .hour, .minute]))
+            }
+
+            Section(header: Text("Contributions")) {
+                ForEach(goal.getAllocations()) { alloc in
+                    if let shift = alloc.shift {
+                        AllocShiftRow(shift: shift, allocation: alloc)
+                    }
+
+                    if let saved = alloc.savedItem {
+                        AllocSavedRow(saved: saved, allocation: alloc)
+                    }
+                }
+            }
+
+            Section(header: Text("Image")) {
+                VStack {
+                    if let uiImage = shownImage {
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .cornerRadius(8)
+                            .centerInParentView()
+                            .onTapGesture {
+                                withAnimation {
+                                    if self.shownImage != nil {
+                                        self.isShowingFullScreenImage = true
+                                        self.isBlurred = true
+                                    }
+                                }
+                            }
+                    } else {
+                        Image(systemName: "photo")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundColor(.gray)
+                            .centerInParentView()
+                            .onTapGesture {
+                                showImageSelector = true
+                            }
+                    }
+
+                    HStack {
+                        Button("Choose image") {
+                            showImageSelector = true
+                        }
+                        .buttonStyle(.borderedProminent)
+
+                        if shownImage != nil {
+                            Button("Remove image", role: .destructive) {
+                                shownImage = nil
+                            }
+                            .buttonStyle(.borderedProminent)
+                        }
+                    }
+                }
+                .frame(maxHeight: 250)
+            }
+
+            Section {
+                Button("Delete goal", role: .destructive) {
+                    presentConfirmation.toggle()
+                }
+                .centerInParentView()
+                .listRowBackground(Color.clear)
+            }
         }
-        
         .blur(radius: isBlurred || showSpinner ? 10 : 0)
         .overlay {
             if showSpinner {
@@ -238,6 +236,10 @@ struct GoalDetailView: View {
         .putInTemplate()
         .navigationTitle("Goal")
         .sheet(isPresented: $showImageSelector) {
+            if let shownImage {
+                viewIDForReload = UUID()
+            }
+        } content: {
             ImagePicker(isShown: self.$showImageSelector, image: self.$shownImage)
                 .onAppear {
                     showSpinner = false
@@ -249,13 +251,10 @@ struct GoalDetailView: View {
                     Button("Save") {
                         do {
                             try goal.saveImage(image: shownImage)
-                            try user.managedObjectContext!.save()
+//                            try user.getContext().save()
                             toastConfiguration = AlertToast(displayMode: .alert, type: .complete(settings.themeColor), title: "Saved successfully")
                             showAlert = true
-
-                            let dummyGoalForUpdate = try Goal(title: "", info: nil, amount: 124, dueDate: nil, user: user, context: viewContext)
-                            viewContext.delete(dummyGoalForUpdate)
-                            try viewContext.save()
+                            viewIDForReload = UUID()
 
                         } catch {
                             toastConfiguration = AlertToast(displayMode: .alert, type: .error(settings.themeColor), title: "Failed to save image")
