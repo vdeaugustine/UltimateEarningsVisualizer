@@ -46,6 +46,10 @@ public extension PayPeriod {
     var title: String {
         "Pay period for \(firstDate!.getFormattedDate(format: "MMM d")) - \(payDay!.getFormattedDate(format: .abreviatedMonth))"
     }
+    
+    var dateRangeString: String {
+        "\(firstDate!.getFormattedDate(format: "MMM d")) - \(payDay!.getFormattedDate(format: .abreviatedMonth))"
+    }
 
     func getFirstDate() -> Date {
         firstDate ?? .distantPast

@@ -9,52 +9,6 @@ import CoreData
 import SwiftUI
 import Vin
 
-// MARK: - NavManager
-
-class NavManager: ObservableObject {
-    static var shared: NavManager = NavManager()
-
-    @Published var homeNavPath: NavigationPath = .init()
-    @Published var settingsNavPath: NavigationPath = .init()
-    @Published var lastPath: PossiblePaths = .none
-
-    func clearAllPaths() {
-        homeNavPath = .init()
-        settingsNavPath = .init()
-    }
-
-    func sameTabTapped(tabTapped: Tabs) {
-        switch tabTapped {
-            case .settings:
-                break
-            case .expenses:
-                break
-            case .home:
-                homeNavPath = .init()
-            case .shifts:
-                break
-            case .today:
-                break
-            case .addShifts:
-                break
-            case .allItems:
-                break
-        }
-    }
-
-    enum Tabs: String, Hashable, CustomStringConvertible, Equatable {
-        var description: String { rawValue.capitalized }
-        case settings, expenses, home, shifts, today, addShifts, allItems
-    }
-
-    enum PossiblePaths: Hashable {
-        case home
-        case settings
-        case today
-        case none
-    }
-}
-
 // MARK: - ContentView
 
 struct ContentView: View {
@@ -69,6 +23,7 @@ struct ContentView: View {
         TabView(selection: $tab.onUpdate(ifNoChange: navManager.sameTabTapped)) {
             NavigationStack(path: $navManager.homeNavPath) {
                 HomeView()
+                    .id(navManager.scrollViewID)
             }
             .makeTab(tab: Tabs.home, systemImage: "house")
 
@@ -76,9 +31,11 @@ struct ContentView: View {
                 .putInNavView(.inline)
                 .makeTab(tab: Tabs.allItems, systemImage: "dollarsign")
 
-            TodayView()
-                .putInNavView(.inline)
-                .makeTab(tab: Tabs.today, systemImage: "bolt.fill")
+            NavigationStack(path: $navManager.todayViewNavPath, root: {
+                TodayView()
+
+            })
+            .makeTab(tab: Tabs.today, systemImage: "bolt.fill")
 
             SettingsView()
                 .putInNavView(.inline)

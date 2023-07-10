@@ -124,13 +124,7 @@ extension Text {
     }
 }
 
-extension View {
-    func background(_ color: Color, cornerRadius: CGFloat) -> some View {
-        self
-            .padding(5)
-            .background(RoundedRectangle(cornerRadius: cornerRadius).foregroundColor(color).shadow(radius: 3))
-    }
-}
+
 
 extension CGRect {
     var midPoint: CGPoint {

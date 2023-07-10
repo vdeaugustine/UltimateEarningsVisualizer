@@ -51,10 +51,15 @@ public extension User {
                 // Make today shift
                 try TodayShift.makeExampleTodayShift(user: self, context: context)
 
+                // Set regular schedule
                 RegularSchedule([.tuesday, .wednesday, .thursday],
                                 user: self,
                                 context: context)
-
+                
+                // Make Expenses that will not be allocated
+                
+                try Expense.makeExpensesThatWontBeAllocated(user: self, context: context)
+                
                 // Make temporary allocations
             } catch {
                 fatalError(String(describing: error))

@@ -167,9 +167,25 @@ extension Shift {
         guard let allocations = Array(allocations ?? []) as? [Allocation] else { return 0 }
         return allocations.reduce(Double(0)) { $0 + $1.amount }
     }
+    
+    var allocatedToGoals: Double {
+        guard let allocations = Array(allocations ?? []) as? [Allocation] else { return 0 }
+        
+        return allocations.filter({ $0.goal != nil }).reduce(Double(0)) { $0 + $1.amount }
+    }
+    var allocatedToExpenses: Double {
+        guard let allocations = Array(allocations ?? []) as? [Allocation] else { return 0 }
+        
+        return allocations.filter({ $0.expense != nil }).reduce(Double(0)) { $0 + $1.amount }
+    }
 
     var totalAvailable: Double {
-        totalEarned - totalAllocated
+        let earned = User.main.getWage().includeTaxes ? totalEarnedAfterTaxes : totalEarned
+        return earned - totalAllocated
+    }
+    
+    var totalEarnedAfterTaxes: Double {
+        totalEarned - taxesPaid
     }
 
     var duration: TimeInterval {

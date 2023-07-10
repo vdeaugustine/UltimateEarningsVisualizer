@@ -11,69 +11,40 @@ import Vin
 // MARK: - ConfirmTodayShift
 
 struct ConfirmTodayShift: View {
-    @ObservedObject private var user: User = .main
-    @State private var temporaryItems: [TempTodayPayoff] = []
-    @State private var showConfirmation = false
-
-    private var willEarn: Double {
-        let wage = user.getWage()
-        if wage.isSalary {
-            return wage.perDay
-        } else {
-            return wage.perSecond * shiftDuration
-        }
-    }
-
-    let haveEarned: Double
-    let shiftDuration: TimeInterval
-    let initialPayoffs = User.main.getQueue().map { TempTodayPayoff(payoff: $0) }
-
-    private var tempPayoffs: [TempTodayPayoff] {
-        payOffExpenses(with: haveEarned, expenses: initialPayoffs).reversed()
-    }
-
-    private var filteredTempPayoffs: [TempTodayPayoff] {
-        tempPayoffs.filter { $0.progressAmount > 0.01 }
-    }
+    @ObservedObject var viewModel: TodayViewModel
+    @State private var paidOffItems: [TempTodayPayoff] = []
 
     var body: some View {
         List {
-            ForEach(temporaryItems) { item in
-
-                if item.progressAmount > 0.01 {
-                    Text(item.title)
-                        .spacedOut {
-                            Text(item.progressAmount.formattedForMoney())
-                                .fontWeight(.bold)
-                                .foregroundStyle(user.getSettings().getDefaultGradient())
-                        }
-                }
+            Section {
+                Text("Start")
+                    .spacedOut(text: viewModel.start.getFormattedDate(format: .minimalTime))
+                Text("End")
+                    .spacedOut(text: viewModel.end.getFormattedDate(format: .minimalTime))
+            } header: {
+                Text("Details")
             }
-            .onDelete { indexSet in
-                temporaryItems.remove(atOffsets: indexSet)
+
+            if !paidOffItems.isEmpty {
+                Section {
+                    GPTPieChart(pieChartData: viewModel.getConfirmShiftChartData(items: paidOffItems))
+                        .frame(height: 200)
+                    ForEach(paidOffItems) { payoff in
+                        Text(payoff.title)
+                            .spacedOut(text: payoff.progressAmount.formattedForMoney())
+                    }
+                    .onDelete(perform: { indexSet in
+                        paidOffItems.remove(atOffsets: indexSet)
+                    })
+                }
             }
         }
         .putInTemplate()
         .navigationTitle("Confirm Today Shift")
-        .onAppear {
-            let temps = payOffExpenses(with: haveEarned, expenses: initialPayoffs).reversed()
-            let filteredTemps = temps.filter { $0.progressAmount > 0.01 }
-            temporaryItems = filteredTemps
-        }
-        .bottomCapsule(label: "Confirm") {
-            showConfirmation.toggle()
-        }
-        .toolbar {
-            ToolbarItem {
-                EditButton()
-            }
-        }
-        .confirmationDialog("Save this shift and all allocations?", isPresented: $showConfirmation, titleVisibility: .visible) {
-            Button("Save", role: .destructive) {
-                temporaryItems.forEach { _ in
-                }
-            }
-        }
+        .onAppear(perform: {
+            paidOffItems = viewModel.tempPayoffs
+        })
+        
     }
 }
 
@@ -81,7 +52,7 @@ struct ConfirmTodayShift: View {
 
 struct ConfirmTodayShift_Previews: PreviewProvider {
     static var previews: some View {
-        ConfirmTodayShift(haveEarned: (Date.fivePM - Date.nineAM) * User.main.getWage().perSecond, shiftDuration: Date.fivePM - Date.nineAM)
+        ConfirmTodayShift(viewModel: TodayViewModel.main)
             .putInNavView(.inline)
     }
 }

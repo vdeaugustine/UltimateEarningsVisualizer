@@ -39,6 +39,7 @@ public protocol PayoffItem {
     var amountPaidOff: Double { get }
     var amountRemainingToPayOff: Double { get }
     var dateCreated: Date? { get set }
+    var isPaidOff: Bool { get }
     var optionalQSlotNumber: Int16? { get set }
     var optionalTempQNum: Int16? { get set }
     var percentPaidOff: Double { get }

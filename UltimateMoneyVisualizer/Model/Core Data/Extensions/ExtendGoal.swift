@@ -66,6 +66,10 @@ public extension Goal {
 
 extension Goal: PayoffItem {
     // MARK: Properties
+    
+    public var isPaidOff: Bool {
+        amountRemainingToPayOff < 0.01
+    }
 
     public var amountMoneyStr: String {
         return amount.formattedForMoney(includeCents: true)

@@ -11,7 +11,8 @@ import Vin
 // MARK: - TodayView
 
 struct TodayView: View {
-    @StateObject var viewModel = TodayViewModel()
+    @StateObject var viewModel = TodayViewModel.main
+    @EnvironmentObject private var navManager: NavManager
 
     var body: some View {
         VStack {
@@ -38,14 +39,11 @@ struct TodayView: View {
         .onAppear(perform: viewModel.user.updateTempQueue)
         .putInTemplate()
         .bottomBanner(isVisible: $viewModel.showBanner,
-                      swipeToDismiss: false,
-                      buttonText: "Save") {
-            do {
-                try viewModel.user.todayShift?.finalizeAndSave(user: viewModel.user, context: viewModel.viewContext)
-            } catch {
-                print("Error saving")
-            }
-        }
+                      mainText: "Shift Complete!",
+                      buttonText: "Save",
+                      destination: {
+                          ConfirmTodayShift(viewModel: viewModel)
+                      })
         .background(Color.targetGray.frame(maxHeight: .infinity).ignoresSafeArea())
         .navigationTitle("Today Live")
         .sheet(isPresented: $viewModel.showHoursSheet) {
@@ -64,6 +62,12 @@ struct TodayView: View {
         .confirmationDialog("Delete Today Shift", isPresented: $viewModel.showDeleteWarning, titleVisibility: .visible) {
             Button("Confirm", role: .destructive) {
                 viewModel.deleteShift()
+            }
+        }
+        .blur(radius: viewModel.nowTime < viewModel.start ? 5 : 0)
+        .overlay {
+            if viewModel.nowTime < viewModel.start {
+                ShiftHasntStartedView(viewModel: viewModel)
             }
         }
     }
@@ -126,9 +130,11 @@ struct YouHaveNoShiftView: View {
 
 struct TodayView_Previews: PreviewProvider {
     static var previews: some View {
-        TodayView(viewModel: TodayViewModel())
-            .putInTemplate()
-            .putInNavView(.inline)
-            .environment(\.managedObjectContext, PersistenceController.context)
+        NavigationStack(path: .constant(NavManager.shared.todayViewNavPath)) {
+            TodayView(viewModel: TodayViewModel())
+                .putInTemplate()
+                .environment(\.managedObjectContext, PersistenceController.context)
+                .environmentObject(NavManager.shared)
+        }
     }
 }

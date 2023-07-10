@@ -99,6 +99,13 @@ extension View {
             }
         }
     }
+
+    func background(_ color: Color, cornerRadius: CGFloat, shadow: CGFloat = 1, padding: CGFloat = 5) -> some View {
+        self.padding(padding)
+            .background(RoundedRectangle(cornerRadius: cornerRadius)
+            .foregroundColor(color)
+            .shadow(radius: shadow))
+    }
 }
 
 // MARK: - BottomButtonView

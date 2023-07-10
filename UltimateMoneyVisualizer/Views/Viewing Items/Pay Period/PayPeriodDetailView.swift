@@ -20,22 +20,54 @@ struct PayPeriodDetailView: View {
 
     var body: some View {
         List {
-            if let start = payPeriod.firstDate {
-                Text("Start")
-                    .spacedOut(text: start.getFormattedDate(format: .abreviatedMonth))
-            }
-            if let end = payPeriod.payDay {
-                Text("Pay day")
-                    .spacedOut(text: end.getFormattedDate(format: .abreviatedMonth))
+            if let start = payPeriod.firstDate,
+               let end = payPeriod.payDay {
+                Section {
+                    HorizontalDataDisplay(data: [.init(label: "Start",
+                                                       value: start.getFormattedDate(format: .slashDate),
+                                                       view: nil),
+                                                 .init(label: "Pay Day",
+                                                       value: end.getFormattedDate(format: .slashDate),
+                                                       view: nil),
+                                                 .init(label: "Shifts",
+                                                       value: payPeriod.getShifts().count.str,
+                                                       view: nil)])
+
+                        .padding(.horizontal, -50)
+                        .padding(.vertical, -20)
+                        .centerInParentView()
+                        .listRowBackground(Color.clear)
+                }
             }
 
-            Text("Total worked")
-                .spacedOut(text: payPeriod.totalTimeWorked().formatForTime([.hour, .minute, .second]))
-            Text("Total earned")
-                .spacedOut(text: payPeriod.totalEarned().formattedForMoney())
+            HStack {
+                SystemImageWithFilledBackground(systemName: "hourglass")
+                Text("Total worked")
+                Spacer()
+                Text(payPeriod.totalTimeWorked().formatForTime([.hour, .minute, .second]))
+                    .fontWeight(.medium)
+            }
+            
+            
+            
+            HStack {
+                SystemImageWithFilledBackground(systemName: "dollarsign")
+                Text("Total Earned")
+                Spacer()
+                Text(payPeriod.totalEarned().formattedForMoney())
+                    .fontWeight(.medium)
+            }
+            
+            HStack {
+                SystemImageWithFilledBackground(systemName: "dollarsign.arrow.circlepath")
+                Text("Taxes paid")
+                Spacer()
+                Text(payPeriod.taxesPaid().formattedForMoney())
+                    .fontWeight(.medium)
+            }
 
-            Text("Taxes paid")
-                .spacedOut(text: payPeriod.taxesPaid().formattedForMoney())
+
+            
 
             Section {
                 GPTPieChart(pieChartData: [.init(color: .defaultColorOptions[0],
@@ -47,7 +79,7 @@ struct PayPeriodDetailView: View {
                                            .init(color: .defaultColorOptions[7],
                                                  name: "Net Money",
                                                  amount: payPeriod.totalEarnedAfterTaxes())])
-                .frame(height: 200)
+                    .frame(height: 200)
             }
             .listRowBackground(Color.clear)
 
@@ -65,7 +97,7 @@ struct PayPeriodDetailView: View {
                       gradient: Color.niceRed.getGradient()) {
             showDeleteConfirmation.toggle()
         }
-        .navigationTitle(payPeriod.title)
+        .navigationTitle("Pay Period")
         .putInTemplate()
         .toast(isPresenting: $showDeleteFailAlert, alert: { .errorWith(message: "Error deleting pay period") })
         .confirmationDialog("Delete pay period",
@@ -88,7 +120,14 @@ struct PayPeriodDetailView: View {
 
 struct PayPeriodDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        PayPeriodDetailView(payPeriod: User.main.getPayPeriods().first!)
-            .putInNavView(.inline)
+        Group {
+            PayPeriodDetailView(payPeriod: User.main.getPayPeriods().first!)
+                .previewDevice("iPhone SE (3rd generation)")
+                .putInNavView(.inline)
+            PayPeriodDetailView(payPeriod: User.main.getPayPeriods().first!)
+                .previewDevice("iPhone 14 Pro Max")
+                .putInNavView(.inline)
+        }
+        
     }
 }

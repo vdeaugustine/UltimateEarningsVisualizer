@@ -15,6 +15,10 @@
 		9C05059E2A10B0B500FC6511 /* SetHoursForRegularDaysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C05059D2A10B0B500FC6511 /* SetHoursForRegularDaysView.swift */; };
 		9C0505A12A11EBF700FC6511 /* ConfirmTodayShift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0505A02A11EBF700FC6511 /* ConfirmTodayShift.swift */; };
 		9C0505A32A13043F00FC6511 /* DatesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0505A22A13043F00FC6511 /* DatesTests.swift */; };
+		9C0CFCD92A5A70CC005C7C81 /* ExpenseGridBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0CFCD82A5A70CC005C7C81 /* ExpenseGridBlock.swift */; };
+		9C0CFCDB2A5A7B08005C7C81 /* ExpenseGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0CFCDA2A5A7B08005C7C81 /* ExpenseGrid.swift */; };
+		9C0CFCDE2A5BC2A1005C7C81 /* NavManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0CFCDD2A5BC2A1005C7C81 /* NavManager.swift */; };
+		9C0CFCE02A5C5989005C7C81 /* ShiftHasntStartedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0CFCDF2A5C5989005C7C81 /* ShiftHasntStartedView.swift */; };
 		9C18C1B42A4A8A7500B74C92 /* ExtendDeduction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C18C1B32A4A8A7500B74C92 /* ExtendDeduction.swift */; };
 		9C3A7B302A2BD63300F2AC88 /* ExtendTimeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3A7B2F2A2BD63300F2AC88 /* ExtendTimeBlock.swift */; };
 		9C3A7B322A2BD80300F2AC88 /* AllTimeBlocksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3A7B312A2BD80300F2AC88 /* AllTimeBlocksView.swift */; };
@@ -180,6 +184,10 @@
 		9C05059D2A10B0B500FC6511 /* SetHoursForRegularDaysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetHoursForRegularDaysView.swift; sourceTree = "<group>"; };
 		9C0505A02A11EBF700FC6511 /* ConfirmTodayShift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmTodayShift.swift; sourceTree = "<group>"; };
 		9C0505A22A13043F00FC6511 /* DatesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatesTests.swift; sourceTree = "<group>"; };
+		9C0CFCD82A5A70CC005C7C81 /* ExpenseGridBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseGridBlock.swift; sourceTree = "<group>"; };
+		9C0CFCDA2A5A7B08005C7C81 /* ExpenseGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseGrid.swift; sourceTree = "<group>"; };
+		9C0CFCDD2A5BC2A1005C7C81 /* NavManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NavManager.swift; path = "UltimateMoneyVisualizer/--TopLevel/NavManager.swift"; sourceTree = SOURCE_ROOT; };
+		9C0CFCDF2A5C5989005C7C81 /* ShiftHasntStartedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHasntStartedView.swift; sourceTree = "<group>"; };
 		9C18C1B32A4A8A7500B74C92 /* ExtendDeduction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendDeduction.swift; sourceTree = "<group>"; };
 		9C3A7B2F2A2BD63300F2AC88 /* ExtendTimeBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendTimeBlock.swift; sourceTree = "<group>"; };
 		9C3A7B312A2BD80300F2AC88 /* AllTimeBlocksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTimeBlocksView.swift; sourceTree = "<group>"; };
@@ -189,7 +197,7 @@
 		9C3C58632A0C9ED500169A0F /* AddAllocationForExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAllocationForExpenseView.swift; sourceTree = "<group>"; };
 		9C3C58652A0CB89800169A0F /* AddAllocationForGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AddAllocationForGoalView.swift; path = "UltimateMoneyVisualizer/Views/Adding Items/Allocations/AddAllocationForGoalView.swift"; sourceTree = SOURCE_ROOT; };
 		9C3C58672A0CBF5900169A0F /* AllItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllItemsView.swift; sourceTree = "<group>"; };
-		9C3F80C12A593C6C00FCF040 /* PayPeriodDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPeriodDetailView.swift; sourceTree = SOURCE_ROOT; };
+		9C3F80C12A593C6C00FCF040 /* PayPeriodDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PayPeriodDetailView.swift; path = "UltimateMoneyVisualizer/Views/Viewing Items/Pay Period/PayPeriodDetailView.swift"; sourceTree = SOURCE_ROOT; };
 		9C3F80C32A5949BE00FCF040 /* GPTPieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTPieChart.swift; sourceTree = "<group>"; };
 		9C442A362A03792800D61C3E /* WageBreakdownBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WageBreakdownBox.swift; sourceTree = "<group>"; };
 		9C442A382A03798C00D61C3E /* WageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WageTests.swift; sourceTree = "<group>"; };
@@ -275,8 +283,8 @@
 		9C9735932A0D795600F651A1 /* AllocationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AllocationDetailView.swift; path = "UltimateMoneyVisualizer/Views/Viewing Items/Allocations/AllocationDetailView.swift"; sourceTree = SOURCE_ROOT; };
 		9C9735952A0D84D500F651A1 /* ExtendText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendText.swift; sourceTree = "<group>"; };
 		9C9735972A0D9B9000F651A1 /* NetMoneyGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetMoneyGraph.swift; sourceTree = "<group>"; };
-		9C9FFB1C2A577E1000565B78 /* PayPeriodSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPeriodSettingsViewModel.swift; sourceTree = SOURCE_ROOT; };
-		9C9FFB1E2A57C59700565B78 /* PayPeriodsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PayPeriodsView.swift; path = PayPeriods/PayPeriodsView.swift; sourceTree = SOURCE_ROOT; };
+		9C9FFB1C2A577E1000565B78 /* PayPeriodSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PayPeriodSettingsViewModel.swift; path = "UltimateMoneyVisualizer/Views/Viewing Items/Pay Period/PayPeriodSettingsViewModel.swift"; sourceTree = SOURCE_ROOT; };
+		9C9FFB1E2A57C59700565B78 /* PayPeriodsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PayPeriodsView.swift; path = "UltimateMoneyVisualizer/Views/Viewing Items/Pay Period/PayPeriodsView.swift"; sourceTree = SOURCE_ROOT; };
 		9C9FFB202A57C60900565B78 /* PayPeriodsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPeriodsViewModel.swift; sourceTree = "<group>"; };
 		9C9FFB222A57C99400565B78 /* ExtendPayPeriodSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendPayPeriodSettings.swift; sourceTree = "<group>"; };
 		9C9FFB242A57CD8700565B78 /* ExtendSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendSection.swift; sourceTree = "<group>"; };
@@ -367,6 +375,26 @@
 			path = Deprecated;
 			sourceTree = "<group>";
 		};
+		9C0CFCD72A5A7050005C7C81 /* Pay Period */ = {
+			isa = PBXGroup;
+			children = (
+				9C3F80C12A593C6C00FCF040 /* PayPeriodDetailView.swift */,
+				9C9FFB1E2A57C59700565B78 /* PayPeriodsView.swift */,
+				9C9FFB202A57C60900565B78 /* PayPeriodsViewModel.swift */,
+				9C9FFB1C2A577E1000565B78 /* PayPeriodSettingsViewModel.swift */,
+				9C7B5D572A20271400DBB877 /* PayPeriodSettingsView.swift */,
+			);
+			path = "Pay Period";
+			sourceTree = "<group>";
+		};
+		9C0CFCDC2A5BB159005C7C81 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				9C0CFCD82A5A70CC005C7C81 /* ExpenseGridBlock.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		9C460EE72A049DC30007EBA9 /* New Money Items */ = {
 			isa = PBXGroup;
 			children = (
@@ -378,6 +406,7 @@
 		9C4F0A2B2A14614500C78349 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				9C0CFCDD2A5BC2A1005C7C81 /* NavManager.swift */,
 				9C4F0A292A14614200C78349 /* NotificationManager.swift */,
 				9C7B5D512A1EE82600DBB877 /* SubscriptionManager.swift */,
 				9C7F968F29F8FD5A00F5035C /* PersistenceController */,
@@ -607,6 +636,7 @@
 		9C7F968A29F8FD0300F5035C /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
+				9CEEE33E29F909C2001FA4FB /* Enums */,
 				9C7F968E29F8FD5400F5035C /* Model */,
 				9C7F968B29F8FD1700F5035C /* Extensions */,
 			);
@@ -669,11 +699,7 @@
 		9C7F96A429F8FEEB00F5035C /* -InProgress */ = {
 			isa = PBXGroup;
 			children = (
-				9C3F80C12A593C6C00FCF040 /* PayPeriodDetailView.swift */,
-				9C9FFB1E2A57C59700565B78 /* PayPeriodsView.swift */,
-				9C9FFB202A57C60900565B78 /* PayPeriodsViewModel.swift */,
-				9C9FFB1C2A577E1000565B78 /* PayPeriodSettingsViewModel.swift */,
-				9C7B5D572A20271400DBB877 /* PayPeriodSettingsView.swift */,
+				9C0CFCDF2A5C5989005C7C81 /* ShiftHasntStartedView.swift */,
 				9C7C985529FB722D0077EA25 /* Components */,
 				9C0505A02A11EBF700FC6511 /* ConfirmTodayShift.swift */,
 				9CDBE0E52A2520D200741EEE /* CustomStatsView.swift */,
@@ -805,7 +831,7 @@
 		9CEEE32F29F904BB001FA4FB /* Viewing Items */ = {
 			isa = PBXGroup;
 			children = (
-				9C5F0B912A3500C7006AAB46 /* Time Blocks */,
+				9C0CFCD72A5A7050005C7C81 /* Pay Period */,
 				9C9735902A0D78BC00F651A1 /* All Items */,
 				9C0505942A1085C500FC6511 /* Allocations */,
 				9CEEE33729F90890001FA4FB /* Expenses */,
@@ -820,6 +846,7 @@
 				9C9735912A0D78F700F651A1 /* Stats */,
 				9C9735922A0D790000F651A1 /* Store */,
 				9CDBE0A92A2160C700741EEE /* Tag */,
+				9C5F0B912A3500C7006AAB46 /* Time Blocks */,
 				9C65A7682A00DAC700A5BCF1 /* Today */,
 				9CEEE35829F9EBCC001FA4FB /* Wage */,
 			);
@@ -829,6 +856,8 @@
 		9CEEE33729F90890001FA4FB /* Expenses */ = {
 			isa = PBXGroup;
 			children = (
+				9C0CFCDC2A5BB159005C7C81 /* Components */,
+				9C0CFCDA2A5A7B08005C7C81 /* ExpenseGrid.swift */,
 				9CEEE33029F904CC001FA4FB /* ExpenseListView.swift */,
 				9CEEE33329F90651001FA4FB /* ExpenseDetailView.swift */,
 			);
@@ -849,7 +878,6 @@
 			children = (
 				9C4F0A2B2A14614500C78349 /* Managers */,
 				9C514DB12A0024D6003DC43C /* Protocols */,
-				9CEEE33E29F909C2001FA4FB /* Enums */,
 				9C7F968A29F8FD0300F5035C /* Core Data */,
 			);
 			path = Model;
@@ -1123,6 +1151,7 @@
 				9C9735942A0D795600F651A1 /* AllocationDetailView.swift in Sources */,
 				9CE288DB2A42700B0050A4DC /* CreateNewTimeBlockViewModel.swift in Sources */,
 				9C76B2F02A5689B2001E40FC /* NewItemViewModel.swift in Sources */,
+				9C0CFCD92A5A70CC005C7C81 /* ExpenseGridBlock.swift in Sources */,
 				9C7F969C29F8FE3500F5035C /* ExtendSettings.swift in Sources */,
 				9C3A7B372A2C44F300F2AC88 /* ItemizedPartOfShiftView.swift in Sources */,
 				9CB418C42A0B2C81006F44AB /* EditSavedItemView.swift in Sources */,
@@ -1132,6 +1161,7 @@
 				9CDBE0EA2A25CD6300741EEE /* GoalsGridView.swift in Sources */,
 				9C9FFB212A57C60900565B78 /* PayPeriodsViewModel.swift in Sources */,
 				9CEEE34029F909CC001FA4FB /* WageType.swift in Sources */,
+				9C0CFCDB2A5A7B08005C7C81 /* ExpenseGrid.swift in Sources */,
 				9C460EE92A049DFA0007EBA9 /* StatsView.swift in Sources */,
 				9C7B5D5A2A202E8D00DBB877 /* CreateTagView.swift in Sources */,
 				9C7C985F29FCD5AB0077EA25 /* HorizontalDataDisplay.swift in Sources */,
@@ -1161,6 +1191,7 @@
 				9C460EE22A038D420007EBA9 /* ShiftCircle.swift in Sources */,
 				9C7F969E29F8FE3500F5035C /* ExtendAllocation.swift in Sources */,
 				9C460EE02A038B9F0007EBA9 /* MultipleNewShiftsView(Deprecated).swift in Sources */,
+				9C0CFCE02A5C5989005C7C81 /* ShiftHasntStartedView.swift in Sources */,
 				9CEEE35129F90E37001FA4FB /* SavedDetailView.swift in Sources */,
 				9C7C985229FB613E0077EA25 /* ExtendColor.swift in Sources */,
 				9C9FFB232A57C99400565B78 /* ExtendPayPeriodSettings.swift in Sources */,
@@ -1183,6 +1214,7 @@
 				9C7C986129FCE6A80077EA25 /* ProgressBar.swift in Sources */,
 				9C3A7B322A2BD80300F2AC88 /* AllTimeBlocksView.swift in Sources */,
 				9CEEE34729F90ADA001FA4FB /* ShiftDetailView.swift in Sources */,
+				9C0CFCDE2A5BC2A1005C7C81 /* NavManager.swift in Sources */,
 				9C7F969A29F8FE3500F5035C /* ExtendWage.swift in Sources */,
 				9C7C983A29F9EC410077EA25 /* EnterWageView.swift in Sources */,
 				9CED53442A089C77002DC183 /* StatsViewChart.swift in Sources */,

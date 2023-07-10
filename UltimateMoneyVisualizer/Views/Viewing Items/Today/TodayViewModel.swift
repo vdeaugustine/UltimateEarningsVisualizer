@@ -11,7 +11,10 @@ import SwiftUI
 import Vin
 
 class TodayViewModel: ObservableObject {
-    @Published var start: Date = User.main.regularSchedule?.getStartTime(for: .now) ?? .nineAM
+    static var main = TodayViewModel()
+    let viewContext: NSManagedObjectContext
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @Published var start: Date = User.main.regularSchedule?.getStartTime(for: .now) ?? Date.getThisTime(hour: 11, minute: 0)!
     @Published var end: Date = User.main.regularSchedule?.getEndTime(for: .now) ?? .fivePM
     @Published var hasShownBanner = false
     @Published var nowTime: Date = .now
@@ -23,6 +26,16 @@ class TodayViewModel: ObservableObject {
     @ObservedObject var settings = User.main.getSettings()
     @ObservedObject var user = User.main
     @ObservedObject var wage = User.main.getWage()
+    @ObservedObject var navManager = NavManager.shared
+
+    init(context: NSManagedObjectContext = PersistenceController.context) {
+        self.viewContext = context
+        let allQueue = User.main.getQueue().filter { !$0.isPaidOff }
+//        let goalsPaidOff = allQueue.filter { $0.type == .expense }.map { TempTodayPayoff(payoff: $0) }
+//        let expensesPaidOff = allQueue.filter { $0.type == .goal }.map { TempTodayPayoff(payoff: $0) }
+
+        self.initialPayoffs = allQueue.map { TempTodayPayoff(payoff: $0) }
+    }
 
     var willEarn: Double {
         if wage.isSalary {
@@ -32,9 +45,32 @@ class TodayViewModel: ObservableObject {
         }
     }
 
-    let initialPayoffs = User.main.getQueue().map {
-        TempTodayPayoff(payoff: $0)
+    func timeUntilShiftString() -> String {
+        let timeComponent = start - nowTime
+        if abs(timeComponent) < 86_400 {
+            let hours = Int(timeComponent / 3_600)
+            let minutes = Int((timeComponent.truncatingRemainder(dividingBy: 3_600)) / 60)
+            let remainingSeconds = Int(timeComponent.truncatingRemainder(dividingBy: 60))
+
+            let minutesString = String(format: "%02d", abs(minutes))
+            let secondsString = String(format: "%02d", abs(remainingSeconds))
+            
+            var timeString = ""
+            if hours > 0 {
+                timeString += "\(hours):"
+            }
+            timeString += "\(minutesString):\(secondsString)"
+            
+            return timeString
+        } else {
+            return "0:00:00"
+        }
     }
+
+
+
+    /// Main Payoff Queue that has been filtered out for only items that haven't been paid off
+    let initialPayoffs: [TempTodayPayoff]
 
     var haveEarned: Double {
         user.todayShift?.totalEarnedSoFar(nowTime) ?? 0
@@ -66,9 +102,7 @@ class TodayViewModel: ObservableObject {
     }
 
     var taxesPaidSoFar: Double {
-        taxesTempPayoffs.reduce(Double.zero) { partialResult, taxTempPayoff in
-            partialResult + taxTempPayoff.amountPaidOff
-        }
+        tempPayoffs.lazy.filter { $0.type == .tax }.reduce(Double.zero) { $0 + $1.progressAmount }
     }
 
     var tempPayoffs: [TempTodayPayoff] {
@@ -102,13 +136,6 @@ class TodayViewModel: ObservableObject {
         }
     }
 
-    let viewContext: NSManagedObjectContext
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-
-    init(context: NSManagedObjectContext = PersistenceController.context) {
-        self.viewContext = context
-    }
-
     var isCurrentlyMidShift: Bool {
         guard let todayShift = user.todayShift,
               let start = todayShift.startTime,
@@ -125,7 +152,7 @@ class TodayViewModel: ObservableObject {
         nowTime = .now
         if user.todayShift != nil,
            !hasShownBanner {
-            if isCurrentlyMidShift == false {
+            if nowTime > end {
                 showBanner = true
             }
         }
@@ -136,7 +163,7 @@ class TodayViewModel: ObservableObject {
         if let userShift = user.todayShift {
             viewContext.delete(userShift)
         }
-        showBanner = false 
+        showBanner = false
         do {
             try user.getContext().save()
         } catch {
@@ -145,12 +172,57 @@ class TodayViewModel: ObservableObject {
     }
 
     func saveShift() {
-        do {
-            try user.todayShift?.finalizeAndSave(user: user, context: viewContext)
-        } catch {
-            print("Error saving")
-        }
+        navManager.todayViewNavPath.append(NavManager.AllViews.confirmToday)
     }
+
+    var spentOnGoals: Double {
+        tempPayoffs.lazy.filter { $0.type == .goal }.reduce(Double.zero) { $0 + $1.progressAmount }
+    }
+
+    var spentOnExpenses: Double {
+        tempPayoffs.lazy.filter { $0.type == .expense }.reduce(Double.zero) { $0 + $1.progressAmount }
+    }
+
+    func getConfirmShiftChartData(items: [TempTodayPayoff]) -> [GPTPieChart.PieSliceData] {
+        var spentItems: [GPTPieChart.PieSliceData] = []
+
+        let goals = items.lazy.filter { $0.type == .goal }.reduce(Double.zero) { $0 + $1.progressAmount }
+        let expenses = items.lazy.filter { $0.type == .expense }.reduce(Double.zero) { $0 + $1.progressAmount }
+        let taxes = items.lazy.filter { $0.type == .tax }.reduce(Double.zero) { $0 + $1.progressAmount }
+
+        if taxes >= 0.01 {
+            spentItems.append(.init(color: .niceRed, name: "Taxes", amount: taxes))
+        }
+
+        if goals > 0.01 {
+            spentItems.append(
+                .init(color: .defaultColorOptions[5],
+                      name: "Goals",
+                      amount: goals)
+            )
+        }
+
+        if expenses > 0.01 {
+            spentItems.append(
+                .init(color: .defaultColorOptions[6],
+                      name: "Expenses",
+                      amount: expenses)
+            )
+        }
+
+        let unspent = haveEarned - taxesPaidSoFar - goals - expenses
+        if unspent > 0.01 {
+            spentItems.append(.init(color: .defaultColorOptions[7], name: "Unspent", amount: unspent))
+        }
+
+        return spentItems
+    }
+
+//    var confirmViewSpentFilterOptions: PayoffType {
+//        var retArr: [PayoffType] = []
+//        if spentOnGoals > 0.01 { retArr.append(.goal) }
+//        if spentOnExpenses > 0.01 { retArr.append(.expense)}
+//    }
 
     func totalValueForProgressSection() -> String {
         guard let todayShift = user.todayShift else { return "" }

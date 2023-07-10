@@ -99,20 +99,30 @@ struct ShiftListView: View {
             VStack(alignment: .leading, spacing: 0) {
                 List {
                     ForEach(user.getPayPeriods()) { period in
-                        Section(period.title) {
-                            
-                            NavigationLink {
-                                PayPeriodDetailView(payPeriod: period)
-                            } label: {
-                                Text("Pay period")
-                                    .spacedOut(text: period.totalEarned().formattedForMoney())
-                            }
-                            
+                        Section {
+//                            NavigationLink {
+//                                PayPeriodDetailView(payPeriod: period)
+//                            } label: {
+//                                Text("Pay period")
+//                                    .spacedOut(text: period.totalEarned().formattedForMoney())
+//                            }
+
                             ForEach(period.getShifts()) { shift in
                                 NavigationLink {
                                     ShiftDetailView(shift: shift)
                                 } label: {
                                     ShiftRowView(shift: shift)
+                                }
+                            }
+                        } header: {
+                            NavigationLink {
+                                PayPeriodDetailView(payPeriod: period)
+                            } label: {
+                                HStack {
+                                    Text(period.dateRangeString)
+                                    Spacer()
+                                    Label("More", systemImage: "ellipsis")
+                                        .labelStyle(.iconOnly)
                                 }
                             }
                         }

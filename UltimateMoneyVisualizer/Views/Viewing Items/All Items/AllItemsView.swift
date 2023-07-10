@@ -33,7 +33,7 @@ struct AllItemsView: View {
                 case .shifts:
                     ShiftListView()
                 case .expenses:
-                    ExpenseListView()
+                    ExpenseGrid()
             }
         }
         .background(Color.listBackgroundColor)

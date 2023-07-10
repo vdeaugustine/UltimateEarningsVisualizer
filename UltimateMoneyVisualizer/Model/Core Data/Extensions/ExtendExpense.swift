@@ -45,9 +45,6 @@ public extension Expense {
 
         self.id = UUID()
     }
-    
-    
-    
 }
 
 // MARK: - Recurring Expenses
@@ -77,6 +74,10 @@ extension Expense: PayoffItem {
     public var amountRemainingToPayOff: Double { return amount - amountPaidOff }
 
     public var isPassedDue: Bool { timeRemaining <= 0 }
+    
+    public var isPaidOff: Bool {
+        amountRemainingToPayOff < 0.01
+    }
 
     public var optionalQSlotNumber: Int16? {
         get {
@@ -359,5 +360,18 @@ public extension Expense {
                     user: user,
                     context: context)
         try context.save()
+    }
+
+    static func makeExpensesThatWontBeAllocated(user: User, context: NSManagedObjectContext) throws {
+        try Expense(title: "Food meal plan",
+                    info: "Monthly subscription",
+                    amount: 150,
+                    dueDate: nil,
+                    dateCreated: .now,
+                    isRecurring: true,
+                    recurringDate: nil,
+                    tagStrings: ["Food", "Health", "Necessities"],
+                    user: user,
+                    context: context)
     }
 }
