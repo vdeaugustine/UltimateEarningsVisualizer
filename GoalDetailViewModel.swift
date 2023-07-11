@@ -77,61 +77,35 @@ class GoalDetailViewModel: ObservableObject {
         }
     }
     
+    func breakDownTime() -> String {
+        let seconds = goal.timeRemaining
+        let timeUnits: [(unit: String, seconds: Double)] = [("y", 365 * 24 * 60 * 60),
+                                                            ("mo", 30 * 24 * 60 * 60),
+                                                            ("w", 7 * 24 * 60 * 60),
+                                                            ("d", 24 * 60 * 60),
+                                                            ("h", 60 * 60),
+                                                            ("m", 60),
+                                                            ("s", 1)]
+
+        var remainingSeconds = seconds
+        var timeComponents: [String] = []
+
+        for unit in timeUnits {
+            let value = Int(remainingSeconds / unit.seconds)
+
+            if value > 0 {
+                timeComponents.append("\(value)\(unit.unit)")
+                remainingSeconds -= Double(value) * unit.seconds
+            }
+        }
+
+        if timeComponents.isEmpty {
+            return "0s"
+        } else {
+            return timeComponents.joined(separator: " ")
+        }
+    }
+    
 }
 
-// MARK: - Extra abandoned(?) code
-//Section(header: Text("Image")) {
-//    VStack {
-//        viewModel.imageForImageSelector
-//            .resizable()
-//            .aspectRatio(contentMode: .fit)
-//            .cornerRadius(8)
-//            .centerInParentView()
-//            .onTapGesture(perform: viewModel.imageTapGestureAction)
-//
-//        HStack {
-//            Button("Choose image") {
-//                viewModel.showImageSelector = true
-//            }
-//            .buttonStyle(.borderedProminent)
-//
-//            if viewModel.shownImage != nil {
-//                Button("Remove image", role: .destructive) {
-//                    viewModel.shownImage = nil
-//                }
-//                .buttonStyle(.borderedProminent)
-//            }
-//        }
-//    }
-//    .frame(maxHeight: 250)
-//}
-//func imageTapGestureAction() {
-//    if shownImage != nil {
-//        withAnimation {
-//            if shownImage != nil {
-//                isShowingFullScreenImage = true
-//                isBlurred = true
-//            }
-//        }
-//    }
-//    else {
-//        viewModel.showImageSelector = true
-//    }
-//   
-//}
-//
-//var imageForImageSelector: Image {
-//    if let uiImage = shownImage {
-//        Image(uiImage: uiImage)
-//            
-//    } else {
-//        Image(systemName: "photo")
-//            .resizable()
-//            .aspectRatio(contentMode: .fit)
-//            .foregroundColor(.gray)
-//            .centerInParentView()
-//            .onTapGesture {
-//                
-//            }
-//    }
-//}
+

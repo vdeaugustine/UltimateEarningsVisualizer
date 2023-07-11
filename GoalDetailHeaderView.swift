@@ -118,7 +118,7 @@ struct GoalDetailHeaderView: View {
 
 // MARK: - UserProfileView_Previews
 
-struct UserProfileView_Previews: PreviewProvider {
+struct GoalDetailHeaderView_Previews: PreviewProvider {
     static var previews: some View {
         GoalDetailHeaderView(goal: User.main.getGoals().first!,
                              shownImage: nil) {

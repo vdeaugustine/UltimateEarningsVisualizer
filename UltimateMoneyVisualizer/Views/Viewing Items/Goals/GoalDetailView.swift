@@ -22,113 +22,126 @@ struct GoalDetailView: View {
 
     var body: some View {
         ScrollView {
-            GoalDetailHeaderView(goal: viewModel.goal,
-                                 shownImage: viewModel.shownImage,
-                                 tappedImageAction: viewModel.goalDetailHeaderAction)
+            VStack {
+                GoalDetailHeaderView(goal: viewModel.goal,
+                                     shownImage: viewModel.shownImage,
+                                     tappedImageAction: viewModel.goalDetailHeaderAction)
+                
+                HStack {
+                    GoalDetailProgressBox(viewModel: viewModel)
+                    VStack {
+                        GoalDetailDueDateBox(viewModel: viewModel)
+                    }
+                }
+                
+                GoalDetailTagsSection(viewModel: viewModel)
 
-            Section(header: Text("Info")) {
-                Text("Amount")
-                    .spacedOut {
+                Section(header: Text("Info")) {
+                    Text("Amount")
+                        .spacedOut {
+                            Text(viewModel.goal.amount.formattedForMoney())
+                                .fontWeight(.bold)
+                                .foregroundStyle(viewModel.settings.getDefaultGradient())
+                        }
+
+                    if let dueDate = viewModel.goal.dueDate {
+                        Text("Goal date")
+                            .spacedOut(text: dueDate.getFormattedDate(format: .abreviatedMonth))
+                    }
+
+                    HStack(spacing: 5) {
                         Text(viewModel.goal.amount.formattedForMoney())
                             .fontWeight(.bold)
                             .foregroundStyle(viewModel.settings.getDefaultGradient())
+                        Text("is equivalent to")
+                        Spacer()
+                        Text(viewModel.user.convertMoneyToTime(money: viewModel.goal.amount).formatForTime())
                     }
-
-                if let dueDate = viewModel.goal.dueDate {
-                    Text("Goal date")
-                        .spacedOut(text: dueDate.getFormattedDate(format: .abreviatedMonth))
                 }
 
-                HStack(spacing: 5) {
-                    Text(viewModel.goal.amount.formattedForMoney())
-                        .fontWeight(.bold)
-                        .foregroundStyle(viewModel.settings.getDefaultGradient())
-                    Text("is equivalent to")
-                    Spacer()
-                    Text(viewModel.user.convertMoneyToTime(money: viewModel.goal.amount).formatForTime())
-                }
-            }
+                Section("Tags") {
+                    VStack {
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack {
+                                ForEach(viewModel.goal.getTags()) { tag in
+                                    NavigationLink {
+                                        TagDetailView(tag: tag)
 
-            Section("Tags") {
-                VStack {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
-                            ForEach(viewModel.goal.getTags()) { tag in
-                                NavigationLink {
-                                    TagDetailView(tag: tag)
-
-                                } label: {
-                                    Text(tag.title ?? "NA")
-                                        .foregroundColor(.white)
-                                        .padding(10)
-                                        .padding(.trailing, 10)
-                                        .background {
-                                            PriceTag(height: 30, color: tag.getColor(), holePunchColor: .listBackgroundColor)
-                                        }
+                                    } label: {
+                                        Text(tag.title ?? "NA")
+                                            .foregroundColor(.white)
+                                            .padding(10)
+                                            .padding(.trailing, 10)
+                                            .background {
+                                                PriceTag(height: 30, color: tag.getColor(), holePunchColor: .listBackgroundColor)
+                                            }
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    NavigationLink {
-                        CreateTagView(goal: viewModel.goal)
-                    } label: {
-                        Label("New Tag", systemImage: "plus")
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .tint(.blue)
-                    .padding(.top)
-                }
-                .listRowBackground(Color.listBackgroundColor)
-            }
-
-            Section(header: Text("Progress")) {
-                Text("Paid off")
-                    .spacedOut(text: viewModel.goal.amountPaidOff.formattedForMoney())
-
-                Text("Remaining")
-                    .spacedOut(text: viewModel.goal.amountRemainingToPayOff.formattedForMoney())
-            }
-
-            Section("Instances") {
-                ForEach(viewModel.user.getInstancesOf(goal: viewModel.goal)) { thisExpense in
-                    if let date = thisExpense.dateCreated {
                         NavigationLink {
-                            GoalDetailView(goal: thisExpense)
+                            CreateTagView(goal: viewModel.goal)
                         } label: {
-                            Text(date.getFormattedDate(format: .abreviatedMonth))
-                                .spacedOut(text: thisExpense.amountMoneyStr)
+                            Label("New Tag", systemImage: "plus")
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .tint(.blue)
+                        .padding(.top)
+                    }
+                    .listRowBackground(Color.listBackgroundColor)
+                }
+
+                Section(header: Text("Progress")) {
+                    Text("Paid off")
+                        .spacedOut(text: viewModel.goal.amountPaidOff.formattedForMoney())
+
+                    Text("Remaining")
+                        .spacedOut(text: viewModel.goal.amountRemainingToPayOff.formattedForMoney())
+                }
+
+                Section("Instances") {
+                    ForEach(viewModel.user.getInstancesOf(goal: viewModel.goal)) { thisExpense in
+                        if let date = thisExpense.dateCreated {
+                            NavigationLink {
+                                GoalDetailView(goal: thisExpense)
+                            } label: {
+                                Text(date.getFormattedDate(format: .abreviatedMonth))
+                                    .spacedOut(text: thisExpense.amountMoneyStr)
+                            }
                         }
                     }
                 }
-            }
 
-            // MARK: - Insight Section
+                // MARK: - Insight Section
 
-            Section("Insight") {
-                Text("Time required to pay off")
-                    .spacedOut(text: viewModel.goal.totalTimeRemaining.formatForTime([.day, .hour, .minute]))
-            }
+                Section("Insight") {
+                    Text("Time required to pay off")
+                        .spacedOut(text: viewModel.goal.totalTimeRemaining.formatForTime([.day, .hour, .minute]))
+                }
 
-            Section(header: Text("Contributions")) {
-                ForEach(viewModel.goal.getAllocations()) { alloc in
-                    if let shift = alloc.shift {
-                        AllocShiftRow(shift: shift, allocation: alloc)
-                    }
-                    if let saved = alloc.savedItem {
-                        AllocSavedRow(saved: saved, allocation: alloc)
+                Section(header: Text("Contributions")) {
+                    ForEach(viewModel.goal.getAllocations()) { alloc in
+                        if let shift = alloc.shift {
+                            AllocShiftRow(shift: shift, allocation: alloc)
+                        }
+                        if let saved = alloc.savedItem {
+                            AllocSavedRow(saved: saved, allocation: alloc)
+                        }
                     }
                 }
-            }
 
-            Section {
-                Button("Delete goal",
-                       role: .destructive,
-                       action: viewModel.deleteGoalTapped)
-                    .centerInParentView()
-                    .listRowBackground(Color.clear)
+                Section {
+                    Button("Delete goal",
+                           role: .destructive,
+                           action: viewModel.deleteGoalTapped)
+                        .centerInParentView()
+                        .listRowBackground(Color.clear)
+                }
             }
+            .padding()
         }
+        
         .blur(radius: viewModel.blurRadius)
         .overlay {
             if viewModel.showSpinner {
@@ -147,7 +160,7 @@ struct GoalDetailView: View {
         .putInTemplate()
         .navigationTitle("Goal")
         .sheet(isPresented: $viewModel.showImageSelector) {
-            if let shownImage = viewModel.shownImage {
+            if viewModel.shownImage != nil {
                 viewModel.viewIDForReload = UUID()
             }
         } content: {
@@ -157,8 +170,7 @@ struct GoalDetailView: View {
                 }
         }
         .toolbar {
-            if viewModel.initialImage != viewModel.shownImage,
-               let shownImage = viewModel.shownImage {
+            if viewModel.initialImage != viewModel.shownImage {
                 ToolbarItem {
                     Button("Save", action: viewModel.saveButtonAction)
                 }
