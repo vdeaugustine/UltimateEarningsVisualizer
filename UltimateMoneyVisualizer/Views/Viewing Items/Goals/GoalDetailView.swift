@@ -13,51 +13,39 @@ import Vin
 
 struct GoalDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @ObservedObject private var user: User = User.main
-    @ObservedObject private var settings: Settings = User.main.getSettings()
-    @ObservedObject var goal: Goal
     @Environment(\.dismiss) private var dismiss
+    @StateObject var viewModel: GoalDetailViewModel
 
-    @State private var presentConfirmation = false
-    @State private var showSheet = false
-    @State private var showImageSelector = false
-    @State private var shownImage: UIImage? = nil
-    @State private var initialImage: UIImage? = nil
-    @State private var showAlert = false
-    @State private var toastConfiguration: AlertToast = AlertToast(type: .regular)
-    @State private var isShowingFullScreenImage = false
-    @State private var isBlurred = false
-
-    @State private var showSpinner = false
-    @State private var viewIDForReload: UUID = UUID()
+    init(goal: Goal) {
+        _viewModel = StateObject(wrappedValue: GoalDetailViewModel(goal: goal))
+    }
 
     var body: some View {
         ScrollView {
-            GoalDetailHeaderView(goal: goal, shownImage: shownImage) {
-                showImageSelector.toggle()
-                showSpinner = true
-            }
+            GoalDetailHeaderView(goal: viewModel.goal,
+                                 shownImage: viewModel.shownImage,
+                                 tappedImageAction: viewModel.goalDetailHeaderAction)
 
             Section(header: Text("Info")) {
                 Text("Amount")
                     .spacedOut {
-                        Text(goal.amount.formattedForMoney())
+                        Text(viewModel.goal.amount.formattedForMoney())
                             .fontWeight(.bold)
-                            .foregroundStyle(settings.getDefaultGradient())
+                            .foregroundStyle(viewModel.settings.getDefaultGradient())
                     }
 
-                if let dueDate = goal.dueDate {
+                if let dueDate = viewModel.goal.dueDate {
                     Text("Goal date")
                         .spacedOut(text: dueDate.getFormattedDate(format: .abreviatedMonth))
                 }
 
                 HStack(spacing: 5) {
-                    Text(goal.amount.formattedForMoney())
+                    Text(viewModel.goal.amount.formattedForMoney())
                         .fontWeight(.bold)
-                        .foregroundStyle(settings.getDefaultGradient())
+                        .foregroundStyle(viewModel.settings.getDefaultGradient())
                     Text("is equivalent to")
                     Spacer()
-                    Text(user.convertMoneyToTime(money: goal.amount).formatForTime())
+                    Text(viewModel.user.convertMoneyToTime(money: viewModel.goal.amount).formatForTime())
                 }
             }
 
@@ -65,7 +53,7 @@ struct GoalDetailView: View {
                 VStack {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
-                            ForEach(goal.getTags()) { tag in
+                            ForEach(viewModel.goal.getTags()) { tag in
                                 NavigationLink {
                                     TagDetailView(tag: tag)
 
@@ -83,7 +71,7 @@ struct GoalDetailView: View {
                     }
 
                     NavigationLink {
-                        CreateTagView(goal: goal)
+                        CreateTagView(goal: viewModel.goal)
                     } label: {
                         Label("New Tag", systemImage: "plus")
                     }
@@ -96,14 +84,14 @@ struct GoalDetailView: View {
 
             Section(header: Text("Progress")) {
                 Text("Paid off")
-                    .spacedOut(text: goal.amountPaidOff.formattedForMoney())
+                    .spacedOut(text: viewModel.goal.amountPaidOff.formattedForMoney())
 
                 Text("Remaining")
-                    .spacedOut(text: goal.amountRemainingToPayOff.formattedForMoney())
+                    .spacedOut(text: viewModel.goal.amountRemainingToPayOff.formattedForMoney())
             }
 
             Section("Instances") {
-                ForEach(user.getInstancesOf(goal: goal)) { thisExpense in
+                ForEach(viewModel.user.getInstancesOf(goal: viewModel.goal)) { thisExpense in
                     if let date = thisExpense.dateCreated {
                         NavigationLink {
                             GoalDetailView(goal: thisExpense)
@@ -119,115 +107,38 @@ struct GoalDetailView: View {
 
             Section("Insight") {
                 Text("Time required to pay off")
-                    .spacedOut(text: goal.totalTimeRemaining.formatForTime([.day, .hour, .minute]))
+                    .spacedOut(text: viewModel.goal.totalTimeRemaining.formatForTime([.day, .hour, .minute]))
             }
 
             Section(header: Text("Contributions")) {
-                ForEach(goal.getAllocations()) { alloc in
+                ForEach(viewModel.goal.getAllocations()) { alloc in
                     if let shift = alloc.shift {
                         AllocShiftRow(shift: shift, allocation: alloc)
                     }
-
                     if let saved = alloc.savedItem {
                         AllocSavedRow(saved: saved, allocation: alloc)
                     }
                 }
             }
 
-            Section(header: Text("Image")) {
-                VStack {
-                    if let uiImage = shownImage {
-                        Image(uiImage: uiImage)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .cornerRadius(8)
-                            .centerInParentView()
-                            .onTapGesture {
-                                withAnimation {
-                                    if self.shownImage != nil {
-                                        self.isShowingFullScreenImage = true
-                                        self.isBlurred = true
-                                    }
-                                }
-                            }
-                    } else {
-                        Image(systemName: "photo")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .foregroundColor(.gray)
-                            .centerInParentView()
-                            .onTapGesture {
-                                showImageSelector = true
-                            }
-                    }
-
-                    HStack {
-                        Button("Choose image") {
-                            showImageSelector = true
-                        }
-                        .buttonStyle(.borderedProminent)
-
-                        if shownImage != nil {
-                            Button("Remove image", role: .destructive) {
-                                shownImage = nil
-                            }
-                            .buttonStyle(.borderedProminent)
-                        }
-                    }
-                }
-                .frame(maxHeight: 250)
-            }
-
             Section {
-                Button("Delete goal", role: .destructive) {
-                    presentConfirmation.toggle()
-                }
-                .centerInParentView()
-                .listRowBackground(Color.clear)
+                Button("Delete goal",
+                       role: .destructive,
+                       action: viewModel.deleteGoalTapped)
+                    .centerInParentView()
+                    .listRowBackground(Color.clear)
             }
         }
-        .blur(radius: isBlurred || showSpinner ? 10 : 0)
+        .blur(radius: viewModel.blurRadius)
         .overlay {
-            if showSpinner {
+            if viewModel.showSpinner {
                 ProgressView()
             }
         }
-        .overlay(
-            VStack {
-                if isShowingFullScreenImage, let shownImage = shownImage {
-                    Image(uiImage: shownImage)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .onTapGesture {
-                            withAnimation {
-                                self.isShowingFullScreenImage = false
-                                self.isBlurred = false
-                            }
-                        }
-                }
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.black.opacity(0.7))
-            .edgesIgnoringSafeArea(.all)
-            .opacity(isShowingFullScreenImage ? 1 : 0)
-        )
+        .overlay(fullScreenImage())
         .background(Color.listBackgroundColor)
-        .confirmationDialog("Are you sure you want to delete this goal?", isPresented: $presentConfirmation, titleVisibility: .visible, actions: {
-            Button("Delete", role: .destructive) {
-                guard let context = user.managedObjectContext else {
-                    return
-                }
-
-                do {
-                    context.delete(goal)
-                    try context.save()
-                } catch {
-                    print("Failed to delete")
-                }
-
-                dismiss()
-            }
+        .confirmationDialog("Are you sure you want to delete this goal?", isPresented: $viewModel.presentConfirmation, titleVisibility: .visible, actions: {
+            Button("Delete", role: .destructive, action: viewModel.doDeleteAction)
         }, message: {
             Text("This action cannot be undone")
         })
@@ -235,41 +146,52 @@ struct GoalDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .putInTemplate()
         .navigationTitle("Goal")
-        .sheet(isPresented: $showImageSelector) {
-            if let shownImage {
-                viewIDForReload = UUID()
+        .sheet(isPresented: $viewModel.showImageSelector) {
+            if let shownImage = viewModel.shownImage {
+                viewModel.viewIDForReload = UUID()
             }
         } content: {
-            ImagePicker(isShown: self.$showImageSelector, image: self.$shownImage)
+            ImagePicker(isShown: $viewModel.showImageSelector, image: $viewModel.shownImage)
                 .onAppear {
-                    showSpinner = false
+                    viewModel.showSpinner = false
                 }
         }
         .toolbar {
-            if initialImage != shownImage, let shownImage {
+            if viewModel.initialImage != viewModel.shownImage,
+               let shownImage = viewModel.shownImage {
                 ToolbarItem {
-                    Button("Save") {
-                        do {
-                            try goal.saveImage(image: shownImage)
-//                            try user.getContext().save()
-                            toastConfiguration = AlertToast(displayMode: .alert, type: .complete(settings.themeColor), title: "Saved successfully")
-                            showAlert = true
-                            viewIDForReload = UUID()
-
-                        } catch {
-                            toastConfiguration = AlertToast(displayMode: .alert, type: .error(settings.themeColor), title: "Failed to save image")
-                            showAlert = true
-                        }
-                    }
+                    Button("Save", action: viewModel.saveButtonAction)
                 }
             }
         }
-        .onAppear {
-            initialImage = goal.loadImageIfPresent()
-            shownImage = goal.loadImageIfPresent()
-        }
-        .toast(isPresenting: $showAlert, duration: 2, tapToDismiss: false, offsetY: 40, alert: { toastConfiguration })
+        .onAppear(perform: viewModel.onAppearAction)
+        .toast(isPresenting: $viewModel.showAlert,
+               duration: 2,
+               tapToDismiss: false,
+               offsetY: 40,
+               alert: { viewModel.toastConfiguration })
         .ignoresSafeArea(.keyboard, edges: .bottom)
+    }
+
+    func fullScreenImage() -> some View {
+        VStack {
+            if viewModel.isShowingFullScreenImage, let shownImage = viewModel.shownImage {
+                Image(uiImage: shownImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .onTapGesture {
+                        withAnimation {
+                            viewModel.isShowingFullScreenImage = false
+                            viewModel.isBlurred = false
+                        }
+                    }
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.black.opacity(0.7))
+        .edgesIgnoringSafeArea(.all)
+        .opacity(viewModel.isShowingFullScreenImage ? 1 : 0)
     }
 }
 
