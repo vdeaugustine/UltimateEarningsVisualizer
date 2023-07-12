@@ -66,6 +66,7 @@ struct StretchyHeaderDynamic: View {
         return blur * 6
     }
 
+    /// This offset is used for the actual text part of the de facto Nav bar
     private func getHeaderTitleOffset() -> CGFloat {
         let currentYPos = titleRect.midY
 
@@ -166,11 +167,94 @@ Sagittis vivamus sem morbi nam mattis phasellus vehicula facilisis suscipit posu
 te dictumst mattis egestas laoreet, cubilia habitant magnis lacinia vivamus etiam aenean.
 """
     static var previews: some View {
-        StretchyHeaderDynamic(author: "Teddy",
-                              date: "02/05/1996",
-                              title: "Something",
-                              bodyText: placeholderText,
-                              headerImageName: "disneyworld",
-                              authorImageName: "dollar3d")
+        Text(placeholderText)
+            .modifier(StretchyHeaderModifier(headerImageName: "dollar3d"))
+//        StretchyHeaderDynamic(author: "Teddy",
+//                              date: "02/05/1996",
+//                              title: "Something",
+//                              bodyText: placeholderText,
+//                              headerImageName: "disneyworld",
+//                              authorImageName: "dollar3d")
+    }
+}
+
+
+// MARK: - StretchyHeaderModifier
+
+struct StretchyHeaderModifier: ViewModifier {
+    let headerImageName: String
+    var titleWhenScrolled: String? = nil
+
+    private let imageHeight: CGFloat = 300
+    private let collapsedImageHeight: CGFloat = 90
+
+    @ObservedObject private var articleContent: ViewFrame = ViewFrame()
+    @State private var headerImageRect: CGRect = .zero
+
+    func getScrollOffset(_ geometry: GeometryProxy) -> CGFloat {
+        geometry.frame(in: .global).minY
+    }
+
+    func getOffsetForHeaderImage(_ geometry: GeometryProxy) -> CGFloat {
+        let offset = getScrollOffset(geometry)
+        let sizeOffScreen = imageHeight - collapsedImageHeight
+
+        if offset < -sizeOffScreen {
+            let imageOffset = abs(min(-sizeOffScreen, offset))
+
+            return imageOffset - sizeOffScreen
+        }
+
+        if offset > 0 {
+            return -offset
+        }
+
+        return 0
+    }
+
+    func getHeightForHeaderImage(_ geometry: GeometryProxy) -> CGFloat {
+        let offset = getScrollOffset(geometry)
+        let imageHeight = geometry.size.height
+
+        if offset > 0 {
+            return imageHeight + offset
+        }
+
+        return imageHeight
+    }
+
+    func getBlurRadiusForImage(_ geometry: GeometryProxy) -> CGFloat {
+        let offset = geometry.frame(in: .global).maxY
+        let height = geometry.size.height
+        let blur = (height - max(offset, 0)) / height
+
+        return blur * 6
+    }
+
+    func body(content: Content) -> some View {
+        ScrollView {
+            VStack {
+                content
+                    .offset(y: imageHeight + 16)
+                    .background(GeometryGetter(rect: $articleContent.frame))
+
+                GeometryReader { geometry in
+                    ZStack(alignment: .bottom) {
+                        Image(headerImageName)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: geometry.size.width, height: self.getHeightForHeaderImage(geometry))
+                            .blur(radius: self.getBlurRadiusForImage(geometry))
+                            .clipped()
+                            .background(GeometryGetter(rect: self.$headerImageRect))
+                    }
+                    .clipped()
+                    .offset(x: 0, y: self.getOffsetForHeaderImage(geometry))
+                }
+                .frame(height: imageHeight)
+                .offset(x: 0, y: -(articleContent.startingRect?.maxY ?? UIScreen.main.bounds.height))
+            }
+        }
+        .edgesIgnoringSafeArea(.all)
     }
 }

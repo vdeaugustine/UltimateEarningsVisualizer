@@ -70,8 +70,7 @@ struct GoalDetailHeaderView: View {
     var image: Image {
         if let shownImage {
             return Image(uiImage: shownImage)
-        }
-        else if let image = goal.loadImageIfPresent() {
+        } else if let image = goal.loadImageIfPresent() {
             return Image(uiImage: image)
         } else {
             return Image("dollar3d")
@@ -85,7 +84,6 @@ struct GoalDetailHeaderView: View {
                 .aspectRatio(contentMode: .fill)
                 .clipShape(Circle())
                 .frame(width: 150, height: 150)
-//                .overlay(Circle().stroke(Color.white, lineWidth: 4))
                 .overlayOnCircle(degrees: 37, widthHeight: 150) {
                     Image(systemName: "pencil.circle.fill")
                         .font(.largeTitle)
@@ -98,25 +96,28 @@ struct GoalDetailHeaderView: View {
                 }
                 .frame(width: 150, height: 150)
 
-            Text(goal.titleStr)
-                .font(.title)
-                .fontWeight(.bold)
+            VStack(spacing: 20) {
+                VStack {
+                    Text(goal.titleStr)
+                        .font(.title)
+                        .fontWeight(.bold)
 
-            Text(dueDateLineString)
-                .font(.caption)
-                .foregroundColor(.gray)
-
-            if let info = goal.info {
-                Text(info)
-                    .font(.body)
-                    .padding(.top, 10)
+                    if let info = goal.info {
+                        Text(info)
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                    }
+                    
+                }
+                Text(goal.amountMoneyStr)
+                    .boldNumber()
             }
         }
         .frame(maxWidth: .infinity)
     }
 }
 
-// MARK: - UserProfileView_Previews
+// MARK: - GoalDetailHeaderView_Previews
 
 struct GoalDetailHeaderView_Previews: PreviewProvider {
     static var previews: some View {
