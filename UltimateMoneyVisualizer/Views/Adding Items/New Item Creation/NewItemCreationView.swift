@@ -35,7 +35,6 @@ struct NewItemCreationView: View {
 
                     VStack {
                         Text(viewModel.timeLabelPrefix)
-
                             .fontWeight(.medium)
                             .minimumScaleFactor(0.01)
                         Text(viewModel.toTime.formatForTime([.day, .hour, .minute, .second]))

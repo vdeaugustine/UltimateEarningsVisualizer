@@ -21,167 +21,175 @@ struct GoalDetailView: View {
     }
 
     var body: some View {
-        VStack {
-            GoalDetailHeaderView(goal: viewModel.goal,
-                                 shownImage: viewModel.shownImage,
-                                 tappedImageAction: viewModel.goalDetailHeaderAction)
-
-            HStack {
-                GoalDetailProgressBox(viewModel: viewModel)
+        ScrollViewReader { _ in
+            ScrollView {
                 VStack {
-                    GoalDetailDueDateBox(viewModel: viewModel)
-                }
-            }
+                    GoalDetailHeaderView(goal: viewModel.goal,
+                                         shownImage: viewModel.shownImage,
+                                         tappedImageAction: viewModel.goalDetailHeaderAction)
+                    .padding(.bottom)
 
-            GoalDetailTagsSection(viewModel: viewModel)
-
-            Section(header: Text("Info")) {
-                Text("Amount")
-                    .spacedOut {
-                        Text(viewModel.goal.amount.formattedForMoney())
-                            .fontWeight(.bold)
-                            .foregroundStyle(viewModel.settings.getDefaultGradient())
-                    }
-
-                if let dueDate = viewModel.goal.dueDate {
-                    Text("Goal date")
-                        .spacedOut(text: dueDate.getFormattedDate(format: .abreviatedMonth))
-                }
-
-                HStack(spacing: 5) {
-                    Text(viewModel.goal.amount.formattedForMoney())
-                        .fontWeight(.bold)
-                        .foregroundStyle(viewModel.settings.getDefaultGradient())
-                    Text("is equivalent to")
-                    Spacer()
-                    Text(viewModel.user.convertMoneyToTime(money: viewModel.goal.amount).formatForTime())
-                }
-            }
-
-            Section("Tags") {
-                VStack {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
-                            ForEach(viewModel.goal.getTags()) { tag in
-                                NavigationLink {
-                                    TagDetailView(tag: tag)
-
-                                } label: {
-                                    Text(tag.title ?? "NA")
-                                        .foregroundColor(.white)
-                                        .padding(10)
-                                        .padding(.trailing, 10)
-                                        .background {
-                                            PriceTag(height: 30, color: tag.getColor(), holePunchColor: .listBackgroundColor)
-                                        }
-                                }
-                            }
+                    HStack {
+                        GoalDetailProgressBox(viewModel: viewModel)
+                        VStack {
+                            GoalDetailTotalAmount(viewModel: viewModel)
+                            GoalDetailDueDateBox(viewModel: viewModel)
                         }
                     }
 
-                    NavigationLink {
-                        CreateTagView(goal: viewModel.goal)
-                    } label: {
-                        Label("New Tag", systemImage: "plus")
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .tint(.blue)
-                    .padding(.top)
+                    GoalDetailTagsSection(viewModel: viewModel)
+
+                    GoalDetailContributionsSection(viewModel: viewModel)
+
+                    //                Section(header: Text("Info")) {
+                    //                    Text("Amount")
+                    //                        .spacedOut {
+                    //                            Text(viewModel.goal.amount.formattedForMoney())
+                    //                                .fontWeight(.bold)
+                    //                                .foregroundStyle(viewModel.settings.getDefaultGradient())
+                    //                        }
+                    //
+                    //                    if let dueDate = viewModel.goal.dueDate {
+                    //                        Text("Goal date")
+                    //                            .spacedOut(text: dueDate.getFormattedDate(format: .abreviatedMonth))
+                    //                    }
+                    //
+                    //                    HStack(spacing: 5) {
+                    //                        Text(viewModel.goal.amount.formattedForMoney())
+                    //                            .fontWeight(.bold)
+                    //                            .foregroundStyle(viewModel.settings.getDefaultGradient())
+                    //                        Text("is equivalent to")
+                    //                        Spacer()
+                    //                        Text(viewModel.user.convertMoneyToTime(money: viewModel.goal.amount).formatForTime())
+                    //                    }
+                    //                }
+                    //
+                    //                Section("Tags") {
+                    //                    VStack {
+                    //                        ScrollView(.horizontal, showsIndicators: false) {
+                    //                            HStack {
+                    //                                ForEach(viewModel.goal.getTags()) { tag in
+                    //                                    NavigationLink {
+                    //                                        TagDetailView(tag: tag)
+                    //
+                    //                                    } label: {
+                    //                                        Text(tag.title ?? "NA")
+                    //                                            .foregroundColor(.white)
+                    //                                            .padding(10)
+                    //                                            .padding(.trailing, 10)
+                    //                                            .background {
+                    //                                                PriceTag(height: 30, color: tag.getColor(), holePunchColor: .listBackgroundColor)
+                    //                                            }
+                    //                                    }
+                    //                                }
+                    //                            }
+                    //                        }
+                    //
+                    //                        NavigationLink {
+                    //                            CreateTagView(goal: viewModel.goal)
+                    //                        } label: {
+                    //                            Label("New Tag", systemImage: "plus")
+                    //                        }
+                    //                        .buttonStyle(.borderedProminent)
+                    //                        .tint(.blue)
+                    //                        .padding(.top)
+                    //                    }
+                    //                    .listRowBackground(Color.listBackgroundColor)
+                    //                }
+                    //
+                    //                Section(header: Text("Progress")) {
+                    //                    Text("Paid off")
+                    //                        .spacedOut(text: viewModel.goal.amountPaidOff.formattedForMoney())
+                    //
+                    //                    Text("Remaining")
+                    //                        .spacedOut(text: viewModel.goal.amountRemainingToPayOff.formattedForMoney())
+                    //                }
+                    //
+                    //                Section("Instances") {
+                    //                    ForEach(viewModel.user.getInstancesOf(goal: viewModel.goal)) { thisExpense in
+                    //                        if let date = thisExpense.dateCreated {
+                    //                            NavigationLink {
+                    //                                GoalDetailView(goal: thisExpense)
+                    //                            } label: {
+                    //                                Text(date.getFormattedDate(format: .abreviatedMonth))
+                    //                                    .spacedOut(text: thisExpense.amountMoneyStr)
+                    //                            }
+                    //                        }
+                    //                    }
+                    //                }
+                    //
+                    //                // MARK: - Insight Section
+                    //
+                    //                Section("Insight") {
+                    //                    Text("Time required to pay off")
+                    //                        .spacedOut(text: viewModel.goal.totalTimeRemaining.formatForTime([.day, .hour, .minute]))
+                    //                }
+                    //
+                    //                Section(header: Text("Contributions")) {
+                    //                    ForEach(viewModel.goal.getAllocations()) { alloc in
+                    //                        if let shift = alloc.shift {
+                    //                            AllocShiftRow(shift: shift, allocation: alloc)
+                    //                        }
+                    //                        if let saved = alloc.savedItem {
+                    //                            AllocSavedRow(saved: saved, allocation: alloc)
+                    //                        }
+                    //                    }
+                    //                }
+                    //
+                    //                Section {
+                    //                    Button("Delete goal",
+                    //                           role: .destructive,
+                    //                           action: viewModel.deleteGoalTapped)
+                    //                        .centerInParentView()
+                    //                        .listRowBackground(Color.clear)
+                    //                }
                 }
-                .listRowBackground(Color.listBackgroundColor)
-            }
+                .padding()
 
-            Section(header: Text("Progress")) {
-                Text("Paid off")
-                    .spacedOut(text: viewModel.goal.amountPaidOff.formattedForMoney())
-
-                Text("Remaining")
-                    .spacedOut(text: viewModel.goal.amountRemainingToPayOff.formattedForMoney())
-            }
-
-            Section("Instances") {
-                ForEach(viewModel.user.getInstancesOf(goal: viewModel.goal)) { thisExpense in
-                    if let date = thisExpense.dateCreated {
-                        NavigationLink {
-                            GoalDetailView(goal: thisExpense)
-                        } label: {
-                            Text(date.getFormattedDate(format: .abreviatedMonth))
-                                .spacedOut(text: thisExpense.amountMoneyStr)
+                .blur(radius: viewModel.blurRadius)
+                .overlay {
+                    if viewModel.showSpinner {
+                        ProgressView()
+                    }
+                }
+                .overlay(fullScreenImage())
+                .background(Color.listBackgroundColor)
+                .confirmationDialog("Are you sure you want to delete this goal?", isPresented: $viewModel.presentConfirmation, titleVisibility: .visible, actions: {
+                    Button("Delete", role: .destructive, action: viewModel.doDeleteAction)
+                }, message: {
+                    Text("This action cannot be undone")
+                })
+                .listStyle(.insetGrouped)
+                .navigationBarTitleDisplayMode(.inline)
+                .putInTemplate()
+                .navigationTitle("Goal")
+                .sheet(isPresented: $viewModel.showImageSelector) {
+                    if viewModel.shownImage != nil {
+                        viewModel.viewIDForReload = UUID()
+                    }
+                } content: {
+                    ImagePicker(isShown: $viewModel.showImageSelector, image: $viewModel.shownImage)
+                        .onAppear {
+                            viewModel.showSpinner = false
+                        }
+                }
+                .toolbar {
+                    if viewModel.initialImage != viewModel.shownImage {
+                        ToolbarItem {
+                            Button("Save", action: viewModel.saveButtonAction)
                         }
                     }
                 }
-            }
-
-            // MARK: - Insight Section
-
-            Section("Insight") {
-                Text("Time required to pay off")
-                    .spacedOut(text: viewModel.goal.totalTimeRemaining.formatForTime([.day, .hour, .minute]))
-            }
-
-            Section(header: Text("Contributions")) {
-                ForEach(viewModel.goal.getAllocations()) { alloc in
-                    if let shift = alloc.shift {
-                        AllocShiftRow(shift: shift, allocation: alloc)
-                    }
-                    if let saved = alloc.savedItem {
-                        AllocSavedRow(saved: saved, allocation: alloc)
-                    }
-                }
-            }
-
-            Section {
-                Button("Delete goal",
-                       role: .destructive,
-                       action: viewModel.deleteGoalTapped)
-                    .centerInParentView()
-                    .listRowBackground(Color.clear)
+                .onAppear(perform: viewModel.onAppearAction)
+                .toast(isPresenting: $viewModel.showAlert,
+                       duration: 2,
+                       tapToDismiss: false,
+                       offsetY: 40,
+                       alert: { viewModel.toastConfiguration })
+                .ignoresSafeArea(.keyboard, edges: .bottom)
             }
         }
-        .padding()
-        .modifier(StretchyHeaderModifier(headerImageName: "dollar3d", titleWhenScrolled: viewModel.goal.title))
-
-        .blur(radius: viewModel.blurRadius)
-        .overlay {
-            if viewModel.showSpinner {
-                ProgressView()
-            }
-        }
-        .overlay(fullScreenImage())
         .background(Color.listBackgroundColor)
-        .confirmationDialog("Are you sure you want to delete this goal?", isPresented: $viewModel.presentConfirmation, titleVisibility: .visible, actions: {
-            Button("Delete", role: .destructive, action: viewModel.doDeleteAction)
-        }, message: {
-            Text("This action cannot be undone")
-        })
-        .listStyle(.insetGrouped)
-        .navigationBarTitleDisplayMode(.inline)
-        .putInTemplate()
-        .navigationTitle("Goal")
-        .sheet(isPresented: $viewModel.showImageSelector) {
-            if viewModel.shownImage != nil {
-                viewModel.viewIDForReload = UUID()
-            }
-        } content: {
-            ImagePicker(isShown: $viewModel.showImageSelector, image: $viewModel.shownImage)
-                .onAppear {
-                    viewModel.showSpinner = false
-                }
-        }
-        .toolbar {
-            if viewModel.initialImage != viewModel.shownImage {
-                ToolbarItem {
-                    Button("Save", action: viewModel.saveButtonAction)
-                }
-            }
-        }
-        .onAppear(perform: viewModel.onAppearAction)
-        .toast(isPresenting: $viewModel.showAlert,
-               duration: 2,
-               tapToDismiss: false,
-               offsetY: 40,
-               alert: { viewModel.toastConfiguration })
-        .ignoresSafeArea(.keyboard, edges: .bottom)
     }
 
     func fullScreenImage() -> some View {

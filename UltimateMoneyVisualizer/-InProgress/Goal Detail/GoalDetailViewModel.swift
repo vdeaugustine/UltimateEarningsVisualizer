@@ -29,7 +29,26 @@ class GoalDetailViewModel: ObservableObject {
     @Published var isBlurred = false
     @Published var showSpinner = false
     @Published var viewIDForReload: UUID = UUID()
-    
+    @Published var showContributions: Bool = false
+    @Published var showTags: Bool = false
+
+    @Published var contributionsRectHeight: CGFloat = 150
+    @Published var tagsRectHeight: CGFloat = 150
+
+    @Published var contributionsID = UUID()
+
+    @Published var idToScrollTo: UUID = UUID()
+
+    var contributionsRectIncreaseAmount: CGFloat {
+        let multiplier: Double = showContributions ? 1 : -1
+        return 250 * multiplier
+    }
+
+    var tagsRectIncreaseAmount: CGFloat {
+        let multiplier: Double = showTags ? 1 : -1
+        return 250 * multiplier
+    }
+
     func onAppearAction() {
         initialImage = goal.loadImageIfPresent()
         shownImage = goal.loadImageIfPresent()
@@ -39,11 +58,11 @@ class GoalDetailViewModel: ObservableObject {
         showImageSelector.toggle()
         showSpinner = true
     }
-    
+
     func deleteGoalTapped() {
         presentConfirmation.toggle()
     }
-    
+
     func doDeleteAction() {
         guard let context = user.managedObjectContext else {
             return
@@ -55,13 +74,12 @@ class GoalDetailViewModel: ObservableObject {
         } catch {
             print("Failed to delete")
         }
-
     }
 
     var blurRadius: CGFloat {
         isBlurred || showSpinner ? 10 : 0
     }
-    
+
     func saveButtonAction() {
         if let shownImage {
             do {
@@ -76,7 +94,19 @@ class GoalDetailViewModel: ObservableObject {
             }
         }
     }
+
+    func contributionsButtonAction() {
+        showContributions.toggle()
+        contributionsRectHeight += contributionsRectIncreaseAmount
+    }
+
+    func tagsButtonAction() {
+        showTags.toggle()
+        tagsRectHeight += tagsRectIncreaseAmount
+    }
     
+    
+
     func breakDownTime() -> String {
         let seconds = goal.timeRemaining
         let timeUnits: [(unit: String, seconds: Double)] = [("y", 365 * 24 * 60 * 60),
@@ -105,7 +135,29 @@ class GoalDetailViewModel: ObservableObject {
             return timeComponents.joined(separator: " ")
         }
     }
-    
+
+    var contributionsButtonText: String {
+        showContributions ? "Hide" : "Show"
+    }
+
+    var tagsButtonText: String {
+        showTags ? "Hide" : "Show"
+    }
+
+    func styledButton<Av: Equatable>(_ text: String, width: CGFloat = 120, height: CGFloat = 35, animationValue: Av, action: @escaping () -> Void) -> some View {
+        Button {
+            action()
+        } label: {
+            Text(text)
+                .fontWeight(.semibold)
+                .padding()
+                .foregroundStyle(Color.white)
+                .frame(width: width, height: height)
+                .background {
+                    Capsule(style: .circular)
+                }
+                .animation(.none, value: animationValue)
+        }
+        .padding(.bottom, 5)
+    }
 }
-
-

@@ -133,6 +133,10 @@
 		9CDBE0EC2A26F6C600741EEE /* ExpenseWithImageAndGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDBE0EB2A26F6C600741EEE /* ExpenseWithImageAndGradientView.swift */; };
 		9CE288DB2A42700B0050A4DC /* CreateNewTimeBlockViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE288DA2A42700B0050A4DC /* CreateNewTimeBlockViewModel.swift */; };
 		9CE288DD2A4270C20050A4DC /* EnterPaycheckViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE288DC2A4270C20050A4DC /* EnterPaycheckViewModel.swift */; };
+		9CE4F66B2A5E60820046183C /* FancyScrollView in Frameworks */ = {isa = PBXBuildFile; productRef = 9CE4F66A2A5E60820046183C /* FancyScrollView */; };
+		9CE4F66D2A5E65D30046183C /* GoalDetailShiftsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE4F66C2A5E65D30046183C /* GoalDetailShiftsSection.swift */; };
+		9CE4F66F2A5F0BD10046183C /* GoalDetailContributionsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE4F66E2A5F0BD10046183C /* GoalDetailContributionsSection.swift */; };
+		9CE4F6712A5F36430046183C /* GoalDetailTotalAmount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE4F6702A5F36430046183C /* GoalDetailTotalAmount.swift */; };
 		9CEA17692A05DF2800E8DFD7 /* ExtendDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEA17682A05DF2800E8DFD7 /* ExtendDate.swift */; };
 		9CED53442A089C77002DC183 /* StatsViewChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CED53432A089C77002DC183 /* StatsViewChart.swift */; };
 		9CED53462A08AA77002DC183 /* PurchasePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CED53452A08AA77002DC183 /* PurchasePage.swift */; };
@@ -196,8 +200,8 @@
 		9C0CFCDA2A5A7B08005C7C81 /* ExpenseGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseGrid.swift; sourceTree = "<group>"; };
 		9C0CFCDD2A5BC2A1005C7C81 /* NavManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NavManager.swift; path = "UltimateMoneyVisualizer/--TopLevel/NavManager.swift"; sourceTree = SOURCE_ROOT; };
 		9C0CFCDF2A5C5989005C7C81 /* ShiftHasntStartedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHasntStartedView.swift; sourceTree = "<group>"; };
-		9C0CFCE12A5CAE42005C7C81 /* GoalDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailHeaderView.swift; sourceTree = SOURCE_ROOT; };
-		9C0CFCE32A5CD45A005C7C81 /* GoalDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailViewModel.swift; sourceTree = SOURCE_ROOT; };
+		9C0CFCE12A5CAE42005C7C81 /* GoalDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GoalDetailHeaderView.swift; path = "UltimateMoneyVisualizer/-InProgress/Goal Detail/GoalDetailHeaderView.swift"; sourceTree = SOURCE_ROOT; };
+		9C0CFCE32A5CD45A005C7C81 /* GoalDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GoalDetailViewModel.swift; path = "UltimateMoneyVisualizer/-InProgress/Goal Detail/GoalDetailViewModel.swift"; sourceTree = SOURCE_ROOT; };
 		9C0CFCE52A5D0CAC005C7C81 /* TestingChatGPTUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingChatGPTUI.swift; sourceTree = "<group>"; };
 		9C18C1B32A4A8A7500B74C92 /* ExtendDeduction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendDeduction.swift; sourceTree = "<group>"; };
 		9C3A7B2F2A2BD63300F2AC88 /* ExtendTimeBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendTimeBlock.swift; sourceTree = "<group>"; };
@@ -312,6 +316,9 @@
 		9CDBE0EB2A26F6C600741EEE /* ExpenseWithImageAndGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseWithImageAndGradientView.swift; sourceTree = "<group>"; };
 		9CE288DA2A42700B0050A4DC /* CreateNewTimeBlockViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewTimeBlockViewModel.swift; sourceTree = "<group>"; };
 		9CE288DC2A4270C20050A4DC /* EnterPaycheckViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPaycheckViewModel.swift; sourceTree = "<group>"; };
+		9CE4F66C2A5E65D30046183C /* GoalDetailShiftsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailShiftsSection.swift; sourceTree = "<group>"; };
+		9CE4F66E2A5F0BD10046183C /* GoalDetailContributionsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailContributionsSection.swift; sourceTree = "<group>"; };
+		9CE4F6702A5F36430046183C /* GoalDetailTotalAmount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailTotalAmount.swift; sourceTree = "<group>"; };
 		9CEA17682A05DF2800E8DFD7 /* ExtendDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendDate.swift; sourceTree = "<group>"; };
 		9CED53432A089C77002DC183 /* StatsViewChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewChart.swift; sourceTree = "<group>"; };
 		9CED53452A08AA77002DC183 /* PurchasePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchasePage.swift; sourceTree = "<group>"; };
@@ -338,9 +345,9 @@
 		9CF194DA2A1C7980000F83A9 /* AddTagToGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagToGoalView.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		9CF194DC2A1C7B21000F83A9 /* ExtendTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendTag.swift; sourceTree = "<group>"; };
 		9CF194DE2A1E03E7000F83A9 /* PriceTagShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceTagShape.swift; sourceTree = "<group>"; };
-		9CF885A72A5D12C200F63766 /* GoalDetailProgressBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailProgressBox.swift; sourceTree = SOURCE_ROOT; };
+		9CF885A72A5D12C200F63766 /* GoalDetailProgressBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GoalDetailProgressBox.swift; path = "UltimateMoneyVisualizer/-InProgress/Goal Detail/GoalDetailProgressBox.swift"; sourceTree = SOURCE_ROOT; };
 		9CF885A92A5D223B00F63766 /* GoalDetailDueDateBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailDueDateBox.swift; sourceTree = "<group>"; };
-		9CF885AB2A5DCC1800F63766 /* GoalDetailTagsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailTagsSection.swift; sourceTree = SOURCE_ROOT; };
+		9CF885AB2A5DCC1800F63766 /* GoalDetailTagsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GoalDetailTagsSection.swift; path = "UltimateMoneyVisualizer/-InProgress/Goal Detail/GoalDetailTagsSection.swift"; sourceTree = SOURCE_ROOT; };
 		9CF885AD2A5E063900F63766 /* StretchyHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StretchyHeader.swift; sourceTree = SOURCE_ROOT; };
 		9CF885AF2A5E074C00F63766 /* StretchyHeaderDynamic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StretchyHeaderDynamic.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -352,6 +359,7 @@
 			files = (
 				9C7F96A229F8FE6700F5035C /* Vin in Frameworks */,
 				9C7F96A929F9004000F5035C /* AlertToast in Frameworks */,
+				9CE4F66B2A5E60820046183C /* FancyScrollView in Frameworks */,
 				9C5F0B882A3057CD006AAB46 /* SwiftPieChart in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -716,19 +724,15 @@
 		9C7F96A429F8FEEB00F5035C /* -InProgress */ = {
 			isa = PBXGroup;
 			children = (
-				9CF885AD2A5E063900F63766 /* StretchyHeader.swift */,
-				9CF885AF2A5E074C00F63766 /* StretchyHeaderDynamic.swift */,
-				9CF885AB2A5DCC1800F63766 /* GoalDetailTagsSection.swift */,
-				9CF885A92A5D223B00F63766 /* GoalDetailDueDateBox.swift */,
-				9CF885A72A5D12C200F63766 /* GoalDetailProgressBox.swift */,
-				9C0CFCE32A5CD45A005C7C81 /* GoalDetailViewModel.swift */,
-				9C0CFCE12A5CAE42005C7C81 /* GoalDetailHeaderView.swift */,
-				9C0CFCDF2A5C5989005C7C81 /* ShiftHasntStartedView.swift */,
 				9C7C985529FB722D0077EA25 /* Components */,
 				9C0505A02A11EBF700FC6511 /* ConfirmTodayShift.swift */,
 				9CDBE0E52A2520D200741EEE /* CustomStatsView.swift */,
+				9CB960602A5F87AB001F153A /* Goal Detail */,
 				9CDBE0E92A25CD6300741EEE /* GoalsGridView.swift */,
 				9C97358F2A0D789000F651A1 /* Incomplete(Abandoned) */,
+				9C0CFCDF2A5C5989005C7C81 /* ShiftHasntStartedView.swift */,
+				9CF885AD2A5E063900F63766 /* StretchyHeader.swift */,
+				9CF885AF2A5E074C00F63766 /* StretchyHeaderDynamic.swift */,
 			);
 			path = "-InProgress";
 			sourceTree = "<group>";
@@ -779,6 +783,21 @@
 				9C76B2ED2A56819C001E40FC /* NewItemCreationView.swift */,
 			);
 			path = "New Item Creation";
+			sourceTree = "<group>";
+		};
+		9CB960602A5F87AB001F153A /* Goal Detail */ = {
+			isa = PBXGroup;
+			children = (
+				9CE4F66E2A5F0BD10046183C /* GoalDetailContributionsSection.swift */,
+				9CF885A92A5D223B00F63766 /* GoalDetailDueDateBox.swift */,
+				9C0CFCE12A5CAE42005C7C81 /* GoalDetailHeaderView.swift */,
+				9CF885A72A5D12C200F63766 /* GoalDetailProgressBox.swift */,
+				9CE4F66C2A5E65D30046183C /* GoalDetailShiftsSection.swift */,
+				9CF885AB2A5DCC1800F63766 /* GoalDetailTagsSection.swift */,
+				9CE4F6702A5F36430046183C /* GoalDetailTotalAmount.swift */,
+				9C0CFCE32A5CD45A005C7C81 /* GoalDetailViewModel.swift */,
+			);
+			path = "Goal Detail";
 			sourceTree = "<group>";
 		};
 		9CDBE0A82A2160BD00741EEE /* Tag */ = {
@@ -998,6 +1017,7 @@
 				9C7F96A129F8FE6700F5035C /* Vin */,
 				9C7F96A829F9004000F5035C /* AlertToast */,
 				9C5F0B872A3057CD006AAB46 /* SwiftPieChart */,
+				9CE4F66A2A5E60820046183C /* FancyScrollView */,
 			);
 			productName = UltimateMoneyVisualizer;
 			productReference = 9C7F965729F8F03C00F5035C /* UltimateMoneyVisualizer.app */;
@@ -1075,6 +1095,7 @@
 				9C7F96A029F8FE6700F5035C /* XCRemoteSwiftPackageReference "VinPackage" */,
 				9C7F96A729F9004000F5035C /* XCRemoteSwiftPackageReference "AlertToast" */,
 				9C5F0B862A3057CD006AAB46 /* XCRemoteSwiftPackageReference "SwiftPieChart" */,
+				9CE4F6692A5E60820046183C /* XCRemoteSwiftPackageReference "FancyScrollView" */,
 			);
 			productRefGroup = 9C7F965829F8F03C00F5035C /* Products */;
 			projectDirPath = "";
@@ -1153,6 +1174,7 @@
 				9C0CFCE42A5CD45A005C7C81 /* GoalDetailViewModel.swift in Sources */,
 				9C7B5D542A201AC600DBB877 /* ExtendPayPeriod.swift in Sources */,
 				9CEEE34329F90A7D001FA4FB /* CreateShiftView(Deprecated).swift in Sources */,
+				9CE4F66F2A5F0BD10046183C /* GoalDetailContributionsSection.swift in Sources */,
 				9C7B5D562A2026D000DBB877 /* PayCycle.swift in Sources */,
 				9C4DDCC62A44F96900560535 /* TodayViewModel.swift in Sources */,
 				9C4F0A2A2A14614200C78349 /* NotificationManager.swift in Sources */,
@@ -1161,6 +1183,7 @@
 				9C4DDCC42A44F73B00560535 /* TodayView+SubViews.swift in Sources */,
 				9C7F965D29F8F03C00F5035C /* ContentView.swift in Sources */,
 				9CEA17692A05DF2800E8DFD7 /* ExtendDate.swift in Sources */,
+				9CE4F6712A5F36430046183C /* GoalDetailTotalAmount.swift in Sources */,
 				9C460EE42A038D880007EBA9 /* CircleBadgeView.swift in Sources */,
 				9CEEE34F29F90E09001FA4FB /* SavedListView.swift in Sources */,
 				9CED53482A08ACC7002DC183 /* AllocSavedRow.swift in Sources */,
@@ -1249,6 +1272,7 @@
 				9C7F969A29F8FE3500F5035C /* ExtendWage.swift in Sources */,
 				9CF885AC2A5DCC1800F63766 /* GoalDetailTagsSection.swift in Sources */,
 				9C7C983A29F9EC410077EA25 /* EnterWageView.swift in Sources */,
+				9CE4F66D2A5E65D30046183C /* GoalDetailShiftsSection.swift in Sources */,
 				9CED53442A089C77002DC183 /* StatsViewChart.swift in Sources */,
 				9C7F969B29F8FE3500F5035C /* ExtendGoal.swift in Sources */,
 				9CB418C62A0B616A006F44AB /* ExtendAlertToast.swift in Sources */,
@@ -1625,6 +1649,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		9CE4F6692A5E60820046183C /* XCRemoteSwiftPackageReference "FancyScrollView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nerdsupremacist/FancyScrollView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1642,6 +1674,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9C7F96A729F9004000F5035C /* XCRemoteSwiftPackageReference "AlertToast" */;
 			productName = AlertToast;
+		};
+		9CE4F66A2A5E60820046183C /* FancyScrollView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9CE4F6692A5E60820046183C /* XCRemoteSwiftPackageReference "FancyScrollView" */;
+			productName = FancyScrollView;
 		};
 /* End XCSwiftPackageProductDependency section */
 

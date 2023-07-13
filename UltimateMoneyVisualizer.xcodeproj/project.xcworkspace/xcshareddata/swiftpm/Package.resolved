@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "fancyscrollview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nerdsupremacist/FancyScrollView",
+      "state" : {
+        "revision" : "7f8194b23dc209cdb5b0ebc9799a8de487166fdf",
+        "version" : "0.1.4"
+      }
+    },
+    {
       "identity" : "swiftpiechart",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ilamanov/SwiftPieChart",
@@ -23,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/vdeaugustine/VinPackage",
       "state" : {
-        "revision" : "f24090f843aff2206fb47c3430717d43818df799",
-        "version" : "1.1.17"
+        "revision" : "1f935c525f4a35954ad787ddcf86f94430e39896",
+        "version" : "1.1.18"
       }
     }
   ],

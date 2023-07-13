@@ -109,8 +109,8 @@ struct GoalDetailHeaderView: View {
                     }
                     
                 }
-                Text(goal.amountMoneyStr)
-                    .boldNumber()
+//                Text(goal.amountMoneyStr)
+//                    .boldNumber()
             }
         }
         .frame(maxWidth: .infinity)

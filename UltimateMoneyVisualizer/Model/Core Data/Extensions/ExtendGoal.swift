@@ -132,7 +132,7 @@ extension Goal: PayoffItem {
 
     public func getAllocations() -> [Allocation] {
         guard let allocations = Array(allocations ?? []) as? [Allocation] else { return [] }
-        return allocations
+        return allocations.sorted(by: { $0.date ?? .distantPast > $1.date ?? .distantPast })
     }
 
     public func getArrayOfTemporaryAllocations() -> [TemporaryAllocation] {

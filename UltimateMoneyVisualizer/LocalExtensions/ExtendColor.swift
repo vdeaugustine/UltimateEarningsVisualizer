@@ -41,4 +41,7 @@ extension Color {
     }
 
     static let targetGray: Color = .hexStringToColor(hex: "F6F6F7")
+    
+    static let googleBlueLabelBackground = Color(hex: "E8F0FE")
+    static let googleBlueLabelText = Color(hex: "2867D2")
 }

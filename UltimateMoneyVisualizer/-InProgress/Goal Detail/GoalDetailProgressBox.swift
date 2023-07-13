@@ -14,7 +14,7 @@ struct GoalDetailProgressBox: View {
     @ObservedObject var viewModel: GoalDetailViewModel
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
+        VStack(alignment: .leading, spacing: 30) {
             HStack {
                 VStack(alignment: .leading, spacing: 10) {
                     Text("Progress")
@@ -30,7 +30,7 @@ struct GoalDetailProgressBox: View {
                     .font(.caption2)
             }
 
-            VStack (alignment: .leading, spacing: 25) {
+            VStack (alignment: .leading, spacing: 35) {
                 HStack {
                     batteryImage
 
@@ -65,7 +65,8 @@ struct GoalDetailProgressBox: View {
                 .fill(Color.white)
                 .shadow(radius: 0.2)
         }
-        .frame(width: 175, height: 225)
+        .frame(minWidth: 175)
+        .frame(minHeight: 225, maxHeight: .infinity)
     }
 
     var batteryImage: some View {

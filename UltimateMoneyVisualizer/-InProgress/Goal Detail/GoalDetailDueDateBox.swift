@@ -54,7 +54,8 @@ struct GoalDetailDueDateBox: View {
                 .fill(Color.white)
                 .shadow(radius: 0.2)
         }
-        .frame(width: 175, height: 120)
+        .frame(minWidth: 175)
+        .frame(height: 120)
     }
 }
 

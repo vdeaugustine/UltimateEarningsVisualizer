@@ -26,6 +26,14 @@ extension View {
             .accentColor(User.main.getSettings().themeColor)
             .tint(User.main.getSettings().themeColor)
     }
+    
+    func templateForPreview() -> some View {
+        ZStack {
+            Color.listBackgroundColor
+            self
+        }
+        .ignoresSafeArea()
+    }
 
     // View modifiers
     func rectContainer(shadowRadius: CGFloat = 1, cornerRadius: CGFloat = 8) -> some View {
