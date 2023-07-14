@@ -60,7 +60,6 @@ public extension User {
                 
                 try Expense.makeExpensesThatWontBeAllocated(user: self, context: context)
                 
-                // Make temporary allocations
             } catch {
                 fatalError(String(describing: error))
             }

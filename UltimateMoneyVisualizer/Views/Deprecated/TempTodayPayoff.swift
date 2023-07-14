@@ -9,17 +9,17 @@ import Foundation
 
 // MARK: - TempTodayPayoff
 
-struct TempTodayPayoff: Identifiable, Equatable {
+public struct TempTodayPayoff: Identifiable, Equatable {
     var amount: Double
     let initialAmountPaidOff: Double
     var amountPaidOff: Double
     var amountRemaining: Double { amount - amountPaidOff }
     var progressAmount: Double { amountPaidOff - initialAmountPaidOff }
     var title: String
-    let id: UUID
+    public let id: UUID
     let type: PayoffType
 
-    static func == (lhs: Self, rhs: Self) -> Bool {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
         return lhs.amount == rhs.amount &&
             lhs.amountPaidOff == rhs.amountPaidOff
     }

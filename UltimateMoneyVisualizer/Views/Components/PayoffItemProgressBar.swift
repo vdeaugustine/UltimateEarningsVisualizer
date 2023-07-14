@@ -56,8 +56,6 @@ struct PayoffItemProgressBar: View {
     var remainingPercent: Double {
         1 - paidBySavedPercent - paidByShiftPercent
     }
-    
-    
 
     var body: some View {
         GeometryReader { geo in

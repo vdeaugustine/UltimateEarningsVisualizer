@@ -42,7 +42,7 @@ struct TodayView: View {
                       mainText: "Shift Complete!",
                       buttonText: "Save",
                       destination: {
-                          ConfirmTodayShift(viewModel: viewModel)
+                          CompletedShiftSummary(viewModel: viewModel)
                       })
         .background(Color.targetGray.frame(maxHeight: .infinity).ignoresSafeArea())
         .navigationTitle("Today Live")
