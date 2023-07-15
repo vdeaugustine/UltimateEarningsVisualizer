@@ -43,7 +43,9 @@ struct TodayView: View {
                       buttonText: "Save",
                       destination: {
                           CompletedShiftSummary(viewModel: viewModel)
-                      })
+        }, onDismiss: {
+            viewModel.saveBannerWasDismissed = true
+        })
         .background(Color.targetGray.frame(maxHeight: .infinity).ignoresSafeArea())
         .navigationTitle("Today Live")
         .sheet(isPresented: $viewModel.showHoursSheet) {

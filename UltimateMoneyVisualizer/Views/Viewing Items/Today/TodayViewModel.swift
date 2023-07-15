@@ -24,6 +24,7 @@ class TodayViewModel: ObservableObject {
     @Published var showBanner = false
     @Published var showDeleteWarning = false
     @Published var showHoursSheet = false
+    @Published var saveBannerWasDismissed = false
 
     // MARK: - Observed Objects
 
@@ -141,7 +142,7 @@ class TodayViewModel: ObservableObject {
     func addSecond() {
         nowTime = .now
         if user.todayShift != nil,
-           !hasShownBanner {
+           !saveBannerWasDismissed {
             if nowTime > end {
                 showBanner = true
             }

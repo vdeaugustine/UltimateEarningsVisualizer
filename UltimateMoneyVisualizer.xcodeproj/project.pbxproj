@@ -60,6 +60,7 @@
 		9C65A75F2A00D28E00A5BCF1 /* GoalRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C65A75E2A00D28E00A5BCF1 /* GoalRow.swift */; };
 		9C65A7612A00D4B900A5BCF1 /* ExpenseRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C65A7602A00D4B900A5BCF1 /* ExpenseRow.swift */; };
 		9C69C5CC2A1832E5006F5C23 /* PayoffWithImageAndGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C69C5CB2A1832E5006F5C23 /* PayoffWithImageAndGradientView.swift */; };
+		9C7016A62A6115630038E2A6 /* FigmaDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7016A52A6115630038E2A6 /* FigmaDesign.swift */; };
 		9C743AE72A52A873000A7A2B /* CalculateTaxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C743AE62A52A873000A7A2B /* CalculateTaxView.swift */; };
 		9C76B2EE2A56819C001E40FC /* NewItemCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C76B2ED2A56819C001E40FC /* NewItemCreationView.swift */; };
 		9C76B2F02A5689B2001E40FC /* NewItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C76B2EF2A5689B2001E40FC /* NewItemViewModel.swift */; };
@@ -242,6 +243,7 @@
 		9C65A75E2A00D28E00A5BCF1 /* GoalRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalRow.swift; sourceTree = "<group>"; };
 		9C65A7602A00D4B900A5BCF1 /* ExpenseRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRow.swift; sourceTree = "<group>"; };
 		9C69C5CB2A1832E5006F5C23 /* PayoffWithImageAndGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayoffWithImageAndGradientView.swift; sourceTree = "<group>"; };
+		9C7016A52A6115630038E2A6 /* FigmaDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FigmaDesign.swift; sourceTree = "<group>"; };
 		9C743AE62A52A873000A7A2B /* CalculateTaxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CalculateTaxView.swift; path = "UltimateMoneyVisualizer/Views/Adding Items/Calculate Tax/CalculateTaxView.swift"; sourceTree = SOURCE_ROOT; };
 		9C76B2ED2A56819C001E40FC /* NewItemCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewItemCreationView.swift; path = "UltimateMoneyVisualizer/Views/Adding Items/New Item Creation/NewItemCreationView.swift"; sourceTree = SOURCE_ROOT; };
 		9C76B2EF2A5689B2001E40FC /* NewItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewItemViewModel.swift; path = "UltimateMoneyVisualizer/Views/Adding Items/New Item Creation/NewItemViewModel.swift"; sourceTree = SOURCE_ROOT; };
@@ -815,6 +817,7 @@
 		9CB960622A5FD5EE001F153A /* --InProgress */ = {
 			isa = PBXGroup;
 			children = (
+				9C7016A52A6115630038E2A6 /* FigmaDesign.swift */,
 			);
 			path = "--InProgress";
 			sourceTree = "<group>";
@@ -1216,6 +1219,7 @@
 				9CF885A82A5D12C200F63766 /* GoalDetailProgressBox.swift in Sources */,
 				9C65A75F2A00D28E00A5BCF1 /* GoalRow.swift in Sources */,
 				9CEEE33C29F908E8001FA4FB /* GoalDetailView.swift in Sources */,
+				9C7016A62A6115630038E2A6 /* FigmaDesign.swift in Sources */,
 				9C7C984E29FB35E10077EA25 /* AssignAllocationView.swift in Sources */,
 				9CF194DD2A1C7B21000F83A9 /* ExtendTag.swift in Sources */,
 				9C9735942A0D795600F651A1 /* AllocationDetailView.swift in Sources */,

@@ -15,6 +15,7 @@ struct BottomBannerModifier: ViewModifier {
     var blurRadius: CGFloat? = nil
     var buttonText: String? = nil
     var buttonAction: (() -> Void)?
+    let onDismiss: (() -> Void)?
 
     func body(content: Content) -> some View {
         ZStack {
@@ -58,14 +59,19 @@ struct BottomBannerModifier: ViewModifier {
                 .padding()
                 .offset(y: isVisible ? 0 : 200)
                 .animation(.easeInOut(duration: 0.3), value: isVisible)
-                .gesture(isVisible && swipeToDismiss ? DragGesture(minimumDistance: 30, coordinateSpace: .local)
-                    .onEnded { value in
-                        if value.translation.height > 0 {
-                            isVisible = false
-                        }
-                    } : nil)
+                .gesture(dragDismissGesture)
             }
         }
+    }
+
+    private var dragDismissGesture: some Gesture {
+        DragGesture(minimumDistance: 0, coordinateSpace: .global)
+            .onChanged { _ in
+                if $isVisible.wrappedValue {
+                    $isVisible.wrappedValue = false
+                    onDismiss?()
+                }
+            }
     }
 }
 
@@ -82,6 +88,7 @@ struct BottomBannerWithNavigationModifier<Destination: View>: ViewModifier {
     var blurRadius: CGFloat? = nil
     var buttonText: String
     @ViewBuilder let destination: () -> Destination
+    let onDismiss: (() -> Void)?
 
     func body(content: Content) -> some View {
         ZStack {
@@ -120,14 +127,19 @@ struct BottomBannerWithNavigationModifier<Destination: View>: ViewModifier {
                 .padding()
                 .offset(y: isVisible ? 0 : 200)
                 .animation(.easeInOut(duration: 0.3), value: isVisible)
-                .gesture(isVisible && swipeToDismiss ? DragGesture(minimumDistance: 30, coordinateSpace: .local)
-                    .onEnded { value in
-                        if value.translation.height > 0 {
-                            isVisible = false
-                        }
-                    } : nil)
+                .gesture(dragDismissGesture)
             }
         }
+    }
+
+    private var dragDismissGesture: some Gesture {
+        DragGesture(minimumDistance: 0, coordinateSpace: .global)
+            .onChanged { _ in
+                if $isVisible.wrappedValue {
+                    $isVisible.wrappedValue = false
+                    onDismiss?()
+                }
+            }
     }
 }
 
@@ -140,7 +152,8 @@ extension View {
                       blurUnderlyingView: Bool = false,
                       blurRadius: CGFloat? = nil,
                       buttonText: String? = nil,
-                      buttonAction: (() -> Void)? = nil)
+                      buttonAction: (() -> Void)? = nil,
+                      onDismiss: (() -> Void)?)
         -> some View {
         modifier(BottomBannerModifier(isVisible: isVisible,
                                       swipeToDismiss: swipeToDismiss,
@@ -149,7 +162,8 @@ extension View {
                                       blurUnderlyingView: blurUnderlyingView,
                                       blurRadius: blurRadius,
                                       buttonText: buttonText,
-                                      buttonAction: buttonAction))
+                                      buttonAction: buttonAction,
+                                      onDismiss: onDismiss))
     }
 
     func bottomBanner<Destination: View>(isVisible: Binding<Bool>,
@@ -159,7 +173,8 @@ extension View {
                                          blurUnderlyingView: Bool = false,
                                          blurRadius: CGFloat? = nil,
                                          buttonText: String,
-                                         @ViewBuilder destination: @escaping () -> Destination)
+                                         @ViewBuilder destination: @escaping () -> Destination,
+                                         onDismiss: (() -> Void)?)
         -> some View {
         modifier(
             BottomBannerWithNavigationModifier(isVisible: isVisible,
@@ -169,8 +184,7 @@ extension View {
                                                blurUnderlyingView: blurUnderlyingView,
                                                blurRadius: blurRadius,
                                                buttonText: buttonText,
-                                               destination: destination))
+                                               destination: destination,
+                                               onDismiss: onDismiss))
     }
 }
-
-
