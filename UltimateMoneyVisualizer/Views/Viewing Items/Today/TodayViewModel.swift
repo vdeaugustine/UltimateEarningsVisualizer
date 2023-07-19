@@ -94,9 +94,14 @@ class TodayViewModel: ObservableObject {
         spentOnGoals / spentTotal
     }
     
-    var percentForTaxes: Double {
+    var percentPaidSoFar: Double {
+        spentTotal / willEarn
+    }
+    
+    var percentForTaxesSoFar: Double {
         taxesPaidSoFar / spentTotal
     }
+    
 
     var taxesPaidSoFar: Double {
         tempPayoffs.lazy.filter { $0.type == .tax }.reduce(Double.zero) { $0 + $1.progressAmount }

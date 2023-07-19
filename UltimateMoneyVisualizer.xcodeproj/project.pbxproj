@@ -146,6 +146,9 @@
 		9CDD4E3F2A67C12500AB8B4F /* Lato-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDD4E342A67C12500AB8B4F /* Lato-BoldItalic.ttf */; };
 		9CDD4E402A67C12500AB8B4F /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDD4E352A67C12500AB8B4F /* Lato-Light.ttf */; };
 		9CDD4E412A67C12500AB8B4F /* Lato-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDD4E362A67C12500AB8B4F /* Lato-ThinItalic.ttf */; };
+		9CDD4E442A67C8F900AB8B4F /* NewTodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD4E432A67C8F900AB8B4F /* NewTodayView.swift */; };
+		9CDD4E462A67C93500AB8B4F /* TodayViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD4E452A67C93500AB8B4F /* TodayViewHeader.swift */; };
+		9CDD4E4B2A67CA3700AB8B4F /* TodayProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD4E4A2A67CA3700AB8B4F /* TodayProgressBar.swift */; };
 		9CE288DB2A42700B0050A4DC /* CreateNewTimeBlockViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE288DA2A42700B0050A4DC /* CreateNewTimeBlockViewModel.swift */; };
 		9CE288DD2A4270C20050A4DC /* EnterPaycheckViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE288DC2A4270C20050A4DC /* EnterPaycheckViewModel.swift */; };
 		9CE4F66B2A5E60820046183C /* FancyScrollView in Frameworks */ = {isa = PBXBuildFile; productRef = 9CE4F66A2A5E60820046183C /* FancyScrollView */; };
@@ -345,6 +348,9 @@
 		9CDD4E342A67C12500AB8B4F /* Lato-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-BoldItalic.ttf"; sourceTree = "<group>"; };
 		9CDD4E352A67C12500AB8B4F /* Lato-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Light.ttf"; sourceTree = "<group>"; };
 		9CDD4E362A67C12500AB8B4F /* Lato-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-ThinItalic.ttf"; sourceTree = "<group>"; };
+		9CDD4E432A67C8F900AB8B4F /* NewTodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTodayView.swift; sourceTree = "<group>"; };
+		9CDD4E452A67C93500AB8B4F /* TodayViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewHeader.swift; sourceTree = "<group>"; };
+		9CDD4E4A2A67CA3700AB8B4F /* TodayProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayProgressBar.swift; sourceTree = "<group>"; };
 		9CE288DA2A42700B0050A4DC /* CreateNewTimeBlockViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewTimeBlockViewModel.swift; sourceTree = "<group>"; };
 		9CE288DC2A4270C20050A4DC /* EnterPaycheckViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPaycheckViewModel.swift; sourceTree = "<group>"; };
 		9CE4F66C2A5E65D30046183C /* GoalDetailShiftsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailShiftsSection.swift; sourceTree = "<group>"; };
@@ -775,6 +781,7 @@
 		9C860F7E2A667A6800D834C4 /* New Today View */ = {
 			isa = PBXGroup;
 			children = (
+				9CDD4E422A67C8E500AB8B4F /* Content */,
 				9C860F812A6782C800D834C4 /* Header */,
 			);
 			path = "New Today View";
@@ -783,8 +790,8 @@
 		9C860F812A6782C800D834C4 /* Header */ = {
 			isa = PBXGroup;
 			children = (
-				9C860F7F2A667AA100D834C4 /* TodayViewHeaderBackground.swift */,
-				9C860F822A67836300D834C4 /* TodayViewHeaderContent.swift */,
+				9CDD4E472A67C93800AB8B4F /* Components */,
+				9CDD4E452A67C93500AB8B4F /* TodayViewHeader.swift */,
 			);
 			path = Header;
 			sourceTree = "<group>";
@@ -911,6 +918,40 @@
 				9CDD4E362A67C12500AB8B4F /* Lato-ThinItalic.ttf */,
 			);
 			path = Lato;
+			sourceTree = "<group>";
+		};
+		9CDD4E422A67C8E500AB8B4F /* Content */ = {
+			isa = PBXGroup;
+			children = (
+				9CDD4E492A67CA2100AB8B4F /* Progress Bar */,
+				9CDD4E482A67CA1D00AB8B4F /* Main */,
+			);
+			path = Content;
+			sourceTree = "<group>";
+		};
+		9CDD4E472A67C93800AB8B4F /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				9C860F7F2A667AA100D834C4 /* TodayViewHeaderBackground.swift */,
+				9C860F822A67836300D834C4 /* TodayViewHeaderContent.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		9CDD4E482A67CA1D00AB8B4F /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				9CDD4E432A67C8F900AB8B4F /* NewTodayView.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		9CDD4E492A67CA2100AB8B4F /* Progress Bar */ = {
+			isa = PBXGroup;
+			children = (
+				9CDD4E4A2A67CA3700AB8B4F /* TodayProgressBar.swift */,
+			);
+			path = "Progress Bar";
 			sourceTree = "<group>";
 		};
 		9CEEE32929F90432001FA4FB /* LocalExtensions */ = {
@@ -1278,6 +1319,7 @@
 				9C9735982A0D9B9000F651A1 /* NetMoneyGraph.swift in Sources */,
 				9C7C984129F9F7B20077EA25 /* AllSchedulesView.swift in Sources */,
 				9C514DB52A00A480003DC43C /* PayoffQueueView.swift in Sources */,
+				9CDD4E4B2A67CA3700AB8B4F /* TodayProgressBar.swift in Sources */,
 				9C0CFCE42A5CD45A005C7C81 /* GoalDetailViewModel.swift in Sources */,
 				9C7B5D542A201AC600DBB877 /* ExtendPayPeriod.swift in Sources */,
 				9CEEE34329F90A7D001FA4FB /* CreateShiftView(Deprecated).swift in Sources */,
@@ -1300,6 +1342,7 @@
 				9CDBE0EC2A26F6C600741EEE /* ExpenseWithImageAndGradientView.swift in Sources */,
 				9C514DB32A0024E9003DC43C /* PayoffItem.swift in Sources */,
 				9C0505962A10892800FC6511 /* SelectDaysView.swift in Sources */,
+				9CDD4E462A67C93500AB8B4F /* TodayViewHeader.swift in Sources */,
 				9CF885AA2A5D223B00F63766 /* GoalDetailDueDateBox.swift in Sources */,
 				9CF885A82A5D12C200F63766 /* GoalDetailProgressBox.swift in Sources */,
 				9C65A75F2A00D28E00A5BCF1 /* GoalRow.swift in Sources */,
@@ -1373,6 +1416,7 @@
 				9C4F6F772A528D7C0036F973 /* EnterDoubleView.swift in Sources */,
 				9C7B5D522A1EE82600DBB877 /* SubscriptionManager.swift in Sources */,
 				9C7C984A29FA5BFB0077EA25 /* ExtendTodayShift.swift in Sources */,
+				9CDD4E442A67C8F900AB8B4F /* NewTodayView.swift in Sources */,
 				9C7F969D29F8FE3500F5035C /* ExtendUser.swift in Sources */,
 				9C442A372A03792800D61C3E /* WageBreakdownBox.swift in Sources */,
 				9C460EE62A047D900007EBA9 /* AddNewItemFirstView.swift in Sources */,

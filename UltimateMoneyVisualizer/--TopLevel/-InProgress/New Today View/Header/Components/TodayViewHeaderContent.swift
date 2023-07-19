@@ -17,7 +17,7 @@ struct TodayViewHeaderContent: View {
                 HStack(spacing: 20) {
                     Image(systemName: "bolt.shield")
                         .font(.system(size: 40))
-                    VStack(alignment: .leading) {
+                    VStack(alignment: .leading, spacing: 4) {
                         Text(viewModel.start.getFormattedDate(format: .abreviatedMonth))
                             .font(.lato(.black, 24))
                         Text(viewModel.timeStringForHeader)
