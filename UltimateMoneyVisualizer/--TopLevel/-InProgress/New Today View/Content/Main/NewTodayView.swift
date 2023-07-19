@@ -13,20 +13,32 @@ struct NewTodayView: View {
         ScrollView {
             VStack {
                 headerAndBar
+                Spacer()
+                    .frame(height: 24)
+                TodayViewInfoRects(viewModel: viewModel)
+                    .padding(.horizontal)
+                    
             }
+            
         }
         .ignoresSafeArea()
-        .background(
-            Color.targetGray
-//            Color(hex: "FAFAFA")
-        )
+        .background(Color.targetGray)
+        .onReceive(viewModel.timer) { _ in
+            viewModel.addSecond()
+        }
     }
-    
+
     var headerAndBar: some View {
         VStack(spacing: -30) {
             TodayViewHeader()
-            TodayProgressBar(viewModel: viewModel)
-                .padding(.horizontal, 20)
+            TodayViewProgressBarAndLabels(viewModel: viewModel)
+                .padding(.horizontal)
+        }
+    }
+
+    var infoRects: some View {
+        HStack {
+            TodayViewInfoRect(imageName: "hourglass", valueString: viewModel.remainingTime.breakDownTime(), bottomLabel: "Remaining")
         }
     }
 }

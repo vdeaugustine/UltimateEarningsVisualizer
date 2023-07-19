@@ -71,7 +71,7 @@ class TodayViewModel: ObservableObject {
     }
     
     var remainingTime: Double {
-        end - Date.now 
+        end - nowTime
     }
 
     var spentOnExpenses: Double {
