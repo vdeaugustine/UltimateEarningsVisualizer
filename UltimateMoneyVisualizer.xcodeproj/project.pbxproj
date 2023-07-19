@@ -113,6 +113,8 @@
 		9C7F96A229F8FE6700F5035C /* Vin in Frameworks */ = {isa = PBXBuildFile; productRef = 9C7F96A129F8FE6700F5035C /* Vin */; };
 		9C7F96A629F8FF0100F5035C /* CreateExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F96A529F8FF0100F5035C /* CreateExpenseView.swift */; };
 		9C7F96A929F9004000F5035C /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 9C7F96A829F9004000F5035C /* AlertToast */; };
+		9C860F802A667AA100D834C4 /* TodayViewHeaderBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C860F7F2A667AA100D834C4 /* TodayViewHeaderBackground.swift */; };
+		9C860F832A67836300D834C4 /* TodayViewHeaderContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C860F822A67836300D834C4 /* TodayViewHeaderContent.swift */; };
 		9C9735942A0D795600F651A1 /* AllocationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9735932A0D795600F651A1 /* AllocationDetailView.swift */; };
 		9C9735962A0D84D500F651A1 /* ExtendText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9735952A0D84D500F651A1 /* ExtendText.swift */; };
 		9C9735982A0D9B9000F651A1 /* NetMoneyGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9735972A0D9B9000F651A1 /* NetMoneyGraph.swift */; };
@@ -133,6 +135,17 @@
 		9CDBE0E62A2520D200741EEE /* CustomStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDBE0E52A2520D200741EEE /* CustomStatsView.swift */; };
 		9CDBE0EA2A25CD6300741EEE /* GoalsGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDBE0E92A25CD6300741EEE /* GoalsGridView.swift */; };
 		9CDBE0EC2A26F6C600741EEE /* ExpenseWithImageAndGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDBE0EB2A26F6C600741EEE /* ExpenseWithImageAndGradientView.swift */; };
+		9CDD4E372A67C12500AB8B4F /* Lato-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDD4E2C2A67C12500AB8B4F /* Lato-Italic.ttf */; };
+		9CDD4E382A67C12500AB8B4F /* Lato-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDD4E2D2A67C12500AB8B4F /* Lato-LightItalic.ttf */; };
+		9CDD4E392A67C12500AB8B4F /* Lato-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDD4E2E2A67C12500AB8B4F /* Lato-Thin.ttf */; };
+		9CDD4E3A2A67C12500AB8B4F /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDD4E2F2A67C12500AB8B4F /* Lato-Bold.ttf */; };
+		9CDD4E3B2A67C12500AB8B4F /* Lato-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDD4E302A67C12500AB8B4F /* Lato-Black.ttf */; };
+		9CDD4E3C2A67C12500AB8B4F /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDD4E312A67C12500AB8B4F /* Lato-Regular.ttf */; };
+		9CDD4E3D2A67C12500AB8B4F /* Lato-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDD4E322A67C12500AB8B4F /* Lato-BlackItalic.ttf */; };
+		9CDD4E3E2A67C12500AB8B4F /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9CDD4E332A67C12500AB8B4F /* OFL.txt */; };
+		9CDD4E3F2A67C12500AB8B4F /* Lato-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDD4E342A67C12500AB8B4F /* Lato-BoldItalic.ttf */; };
+		9CDD4E402A67C12500AB8B4F /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDD4E352A67C12500AB8B4F /* Lato-Light.ttf */; };
+		9CDD4E412A67C12500AB8B4F /* Lato-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDD4E362A67C12500AB8B4F /* Lato-ThinItalic.ttf */; };
 		9CE288DB2A42700B0050A4DC /* CreateNewTimeBlockViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE288DA2A42700B0050A4DC /* CreateNewTimeBlockViewModel.swift */; };
 		9CE288DD2A4270C20050A4DC /* EnterPaycheckViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE288DC2A4270C20050A4DC /* EnterPaycheckViewModel.swift */; };
 		9CE4F66B2A5E60820046183C /* FancyScrollView in Frameworks */ = {isa = PBXBuildFile; productRef = 9CE4F66A2A5E60820046183C /* FancyScrollView */; };
@@ -170,6 +183,7 @@
 		9CF885AC2A5DCC1800F63766 /* GoalDetailTagsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF885AB2A5DCC1800F63766 /* GoalDetailTagsSection.swift */; };
 		9CF885AE2A5E063900F63766 /* StretchyHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF885AD2A5E063900F63766 /* StretchyHeader.swift */; };
 		9CF885B02A5E074C00F63766 /* StretchyHeaderDynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF885AF2A5E074C00F63766 /* StretchyHeaderDynamic.swift */; };
+		9CFDAED92A65B3890098202B /* TodayViewDetailsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFDAED82A65B3890098202B /* TodayViewDetailsSection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -298,6 +312,8 @@
 		9C7F969729F8FE3500F5035C /* ExtendAllocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendAllocation.swift; sourceTree = "<group>"; };
 		9C7F969829F8FE3500F5035C /* ExtendSaved.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendSaved.swift; sourceTree = "<group>"; };
 		9C7F96A529F8FF0100F5035C /* CreateExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateExpenseView.swift; sourceTree = "<group>"; };
+		9C860F7F2A667AA100D834C4 /* TodayViewHeaderBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewHeaderBackground.swift; sourceTree = "<group>"; };
+		9C860F822A67836300D834C4 /* TodayViewHeaderContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewHeaderContent.swift; sourceTree = "<group>"; };
 		9C9735932A0D795600F651A1 /* AllocationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AllocationDetailView.swift; path = "UltimateMoneyVisualizer/Views/Viewing Items/Allocations/AllocationDetailView.swift"; sourceTree = SOURCE_ROOT; };
 		9C9735952A0D84D500F651A1 /* ExtendText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendText.swift; sourceTree = "<group>"; };
 		9C9735972A0D9B9000F651A1 /* NetMoneyGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetMoneyGraph.swift; sourceTree = "<group>"; };
@@ -318,6 +334,17 @@
 		9CDBE0E52A2520D200741EEE /* CustomStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStatsView.swift; sourceTree = "<group>"; };
 		9CDBE0E92A25CD6300741EEE /* GoalsGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsGridView.swift; sourceTree = "<group>"; };
 		9CDBE0EB2A26F6C600741EEE /* ExpenseWithImageAndGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseWithImageAndGradientView.swift; sourceTree = "<group>"; };
+		9CDD4E2C2A67C12500AB8B4F /* Lato-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Italic.ttf"; sourceTree = "<group>"; };
+		9CDD4E2D2A67C12500AB8B4F /* Lato-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-LightItalic.ttf"; sourceTree = "<group>"; };
+		9CDD4E2E2A67C12500AB8B4F /* Lato-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Thin.ttf"; sourceTree = "<group>"; };
+		9CDD4E2F2A67C12500AB8B4F /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Bold.ttf"; sourceTree = "<group>"; };
+		9CDD4E302A67C12500AB8B4F /* Lato-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Black.ttf"; sourceTree = "<group>"; };
+		9CDD4E312A67C12500AB8B4F /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Regular.ttf"; sourceTree = "<group>"; };
+		9CDD4E322A67C12500AB8B4F /* Lato-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-BlackItalic.ttf"; sourceTree = "<group>"; };
+		9CDD4E332A67C12500AB8B4F /* OFL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
+		9CDD4E342A67C12500AB8B4F /* Lato-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-BoldItalic.ttf"; sourceTree = "<group>"; };
+		9CDD4E352A67C12500AB8B4F /* Lato-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Light.ttf"; sourceTree = "<group>"; };
+		9CDD4E362A67C12500AB8B4F /* Lato-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-ThinItalic.ttf"; sourceTree = "<group>"; };
 		9CE288DA2A42700B0050A4DC /* CreateNewTimeBlockViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewTimeBlockViewModel.swift; sourceTree = "<group>"; };
 		9CE288DC2A4270C20050A4DC /* EnterPaycheckViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPaycheckViewModel.swift; sourceTree = "<group>"; };
 		9CE4F66C2A5E65D30046183C /* GoalDetailShiftsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailShiftsSection.swift; sourceTree = "<group>"; };
@@ -354,6 +381,7 @@
 		9CF885AB2A5DCC1800F63766 /* GoalDetailTagsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GoalDetailTagsSection.swift; path = "UltimateMoneyVisualizer/-InProgress/Goal Detail/GoalDetailTagsSection.swift"; sourceTree = SOURCE_ROOT; };
 		9CF885AD2A5E063900F63766 /* StretchyHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StretchyHeader.swift; sourceTree = SOURCE_ROOT; };
 		9CF885AF2A5E074C00F63766 /* StretchyHeaderDynamic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StretchyHeaderDynamic.swift; sourceTree = "<group>"; };
+		9CFDAED82A65B3890098202B /* TodayViewDetailsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewDetailsSection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -615,10 +643,12 @@
 		9C7F965929F8F03C00F5035C /* UltimateMoneyVisualizer */ = {
 			isa = PBXGroup;
 			children = (
+				9CFDAED82A65B3890098202B /* TodayViewDetailsSection.swift */,
 				9CB960612A5FC8FC001F153A /* ---Concatenate */,
 				9C7F96A329F8FEB000F5035C /* --TopLevel */,
 				9C4F0A282A14534100C78349 /* UltimateMoneyVisualizer.entitlements */,
 				9C7F966829F8F03E00F5035C /* Info.plist */,
+				9CDD4E2A2A67C10D00AB8B4F /* Fonts */,
 				9C7F965E29F8F03E00F5035C /* Assets.xcassets */,
 				9C7F966029F8F03E00F5035C /* Preview Content */,
 				9CEEE32C29F904A0001FA4FB /* Views */,
@@ -727,6 +757,7 @@
 		9C7F96A429F8FEEB00F5035C /* -InProgress */ = {
 			isa = PBXGroup;
 			children = (
+				9C860F7E2A667A6800D834C4 /* New Today View */,
 				9CB960632A5FD60F001F153A /* CompletedShiftSummary.swift */,
 				9C0505A02A11EBF700FC6511 /* ConfirmTodayShift.swift */,
 				9CDBE0E52A2520D200741EEE /* CustomStatsView.swift */,
@@ -739,6 +770,23 @@
 				9CF885AF2A5E074C00F63766 /* StretchyHeaderDynamic.swift */,
 			);
 			path = "-InProgress";
+			sourceTree = "<group>";
+		};
+		9C860F7E2A667A6800D834C4 /* New Today View */ = {
+			isa = PBXGroup;
+			children = (
+				9C860F812A6782C800D834C4 /* Header */,
+			);
+			path = "New Today View";
+			sourceTree = "<group>";
+		};
+		9C860F812A6782C800D834C4 /* Header */ = {
+			isa = PBXGroup;
+			children = (
+				9C860F7F2A667AA100D834C4 /* TodayViewHeaderBackground.swift */,
+				9C860F822A67836300D834C4 /* TodayViewHeaderContent.swift */,
+			);
+			path = Header;
 			sourceTree = "<group>";
 		};
 		9C97358F2A0D789000F651A1 /* Incomplete(Abandoned) */ = {
@@ -837,6 +885,32 @@
 				9CC65D932A20867800D81712 /* TagDetailView.swift */,
 			);
 			path = Tag;
+			sourceTree = "<group>";
+		};
+		9CDD4E2A2A67C10D00AB8B4F /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				9CDD4E2B2A67C12500AB8B4F /* Lato */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		9CDD4E2B2A67C12500AB8B4F /* Lato */ = {
+			isa = PBXGroup;
+			children = (
+				9CDD4E2C2A67C12500AB8B4F /* Lato-Italic.ttf */,
+				9CDD4E2D2A67C12500AB8B4F /* Lato-LightItalic.ttf */,
+				9CDD4E2E2A67C12500AB8B4F /* Lato-Thin.ttf */,
+				9CDD4E2F2A67C12500AB8B4F /* Lato-Bold.ttf */,
+				9CDD4E302A67C12500AB8B4F /* Lato-Black.ttf */,
+				9CDD4E312A67C12500AB8B4F /* Lato-Regular.ttf */,
+				9CDD4E322A67C12500AB8B4F /* Lato-BlackItalic.ttf */,
+				9CDD4E332A67C12500AB8B4F /* OFL.txt */,
+				9CDD4E342A67C12500AB8B4F /* Lato-BoldItalic.ttf */,
+				9CDD4E352A67C12500AB8B4F /* Lato-Light.ttf */,
+				9CDD4E362A67C12500AB8B4F /* Lato-ThinItalic.ttf */,
+			);
+			path = Lato;
 			sourceTree = "<group>";
 		};
 		9CEEE32929F90432001FA4FB /* LocalExtensions */ = {
@@ -1135,8 +1209,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CDD4E3A2A67C12500AB8B4F /* Lato-Bold.ttf in Resources */,
+				9CDD4E412A67C12500AB8B4F /* Lato-ThinItalic.ttf in Resources */,
+				9CDD4E402A67C12500AB8B4F /* Lato-Light.ttf in Resources */,
+				9CDD4E3E2A67C12500AB8B4F /* OFL.txt in Resources */,
 				9C7F966229F8F03E00F5035C /* Preview Assets.xcassets in Resources */,
+				9CDD4E3F2A67C12500AB8B4F /* Lato-BoldItalic.ttf in Resources */,
+				9CDD4E3D2A67C12500AB8B4F /* Lato-BlackItalic.ttf in Resources */,
+				9CDD4E392A67C12500AB8B4F /* Lato-Thin.ttf in Resources */,
+				9CDD4E382A67C12500AB8B4F /* Lato-LightItalic.ttf in Resources */,
+				9CDD4E3C2A67C12500AB8B4F /* Lato-Regular.ttf in Resources */,
+				9CDD4E3B2A67C12500AB8B4F /* Lato-Black.ttf in Resources */,
 				9CF194D92A1C524A000F83A9 /* SFSymbolsNames.swift in Resources */,
+				9CDD4E372A67C12500AB8B4F /* Lato-Italic.ttf in Resources */,
 				9C7F965F29F8F03E00F5035C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1225,6 +1310,7 @@
 				9C9735942A0D795600F651A1 /* AllocationDetailView.swift in Sources */,
 				9CE288DB2A42700B0050A4DC /* CreateNewTimeBlockViewModel.swift in Sources */,
 				9C76B2F02A5689B2001E40FC /* NewItemViewModel.swift in Sources */,
+				9CFDAED92A65B3890098202B /* TodayViewDetailsSection.swift in Sources */,
 				9C0CFCD92A5A70CC005C7C81 /* ExpenseGridBlock.swift in Sources */,
 				9CB960642A5FD60F001F153A /* CompletedShiftSummary.swift in Sources */,
 				9C7F969C29F8FE3500F5035C /* ExtendSettings.swift in Sources */,
@@ -1280,6 +1366,7 @@
 				9CEEE33A29F908BE001FA4FB /* GoalListView.swift in Sources */,
 				9C9FFB252A57CD8700565B78 /* ExtendSection.swift in Sources */,
 				9C3F80C42A5949BE00FCF040 /* GPTPieChart.swift in Sources */,
+				9C860F832A67836300D834C4 /* TodayViewHeaderContent.swift in Sources */,
 				9C7C986529FCF3B60077EA25 /* PieChart.swift in Sources */,
 				9CEEE35729F9E77F001FA4FB /* WageView.swift in Sources */,
 				9CEEE32B29F9044F001FA4FB /* ExtendView.swift in Sources */,
@@ -1295,6 +1382,7 @@
 				9C0CFCDE2A5BC2A1005C7C81 /* NavManager.swift in Sources */,
 				9C7F969A29F8FE3500F5035C /* ExtendWage.swift in Sources */,
 				9CF885AC2A5DCC1800F63766 /* GoalDetailTagsSection.swift in Sources */,
+				9C860F802A667AA100D834C4 /* TodayViewHeaderBackground.swift in Sources */,
 				9C7C983A29F9EC410077EA25 /* EnterWageView.swift in Sources */,
 				9CE4F66D2A5E65D30046183C /* GoalDetailShiftsSection.swift in Sources */,
 				9CED53442A089C77002DC183 /* StatsViewChart.swift in Sources */,

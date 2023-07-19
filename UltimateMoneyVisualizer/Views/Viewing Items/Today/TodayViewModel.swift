@@ -16,7 +16,7 @@ class TodayViewModel: ObservableObject {
 
     // MARK: - Published properties
 
-    @Published var start: Date = User.main.regularSchedule?.getStartTime(for: .now) ?? Date.getThisTime(hour: 11, minute: 0)!
+    @Published var start: Date = User.main.regularSchedule?.getStartTime(for: .now) ?? Date.getThisTime(hour: 9, minute: 0)!
     @Published var end: Date = User.main.regularSchedule?.getEndTime(for: .now) ?? .fivePM
     @Published var hasShownBanner = false
     @Published var nowTime: Date = .now
@@ -45,6 +45,14 @@ class TodayViewModel: ObservableObject {
     }
 
     // MARK: - Computed Properties
+    
+    var timeStringForHeader: String {
+        "\(start.getFormattedDate(format: .minimalTime)) - \(end.getFormattedDate(format: .minimalTime))"
+    }
+
+    var elapsedTime: Double {
+        Date.now - start
+    }
 
     var haveEarned: Double {
         user.todayShift?.totalEarnedSoFar(nowTime) ?? 0
@@ -61,6 +69,10 @@ class TodayViewModel: ObservableObject {
         }
         return true
     }
+    
+    var remainingTime: Double {
+        end - Date.now 
+    }
 
     var spentOnExpenses: Double {
         tempPayoffs.lazy.filter { $0.type == .expense }.reduce(Double.zero) { $0 + $1.progressAmount }
@@ -68,6 +80,22 @@ class TodayViewModel: ObservableObject {
 
     var spentOnGoals: Double {
         tempPayoffs.lazy.filter { $0.type == .goal }.reduce(Double.zero) { $0 + $1.progressAmount }
+    }
+    
+    var spentTotal: Double {
+        spentOnGoals + spentOnExpenses + taxesPaidSoFar
+    }
+    
+    var percentForExpenses: Double {
+        spentOnExpenses / spentTotal
+    }
+    
+    var percentForGoals: Double {
+        spentOnGoals / spentTotal
+    }
+    
+    var percentForTaxes: Double {
+        taxesPaidSoFar / spentTotal
     }
 
     var taxesPaidSoFar: Double {

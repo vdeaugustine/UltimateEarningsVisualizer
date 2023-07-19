@@ -28,39 +28,58 @@ struct WageBreakdownBox: View {
                 }
         } content: {
             VStack(spacing: 10) {
-                Text("Period")
-                    .font(.headline)
-                    .fontWeight(.medium)
-                    .spacedOut {
-                        Text("Amount")
-                            .font(.headline)
-                            .fontWeight(.medium)
-                    }
-                VStack {
-                    Group {
-                        Text("Year")
-                            .spacedOut(text: wage.perYear.formattedForMoney())
-                        Divider()
-                        Text("Month")
-                            .spacedOut(text: wage.perMonth.formattedForMoney())
-                        Divider()
-                        Text("Week")
-                            .spacedOut(text: wage.perWeek.formattedForMoney())
-                        Divider()
-                        Text("Day")
-                            .spacedOut(text: wage.perDay.formattedForMoney())
-                        Divider()
-                        Text("Hour")
-                            .spacedOut(text: wage.hourly.formattedForMoney())
-                    }
-                    Divider()
-                    Text("Minute")
-                        .spacedOut(text: wage.perMinute.formattedForMoney())
-                    Divider()
-                    Text("Second")
-                        .spacedOut(text: wage.perSecond.formattedForMoney())
+                HStack {
+                    Text("Period")
+                        .font(.headline)
+                        .fontWeight(.medium)
+                    Spacer()
+                    Text("Before Tax")
+                        .font(.headline)
+                        .fontWeight(.medium)
+                    Spacer()
+                    Text("After Tax")
+                        .font(.headline)
+                        .fontWeight(.medium)
                 }
-                .font(.subheadline)
+                
+                HStack {
+                    VStack {
+                        Group {
+                            Text("Year")
+                                .spacedOut(text: wage.perYear.formattedForMoney())
+                            Divider()
+                            Text("Month")
+                                .spacedOut(text: wage.perMonth.formattedForMoney())
+                            Divider()
+                            Text("Week")
+                                .spacedOut(text: wage.perWeek.formattedForMoney())
+                            Divider()
+                            Text("Day")
+                                .spacedOut(text: wage.perDay.formattedForMoney())
+                            Divider()
+                            Text("Hour")
+                                .spacedOut(text: wage.hourly.formattedForMoney())
+                        }
+                        Divider()
+                        Text("Minute")
+                            .spacedOut(text: wage.perMinute.formattedForMoney())
+                        Divider()
+                        Text("Second")
+                            .spacedOut(text: wage.perSecond.formattedForMoney())
+                    }
+                    .font(.subheadline)
+                }
+                
+                
+//                Text("Period")
+//                    .font(.headline)
+//                    .fontWeight(.medium)
+//                    .spacedOut {
+//                        Text("Amount")
+//                            .font(.headline)
+//                            .fontWeight(.medium)
+//                    }
+                
             }
             .padding()
         }

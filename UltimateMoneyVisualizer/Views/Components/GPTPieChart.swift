@@ -11,6 +11,8 @@ import SwiftUI
 
 struct GPTPieChart: View {
     var pieChartData: [PieSliceData]
+    var includeLegend: Bool = true
+
     func percentage(for datum: PieSliceData) -> Double {
         let total = pieChartData.reduce(Double.zero) { $0 + $1.amount }
         return datum.amount / total
@@ -33,7 +35,9 @@ struct GPTPieChart: View {
                     }
                 }
                 .aspectRatio(1, contentMode: .fit)
-                LegendView(pieChartData: pieChartData, width: geo.size.width)
+                if includeLegend {
+                    LegendView(pieChartData: pieChartData, width: geo.size.width)
+                }
             }
         }
     }
@@ -67,7 +71,8 @@ struct GPTPieChart: View {
         var body: some View {
             LazyVGrid(columns: columns, alignment: .leading) {
                 ForEach(pieChartData.indices, id: \.self) { index in
-                    if let datum = pieChartData.safeGet(at: index) {
+                    if let datum = pieChartData.safeGet(at: index),
+                       datum.amount > 0 {
                         HStack {
                             Circle()
                                 .fill(datum.color)
