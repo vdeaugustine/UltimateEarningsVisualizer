@@ -13,18 +13,18 @@ struct TodayViewInfoRects: View {
     var body: some View {
         VStack(spacing: 12) {
             HStack {
-                TodayViewInfoRect(imageName: "hourglass",
+                TodayViewInfoRect(imageName: "stopwatch",
                                   valueString: viewModel.remainingTime.breakDownTime(),
-                                  bottomLabel: "Remaining")
+                                  bottomLabel: "Elapsed")
                 TodayViewInfoRect(imageName: "dollarsign.circle",
-                                  valueString: viewModel.willEarn.formattedForMoney(),
-                                  bottomLabel: "Will earn")
+                                  valueString: viewModel.haveEarned.formattedForMoney(),
+                                  bottomLabel: "Earned")
             }
             HStack {
                 TodayViewInfoRect(imageName: "hourglass",
                                   valueString: viewModel.remainingTime.breakDownTime(),
                                   bottomLabel: "Remaining")
-                TodayViewInfoRect(imageName: "dollarsign.circle",
+                TodayViewInfoRect(imageName: "dollarsign.square",
                                   valueString: viewModel.willEarn.formattedForMoney(),
                                   bottomLabel: "Will earn")
             }
@@ -36,5 +36,8 @@ struct TodayViewInfoRects: View {
     ZStack{
         Color.targetGray
         TodayViewInfoRects(viewModel: .main)
+            .onReceive(TodayViewModel.main.timer, perform: { _ in
+                TodayViewModel.main.addSecond()
+            })
     }
 }

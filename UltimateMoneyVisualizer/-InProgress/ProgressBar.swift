@@ -14,6 +14,7 @@ struct ProgressBar: View {
     let cornerRadius: CGFloat = 25
     var height: CGFloat = 8
     var color: Color = .accentColor
+    var barBackgroundColor: Color = Color(uiColor: .lightGray)
     var showBackgroundBar = true
 
     private var isComplete: Bool {
@@ -32,7 +33,7 @@ struct ProgressBar: View {
         return ZStack(alignment: .leading) {
             if showBackgroundBar {
                 RoundedRectangle(cornerRadius: cornerRadius)
-                    .foregroundColor(.gray)
+                    .foregroundStyle(barBackgroundColor)
                     .frame(width: entireBarWidth)
             }
             RoundedRectangle(cornerRadius: cornerRadius)
@@ -57,7 +58,9 @@ struct ProgressBar: View {
         var body: some View {
             ProgressBar(percentage: percentage)
                 .onReceive(timer) { _ in
-                    percentage += increaseAmount
+                    withAnimation{
+                        percentage += increaseAmount
+                    }
                 }
         }
     }

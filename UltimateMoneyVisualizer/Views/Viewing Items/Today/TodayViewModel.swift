@@ -13,6 +13,10 @@ class TodayViewModel: ObservableObject {
     static var main = TodayViewModel()
     let viewContext: NSManagedObjectContext
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    let taxesColor = Color(hex: "630E08")
+    let expensesColor = Color(hex: "00364A")
+    let goalsColor = Color(hex: "4F4A2C")
+    let unspentColor = Color(hex: "044A21")
 
     // MARK: - Published properties
 

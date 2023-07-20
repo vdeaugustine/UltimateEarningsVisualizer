@@ -17,8 +17,11 @@ struct NewTodayView: View {
                     .frame(height: 24)
                 TodayViewInfoRects(viewModel: viewModel)
                     .padding(.horizontal)
+                Spacer()
                     
             }
+            .background(Color.targetGray)
+            .frame(maxHeight: .infinity)
             
         }
         .ignoresSafeArea()

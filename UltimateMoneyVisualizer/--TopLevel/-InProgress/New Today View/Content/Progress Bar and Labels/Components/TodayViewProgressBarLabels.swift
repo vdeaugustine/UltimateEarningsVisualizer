@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct TodayViewProgressBarLabels: View {
+    @ObservedObject var viewModel: TodayViewModel
     var body: some View {
         HStack {
-            makePill("Taxes", color: .niceRed)
-            makePill("Expenses", color: .blue)
-            makePill("Goals", color: .blue)
-            makePill("Unspent", color: .green)
+            makePill("Taxes", color: viewModel.taxesColor)
+            makePill("Expenses", color: viewModel.expensesColor)
+            makePill("Goals", color: viewModel.goalsColor)
+            makePill("Unspent", color: viewModel.unspentColor)
         }
     }
     
@@ -32,5 +33,8 @@ struct TodayViewProgressBarLabels: View {
 }
 
 #Preview {
-    TodayViewProgressBarLabels()
+    ZStack {
+        Color.targetGray
+        TodayViewProgressBarLabels(viewModel: .main)
+    }
 }
