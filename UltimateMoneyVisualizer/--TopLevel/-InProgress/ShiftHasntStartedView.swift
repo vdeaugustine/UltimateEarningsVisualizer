@@ -10,7 +10,7 @@ import SwiftUI
 // MARK: - ShiftHasntStartedView
 
 struct ShiftHasntStartedView: View {
-    @ObservedObject var viewModel: TodayViewModel
+    @EnvironmentObject private var viewModel: TodayViewModel
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
@@ -39,6 +39,6 @@ struct ShiftHasntStartedView: View {
 
 struct ShiftHasntStartedView_Previews: PreviewProvider {
     static var previews: some View {
-        ShiftHasntStartedView(viewModel: TodayViewModel.main)
+        ShiftHasntStartedView()
     }
 }

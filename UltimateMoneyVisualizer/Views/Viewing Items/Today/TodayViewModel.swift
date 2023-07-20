@@ -50,6 +50,10 @@ class TodayViewModel: ObservableObject {
 
     // MARK: - Computed Properties
     
+    var showExpensesProgress: Bool { spentOnExpenses >= 0.01 }
+    var showGoalsProgress: Bool { spentOnGoals >= 0.01 }
+    var showUnspent: Bool { 1 - spentTotal >= 0.01 }
+    
     var timeStringForHeader: String {
         "\(start.getFormattedDate(format: .minimalTime)) - \(end.getFormattedDate(format: .minimalTime))"
     }

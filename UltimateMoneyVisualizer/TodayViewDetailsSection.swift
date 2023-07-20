@@ -10,7 +10,7 @@ import SwiftUI
 // MARK: - TodayViewDetailsSection
 
 struct TodayViewDetailsSection: View {
-    @ObservedObject var viewModel: TodayViewModel
+    @EnvironmentObject private var viewModel: TodayViewModel
     var body: some View {
         VStack {
             HStack {
@@ -90,6 +90,7 @@ struct TodayViewLabeledRect: View {
 
 struct TodayViewDetailsSection_Previews: PreviewProvider {
     static var previews: some View {
-        TodayViewDetailsSection(viewModel: TodayViewModel.main)
+        TodayViewDetailsSection()
+            .environmentObject(TodayViewModel.main)
     }
 }

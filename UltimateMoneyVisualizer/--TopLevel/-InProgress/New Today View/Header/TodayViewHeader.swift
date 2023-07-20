@@ -11,7 +11,7 @@ struct TodayViewHeader: View {
     var body: some View {
         ZStack {
             TodayViewHeaderBackground()
-            TodayViewHeaderContent(viewModel: .main)
+            TodayViewHeaderContent()
         }
     }
 }

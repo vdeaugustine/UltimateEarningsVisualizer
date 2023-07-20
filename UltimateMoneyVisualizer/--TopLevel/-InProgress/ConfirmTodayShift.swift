@@ -11,7 +11,7 @@ import Vin
 // MARK: - ConfirmTodayShift
 
 struct ConfirmTodayShift: View {
-    @ObservedObject var viewModel: TodayViewModel
+    @EnvironmentObject private var viewModel: TodayViewModel
     @State private var paidOffItems: [TempTodayPayoff] = []
 
     var body: some View {
@@ -52,7 +52,7 @@ struct ConfirmTodayShift: View {
 
 struct ConfirmTodayShift_Previews: PreviewProvider {
     static var previews: some View {
-        ConfirmTodayShift(viewModel: TodayViewModel.main)
+        ConfirmTodayShift()
             .putInNavView(.inline)
     }
 }

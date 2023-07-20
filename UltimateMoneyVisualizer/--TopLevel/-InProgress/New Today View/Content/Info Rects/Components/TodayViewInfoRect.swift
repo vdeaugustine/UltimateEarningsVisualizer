@@ -45,4 +45,5 @@ struct TodayViewInfoRect: View {
                           valueString: "08:14:32",
                           bottomLabel: "Remaining")
     }
+    .environmentObject(TodayViewModel.main)
 }

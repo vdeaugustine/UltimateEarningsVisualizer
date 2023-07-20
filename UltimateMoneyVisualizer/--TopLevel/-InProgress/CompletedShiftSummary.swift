@@ -10,15 +10,11 @@ import SwiftUI
 // MARK: - CompletedShiftSummary
 
 struct CompletedShiftSummary: View {
-    @ObservedObject var viewModel: TodayViewModel
+    @EnvironmentObject private var viewModel: TodayViewModel
 
-    @State private var tempPayoffs: [TempTodayPayoff]
+    @State private var tempPayoffs: [TempTodayPayoff] = []
 
-    init(viewModel: TodayViewModel) {
-        self.viewModel = viewModel
-
-        self.tempPayoffs = viewModel.tempPayoffs.filter { $0.progressAmount >= 0.01 }
-    }
+    
 
     var body: some View {
         List {
@@ -63,6 +59,9 @@ struct CompletedShiftSummary: View {
                 print("Successfully saved")
             }
         }
+        .onAppear(perform: {
+            self.tempPayoffs = viewModel.tempPayoffs.filter { $0.progressAmount >= 0.01 }
+        })
     }
 }
 
@@ -70,6 +69,7 @@ struct CompletedShiftSummary: View {
 
 struct CompletedShiftSummary_Previews: PreviewProvider {
     static var previews: some View {
-        CompletedShiftSummary(viewModel: .init())
+        CompletedShiftSummary()
+            .environmentObject(TodayViewModel.main)
     }
 }

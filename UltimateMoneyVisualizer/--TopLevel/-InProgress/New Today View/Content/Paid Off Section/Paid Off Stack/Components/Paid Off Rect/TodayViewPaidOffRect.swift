@@ -8,56 +8,45 @@
 import SwiftUI
 
 struct TodayViewPaidOffRect: View {
-    let item: PayoffItem
-    let progressAmount: Double
-    @ObservedObject var viewModel: TodayViewModel
+    let item: TempTodayPayoff
+    @EnvironmentObject private var viewModel: TodayViewModel
 
     var body: some View {
-        HStack {
-            progressCircle
+        TodayPaidOffRectContainer {
+            HStack {
+                progressCircle
 
-            VStack(alignment: .leading) {
-                Text(item.titleStr)
-                    .font(.lato(.regular, 16))
-                    .fontWeight(.black)
-                
-                Text(item.type.rawValue.uppercased())
-                    .font(.lato(.regular, 12))
-                    .fontWeight(.bold)
-                    .foregroundStyle(Color(uiColor: .gray))
-                
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(item.title)
+                        .font(.lato(.regular, 16))
+                        .fontWeight(.black)
+
+                    Text(item.type.rawValue.uppercased())
+                        .font(.lato(.regular, 12))
+                        .fontWeight(.bold)
+                        .foregroundStyle(Color(uiColor: .gray))
+                }
+
+                Spacer()
+
+                VStack(spacing: 4) {
+                    Text(item.progressAmount.formattedForMoney().replacingOccurrences(of: "$", with: "+"))
+                        .font(.lato(.regular, 16))
+                        .fontWeight(.black)
+
+                    Text(item.amount.formattedForMoney())
+                        .font(.lato(.regular, 12))
+                        .fontWeight(.bold)
+                        .foregroundStyle(Color(uiColor: .gray))
+                }
             }
-            
-            Spacer()
-            
-            VStack {
-                
-                Text(progressAmount.formattedForMoney().replacingOccurrences(of: "$", with: "+"))
-                    .font(.lato(.regular, 16))
-                    .fontWeight(.black)
-                
-                Text(item.amountMoneyStr)
-                    .font(.lato(.regular, 12))
-                    .fontWeight(.bold)
-                    .foregroundStyle(Color(uiColor: .gray))
-                
-                
-            }
-            
+            .padding(12, 20)
+            .background(.white)
+            .cornerRadius(15)
         }
-        .padding(12, 20)
-        .background(.white)
-        .cornerRadius(15)
-        .background(
-            RoundedRectangle(cornerRadius: 15)
-                .inset(by: 0.5)
-                .stroke(Color(red: 0.85, green: 0.85, blue: 0.85), lineWidth: 1)
-                .foregroundStyle(Color.white)
-        )
-        .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
+        
     }
-    
-    
+
     var gradient: LinearGradient {
         switch item.type {
             case .goal:
@@ -70,7 +59,7 @@ struct TodayViewPaidOffRect: View {
     }
 
     var progressCircle: some View {
-        ProgressCircle(percent: item.percentPaidOff,
+        ProgressCircle(percent: item.amountPaidOff / item.amount,
                        widthHeight: 64,
                        gradient: gradient,
                        lineWidth: 5,
@@ -79,7 +68,7 @@ struct TodayViewPaidOffRect: View {
                 Text(item.amountPaidOff.formattedForMoney())
                     .lineLimit(1)
                     .minimumScaleFactor(0.85)
-                    .font(.subheadline)
+                    .font(.lato(16))
                     .fontWeight(.bold)
                     .foregroundStyle(gradient)
             }
@@ -87,13 +76,10 @@ struct TodayViewPaidOffRect: View {
     }
 }
 
-
-
 #Preview {
     ZStack {
         Color.targetGray
-        TodayViewPaidOffRect(item: TodayViewModel.main.user.getGoals().first!,
-                             progressAmount: 43.21,
-                             viewModel: TodayViewModel.main)
+        TodayViewPaidOffRect(item: .init(payoff: User.main.getQueue().first!))
+            .environmentObject(TodayViewModel.main)
     }
 }

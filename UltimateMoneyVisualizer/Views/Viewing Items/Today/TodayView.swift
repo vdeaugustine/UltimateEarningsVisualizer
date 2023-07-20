@@ -18,17 +18,17 @@ struct TodayView: View {
         VStack {
             if viewModel.user.todayShift != nil {
                 ScrollView {
-                    TimeMoneyPicker(viewModel: viewModel)
+                    TimeMoneyPicker()
                         .padding(.vertical)
                     VStack {
-                        StartEndTotalView(viewModel: viewModel)
+                        StartEndTotalView()
                             .padding(.top)
-                        ProgressSectionView(viewModel: viewModel)
+                        ProgressSectionView()
                     }
                     .padding([.vertical, .top])
                     .background(Color.white)
 
-                    TodaysSpendingView(viewModel: viewModel)
+                    TodaysSpendingView()
                 }
 
             } else {
@@ -42,14 +42,14 @@ struct TodayView: View {
                       mainText: "Shift Complete!",
                       buttonText: "Save",
                       destination: {
-                          CompletedShiftSummary(viewModel: viewModel)
+                          CompletedShiftSummary()
         }, onDismiss: {
             viewModel.saveBannerWasDismissed = true
         })
         .background(Color.targetGray.frame(maxHeight: .infinity).ignoresSafeArea())
         .navigationTitle("Today Live")
         .sheet(isPresented: $viewModel.showHoursSheet) {
-            SelectHours(viewModel: viewModel)
+            SelectHours()
         }
         .onReceive(viewModel.timer) { _ in
             viewModel.addSecond()
@@ -69,9 +69,10 @@ struct TodayView: View {
         .blur(radius: viewModel.nowTime < viewModel.start ? 5 : 0)
         .overlay {
             if viewModel.nowTime < viewModel.start {
-                ShiftHasntStartedView(viewModel: viewModel)
+                ShiftHasntStartedView()
             }
         }
+        .environmentObject(viewModel)
     }
 }
 

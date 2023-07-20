@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TodayProgressBar: View {
-    @ObservedObject var viewModel: TodayViewModel
+    @EnvironmentObject private var viewModel: TodayViewModel
     let barHeights: CGFloat = 16
 
     var body: some View {
@@ -34,22 +34,28 @@ struct TodayProgressBar: View {
 
             // MARK: Expenses
 
-            ProgressBar(percentage: viewModel.percentForExpenses,
-                        height: barHeights,
-                        color: viewModel.expensesColor,
-                        showBackgroundBar: false)
+            if viewModel.showExpensesProgress {
+                ProgressBar(percentage: viewModel.percentForExpenses,
+                            height: barHeights,
+                            color: viewModel.expensesColor,
+                            showBackgroundBar: false)
+            }
             
             // MARK: Goals
-            ProgressBar(percentage: viewModel.percentForGoals,
-                        height: barHeights,
-                        color: viewModel.goalsColor,
-                        showBackgroundBar: false)
+            if viewModel.showGoalsProgress {
+                ProgressBar(percentage: viewModel.percentForGoals,
+                            height: barHeights,
+                            color: viewModel.goalsColor,
+                            showBackgroundBar: false)
+            }
             
             // MARK: Unspent
-            ProgressBar(percentage: 1 - viewModel.percentPaidSoFar,
-                        height: barHeights,
-                        color: viewModel.unspentColor,
-                        showBackgroundBar: false)
+            if viewModel.showUnspent {
+                ProgressBar(percentage: 1 - viewModel.percentPaidSoFar,
+                            height: barHeights,
+                            color: viewModel.unspentColor,
+                            showBackgroundBar: false)
+            }
         }
         .padding(16)
         .background {
@@ -64,7 +70,8 @@ struct TodayProgressBar: View {
 #Preview {
     ZStack {
         Color.targetGray
-        TodayProgressBar(viewModel: .main)
+        TodayProgressBar()
             .padding()
+            .environmentObject(TodayViewModel.main)
     }
 }

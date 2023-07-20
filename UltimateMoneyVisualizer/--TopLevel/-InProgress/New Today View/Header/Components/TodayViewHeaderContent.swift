@@ -10,7 +10,7 @@ import SwiftUI
 // MARK: - TodayViewHeaderContent
 
 struct TodayViewHeaderContent: View {
-    @ObservedObject var viewModel: TodayViewModel
+    @EnvironmentObject private var viewModel: TodayViewModel
     var body: some View {
         VStack {
             HStack(spacing: 84) {
@@ -49,16 +49,21 @@ struct TodayViewHeaderContent_Previews: PreviewProvider {
         ZStack {
             TodayViewHeaderBackground()
 //                .frame(height: 237)
-            TodayViewHeaderContent(viewModel: .main)
+            TodayViewHeaderContent()
         }
 
         .previewLayout(.sizeThatFits)
+        .environmentObject(TodayViewModel.main)
     }
 }
 
 extension Font {
     static func lato(_ type: LatoTypes = .regular, _ size: CGFloat = 16) -> Font {
         Font.custom("Lato-\(type.rawValue)", fixedSize: size)
+    }
+    
+    static func lato(_ size: CGFloat = 16) -> Font {
+        Font.custom("Lato-Regular", fixedSize: size)
     }
 
     public enum LatoTypes: String {

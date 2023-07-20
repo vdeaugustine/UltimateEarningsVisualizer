@@ -45,7 +45,7 @@ extension TodayView {
 
     struct SelectHours: View {
         @Environment(\.managedObjectContext) private var viewContext
-        @ObservedObject var viewModel: TodayViewModel
+        @EnvironmentObject private var viewModel: TodayViewModel
 
         var body: some View {
             Form {
@@ -92,7 +92,7 @@ extension TodayView {
     }
 
     struct TimeMoneyPicker: View {
-        @ObservedObject var viewModel: TodayViewModel
+        @EnvironmentObject private var viewModel: TodayViewModel
 
         var body: some View {
             Picker("Time/Money", selection: $viewModel.selectedSegment) {
@@ -109,7 +109,7 @@ extension TodayView {
     // MARK: - Start End Total
 
     struct StartEndTotalView: View {
-        @ObservedObject var viewModel: TodayViewModel
+        @EnvironmentObject private var viewModel: TodayViewModel
 
         var body: some View {
             VStack {
@@ -150,7 +150,7 @@ extension TodayView {
     // MARK: - Individual Views
 
     struct ProgressSectionView: View {
-        @ObservedObject var viewModel: TodayViewModel
+        @EnvironmentObject private var viewModel: TodayViewModel
 
         var body: some View {
             VStack {
@@ -204,7 +204,7 @@ extension TodayView {
     // MARK: - Today's Spending Section
 
     struct TodaysSpendingView: View {
-        @ObservedObject var viewModel: TodayViewModel
+        @EnvironmentObject private var viewModel: TodayViewModel
 
         var body: some View {
             VStack {
@@ -219,7 +219,7 @@ extension TodayView {
                     }
                 }
 
-                TodayPayoffGrid(viewModel: viewModel)
+                TodayPayoffGrid()
             }
             .padding()
             .padding(.vertical)

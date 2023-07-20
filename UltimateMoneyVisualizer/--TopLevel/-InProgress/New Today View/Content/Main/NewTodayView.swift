@@ -8,14 +8,20 @@
 import SwiftUI
 
 struct NewTodayView: View {
-    @ObservedObject var viewModel: TodayViewModel = .main
+    @StateObject private var viewModel: TodayViewModel = .main
     var body: some View {
         ScrollView {
             VStack {
                 headerAndBar
                 Spacer()
                     .frame(height: 24)
-                TodayViewInfoRects(viewModel: viewModel)
+                TodayViewInfoRects()
+                    .padding(.horizontal)
+                
+                
+                Spacer()
+                    .frame(height: 24)
+                TodayPaidOffStackWithHeader()
                     .padding(.horizontal)
                 Spacer()
                     
@@ -23,18 +29,20 @@ struct NewTodayView: View {
             .background(Color.targetGray)
             .frame(maxHeight: .infinity)
             
+            
         }
         .ignoresSafeArea()
         .background(Color.targetGray)
         .onReceive(viewModel.timer) { _ in
             viewModel.addSecond()
         }
+        .environmentObject(viewModel)
     }
 
     var headerAndBar: some View {
         VStack(spacing: -30) {
             TodayViewHeader()
-            TodayViewProgressBarAndLabels(viewModel: viewModel)
+            TodayViewProgressBarAndLabels()
                 .padding(.horizontal)
         }
     }
@@ -48,4 +56,5 @@ struct NewTodayView: View {
 
 #Preview {
     NewTodayView()
+    
 }

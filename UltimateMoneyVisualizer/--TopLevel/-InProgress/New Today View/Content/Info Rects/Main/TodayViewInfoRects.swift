@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TodayViewInfoRects: View {
-    @ObservedObject var viewModel: TodayViewModel
+    @EnvironmentObject private var viewModel: TodayViewModel
 
     var body: some View {
         VStack(spacing: 12) {
@@ -35,9 +35,10 @@ struct TodayViewInfoRects: View {
 #Preview {
     ZStack{
         Color.targetGray
-        TodayViewInfoRects(viewModel: .main)
+        TodayViewInfoRects()
             .onReceive(TodayViewModel.main.timer, perform: { _ in
                 TodayViewModel.main.addSecond()
             })
+            .environmentObject(TodayViewModel.main)
     }
 }

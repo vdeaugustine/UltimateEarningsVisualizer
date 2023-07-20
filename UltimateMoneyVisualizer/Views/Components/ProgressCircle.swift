@@ -15,7 +15,7 @@ struct ProgressCircle<Content: View>: View {
     let gradient: LinearGradient
     var lineWidth: CGFloat = 2
     let showCheckWhenComplete: Bool
-    let content: () -> Content
+    @ViewBuilder let content: () -> Content
     @ObservedObject var settings = User.main.getSettings()
 
     internal init(percent: Double,

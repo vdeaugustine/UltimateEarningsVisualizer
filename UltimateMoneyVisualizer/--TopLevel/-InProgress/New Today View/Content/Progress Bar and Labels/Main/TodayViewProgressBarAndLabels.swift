@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct TodayViewProgressBarAndLabels: View {
-    @ObservedObject var viewModel: TodayViewModel
+    @EnvironmentObject private var viewModel: TodayViewModel
     var body: some View {
         VStack(spacing: 20) {
-            TodayProgressBar(viewModel: viewModel)
-            TodayViewProgressBarLabels(viewModel: viewModel)
+            TodayProgressBar()
+            TodayViewProgressBarLabels()
         }
     }
 }
@@ -20,8 +20,9 @@ struct TodayViewProgressBarAndLabels: View {
 #Preview {
     ZStack {
         Color.targetGray
-        TodayViewProgressBarAndLabels(viewModel: .main)
+        TodayViewProgressBarAndLabels()
             .padding(.horizontal)
+            .environmentObject(TodayViewModel.main)
     }
     
 }
