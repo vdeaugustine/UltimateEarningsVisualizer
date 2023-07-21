@@ -31,23 +31,23 @@ struct StatsView: View {
             // TODO: Figure out if you want to have an ALL section
 //            case .all:
 //                retArr = [.init(label: "Items", value: user.getShiftsBetween(startDate: firstDate, endDate: secondDate).count.str, view: nil),
-//                          .init(label: "Amount", value: user.totalNetMoneyBetween(firstDate, secondDate).formattedForMoney(), view: nil),
+//                          .init(label: "Amount", value: user.totalNetMoneyBetween(firstDate, secondDate).money(), view: nil),
 //                          .init(label: "Time", value: user.convertMoneyToTime(money: user.totalNetMoneyBetween(firstDate, secondDate)).formatForTime(), view: nil)]
             case .earned:
                 retArr = [.init(label: "Shifts", value: user.getShiftsBetween(startDate: firstDate, endDate: secondDate).count.str, view: nil),
-                          .init(label: "Amount", value: user.getTotalEarnedBetween(startDate: firstDate, endDate: secondDate).formattedForMoney(), view: nil),
+                          .init(label: "Amount", value: user.getTotalEarnedBetween(startDate: firstDate, endDate: secondDate).money(), view: nil),
                           .init(label: "Time", value: user.getTimeWorkedBetween(startDate: firstDate, endDate: secondDate).formatForTime(), view: nil)]
             case .spent:
                 retArr = [.init(label: "Expenses", value: user.getExpensesBetween(startDate: firstDate, endDate: secondDate).count.str, view: nil),
-                          .init(label: "Amount", value: user.getExpensesSpentBetween(startDate: firstDate, endDate: secondDate).formattedForMoney(), view: nil),
+                          .init(label: "Amount", value: user.getExpensesSpentBetween(startDate: firstDate, endDate: secondDate).money(), view: nil),
                           .init(label: "Time", value: user.convertMoneyToTime(money: user.getExpensesSpentBetween(startDate: firstDate, endDate: secondDate)).formatForTime(), view: nil)]
             case .saved:
                 retArr = [.init(label: "Saved", value: user.getSavedBetween(startDate: firstDate, endDate: secondDate).count.str, view: nil),
-                          .init(label: "Amount", value: user.getAmountSavedBetween(startDate: firstDate, endDate: secondDate).formattedForMoney(), view: nil),
+                          .init(label: "Amount", value: user.getAmountSavedBetween(startDate: firstDate, endDate: secondDate).money(), view: nil),
                           .init(label: "Time", value: user.convertMoneyToTime(money: user.getAmountSavedBetween(startDate: firstDate, endDate: secondDate)).formatForTime(), view: nil)]
             case .goals:
                 retArr = [.init(label: "Goals", value: user.getGoalsBetween(startDate: firstDate, endDate: secondDate).count.str, view: nil),
-                          .init(label: "Amount", value: user.getGoalsSpentBetween(startDate: firstDate, endDate: secondDate).formattedForMoney(), view: nil),
+                          .init(label: "Amount", value: user.getGoalsSpentBetween(startDate: firstDate, endDate: secondDate).money(), view: nil),
                           .init(label: "Time", value: user.convertMoneyToTime(money: user.getGoalsSpentBetween(startDate: firstDate, endDate: secondDate)).formatForTime(), view: nil)]
         }
 
@@ -120,7 +120,7 @@ struct StatsView: View {
                                     Text(shift.start.getFormattedDate(format: .abreviatedMonth))
                                 }
                                 Spacer()
-                                Text(shift.totalEarned.formattedForMoney())
+                                Text(shift.totalEarned.money())
                             }
                             .padding([.horizontal])
                             .padding(.top, 2)
@@ -167,7 +167,7 @@ struct StatsView: View {
                                         Text(saved.getTitle())
                                     }
                                     Spacer()
-                                    Text(saved.getAmount().formattedForMoney())
+                                    Text(saved.getAmount().money())
                                 }
                             }
                             .padding([.top, .horizontal])

@@ -48,7 +48,7 @@ struct EnterDoubleView: View {
     var formattedString: String {
         switch format {
             case .dollar:
-                return dubValue.formattedForMoney(trimZeroCents: false)
+                return dubValue.money(trimZeroCents: false)
             case .percent:
                 return enteredStr + "%"
             case .plain:

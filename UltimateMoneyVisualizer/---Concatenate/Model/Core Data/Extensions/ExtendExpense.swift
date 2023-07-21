@@ -64,7 +64,7 @@ extension Expense: PayoffItem {
     // MARK: Properties
 
     public var amountMoneyStr: String {
-        return amount.formattedForMoney(includeCents: true)
+        return amount.money(includeCents: true)
     }
 
     public var amountPaidOff: Double {

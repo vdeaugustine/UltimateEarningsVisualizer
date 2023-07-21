@@ -945,9 +945,9 @@
 		9CDD4E422A67C8E500AB8B4F /* Content */ = {
 			isa = PBXGroup;
 			children = (
-				9CDD4E592A68DBC500AB8B4F /* Paid Off Section */,
 				9CDD4E482A67CA1D00AB8B4F /* Main */,
 				9CDD4E4C2A67D0B300AB8B4F /* Info Rects */,
+				9CDD4E592A68DBC500AB8B4F /* Paid Off Section */,
 				9CDD4E492A67CA2100AB8B4F /* Progress Bar and Labels */,
 			);
 			path = Content;

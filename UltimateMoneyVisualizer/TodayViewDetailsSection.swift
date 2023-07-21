@@ -24,10 +24,10 @@ struct TodayViewDetailsSection: View {
 
             HStack {
                 TodayViewLabeledRect(symbolName: "dollarsign",
-                                     topText: viewModel.haveEarned.formattedForMoney(),
+                                     topText: viewModel.haveEarned.money(),
                                      bottomText: "Earned")
                 TodayViewLabeledRect(symbolName: "dollarsign",
-                                     topText: viewModel.willEarn.formattedForMoney(),
+                                     topText: viewModel.willEarn.money(),
                                      bottomText: "Will Earn")
             }
 

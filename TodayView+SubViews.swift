@@ -91,7 +91,7 @@ extension TodayView {
                                                            value: totalDuration.formatForTime(),
                                                            view: nil) :
                                                      .init(label: "Will Earn",
-                                                           value: totalWillEarn.formattedForMoney(),
+                                                           value: totalWillEarn.money(),
                                                            view: nil)])
                 }
             }
@@ -144,7 +144,7 @@ extension TodayView {
             .overlay {
                 if viewModel.isCurrentlyMidShift {
                     AnimatePlusAmount(str: "+" + (viewModel.wage.perSecond * 2)
-                        .formattedForMoneyExtended())
+                        .moneyExtended())
                 }
             }
         }

@@ -37,7 +37,7 @@ struct GoalRow: View {
                         Text("Paid off")
                             .font(.caption2)
                             .spacedOut {
-                                Text(goal.amountPaidOff.formattedForMoney())
+                                Text(goal.amountPaidOff.money())
                                     .font(.caption2)
                             }
                         ProgressBar(percentage: goal.percentPaidOff,

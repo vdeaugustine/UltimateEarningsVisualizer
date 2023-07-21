@@ -30,7 +30,7 @@ class NewItemViewModel: ObservableObject {
     }
 
     var formattedString: String {
-        dubValue.formattedForMoney(trimZeroCents: false)
+        dubValue.money(trimZeroCents: false)
     }
 
     var timeLabelPrefix: String {

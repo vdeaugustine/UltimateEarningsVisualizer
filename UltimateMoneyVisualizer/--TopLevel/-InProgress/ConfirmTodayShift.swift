@@ -31,7 +31,7 @@ struct ConfirmTodayShift: View {
                         .frame(height: 200)
                     ForEach(paidOffItems) { payoff in
                         Text(payoff.title)
-                            .spacedOut(text: payoff.progressAmount.formattedForMoney())
+                            .spacedOut(text: payoff.progressAmount.money())
                     }
                     .onDelete(perform: { indexSet in
                         paidOffItems.remove(atOffsets: indexSet)

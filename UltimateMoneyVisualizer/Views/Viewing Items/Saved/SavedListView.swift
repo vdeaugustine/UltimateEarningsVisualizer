@@ -36,7 +36,7 @@ struct SavedListView: View {
                             VStack(alignment: .leading) {
                                 Text(title)
                                     .font(.headline)
-                                Text(saved.amount.formattedForMoney())
+                                Text(saved.amount.money())
                                     .font(.subheadline)
                                     .fontWeight(.semibold)
                                     .foregroundStyle(user.getSettings().getDefaultGradient())

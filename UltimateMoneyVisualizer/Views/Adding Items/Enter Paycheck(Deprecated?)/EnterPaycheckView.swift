@@ -19,7 +19,7 @@ struct EnterPaycheckView: View {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "dollarsign",
                                                         backgroundColor: viewModel.user.getSettings().themeColor)
-                        Text(viewModel.thisCheckGross.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                        Text(viewModel.thisCheckGross.money().replacingOccurrences(of: "$", with: ""))
                             .font(.system(size: 20))
                             .fontWeight(.bold)
                             .foregroundStyle(viewModel.user.getSettings().getDefaultGradient())
@@ -37,7 +37,7 @@ struct EnterPaycheckView: View {
                 Section("Paycheck Taxes") {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: viewModel.user.getSettings().themeColor)
-                        Text(viewModel.thisCheckTax.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                        Text(viewModel.thisCheckTax.money().replacingOccurrences(of: "$", with: ""))
                             .font(.system(size: 20))
                             .fontWeight(.bold)
                             .foregroundStyle(viewModel.user.getSettings().getDefaultGradient())
@@ -56,7 +56,7 @@ struct EnterPaycheckView: View {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "dollarsign",
                                                         backgroundColor: viewModel.user.getSettings().themeColor)
-                        Text(viewModel.YTDGross.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                        Text(viewModel.YTDGross.money().replacingOccurrences(of: "$", with: ""))
                             .font(.system(size: 20))
                             .fontWeight(.bold)
                             .foregroundStyle(viewModel.user.getSettings().getDefaultGradient())
@@ -75,7 +75,7 @@ struct EnterPaycheckView: View {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "dollarsign",
                                                         backgroundColor: viewModel.user.getSettings().themeColor)
-                        Text(viewModel.YTDTax.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                        Text(viewModel.YTDTax.money().replacingOccurrences(of: "$", with: ""))
                             .font(.system(size: 20))
                             .fontWeight(.bold)
                             .foregroundStyle(viewModel.user.getSettings().getDefaultGradient())

@@ -55,7 +55,7 @@ struct ExpenseGridBlock: View {
                            gradient: user.getSettings().getDefaultGradient(),
                            lineWidth: 4,
                            showCheckWhenComplete: false) {
-                Text(expense.amountPaidOff.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                Text(expense.amountPaidOff.money().replacingOccurrences(of: "$", with: ""))
                     .boldNumber()
                     .minimumScaleFactor(0.5)
                     .lineLimit(1)

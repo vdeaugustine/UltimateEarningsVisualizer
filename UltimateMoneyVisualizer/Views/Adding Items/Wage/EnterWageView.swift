@@ -48,11 +48,11 @@ struct EnterWageView: View {
     var wageToShow: String {
         if isSalaried {
             getHourlyWage(salaryDouble)
-                .formattedForMoney(trimZeroCents: false)
+                .money(trimZeroCents: false)
                 .replacingOccurrences(of: "$", with: "")
         } else {
             hourlyDouble
-                .formattedForMoney(trimZeroCents: false)
+                .money(trimZeroCents: false)
                 .replacingOccurrences(of: "$", with: "")
         }
     }
@@ -93,7 +93,7 @@ struct EnterWageView: View {
                         SystemImageWithFilledBackground(systemName: "dollarsign",
                                                         backgroundColor: user.getSettings().themeColor)
                         Text(salaryDouble
-                            .formattedForMoney()
+                            .money()
                             .replacingOccurrences(of: "$", with: ""))
                             .boldNumber()
                         Spacer()

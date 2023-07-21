@@ -31,7 +31,7 @@ struct EnterMoneyView: View {
     }
 
     var moneyString: String {
-        return dubValue.formattedForMoney(trimZeroCents: false)
+        return dubValue.money(trimZeroCents: false)
 
     }
     

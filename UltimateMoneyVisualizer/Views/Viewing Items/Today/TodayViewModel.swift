@@ -184,7 +184,7 @@ class TodayViewModel: ObservableObject {
         guard let todayShift = user.todayShift else { return "" }
         switch selectedSegment {
             case .money:
-                return todayShift.remainingToEarn(nowTime).formattedForMoney()
+                return todayShift.remainingToEarn(nowTime).money()
             case .time:
                 return todayShift.remainingTime(nowTime).formatForTime([.hour, .minute, .second])
         }
@@ -194,7 +194,7 @@ class TodayViewModel: ObservableObject {
         guard let todayShift = user.todayShift else { return "" }
         switch selectedSegment {
             case .money:
-                return todayShift.totalEarnedSoFar(nowTime).formattedForMoney()
+                return todayShift.totalEarnedSoFar(nowTime).money()
             case .time:
                 return todayShift.elapsedTime(nowTime).formatForTime([.hour, .minute, .second])
         }
@@ -206,6 +206,10 @@ class TodayViewModel: ObservableObject {
         } else {
             return wage.perSecond * (user.todayShift?.totalShiftDuration ?? 0)
         }
+    }
+    
+    var willEarnAfterTaxes: Double {
+        willEarn * (1 - wage.totalTaxMultiplier)
     }
 
     // MARK: - Methods
@@ -300,7 +304,7 @@ class TodayViewModel: ObservableObject {
         guard let todayShift = user.todayShift else { return "" }
         switch selectedSegment {
             case .money:
-                return todayShift.totalWillEarn.formattedForMoney()
+                return todayShift.totalWillEarn.money()
             case .time:
                 return todayShift.totalShiftDuration.formatForTime()
         }

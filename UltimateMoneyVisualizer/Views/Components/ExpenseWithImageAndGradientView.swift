@@ -15,7 +15,7 @@ struct ExpenseWithImageAndGradientView: View {
     var maxHeight: CGFloat = 150
 
     var moneyString: String {
-        let completed: String = expense.amountPaidOff.formattedForMoney()
+        let completed: String = expense.amountPaidOff.money()
         let total: String = expense.amountMoneyStr
 
         return completed + " / " + total

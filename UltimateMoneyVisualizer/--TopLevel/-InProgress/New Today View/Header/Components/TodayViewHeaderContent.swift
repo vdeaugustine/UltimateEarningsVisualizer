@@ -16,14 +16,20 @@ struct TodayViewHeaderContent: View {
             HStack(spacing: 84) {
                 HStack(spacing: 20) {
                     Image(systemName: "bolt.shield")
-                        .font(.system(size: 40))
+                        .font(.system(size: 52))
                     VStack(alignment: .leading, spacing: 4) {
-                        
                         Text(viewModel.dateStringForHeader)
-                            .font(.lato(.black, 24))
+                            .font(.lato(24))
+                            .fontWeight(.black)
                         Text(viewModel.timeStringForHeader)
                             .font(.lato(.thin, 20))
                             .kerning(-0.02 * 20)
+                        HStack {
+                            Text(viewModel.user.todayShift?.totalShiftDuration.breakDownTime() ?? "")
+                            Text("•")
+                            Text(viewModel.willEarn.money())
+                        }
+                        .font(.lato(.thin, 20))
                     }
                 }
 

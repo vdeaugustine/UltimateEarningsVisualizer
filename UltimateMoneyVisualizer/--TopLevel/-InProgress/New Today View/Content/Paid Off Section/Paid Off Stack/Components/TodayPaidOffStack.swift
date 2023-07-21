@@ -14,9 +14,7 @@ struct TodayPaidOffStack: View {
 
     let distance: CGFloat = 40
 
-    var limit: CGFloat {
-        800
-    }
+    var limit: CGFloat { 800 }
 
     var minValue: CGFloat {
         min(CGFloat(viewModel.tempPayoffs.count), limit)
@@ -46,76 +44,17 @@ struct TodayPaidOffStack: View {
                 TodayViewPaidOffRect(item: item)
             }
         }
-
-//        GeometryReader { geo in
-//            ZStack(alignment: .top) {
-//                ForEach((0 ..< Int(minValue)).reversed(), id: \.self) { index in
-//                    if let item = viewModel.tempPayoffs.safeGet(at: Int(minValue) - index),
-//                       item.progressAmount > 0.01 {
-//                        TodayViewPaidOffRect(item: item)
-//                            .position(x: geo.frame(in: .local).midX, y: yPosition(for: index))
-//                    }
-//                }
-//            }
-//        }
-//        .frame(height: zStackHeight)
-//        .onTapGesture {
-//            withAnimation {
-//                isFannedOut.toggle()
-//            }
-//        }
-
-//        GeometryReader { geo in
-//            ZStack(alignment: .top) {
-//                TodayViewPaidOffRect(item: viewModel.tempPayoffs[0])
-//                    .position(x: geo.frame(in: .local).midX, y: yPosition(for: 0))
-//
-//                TodayViewPaidOffRect(item: viewModel.tempPayoffs[1])
-//                    .position(x: geo.frame(in: .local).midX, y: yPosition(for: 1))
-//
-//                TodayViewPaidOffRect(item: viewModel.tempPayoffs[2])
-//                    .position(x: geo.frame(in: .local).midX, y: yPosition(for: 2))
-//            }
-//
-//        }
-//        .frame(height: zStackHeight)
-
-//        LazyVStack {
-//            ZStack {
-//                ForEach(0 ..< Int(minValue), id: \.self) { i in
-//                    TodayViewPaidOffRect(item: viewModel.tempPayoffs[i])
-//                        .offset(y: isFannedOut ? CGFloat(i) * -100 : CGFloat(i) * -offsetForStack)
-//                }
-//            }
-//            .onTapGesture {
-//                withAnimation(.spring()) {
-//                    isFannedOut.toggle()
-//                }
-//            }
-//            .offset(y: isFannedOut ? totalOffSetWhenFanned : 0)
-//        }
-//        .frame(height: isFannedOut ? frameWhenFanned : frameWhenStacked)
     }
 }
 
-//        VStack {
-//            ZStack {
-//                if let topItem = viewModel.tempPayoffs.first {
-//                    TodayPaidOffRectContainer()
-//                    TodayPaidOffRectContainer()
-//                        .padding(.bottom, distance)
-//                    TodayViewPaidOffRect(item: topItem)
-//                        .padding(.bottom, distance * 2)
-//                }
-//            }
-//        }
+// MARK: - TodayPaidOffStack_Previews
 
-// MARK: - Card
-
-#Preview {
-    ZStack {
-        Color.targetGray
-        TodayPaidOffStack()
+struct TodayPaidOffStack_Previews: PreviewProvider {
+    static var previews: some View {
+        ZStack {
+            Color.targetGray
+            TodayPaidOffStack()
+        }
+        .environmentObject(TodayViewModel.main)
     }
-    .environmentObject(TodayViewModel.main)
 }

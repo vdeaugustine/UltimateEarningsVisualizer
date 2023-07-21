@@ -44,7 +44,7 @@ struct ShiftDetailView: View {
                         SystemImageWithFilledBackground(systemName: "chart.line.uptrend.xyaxis", backgroundColor: settings.themeColor)
                         Text("Earnings")
                             .spacedOut {
-                                Text(shift.totalEarned.formattedForMoney())
+                                Text(shift.totalEarned.money())
                             }
                     }
 
@@ -52,7 +52,7 @@ struct ShiftDetailView: View {
                         SystemImageWithFilledBackground(systemName: "chart.line.downtrend.xyaxis", backgroundColor: .niceRed)
                         Text("Spent")
                             .spacedOut {
-                                Text(shift.totalAllocated.formattedForMoney())
+                                Text(shift.totalAllocated.money())
                             }
                     }
 
@@ -60,7 +60,7 @@ struct ShiftDetailView: View {
                         SystemImageWithFilledBackground(systemName: "dollarsign.arrow.circlepath", backgroundColor: .okGreen)
                         Text("Available")
                             .spacedOut {
-                                Text(shift.totalAvailable.formattedForMoney())
+                                Text(shift.totalAvailable.money())
                             }
                     }
                     
@@ -99,7 +99,7 @@ struct ShiftDetailView: View {
                                 SystemImageWithFilledBackground(systemName: "target", backgroundColor: settings.themeColor)
 
                                 Text(goal.titleStr)
-                                    .spacedOut(text: alloc.amount.formattedForMoney())
+                                    .spacedOut(text: alloc.amount.money())
                             }
                         }
 
@@ -109,7 +109,7 @@ struct ShiftDetailView: View {
                                                                 backgroundColor: settings.themeColor)
 
                                 Text(expense.titleStr)
-                                    .spacedOut(text: alloc.amount.formattedForMoney())
+                                    .spacedOut(text: alloc.amount.money())
                             }
                         }
                     }

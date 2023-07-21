@@ -219,7 +219,7 @@ struct ShiftRowView: View {
             }
             Spacer()
 
-            Text("\(shift.totalEarned.formattedForMoney())")
+            Text("\(shift.totalEarned.money())")
                 .font(.subheadline)
                 .foregroundColor(.primary)
                 .multilineTextAlignment(.trailing)

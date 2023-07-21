@@ -14,22 +14,22 @@ struct TodayViewProgressBarLabels: View {
     var body: some View {
         HStack {
             makePill("Taxes",
-                     amount: viewModel.taxesPaidSoFar.formattedForMoney(),
+                     amount: viewModel.taxesPaidSoFar.money(),
                      color: viewModel.taxesColor)
 //            if viewModel.showExpensesProgress {
                 makePill("Expenses",
-                         amount: viewModel.spentOnExpenses.formattedForMoney(),
+                         amount: viewModel.spentOnExpenses.money(),
                          color: viewModel.expensesColor)
 //            }
 //            if viewModel.showGoalsProgress {
                 makePill("Goals",
-                         amount: viewModel.spentOnGoals.formattedForMoney(),
+                         amount: viewModel.spentOnGoals.money(),
                          color: viewModel.goalsColor)
 //            }
 
 //            if viewModel.showUnspent {
                 makePill("Unspent",
-                         amount: viewModel.unspent.formattedForMoney(),
+                         amount: viewModel.unspent.money(),
                          color: viewModel.unspentColor)
 //            }
         }

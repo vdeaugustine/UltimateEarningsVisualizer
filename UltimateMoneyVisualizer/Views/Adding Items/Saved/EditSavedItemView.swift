@@ -27,7 +27,7 @@ struct EditSavedItemView: View {
         _amount = State(initialValue: saved.wrappedValue.amount)
         _date = State(initialValue: saved.wrappedValue.getDate())
         _amountDub = State(initialValue: saved.wrappedValue.amount)
-        _amountStr = State(initialValue: saved.wrappedValue.amount.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+        _amountStr = State(initialValue: saved.wrappedValue.amount.money().replacingOccurrences(of: "$", with: ""))
         _savedItem = saved
     }
 
@@ -68,7 +68,7 @@ struct EditSavedItemView: View {
                 } label: {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
-                        Text(amountDub.formattedForMoney(trimZeroCents: false).replacingOccurrences(of: "$", with: ""))
+                        Text(amountDub.money(trimZeroCents: false).replacingOccurrences(of: "$", with: ""))
                             .boldNumber()
                     }
                 }

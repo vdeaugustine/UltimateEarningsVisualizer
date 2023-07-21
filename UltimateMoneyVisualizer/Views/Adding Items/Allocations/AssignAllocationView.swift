@@ -60,7 +60,7 @@ struct AssignAllocationToPayoffView: View {
                 Text("Total")
                     .spacedOut(text: payoffItem.amountMoneyStr)
                 Text("Remaining")
-                    .spacedOut(text: payoffItem.amountRemainingToPayOff.formattedForMoney())
+                    .spacedOut(text: payoffItem.amountRemainingToPayOff.money())
             }
 
             Section("Choose Source") {
@@ -82,9 +82,9 @@ struct AssignAllocationToPayoffView: View {
                     Slider(value: $allocAmount, in: 0 ... sliderLimit, step: 0.01) {
                         Text("Amount")
                     } minimumValueLabel: {
-                        Text(0.formattedForMoney())
+                        Text(0.money())
                     } maximumValueLabel: {
-                        Text(sliderLimit.formattedForMoney())
+                        Text(sliderLimit.money())
                     }
                 }
             } else if let saved {
@@ -96,15 +96,15 @@ struct AssignAllocationToPayoffView: View {
                     Slider(value: $allocAmount, in: 0 ... sliderLimit, step: 0.01) {
                         Text("Amount")
                     } minimumValueLabel: {
-                        Text(0.formattedForMoney())
+                        Text(0.money())
                     } maximumValueLabel: {
-                        Text(sliderLimit.formattedForMoney())
+                        Text(sliderLimit.money())
                     }
                 }
 
                 Section {
                     Text("Allocate")
-                        .spacedOut(text: allocAmount.formattedForMoney())
+                        .spacedOut(text: allocAmount.money())
                 }
             }
         }
@@ -311,7 +311,7 @@ struct SavedItemForAllocSheet: View {
             Spacer()
 
             VStack {
-                Text(saved.totalAvailable.formattedForMoney())
+                Text(saved.totalAvailable.money())
                     .font(.subheadline)
                     .foregroundColor(.primary)
                     .multilineTextAlignment(.trailing)
@@ -344,14 +344,14 @@ struct ShiftRowForAllocSheet: View {
                     .font(.subheadline)
                     .foregroundColor(.primary)
 
-                Text("Spent: \(shift.totalAllocated.formattedForMoney())")
+                Text("Spent: \(shift.totalAllocated.money())")
                     .font(.caption2)
                     .foregroundColor(.secondary)
             }
             Spacer()
 
             VStack {
-                Text("\(shift.totalAvailable.formattedForMoney())")
+                Text("\(shift.totalAvailable.money())")
                     .font(.subheadline)
                     .foregroundColor(.primary)
                     .multilineTextAlignment(.trailing)

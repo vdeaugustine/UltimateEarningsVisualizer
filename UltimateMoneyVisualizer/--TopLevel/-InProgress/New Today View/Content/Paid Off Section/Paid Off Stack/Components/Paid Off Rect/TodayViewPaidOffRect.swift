@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+// MARK: - TodayViewPaidOffRect
+
 struct TodayViewPaidOffRect: View {
     let item: TempTodayPayoff
     @EnvironmentObject private var viewModel: TodayViewModel
@@ -30,11 +32,11 @@ struct TodayViewPaidOffRect: View {
                 Spacer()
 
                 VStack(spacing: 4) {
-                    Text(item.progressAmount.formattedForMoney().replacingOccurrences(of: "$", with: "+"))
+                    Text(item.progressAmount.money().replacingOccurrences(of: "$", with: "+"))
                         .font(.lato(.regular, 16))
                         .fontWeight(.black)
 
-                    Text(item.amount.formattedForMoney())
+                    Text(item.amount.money())
                         .font(.lato(.regular, 12))
                         .fontWeight(.bold)
                         .foregroundStyle(Color(uiColor: .gray))
@@ -44,7 +46,6 @@ struct TodayViewPaidOffRect: View {
             .background(.white)
             .cornerRadius(15)
         }
-        
     }
 
     var gradient: LinearGradient {
@@ -65,21 +66,34 @@ struct TodayViewPaidOffRect: View {
                        lineWidth: 5,
                        showCheckWhenComplete: false) {
             VStack(spacing: 2) {
-                Text(item.amountPaidOff.formattedForMoney())
+                Text(item.amountPaidOff.money())
                     .lineLimit(1)
                     .minimumScaleFactor(0.85)
                     .font(.lato(16))
                     .fontWeight(.bold)
                     .foregroundStyle(gradient)
+                    .padding(5)
             }
         }
     }
 }
 
-#Preview {
-    ZStack {
-        Color.targetGray
-        TodayViewPaidOffRect(item: .init(payoff: User.main.getQueue().first!))
-            .environmentObject(TodayViewModel.main)
+// MARK: - TodayViewPaidOffRect_Previews
+
+struct TodayViewPaidOffRect_Previews: PreviewProvider {
+    static let tempPayoff: TempTodayPayoff = {
+        TempTodayPayoff(amount: 119.21,
+                        amountPaidOff: 117.77,
+                        title: "Testing this item",
+                        type: .expense,
+                        id: .init())
+    }()
+
+    static var previews: some View {
+        ZStack {
+            Color.targetGray
+            TodayViewPaidOffRect(item: .init(payoff: User.main.getQueue().first!))
+                .environmentObject(TodayViewModel.main)
+        }
     }
 }

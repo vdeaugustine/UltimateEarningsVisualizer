@@ -40,7 +40,7 @@ struct CalculateTaxView: View {
             Section("Gross Earnings") {
                 HStack {
                     SystemImageWithFilledBackground(systemName: "dollarsign")
-                    Text(grossEarnings.formattedForMoney(trimZeroCents: false).replacingOccurrences(of: "$", with: "")).boldNumber()
+                    Text(grossEarnings.money(trimZeroCents: false).replacingOccurrences(of: "$", with: "")).boldNumber()
                     Spacer()
                     Text("Edit")
                 }
@@ -53,7 +53,7 @@ struct CalculateTaxView: View {
             Section("Pre Tax Deductions") {
                 HStack {
                     SystemImageWithFilledBackground(systemName: "dollarsign")
-                    Text(preTaxDeductions.formattedForMoney(trimZeroCents: false).replacingOccurrences(of: "$", with: "")).boldNumber()
+                    Text(preTaxDeductions.money(trimZeroCents: false).replacingOccurrences(of: "$", with: "")).boldNumber()
                     Spacer()
                     Text("Edit")
                 }
@@ -66,7 +66,7 @@ struct CalculateTaxView: View {
             Section("\(taxType.rawValue.capitalized) Taxes Paid") {
                 HStack {
                     SystemImageWithFilledBackground(systemName: "dollarsign")
-                    Text(taxesPaid.formattedForMoney(trimZeroCents: false).replacingOccurrences(of: "$", with: "")).boldNumber()
+                    Text(taxesPaid.money(trimZeroCents: false).replacingOccurrences(of: "$", with: "")).boldNumber()
                     Spacer()
                     Text("Edit")
                 }

@@ -21,7 +21,7 @@ struct CreateGoalView: View {
                 TextField("Title", text: $viewModel.title)
                 HStack {
                     SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: viewModel.user.getSettings().themeColor)
-                    Text(viewModel.amountDouble.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                    Text(viewModel.amountDouble.money().replacingOccurrences(of: "$", with: ""))
                         .font(.system(size: 20))
                         .fontWeight(.bold)
                         .foregroundStyle(viewModel.user.getSettings().getDefaultGradient())

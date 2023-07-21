@@ -35,7 +35,7 @@ struct GoalDetailProgressBox: View {
                     batteryImage
 
                     VStack(alignment: .center) {
-                        Text(viewModel.goal.amountPaidOff.formattedForMoneyExtended(decimalPlaces: 2))
+                        Text(viewModel.goal.amountPaidOff.moneyExtended(decimalPlaces: 2))
                             .fontWeight(.semibold)
                             .font(.title2)
                             .minimumScaleFactor(0.90)
@@ -53,7 +53,7 @@ struct GoalDetailProgressBox: View {
                     }
                 }
                 
-                Text(viewModel.goal.amountRemainingToPayOff.formattedForMoney() + " remaining")
+                Text(viewModel.goal.amountRemainingToPayOff.money() + " remaining")
                     .font(.caption)
                     .foregroundStyle(Color.gray)
             }

@@ -43,7 +43,7 @@ struct HomeView: View {
                                         Text("Earnings")
                                             .fontWeight(.medium)
                                             .minimumScaleFactor(0.01)
-                                        Text(user.totalEarned().formattedForMoney())
+                                        Text(user.totalEarned().money())
                                             .fontWeight(.bold)
                                             .foregroundStyle(settings.getDefaultGradient())
                                             .minimumScaleFactor(0.01)

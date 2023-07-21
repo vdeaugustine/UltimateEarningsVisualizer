@@ -42,7 +42,7 @@ struct PayoffWithImageAndGradientView: View {
     var maxHeight: CGFloat = 150
     
     var moneyString: String {
-        let completed: String = item.amountPaidOff.formattedForMoney()
+        let completed: String = item.amountPaidOff.money()
         let total: String = item.amountMoneyStr
         
         return completed + " / " + total

@@ -121,7 +121,7 @@ struct ItemizedPartOfShiftView: View {
 
                 Spacer()
 
-                Text(timeBlock.amountEarned().formattedForMoney())
+                Text(timeBlock.amountEarned().money())
                     .font(.system(size: 12))
                     .fontWeight(.semibold)
                     .foregroundColor(.white)

@@ -54,7 +54,7 @@ struct PayPeriodDetailView: View {
                 SystemImageWithFilledBackground(systemName: "dollarsign")
                 Text("Total Earned")
                 Spacer()
-                Text(payPeriod.totalEarned().formattedForMoney())
+                Text(payPeriod.totalEarned().money())
                     .fontWeight(.medium)
             }
             
@@ -62,7 +62,7 @@ struct PayPeriodDetailView: View {
                 SystemImageWithFilledBackground(systemName: "dollarsign.arrow.circlepath")
                 Text("Taxes paid")
                 Spacer()
-                Text(payPeriod.taxesPaid().formattedForMoney())
+                Text(payPeriod.taxesPaid().money())
                     .fontWeight(.medium)
             }
 

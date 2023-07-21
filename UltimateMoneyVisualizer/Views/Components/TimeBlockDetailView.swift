@@ -37,7 +37,7 @@ struct TimeBlockDetailView: View {
                     .spacedOut(text: block.duration.formatForTime())
 
                 Text("Earned")
-                    .spacedOut(text: block.amountEarned().formattedForMoney())
+                    .spacedOut(text: block.amountEarned().money())
             }
         }
         .navigationTitle("Time Block Details")

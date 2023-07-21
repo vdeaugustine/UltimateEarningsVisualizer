@@ -46,26 +46,26 @@ struct WageBreakdownBox: View {
                     VStack {
                         Group {
                             Text("Year")
-                                .spacedOut(text: wage.perYear.formattedForMoney())
+                                .spacedOut(text: wage.perYear.money())
                             Divider()
                             Text("Month")
-                                .spacedOut(text: wage.perMonth.formattedForMoney())
+                                .spacedOut(text: wage.perMonth.money())
                             Divider()
                             Text("Week")
-                                .spacedOut(text: wage.perWeek.formattedForMoney())
+                                .spacedOut(text: wage.perWeek.money())
                             Divider()
                             Text("Day")
-                                .spacedOut(text: wage.perDay.formattedForMoney())
+                                .spacedOut(text: wage.perDay.money())
                             Divider()
                             Text("Hour")
-                                .spacedOut(text: wage.hourly.formattedForMoney())
+                                .spacedOut(text: wage.hourly.money())
                         }
                         Divider()
                         Text("Minute")
-                            .spacedOut(text: wage.perMinute.formattedForMoney())
+                            .spacedOut(text: wage.perMinute.money())
                         Divider()
                         Text("Second")
-                            .spacedOut(text: wage.perSecond.formattedForMoney())
+                            .spacedOut(text: wage.perSecond.money())
                     }
                     .font(.subheadline)
                 }

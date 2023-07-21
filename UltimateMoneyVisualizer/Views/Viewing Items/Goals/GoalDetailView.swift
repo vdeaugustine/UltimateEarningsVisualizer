@@ -44,7 +44,7 @@ struct GoalDetailView: View {
                     //                Section(header: Text("Info")) {
                     //                    Text("Amount")
                     //                        .spacedOut {
-                    //                            Text(viewModel.goal.amount.formattedForMoney())
+                    //                            Text(viewModel.goal.amount.money())
                     //                                .fontWeight(.bold)
                     //                                .foregroundStyle(viewModel.settings.getDefaultGradient())
                     //                        }
@@ -55,7 +55,7 @@ struct GoalDetailView: View {
                     //                    }
                     //
                     //                    HStack(spacing: 5) {
-                    //                        Text(viewModel.goal.amount.formattedForMoney())
+                    //                        Text(viewModel.goal.amount.money())
                     //                            .fontWeight(.bold)
                     //                            .foregroundStyle(viewModel.settings.getDefaultGradient())
                     //                        Text("is equivalent to")
@@ -99,10 +99,10 @@ struct GoalDetailView: View {
                     //
                     //                Section(header: Text("Progress")) {
                     //                    Text("Paid off")
-                    //                        .spacedOut(text: viewModel.goal.amountPaidOff.formattedForMoney())
+                    //                        .spacedOut(text: viewModel.goal.amountPaidOff.money())
                     //
                     //                    Text("Remaining")
-                    //                        .spacedOut(text: viewModel.goal.amountRemainingToPayOff.formattedForMoney())
+                    //                        .spacedOut(text: viewModel.goal.amountRemainingToPayOff.money())
                     //                }
                     //
                     //                Section("Instances") {

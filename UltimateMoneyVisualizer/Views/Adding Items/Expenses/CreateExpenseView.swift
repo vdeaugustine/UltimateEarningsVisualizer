@@ -58,7 +58,7 @@ struct CreateExpenseView: View {
                 } label: {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
-                        Text(doubleAmount.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                        Text(doubleAmount.money().replacingOccurrences(of: "$", with: ""))
                             .boldNumber()
                     }
                 }

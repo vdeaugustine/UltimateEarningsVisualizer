@@ -50,7 +50,7 @@ struct CreateSavedView: View {
                     .focused($dateFocused)
                 HStack {
                     SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: newItemViewModel.user.getSettings().themeColor)
-                    Text(doubleAmount.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                    Text(doubleAmount.money().replacingOccurrences(of: "$", with: ""))
                         .boldNumber()
                     Spacer()
                     Text("Edit")

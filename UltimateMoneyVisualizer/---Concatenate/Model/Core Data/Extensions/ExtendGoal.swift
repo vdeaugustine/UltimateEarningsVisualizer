@@ -78,7 +78,7 @@ extension Goal: PayoffItem {
     }
 
     public var amountMoneyStr: String {
-        return amount.formattedForMoney(includeCents: true)
+        return amount.money(includeCents: true)
     }
 
     public var amountPaidOff: Double {

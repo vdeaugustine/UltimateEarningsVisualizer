@@ -36,6 +36,11 @@ struct ContentView: View {
 
             })
             .makeTab(tab: Tabs.today, systemImage: "bolt.fill")
+            
+            NavigationStack {
+                NewTodayView()
+            }
+            .makeTab(tab: Tabs.today, systemImage: "bolt.shield")
 
             SettingsView()
                 .putInNavView(.inline)

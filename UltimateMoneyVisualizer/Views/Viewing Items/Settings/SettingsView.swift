@@ -24,7 +24,7 @@ struct SettingsView: View {
 
     private var wageStr: String {
         if let wage = user.wage {
-            return wage.amount.formattedForMoney(includeCents: true)
+            return wage.amount.money(includeCents: true)
         }
         return "Not set"
     }

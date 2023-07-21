@@ -16,28 +16,20 @@ struct TodayPaidOffStackWithHeader: View {
         VStack(spacing: 16) {
             HStack {
                 Text("PAID OFF TODAY")
-                    .font(.lato(16))
-                    .fontWeight(.semibold)
-                    .tracking(1)
-                    .foregroundStyle(Color(hex: "4E4E4E"))
 
                 Spacer()
 
                 Text("Queue")
-                    .font(.lato(16))
-                    .fontWeight(.semibold)
-                    .tracking(1)
-                    .foregroundStyle(Color(hex: "4E4E4E"))
             }
-            
+            .font(.lato(16))
+            .fontWeight(.semibold)
+            .tracking(1)
+            .foregroundStyle(Color(hex: "4E4E4E"))
+
             TodayPaidOffStack()
         }
     }
 }
-
-
-
-
 
 // MARK: - TodayPaidOffStackWithHeader_Previews
 
