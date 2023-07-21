@@ -54,7 +54,8 @@ struct NewTodayView: View {
     }
 }
 
-#Preview {
-    NewTodayView()
-    
+struct NewTodayView_Previews: PreviewProvider {
+    static var previews: some View {
+        NewTodayView()
+    }
 }

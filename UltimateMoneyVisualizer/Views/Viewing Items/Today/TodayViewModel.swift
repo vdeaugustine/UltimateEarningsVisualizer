@@ -14,9 +14,13 @@ class TodayViewModel: ObservableObject {
     let viewContext: NSManagedObjectContext
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     let taxesColor = Color(hex: "630E08")
-    let expensesColor = Color(hex: "00364A")
-    let goalsColor = Color(hex: "4F4A2C")
-    let unspentColor = Color(hex: "044A21")
+    let expensesColor = Color(hex: "669D34")
+    let goalsColor = Color(hex: "9D3466")
+    let unspentColor = Color(hex: "34669D")
+    
+    //#30FF3BFF
+//    #3B30FFFF
+//    kCGColorSpaceModelRGB 0.305882 0.478431 0.152941 1
 
     // MARK: - Published properties
 
@@ -29,6 +33,7 @@ class TodayViewModel: ObservableObject {
     @Published var showDeleteWarning = false
     @Published var showHoursSheet = false
     @Published var saveBannerWasDismissed = false
+    @Published var paidOffStackIsExpanded = false 
 
     // MARK: - Observed Objects
 
@@ -53,6 +58,7 @@ class TodayViewModel: ObservableObject {
     var showExpensesProgress: Bool { spentOnExpenses >= 0.01 }
     var showGoalsProgress: Bool { spentOnGoals >= 0.01 }
     var showUnspent: Bool { 1 - spentTotal >= 0.01 }
+
     
     var timeStringForHeader: String {
         "\(start.getFormattedDate(format: .minimalTime)) - \(end.getFormattedDate(format: .minimalTime))"
@@ -94,6 +100,10 @@ class TodayViewModel: ObservableObject {
         spentOnGoals + spentOnExpenses + taxesPaidSoFar
     }
     
+    var unspent: Double {
+        max(willEarn - spentTotal, 0)
+    }
+    
     var percentForExpenses: Double {
         spentOnExpenses / spentTotal
     }
@@ -108,6 +118,10 @@ class TodayViewModel: ObservableObject {
     
     var percentForTaxesSoFar: Double {
         taxesPaidSoFar / spentTotal
+    }
+    
+    var percentForUnpaid: Double {
+        unspent / willEarn
     }
     
 
@@ -279,5 +293,12 @@ extension TodayViewModel {
     enum SelectedSegment: String, CaseIterable, Identifiable, Hashable {
         case money, time
         var id: Self { self }
+    }
+}
+
+// MARK: - Progress Type
+extension TodayViewModel {
+    enum ProgressType: String {
+        case expenses, goals, taxes, unspent, willPayTaxes
     }
 }

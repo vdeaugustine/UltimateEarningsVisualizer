@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct TodayPaidOffStack: View {
-    
     @EnvironmentObject private var viewModel: TodayViewModel
-    
+
     let distance: CGFloat = 40
     var body: some View {
         VStack {
@@ -20,7 +19,7 @@ struct TodayPaidOffStack: View {
                     TodayPaidOffRectContainer()
                         .padding(.bottom, distance)
                     TodayViewPaidOffRect(item: topItem)
-                    .padding(.bottom, distance * 2)
+                        .padding(.bottom, distance * 2)
                 }
             }
         }

@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct TodayPaidOffStackWithHeader: View {
+    
+    @EnvironmentObject private var viewModel: TodayViewModel
+    
+    
     var body: some View {
         VStack(spacing: 16) {
             HStack {

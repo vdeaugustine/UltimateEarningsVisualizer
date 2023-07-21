@@ -48,7 +48,6 @@ struct TodayViewHeaderContent_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             TodayViewHeaderBackground()
-//                .frame(height: 237)
             TodayViewHeaderContent()
         }
 
@@ -61,7 +60,7 @@ extension Font {
     static func lato(_ type: LatoTypes = .regular, _ size: CGFloat = 16) -> Font {
         Font.custom("Lato-\(type.rawValue)", fixedSize: size)
     }
-    
+
     static func lato(_ size: CGFloat = 16) -> Font {
         Font.custom("Lato-Regular", fixedSize: size)
     }

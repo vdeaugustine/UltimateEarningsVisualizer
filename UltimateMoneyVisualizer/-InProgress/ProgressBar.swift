@@ -56,7 +56,7 @@ struct ProgressBar: View {
         let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
         var body: some View {
-            ProgressBar(percentage: percentage)
+            ProgressBar(percentage: percentage, height: 60)
                 .onReceive(timer) { _ in
                     withAnimation{
                         percentage += increaseAmount
@@ -72,8 +72,16 @@ struct ProgressBar_Previews: PreviewProvider {
     static var prog: Double = 0.0
 
     static var previews: some View {
-        ProgressBar.Preview(percentage: 0.0, increaseAmount: 0.1)
-            .padding()
-            .previewLayout(.sizeThatFits)
+        ZStack {
+            Color.targetGray
+            ProgressBar.Preview(percentage: 0.0, increaseAmount: 0.1)
+                .padding()
+                .previewLayout(.sizeThatFits)
+                .background {
+                    Color.white
+                    .cornerRadius(15)
+                    .shadow(color: .black.opacity(0.25), radius: 2, x: 4, y: 4)
+                }
+        }
     }
 }
