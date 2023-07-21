@@ -21,8 +21,14 @@ struct NewTodayView: View {
                 
                 Spacer()
                     .frame(height: 24)
-                TodayPaidOffStackWithHeader()
-                    .padding(.horizontal)
+                
+                
+                if !viewModel.nonZeroPayoffItems.isEmpty {
+                    TodayPaidOffStackWithHeader()
+                        .padding(.horizontal)
+                } else {
+                    /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/
+                }
                 Spacer()
                     
             }
@@ -37,6 +43,9 @@ struct NewTodayView: View {
             viewModel.addSecond()
         }
         .environmentObject(viewModel)
+        .sheet(isPresented: $viewModel.showHoursSheet) {
+            SelectHours()
+        }
     }
 
     var headerAndBar: some View {
@@ -57,5 +66,6 @@ struct NewTodayView: View {
 struct NewTodayView_Previews: PreviewProvider {
     static var previews: some View {
         NewTodayView()
+            .environmentObject(TodayViewModel.main)
     }
 }

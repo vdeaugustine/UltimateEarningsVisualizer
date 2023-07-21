@@ -20,18 +20,19 @@ struct TodayProgressBar: View {
     }
 
     var data: [DataItem] {
-        [DataItem(title: "Expenses",
+        [DataItem(title: "Taxes",
+                  amount: viewModel.taxesPaidSoFar,
+                  color: viewModel.taxesColor),
+//         DataItem(title: "Will Spend on Taxes",
+//                  amount: viewModel.wage.totalTaxMultiplier * viewModel.willEarn,
+//                  color: viewModel.taxesColor.opacity(0.6)),
+         DataItem(title: "Expenses",
                   amount: viewModel.spentOnExpenses,
                   color: viewModel.expensesColor),
          DataItem(title: "Goals",
                   amount: viewModel.spentOnGoals,
-                  color: viewModel.expensesColor),
-         DataItem(title: "Taxes",
-                  amount: viewModel.taxesPaidSoFar,
-                  color: viewModel.taxesColor),
-         DataItem(title: "Will Spend on Taxes",
-                  amount: viewModel.wage.totalTaxMultiplier * viewModel.willEarn,
-                  color: viewModel.taxesColor.opacity(0.6)),
+                  color: viewModel.goalsColor),
+
          DataItem(title: "Unspent",
                   amount: viewModel.unspent,
                   color: viewModel.unspentColor),
@@ -67,7 +68,7 @@ struct TodayProgressBar: View {
                     ForEach(useData, id: \.self) { datum in
                         Rectangle()
                             .foregroundColor(datum.color)
-                            .frame(width: CGFloat(datum.amount / totalAmount) * geo.size.width)
+                            .frame(width: CGFloat(datum.amount / viewModel.willEarn) * geo.size.width)
                     }
                 }
             }

@@ -14,7 +14,7 @@ struct TodayViewInfoRects: View {
         VStack(spacing: 12) {
             HStack {
                 TodayViewInfoRect(imageName: "stopwatch",
-                                  valueString: viewModel.remainingTime.breakDownTime(),
+                                  valueString: viewModel.elapsedTime.breakDownTime(),
                                   bottomLabel: "Elapsed")
                 TodayViewInfoRect(imageName: "dollarsign.circle",
                                   valueString: viewModel.haveEarned.formattedForMoney(),

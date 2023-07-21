@@ -19,5 +19,6 @@ struct TodayViewHeader: View {
 struct TodayViewHeader_Previews: PreviewProvider {
     static var previews: some View {
         TodayViewHeader()
+            .environmentObject(TodayViewModel.main)
     }
 }

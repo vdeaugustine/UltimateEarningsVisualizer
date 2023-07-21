@@ -18,7 +18,8 @@ struct TodayViewHeaderContent: View {
                     Image(systemName: "bolt.shield")
                         .font(.system(size: 40))
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(viewModel.start.getFormattedDate(format: .abreviatedMonth))
+                        
+                        Text(viewModel.dateStringForHeader)
                             .font(.lato(.black, 24))
                         Text(viewModel.timeStringForHeader)
                             .font(.lato(.thin, 20))
@@ -35,6 +36,9 @@ struct TodayViewHeaderContent: View {
                                 .fill(Color(hex: "3F63F3"))
                         }
                         .frame(width: 48, height: 48)
+                        .onTapGesture {
+                            viewModel.showHoursSheet.toggle()
+                        }
                 }
             }
             .foregroundStyle(Color.white)

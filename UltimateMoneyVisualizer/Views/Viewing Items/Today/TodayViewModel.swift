@@ -13,12 +13,12 @@ class TodayViewModel: ObservableObject {
     static var main = TodayViewModel()
     let viewContext: NSManagedObjectContext
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    let taxesColor = Color(hex: "630E08")
-    let expensesColor = Color(hex: "669D34")
-    let goalsColor = Color(hex: "9D3466")
-    let unspentColor = Color(hex: "34669D")
-    
-    //#30FF3BFF
+    let taxesColor = Color.red // Color(hex: "630E08")
+    let expensesColor = Color.cyan // Color(hex: "669D34")
+    let goalsColor = Color.green // Color(hex: "9D3466")
+    let unspentColor = Color.orange // Color(hex: "34669D")
+
+    // #30FF3BFF
 //    #3B30FFFF
 //    kCGColorSpaceModelRGB 0.305882 0.478431 0.152941 1
 
@@ -33,7 +33,7 @@ class TodayViewModel: ObservableObject {
     @Published var showDeleteWarning = false
     @Published var showHoursSheet = false
     @Published var saveBannerWasDismissed = false
-    @Published var paidOffStackIsExpanded = false 
+    @Published var paidOffStackIsExpanded = false
 
     // MARK: - Observed Objects
 
@@ -54,18 +54,34 @@ class TodayViewModel: ObservableObject {
     }
 
     // MARK: - Computed Properties
-    
+
     var showExpensesProgress: Bool { spentOnExpenses >= 0.01 }
     var showGoalsProgress: Bool { spentOnGoals >= 0.01 }
-    var showUnspent: Bool { 1 - spentTotal >= 0.01 }
-
+    var showUnspent: Bool { unspent >= 0.01 }
     
+    var nonZeroPayoffItems: [TempTodayPayoff] {
+        tempPayoffs.filter({ $0.progressAmount > 0.01 })
+    }
+
+    var dateStringForHeader: String {
+        guard let todayShift = user.todayShift,
+              let startTime = todayShift.startTime else {
+            return ""
+        }
+        return startTime.getFormattedDate(format: .abreviatedMonth)
+    }
+
     var timeStringForHeader: String {
-        "\(start.getFormattedDate(format: .minimalTime)) - \(end.getFormattedDate(format: .minimalTime))"
+        guard let todayShift = user.todayShift,
+              let startTime = todayShift.startTime,
+              let endTime = todayShift.endTime else {
+            return ""
+        }
+        return "\(startTime.getFormattedDate(format: .minimalTime)) - \(endTime.getFormattedDate(format: .minimalTime))"
     }
 
     var elapsedTime: Double {
-        Date.now - start
+        user.todayShift?.elapsedTime(nowTime) ?? 0
     }
 
     var haveEarned: Double {
@@ -74,18 +90,19 @@ class TodayViewModel: ObservableObject {
 
     var isCurrentlyMidShift: Bool {
         guard let todayShift = user.todayShift,
-              let start = todayShift.startTime,
-              let end = todayShift.endTime,
-              nowTime >= start,
-              nowTime <= end
+              let startTime = todayShift.startTime,
+              let endTime = todayShift.endTime,
+              nowTime >= startTime,
+              nowTime <= endTime
         else {
             return false
         }
         return true
     }
-    
+
     var remainingTime: Double {
-        end - nowTime
+        guard let endTime = user.todayShift?.endTime else { return 0 }
+        return endTime - nowTime
     }
 
     var spentOnExpenses: Double {
@@ -95,35 +112,34 @@ class TodayViewModel: ObservableObject {
     var spentOnGoals: Double {
         tempPayoffs.lazy.filter { $0.type == .goal }.reduce(Double.zero) { $0 + $1.progressAmount }
     }
-    
+
     var spentTotal: Double {
         spentOnGoals + spentOnExpenses + taxesPaidSoFar
     }
-    
+
     var unspent: Double {
-        max(willEarn - spentTotal, 0)
+        max(haveEarned - spentTotal, 0)
     }
-    
+
     var percentForExpenses: Double {
         spentOnExpenses / spentTotal
     }
-    
+
     var percentForGoals: Double {
         spentOnGoals / spentTotal
     }
-    
+
     var percentPaidSoFar: Double {
-        spentTotal / willEarn
+        spentTotal / haveEarned
     }
-    
+
     var percentForTaxesSoFar: Double {
         taxesPaidSoFar / spentTotal
     }
-    
+
     var percentForUnpaid: Double {
-        unspent / willEarn
+        unspent / haveEarned
     }
-    
 
     var taxesPaidSoFar: Double {
         tempPayoffs.lazy.filter { $0.type == .tax }.reduce(Double.zero) { $0 + $1.progressAmount }
@@ -196,9 +212,10 @@ class TodayViewModel: ObservableObject {
 
     func addSecond() {
         nowTime = .now
-        if user.todayShift != nil,
+        if let shift = user.todayShift,
+           let endTime = shift.endTime,
            !saveBannerWasDismissed {
-            if nowTime > end {
+            if nowTime > endTime {
                 showBanner = true
             }
         }
@@ -257,7 +274,8 @@ class TodayViewModel: ObservableObject {
     }
 
     func timeUntilShiftString() -> String {
-        let timeComponent = start - nowTime
+        guard let startTime = user.todayShift?.startTime else { return "" }
+        let timeComponent = startTime - nowTime
         if abs(timeComponent) < 86_400 {
             let hours = Int(timeComponent / 3_600)
             let minutes = Int((timeComponent.truncatingRemainder(dividingBy: 3_600)) / 60)
@@ -297,6 +315,7 @@ extension TodayViewModel {
 }
 
 // MARK: - Progress Type
+
 extension TodayViewModel {
     enum ProgressType: String {
         case expenses, goals, taxes, unspent, willPayTaxes

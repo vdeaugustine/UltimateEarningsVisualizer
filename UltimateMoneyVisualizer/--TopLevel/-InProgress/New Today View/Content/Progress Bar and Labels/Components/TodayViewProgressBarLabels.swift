@@ -21,17 +21,17 @@ struct TodayViewProgressBarLabels: View {
                          amount: viewModel.spentOnExpenses.formattedForMoney(),
                          color: viewModel.expensesColor)
 //            }
-            if viewModel.showGoalsProgress {
+//            if viewModel.showGoalsProgress {
                 makePill("Goals",
                          amount: viewModel.spentOnGoals.formattedForMoney(),
                          color: viewModel.goalsColor)
-            }
+//            }
 
-            if viewModel.showUnspent {
+//            if viewModel.showUnspent {
                 makePill("Unspent",
                          amount: viewModel.unspent.formattedForMoney(),
                          color: viewModel.unspentColor)
-            }
+//            }
         }
     }
 
