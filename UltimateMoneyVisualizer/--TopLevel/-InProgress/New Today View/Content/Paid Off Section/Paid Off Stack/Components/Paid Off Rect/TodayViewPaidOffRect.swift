@@ -23,10 +23,15 @@ struct TodayViewPaidOffRect: View {
                         .font(.lato(.regular, 16))
                         .fontWeight(.black)
 
-                    Text(item.type.rawValue.uppercased())
-                        .font(.lato(.regular, 12))
+//                    VStack(spacing: 2) {
+                    Text(item.amountPaidOff.money())
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.85)
+                        .font(.lato(16))
                         .fontWeight(.bold)
-                        .foregroundStyle(Color(uiColor: .gray))
+                        .foregroundStyle(gradient)
+//                                       .padding(5)
+//                               }
                 }
 
                 Spacer()
@@ -65,15 +70,10 @@ struct TodayViewPaidOffRect: View {
                        gradient: gradient,
                        lineWidth: 5,
                        showCheckWhenComplete: false) {
-            VStack(spacing: 2) {
-                Text(item.amountPaidOff.money())
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.85)
-                    .font(.lato(16))
-                    .fontWeight(.bold)
-                    .foregroundStyle(gradient)
-                    .padding(5)
-            }
+            Text(item.type.rawValue.uppercased())
+                .font(.lato(.regular, 12))
+                .fontWeight(.bold)
+                .foregroundStyle(Color(uiColor: .gray))
         }
     }
 }

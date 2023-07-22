@@ -31,11 +31,11 @@ struct ContentView: View {
                 .putInNavView(.inline)
                 .makeTab(tab: Tabs.allItems, systemImage: "dollarsign")
 
-            NavigationStack(path: $navManager.todayViewNavPath, root: {
-                TodayView()
-
-            })
-            .makeTab(tab: Tabs.today, systemImage: "bolt.fill")
+//            NavigationStack(path: $navManager.todayViewNavPath, root: {
+//                TodayView()
+//
+//            })
+//            .makeTab(tab: Tabs.today, systemImage: "bolt.fill")
             
             NavigationStack {
                 NewTodayView()

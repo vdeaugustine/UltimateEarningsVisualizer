@@ -226,8 +226,6 @@ class TodayViewModel: ObservableObject {
         }
     }
 
-    
-
     var willEarn: Double {
         if wage.isSalary {
             return wage.perDay
@@ -359,7 +357,7 @@ extension TodayViewModel {
     enum SelectedSegment: String, CaseIterable, Identifiable, Hashable {
         case money, time
         var id: Self { self }
-        
+
         mutating func toggle() {
             if self == .money {
                 self = .time
@@ -378,7 +376,6 @@ extension TodayViewModel {
     }
 }
 
-
 // MARK: - Info Rects
 
 extension TodayViewModel {
@@ -391,7 +388,7 @@ extension TodayViewModel {
                 return todayShift.elapsedTime(nowTime).formatForTime([.hour, .minute, .second])
         }
     }
-    
+
     var soFarTotalLabel: String {
         switch selectedSegment {
             case .money:
@@ -400,7 +397,7 @@ extension TodayViewModel {
                 return "Worked"
         }
     }
-    
+
     var remainingTotalValue: String {
         guard let todayShift = user.todayShift else { return "" }
         switch selectedSegment {
@@ -410,7 +407,7 @@ extension TodayViewModel {
                 return todayShift.remainingTime(nowTime).formatForTime([.hour, .minute, .second])
         }
     }
-    
+
     var taxesTotalValue: String {
         switch selectedSegment {
             case .money:
@@ -419,7 +416,7 @@ extension TodayViewModel {
                 return user.convertMoneyToTime(money: taxesPaidSoFar).formatForTime([.hour, .minute, .second])
         }
     }
-    
+
     var expensesTotalValue: String {
         let value = spentOnExpenses
         switch selectedSegment {
@@ -429,7 +426,7 @@ extension TodayViewModel {
                 return user.convertMoneyToTime(money: value).formatForTime([.hour, .minute, .second])
         }
     }
-    
+
     var goalsTotalValue: String {
         let value = spentOnGoals
         switch selectedSegment {
@@ -439,7 +436,7 @@ extension TodayViewModel {
                 return user.convertMoneyToTime(money: value).formatForTime([.hour, .minute, .second])
         }
     }
-    
+
     var unspentTotalValue: String {
         let value = unspent
         switch selectedSegment {
@@ -448,5 +445,79 @@ extension TodayViewModel {
             case .time:
                 return user.convertMoneyToTime(money: value).formatForTime([.hour, .minute, .second])
         }
+    }
+}
+
+// MARK: - Itemized Part
+
+extension TodayViewModel {
+    var gaps: [Date] {
+        guard let shift = user.todayShift else { return [] }
+        var retArr: [Date] = []
+        let shiftsBlocks = shift.getTimeBlocks()
+        for blockIndex in shiftsBlocks.indices {
+            guard let thisBlock = shiftsBlocks.safeGet(at: blockIndex),
+                  let nextBlock = shiftsBlocks.safeGet(at: blockIndex + 1),
+                  let thisBlockEnd = thisBlock.endTime,
+                  let nextBlockStart = nextBlock.startTime
+            else { continue }
+
+            if !compareDates(thisBlockEnd, nextBlockStart, accuracy: .minute) {
+                retArr.append(thisBlockEnd)
+            }
+        }
+
+        return retArr
+    }
+
+    func compareDates(_ date1: Date, _ date2: Date, accuracy: AccuracyLevel) -> Bool {
+        let calendar = Calendar.current
+        let components: Set<Calendar.Component> = [.year, .month, .day, .hour, .minute, .second]
+        let dateComponents = calendar.dateComponents(components, from: date1, to: date2)
+
+        switch accuracy {
+            case .year:
+                return dateComponents.year == 0
+            case .month:
+                return dateComponents.year == 0 && dateComponents.month == 0
+            case .day:
+                return dateComponents.year == 0 && dateComponents.month == 0 && dateComponents.day == 0
+            case .hour:
+                return dateComponents.year == 0 && dateComponents.month == 0 && dateComponents.day == 0 && dateComponents.hour == 0
+            case .minute:
+                return dateComponents.year == 0 && dateComponents.month == 0 && dateComponents.day == 0 && dateComponents.hour == 0 && dateComponents.minute == 0
+            case .second:
+                return dateComponents.year == 0 && dateComponents.month == 0 && dateComponents.day == 0 && dateComponents.hour == 0 && dateComponents.minute == 0 && dateComponents.second == 0
+        }
+    }
+
+    enum AccuracyLevel {
+        case year
+        case month
+        case day
+        case hour
+        case minute
+        case second
+    }
+
+    func getBlockAfter(this block: TimeBlock) -> TimeBlock? {
+        guard let shift = user.todayShift,
+              let indexOfThisBlock = shift.getTimeBlocks().firstIndex(of: block)
+        else { return nil }
+        return shift.getTimeBlocks().safeGet(at: indexOfThisBlock + 1)
+    }
+
+    func startMatchesAnotherBlocksEnd(_ timeBlock: TimeBlock) -> Bool {
+        guard let start = timeBlock.startTime,
+              let shift = user.todayShift
+        else { return false }
+        for block in shift.getTimeBlocks() {
+            if let end = block.endTime {
+                if compareDates(start, end, accuracy: .minute) {
+                    return true
+                }
+            }
+        }
+        return false
     }
 }

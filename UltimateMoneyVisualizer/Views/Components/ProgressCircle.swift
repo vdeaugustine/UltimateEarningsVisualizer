@@ -15,6 +15,7 @@ struct ProgressCircle<Content: View>: View {
     let gradient: LinearGradient
     var lineWidth: CGFloat = 2
     let showCheckWhenComplete: Bool
+    /// The text that goes in the middle of the circle 
     @ViewBuilder let content: () -> Content
     @ObservedObject var settings = User.main.getSettings()
 
@@ -23,7 +24,7 @@ struct ProgressCircle<Content: View>: View {
                   gradient: LinearGradient,
                   lineWidth: CGFloat = 2,
                   showCheckWhenComplete: Bool = false,
-                  content: @escaping () -> Content,
+                  @ViewBuilder content: @escaping () -> Content,
                   settings: Settings = User.main.getSettings()) {
         self.percent = percent
         self.widthHeight = widthHeight

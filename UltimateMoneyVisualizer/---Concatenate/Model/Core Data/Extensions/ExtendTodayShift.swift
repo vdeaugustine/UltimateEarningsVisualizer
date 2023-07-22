@@ -198,4 +198,13 @@ public extension TodayShift {
         let percent = elapsedTime(nowTime) / totalShiftDuration
         return percent < 1 ? percent : 1
     }
+    
+    
+    func getTimeBlocks() -> [TimeBlock] {
+        guard let blocks = timeBlocks?.allObjects as? [TimeBlock] else {
+            return []
+        }
+
+        return blocks.sorted(by: { ($0.startTime ?? .distantFuture) < ($1.endTime ?? .distantFuture) })
+    }
 }

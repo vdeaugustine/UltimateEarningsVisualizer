@@ -65,12 +65,14 @@ struct TodayViewInfoRect: View {
     }
 }
 
-#Preview {
-    ZStack {
-        Color.targetGray
-        TodayViewInfoRect(imageName: "hourglass",
-                          valueString: "08:14:32",
-                          bottomLabel: "Remaining")
+struct TodayViewInfoRect_Previews: PreviewProvider {
+    static var previews: some View {
+        ZStack {
+            Color.targetGray
+            TodayViewInfoRect(imageName: "hourglass",
+                              valueString: "08:14:32",
+                              bottomLabel: "Remaining")
+        }
+        .environmentObject(TodayViewModel.main)
     }
-    .environmentObject(TodayViewModel.main)
 }

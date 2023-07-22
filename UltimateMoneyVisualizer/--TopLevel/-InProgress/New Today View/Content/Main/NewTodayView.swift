@@ -26,8 +26,6 @@ struct NewTodayView: View {
                 if !viewModel.nonZeroPayoffItems.isEmpty {
                     TodayPaidOffStackWithHeader()
                         .padding(.horizontal)
-                } else {
-                    /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/
                 }
                 Spacer()
             }
@@ -71,7 +69,7 @@ struct NewTodayView: View {
                 TodayViewProgressBarAndLabels()
                     .padding(.horizontal)
             }
-            
+
             TodayViewSegmentPicker()
         }
     }

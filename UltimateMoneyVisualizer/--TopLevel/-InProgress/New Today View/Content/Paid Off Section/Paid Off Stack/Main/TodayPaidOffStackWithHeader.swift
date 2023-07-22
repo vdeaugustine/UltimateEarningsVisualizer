@@ -12,6 +12,10 @@ import SwiftUI
 struct TodayPaidOffStackWithHeader: View {
     @EnvironmentObject private var viewModel: TodayViewModel
 
+    var bottomButtonText: String {
+        viewModel.paidOffStackIsExpanded ? "Collapse" : "Expand"
+    }
+    
     var body: some View {
         VStack(spacing: 16) {
             HStack {
@@ -27,7 +31,15 @@ struct TodayPaidOffStackWithHeader: View {
             .foregroundStyle(Color(hex: "4E4E4E"))
 
             TodayPaidOffStack()
+            
+            Button(bottomButtonText) {
+                viewModel.paidOffStackIsExpanded.toggle()
+                    
+            }
+            .padding(.top)
+            
         }
+//        .animation(.none, value: viewModel.paidOffStackIsExpanded)
     }
 }
 
