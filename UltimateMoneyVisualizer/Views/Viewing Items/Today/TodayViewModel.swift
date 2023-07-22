@@ -19,8 +19,8 @@ class TodayViewModel: ObservableObject {
     let unspentColor = Color.orange // Color(hex: "34669D")
 
     // #30FF3BFF
-//    #3B30FFFF
-//    kCGColorSpaceModelRGB 0.305882 0.478431 0.152941 1
+    //    #3B30FFFF
+    //    kCGColorSpaceModelRGB 0.305882 0.478431 0.152941 1
 
     // MARK: - Published properties
 
@@ -55,34 +55,33 @@ class TodayViewModel: ObservableObject {
 
     // MARK: - Computed Properties
 
-    var showExpensesProgress: Bool { spentOnExpenses >= 0.01 }
-    var showGoalsProgress: Bool { spentOnGoals >= 0.01 }
-    var showUnspent: Bool { unspent >= 0.01 }
-    
-    var nonZeroPayoffItems: [TempTodayPayoff] {
-        tempPayoffs.filter({ $0.progressAmount > 0.01 })
+    // MARK: Handling segment controller
+
+    var timeSegmentLabelWeight: Font.Weight {
+        selectedSegment == .time ? .black : .regular
     }
 
-    var dateStringForHeader: String {
-        guard let todayShift = user.todayShift,
-              let startTime = todayShift.startTime else {
-            return ""
-        }
-        return startTime.getFormattedDate(format: .abreviatedMonth)
+    var moneySegmentLabelWeight: Font.Weight {
+        selectedSegment == .money ? .black : .regular
     }
 
-    var timeStringForHeader: String {
-        guard let todayShift = user.todayShift,
-              let startTime = todayShift.startTime,
-              let endTime = todayShift.endTime else {
-            return ""
-        }
-        return "\(startTime.getFormattedDate(format: .minimalTime)) - \(endTime.getFormattedDate(format: .minimalTime))"
+    var moneySegmentLabelSize: CGFloat {
+        selectedSegment == .money ? 24 : 16
     }
 
-    var elapsedTime: Double {
-        user.todayShift?.elapsedTime(nowTime) ?? 0
+    var timeSegmentLabelSize: CGFloat {
+        selectedSegment == .time ? 24 : 16
     }
+
+    var timeSegmentLabelColor: AnyShapeStyle {
+        selectedSegment == .time ? AnyShapeStyle(settings.getDefaultGradient()) : AnyShapeStyle(Color.black)
+    }
+
+    var moneySegmentLabelColor: AnyShapeStyle {
+        selectedSegment == .money ? AnyShapeStyle(settings.getDefaultGradient()) : AnyShapeStyle(Color.black)
+    }
+
+    // MARK: Progress calculations
 
     var haveEarned: Double {
         user.todayShift?.totalEarnedSoFar(nowTime) ?? 0
@@ -100,10 +99,20 @@ class TodayViewModel: ObservableObject {
         return true
     }
 
+    var nonZeroPayoffItems: [TempTodayPayoff] {
+        tempPayoffs.filter { $0.progressAmount > 0.01 }
+    }
+
     var remainingTime: Double {
         guard let endTime = user.todayShift?.endTime else { return 0 }
         return endTime - nowTime
     }
+
+    var showExpensesProgress: Bool { spentOnExpenses >= 0.01 }
+    var showGoalsProgress: Bool { spentOnGoals >= 0.01 }
+    var showUnspent: Bool { unspent >= 0.01 }
+
+    // MARK: Spending
 
     var spentOnExpenses: Double {
         tempPayoffs.lazy.filter { $0.type == .expense }.reduce(Double.zero) { $0 + $1.progressAmount }
@@ -145,6 +154,10 @@ class TodayViewModel: ObservableObject {
         tempPayoffs.lazy.filter { $0.type == .tax }.reduce(Double.zero) { $0 + $1.progressAmount }
     }
 
+    var haveEarnedAfterTaxes: Double {
+        haveEarned - taxesPaidSoFar
+    }
+
     var taxesTempPayoffs: [TempTodayPayoff] {
         var expenses: [TempTodayPayoff] = []
         if wage.includeTaxes {
@@ -175,6 +188,29 @@ class TodayViewModel: ObservableObject {
         return payOffExpenses(with: haveEarned, expenses: expensesToPay).reversed()
     }
 
+    // MARK: Header
+
+    var dateStringForHeader: String {
+        guard let todayShift = user.todayShift,
+              let startTime = todayShift.startTime else {
+            return ""
+        }
+        return startTime.getFormattedDate(format: .abreviatedMonth)
+    }
+
+    var elapsedTime: Double {
+        user.todayShift?.elapsedTime(nowTime) ?? 0
+    }
+
+    var timeStringForHeader: String {
+        guard let todayShift = user.todayShift,
+              let startTime = todayShift.startTime,
+              let endTime = todayShift.endTime else {
+            return ""
+        }
+        return "\(startTime.getFormattedDate(format: .minimalTime)) - \(endTime.getFormattedDate(format: .minimalTime))"
+    }
+
     var todayShiftPercentCompleted: Double {
         guard let todayShift = user.todayShift else { return 0 }
         return todayShift.percentTimeCompleted(nowTime)
@@ -190,15 +226,7 @@ class TodayViewModel: ObservableObject {
         }
     }
 
-    var todayShiftValueSoFar: String {
-        guard let todayShift = user.todayShift else { return "" }
-        switch selectedSegment {
-            case .money:
-                return todayShift.totalEarnedSoFar(nowTime).money()
-            case .time:
-                return todayShift.elapsedTime(nowTime).formatForTime([.hour, .minute, .second])
-        }
-    }
+    
 
     var willEarn: Double {
         if wage.isSalary {
@@ -207,7 +235,7 @@ class TodayViewModel: ObservableObject {
             return wage.perSecond * (user.todayShift?.totalShiftDuration ?? 0)
         }
     }
-    
+
     var willEarnAfterTaxes: Double {
         willEarn * (1 - wage.totalTaxMultiplier)
     }
@@ -309,12 +337,36 @@ class TodayViewModel: ObservableObject {
                 return todayShift.totalShiftDuration.formatForTime()
         }
     }
+
+    func tappedTimeSegment() {
+        print("tapped")
+        if selectedSegment == .time { return }
+        withAnimation {
+            selectedSegment = .time
+        }
+    }
+
+    func tappedMoneySegment() {
+        print("tapped")
+        if selectedSegment == .money { return }
+        withAnimation {
+            selectedSegment = .money
+        }
+    }
 }
 
 extension TodayViewModel {
     enum SelectedSegment: String, CaseIterable, Identifiable, Hashable {
         case money, time
         var id: Self { self }
+        
+        mutating func toggle() {
+            if self == .money {
+                self = .time
+                return
+            }
+            if self == .time { self = .money }
+        }
     }
 }
 
@@ -323,5 +375,78 @@ extension TodayViewModel {
 extension TodayViewModel {
     enum ProgressType: String {
         case expenses, goals, taxes, unspent, willPayTaxes
+    }
+}
+
+
+// MARK: - Info Rects
+
+extension TodayViewModel {
+    var soFarTotalValue: String {
+        guard let todayShift = user.todayShift else { return "" }
+        switch selectedSegment {
+            case .money:
+                return todayShift.totalEarnedSoFar(nowTime).money()
+            case .time:
+                return todayShift.elapsedTime(nowTime).formatForTime([.hour, .minute, .second])
+        }
+    }
+    
+    var soFarTotalLabel: String {
+        switch selectedSegment {
+            case .money:
+                return "Earned"
+            case .time:
+                return "Worked"
+        }
+    }
+    
+    var remainingTotalValue: String {
+        guard let todayShift = user.todayShift else { return "" }
+        switch selectedSegment {
+            case .money:
+                return todayShift.remainingToEarn(nowTime).money()
+            case .time:
+                return todayShift.remainingTime(nowTime).formatForTime([.hour, .minute, .second])
+        }
+    }
+    
+    var taxesTotalValue: String {
+        switch selectedSegment {
+            case .money:
+                return taxesPaidSoFar.money()
+            case .time:
+                return user.convertMoneyToTime(money: taxesPaidSoFar).formatForTime([.hour, .minute, .second])
+        }
+    }
+    
+    var expensesTotalValue: String {
+        let value = spentOnExpenses
+        switch selectedSegment {
+            case .money:
+                return value.money()
+            case .time:
+                return user.convertMoneyToTime(money: value).formatForTime([.hour, .minute, .second])
+        }
+    }
+    
+    var goalsTotalValue: String {
+        let value = spentOnGoals
+        switch selectedSegment {
+            case .money:
+                return value.money()
+            case .time:
+                return user.convertMoneyToTime(money: value).formatForTime([.hour, .minute, .second])
+        }
+    }
+    
+    var unspentTotalValue: String {
+        let value = unspent
+        switch selectedSegment {
+            case .money:
+                return value.money()
+            case .time:
+                return user.convertMoneyToTime(money: value).formatForTime([.hour, .minute, .second])
+        }
     }
 }

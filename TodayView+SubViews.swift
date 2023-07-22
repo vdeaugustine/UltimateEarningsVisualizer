@@ -123,7 +123,7 @@ extension TodayView {
                 }
 
                 HStack {
-                    Text(viewModel.todayShiftValueSoFar)
+                    Text(viewModel.soFarTotalValue)
                     Spacer()
                     Text(viewModel.todayShiftRemainingValue)
                 }

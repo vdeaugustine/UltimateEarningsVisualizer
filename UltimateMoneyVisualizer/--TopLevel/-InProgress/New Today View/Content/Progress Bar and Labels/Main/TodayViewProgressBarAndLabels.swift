@@ -12,17 +12,19 @@ struct TodayViewProgressBarAndLabels: View {
     var body: some View {
         VStack(spacing: 20) {
             TodayProgressBar()
-            TodayViewProgressBarLabels()
+//            TodayViewProgressBarLabels()
         }
     }
 }
 
-#Preview {
-    ZStack {
-        Color.targetGray
-        TodayViewProgressBarAndLabels()
-            .padding(.horizontal)
-            .environmentObject(TodayViewModel.main)
+struct TodayViewProgressBarAndLabels_Previews: PreviewProvider {
+    static var previews: some View {
+        ZStack {
+            Color.targetGray
+            TodayViewProgressBarAndLabels()
+                .padding(.horizontal)
+                .environmentObject(TodayViewModel.main)
+        }
     }
-    
 }
+

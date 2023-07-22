@@ -39,6 +39,7 @@ struct NewTodayView: View {
             VStack {
                 Color(hex: "003DFF")
                     .frame(height: 355)
+                Color.targetGray
             }
             .frame(maxHeight: .infinity)
         }
@@ -64,10 +65,14 @@ struct NewTodayView: View {
     }
 
     var headerAndBar: some View {
-        VStack(spacing: -30) {
-            TodayViewHeader()
-            TodayViewProgressBarAndLabels()
-                .padding(.horizontal)
+        VStack {
+            VStack(spacing: -30) {
+                TodayViewHeader()
+                TodayViewProgressBarAndLabels()
+                    .padding(.horizontal)
+            }
+            
+            TodayViewSegmentPicker()
         }
     }
 
