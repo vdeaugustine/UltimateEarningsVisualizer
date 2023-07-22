@@ -13,17 +13,21 @@ struct CreateNewTimeBlockView: View {
     @ObservedObject private var viewModel: CreateNewTimeBlockViewModel
 
     init(shift: Shift) {
-        self.viewModel = CreateNewTimeBlockViewModel(shift: shift)
+        self.viewModel = CreateNewTimeBlockForShiftViewModel(shift: shift)
+    }
+    
+    init(todayShift: TodayShift) {
+        self.viewModel = TodayViewNewTimeBlockCreationModel(todayShift: todayShift)
     }
 
     var body: some View {
         Form {
             TextField("Title", text: $viewModel.title)
             DatePicker("Start Time", selection: $viewModel.start,
-                       in: viewModel.shift.start ... viewModel.shift.end,
+                       in: viewModel.shift.getStart() ... viewModel.shift.getEnd(),
                        displayedComponents: .hourAndMinute)
             DatePicker("End Time", selection: $viewModel.end,
-                       in: viewModel.shift.start ... viewModel.shift.end,
+                       in: viewModel.shift.getStart() ... viewModel.shift.getEnd(),
                        displayedComponents: .hourAndMinute)
             VStack {
                 Button {

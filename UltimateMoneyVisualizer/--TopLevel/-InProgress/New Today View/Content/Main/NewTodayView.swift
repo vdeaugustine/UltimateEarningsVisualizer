@@ -60,6 +60,10 @@ struct NewTodayView: View {
                       }, onDismiss: {
                           viewModel.saveBannerWasDismissed = true
                       })
+        .navigationDestination(for: TodayShift.self) { todayShift in
+            
+            
+        }
     }
 
     var headerAndBar: some View {

@@ -325,3 +325,15 @@ extension Shift {
         }
     }
 }
+
+extension Shift: ShiftProtocol {
+    func getStart() -> Date {
+        self.start
+    }
+    
+    func getEnd() -> Date {
+        self.end
+    }
+    
+    
+}

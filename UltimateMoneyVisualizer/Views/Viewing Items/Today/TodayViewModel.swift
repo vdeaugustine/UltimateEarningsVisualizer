@@ -368,11 +368,16 @@ extension TodayViewModel {
     }
 }
 
-// MARK: - Progress Type
+// MARK: - Extra Types
 
 extension TodayViewModel {
     enum ProgressType: String {
         case expenses, goals, taxes, unspent, willPayTaxes
+    }
+    
+    struct StartAndEnd: Hashable {
+        let start: Date
+        let end: Date
     }
 }
 

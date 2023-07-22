@@ -16,17 +16,14 @@ struct TodayViewItemizedPart: View {
 
     @State private var timesToShow: [Date] = []
 
-    struct StartAndEnd: Hashable {
-        let start: Date
-        let end: Date
-    }
+    
 
     func plusNavigation(start: Date, end: Date) -> some View {
         Image(systemName: "plus.circle")
             .padding(.top, -12)
             .foregroundStyle(viewModel.settings.getDefaultGradient())
             .onTapGesture {
-                navManager.homeNavPath.append(StartAndEnd(start: start, end: end))
+                navManager.homeNavPath.append(TodayViewModel.StartAndEnd(start: start, end: end))
             }
     }
 

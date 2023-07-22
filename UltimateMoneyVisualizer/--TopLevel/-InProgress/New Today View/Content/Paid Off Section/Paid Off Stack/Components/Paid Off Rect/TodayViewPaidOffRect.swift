@@ -17,35 +17,9 @@ struct TodayViewPaidOffRect: View {
         TodayPaidOffRectContainer {
             HStack {
                 progressCircle
-
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(item.title)
-                        .font(.lato(.regular, 16))
-                        .fontWeight(.black)
-
-//                    VStack(spacing: 2) {
-                    Text(item.amountPaidOff.money())
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.85)
-                        .font(.lato(16))
-                        .fontWeight(.bold)
-                        .foregroundStyle(gradient)
-//                                       .padding(5)
-//                               }
-                }
-
+                titleAndTotalPaidOff
                 Spacer()
-
-                VStack(spacing: 4) {
-                    Text(item.progressAmount.money().replacingOccurrences(of: "$", with: "+"))
-                        .font(.lato(.regular, 16))
-                        .fontWeight(.black)
-
-                    Text(item.amount.money())
-                        .font(.lato(.regular, 12))
-                        .fontWeight(.bold)
-                        .foregroundStyle(Color(uiColor: .gray))
-                }
+                progressAndTotal
             }
             .padding(12, 20)
             .background(.white)
@@ -71,6 +45,34 @@ struct TodayViewPaidOffRect: View {
                        lineWidth: 5,
                        showCheckWhenComplete: false) {
             Text(item.type.rawValue.uppercased())
+                .font(.lato(.regular, 12))
+                .fontWeight(.bold)
+                .foregroundStyle(Color(uiColor: .gray))
+        }
+    }
+
+    var titleAndTotalPaidOff: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(item.title)
+                .font(.lato(.regular, 16))
+                .fontWeight(.black)
+
+            Text(item.amountPaidOff.money())
+                .lineLimit(1)
+                .minimumScaleFactor(0.85)
+                .font(.lato(16))
+                .fontWeight(.bold)
+        }
+    }
+
+    var progressAndTotal: some View {
+        VStack(spacing: 4) {
+            Text(item.progressAmount.money().replacingOccurrences(of: "$", with: "+"))
+                .font(.lato(.regular, 16))
+                .fontWeight(.black)
+                .foregroundStyle(gradient)
+
+            Text(item.amount.money())
                 .font(.lato(.regular, 12))
                 .fontWeight(.bold)
                 .foregroundStyle(Color(uiColor: .gray))

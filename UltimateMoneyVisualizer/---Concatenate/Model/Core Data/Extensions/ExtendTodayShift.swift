@@ -208,3 +208,15 @@ public extension TodayShift {
         return blocks.sorted(by: { ($0.startTime ?? .distantFuture) < ($1.endTime ?? .distantFuture) })
     }
 }
+
+extension TodayShift: ShiftProtocol {
+    func getStart() -> Date {
+        self.startTime ?? .now
+    }
+    
+    func getEnd() -> Date {
+        self.endTime ?? .now
+    }
+    
+    
+}

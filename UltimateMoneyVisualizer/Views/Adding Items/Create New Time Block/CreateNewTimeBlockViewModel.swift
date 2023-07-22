@@ -9,21 +9,48 @@ import CoreData
 import Foundation
 import SwiftUI
 
+
+protocol ShiftProtocol {
+    func getStart() -> Date
+    func getEnd() -> Date
+}
+
+class CreateNewTimeBlockForShiftViewModel: CreateNewTimeBlockViewModel {
+    
+    init(shift: Shift) {
+        super.init(shift: shift)
+    }
+    
+    override func saveAction(context: NSManagedObjectContext) {
+        do {
+            try TimeBlock(title: title,
+                          start: start,
+                          end: end,
+                          colorHex: selectedColorHex,
+                          shift: shift as? Shift,
+                          user: user,
+                          context: context)
+            dismiss()
+        } catch {
+            print("Error saving time block")
+        }
+    }
+    
+}
+
 class CreateNewTimeBlockViewModel: ObservableObject {
     @Published var title: String = ""
     @Published var start: Date = .now
     @Published var end: Date = .now
     @Published var selectedColorHex: String = Color.overcastColors.first!
     @Published var showColorOptions = false
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.dismiss) var dismiss
 
-    let shift: Shift
-
-    private var user: User {
-        User.main
-    }
-
-    init(shift: Shift) {
+    @ObservedObject var user = User.main
+    
+    let shift: ShiftProtocol
+    
+    init(shift: ShiftProtocol) {
         self.shift = shift
     }
 
@@ -52,18 +79,7 @@ class CreateNewTimeBlockViewModel: ObservableObject {
         return retArr
     }
 
-    func saveAction(context: NSManagedObjectContext) {
-        do {
-            try TimeBlock(title: title,
-                          start: start,
-                          end: end,
-                          colorHex: selectedColorHex,
-                          shift: shift,
-                          user: user,
-                          context: context)
-            dismiss()
-        } catch {
-            print("Error saving time block")
-        }
-    }
+    func saveAction(context: NSManagedObjectContext) {}
 }
+
+
