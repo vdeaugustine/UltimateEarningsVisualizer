@@ -31,16 +31,12 @@ struct ContentView: View {
                 .putInNavView(.inline)
                 .makeTab(tab: Tabs.allItems, systemImage: "dollarsign")
 
-//            NavigationStack(path: $navManager.todayViewNavPath, root: {
-//                TodayView()
-//
-//            })
-//            .makeTab(tab: Tabs.today, systemImage: "bolt.fill")
-            
-            NavigationStack {
+            NavigationStack(path: $navManager.todayViewNavPath) {
                 NewTodayView()
             }
+            .toolbarColorScheme(.dark, for: .navigationBar)
             .makeTab(tab: Tabs.today, systemImage: "bolt.shield")
+            
 
             SettingsView()
                 .putInNavView(.inline)

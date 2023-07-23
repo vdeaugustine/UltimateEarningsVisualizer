@@ -8,8 +8,8 @@
 import Foundation
 import SwiftUI
 
-
 // MARK: - NavManager
+
 class NavManager: ObservableObject {
     static var shared: NavManager = NavManager()
 
@@ -18,10 +18,9 @@ class NavManager: ObservableObject {
     @Published var todayViewNavPath: NavigationPath = .init()
     @Published var lastPath: PossiblePaths = .none
     @Published var scrollViewID = UUID()
-    
+
     @Published var scrollProxy: ScrollViewProxy?
-    
-    
+
     enum AllViews: Hashable {
         case home, settings, today, confirmToday
     }
@@ -61,5 +60,14 @@ class NavManager: ObservableObject {
         case settings
         case today
         case none
+    }
+
+    enum TodayViewDestinations: Hashable {
+        case payoffQueue,
+             confirmShift,
+             timeBlockDetail(TimeBlock),
+             newTimeBlock(TodayShift),
+             goalDetail(Goal),
+             expenseDetail(Expense)
     }
 }

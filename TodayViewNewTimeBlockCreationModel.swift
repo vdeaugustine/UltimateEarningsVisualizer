@@ -24,7 +24,6 @@ class TodayViewNewTimeBlockCreationModel: CreateNewTimeBlockViewModel {
                           todayShift: shift as? TodayShift,
                           user: user,
                           context: context)
-            dismiss()
         } catch {
             print("Error saving time block")
         }

@@ -25,6 +25,21 @@ struct TodayViewPaidOffRect: View {
             .background(.white)
             .cornerRadius(15)
         }
+        .onTapGesture {
+            switch item.type {
+                case .goal:
+                    if let goal = item.getPayoffItem(user: viewModel.user) as? Goal {
+                        viewModel.navManager.todayViewNavPath.append(NavManager.TodayViewDestinations.goalDetail(goal))
+                    }
+
+                case .expense:
+                    if let expense = item.getPayoffItem(user: viewModel.user) as? Expense {
+                        viewModel.navManager.todayViewNavPath.append(NavManager.TodayViewDestinations.expenseDetail(expense))
+                    }
+                case .tax:
+                    break
+            }
+        }
     }
 
     var gradient: LinearGradient {

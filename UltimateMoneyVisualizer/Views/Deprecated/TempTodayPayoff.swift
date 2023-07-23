@@ -59,6 +59,19 @@ public struct TempTodayPayoff: Identifiable, Equatable {
         self.id = payoff.getID()
         self.type = .init(payoff)
     }
+    
+    
+    func getPayoffItem(user: User) -> PayoffItem {
+        if let goal = user.getGoals().first(where: { $0.id == self.id }) {
+            return goal
+        }
+        
+        if let expense = user.getExpenses().first(where: { $0.id == self.id }) {
+            return expense
+        }
+        
+        fatalError("Error getting payoff item for temp payoff \(self)")
+    }
 }
 
 func payOffExpenses(with amount: Double, expenses: [TempTodayPayoff]) -> [TempTodayPayoff] {

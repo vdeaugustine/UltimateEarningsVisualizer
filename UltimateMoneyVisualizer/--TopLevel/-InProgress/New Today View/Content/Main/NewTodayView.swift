@@ -11,6 +11,18 @@ import SwiftUI
 
 struct NewTodayView: View {
     @StateObject private var viewModel: TodayViewModel = .main
+
+    var statusBarHeight: CGFloat {
+        let statusBarHeight = UIApplication.shared.connectedScenes
+            .filter { $0.activationState == .foregroundActive }
+            .map { $0 as? UIWindowScene }
+            .compactMap { $0 }
+            .first?.windows
+            .filter { $0.isKeyWindow }.first?
+            .windowScene?.statusBarManager?.statusBarFrame.height ?? 0
+        return statusBarHeight
+    }
+
     var body: some View {
         ScrollView {
             VStack {
@@ -28,21 +40,24 @@ struct NewTodayView: View {
                         .padding(.horizontal)
                 }
                 Spacer()
+                    .frame(height: 24)
+
+                TodayViewItemizedBlocks()
+                    .padding(.horizontal)
             }
             .background(Color.targetGray)
             .frame(maxHeight: .infinity)
         }
-        .toolbarColorScheme(.dark, for: .automatic)
+
         .background {
             VStack {
                 Color(hex: "003DFF")
                     .frame(height: 355)
                 Color.targetGray
             }
+            .ignoresSafeArea(edges: .top)
             .frame(maxHeight: .infinity)
         }
-        .ignoresSafeArea(edges: .top)
-        .background(Color.targetGray)
         .onReceive(viewModel.timer) { _ in
             viewModel.addSecond()
         }
@@ -60,9 +75,25 @@ struct NewTodayView: View {
                       }, onDismiss: {
                           viewModel.saveBannerWasDismissed = true
                       })
-        .navigationDestination(for: TodayShift.self) { todayShift in
-            
-            
+
+        .bottomButton(label: "Save Shift") {
+            viewModel.navManager.todayViewNavPath.append("s")
+        }
+        .navigationDestination(for: NavManager.TodayViewDestinations.self) { destination in
+            switch destination {
+                case .confirmShift:
+                    ConfirmTodayShift().environmentObject(viewModel)
+                case .payoffQueue:
+                    PayoffQueueView().environmentObject(viewModel)
+                case let .timeBlockDetail(block):
+                    TimeBlockDetailView(block: block).environmentObject(viewModel)
+                case let .goalDetail(goal):
+                    GoalDetailView(goal: goal).environmentObject(viewModel)
+                case let .expenseDetail(expense):
+                    ExpenseDetailView(expense: expense).environmentObject(viewModel)
+                case let .newTimeBlock(todayShift):
+                    CreateNewTimeBlockView(todayShift: todayShift).environmentObject(viewModel)
+            }
         }
     }
 
@@ -89,7 +120,9 @@ struct NewTodayView: View {
 
 struct NewTodayView_Previews: PreviewProvider {
     static var previews: some View {
-        NewTodayView()
-            .environmentObject(TodayViewModel.main)
+        NavigationStack(path: .constant(NavManager.shared.todayViewNavPath)) {
+            NewTodayView()
+                .environmentObject(TodayViewModel.main)
+        }
     }
 }

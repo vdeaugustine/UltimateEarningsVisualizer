@@ -30,7 +30,7 @@ class CreateNewTimeBlockForShiftViewModel: CreateNewTimeBlockViewModel {
                           shift: shift as? Shift,
                           user: user,
                           context: context)
-            dismiss()
+            
         } catch {
             print("Error saving time block")
         }
@@ -44,7 +44,6 @@ class CreateNewTimeBlockViewModel: ObservableObject {
     @Published var end: Date = .now
     @Published var selectedColorHex: String = Color.overcastColors.first!
     @Published var showColorOptions = false
-    @Environment(\.dismiss) var dismiss
 
     @ObservedObject var user = User.main
     

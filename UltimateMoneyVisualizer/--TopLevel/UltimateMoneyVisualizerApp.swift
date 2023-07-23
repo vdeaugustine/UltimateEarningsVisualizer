@@ -42,6 +42,7 @@ struct UltimateMoneyVisualizerApp: App {
                 .onAppear() {
                     NotificationManager.scheduleDailyNotification()
                 }
+                
         }
     }
 }

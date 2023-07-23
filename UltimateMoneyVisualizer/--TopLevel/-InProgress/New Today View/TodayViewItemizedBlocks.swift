@@ -18,38 +18,56 @@ struct TodayViewItemizedBlocks: View {
     }
 
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            if let todayShift = model.user.todayShift {
-                HStack {
-                    ForEach(todayShift.getTimeBlocks()) { block in
-                        TodayViewItemizedBlock(block: block)
-                            .padding(.vertical)
-                    }
+        VStack(spacing: 16) {
+            HStack {
+                Text("TIME BLOCKS")
 
-                    if todayShift.getTimeBlocks().isEmpty {
-                        TodayViewExampleItemizedBlock()
-                        .padding(.vertical)
-                    }
+                Spacer()
 
-                    Button {
-                        //TODO: Navigate to time block creation page
-                        navManager.todayViewNavPath.append(TodayViewModel.StartAndEnd(start: .now, end: .now.addMinutes(15)))
-                    } label: {
-                        Label("Add Block", systemImage: "plus")
-                            .labelStyle(.iconOnly)
-                            .padding()
-                            .background {
-                                Color.white
-                                    .clipShape(Circle())
-                                    .shadow(color: .black.opacity(0.25), radius: 2, x: 1, y: 3)
-                            }
-                    }
-                    .padding(.leading)
-                }
-                .frame(maxHeight: .infinity)
             }
+            .font(.lato(16))
+            .fontWeight(.semibold)
+            .tracking(1)
+            .foregroundStyle(Color(hex: "4E4E4E"))
+
+            ScrollView(.horizontal, showsIndicators: false) {
+                if let todayShift = model.user.todayShift {
+                    HStack {
+                        ForEach(todayShift.getTimeBlocks()) { block in
+                            TodayViewItemizedBlock(block: block)
+//                                .padding(.vertical)
+                        }
+
+                        if todayShift.getTimeBlocks().isEmpty {
+                            TodayViewExampleItemizedBlock()
+//                                .padding(.vertical)
+                        }
+
+                        Button {
+                            // TODO: Navigate to time block creation page
+
+                            if let todayShift = model.user.todayShift {
+                                navManager.todayViewNavPath.append(NavManager.TodayViewDestinations.newTimeBlock(todayShift))
+                            }
+
+                        } label: {
+                            Label("Add Block", systemImage: "plus")
+                                .labelStyle(.iconOnly)
+                                .padding()
+                                .background {
+                                    Color.white
+                                        .clipShape(Circle())
+                                        .shadow(color: .black.opacity(0.25), radius: 2, x: 1, y: 3)
+                                }
+                        }
+                        .padding(.leading)
+                    }
+                    .frame(maxHeight: .infinity)
+                    .padding(.bottom)
+                }
+            }
+//            .frame(height: 115)
         }
-        .frame(height: 115)
     }
 }
 
@@ -102,6 +120,8 @@ struct TodayViewItemizedBlock: View {
         .frame(height: 100)
     }
 }
+
+// MARK: - TodayViewExampleItemizedBlock
 
 struct TodayViewExampleItemizedBlock: View {
     var body: some View {
