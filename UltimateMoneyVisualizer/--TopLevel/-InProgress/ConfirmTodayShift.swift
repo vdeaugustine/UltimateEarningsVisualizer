@@ -16,19 +16,18 @@ struct ConfirmTodayShift: View {
     @State private var paidOffGoals: [TempTodayPayoff] = []
     @State private var paidOffExpenses: [TempTodayPayoff] = []
 
-    
     var spentOnGoals: Double {
-        paidOffGoals.reduce(Double(0), { $0 + $1.amountPaidOff  })
+        paidOffGoals.reduce(Double(0)) { $0 + $1.amountPaidOff }
     }
-    
+
     var spentOnExpenses: Double {
-        paidOffExpenses.reduce(Double(0), { $0 + $1.amountPaidOff  })
+        paidOffExpenses.reduce(Double(0)) { $0 + $1.amountPaidOff }
     }
-    
+
     var spentTotal: Double {
         spentOnGoals + spentOnExpenses
     }
-    
+
     var unspent: Double {
         viewModel.haveEarnedAfterTaxes - spentTotal
     }
@@ -71,7 +70,6 @@ struct ConfirmTodayShift: View {
                 payoffSection.padding(.vertical)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-//            .padding(.horizontal, 2)
         }
 
         .background {
@@ -82,12 +80,37 @@ struct ConfirmTodayShift: View {
                 ZStack {
                     Color(hex: "003DFF")
 
-                    Text("Confirm today shift")
-                        .font(.lato(24))
-                        .fontWeight(.black)
-                        .foregroundStyle(Color.white)
-                        .position(x: geo.frame(in: .local).midX,
-                                  y: geo.frame(in: .local).maxY - 40)
+                    HStack {
+                        Button {
+                            viewModel.navManager.todayViewNavPath.removeLast()
+                        } label: {
+                            
+                                
+                                Label("Back", systemImage: "chevron.left")
+                                    .labelStyle(.iconOnly)
+                                    .background {
+                                        Circle()
+                                            .fill(Color(hex: "3F63F3"))
+                                    }
+                            
+                        }
+                        .buttonStyle(.plain)
+                        
+                        Spacer()
+
+                        Text("Confirm Today Shift")
+                            .font(.lato(22))
+                            .fontWeight(.heavy)
+                            .foregroundStyle(Color.white)
+                        
+                        Spacer()
+                    }
+                    .padding(.horizontal)
+                    .frame(width: geo.size.width, height: geo.size.height)
+                    .position(x: geo.frame(in: .local).midX,
+                              y: geo.frame(in: .local).maxY - 40)
+                    
+                    
                 }
             }
             .frame(height: 125)
@@ -103,8 +126,8 @@ struct ConfirmTodayShift: View {
 
     var payoffSection: some View {
         VStack {
-            
             // MARK: Expenses
+
             if !paidOffExpenses.isEmpty {
                 List {
                     Section {
@@ -128,10 +151,10 @@ struct ConfirmTodayShift: View {
                 .listStyle(.plain)
                 .listRowSpacing(-10)
                 .frame(height: viewModel.getPayoffListsHeight(forCount: paidOffExpenses.count))
-                
             }
+
             // MARK: Goals
-            
+
             if !paidOffGoals.isEmpty {
                 List {
                     Section {
@@ -144,7 +167,7 @@ struct ConfirmTodayShift: View {
 
                     } header: {
                         HStack {
-                            Text("\(paidOffGoals.count) EXPENSES")
+                            Text("\(paidOffGoals.count) GOALS")
                             Spacer()
                             Text(spentOnGoals.money())
                         }
@@ -155,7 +178,6 @@ struct ConfirmTodayShift: View {
                 .listStyle(.plain)
                 .listRowSpacing(-10)
                 .frame(height: viewModel.getPayoffListsHeight(forCount: paidOffGoals.count))
-                
             }
         }
     }

@@ -85,6 +85,8 @@ struct YouHaveNoShiftView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Binding var showHoursSheet: Bool
     @ObservedObject var settings = User.main.getSettings()
+    @EnvironmentObject private var model: TodayViewModel
+    
 
     var body: some View {
         VStack {
@@ -111,6 +113,8 @@ struct YouHaveNoShiftView: View {
         .safeAreaInset(edge: .bottom, content: {
             Button {
                 showHoursSheet = true
+                model.showHoursSheet = true
+                print(model.spentOnGoals.str)
             } label: {
                 ZStack {
                     Capsule()

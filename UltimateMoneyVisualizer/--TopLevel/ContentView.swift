@@ -20,7 +20,6 @@ struct ContentView: View {
     @State private var lastTab: Tabs = .home
 
     var body: some View {
-        
 //        NewTodayView()
 //        TabView(selection: $tab.onUpdate(ifNoChange: navManager.sameTabTapped)) {
 //            NavigationStack(path: $navManager.homeNavPath) {
@@ -33,12 +32,12 @@ struct ContentView: View {
 //                .putInNavView(.inline)
 //                .makeTab(tab: Tabs.allItems, systemImage: "dollarsign")
 //
-            NavigationStack(path: $navManager.todayViewNavPath) {
-                NewTodayView()
-            }
+        NavigationStack(path: $navManager.todayViewNavPath) {
+            NewTodayView()
+        }
 //            .toolbarColorScheme(.dark, for: .navigationBar)
 //            .makeTab(tab: Tabs.today, systemImage: "bolt.shield")
-//            
+//
 //
 //            SettingsView()
 //                .putInNavView(.inline)

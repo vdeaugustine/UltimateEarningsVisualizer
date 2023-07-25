@@ -75,7 +75,7 @@ class NavManager: ObservableObject {
     @ViewBuilder func getDestinationViewForTodayViewStack (destination: NavManager.TodayViewDestinations) -> some View {
         switch destination {
             case .confirmShift:
-                CompletedShiftSummary().environmentObject(TodayViewModel.main)
+                ConfirmTodayShift().environmentObject(TodayViewModel.main)
             case .payoffQueue:
                 PayoffQueueView()
             case let .timeBlockDetail(block):

@@ -43,7 +43,7 @@ struct TodayViewHeaderContent: View {
                     }
                     
                     if viewModel.shiftIsOver {
-                        HeaderButton(imageName: "square.and.arrow.down.fill") {
+                        HeaderButton(imageName: "checkmark") {
                             viewModel.navManager.todayViewNavPath.append(NavManager.TodayViewDestinations.confirmShift)
                         }
                     }

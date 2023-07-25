@@ -13,7 +13,6 @@ struct NewTodayView: View {
     @StateObject private var viewModel: TodayViewModel = .main
 
     @State var offset: CGFloat = 0
-    
 
     var body: some View {
         Group {
@@ -24,15 +23,10 @@ struct NewTodayView: View {
                 YouHaveNoShiftView(showHoursSheet: $viewModel.showHoursSheet)
             }
         }
-
+        .sheet(isPresented: $viewModel.showHoursSheet) {
+            SelectHours()
+        }
         .environmentObject(viewModel)
-    }
-    
-    init() {
-        let appearance = UINavigationBarAppearance()
-            appearance.shadowColor = .clear
-            UINavigationBar.appearance().standardAppearance = appearance
-            UINavigationBar.appearance().scrollEdgeAppearance = appearance
     }
 
     var mainView: some View {
@@ -58,26 +52,31 @@ struct NewTodayView: View {
                     Spacer()
                 }
                 .padding(.horizontal)
+
+                Spacer()
             }
             .background(Color.targetGray)
             .frame(maxHeight: .infinity)
+
+            Spacer()
         }
-        .safeAreaInset(edge: .top, content: {
-            Color(hex: "003DFF")
-                .frame(height: 75).ignoresSafeArea()
-        })
+        .putInTemplate()
+//        .safeAreaInset(edge: .top, content: {
+//            Color(hex: "003DFF")
+//                .frame(height: 75).ignoresSafeArea()
+//        })
         .confirmationDialog("Delete shift?",
                             isPresented: $viewModel.showDeleteConfirmation,
                             titleVisibility: .visible) {
             Button("Confirm", role: .destructive, action: viewModel.deleteShift)
         }
-        .background(background)
+        .navigationTitle("Confirm Shift")
+        .navigationBarTitleDisplayMode(.inline)
+//        .background(background)
         .onReceive(viewModel.timer) { _ in
             viewModel.addSecond()
         }
-        .sheet(isPresented: $viewModel.showHoursSheet) {
-            SelectHours()
-        }
+        
         .onAppear(perform: viewModel.user.updateTempQueue)
         .bottomBanner(isVisible: $viewModel.showBanner,
                       mainText: "Shift Complete!",
@@ -91,7 +90,7 @@ struct NewTodayView: View {
         .navigationDestination(for: NavManager.TodayViewDestinations.self) {
             viewModel.navManager.getDestinationViewForTodayViewStack(destination: $0)
         }
-        
+
 //        .navigationTitle("Today Shift")
 //        .navigationBarTitleDisplayMode(.inline)
 //        .toolbarBackground(Color.blue.opacity(0.5))
