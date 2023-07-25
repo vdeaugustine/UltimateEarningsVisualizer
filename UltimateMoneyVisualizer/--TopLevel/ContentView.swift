@@ -7,64 +7,43 @@
 
 import CoreData
 import SwiftUI
-
-// MARK: - NavManager
-
-class NavManager: ObservableObject {
-    static var shared: NavManager = NavManager()
-
-    @Published var homeNavPath: NavigationPath = .init()
-    @Published var settingsNavPath: NavigationPath = .init()
-    @Published var lastPath: PossiblePaths = .none
-
-    func clearAllPaths() {
-        homeNavPath = .init()
-        settingsNavPath = .init()
-    }
-
-    enum PossiblePaths: Hashable {
-        case home
-        case settings
-        case today
-        case none
-    }
-}
+import Vin
 
 // MARK: - ContentView
 
 struct ContentView: View {
     @EnvironmentObject private var navManager: NavManager
-
-    enum Tabs: String, Hashable, CustomStringConvertible {
-        var description: String { rawValue.capitalized }
-        case settings, expenses, home, shifts, today, addShifts, allItems
-    }
-
-    @State private var tab: Tabs = .shifts
+    typealias Tabs = NavManager.Tabs
+    @State private var tab: Tabs = .home
     @ObservedObject var settings = User.main.getSettings()
     @Environment(\.sizeCategory) var sizeCategory
+    @State private var lastTab: Tabs = .home
 
     var body: some View {
-        TabView(selection: $tab) {
-            
-            NavigationStack(path: $navManager.homeNavPath) {
-                HomeView()
-            }
-            .makeTab(tab: Tabs.home, systemImage: "house")
-
-            AllItemsView()
-                .putInNavView(.inline)
-                .makeTab(tab: Tabs.allItems, systemImage: "dollarsign")
-
-            TodayView()
-                .putInNavView(.inline)
-                .makeTab(tab: Tabs.today, systemImage: "bolt.fill")
-
-            SettingsView()
-                .putInNavView(.inline)
-                .makeTab(tab: Tabs.settings, systemImage: "gear")
+//        NewTodayView()
+//        TabView(selection: $tab.onUpdate(ifNoChange: navManager.sameTabTapped)) {
+//            NavigationStack(path: $navManager.homeNavPath) {
+//                HomeView()
+//                    .id(navManager.scrollViewID)
+//            }
+//            .makeTab(tab: Tabs.home, systemImage: "house")
+//
+//            AllItemsView()
+//                .putInNavView(.inline)
+//                .makeTab(tab: Tabs.allItems, systemImage: "dollarsign")
+//
+        NavigationStack(path: $navManager.todayViewNavPath) {
+            NewTodayView()
         }
-        .tint(settings.themeColor)
+//            .toolbarColorScheme(.dark, for: .navigationBar)
+//            .makeTab(tab: Tabs.today, systemImage: "bolt.shield")
+//
+//
+//            SettingsView()
+//                .putInNavView(.inline)
+//                .makeTab(tab: Tabs.settings, systemImage: "gear")
+//        }
+//        .tint(settings.themeColor)
     }
 }
 
@@ -75,6 +54,7 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
             .environment(\.managedObjectContext, PersistenceController.context)
             .environmentObject(NavManager())
+
 //            .environment(\.sizeCategory, .large) // Set a fixed size category for the entire app
     }
 }

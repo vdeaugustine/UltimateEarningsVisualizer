@@ -36,7 +36,7 @@ struct AddAllocationForGoalView: View {
                             }
                             Spacer()
 
-                            Text(shift.totalAvailable.formattedForMoney())
+                            Text(shift.totalAvailable.money())
                                 .fontWeight(.semibold)
 
                                 .foregroundStyle(user.getSettings().getDefaultGradient())
@@ -61,7 +61,7 @@ struct AddAllocationForGoalView: View {
                             }
                             Spacer()
 
-                            Text(saved.totalAvailable.formattedForMoney())
+                            Text(saved.totalAvailable.money())
                                 .fontWeight(.semibold)
 
                                 .foregroundStyle(user.getSettings().getDefaultGradient())
@@ -109,7 +109,7 @@ struct AddAllocationForGoalView: View {
                         Text("Available")
                             .fontWeight(.medium)
                             .minimumScaleFactor(0.01)
-                        Text(shift.totalAvailable.formattedForMoney())
+                        Text(shift.totalAvailable.money())
                             .fontWeight(.bold)
                             .foregroundStyle(settings.getDefaultGradient())
                             .minimumScaleFactor(0.01)
@@ -121,7 +121,7 @@ struct AddAllocationForGoalView: View {
                         Text("Remaining")
                             .fontWeight(.medium)
                             .minimumScaleFactor(0.01)
-                        Text(goal.amountRemainingToPayOff.formattedForMoney())
+                        Text(goal.amountRemainingToPayOff.money())
                             .fontWeight(.bold)
                             .foregroundStyle(settings.getDefaultGradient())
                             .minimumScaleFactor(0.01)
@@ -133,7 +133,7 @@ struct AddAllocationForGoalView: View {
                         Text("Allocate")
                             .fontWeight(.medium)
                             .minimumScaleFactor(0.01)
-                        Text(amount.formattedForMoney())
+                        Text(amount.money())
                             .fontWeight(.bold)
                             .foregroundStyle(settings.getDefaultGradient())
                             .minimumScaleFactor(0.01)
@@ -146,9 +146,9 @@ struct AddAllocationForGoalView: View {
                     Slider(value: $amount, in: range, step: 0.01) {
                         Text("Set Amount")
                     } minimumValueLabel: {
-                        Text(range.lowerBound.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                        Text(range.lowerBound.money().replacingOccurrences(of: "$", with: ""))
                     } maximumValueLabel: {
-                        Text(range.upperBound.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                        Text(range.upperBound.money().replacingOccurrences(of: "$", with: ""))
                     } 
                     .padding()
                 }
@@ -193,7 +193,7 @@ struct AddAllocationForGoalView: View {
                         Text("Available")
                             .fontWeight(.medium)
                             .minimumScaleFactor(0.01)
-                        Text(saved.totalAvailable.formattedForMoney())
+                        Text(saved.totalAvailable.money())
                             .fontWeight(.bold)
                             .foregroundStyle(settings.getDefaultGradient())
                             .minimumScaleFactor(0.01)
@@ -205,7 +205,7 @@ struct AddAllocationForGoalView: View {
                         Text("Remaining")
                             .fontWeight(.medium)
                             .minimumScaleFactor(0.01)
-                        Text(goal.amountRemainingToPayOff.formattedForMoney())
+                        Text(goal.amountRemainingToPayOff.money())
                             .fontWeight(.bold)
                             .foregroundStyle(settings.getDefaultGradient())
                             .minimumScaleFactor(0.01)
@@ -217,7 +217,7 @@ struct AddAllocationForGoalView: View {
                         Text("Allocate")
                             .fontWeight(.medium)
                             .minimumScaleFactor(0.01)
-                        Text(amount.formattedForMoney())
+                        Text(amount.money())
                             .fontWeight(.bold)
                             .foregroundStyle(settings.getDefaultGradient())
                             .minimumScaleFactor(0.01)
@@ -230,9 +230,9 @@ struct AddAllocationForGoalView: View {
                     Slider(value: $amount, in: range, step: 0.01) {
                         Text("Set Amount")
                     } minimumValueLabel: {
-                        Text(range.lowerBound.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                        Text(range.lowerBound.money().replacingOccurrences(of: "$", with: ""))
                     } maximumValueLabel: {
-                        Text(range.upperBound.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                        Text(range.upperBound.money().replacingOccurrences(of: "$", with: ""))
                     }
                     .padding()
                 }

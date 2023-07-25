@@ -36,10 +36,10 @@ struct ExpenseRow: View {
             VStack(alignment: .leading, spacing: 5) {
                 PayoffItemProgressBar(item: expense)
                     .frame(height: 10)
-                Text(expense.amountPaidOff.formattedForMoney())
+                Text(expense.amountPaidOff.money())
                     .font(.subheadline)
                     .spacedOut {
-                        Text(expense.amountRemainingToPayOff.formattedForMoney())
+                        Text(expense.amountRemainingToPayOff.money())
                             .font(.subheadline)
                     }
             }

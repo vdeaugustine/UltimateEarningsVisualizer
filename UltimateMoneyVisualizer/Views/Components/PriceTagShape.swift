@@ -44,11 +44,15 @@ struct PriceTagShape: Shape {
     }
 }
 
+// MARK: - PriceTag
+
 struct PriceTag: View {
-    var width: CGFloat = 200
+    var width: CGFloat? = nil
     var height: CGFloat = 100
     var color: Color = .blue
     var holePunchColor: Color = .white
+    var rotation: CGFloat = 0
+
     var body: some View {
         ZStack(alignment: .trailing) {
             PriceTagShape()
@@ -56,10 +60,13 @@ struct PriceTag: View {
             HStack {
                 Circle()
                     .foregroundColor(holePunchColor)
-                    .frame(height: height / 10 )
+                    .frame(height: height / 10)
             }
             .padding(.trailing, 5)
         }
+
+        .frame(width: width, height: height)
+        .rotationEffect(.degrees(rotation))
     }
 }
 
@@ -67,7 +74,6 @@ struct PriceTag: View {
 
 struct PriceTagShape_Previews: PreviewProvider {
     static var previews: some View {
-        PriceTag()
-            .frame(width: 200, height: 100)
+        PriceTag(width: 200, height: 100, rotation: 75)
     }
 }

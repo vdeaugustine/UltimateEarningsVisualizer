@@ -88,7 +88,7 @@ struct AllocationDetailView: View {
                             Text(saved.getTitle())
                             Spacer()
 
-                            Text(saved.getAmount().formattedForMoney())
+                            Text(saved.getAmount().money())
                                 .fontWeight(.bold)
                                 .foregroundStyle(user.getSettings().getDefaultGradient())
                         }
@@ -102,7 +102,7 @@ struct AllocationDetailView: View {
                             Text("Shift for " + shift.start.getFormattedDate(format: .abreviatedMonth))
                             Spacer()
 
-                            Text(shift.totalEarned.formattedForMoney())
+                            Text(shift.totalEarned.money())
                                 .fontWeight(.bold)
                                 .foregroundStyle(user.getSettings().getDefaultGradient())
                         }
@@ -126,7 +126,7 @@ struct AllocationDetailView: View {
                         VStack {
                             Text(expense.titleStr)
                                 .spacedOut {
-                                    Text(expense.amount.formattedForMoney())
+                                    Text(expense.amount.money())
                                         .fontWeight(.bold)
                                         .foregroundStyle(user.getSettings().getDefaultGradient())
                                 }
@@ -139,7 +139,7 @@ struct AllocationDetailView: View {
                 Text("Allocation total")
                     .spacedOut {
                         VStack(alignment: .trailing) {
-                            Text(allocation.amount.formattedForMoney())
+                            Text(allocation.amount.money())
                                 .fontWeight(.bold)
                                 .foregroundStyle(user.getSettings().getDefaultGradient())
 

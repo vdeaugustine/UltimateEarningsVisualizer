@@ -13,7 +13,7 @@ import SwiftUI
 struct TodayPayoffGrid: View {
     @ObservedObject private var user: User = .main
 
-    @ObservedObject var viewModel: TodayViewModel
+    @EnvironmentObject private var viewModel: TodayViewModel
 
     var body: some View {
         LazyVGrid(columns: GridItem.flexibleItems(2)) {
@@ -31,7 +31,8 @@ struct TodayPayoffGrid: View {
 
 struct TodayPayoffGrid_Previews: PreviewProvider {
     static var previews: some View {
-        TodayPayoffGrid(viewModel: .init())
+        TodayPayoffGrid()
             .environment(\.managedObjectContext, PersistenceController.context)
+            .environmentObject(TodayViewModel.main)
     }
 }

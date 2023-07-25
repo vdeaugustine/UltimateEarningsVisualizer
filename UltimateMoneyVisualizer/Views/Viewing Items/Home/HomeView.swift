@@ -35,13 +35,6 @@ struct HomeView: View {
                                         .font(.subheadline)
                                         .padding(.trailing)
                                 }
-//                                NavigationLink {
-//                                    StatsView()
-//                                } label: {
-//                                    Text("Stats")
-//                                        .font(.subheadline)
-//                                        .padding(.trailing)
-//                                }
                             }
                         } content: {
                             HStack {
@@ -50,7 +43,7 @@ struct HomeView: View {
                                         Text("Earnings")
                                             .fontWeight(.medium)
                                             .minimumScaleFactor(0.01)
-                                        Text(user.totalEarned().formattedForMoney())
+                                        Text(user.totalEarned().money())
                                             .fontWeight(.bold)
                                             .foregroundStyle(settings.getDefaultGradient())
                                             .minimumScaleFactor(0.01)
@@ -133,7 +126,6 @@ struct HomeView: View {
                                             ExpenseDetailView(expense: expense)
                                         } label: {
                                             PayoffWithImageAndGradientView(item: expense)
-
                                                 .allPartsTappable()
                                                 .rectContainer()
                                         }
@@ -170,9 +162,7 @@ struct HomeView: View {
         })
         .putInTemplate()
         .navigationTitle(Date.now.getFormattedDate(format: .abreviatedMonth))
-        .safeAreaInset(edge: .bottom) {
-            QuickAddButton()
-        }
+        .safeAreaInset(edge: .bottom) { QuickAddButton() }
     }
 
     struct QuickAddButton: View {
@@ -185,11 +175,8 @@ struct HomeView: View {
                         .offset(y: -60)
                 }
 
-                Button {
-                    withAnimation(.easeInOut(duration: 0.7)) {
-                        didTapQuickAdd.toggle()
-                    }
-
+                NavigationLink {
+                    NewItemCreationView()
                 } label: {
                     VStack {
                         Image(systemName: "plus.circle.fill")
@@ -213,7 +200,6 @@ struct HomeView: View {
             HStack(spacing: 50) {
                 NavigationLink {
                     SpendNewMoneyFirstView()
-
                 } label: {
                     Image(systemName: "chart.line.downtrend.xyaxis.circle.fill")
                         .resizable()
@@ -242,10 +228,8 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            HomeView()
-                .putInNavView(.inline)
-                .environmentObject(NavManager())
-        }
+        HomeView()
+            .putInNavView(.inline)
+            .environmentObject(NavManager())
     }
 }

@@ -69,12 +69,12 @@ struct AllocateShiftToExpense: View {
         Form {
             Section("Expense") {
                 Text("Remaining to pay off")
-                    .spacedOut(text: expense.amountRemainingToPayOff.formattedForMoney())
+                    .spacedOut(text: expense.amountRemainingToPayOff.money())
             }
             
             Section("Shift") {
                 Text("Available to use")
-                    .spacedOut(text: shift.totalAvailable.formattedForMoney())
+                    .spacedOut(text: shift.totalAvailable.money())
                 
                 TextField("Amount", text: $amountToAllocate)
                 MoneyTextField(value: $amount)

@@ -39,7 +39,7 @@ struct AllocSavedRow: View {
             Spacer()
 
             VStack {
-                Text(allocation.amount.formattedForMoney())
+                Text(allocation.amount.money())
                     .font(.subheadline)
                     .foregroundColor(.primary)
                     .multilineTextAlignment(.trailing)

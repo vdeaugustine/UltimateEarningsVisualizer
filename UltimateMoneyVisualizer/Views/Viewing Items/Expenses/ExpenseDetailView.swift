@@ -20,7 +20,7 @@ struct ExpenseDetailView: View {
     var body: some View {
         List {
             Text("Amount")
-                .spacedOut(text: expense.amount.formattedForMoney())
+                .spacedOut(text: expense.amount.money())
 
             if let dueDate = expense.dueDate {
                 Text("Due")
@@ -73,10 +73,10 @@ struct ExpenseDetailView: View {
                     }
 
                 Text("Paid off")
-                    .spacedOut(text: expense.amountPaidOff.formattedForMoney())
+                    .spacedOut(text: expense.amountPaidOff.money())
 
                 Text("Remaining to pay")
-                    .spacedOut(text: expense.amountRemainingToPayOff.formattedForMoney())
+                    .spacedOut(text: expense.amountRemainingToPayOff.money())
             }
             
             Section("Instances") {

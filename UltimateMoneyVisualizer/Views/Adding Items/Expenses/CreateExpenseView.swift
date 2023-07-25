@@ -11,19 +11,19 @@ import Vin
 
 // MARK: - CreateExpenseView
 
+// TODO: - Add tags to expense when creating
 struct CreateExpenseView: View {
-    
-
     @Environment(\.managedObjectContext) private var viewContext
 
+    @EnvironmentObject private var newItemViewModel: NewItemViewModel
+
     @State private var title: String = ""
-    @State private var amount: String = ""
     @State private var info: String = ""
     @State private var dueDate: Date = Date()
 
     @ObservedObject private var user: User = .main
 
-    @State private var doubleAmount: Double = 0
+    @State var doubleAmount: Double = 0
 
     // Alert toast state variables
     @State private var showToast = false
@@ -35,18 +35,17 @@ struct CreateExpenseView: View {
     @FocusState private var infoFocused
     @FocusState private var dateFocused
 
+
     var body: some View {
         Form {
-            Section() {
+            Section {
                 TextField("Title", text: $title)
-
                     .focused($titleFocused)
                 TextField("Info", text: $info)
                     .focused($infoFocused)
-
                 DatePicker("Due Date", selection: $dueDate, displayedComponents: .date)
                     .focused($dateFocused)
-            }  header: {
+            } header: {
                 Text("Expense Information")
             } footer: {
                 Text("Tap on a recent expense to create a new instance of that same expense")
@@ -59,7 +58,7 @@ struct CreateExpenseView: View {
                 } label: {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
-                        Text(doubleAmount.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                        Text(doubleAmount.money().replacingOccurrences(of: "$", with: ""))
                             .boldNumber()
                     }
                 }
@@ -70,10 +69,9 @@ struct CreateExpenseView: View {
             footer: {
                 Text("Tap to edit")
             }
-            
-            
+
             Section("Recent Goals") {
-                ForEach(user.getExpenses().sorted(by: {$0.dateCreated ?? Date.now > $1.dateCreated ?? Date.now})) { expense in
+                ForEach(user.getExpenses().sorted(by: { $0.dateCreated ?? Date.now > $1.dateCreated ?? Date.now })) { expense in
                     HStack {
                         Text(expense.titleStr)
                         Spacer()
@@ -86,8 +84,6 @@ struct CreateExpenseView: View {
                     }
                 }
             }
-            
-            
         }
         .putInTemplate()
         .navigationTitle("New Expense")
@@ -98,20 +94,19 @@ struct CreateExpenseView: View {
         }
         .onAppear(perform: {
             titleFocused = true
+            doubleAmount = newItemViewModel.dubValue
         })
 
         .sheet(isPresented: $showSheet, content: {
             EnterMoneyView(dubToEdit: $doubleAmount)
 
         })
-        
 
         .toolbar {
             ToolbarItemGroup(placement: .keyboard) {
                 if titleFocused {
                     if !title.isEmpty {
                         Button("Clear") {
-                            
                             if titleFocused {
                                 title = ""
                             }
@@ -135,7 +130,6 @@ struct CreateExpenseView: View {
                             if infoFocused {
                                 info = ""
                             }
-                            
                         }
                     } else {
                         Button("Back") {
@@ -155,19 +149,26 @@ struct CreateExpenseView: View {
 
         .toolbarSave {
             guard !title.isEmpty else {
-                alertToastConfig = AlertToast(displayMode: .alert, type: .error(.blue), title: "Title must not be empty")
+                alertToastConfig = AlertToast(displayMode: .alert,
+                                              type: .error(.blue),
+                                              title: "Title must not be empty")
                 showToast = true
                 return
             }
 
             do {
-                try Expense(title: title, info: info, amount: doubleAmount, dueDate: dueDate, dateCreated: .now, user: user, context: viewContext)
+                try Expense(title: title,
+                            info: info,
+                            amount: doubleAmount,
+                            dueDate: dueDate,
+                            dateCreated: .now,
+                            user: user,
+                            context: viewContext)
 
                 try viewContext.save()
 
                 // Reset the fields
                 title = ""
-                amount = ""
                 info = ""
                 dueDate = Date()
 
@@ -190,5 +191,6 @@ struct CreateExpenseView_Previews: PreviewProvider {
         CreateExpenseView()
             .environment(\.managedObjectContext, PersistenceController.context)
             .putInNavView(.inline)
+            .environmentObject(NewItemViewModel())
     }
 }

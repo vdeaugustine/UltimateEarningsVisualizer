@@ -16,6 +16,8 @@ struct ShiftListView: View {
 
     @ObservedObject private var user: User = User.main
     @ObservedObject private var settings = User.main.getSettings()
+    @ObservedObject private var wage = User.main.getWage()
+
     @State private var shifts: [Shift] = User.main.getShifts()
 
     @State private var showNewShiftSheet = false
@@ -36,14 +38,6 @@ struct ShiftListView: View {
         return upcomingToDelete.contains(where: { $0 == shift })
     }
 
-    var shiftsByWeek: [Date: [Shift]] {
-        Dictionary(grouping: pastShifts, by: { $0.start.startOfWeek() })
-    }
-
-    var sortedWeeks: [Date] {
-        shiftsByWeek.keys.sorted(by: >)
-    }
-
     @State private var mostRecentSelected = false
 
     var body: some View {
@@ -56,7 +50,6 @@ struct ShiftListView: View {
 
                 ScrollView(.horizontal, showsIndicators: false) {
                     LazyHStack {
-//                        if upcomingShifts.isEmpty {
                         NavigationLink {
                             NewShiftView()
                         } label: {
@@ -67,23 +60,6 @@ struct ShiftListView: View {
 
                         .padding(.vertical)
                         .padding(.leading, 6)
-//                        }
-
-//                        if upcomingShifts.isEmpty == false {
-//                            ZStack {
-//                               Circle()
-//                                    .fill(Color.white)
-//                                VStack(spacing: 5) {
-//                                   Text("New")
-//
-//                                       .font(.system(size: 10))
-//                                   Image(systemName: "plus")
-//                                       .font(.system(size: 14, weight: .medium))
-//                               }
-//                                .foregroundStyle(settings.getDefaultGradient())
-//                           }
-//                           .frame(height: 50)
-//                        }
 
                         ForEach(upcomingShifts) { shift in
                             if editMode.isEditing {
@@ -122,17 +98,24 @@ struct ShiftListView: View {
 
             VStack(alignment: .leading, spacing: 0) {
                 List {
-                    ForEach(user.groupShiftsByWeek().sortedKeys, id: \.self) { key in
-
-                        if let arrayOfShifts = user.groupShiftsByWeek().dict[key] {
-                            Section(key) {
-                                ForEach(arrayOfShifts) { shift in
-
-                                    NavigationLink {
-                                        ShiftDetailView(shift: shift)
-                                    } label: {
-                                        ShiftRowView(shift: shift)
-                                    }
+                    ForEach(user.getPayPeriods()) { period in
+                        Section {
+                            ForEach(period.getShifts()) { shift in
+                                NavigationLink {
+                                    ShiftDetailView(shift: shift)
+                                } label: {
+                                    ShiftRowView(shift: shift)
+                                }
+                            }
+                        } header: {
+                            NavigationLink {
+                                PayPeriodDetailView(payPeriod: period)
+                            } label: {
+                                HStack {
+                                    Text(period.dateRangeString)
+                                    Spacer()
+                                    Label("More", systemImage: "ellipsis")
+                                        .labelStyle(.iconOnly)
                                 }
                             }
                         }
@@ -141,7 +124,9 @@ struct ShiftListView: View {
                 .listStyle(.insetGrouped)
             }
         }
-
+        .onChange(of: wage, perform: { _ in
+            shifts = user.getShifts()
+        })
         .toolbar {
             if shifts.isEmpty == false {
                 EditButton()
@@ -171,9 +156,9 @@ struct ShiftListView: View {
 
                 } label: {
                     if upcomingToDelete.isEmpty {
-                        BottomViewButton(label: "Cancel")
+                        BottomButtonView(label: "Cancel")
                     } else {
-                        BottomViewButton(label: "Delete", gradient: Color.niceRed.getGradient())
+                        BottomButtonView(label: "Delete", gradient: Color.niceRed.getGradient())
                     }
                 }
             }
@@ -213,6 +198,7 @@ struct ShiftListView: View {
 struct ShiftRowView: View {
     let shift: Shift
     @ObservedObject private var settings = User.main.getSettings()
+    @ObservedObject private var wage = User.main.getWage()
 
     var body: some View {
         HStack {
@@ -233,7 +219,7 @@ struct ShiftRowView: View {
             }
             Spacer()
 
-            Text("\(shift.totalEarned.formattedForMoney())")
+            Text("\(shift.totalEarned.money())")
                 .font(.subheadline)
                 .foregroundColor(.primary)
                 .multilineTextAlignment(.trailing)

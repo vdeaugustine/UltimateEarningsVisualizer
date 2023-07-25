@@ -130,7 +130,7 @@ struct SelectDaysView: View {
                 NavigationLink {
                     SetHoursForRegularDaysView(daysContainer: daysContainer)
                 } label: {
-                    BottomViewButton(label: "Next")
+                    BottomButtonView(label: "Next")
                 }
             }
         }

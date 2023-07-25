@@ -24,7 +24,7 @@ struct SettingsView: View {
 
     private var wageStr: String {
         if let wage = user.wage {
-            return wage.amount.formattedForMoney(includeCents: true)
+            return wage.amount.money(includeCents: true)
         }
         return "Not set"
     }
@@ -39,9 +39,17 @@ struct SettingsView: View {
                     else { EnterWageView() }
                 } label: {
                     HStack {
-                        SystemImageWithFilledBackground(systemName: "calendar", backgroundColor: settings.themeColor)
+                        SystemImageWithFilledBackground(systemName: "calendar",
+                                                        backgroundColor: settings.themeColor)
                         Text("My Wage")
                     }
+                }
+
+                NavigationLink {
+                    EnterWageView()
+                } label: {
+                    SystemImageWithFilledBackground(systemName: "percent")
+                    Text("Taxes")
                 }
 
                 // MARK: - Set Hours
@@ -49,11 +57,20 @@ struct SettingsView: View {
                 NavigationLink {
                     RegularScheduleView()
                 } label: {
-                    SystemImageWithFilledBackground(systemName: "hourglass", backgroundColor: settings.themeColor)
+                    SystemImageWithFilledBackground(systemName: "hourglass",
+                                                    backgroundColor: settings.themeColor)
                     Text("Normal working hours")
                 }
 
-                // TODO: - Add a taxes section
+                // MARK: - Pay Period
+
+                NavigationLink {
+                    PayPeriodsView()
+                } label: {
+                    SystemImageWithFilledBackground(systemName: "calendar",
+                                                    backgroundColor: settings.themeColor)
+                    Text("Pay Periods")
+                }
             }
 
             Section("Visuals") {

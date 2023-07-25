@@ -48,7 +48,7 @@ struct EnterDoubleView: View {
     var formattedString: String {
         switch format {
             case .dollar:
-                return dubValue.formattedForMoney(trimZeroCents: false)
+                return dubValue.money(trimZeroCents: false)
             case .percent:
                 return enteredStr + "%"
             case .plain:
@@ -101,7 +101,6 @@ struct EnterDoubleView: View {
                     .padding(.horizontal)
             }
 
-
             ForEach(numbers, id: \.self) { row in
                 HStack {
                     ForEach(row, id: \.self) { num in
@@ -148,13 +147,6 @@ struct EnterDoubleView: View {
                             .padding()
                             .frame(width: width, height: 75)
                             .background(RoundedRectangle(cornerRadius: 8).foregroundColor(Color.white).shadow(radius: 1))
-
-//                        Image(systemName: "circle.fill")
-//                            .font(.system(size: 7))
-//                            .fontWeight(.bold)
-//                            .padding()
-//                            .frame(width: width, height: 75)
-//                            .background(RoundedRectangle(cornerRadius: 8).foregroundColor(Color.white).shadow(radius: 1))
                     }
                 }
 
@@ -213,6 +205,11 @@ struct EnterDoubleView: View {
             }
         }
         .putInNavView(.inline)
+        .onAppear {
+            if dubToEdit != 0 {
+                enteredStr = "\(Int(dubToEdit * 100))"
+            }
+        }
     }
 }
 

@@ -70,7 +70,7 @@ struct AllTimeBlocksView: View {
                                     y: .value("Title", blockTitle))
                                 .foregroundStyle(block.getColor())
                                 .annotation(position: .overlay) {
-                                    Text(totalMadeFor(block: block).formattedForMoney())
+                                    Text(totalMadeFor(block: block).money())
                                         .font(.caption2)
                                         .fontWeight(.medium)
                                         .foregroundStyle(Color.white)

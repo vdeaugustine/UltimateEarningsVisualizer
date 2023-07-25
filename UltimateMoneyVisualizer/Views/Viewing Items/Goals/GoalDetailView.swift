@@ -13,251 +13,204 @@ import Vin
 
 struct GoalDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @ObservedObject private var user: User = User.main
-    @ObservedObject private var settings: Settings = User.main.getSettings()
-    let goal: Goal
     @Environment(\.dismiss) private var dismiss
+    @StateObject var viewModel: GoalDetailViewModel
 
-    @State private var presentConfirmation = false
-    @State private var showSheet = false
-    @State private var showImageSelector = false
-    @State private var shownImage: UIImage? = nil
-    @State private var initialImage: UIImage? = nil
-    @State private var showAlert = false
-    @State private var toastConfiguration: AlertToast = AlertToast(type: .regular)
-    @State private var isShowingFullScreenImage = false
-    @State private var isBlurred = false
+    init(goal: Goal) {
+        _viewModel = StateObject(wrappedValue: GoalDetailViewModel(goal: goal))
+    }
 
     var body: some View {
+        ScrollViewReader { _ in
+            ScrollView {
+                VStack {
+                    GoalDetailHeaderView(goal: viewModel.goal,
+                                         shownImage: viewModel.shownImage,
+                                         tappedImageAction: viewModel.goalDetailHeaderAction)
+                    .padding(.bottom)
+
+                    HStack {
+                        GoalDetailProgressBox(viewModel: viewModel)
+                        VStack {
+                            GoalDetailTotalAmount(viewModel: viewModel)
+                            GoalDetailDueDateBox(viewModel: viewModel)
+                        }
+                    }
+
+                    GoalDetailTagsSection(viewModel: viewModel)
+
+                    GoalDetailContributionsSection(viewModel: viewModel)
+
+                    //                Section(header: Text("Info")) {
+                    //                    Text("Amount")
+                    //                        .spacedOut {
+                    //                            Text(viewModel.goal.amount.money())
+                    //                                .fontWeight(.bold)
+                    //                                .foregroundStyle(viewModel.settings.getDefaultGradient())
+                    //                        }
+                    //
+                    //                    if let dueDate = viewModel.goal.dueDate {
+                    //                        Text("Goal date")
+                    //                            .spacedOut(text: dueDate.getFormattedDate(format: .abreviatedMonth))
+                    //                    }
+                    //
+                    //                    HStack(spacing: 5) {
+                    //                        Text(viewModel.goal.amount.money())
+                    //                            .fontWeight(.bold)
+                    //                            .foregroundStyle(viewModel.settings.getDefaultGradient())
+                    //                        Text("is equivalent to")
+                    //                        Spacer()
+                    //                        Text(viewModel.user.convertMoneyToTime(money: viewModel.goal.amount).formatForTime())
+                    //                    }
+                    //                }
+                    //
+                    //                Section("Tags") {
+                    //                    VStack {
+                    //                        ScrollView(.horizontal, showsIndicators: false) {
+                    //                            HStack {
+                    //                                ForEach(viewModel.goal.getTags()) { tag in
+                    //                                    NavigationLink {
+                    //                                        TagDetailView(tag: tag)
+                    //
+                    //                                    } label: {
+                    //                                        Text(tag.title ?? "NA")
+                    //                                            .foregroundColor(.white)
+                    //                                            .padding(10)
+                    //                                            .padding(.trailing, 10)
+                    //                                            .background {
+                    //                                                PriceTag(height: 30, color: tag.getColor(), holePunchColor: .listBackgroundColor)
+                    //                                            }
+                    //                                    }
+                    //                                }
+                    //                            }
+                    //                        }
+                    //
+                    //                        NavigationLink {
+                    //                            CreateTagView(goal: viewModel.goal)
+                    //                        } label: {
+                    //                            Label("New Tag", systemImage: "plus")
+                    //                        }
+                    //                        .buttonStyle(.borderedProminent)
+                    //                        .tint(.blue)
+                    //                        .padding(.top)
+                    //                    }
+                    //                    .listRowBackground(Color.listBackgroundColor)
+                    //                }
+                    //
+                    //                Section(header: Text("Progress")) {
+                    //                    Text("Paid off")
+                    //                        .spacedOut(text: viewModel.goal.amountPaidOff.money())
+                    //
+                    //                    Text("Remaining")
+                    //                        .spacedOut(text: viewModel.goal.amountRemainingToPayOff.money())
+                    //                }
+                    //
+                    //                Section("Instances") {
+                    //                    ForEach(viewModel.user.getInstancesOf(goal: viewModel.goal)) { thisExpense in
+                    //                        if let date = thisExpense.dateCreated {
+                    //                            NavigationLink {
+                    //                                GoalDetailView(goal: thisExpense)
+                    //                            } label: {
+                    //                                Text(date.getFormattedDate(format: .abreviatedMonth))
+                    //                                    .spacedOut(text: thisExpense.amountMoneyStr)
+                    //                            }
+                    //                        }
+                    //                    }
+                    //                }
+                    //
+                    //                // MARK: - Insight Section
+                    //
+                    //                Section("Insight") {
+                    //                    Text("Time required to pay off")
+                    //                        .spacedOut(text: viewModel.goal.totalTimeRemaining.formatForTime([.day, .hour, .minute]))
+                    //                }
+                    //
+                    //                Section(header: Text("Contributions")) {
+                    //                    ForEach(viewModel.goal.getAllocations()) { alloc in
+                    //                        if let shift = alloc.shift {
+                    //                            AllocShiftRow(shift: shift, allocation: alloc)
+                    //                        }
+                    //                        if let saved = alloc.savedItem {
+                    //                            AllocSavedRow(saved: saved, allocation: alloc)
+                    //                        }
+                    //                    }
+                    //                }
+                    //
+                    //                Section {
+                    //                    Button("Delete goal",
+                    //                           role: .destructive,
+                    //                           action: viewModel.deleteGoalTapped)
+                    //                        .centerInParentView()
+                    //                        .listRowBackground(Color.clear)
+                    //                }
+                }
+                .padding()
+
+                .blur(radius: viewModel.blurRadius)
+                .overlay {
+                    if viewModel.showSpinner {
+                        ProgressView()
+                    }
+                }
+                .overlay(fullScreenImage())
+                .background(Color.listBackgroundColor)
+                .confirmationDialog("Are you sure you want to delete this goal?", isPresented: $viewModel.presentConfirmation, titleVisibility: .visible, actions: {
+                    Button("Delete", role: .destructive, action: viewModel.doDeleteAction)
+                }, message: {
+                    Text("This action cannot be undone")
+                })
+                .listStyle(.insetGrouped)
+                .navigationBarTitleDisplayMode(.inline)
+                .putInTemplate()
+                .navigationTitle("Goal")
+                .sheet(isPresented: $viewModel.showImageSelector) {
+                    if viewModel.shownImage != nil {
+                        viewModel.viewIDForReload = UUID()
+                    }
+                } content: {
+                    ImagePicker(isShown: $viewModel.showImageSelector, image: $viewModel.shownImage)
+                        .onAppear {
+                            viewModel.showSpinner = false
+                        }
+                }
+                .toolbar {
+                    if viewModel.initialImage != viewModel.shownImage {
+                        ToolbarItem {
+                            Button("Save", action: viewModel.saveButtonAction)
+                        }
+                    }
+                }
+                .onAppear(perform: viewModel.onAppearAction)
+                .toast(isPresenting: $viewModel.showAlert,
+                       duration: 2,
+                       tapToDismiss: false,
+                       offsetY: 40,
+                       alert: { viewModel.toastConfiguration })
+                .ignoresSafeArea(.keyboard, edges: .bottom)
+            }
+        }
+        .background(Color.listBackgroundColor)
+    }
+
+    func fullScreenImage() -> some View {
         VStack {
-            List {
-                Section(header: Text("Info")) {
-                    Text("Amount")
-                        .spacedOut {
-                            Text(goal.amount.formattedForMoney())
-                                .fontWeight(.bold)
-                                .foregroundStyle(settings.getDefaultGradient())
-                        }
-
-                    if let dueDate = goal.dueDate {
-                        Text("Goal date")
-                            .spacedOut(text: dueDate.getFormattedDate(format: .abreviatedMonth))
-                    }
-
-                    HStack(spacing: 5) {
-                        Text(goal.amount.formattedForMoney())
-                            .fontWeight(.bold)
-                            .foregroundStyle(settings.getDefaultGradient())
-                        Text("is equivalent to")
-                        Spacer()
-                        Text(user.convertMoneyToTime(money: goal.amount).formatForTime())
-                    }
-                }
-
-                Section("Tags") {
-                    VStack {
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack {
-                                
-
-                                ForEach(goal.getTags()) { tag in
-                                    NavigationLink {
-                                        TagDetailView(tag: tag)
-
-                                    } label: {
-                                        Text(tag.title ?? "NA")
-                                            .foregroundColor(.white)
-                                            .padding(10)
-                                            .padding(.trailing, 10)
-                                            .background {
-                                                PriceTag(height: 30, color: tag.getColor(), holePunchColor: .listBackgroundColor)
-                                            }
-                                    }
-                                }
-                            }
-                        }
-                        
-                        NavigationLink {
-                            CreateTagView(goal: goal)
-                        } label: {
-                            Label("New Tag", systemImage: "plus")
-                        }
-                        .buttonStyle(.borderedProminent)
-                        .tint(.blue)
-                        .padding(.top)
-                    }
-                    .listRowBackground(Color.listBackgroundColor)
-                }
-
-                Section(header: Text("Progress")) {
-                    Text("Paid off")
-                        .spacedOut(text: goal.amountPaidOff.formattedForMoney())
-
-                    Text("Remaining")
-                        .spacedOut(text: goal.amountRemainingToPayOff.formattedForMoney())
-                }
-                
-                Section("Instances") {
-                    ForEach(user.getInstancesOf(goal: goal)) { thisExpense in
-                        if let date = thisExpense.dateCreated {
-                            NavigationLink {
-                                GoalDetailView(goal: thisExpense)
-                            } label: {
-                                
-                                Text(date.getFormattedDate(format: .abreviatedMonth))
-                                    .spacedOut(text: thisExpense.amountMoneyStr)
-                            }
+            if viewModel.isShowingFullScreenImage, let shownImage = viewModel.shownImage {
+                Image(uiImage: shownImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .onTapGesture {
+                        withAnimation {
+                            viewModel.isShowingFullScreenImage = false
+                            viewModel.isBlurred = false
                         }
                     }
-                }
-
-                // MARK: - Insight Section
-
-                Section("Insight") {
-                    Text("Time required to pay off")
-                        .spacedOut(text: goal.totalTimeRemaining.formatForTime([.day, .hour, .minute]))
-                }
-
-                Section(header: Text("Contributions")) {
-                    ForEach(goal.getAllocations()) { alloc in
-                        if let shift = alloc.shift {
-                            AllocShiftRow(shift: shift, allocation: alloc)
-                        }
-
-                        if let saved = alloc.savedItem {
-                            AllocSavedRow(saved: saved, allocation: alloc)
-                        }
-                    }
-                }
-
-                Section(header: Text("Image")) {
-                    VStack {
-                        if let uiImage = shownImage {
-                            Image(uiImage: uiImage)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .cornerRadius(8)
-                                .centerInParentView()
-                                .onTapGesture {
-                                    withAnimation {
-                                        if self.shownImage != nil {
-                                            self.isShowingFullScreenImage = true
-                                            self.isBlurred = true
-                                        }
-                                    }
-                                }
-                        } else {
-                            Image(systemName: "photo")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .foregroundColor(.gray)
-                                .centerInParentView()
-                                .onTapGesture {
-                                    showImageSelector = true
-                                }
-                        }
-
-                        HStack {
-                            Button("Choose image") {
-                                showImageSelector = true
-                            }
-                            .buttonStyle(.borderedProminent)
-
-                            if shownImage != nil {
-                                Button("Remove image", role: .destructive) {
-                                    shownImage = nil
-                                }
-                                .buttonStyle(.borderedProminent)
-                            }
-                        }
-                    }
-                    .frame(maxHeight: 250)
-                }
-
-                Section {
-                    Button("Delete goal", role: .destructive) {
-                        presentConfirmation.toggle()
-                    }
-                    .centerInParentView()
-                    .listRowBackground(Color.clear)
-                }
             }
         }
-        .blur(radius: isBlurred ? 10 : 0)
-        .overlay(
-            VStack {
-                if isShowingFullScreenImage, let shownImage = shownImage {
-                    Image(uiImage: shownImage)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .onTapGesture {
-                            withAnimation {
-                                self.isShowingFullScreenImage = false
-                                self.isBlurred = false
-                            }
-                        }
-                }
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.black.opacity(0.7))
-            .edgesIgnoringSafeArea(.all)
-            .opacity(isShowingFullScreenImage ? 1 : 0)
-        )
-        .background(Color.targetGray)
-        .confirmationDialog("Are you sure you want to delete this goal?", isPresented: $presentConfirmation, titleVisibility: .visible, actions: {
-            Button("Delete", role: .destructive) {
-                guard let context = user.managedObjectContext else {
-                    return
-                }
-
-                do {
-                    context.delete(goal)
-                    try context.save()
-                } catch {
-                    print("Failed to delete")
-                }
-
-                dismiss()
-            }
-        }, message: {
-            Text("This action cannot be undone")
-        })
-        .listStyle(.insetGrouped)
-        .navigationBarTitleDisplayMode(.inline)
-        .putInTemplate()
-        .navigationTitle(goal.titleStr)
-        .sheet(isPresented: $showImageSelector) {
-            ImagePicker(isShown: self.$showImageSelector, image: self.$shownImage)
-        }
-        .toolbar {
-            if initialImage != shownImage, let shownImage {
-                ToolbarItem {
-                    Button("Save") {
-                        do {
-                            try goal.saveImage(image: shownImage)
-                            try user.managedObjectContext!.save()
-                            toastConfiguration = AlertToast(displayMode: .alert, type: .complete(settings.themeColor), title: "Saved successfully")
-                            showAlert = true
-
-                            let dummyGoalForUpdate = try Goal(title: "", info: nil, amount: 124, dueDate: nil, user: user, context: viewContext)
-                            viewContext.delete(dummyGoalForUpdate)
-                            try viewContext.save()
-
-                        } catch {
-                            toastConfiguration = AlertToast(displayMode: .alert, type: .error(settings.themeColor), title: "Failed to save image")
-                            showAlert = true
-                        }
-                    }
-                }
-            }
-        }
-        .onAppear {
-            initialImage = goal.loadImageIfPresent()
-            shownImage = goal.loadImageIfPresent()
-        }
-        .toast(isPresenting: $showAlert, duration: 2, tapToDismiss: false, offsetY: 40, alert: { toastConfiguration })
-        .ignoresSafeArea(.keyboard, edges: .bottom)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.black.opacity(0.7))
+        .edgesIgnoringSafeArea(.all)
+        .opacity(viewModel.isShowingFullScreenImage ? 1 : 0)
     }
 }
 

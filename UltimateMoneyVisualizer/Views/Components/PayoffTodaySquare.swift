@@ -61,14 +61,14 @@ struct PayoffTodaySquare: View {
                                gradient: gradient,
                                lineWidth: 5) {
                     VStack(spacing: 2) {
-                        Text(havedPaidOff.formattedForMoney())
+                        Text(havedPaidOff.money())
                             .lineLimit(1)
                             .minimumScaleFactor(0.85)
                             .font(.subheadline)
                             .fontWeight(.bold)
                             .foregroundStyle(gradient)
 
-                        Text(progressToShow.formattedForMoney(includeCents: true).replacingOccurrences(of: "$", with: "+"))
+                        Text(progressToShow.money(includeCents: true).replacingOccurrences(of: "$", with: "+"))
                             .font(.caption2)
                             .minimumScaleFactor(0.5)
                             .lineLimit(1)
@@ -84,7 +84,7 @@ struct PayoffTodaySquare: View {
                         .multilineTextAlignment(.leading)
 
                     HStack(alignment: .bottom, spacing: 5) {
-                        Text(itemTotal.formattedForMoney())
+                        Text(itemTotal.money())
                             .lineLimit(1)
                             .font(.subheadline)
                             .fontWeight(.bold)

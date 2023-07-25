@@ -146,7 +146,7 @@ struct NewShiftView: View {
                                   user: user,
                                   context: viewContext)
                     } catch {
-                        fatalError("Error making shift")
+                        fatalError(String(describing: error))
                     }
                 } else {
                     fatalError("Couldn't make dates for shift")
