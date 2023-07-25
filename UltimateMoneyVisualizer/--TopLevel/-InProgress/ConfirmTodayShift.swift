@@ -13,38 +13,151 @@ import Vin
 struct ConfirmTodayShift: View {
     @EnvironmentObject private var viewModel: TodayViewModel
     @State private var paidOffItems: [TempTodayPayoff] = []
+    @State private var paidOffGoals: [TempTodayPayoff] = []
+    @State private var paidOffExpenses: [TempTodayPayoff] = []
+
+    
+    var spentOnGoals: Double {
+        paidOffGoals.reduce(Double(0), { $0 + $1.amountPaidOff  })
+    }
+    
+    var spentOnExpenses: Double {
+        paidOffExpenses.reduce(Double(0), { $0 + $1.amountPaidOff  })
+    }
+    
+    var spentTotal: Double {
+        spentOnGoals + spentOnExpenses
+    }
+    
+    var unspent: Double {
+        viewModel.haveEarnedAfterTaxes - spentTotal
+    }
 
     var body: some View {
-        List {
-            Section {
-                Text("Start")
-                    .spacedOut(text: viewModel.start.getFormattedDate(format: .minimalTime))
-                Text("End")
-                    .spacedOut(text: viewModel.end.getFormattedDate(format: .minimalTime))
-            } header: {
-                Text("Details")
-            }
-
-            if !paidOffItems.isEmpty {
-                Section {
-                    GPTPieChart(pieChartData: viewModel.getConfirmShiftChartData(items: paidOffItems))
-                        .frame(height: 200)
-                    ForEach(paidOffItems) { payoff in
-                        Text(payoff.title)
-                            .spacedOut(text: payoff.progressAmount.money())
+        ScrollView {
+            VStack {
+                if let shift = viewModel.user.todayShift,
+                   let start = shift.startTime,
+                   let end = shift.endTime {
+                    VStack(spacing: 8) {
+                        Text(Date.timeRangeString(start: start, end: end))
+                            .font(.lato(24))
+                            .fontWeight(.black)
+                        Text(viewModel.elapsedTime.breakDownTime())
+                            .font(.lato(18))
+                            .fontWeight(.semibold)
                     }
-                    .onDelete(perform: { indexSet in
-                        paidOffItems.remove(atOffsets: indexSet)
-                    })
+
+                    HStack {
+                        TodayViewInfoRect(imageName: "dollarsign.circle",
+                                          valueString: viewModel.haveEarned.money(),
+                                          bottomLabel: "Earned")
+
+                        TodayViewInfoRect(imageName: "dollarsign.circle",
+                                          valueString: viewModel.haveEarnedAfterTaxes.money(),
+                                          bottomLabel: "After Taxes")
+                    }
+                    HStack {
+                        TodayViewInfoRect(imageName: "dollarsign.circle",
+                                          valueString: spentTotal.money(),
+                                          bottomLabel: "Total Spent")
+
+                        TodayViewInfoRect(imageName: "dollarsign.circle",
+                                          valueString: unspent.money(),
+                                          bottomLabel: "Surplus")
+                    }
+                }
+
+                payoffSection.padding(.vertical)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+//            .padding(.horizontal, 2)
+        }
+
+        .background {
+            Color.targetGray.ignoresSafeArea()
+        }
+        .safeAreaInset(edge: .top, content: {
+            GeometryReader { geo in
+                ZStack {
+                    Color(hex: "003DFF")
+
+                    Text("Confirm today shift")
+                        .font(.lato(24))
+                        .fontWeight(.black)
+                        .foregroundStyle(Color.white)
+                        .position(x: geo.frame(in: .local).midX,
+                                  y: geo.frame(in: .local).maxY - 40)
                 }
             }
-        }
-        .putInTemplate()
-        .navigationTitle("Confirm Today Shift")
+            .frame(height: 125)
+            .ignoresSafeArea()
+        })
+        .navigationBarHidden(true)
         .onAppear(perform: {
             paidOffItems = viewModel.tempPayoffs
+            paidOffExpenses = viewModel.expensePayoffItems
+            paidOffGoals = viewModel.goalPayoffItems
         })
-        
+    }
+
+    var payoffSection: some View {
+        VStack {
+            
+            // MARK: Expenses
+            if !paidOffExpenses.isEmpty {
+                List {
+                    Section {
+                        ForEach(paidOffExpenses) { expense in
+                            TodayViewPaidOffRect(item: expense)
+                        }
+                        .onDelete { paidOffExpenses.remove(atOffsets: $0) }
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+
+                    } header: {
+                        HStack {
+                            Text("\(paidOffExpenses.count) EXPENSES")
+                            Spacer()
+                            Text(spentOnExpenses.money())
+                        }
+                        .font(.lato(20)).fontWeight(.semibold)
+                        .foregroundColor(Color(hex: "4E4E4E"))
+                    }
+                }
+                .listStyle(.plain)
+                .listRowSpacing(-10)
+                .frame(height: viewModel.getPayoffListsHeight(forCount: paidOffExpenses.count))
+                
+            }
+            // MARK: Goals
+            
+            if !paidOffGoals.isEmpty {
+                List {
+                    Section {
+                        ForEach(paidOffGoals) { goal in
+                            TodayViewPaidOffRect(item: goal)
+                        }
+                        .onDelete { paidOffGoals.remove(atOffsets: $0) }
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+
+                    } header: {
+                        HStack {
+                            Text("\(paidOffGoals.count) EXPENSES")
+                            Spacer()
+                            Text(spentOnGoals.money())
+                        }
+                        .font(.lato(20)).fontWeight(.semibold)
+                        .foregroundColor(Color(hex: "4E4E4E"))
+                    }
+                }
+                .listStyle(.plain)
+                .listRowSpacing(-10)
+                .frame(height: viewModel.getPayoffListsHeight(forCount: paidOffGoals.count))
+                
+            }
+        }
     }
 }
 
@@ -54,5 +167,6 @@ struct ConfirmTodayShift_Previews: PreviewProvider {
     static var previews: some View {
         ConfirmTodayShift()
             .putInNavView(.inline)
+            .environmentObject(TodayViewModel.main)
     }
 }

@@ -12,95 +12,98 @@ import SwiftUI
 struct NewTodayView: View {
     @StateObject private var viewModel: TodayViewModel = .main
 
-    var statusBarHeight: CGFloat {
-        let statusBarHeight = UIApplication.shared.connectedScenes
-            .filter { $0.activationState == .foregroundActive }
-            .map { $0 as? UIWindowScene }
-            .compactMap { $0 }
-            .first?.windows
-            .filter { $0.isKeyWindow }.first?
-            .windowScene?.statusBarManager?.statusBarFrame.height ?? 0
-        return statusBarHeight
-    }
+    @State var offset: CGFloat = 0
+    
 
     var body: some View {
+        Group {
+            if viewModel.user.todayShift != nil {
+                mainView
+
+            } else {
+                YouHaveNoShiftView(showHoursSheet: $viewModel.showHoursSheet)
+            }
+        }
+
+        .environmentObject(viewModel)
+    }
+    
+    init() {
+        let appearance = UINavigationBarAppearance()
+            appearance.shadowColor = .clear
+            UINavigationBar.appearance().standardAppearance = appearance
+            UINavigationBar.appearance().scrollEdgeAppearance = appearance
+    }
+
+    var mainView: some View {
         ScrollView {
             VStack {
                 headerAndBar
-                Spacer()
-                    .frame(height: 24)
-                TodayViewInfoRects()
-                    .padding(.horizontal)
+                Group {
+                    Spacer()
+                        .frame(height: 24)
+                    TodayViewInfoRects()
 
-                Spacer()
-                    .frame(height: 24)
+                    Spacer()
+                        .frame(height: 24)
 
-                if !viewModel.nonZeroPayoffItems.isEmpty {
-                    TodayPaidOffStackWithHeader()
-                        .padding(.horizontal)
+                    if !viewModel.nonZeroPayoffItems.isEmpty {
+                        TodayPaidOffStackWithHeader()
+                    }
+                    Spacer()
+                        .frame(height: 24)
+
+                    TodayViewItemizedBlocks()
+
+                    Spacer()
                 }
-                Spacer()
-                    .frame(height: 24)
-
-                TodayViewItemizedBlocks()
-                    .padding(.horizontal)
+                .padding(.horizontal)
             }
             .background(Color.targetGray)
             .frame(maxHeight: .infinity)
         }
-
-        .background {
-            VStack {
-                Color(hex: "003DFF")
-                    .frame(height: 355)
-                Color.targetGray
-            }
-            .ignoresSafeArea(edges: .top)
-            .frame(maxHeight: .infinity)
+        .safeAreaInset(edge: .top, content: {
+            Color(hex: "003DFF")
+                .frame(height: 75).ignoresSafeArea()
+        })
+        .confirmationDialog("Delete shift?",
+                            isPresented: $viewModel.showDeleteConfirmation,
+                            titleVisibility: .visible) {
+            Button("Confirm", role: .destructive, action: viewModel.deleteShift)
         }
+        .background(background)
         .onReceive(viewModel.timer) { _ in
             viewModel.addSecond()
         }
-        .environmentObject(viewModel)
         .sheet(isPresented: $viewModel.showHoursSheet) {
             SelectHours()
         }
         .onAppear(perform: viewModel.user.updateTempQueue)
-        //        .putInTemplate()
         .bottomBanner(isVisible: $viewModel.showBanner,
                       mainText: "Shift Complete!",
                       buttonText: "Save",
-                      destination: {
-                          CompletedShiftSummary()
+                      buttonAction: {
+                          viewModel.navManager.todayViewNavPath.append(NavManager.TodayViewDestinations.confirmShift)
                       }, onDismiss: {
                           viewModel.saveBannerWasDismissed = true
                       })
 
-        .bottomButton(label: "Save Shift") {
-            viewModel.navManager.todayViewNavPath.append("s")
+        .navigationDestination(for: NavManager.TodayViewDestinations.self) {
+            viewModel.navManager.getDestinationViewForTodayViewStack(destination: $0)
         }
-        .navigationDestination(for: NavManager.TodayViewDestinations.self) { destination in
-            switch destination {
-                case .confirmShift:
-                    ConfirmTodayShift().environmentObject(viewModel)
-                case .payoffQueue:
-                    PayoffQueueView().environmentObject(viewModel)
-                case let .timeBlockDetail(block):
-                    TimeBlockDetailView(block: block).environmentObject(viewModel)
-                case let .goalDetail(goal):
-                    GoalDetailView(goal: goal).environmentObject(viewModel)
-                case let .expenseDetail(expense):
-                    ExpenseDetailView(expense: expense).environmentObject(viewModel)
-                case let .newTimeBlock(todayShift):
-                    CreateNewTimeBlockView(todayShift: todayShift).environmentObject(viewModel)
-            }
-        }
+        
+//        .navigationTitle("Today Shift")
+//        .navigationBarTitleDisplayMode(.inline)
+//        .toolbarBackground(Color.blue.opacity(0.5))
+//        .toolbarColorScheme(.dark, for: .navigationBar)
+//        .toolbarBackground(.visible, for: .navigationBar)
     }
 
     var headerAndBar: some View {
         VStack {
             VStack(spacing: -30) {
                 TodayViewHeader()
+
                 TodayViewProgressBarAndLabels()
                     .padding(.horizontal)
             }
@@ -109,10 +112,14 @@ struct NewTodayView: View {
         }
     }
 
-    var infoRects: some View {
-        HStack {
-            TodayViewInfoRect(imageName: "hourglass", valueString: viewModel.remainingTime.breakDownTime(), bottomLabel: "Remaining")
+    var background: some View {
+        VStack {
+            Color(hex: "003DFF")
+                .frame(height: 355)
+            Color.targetGray
         }
+        .ignoresSafeArea(edges: .top)
+        .frame(maxHeight: .infinity)
     }
 }
 

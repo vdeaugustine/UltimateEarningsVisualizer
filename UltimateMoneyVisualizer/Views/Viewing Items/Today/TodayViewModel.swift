@@ -34,6 +34,9 @@ class TodayViewModel: ObservableObject {
     @Published var showHoursSheet = false
     @Published var saveBannerWasDismissed = false
     @Published var paidOffStackIsExpanded = false
+    @Published var showDeleteConfirmation = false
+    @Published var completedShiftTempPayoffs: [TempTodayPayoff] = []
+    @Published var todayViewCurrentScrollOffset: CGFloat = 0
 
     // MARK: - Observed Objects
 
@@ -114,12 +117,24 @@ class TodayViewModel: ObservableObject {
 
     // MARK: Spending
 
+    var goalPayoffItems: [TempTodayPayoff] {
+        tempPayoffs.lazy.filter { $0.type == .goal && $0.amountPaidOff > 0.01 }
+    }
+
+    var expensePayoffItems: [TempTodayPayoff] {
+        tempPayoffs.lazy.filter { $0.type == .expense && $0.amountPaidOff > 0.01 }
+    }
+
     var spentOnExpenses: Double {
         tempPayoffs.lazy.filter { $0.type == .expense }.reduce(Double.zero) { $0 + $1.progressAmount }
     }
 
     var spentOnGoals: Double {
         tempPayoffs.lazy.filter { $0.type == .goal }.reduce(Double.zero) { $0 + $1.progressAmount }
+    }
+
+    var spentOnPayoffItems: Double {
+        spentOnExpenses + spentOnGoals
     }
 
     var spentTotal: Double {
@@ -242,13 +257,21 @@ class TodayViewModel: ObservableObject {
 
     func addSecond() {
         nowTime = .now
-        if let shift = user.todayShift,
-           let endTime = shift.endTime,
-           !saveBannerWasDismissed {
-            if nowTime > endTime {
-                showBanner = true
-            }
+        if !saveBannerWasDismissed {
+            showBanner = shiftIsOver
         }
+    }
+
+    var shiftIsOver: Bool {
+        if let shift = user.todayShift,
+           let endTime = shift.endTime {
+            return nowTime >= endTime
+        }
+        return false
+    }
+
+    func tappedDeleteAction() {
+        showDeleteConfirmation.toggle()
     }
 
     func deleteShift() {
@@ -299,8 +322,23 @@ class TodayViewModel: ObservableObject {
         return spentItems
     }
 
+    func getPayoffItems(type: PayoffType) -> [TempTodayPayoff]? {
+        let filtered = tempPayoffs.filter { $0.type == type && $0.amountPaidOff > 0.01 }
+        if filtered.isEmpty { return nil }
+        return filtered
+    }
+    
+    func getPayoffListsHeight(forCount itemCount: Int) -> CGFloat? {
+        let count = CGFloat(itemCount)
+        let spaces = count - 1
+        let heightOfRect: CGFloat = 110
+        let heightOfSpace: CGFloat = 10
+        return ((heightOfRect * CGFloat(count)) + CGFloat(count) * heightOfSpace  + 70)
+    }
+
     func saveShift() {
-        navManager.todayViewNavPath.append(NavManager.AllViews.confirmToday)
+        completedShiftTempPayoffs = tempPayoffs.filter { $0.progressAmount >= 0.01 }
+        navManager.todayViewNavPath.append(NavManager.TodayViewDestinations.confirmShift)
     }
 
     func timeUntilShiftString() -> String {
@@ -374,7 +412,7 @@ extension TodayViewModel {
     enum ProgressType: String {
         case expenses, goals, taxes, unspent, willPayTaxes
     }
-    
+
     struct StartAndEnd: Hashable {
         let start: Date
         let end: Date
@@ -524,5 +562,12 @@ extension TodayViewModel {
             }
         }
         return false
+    }
+
+    struct ScrollOffsetKey: PreferenceKey {
+        static var defaultValue: CGFloat = 0
+        static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+            value = nextValue()
+        }
     }
 }

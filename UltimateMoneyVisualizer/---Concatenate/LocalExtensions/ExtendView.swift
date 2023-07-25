@@ -9,6 +9,26 @@ import Foundation
 import SwiftUI
 import Vin
 
+extension ScrollView {
+    func readScrollPosition<P: PreferenceKey>(preference: P.Type) -> some View  {
+        overlay(
+            GeometryReader { geometry in
+                Color.clear
+//                    .onChange(of: geometry.frame(in: .named("scrollView")).minY) { newValue in
+//                        offset.wrappedValue = newValue
+//                    }
+                    
+
+                    .preference(key: P.self,
+                                value: geometry.frame(in: .named("scrollView")).minY as! P.Value)
+            }
+            .frame(height: 0)
+        )
+        .coordinateSpace(name: "scrollView")
+        
+    }
+}
+
 extension View {
     // Main function
     func putInTemplate() -> some View {
@@ -26,7 +46,7 @@ extension View {
             .accentColor(User.main.getSettings().themeColor)
             .tint(User.main.getSettings().themeColor)
     }
-    
+
     func templateForPreview() -> some View {
         ZStack {
             Color.listBackgroundColor
@@ -111,8 +131,8 @@ extension View {
     func background(_ color: Color, cornerRadius: CGFloat, shadow: CGFloat = 1, padding: CGFloat = 5) -> some View {
         self.padding(padding)
             .background(RoundedRectangle(cornerRadius: cornerRadius)
-            .foregroundColor(color)
-            .shadow(radius: shadow))
+                .foregroundColor(color)
+                .shadow(radius: shadow))
     }
 }
 

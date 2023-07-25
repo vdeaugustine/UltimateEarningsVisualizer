@@ -70,4 +70,22 @@ class NavManager: ObservableObject {
              goalDetail(Goal),
              expenseDetail(Expense)
     }
+    
+    
+    @ViewBuilder func getDestinationViewForTodayViewStack (destination: NavManager.TodayViewDestinations) -> some View {
+        switch destination {
+            case .confirmShift:
+                CompletedShiftSummary().environmentObject(TodayViewModel.main)
+            case .payoffQueue:
+                PayoffQueueView()
+            case let .timeBlockDetail(block):
+                TimeBlockDetailView(block: block)
+            case let .goalDetail(goal):
+                GoalDetailView(goal: goal)
+            case let .expenseDetail(expense):
+                ExpenseDetailView(expense: expense)
+            case let .newTimeBlock(todayShift):
+                CreateNewTimeBlockView(todayShift: todayShift)
+        }
+    }
 }

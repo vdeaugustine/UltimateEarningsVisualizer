@@ -14,23 +14,17 @@ struct CompletedShiftSummary: View {
 
     @State private var tempPayoffs: [TempTodayPayoff] = []
 
-    
-
     var body: some View {
         List {
-            Text("Today's Shift Summary")
-                .font(.title)
-
             ForEach(tempPayoffs) { payoff in
-                HStack {
-                    Text(payoff.title)
-                    Spacer()
-                    Text("$\(payoff.amountPaidOff, specifier: "%.2f")")
-                }
+                TodayViewPaidOffRect(item: payoff)
             }
+
             .onDelete(perform: { indexSet in
                 tempPayoffs.remove(atOffsets: indexSet)
             })
+            .listRowBackground(Color.clear)
+            .listRowSeparator(.hidden)
 
             Button("Create Allocations") {
                 let shift: Shift
@@ -55,13 +49,17 @@ struct CompletedShiftSummary: View {
                 }
                 // TODO: - if a problem is being had for saving, check here
 //                try user.managedObjectContext?.save()
-                
+
                 print("Successfully saved")
             }
         }
+        .background(Color.targetGray)
+        .listStyle(.plain)
         .onAppear(perform: {
             self.tempPayoffs = viewModel.tempPayoffs.filter { $0.progressAmount >= 0.01 }
         })
+        .navigationTitle("Today's Shift Summary")
+        .toolbarBackground(Color(hex: "003DFF"))
     }
 }
 
@@ -69,7 +67,9 @@ struct CompletedShiftSummary: View {
 
 struct CompletedShiftSummary_Previews: PreviewProvider {
     static var previews: some View {
-        CompletedShiftSummary()
-            .environmentObject(TodayViewModel.main)
+        NavigationStack {
+            CompletedShiftSummary()
+                .environmentObject(TodayViewModel.main)
+        }
     }
 }

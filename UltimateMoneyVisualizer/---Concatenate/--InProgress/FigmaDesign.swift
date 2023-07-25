@@ -6,91 +6,59 @@
 //
 
 import SwiftUI
+import Vin
 
-// MARK: - FigmaDesign
+// MARK: - ScrollReaderTesting
 
-struct FigmaDesign: View {
+struct ScrollReaderTesting: View {
+    @State private var offset: CGFloat = 0
+
     var body: some View {
-        ZStack {
-            Rectangle()
-                .foregroundColor(.clear)
-                .frame(width: 144, height: 101)
-                .background(
-                    LinearGradient(stops: [Gradient.Stop(color: Color(red: 0.15,
-                                                                      green: 0.15,
-                                                                      blue: 0.15),
-                                                         location: 0.00),
-                                           Gradient.Stop(color: Color(red: 0.16,
-                                                                      green: 0.16,
-                                                                      blue: 0.16),
-                                                         location: 0.69),
-                                           Gradient.Stop(color: Color(red: 0.25,
-                                                                      green: 0.25,
-                                                                      blue: 0.25),
-                                                         location: 1.00)],
-                                   startPoint: UnitPoint(x: -0.37, y: -0.24),
-                                   endPoint: UnitPoint(x: 2.66, y: 2.06))
-                )
-                .cornerRadius(18)
+        ScrollView {
+            GeometryReader { geometry in
+                Color.clear.preference(key: ViewOffsetKey.self, value: geometry.frame(in: .named("scrollView")).minY)
+            }
+            .frame(height: 0)
 
-            VStack {
-                Text("Earned")
-                    .font(
-                        Font.custom("Avenir", size: 12)
-                            .weight(.medium)
-                    )
-                    .foregroundColor(.white)
-
-                Text("$124")
-                    .font(Font.custom("Avenir", size: 22))
-                    .foregroundColor(.white)
-
-                Text("Dollars")
-                    .font(Font.custom("Avenir", size: 10))
-                    .foregroundColor(.gray)
+            ForEach(1 ... 100, id: \.self) { _ in
+                Text("Item")
+                    .padding()
+                    .background(Color.gray.opacity(0.1))
             }
         }
-        .frame(width: 430, height: 932)
-        .background(
-            LinearGradient(stops: [Gradient.Stop(color: Color(red: 0.02,
-                                                              green: 0.05,
-                                                              blue: 0.13),
-                                                 location: 0.00),
-                                   Gradient.Stop(color: Color(red: 0.01,
-                                                              green: 0.02,
-                                                              blue: 0.05),
-                                                 location: 0.35),
-                                   Gradient.Stop(color: Color(red: 0.01,
-                                                              green: 0.01,
-                                                              blue: 0.03),
-                                                 location: 0.48),
-                                   Gradient.Stop(color: Color(red: 0,
-                                                              green: 0.01,
-                                                              blue: 0.02),
-                                                 location: 0.58),
-                                   Gradient.Stop(color: Color(red: 0,
-                                                              green: 0.01,
-                                                              blue: 0.01),
-                                                 location: 0.69),
-                                   Gradient.Stop(color: Color(red: 0,
-                                                              green: 0,
-                                                              blue: 0.01),
-                                                 location: 0.79),
-                                   Gradient.Stop(
-                                       color: .black,
-                                       location: 0.93
-                                   )],
-                           startPoint: UnitPoint(x: 0.5, y: -0.34),
-                           endPoint: UnitPoint(x: 0.5, y: 1))
+        .coordinateSpace(name: "scrollView")
+        .onPreferenceChange(ViewOffsetKey.self) { offset in
+            self.offset = offset
+        }
+        .overlay(
+            Group {
+                if offset < -200 {
+                    ZStack {
+                        Rectangle()
+                            .fill(Color.blue)
+                            .frame(width: 100, height: 100)
+                        Text("\(Int(offset))")
+                            .foregroundColor(.white)
+                    }
+                }
+            }
         )
-        .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
     }
 }
 
-// MARK: - FigmaDesign_Previews
+// MARK: - ViewOffsetKey
 
-struct FigmaDesign_Previews: PreviewProvider {
+struct ViewOffsetKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
+    }
+}
+
+// MARK: - ScrollReaderTesting_Previews
+
+struct ScrollReaderTesting_Previews: PreviewProvider {
     static var previews: some View {
-        FigmaDesign()
+        ScrollReaderTesting()
     }
 }

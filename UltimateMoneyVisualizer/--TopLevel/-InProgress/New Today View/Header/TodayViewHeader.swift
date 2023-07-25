@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct TodayViewHeader: View {
+    @EnvironmentObject private var model: TodayViewModel
+    
     var body: some View {
         ZStack {
             TodayViewHeaderBackground()
             TodayViewHeaderContent()
+                .offset(y: model.shiftIsOver ? -10 : 0)
         }
     }
 }

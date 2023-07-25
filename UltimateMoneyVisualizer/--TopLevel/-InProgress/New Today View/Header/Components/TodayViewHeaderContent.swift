@@ -33,18 +33,20 @@ struct TodayViewHeaderContent: View {
                     }
                 }
 
-                ZStack {
-                    Image(systemName: "gearshape.fill")
-                        .font(.system(size: 20))
-                        .padding(10)
-                        .background {
-                            Circle()
-                                .fill(Color(hex: "3F63F3"))
+                VStack(spacing: 4) {
+                    HeaderButton(imageName: "gearshape.fill") {
+                        viewModel.showHoursSheet.toggle()
+                    }
+                    
+                    HeaderButton(imageName: "minus.circle.fill") {
+                        viewModel.tappedDeleteAction()
+                    }
+                    
+                    if viewModel.shiftIsOver {
+                        HeaderButton(imageName: "square.and.arrow.down.fill") {
+                            viewModel.navManager.todayViewNavPath.append(NavManager.TodayViewDestinations.confirmShift)
                         }
-                        .frame(width: 48, height: 48)
-                        .onTapGesture {
-                            viewModel.showHoursSheet.toggle()
-                        }
+                    }
                 }
             }
             .foregroundStyle(Color.white)
@@ -86,5 +88,27 @@ extension Font {
         case regular = "Regular"
         case thin = "Thin"
         case thinItalic = "ThinItalic"
+    }
+}
+
+// MARK: - HeaderButton
+
+struct HeaderButton: View {
+    let imageName: String
+//    let widthHeight: CGFloat = 48
+    let action: () -> Void
+
+    var body: some View {
+        ZStack {
+            Image(systemName: imageName)
+                .font(.system(size: 20))
+                .padding(10)
+                .background {
+                    Circle()
+                        .fill(Color(hex: "3F63F3"))
+                }
+//                .frame(width: widthHeight, height: widthHeight)
+                .onTapGesture(perform: action)
+        }
     }
 }
