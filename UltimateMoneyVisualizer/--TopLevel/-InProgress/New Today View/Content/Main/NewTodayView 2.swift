@@ -23,9 +23,7 @@ struct NewTodayView: View {
                 YouHaveNoShiftView(showHoursSheet: $viewModel.showHoursSheet)
             }
         }
-        .sheet(isPresented: $viewModel.showHoursSheet) {
-            SelectHours()
-        }
+        .sheet(isPresented: $viewModel.showHoursSheet) { SelectHours() }
         .environmentObject(viewModel)
     }
 
@@ -100,7 +98,7 @@ struct NewTodayView: View {
 
     var headerAndBar: some View {
         VStack {
-            VStack(spacing: -20) {
+            VStack(spacing: -30) {
                 TodayViewHeader()
 
                 TodayViewProgressBarAndLabels()

@@ -67,7 +67,7 @@ struct TodayViewHeaderBackground: View {
                 .foregroundStyle(Color(hex: "3060FE"))
         }
 
-        .frame(height: 237)
+        .frame(height: 190)
         .frame(maxWidth: .infinity)
     }
 }
