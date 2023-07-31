@@ -20,30 +20,34 @@ struct ContentView: View {
     @State private var lastTab: Tabs = .home
 
     var body: some View {
-//        NewTodayView()
-//        TabView(selection: $tab.onUpdate(ifNoChange: navManager.sameTabTapped)) {
-//            NavigationStack(path: $navManager.homeNavPath) {
-//                HomeView()
-//                    .id(navManager.scrollViewID)
-//            }
-//            .makeTab(tab: Tabs.home, systemImage: "house")
+        TabView(selection: $tab.onUpdate(ifNoChange: navManager.sameTabTapped)) {
+            NavigationStack(path: $navManager.homeNavPath) {
+                HomeView()
+                    .id(navManager.scrollViewID)
+            }
+            .makeTab(tab: Tabs.home, systemImage: "house")
+            
+            NavigationStack(path: $navManager.homeNavPath) {
+                NewHomeView()
+                    .id(navManager.scrollViewID)
+            }
+            .makeTab(tab: Tabs.newHome, systemImage: "house")
+
+            AllItemsView()
+                .putInNavView(.inline)
+                .makeTab(tab: Tabs.allItems, systemImage: "dollarsign")
 //
-//            AllItemsView()
-//                .putInNavView(.inline)
-//                .makeTab(tab: Tabs.allItems, systemImage: "dollarsign")
-//
-        NavigationStack(path: $navManager.todayViewNavPath) {
-            NewTodayView()
+            NavigationStack(path: $navManager.todayViewNavPath) {
+                NewTodayView()
+            }
+            .toolbarColorScheme(.dark, for: .navigationBar)
+            .makeTab(tab: Tabs.today, systemImage: "bolt.shield")
+
+            SettingsView()
+                .putInNavView(.inline)
+                .makeTab(tab: Tabs.settings, systemImage: "gear")
         }
-//            .toolbarColorScheme(.dark, for: .navigationBar)
-//            .makeTab(tab: Tabs.today, systemImage: "bolt.shield")
-//
-//
-//            SettingsView()
-//                .putInNavView(.inline)
-//                .makeTab(tab: Tabs.settings, systemImage: "gear")
-//        }
-//        .tint(settings.themeColor)
+        .tint(settings.themeColor)
     }
 }
 

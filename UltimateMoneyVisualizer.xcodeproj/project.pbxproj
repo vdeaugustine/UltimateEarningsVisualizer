@@ -15,6 +15,21 @@
 		9C05059E2A10B0B500FC6511 /* SetHoursForRegularDaysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C05059D2A10B0B500FC6511 /* SetHoursForRegularDaysView.swift */; };
 		9C0505A12A11EBF700FC6511 /* ConfirmTodayShift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0505A02A11EBF700FC6511 /* ConfirmTodayShift.swift */; };
 		9C0505A32A13043F00FC6511 /* DatesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0505A22A13043F00FC6511 /* DatesTests.swift */; };
+		9C07096C2A7779D500A324BA /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C07095F2A7779D500A324BA /* Roboto-Medium.ttf */; };
+		9C07096D2A7779D500A324BA /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C0709602A7779D500A324BA /* Roboto-Light.ttf */; };
+		9C07096E2A7779D500A324BA /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C0709612A7779D500A324BA /* Roboto-Regular.ttf */; };
+		9C07096F2A7779D500A324BA /* Roboto-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C0709622A7779D500A324BA /* Roboto-MediumItalic.ttf */; };
+		9C0709702A7779D500A324BA /* Roboto-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C0709632A7779D500A324BA /* Roboto-ThinItalic.ttf */; };
+		9C0709712A7779D500A324BA /* Roboto-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C0709642A7779D500A324BA /* Roboto-BoldItalic.ttf */; };
+		9C0709722A7779D500A324BA /* Roboto-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C0709652A7779D500A324BA /* Roboto-LightItalic.ttf */; };
+		9C0709732A7779D500A324BA /* Roboto-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C0709662A7779D500A324BA /* Roboto-Italic.ttf */; };
+		9C0709742A7779D500A324BA /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9C0709672A7779D500A324BA /* LICENSE.txt */; };
+		9C0709752A7779D500A324BA /* Roboto-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C0709682A7779D500A324BA /* Roboto-BlackItalic.ttf */; };
+		9C0709762A7779D500A324BA /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C0709692A7779D500A324BA /* Roboto-Bold.ttf */; };
+		9C0709772A7779D500A324BA /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C07096A2A7779D500A324BA /* Roboto-Thin.ttf */; };
+		9C0709782A7779D500A324BA /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C07096B2A7779D500A324BA /* Roboto-Black.ttf */; };
+		9C07097A2A77855A00A324BA /* PayoffQueueView_HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0709792A77855A00A324BA /* PayoffQueueView_HomeView.swift */; };
+		9C0CCC042A77525300BA855D /* NewHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0CCC032A77525300BA855D /* NewHomeView.swift */; };
 		9C0CFCD92A5A70CC005C7C81 /* ExpenseGridBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0CFCD82A5A70CC005C7C81 /* ExpenseGridBlock.swift */; };
 		9C0CFCDB2A5A7B08005C7C81 /* ExpenseGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0CFCDA2A5A7B08005C7C81 /* ExpenseGrid.swift */; };
 		9C0CFCDE2A5BC2A1005C7C81 /* NavManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0CFCDD2A5BC2A1005C7C81 /* NavManager.swift */; };
@@ -115,13 +130,13 @@
 		9C7F96A229F8FE6700F5035C /* Vin in Frameworks */ = {isa = PBXBuildFile; productRef = 9C7F96A129F8FE6700F5035C /* Vin */; };
 		9C7F96A629F8FF0100F5035C /* CreateExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F96A529F8FF0100F5035C /* CreateExpenseView.swift */; };
 		9C7F96A929F9004000F5035C /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 9C7F96A829F9004000F5035C /* AlertToast */; };
-		9C827DFE2A69E7A8007F832B /* ColorTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C827DFD2A69E7A8007F832B /* ColorTester.swift */; };
 		9C860F802A667AA100D834C4 /* TodayViewHeaderBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C860F7F2A667AA100D834C4 /* TodayViewHeaderBackground.swift */; };
 		9C860F832A67836300D834C4 /* TodayViewHeaderContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C860F822A67836300D834C4 /* TodayViewHeaderContent.swift */; };
 		9C8937502A6A6E6B009339B2 /* SelectHoursSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C89374F2A6A6E6B009339B2 /* SelectHoursSheet.swift */; };
 		9C9735942A0D795600F651A1 /* AllocationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9735932A0D795600F651A1 /* AllocationDetailView.swift */; };
 		9C9735962A0D84D500F651A1 /* ExtendText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9735952A0D84D500F651A1 /* ExtendText.swift */; };
 		9C9735982A0D9B9000F651A1 /* NetMoneyGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9735972A0D9B9000F651A1 /* NetMoneyGraph.swift */; };
+		9C98C2702A777783005CE028 /* TotalItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C98C26F2A777783005CE028 /* TotalItem.swift */; };
 		9C9FFB1D2A577E1000565B78 /* PayPeriodSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9FFB1C2A577E1000565B78 /* PayPeriodSettingsViewModel.swift */; };
 		9C9FFB1F2A57C59700565B78 /* PayPeriodsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9FFB1E2A57C59700565B78 /* PayPeriodsView.swift */; };
 		9C9FFB212A57C60900565B78 /* PayPeriodsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9FFB202A57C60900565B78 /* PayPeriodsViewModel.swift */; };
@@ -229,6 +244,21 @@
 		9C05059D2A10B0B500FC6511 /* SetHoursForRegularDaysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetHoursForRegularDaysView.swift; sourceTree = "<group>"; };
 		9C0505A02A11EBF700FC6511 /* ConfirmTodayShift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmTodayShift.swift; sourceTree = "<group>"; };
 		9C0505A22A13043F00FC6511 /* DatesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatesTests.swift; sourceTree = "<group>"; };
+		9C07095F2A7779D500A324BA /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
+		9C0709602A7779D500A324BA /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Light.ttf"; sourceTree = "<group>"; };
+		9C0709612A7779D500A324BA /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		9C0709622A7779D500A324BA /* Roboto-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-MediumItalic.ttf"; sourceTree = "<group>"; };
+		9C0709632A7779D500A324BA /* Roboto-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-ThinItalic.ttf"; sourceTree = "<group>"; };
+		9C0709642A7779D500A324BA /* Roboto-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-BoldItalic.ttf"; sourceTree = "<group>"; };
+		9C0709652A7779D500A324BA /* Roboto-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-LightItalic.ttf"; sourceTree = "<group>"; };
+		9C0709662A7779D500A324BA /* Roboto-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Italic.ttf"; sourceTree = "<group>"; };
+		9C0709672A7779D500A324BA /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		9C0709682A7779D500A324BA /* Roboto-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-BlackItalic.ttf"; sourceTree = "<group>"; };
+		9C0709692A7779D500A324BA /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
+		9C07096A2A7779D500A324BA /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
+		9C07096B2A7779D500A324BA /* Roboto-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Black.ttf"; sourceTree = "<group>"; };
+		9C0709792A77855A00A324BA /* PayoffQueueView_HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayoffQueueView_HomeView.swift; sourceTree = "<group>"; };
+		9C0CCC032A77525300BA855D /* NewHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHomeView.swift; sourceTree = "<group>"; };
 		9C0CFCD82A5A70CC005C7C81 /* ExpenseGridBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseGridBlock.swift; sourceTree = "<group>"; };
 		9C0CFCDA2A5A7B08005C7C81 /* ExpenseGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseGrid.swift; sourceTree = "<group>"; };
 		9C0CFCDD2A5BC2A1005C7C81 /* NavManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NavManager.swift; path = "UltimateMoneyVisualizer/--TopLevel/NavManager.swift"; sourceTree = SOURCE_ROOT; };
@@ -331,13 +361,13 @@
 		9C7F969729F8FE3500F5035C /* ExtendAllocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendAllocation.swift; sourceTree = "<group>"; };
 		9C7F969829F8FE3500F5035C /* ExtendSaved.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendSaved.swift; sourceTree = "<group>"; };
 		9C7F96A529F8FF0100F5035C /* CreateExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateExpenseView.swift; sourceTree = "<group>"; };
-		9C827DFD2A69E7A8007F832B /* ColorTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ColorTester.swift; path = "UltimateMoneyVisualizer/--TopLevel/-InProgress/New Today View/Content/Main/ColorTester.swift"; sourceTree = SOURCE_ROOT; };
 		9C860F7F2A667AA100D834C4 /* TodayViewHeaderBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewHeaderBackground.swift; sourceTree = "<group>"; };
 		9C860F822A67836300D834C4 /* TodayViewHeaderContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewHeaderContent.swift; sourceTree = "<group>"; };
 		9C89374F2A6A6E6B009339B2 /* SelectHoursSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectHoursSheet.swift; sourceTree = SOURCE_ROOT; };
 		9C9735932A0D795600F651A1 /* AllocationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AllocationDetailView.swift; path = "UltimateMoneyVisualizer/Views/Viewing Items/Allocations/AllocationDetailView.swift"; sourceTree = SOURCE_ROOT; };
 		9C9735952A0D84D500F651A1 /* ExtendText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendText.swift; sourceTree = "<group>"; };
 		9C9735972A0D9B9000F651A1 /* NetMoneyGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetMoneyGraph.swift; sourceTree = "<group>"; };
+		9C98C26F2A777783005CE028 /* TotalItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalItem.swift; sourceTree = "<group>"; };
 		9C9FFB1C2A577E1000565B78 /* PayPeriodSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PayPeriodSettingsViewModel.swift; path = "UltimateMoneyVisualizer/Views/Viewing Items/Pay Period/PayPeriodSettingsViewModel.swift"; sourceTree = SOURCE_ROOT; };
 		9C9FFB1E2A57C59700565B78 /* PayPeriodsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PayPeriodsView.swift; path = "UltimateMoneyVisualizer/Views/Viewing Items/Pay Period/PayPeriodsView.swift"; sourceTree = SOURCE_ROOT; };
 		9C9FFB202A57C60900565B78 /* PayPeriodsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPeriodsViewModel.swift; sourceTree = "<group>"; };
@@ -463,6 +493,51 @@
 				9C7C984029F9F7B20077EA25 /* AllSchedulesView.swift */,
 			);
 			path = Deprecated;
+			sourceTree = "<group>";
+		};
+		9C07095E2A7779D500A324BA /* Roboto */ = {
+			isa = PBXGroup;
+			children = (
+				9C07095F2A7779D500A324BA /* Roboto-Medium.ttf */,
+				9C0709602A7779D500A324BA /* Roboto-Light.ttf */,
+				9C0709612A7779D500A324BA /* Roboto-Regular.ttf */,
+				9C0709622A7779D500A324BA /* Roboto-MediumItalic.ttf */,
+				9C0709632A7779D500A324BA /* Roboto-ThinItalic.ttf */,
+				9C0709642A7779D500A324BA /* Roboto-BoldItalic.ttf */,
+				9C0709652A7779D500A324BA /* Roboto-LightItalic.ttf */,
+				9C0709662A7779D500A324BA /* Roboto-Italic.ttf */,
+				9C0709672A7779D500A324BA /* LICENSE.txt */,
+				9C0709682A7779D500A324BA /* Roboto-BlackItalic.ttf */,
+				9C0709692A7779D500A324BA /* Roboto-Bold.ttf */,
+				9C07096A2A7779D500A324BA /* Roboto-Thin.ttf */,
+				9C07096B2A7779D500A324BA /* Roboto-Black.ttf */,
+			);
+			path = Roboto;
+			sourceTree = "<group>";
+		};
+		9C0CCC052A776D5600BA855D /* NewHomeView */ = {
+			isa = PBXGroup;
+			children = (
+				9C0CCC072A776DA100BA855D /* Components */,
+				9C0CCC062A776D5D00BA855D /* Main */,
+			);
+			path = NewHomeView;
+			sourceTree = "<group>";
+		};
+		9C0CCC062A776D5D00BA855D /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				9C0CCC032A77525300BA855D /* NewHomeView.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		9C0CCC072A776DA100BA855D /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				9C98C26F2A777783005CE028 /* TotalItem.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		9C0CFCD72A5A7050005C7C81 /* Pay Period */ = {
@@ -657,6 +732,7 @@
 		9C7F964E29F8F03C00F5035C = {
 			isa = PBXGroup;
 			children = (
+				9C0709792A77855A00A324BA /* PayoffQueueView_HomeView.swift */,
 				9C7F965929F8F03C00F5035C /* UltimateMoneyVisualizer */,
 				9C7F965829F8F03C00F5035C /* Products */,
 				9C7F967029F8F03E00F5035C /* UltimateMoneyVisualizerTests */,
@@ -678,8 +754,8 @@
 			isa = PBXGroup;
 			children = (
 				9CFDAED82A65B3890098202B /* TodayViewDetailsSection.swift */,
-				9CB960612A5FC8FC001F153A /* ---Concatenate */,
 				9C7F96A329F8FEB000F5035C /* --TopLevel */,
+				9CB960612A5FC8FC001F153A /* ---Concatenate */,
 				9C4F0A282A14534100C78349 /* UltimateMoneyVisualizer.entitlements */,
 				9C7F966829F8F03E00F5035C /* Info.plist */,
 				9CDD4E2A2A67C10D00AB8B4F /* Fonts */,
@@ -780,10 +856,8 @@
 		9C7F96A329F8FEB000F5035C /* --TopLevel */ = {
 			isa = PBXGroup;
 			children = (
-				9C7F96A429F8FEEB00F5035C /* -InProgress */,
 				9C7F965C29F8F03C00F5035C /* ContentView.swift */,
 				9C7F965A29F8F03C00F5035C /* UltimateMoneyVisualizerApp.swift */,
-				9C0CFCE52A5D0CAC005C7C81 /* TestingChatGPTUI.swift */,
 			);
 			path = "--TopLevel";
 			sourceTree = "<group>";
@@ -791,7 +865,9 @@
 		9C7F96A429F8FEEB00F5035C /* -InProgress */ = {
 			isa = PBXGroup;
 			children = (
-				9C860F7E2A667A6800D834C4 /* New Today View */,
+				9C0CCC052A776D5600BA855D /* NewHomeView */,
+				9C0CFCE52A5D0CAC005C7C81 /* TestingChatGPTUI.swift */,
+				9C7016A52A6115630038E2A6 /* FigmaDesign.swift */,
 				9CB960632A5FD60F001F153A /* CompletedShiftSummary.swift */,
 				9C0505A02A11EBF700FC6511 /* ConfirmTodayShift.swift */,
 				9CDBE0E52A2520D200741EEE /* CustomStatsView.swift */,
@@ -895,20 +971,11 @@
 		9CB960612A5FC8FC001F153A /* ---Concatenate */ = {
 			isa = PBXGroup;
 			children = (
-				9CB960622A5FD5EE001F153A /* --InProgress */,
+				9C7F96A429F8FEEB00F5035C /* -InProgress */,
 				9CEEE32929F90432001FA4FB /* LocalExtensions */,
 				9CEEE33D29F9099D001FA4FB /* Model */,
 			);
 			path = "---Concatenate";
-			sourceTree = "<group>";
-		};
-		9CB960622A5FD5EE001F153A /* --InProgress */ = {
-			isa = PBXGroup;
-			children = (
-				9C827DFD2A69E7A8007F832B /* ColorTester.swift */,
-				9C7016A52A6115630038E2A6 /* FigmaDesign.swift */,
-			);
-			path = "--InProgress";
 			sourceTree = "<group>";
 		};
 		9CDBE0A82A2160BD00741EEE /* Tag */ = {
@@ -931,6 +998,7 @@
 		9CDD4E2A2A67C10D00AB8B4F /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				9C07095E2A7779D500A324BA /* Roboto */,
 				9CDD4E2B2A67C12500AB8B4F /* Lato */,
 			);
 			path = Fonts;
@@ -1094,6 +1162,7 @@
 		9CEEE32C29F904A0001FA4FB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9C860F7E2A667A6800D834C4 /* New Today View */,
 				9CEEE32D29F904A3001FA4FB /* Adding Items */,
 				9C7C985629FB72320077EA25 /* Components */,
 				9C05059F2A11E7B500FC6511 /* Deprecated */,
@@ -1374,17 +1443,30 @@
 			files = (
 				9CDD4E3A2A67C12500AB8B4F /* Lato-Bold.ttf in Resources */,
 				9CDD4E412A67C12500AB8B4F /* Lato-ThinItalic.ttf in Resources */,
+				9C0709722A7779D500A324BA /* Roboto-LightItalic.ttf in Resources */,
 				9CDD4E402A67C12500AB8B4F /* Lato-Light.ttf in Resources */,
 				9CDD4E3E2A67C12500AB8B4F /* OFL.txt in Resources */,
+				9C0709782A7779D500A324BA /* Roboto-Black.ttf in Resources */,
 				9C7F966229F8F03E00F5035C /* Preview Assets.xcassets in Resources */,
+				9C07096C2A7779D500A324BA /* Roboto-Medium.ttf in Resources */,
+				9C0709752A7779D500A324BA /* Roboto-BlackItalic.ttf in Resources */,
+				9C07096D2A7779D500A324BA /* Roboto-Light.ttf in Resources */,
 				9CDD4E3F2A67C12500AB8B4F /* Lato-BoldItalic.ttf in Resources */,
+				9C0709732A7779D500A324BA /* Roboto-Italic.ttf in Resources */,
 				9CDD4E3D2A67C12500AB8B4F /* Lato-BlackItalic.ttf in Resources */,
 				9CDD4E392A67C12500AB8B4F /* Lato-Thin.ttf in Resources */,
 				9CDD4E382A67C12500AB8B4F /* Lato-LightItalic.ttf in Resources */,
 				9CDD4E3C2A67C12500AB8B4F /* Lato-Regular.ttf in Resources */,
 				9CDD4E3B2A67C12500AB8B4F /* Lato-Black.ttf in Resources */,
 				9CF194D92A1C524A000F83A9 /* SFSymbolsNames.swift in Resources */,
+				9C0709762A7779D500A324BA /* Roboto-Bold.ttf in Resources */,
+				9C0709742A7779D500A324BA /* LICENSE.txt in Resources */,
+				9C07096E2A7779D500A324BA /* Roboto-Regular.ttf in Resources */,
 				9CDD4E372A67C12500AB8B4F /* Lato-Italic.ttf in Resources */,
+				9C0709702A7779D500A324BA /* Roboto-ThinItalic.ttf in Resources */,
+				9C07096F2A7779D500A324BA /* Roboto-MediumItalic.ttf in Resources */,
+				9C0709712A7779D500A324BA /* Roboto-BoldItalic.ttf in Resources */,
+				9C0709772A7779D500A324BA /* Roboto-Thin.ttf in Resources */,
 				9C7F965F29F8F03E00F5035C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1499,6 +1581,7 @@
 				9C0CFCE62A5D0CAC005C7C81 /* TestingChatGPTUI.swift in Sources */,
 				9C0CFCDB2A5A7B08005C7C81 /* ExpenseGrid.swift in Sources */,
 				9C460EE92A049DFA0007EBA9 /* StatsView.swift in Sources */,
+				9C07097A2A77855A00A324BA /* PayoffQueueView_HomeView.swift in Sources */,
 				9C7B5D5A2A202E8D00DBB877 /* CreateTagView.swift in Sources */,
 				9C7C985F29FCD5AB0077EA25 /* HorizontalDataDisplay.swift in Sources */,
 				9C3A7B302A2BD63300F2AC88 /* ExtendTimeBlock.swift in Sources */,
@@ -1511,8 +1594,8 @@
 				9C65A7612A00D4B900A5BCF1 /* ExpenseRow.swift in Sources */,
 				9C7F965B29F8F03C00F5035C /* UltimateMoneyVisualizerApp.swift in Sources */,
 				9C7F969929F8FE3500F5035C /* ExtendShift.swift in Sources */,
+				9C98C2702A777783005CE028 /* TotalItem.swift in Sources */,
 				9CDBE0E42A2462A200741EEE /* NewShiftView.swift in Sources */,
-				9C827DFE2A69E7A8007F832B /* ColorTester.swift in Sources */,
 				9C76B2EE2A56819C001E40FC /* NewItemCreationView.swift in Sources */,
 				9C514DAC29FF7359003DC43C /* HomePageSectionContainerModifier.swift in Sources */,
 				9CC5BE632A09C08C006A2262 /* TodayPayoffGrid.swift in Sources */,
@@ -1544,6 +1627,7 @@
 				9C9FFB252A57CD8700565B78 /* ExtendSection.swift in Sources */,
 				9C3F80C42A5949BE00FCF040 /* GPTPieChart.swift in Sources */,
 				9C860F832A67836300D834C4 /* TodayViewHeaderContent.swift in Sources */,
+				9C0CCC042A77525300BA855D /* NewHomeView.swift in Sources */,
 				9C7C986529FCF3B60077EA25 /* PieChart.swift in Sources */,
 				9CEEE35729F9E77F001FA4FB /* WageView.swift in Sources */,
 				9CEEE32B29F9044F001FA4FB /* ExtendView.swift in Sources */,

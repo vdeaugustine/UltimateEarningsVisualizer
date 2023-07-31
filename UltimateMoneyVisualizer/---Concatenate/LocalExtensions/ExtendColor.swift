@@ -44,4 +44,9 @@ extension Color {
     
     static let googleBlueLabelBackground = Color(hex: "E8F0FE")
     static let googleBlueLabelText = Color(hex: "2867D2")
+    
+    
+    static let textPrimary = Color("$text-primary")
+    static let textSecondary = Color("$text-secondary")
+    static let textOnColor = Color("$text-on-color")
 }

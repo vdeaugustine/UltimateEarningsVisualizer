@@ -47,12 +47,17 @@ class NavManager: ObservableObject {
                 break
             case .allItems:
                 break
+            case .newHome:
+                break
         }
     }
 
     enum Tabs: String, Hashable, CustomStringConvertible, Equatable {
         var description: String { rawValue.capitalized }
         case settings, expenses, home, shifts, today, addShifts, allItems
+        
+        // testing
+        case newHome
     }
 
     enum PossiblePaths: Hashable {
