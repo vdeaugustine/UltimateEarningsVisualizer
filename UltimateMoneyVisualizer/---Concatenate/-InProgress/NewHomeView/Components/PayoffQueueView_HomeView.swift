@@ -30,43 +30,54 @@ struct PayoffQueueView_HomeView: View {
         TabView {
             VStack(spacing: 0) {
                 if let item = payoffItemDisplayed {
-                    ImagePart(index: $index, item: item)
+                    ImagePart(index: $index)
                     InfoPart(item: item)
                 } else {
                     Text("No item found")
                 }
             }
-
         }
 
         .tabViewStyle(.page(indexDisplayMode: .always))
         .frame(height: 300)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+
         .background {
             Color.white
-
                 .shadow(color: .black.opacity(0.12), radius: 8, x: 0, y: 6)
         }
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .shadow(color: .black.opacity(0.12), radius: 8, x: 0, y: 6)
+        .padding(.horizontal)
     }
 
     struct ImagePart: View {
         @Binding var index: Int
         @State private var selectedIndex: Int = 0
-        let item: PayoffItem
         var body: some View {
             TabView(selection: $selectedIndex) {
                 ForEach(User.main.getQueue().indices, id: \.self) { queueIndex in
-                    Image("dollar3d")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .scaledToFill()
-                        .clipped()
-                        .id(queueIndex)
+
+                    if let item = User.main.getQueue().safeGet(at: queueIndex),
+                       let image = item.loadImageIfPresent() {
+                        Image(uiImage: image)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .scaledToFill()
+                            .clipped()
+                            .id(queueIndex)
+                    } else {
+                        Image("dollar3d")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .scaledToFill()
+                            .clipped()
+                            .id(queueIndex)
+                    }
                 }
             }
             .frame(height: 210)
             .tabViewStyle(.page(indexDisplayMode: .always))
-            .onChange(of: selectedIndex, perform: { value in
+            .onChange(of: selectedIndex, perform: { _ in
                 print(selectedIndex)
                 index = selectedIndex
             })
@@ -139,7 +150,6 @@ struct PayoffQueueView_HomeView: View {
 struct PayoffQueueView_HomeView_Previews: PreviewProvider {
     static var previews: some View {
         PayoffQueueView_HomeView()
-            .padding()
             .templateForPreview()
     }
 }

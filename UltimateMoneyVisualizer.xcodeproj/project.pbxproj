@@ -149,6 +149,7 @@
 		9CB418C42A0B2C81006F44AB /* EditSavedItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB418C32A0B2C81006F44AB /* EditSavedItemView.swift */; };
 		9CB418C62A0B616A006F44AB /* ExtendAlertToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB418C52A0B616A006F44AB /* ExtendAlertToast.swift */; };
 		9CB960642A5FD60F001F153A /* CompletedShiftSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB960632A5FD60F001F153A /* CompletedShiftSummary.swift */; };
+		9CC238E62A7853F400A92258 /* WageBreakdown_NewHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC238E52A7853F400A92258 /* WageBreakdown_NewHomeView.swift */; };
 		9CC5BE632A09C08C006A2262 /* TodayPayoffGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC5BE622A09C08C006A2262 /* TodayPayoffGrid.swift */; };
 		9CC65D942A20867800D81712 /* TagDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC65D932A20867800D81712 /* TagDetailView.swift */; };
 		9CD2F2E72A287E7B00718667 /* EnterPaycheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD2F2E62A287E7B00718667 /* EnterPaycheckView.swift */; };
@@ -380,6 +381,7 @@
 		9CB418C32A0B2C81006F44AB /* EditSavedItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSavedItemView.swift; sourceTree = "<group>"; };
 		9CB418C52A0B616A006F44AB /* ExtendAlertToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendAlertToast.swift; sourceTree = "<group>"; };
 		9CB960632A5FD60F001F153A /* CompletedShiftSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedShiftSummary.swift; sourceTree = "<group>"; };
+		9CC238E52A7853F400A92258 /* WageBreakdown_NewHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WageBreakdown_NewHomeView.swift; sourceTree = "<group>"; };
 		9CC5BE622A09C08C006A2262 /* TodayPayoffGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TodayPayoffGrid.swift; path = UltimateMoneyVisualizer/Views/Components/TodayPayoffGrid.swift; sourceTree = SOURCE_ROOT; };
 		9CC65D932A20867800D81712 /* TagDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailView.swift; sourceTree = "<group>"; };
 		9CD2F2E62A287E7B00718667 /* EnterPaycheckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPaycheckView.swift; sourceTree = "<group>"; };
@@ -535,6 +537,8 @@
 		9C0CCC072A776DA100BA855D /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				9CC238E52A7853F400A92258 /* WageBreakdown_NewHomeView.swift */,
+				9C0709792A77855A00A324BA /* PayoffQueueView_HomeView.swift */,
 				9C98C26F2A777783005CE028 /* TotalItem.swift */,
 			);
 			path = Components;
@@ -732,7 +736,6 @@
 		9C7F964E29F8F03C00F5035C = {
 			isa = PBXGroup;
 			children = (
-				9C0709792A77855A00A324BA /* PayoffQueueView_HomeView.swift */,
 				9C7F965929F8F03C00F5035C /* UltimateMoneyVisualizer */,
 				9C7F965829F8F03C00F5035C /* Products */,
 				9C7F967029F8F03E00F5035C /* UltimateMoneyVisualizerTests */,
@@ -753,7 +756,6 @@
 		9C7F965929F8F03C00F5035C /* UltimateMoneyVisualizer */ = {
 			isa = PBXGroup;
 			children = (
-				9CFDAED82A65B3890098202B /* TodayViewDetailsSection.swift */,
 				9C7F96A329F8FEB000F5035C /* --TopLevel */,
 				9CB960612A5FC8FC001F153A /* ---Concatenate */,
 				9C4F0A282A14534100C78349 /* UltimateMoneyVisualizer.entitlements */,
@@ -856,6 +858,7 @@
 		9C7F96A329F8FEB000F5035C /* --TopLevel */ = {
 			isa = PBXGroup;
 			children = (
+				9CFDAED82A65B3890098202B /* TodayViewDetailsSection.swift */,
 				9C7F965C29F8F03C00F5035C /* ContentView.swift */,
 				9C7F965A29F8F03C00F5035C /* UltimateMoneyVisualizerApp.swift */,
 			);
@@ -1541,6 +1544,7 @@
 				9CEA17692A05DF2800E8DFD7 /* ExtendDate.swift in Sources */,
 				9CE4F6712A5F36430046183C /* GoalDetailTotalAmount.swift in Sources */,
 				9C8937502A6A6E6B009339B2 /* SelectHoursSheet.swift in Sources */,
+				9CC238E62A7853F400A92258 /* WageBreakdown_NewHomeView.swift in Sources */,
 				9C460EE42A038D880007EBA9 /* CircleBadgeView.swift in Sources */,
 				9CEEE34F29F90E09001FA4FB /* SavedListView.swift in Sources */,
 				9CED53482A08ACC7002DC183 /* AllocSavedRow.swift in Sources */,

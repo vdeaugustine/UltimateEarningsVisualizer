@@ -9,6 +9,7 @@ struct NewHomeView: View {
                 TotalsToDate_HomeView()
                 GoalsSummaryView()
                 PayoffQueueView_HomeView()
+                WageBreakdown_NewHomeView()
             }
         }
     }
