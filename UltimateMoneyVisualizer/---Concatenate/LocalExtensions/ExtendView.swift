@@ -35,9 +35,9 @@ extension View {
         navigationBarTitleDisplayMode(.inline)
             .toolbarColorScheme(.dark, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarBackground(LinearGradient(stops: [.init(color: Color(hex: "003DFF"),
+            .toolbarBackground(LinearGradient(stops: [.init(color: User.main.getSettings().themeColor,
                                                             location: 0),
-                                                      .init(color: Color(hex: "003DFF").getLighterColorForGradient(90),
+                                                      .init(color: User.main.getSettings().themeColor.getLighterColorForGradient(90),
                                                             location: 1)],
                                               startPoint: .leading,
                                               endPoint: .trailing),

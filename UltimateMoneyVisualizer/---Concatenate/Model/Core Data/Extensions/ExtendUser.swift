@@ -162,6 +162,12 @@ public extension User {
             return totalTimeWorked() * wage.perSecond
         }
     }
+    
+    func totalSpent() -> Double {
+        let expenses = getExpensesSpentBetween()
+        let goals = getGoalsSpentBetween()
+        return expenses + goals
+    }
 
     func totalNetMoneyBetween(_ startDate: Date, _ endDate: Date) -> Double {
         // Total net money should be this formula

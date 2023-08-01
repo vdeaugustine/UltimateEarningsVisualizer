@@ -10,24 +10,48 @@ import SwiftUI
 // MARK: - TotalItem
 
 struct TotalItem: View {
-    let imageName: String
-    let amount: String
-    let description: String
+    @EnvironmentObject private var vm: NewHomeViewModel
+
+    let type: NewHomeViewModel.TotalTypes
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Image(systemName: imageName)
+            Image(systemName: type.imageName)
                 .font(.system(size: 24))
-            Text(amount)
-                .font(
-                    Font.custom(Font.robotoRegular, size: 16)
-                        .weight(.semibold)
-                )
-                .foregroundColor(Color(red: 0.13, green: 0.13, blue: 0.13))
-            Text(description)
-                .font(Font.custom(Font.robotoRegular, size: 12))
-                .foregroundColor(Color(red: 0.37, green: 0.37, blue: 0.37))
+            Text(type.amount(vm).money()).format(size: 16,
+                                                      weight: .semibold,
+                                                      color: Color(red: 0.13,
+                                                                   green: 0.13,
+                                                                   blue: 0.13))
+            Text(type.title)
+                .format(size: 12,
+                        weight: .regular,
+                        color: Color(red: 0.37,
+                                     green: 0.37,
+                                     blue: 0.37))
         }
+        .overlay {
+            if vm.selectedTotalItem == type {
+                Color.clear
+                    .safeAreaInset(edge: .bottom) {
+                        Rectangle()
+                            .fill(Color(red: 0.87, green: 0.87, blue: 0.87))
+                            .frame(height: 2)
+                            .offset(y: 10)
+                    }
+                
+
+//                GeometryReader { geo in
+
+//                        .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).maxY + 10)
+//                }
+            }
+        }
+
+        .onTapGesture {
+            vm.selectedTotalItem = type
+        }
+        .frame(width: 100)
     }
 }
 
@@ -53,20 +77,22 @@ struct TotalsToDate_HomeView: View {
             TotalsHeader()
             VStack(spacing: 14) {
                 HStack {
-                    TotalItem(imageName: "chart.bar", amount: "$57,291", description: "Earned")
+                    TotalItem(type: .earned)
                     Spacer()
-                    TotalItem(imageName: "cart", amount: "$57,291", description: "Paid off")
+                    TotalItem(type: .paidOff)
                     Spacer()
-                    TotalItem(imageName: "creditcard.and.123", amount: "$57,291", description: "Taxes")
+                    TotalItem(type: .taxes)
                 }
+                .frame(height: 75)
 
                 HStack {
-                    TotalItem(imageName: "chart.bar", amount: "$57,291", description: "Expenses")
+                    TotalItem(type: .expenses)
                     Spacer()
-                    TotalItem(imageName: "cart", amount: "$57,291", description: "Goals")
+                    TotalItem(type: .goals)
                     Spacer()
-                    TotalItem(imageName: "creditcard.and.123", amount: "$57,291", description: "Saved")
+                    TotalItem(type: .saved)
                 }
+                .frame(height: 75)
             }
             .frame(maxWidth: 285)
         }
@@ -78,6 +104,7 @@ struct TotalsToDate_HomeView: View {
 
 struct TotalItem_Previews: PreviewProvider {
     static var previews: some View {
-        TotalItem(imageName: "chart.bar", amount: "$1,234", description: "Total spent")
+        TotalItem(type: .expenses)
+            .environmentObject(NewHomeViewModel())
     }
 }

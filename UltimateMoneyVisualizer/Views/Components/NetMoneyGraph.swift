@@ -79,10 +79,12 @@ struct NetMoneyGraph: View {
             }
             .chartLegend(.visible)
             .chartForegroundStyleScale([
-              "Expenses": Color.niceRed.getGradient(),
-              "Earnings": Color.okGreen.getGradient()
+                "Earned": Color.okGreen.getGradient(),
+              "Spent": Color.niceRed.getGradient()
+              
             ])
         }
+        .frame(height: 300)
     }
 }
 

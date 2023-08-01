@@ -33,7 +33,7 @@ struct PayoffQueueView_HomeView: View {
                     ImagePart(index: $index)
                     InfoPart(item: item)
                 } else {
-                    Text("No item found")
+                    Text("Payoff queue is empty")
                 }
             }
         }
@@ -41,23 +41,19 @@ struct PayoffQueueView_HomeView: View {
         .tabViewStyle(.page(indexDisplayMode: .always))
         .frame(height: 300)
 
-        .background {
-            Color.white
-                .shadow(color: .black.opacity(0.12), radius: 8, x: 0, y: 6)
-        }
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .shadow(color: .black.opacity(0.12), radius: 8, x: 0, y: 6)
+        .modifier(NewHomeView.ShadowForRect())
         .padding(.horizontal)
     }
 
     struct ImagePart: View {
         @Binding var index: Int
         @State private var selectedIndex: Int = 0
+        @ObservedObject var user = User.main
         var body: some View {
             TabView(selection: $selectedIndex) {
-                ForEach(User.main.getQueue().indices, id: \.self) { queueIndex in
+                ForEach(user.getQueue().indices, id: \.self) { queueIndex in
 
-                    if let item = User.main.getQueue().safeGet(at: queueIndex),
+                    if let item = user.getQueue().safeGet(at: queueIndex),
                        let image = item.loadImageIfPresent() {
                         Image(uiImage: image)
                             .resizable()
@@ -81,6 +77,61 @@ struct PayoffQueueView_HomeView: View {
                 print(selectedIndex)
                 index = selectedIndex
             })
+            .overlay {
+                VStack {
+                    HStack {
+                        Circle()
+                            .fill(Color.gray.opacity(0.6))
+                            .frame(width: 35)
+                            .overlay {
+                                Image(systemName: "plus")
+                                    .resizable()
+                                    .frame(width: 20, height: 20)
+                                    .fontWeight(.light)
+                                    .rotationEffect(.degrees(45))
+                            }
+                            .onTapGesture {
+                                print("Tapped x")
+                            }
+
+                        Spacer()
+
+                        if var item = user.getQueue().safeGet(at: selectedIndex),
+                           item.amountRemainingToPayOff <= 0.01 {
+                            Circle()
+                                .fill(Color.gray.opacity(0.6))
+                                .frame(width: 35)
+                                .overlay {
+                                    Image(systemName: "checkmark")
+                                        .resizable()
+                                        .frame(width: 16, height: 16)
+                                }
+                                .onTapGesture {
+                                    item.optionalQSlotNumber = nil
+                                    do {
+                                        try user.getContext().save()
+                                        print("Saved")
+                                        withAnimation {
+                                            if user.getQueue().safeCheck(selectedIndex - 1) {
+                                                selectedIndex -= 1
+                                            }
+                                            else if user.getQueue().safeCheck(selectedIndex + 1) {
+                                                selectedIndex += 1
+                                            }
+                                        }
+                                    }
+                                    catch {
+                                        print("error saving")
+                                    }
+                                    
+                                }
+                        }
+                    }
+                    Spacer()
+                }
+                .padding()
+                
+            }
         }
     }
 
@@ -90,35 +141,37 @@ struct PayoffQueueView_HomeView: View {
             VStack(spacing: 8) {
                 TopLine(item: item)
 
-                // Temporary Progress Bar
-                ZStack(alignment: .leading) {
-                    Rectangle()
-                        .foregroundColor(.clear)
-                        .frame(width: 300, height: 10)
-                        .background(Color(red: 0.85, green: 0.85, blue: 0.85))
-                        .cornerRadius(10)
-
-                    Rectangle()
-                        .foregroundColor(.clear)
-                        .frame(width: 95, height: 10)
-                        .background(Color(red: 0.08, green: 0.23, blue: 0.75))
-                        .cornerRadius(10)
-                }
+                ProgressBar(percentage: item.percentPaidOff, height: 10)
+//                // Temporary Progress Bar
+//                ZStack(alignment: .leading) {
+//                    Rectangle()
+//                        .foregroundColor(.clear)
+//                        .frame(width: 300, height: 10)
+//                        .background(Color(red: 0.85, green: 0.85, blue: 0.85))
+//                        .cornerRadius(10)
+//
+//                    Rectangle()
+//                        .foregroundColor(.clear)
+//                        .frame(width: 95, height: 10)
+//                        .background(Color(red: 0.08, green: 0.23, blue: 0.75))
+//                        .cornerRadius(10)
+//                }
 
                 HStack(spacing: 4) {
-                    Text("$120")
+                    Text(item.amountPaidOff.money())
                         .format(size: 14, weight: .semibold)
                         .foregroundColor(Color(red: 0.13, green: 0.13, blue: 0.13))
-                    Circle()
-                        .fill(Color(red: 0.37, green: 0.37, blue: 0.37))
-                        .frame(width: 2, height: 2)
+//                    Circle()
+//                        .fill(Color(red: 0.37, green: 0.37, blue: 0.37))
+//                        .frame(width: 2, height: 2)
+                    Spacer()
 
                     // Body Copy/14pt Regular
                     Text("Apr 17-22")
                         .format(size: 14)
                         .foregroundColor(Color(red: 0.37, green: 0.37, blue: 0.37))
-
-                    Spacer()
+//
+//                    Spacer()
                 }
             }
             .padding(.horizontal, 16)

@@ -55,12 +55,8 @@ struct WageBreakdown_NewHomeView: View {
             bodyInfoPart
         }
         .padding()
-
-        .background {
-            Color.white
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-                .shadow(color: .black.opacity(0.12), radius: 8, x: 0, y: 6)
-        }
+        .modifier(NewHomeView.ShadowForRect())
+        
     }
 
     var headerInRect: some View {

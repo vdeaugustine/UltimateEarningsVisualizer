@@ -17,7 +17,7 @@ extension Settings {
                 return .hexStringToColor(hex: str)
             }
 
-            return .blue
+            return .defaultColorOptions.first!
         }
 
         set {
