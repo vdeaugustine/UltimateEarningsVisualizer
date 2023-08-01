@@ -19,10 +19,10 @@ struct TotalItem: View {
             Image(systemName: type.imageName)
                 .font(.system(size: 24))
             Text(type.amount(vm).money()).format(size: 16,
-                                                      weight: .semibold,
-                                                      color: Color(red: 0.13,
-                                                                   green: 0.13,
-                                                                   blue: 0.13))
+                                                 weight: .semibold,
+                                                 color: Color(red: 0.13,
+                                                              green: 0.13,
+                                                              blue: 0.13))
             Text(type.title)
                 .format(size: 12,
                         weight: .regular,
@@ -39,7 +39,6 @@ struct TotalItem: View {
                             .frame(height: 2)
                             .offset(y: 10)
                     }
-                
 
 //                GeometryReader { geo in
 
@@ -48,10 +47,10 @@ struct TotalItem: View {
             }
         }
 
+        .frame(width: 100)
         .onTapGesture {
             vm.selectedTotalItem = type
         }
-        .frame(width: 100)
     }
 }
 

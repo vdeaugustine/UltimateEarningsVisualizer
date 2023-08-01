@@ -27,20 +27,17 @@ struct PayoffQueueView_HomeView: View {
                Color.blue]
 
     var body: some View {
-        TabView {
-            VStack(spacing: 0) {
-                if let item = payoffItemDisplayed {
-                    ImagePart(index: $index)
-                    InfoPart(item: item)
-                } else {
-                    Text("Payoff queue is empty")
-                }
+        VStack(spacing: 0) {
+            if let item = payoffItemDisplayed {
+                ImagePart(index: $index)
+                InfoPart(item: item)
+            } else {
+                Text("Payoff queue is empty")
             }
         }
 
-        .tabViewStyle(.page(indexDisplayMode: .always))
         .frame(height: 300)
-
+        .frame(maxWidth: .infinity)
         .modifier(NewHomeView.ShadowForRect())
         .padding(.horizontal)
     }
@@ -78,33 +75,19 @@ struct PayoffQueueView_HomeView: View {
                 index = selectedIndex
             })
             .overlay {
-                VStack {
-                    HStack {
-                        Circle()
-                            .fill(Color.gray.opacity(0.6))
-                            .frame(width: 35)
-                            .overlay {
-                                Image(systemName: "plus")
-                                    .resizable()
-                                    .frame(width: 20, height: 20)
-                                    .fontWeight(.light)
-                                    .rotationEffect(.degrees(45))
-                            }
-                            .onTapGesture {
-                                print("Tapped x")
-                            }
-
-                        Spacer()
-
-                        if var item = user.getQueue().safeGet(at: selectedIndex),
-                           item.amountRemainingToPayOff <= 0.01 {
+                if var item = user.getQueue().safeGet(at: selectedIndex) {
+                    VStack {
+                        HStack {
                             Circle()
-                                .fill(Color.gray.opacity(0.6))
+                                .fill(Color.gray.opacity(0.4))
                                 .frame(width: 35)
                                 .overlay {
-                                    Image(systemName: "checkmark")
+                                    Image(systemName: "plus")
                                         .resizable()
-                                        .frame(width: 16, height: 16)
+                                        .frame(width: 15, height: 15)
+                                        .fontWeight(.light)
+                                        .rotationEffect(.degrees(45))
+                                        .foregroundStyle(Color.white)
                                 }
                                 .onTapGesture {
                                     item.optionalQSlotNumber = nil
@@ -114,23 +97,51 @@ struct PayoffQueueView_HomeView: View {
                                         withAnimation {
                                             if user.getQueue().safeCheck(selectedIndex - 1) {
                                                 selectedIndex -= 1
-                                            }
-                                            else if user.getQueue().safeCheck(selectedIndex + 1) {
+                                            } else if user.getQueue().safeCheck(selectedIndex + 1) {
                                                 selectedIndex += 1
                                             }
                                         }
-                                    }
-                                    catch {
+                                    } catch {
                                         print("error saving")
                                     }
-                                    
                                 }
+
+                            Spacer()
+
+                            if item.amountRemainingToPayOff <= 0.01 {
+                                Circle()
+                                    .fill(Color.gray.opacity(0.4))
+                                    .frame(width: 35)
+                                    .overlay {
+                                        Image(systemName: "checkmark")
+                                            .resizable()
+                                            .frame(width: 15, height: 15)
+                                            .foregroundStyle(Color.white)
+                                    }
+                                    .onTapGesture {
+                                        item.optionalQSlotNumber = nil
+                                        do {
+                                            try user.getContext().save()
+                                            print("Saved")
+                                            withAnimation {
+                                                if user.getQueue().safeCheck(selectedIndex - 1) {
+                                                    selectedIndex -= 1
+                                                } else if user.getQueue().safeCheck(selectedIndex + 1) {
+                                                    selectedIndex += 1
+                                                }
+                                            }
+                                        } catch {
+                                            print("error saving")
+                                        }
+                                    }
+                            }
                         }
+                        Spacer()
                     }
-                    Spacer()
+                    .padding()
+                } else {
+                    /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/
                 }
-                .padding()
-                
             }
         }
     }

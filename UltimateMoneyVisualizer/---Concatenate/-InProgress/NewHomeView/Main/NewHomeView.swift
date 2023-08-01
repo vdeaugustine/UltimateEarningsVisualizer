@@ -107,8 +107,8 @@ struct NewHomeView: View {
             .padding(.top)
         }
         .environmentObject(vm)
-        .putInTemplate()
-        .navigationTitle("Home")
+        .putInTemplate(displayMode: .large)
+        .navigationTitle(Date.now.getFormattedDate(format: .abreviatedMonth))
     }
     
     struct ShadowForRect: ViewModifier {
