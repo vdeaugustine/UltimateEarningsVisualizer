@@ -235,7 +235,7 @@ struct EnterWageView: View {
                                      titleFont: nil,
                                      subTitleFont: nil))
         }
-        .bottomButton(label: "Save", gradient: settings.getDefaultGradient()) {
+        .toolbarSave {
             do {
                 let hourly = isSalaried ? getHourlyWage(salaryDouble) : hourlyDouble
                 let wage = try Wage(amount: hourly,
@@ -255,6 +255,26 @@ struct EnterWageView: View {
                 fatalError(String(describing: error))
             }
         }
+//        .bottomButton(label: "Save", gradient: settings.getDefaultGradient()) {
+//            do {
+//                let hourly = isSalaried ? getHourlyWage(salaryDouble) : hourlyDouble
+//                let wage = try Wage(amount: hourly,
+//                                    isSalary: isSalaried,
+//                                    user: user,
+//                                    includeTaxes: includeTaxes,
+//                                    stateTax: includeTaxes ? stateTax : nil,
+//                                    federalTax: includeTaxes ? federalTax : nil,
+//                                    context: viewContext)
+//                wage.daysPerWeek = Double(daysPerWeek)
+//                wage.hoursPerDay = Double(hoursPerDay)
+//                wage.weeksPerYear = Double(weeksPerYear)
+//
+//                try viewContext.save()
+//                showSuccessfulSaveToast = true
+//            } catch {
+//                fatalError(String(describing: error))
+//            }
+//        }
         .sheet(isPresented: $showHourlySheet) {
             EnterDoubleView(dubToEdit: $hourlyDouble, format: .dollar)
         }

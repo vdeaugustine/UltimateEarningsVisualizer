@@ -22,7 +22,7 @@ class NavManager: ObservableObject {
     @Published var scrollProxy: ScrollViewProxy?
 
     enum AllViews: Hashable {
-        case home, settings, today, confirmToday, stats
+        case home, settings, today, confirmToday, stats, wage(Wage)
     }
 
     func clearAllPaths() {
@@ -103,6 +103,8 @@ class NavManager: ObservableObject {
                 SettingsView()
             case .stats:
                 StatsView()
+            case .wage(let wage):
+                WageView(wage: wage)
             default:
                 EmptyView()
         }

@@ -4,6 +4,7 @@ import SwiftUI
 
 struct NewHomeView: View {
     @StateObject private var vm: NewHomeViewModel = .shared
+    @ObservedObject private var settings = User.main.getSettings()
 
     var body: some View {
         ScrollView {
@@ -26,7 +27,7 @@ struct NewHomeView: View {
             .padding(.top)
         }
         .environmentObject(vm)
-        .putInTemplate(displayMode: .large)
+        .putInTemplate(displayMode: .large, settings: settings)
         .navigationTitle(Date.now.getFormattedDate(format: .abreviatedMonth))
         .navigationDestination(for: NavManager.AllViews.self) { view in
 
@@ -34,18 +35,20 @@ struct NewHomeView: View {
         }
     }
 
-    struct ShadowForRect: ViewModifier {
-        func body(content: Content) -> some View {
-            content
-                .background(.white)
-                .clipShape(RoundedRectangle(cornerRadius: 12)
-                    .inset(by: 0.5))
-                .overlay {
-                    RoundedRectangle(cornerRadius: 12)
-                        .stroke(Color(red: 0.87, green: 0.87, blue: 0.87), lineWidth: 1)
-                }
-                .shadow(color: .black.opacity(0.12), radius: 8, x: 0, y: 6)
-        }
+    
+}
+
+struct ShadowForRect: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .background(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 12)
+                .inset(by: 0.5))
+            .overlay {
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color(red: 0.87, green: 0.87, blue: 0.87), lineWidth: 1)
+            }
+            .shadow(color: .black.opacity(0.12), radius: 8, x: 0, y: 6)
     }
 }
 
@@ -77,7 +80,7 @@ struct SummaryView: View {
         .padding(20)
         .background(.white)
         .cornerRadius(12)
-        .modifier(NewHomeView.ShadowForRect())
+        .modifier(ShadowForRect())
         .padding(.horizontal)
     }
 

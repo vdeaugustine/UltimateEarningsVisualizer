@@ -40,6 +40,10 @@ struct StatsView: View {
         .background(Color.targetGray)
         .putInTemplate(displayMode: .large)
         .navigationTitle("My Stats")
+        .navigationDestination(for: Shift.self) { ShiftDetailView(shift: $0) }
+        .navigationDestination(for: Goal.self) { GoalDetailView(goal: $0) }
+        .navigationDestination(for: Expense.self) { ExpenseDetailView(expense: $0) }
+        .navigationDestination(for: Saved.self) { SavedDetailView(saved: $0) }
     }
 
     var selectedSection: some View {
@@ -55,8 +59,8 @@ struct StatsView: View {
             }
             .padding([.horizontal, .bottom])
 
-            homeSection(rectContainer: false, header: vm.listHeader) {
-                LazyVStack {
+            List {
+                Section {
                     ForEach(vm.itemsForList.indices, id: \.self) { itemIndex in
                         HStack {
                             HStack(spacing: 15) {
@@ -67,18 +71,20 @@ struct StatsView: View {
                             Spacer()
                             Text(vm.rowText(forIndex: itemIndex).detail)
                         }
-                        .padding([.horizontal])
-                        .padding(.top, 2)
                         .allPartsTappable()
-
-                        Divider()
+                        .onTapGesture { vm.tapAction(index: itemIndex) }
+//                        .navigationDestination(for: Shift.self) { ShiftDetailView(shift: $0) }
+//                        .navigationDestination(for: Goal.self) { GoalDetailView(goal: $0) }
+//                        .navigationDestination(for: Expense.self) { ExpenseDetailView(expense: $0) }
+//                        .navigationDestination(for: Saved.self) { SavedDetailView(saved: $0) }
                     }
+                } header: {
+                    Text(vm.listHeader.capitalized)
+                        .format(size: 16, weight: .semibold)
                 }
-                .padding(.top, 10)
-                .rectContainer(shadowRadius: 0)
             }
-            .padding()
-            .padding(.horizontal, 5)
+            .scrollContentBackground(.hidden)
+            .frame(height: CGFloat(vm.itemsForList.count * 60) + 30)
         }
     }
 

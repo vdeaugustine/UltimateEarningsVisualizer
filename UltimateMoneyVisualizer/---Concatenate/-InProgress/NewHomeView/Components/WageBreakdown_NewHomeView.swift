@@ -19,6 +19,9 @@ struct WageBreakdown_NewHomeView: View {
             rect
         }
         .padding()
+        .onTapGesture {
+            vm.navManager.homeNavPath.append(NavManager.AllViews.wage(vm.wage))
+        }
     }
 
     var header: some View {
@@ -54,7 +57,7 @@ struct WageBreakdown_NewHomeView: View {
             bodyInfoPart
         }
         .padding()
-        .modifier(NewHomeView.ShadowForRect())
+        .modifier(ShadowForRect())
     }
 
     var headerInRect: some View {
@@ -78,25 +81,25 @@ struct WageBreakdown_NewHomeView: View {
     var bodyInfoPart: some View {
         VStack {
             row(period: "Yearly",
-                amount: vm.user.getWage().perYear * (vm.taxesToggleOn ? (1 - vm.user.getWage().totalTaxMultiplier) : 1))
+                amount: vm.wage.perYear * (vm.taxesToggleOn ? (1 - vm.wage.totalTaxMultiplier) : 1))
             Divider()
             row(period: "Month",
-                amount: vm.user.getWage().perMonth * (vm.taxesToggleOn ? (1 - vm.user.getWage().totalTaxMultiplier) : 1))
+                amount: vm.wage.perMonth * (vm.taxesToggleOn ? (1 - vm.wage.totalTaxMultiplier) : 1))
             Divider()
             row(period: "Week",
-                amount: vm.user.getWage().perWeek * (vm.taxesToggleOn ? (1 - vm.user.getWage().totalTaxMultiplier) : 1))
+                amount: vm.wage.perWeek * (vm.taxesToggleOn ? (1 - vm.wage.totalTaxMultiplier) : 1))
             Divider()
             row(period: "Day",
-                amount: vm.user.getWage().perDay * (vm.taxesToggleOn ? (1 - vm.user.getWage().totalTaxMultiplier) : 1))
+                amount: vm.wage.perDay * (vm.taxesToggleOn ? (1 - vm.wage.totalTaxMultiplier) : 1))
             Divider()
             row(period: "Hour",
-                amount: vm.user.getWage().hourly * (vm.taxesToggleOn ? (1 - vm.user.getWage().totalTaxMultiplier) : 1))
+                amount: vm.wage.hourly * (vm.taxesToggleOn ? (1 - vm.wage.totalTaxMultiplier) : 1))
             Divider()
             row(period: "Minute",
-                amount: vm.user.getWage().perMinute * (vm.taxesToggleOn ? (1 - vm.user.getWage().totalTaxMultiplier) : 1))
+                amount: vm.wage.perMinute * (vm.taxesToggleOn ? (1 - vm.wage.totalTaxMultiplier) : 1))
             Divider()
             row(period: "Second",
-                amount: vm.user.getWage().perSecond * (vm.taxesToggleOn ? (1 - vm.user.getWage().totalTaxMultiplier) : 1),
+                amount: vm.wage.perSecond * (vm.taxesToggleOn ? (1 - vm.wage.totalTaxMultiplier) : 1),
                 extend: true)
         }
     }
@@ -122,5 +125,6 @@ struct WageBreakdown_NewHomeView_Previews: PreviewProvider {
     static var previews: some View {
         WageBreakdown_NewHomeView()
             .templateForPreview()
+            .environmentObject(NewHomeViewModel.shared)
     }
 }

@@ -31,13 +31,13 @@ extension ScrollView {
 
 extension View {
     // Main function
-    func putInTemplate(displayMode: NavigationBarItem.TitleDisplayMode = .large) -> some View {
+    func putInTemplate(displayMode: NavigationBarItem.TitleDisplayMode = .large, settings: Settings = User.main.getSettings()) -> some View {
         navigationBarTitleDisplayMode(displayMode)
             .toolbarColorScheme(.dark, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarBackground(LinearGradient(stops: [.init(color: User.main.getSettings().themeColor,
+            .toolbarBackground(LinearGradient(stops: [.init(color: settings.themeColor,
                                                             location: 0),
-                                                      .init(color: User.main.getSettings().themeColor.getLighterColorForGradient(90),
+                                                      .init(color: settings.themeColor.getLighterColorForGradient(90),
                                                             location: 1)],
                                               startPoint: .leading,
                                               endPoint: .trailing),

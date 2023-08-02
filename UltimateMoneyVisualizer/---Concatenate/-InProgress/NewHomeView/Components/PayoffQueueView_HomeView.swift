@@ -38,7 +38,7 @@ struct PayoffQueueView_HomeView: View {
 
         .frame(height: 300)
         .frame(maxWidth: .infinity)
-        .modifier(NewHomeView.ShadowForRect())
+        .modifier(ShadowForRect())
         .padding(.horizontal)
     }
 

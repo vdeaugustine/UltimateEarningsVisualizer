@@ -7,6 +7,9 @@ class StatsViewModel: ObservableObject {
     @Published var selectedSection: MoneySection = .earned
     @Published var firstDate: Date = .now.addDays(-5)
     @Published var secondDate: Date = .endOfDay()
+    @ObservedObject var navManager = NavManager.shared
+    
+    typealias HashableAndIdentifiable = Hashable & Identifiable
 
     func chartFooter(for type: MoneySection) -> String {
         let interjection: String
@@ -69,10 +72,17 @@ class StatsViewModel: ObservableObject {
         return ("", .clear)
     }
     
+    func tapAction(index: Int) {
+        guard let item = itemsForList.safeGet(at: index)
+        
+        else { return }
+        navManager.homeNavPath.append(item)
+    }
     
     
     
-    var itemsForList: [any Identifiable] {
+    
+    var itemsForList: [any HashableAndIdentifiable] {
         switch selectedSection {
             case .earned:
                 user.getShiftsBetween(startDate: firstDate, endDate: secondDate)
