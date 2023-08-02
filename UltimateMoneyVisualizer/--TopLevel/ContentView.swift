@@ -21,11 +21,11 @@ struct ContentView: View {
 
     var body: some View {
         TabView(selection: $tab.onUpdate(ifNoChange: navManager.sameTabTapped)) {
-            NavigationStack(path: $navManager.homeNavPath) {
-                HomeView()
-                    .id(navManager.scrollViewID)
-            }
-            .makeTab(tab: Tabs.home, systemImage: "house")
+//            NavigationStack(path: $navManager.homeNavPath) {
+//                HomeView()
+//                    .id(navManager.scrollViewID)
+//            }
+//            .makeTab(tab: Tabs.home, systemImage: "house")
             
             NavigationStack(path: $navManager.homeNavPath) {
                 NewHomeView()

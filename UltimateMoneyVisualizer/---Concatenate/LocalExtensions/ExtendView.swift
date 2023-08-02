@@ -31,7 +31,7 @@ extension ScrollView {
 
 extension View {
     // Main function
-    func putInTemplate(displayMode: NavigationBarItem.TitleDisplayMode = .inline) -> some View {
+    func putInTemplate(displayMode: NavigationBarItem.TitleDisplayMode = .large) -> some View {
         navigationBarTitleDisplayMode(displayMode)
             .toolbarColorScheme(.dark, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)

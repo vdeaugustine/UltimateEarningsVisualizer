@@ -216,6 +216,9 @@
 		9CF885AC2A5DCC1800F63766 /* GoalDetailTagsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF885AB2A5DCC1800F63766 /* GoalDetailTagsSection.swift */; };
 		9CF885AE2A5E063900F63766 /* StretchyHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF885AD2A5E063900F63766 /* StretchyHeader.swift */; };
 		9CF885B02A5E074C00F63766 /* StretchyHeaderDynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF885AF2A5E074C00F63766 /* StretchyHeaderDynamic.swift */; };
+		9CF9CE4F2A796EB200164D75 /* NewHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF9CE4E2A796EB200164D75 /* NewHomeViewModel.swift */; };
+		9CF9CE522A7A0F8700164D75 /* StatsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF9CE512A7A0F8700164D75 /* StatsViewModel.swift */; };
+		9CF9CE552A7A121000164D75 /* MainType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF9CE542A7A121000164D75 /* MainType.swift */; };
 		9CFDAED92A65B3890098202B /* TodayViewDetailsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFDAED82A65B3890098202B /* TodayViewDetailsSection.swift */; };
 /* End PBXBuildFile section */
 
@@ -447,6 +450,9 @@
 		9CF885AB2A5DCC1800F63766 /* GoalDetailTagsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GoalDetailTagsSection.swift; path = "UltimateMoneyVisualizer/-InProgress/Goal Detail/GoalDetailTagsSection.swift"; sourceTree = SOURCE_ROOT; };
 		9CF885AD2A5E063900F63766 /* StretchyHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StretchyHeader.swift; sourceTree = SOURCE_ROOT; };
 		9CF885AF2A5E074C00F63766 /* StretchyHeaderDynamic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StretchyHeaderDynamic.swift; sourceTree = "<group>"; };
+		9CF9CE4E2A796EB200164D75 /* NewHomeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewHomeViewModel.swift; path = "../../../../../../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/NewHomeViewModel.swift"; sourceTree = "<group>"; };
+		9CF9CE512A7A0F8700164D75 /* StatsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsViewModel.swift; sourceTree = "<group>"; };
+		9CF9CE542A7A121000164D75 /* MainType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainType.swift; sourceTree = "<group>"; };
 		9CFDAED82A65B3890098202B /* TodayViewDetailsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewDetailsSection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -529,6 +535,7 @@
 		9C0CCC062A776D5D00BA855D /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				9CF9CE4E2A796EB200164D75 /* NewHomeViewModel.swift */,
 				9C0CCC032A77525300BA855D /* NewHomeView.swift */,
 			);
 			path = Main;
@@ -631,13 +638,6 @@
 				9C7C984629FA0E130077EA25 /* HomeView.swift */,
 			);
 			path = Home;
-			sourceTree = "<group>";
-		};
-		9C65A7662A00DAB200A5BCF1 /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Group";
 			sourceTree = "<group>";
 		};
 		9C65A7672A00DABA00A5BCF1 /* Allocations */ = {
@@ -926,6 +926,7 @@
 		9C9735912A0D78F700F651A1 /* Stats */ = {
 			isa = PBXGroup;
 			children = (
+				9CF9CE512A7A0F8700164D75 /* StatsViewModel.swift */,
 				9C460EE82A049DFA0007EBA9 /* StatsView.swift */,
 			);
 			path = Stats;
@@ -1211,7 +1212,6 @@
 				9CEEE33729F90890001FA4FB /* Expenses */,
 				9CEEE33829F90897001FA4FB /* Goals */,
 				9C65A7652A00DA9500A5BCF1 /* Home */,
-				9C65A7662A00DAB200A5BCF1 /* New Group */,
 				9C65A7642A00DA7400A5BCF1 /* Payoff Queue */,
 				9CEEE35229F9E04E001FA4FB /* Saved */,
 				9C7C984229FA0D7F0077EA25 /* Schedule */,
@@ -1250,6 +1250,7 @@
 		9CEEE33D29F9099D001FA4FB /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				9CF9CE532A7A120800164D75 /* Objects */,
 				9C4F0A2B2A14614500C78349 /* Managers */,
 				9C514DB12A0024D6003DC43C /* Protocols */,
 				9C7F968A29F8FD0300F5035C /* Core Data */,
@@ -1326,6 +1327,14 @@
 				9C7C983929F9EC410077EA25 /* EnterWageView.swift */,
 			);
 			path = Wage;
+			sourceTree = "<group>";
+		};
+		9CF9CE532A7A120800164D75 /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				9CF9CE542A7A121000164D75 /* MainType.swift */,
+			);
+			path = Objects;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1530,6 +1539,7 @@
 				9C7C984129F9F7B20077EA25 /* AllSchedulesView.swift in Sources */,
 				9C514DB52A00A480003DC43C /* PayoffQueueView.swift in Sources */,
 				9CDD4E4B2A67CA3700AB8B4F /* TodayProgressBar.swift in Sources */,
+				9CF9CE552A7A121000164D75 /* MainType.swift in Sources */,
 				9C0CFCE42A5CD45A005C7C81 /* GoalDetailViewModel.swift in Sources */,
 				9C7B5D542A201AC600DBB877 /* ExtendPayPeriod.swift in Sources */,
 				9CEEE34329F90A7D001FA4FB /* CreateShiftView(Deprecated).swift in Sources */,
@@ -1546,6 +1556,7 @@
 				9C8937502A6A6E6B009339B2 /* SelectHoursSheet.swift in Sources */,
 				9CC238E62A7853F400A92258 /* WageBreakdown_NewHomeView.swift in Sources */,
 				9C460EE42A038D880007EBA9 /* CircleBadgeView.swift in Sources */,
+				9CF9CE4F2A796EB200164D75 /* NewHomeViewModel.swift in Sources */,
 				9CEEE34F29F90E09001FA4FB /* SavedListView.swift in Sources */,
 				9CED53482A08ACC7002DC183 /* AllocSavedRow.swift in Sources */,
 				9CED534C2A09BAD5002DC183 /* PayoffTodaySquare.swift in Sources */,
@@ -1574,6 +1585,7 @@
 				9C0CFCE22A5CAE42005C7C81 /* GoalDetailHeaderView.swift in Sources */,
 				9C3A7B372A2C44F300F2AC88 /* ItemizedPartOfShiftView.swift in Sources */,
 				9CB418C42A0B2C81006F44AB /* EditSavedItemView.swift in Sources */,
+				9CF9CE522A7A0F8700164D75 /* StatsViewModel.swift in Sources */,
 				9CA37AFF2A6BA623004F60AC /* TodayViewItemizedPart.swift in Sources */,
 				9CF194D72A1B241D000F83A9 /* SFSymbolsPicker.swift in Sources */,
 				9C7C986F29FE30290077EA25 /* SystemImageWithFilledBackground.swift in Sources */,

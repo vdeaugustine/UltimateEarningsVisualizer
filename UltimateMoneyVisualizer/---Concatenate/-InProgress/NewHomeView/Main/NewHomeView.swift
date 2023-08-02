@@ -1,91 +1,5 @@
 import SwiftUI
 
-// MARK: - NewHomeViewModel
-
-class NewHomeViewModel: ObservableObject {
-    public static var shared: NewHomeViewModel = .init()
-    @Published var selectedTotalItem: TotalTypes = .expenses
-
-    @ObservedObject var user: User = .main
-
-    enum TotalTypes: String, CaseIterable {
-        case earned, paidOff, taxes, expenses, goals, saved
-
-        var title: String {
-            switch self {
-                case .paidOff:
-                    "Paid Off"
-                default:
-                    rawValue.capitalized
-            }
-        }
-
-        var imageName: String {
-            switch self {
-                case .expenses:
-                    "chart.bar"
-                case .goals:
-                    "cart"
-                case .saved:
-                    "creditcard.and.123"
-                case .earned:
-                    "chart.bar"
-                case .paidOff:
-                    "cart"
-                case .taxes:
-                    "creditcard.and.123"
-            }
-        }
-
-        func amount(_ vm: NewHomeViewModel) -> Double {
-            switch self {
-                case .earned:
-                    vm.user.totalEarned()
-                case .paidOff:
-                    vm.user.totalSpent()
-                case .taxes:
-                    vm.user.totalEarned() * vm.user.getWage().totalTaxMultiplier
-                case .expenses:
-                    vm.user.getExpensesSpentBetween()
-                case .goals:
-                    vm.user.getGoalsSpentBetween()
-                case .saved:
-                    vm.user.getAmountSavedBetween()
-            }
-        }
-
-        func quantity(_ vm: NewHomeViewModel) -> Double {
-            switch self {
-                case .earned:
-                    Double(vm.user.getShifts().count)
-                case .paidOff:
-                    vm.user.convertMoneyToTime(money: vm.user.totalSpent())
-                case .taxes:
-                    vm.user.getWage().totalTaxMultiplier * 100
-                case .expenses:
-                    Double(vm.user.getExpenses().count)
-                case .goals:
-                    Double(vm.user.getGoals().count)
-                case .saved:
-                    Double(vm.user.getSaved().count)
-            }
-        }
-
-        func quantityLabel(_ vm: NewHomeViewModel) -> String {
-            switch self {
-                case .earned:
-                    "\(vm.user.getShifts().count) shifts"
-                case .paidOff:
-                    vm.user.convertMoneyToTime(money: vm.user.totalSpent()).breakDownTime()
-                case .taxes:
-                    "\(vm.user.getWage().totalTaxMultiplier * 100) %"
-                case .expenses, .goals, .saved:
-                    "\(Int(quantity(vm))) items"
-            }
-        }
-    }
-}
-
 // MARK: - NewHomeView
 
 struct NewHomeView: View {
@@ -96,11 +10,16 @@ struct NewHomeView: View {
             VStack(spacing: 40) {
                 TotalsToDate_HomeView()
                 SummaryView()
-                
-                NetMoneyGraph()
-                    .padding()
-                    .modifier(ShadowForRect())
-                    .padding(.horizontal)
+
+                VStack(alignment: .leading, spacing: 14) {
+                    Text("Net Money")
+                        .format(size: 16, weight: .semibold)
+                    NetMoneyGraph()
+                }
+                .padding()
+                .modifier(ShadowForRect())
+                .padding(.horizontal)
+
                 PayoffQueueView_HomeView()
                 WageBreakdown_NewHomeView()
             }
@@ -109,8 +28,12 @@ struct NewHomeView: View {
         .environmentObject(vm)
         .putInTemplate(displayMode: .large)
         .navigationTitle(Date.now.getFormattedDate(format: .abreviatedMonth))
+        .navigationDestination(for: NavManager.AllViews.self) { view in
+
+            vm.navManager.getDestinationViewForHomeStack(destination: view)
+        }
     }
-    
+
     struct ShadowForRect: ViewModifier {
         func body(content: Content) -> some View {
             content
@@ -206,8 +129,9 @@ struct SummaryView: View {
 
 struct NewHomeView_Previews: PreviewProvider {
     static var previews: some View {
-        NewHomeView()
-            .putInNavView(.inline)
-            .environmentObject(NewHomeViewModel.shared)
+        NavigationStack {
+            NewHomeView()
+                .environmentObject(NewHomeViewModel.shared)
+        }
     }
 }

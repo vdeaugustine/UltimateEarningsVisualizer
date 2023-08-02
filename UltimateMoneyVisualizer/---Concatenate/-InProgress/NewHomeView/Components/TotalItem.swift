@@ -57,6 +57,8 @@ struct TotalItem: View {
 // MARK: - TotalsHeader
 
 struct TotalsHeader: View {
+    @EnvironmentObject private var vm: NewHomeViewModel
+    
     var body: some View {
         HStack {
             Text("Totals to Date")
@@ -64,7 +66,17 @@ struct TotalsHeader: View {
             Spacer()
             Text("More Stats")
                 .format(size: 14, weight: .medium, color: .textSecondary)
+                .onTapGesture {
+                    vm.navManager.homeNavPath.append(NavManager.AllViews.stats)
+//                    print("UPdated nav path", vm.navManager.homeNavPath)
+                    print(vm.navManager.homeNavPath.count)
+                }
+//                .navigationDestination(for: NavManager.AllViews.self) { view in
+//                    vm.navManager.getDestinationViewForHomeStack(destination: view)
+//                }
+                
         }
+        
     }
 }
 
@@ -96,6 +108,7 @@ struct TotalsToDate_HomeView: View {
             .frame(maxWidth: 285)
         }
         .padding(.horizontal)
+        
     }
 }
 

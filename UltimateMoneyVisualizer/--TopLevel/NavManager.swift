@@ -22,12 +22,13 @@ class NavManager: ObservableObject {
     @Published var scrollProxy: ScrollViewProxy?
 
     enum AllViews: Hashable {
-        case home, settings, today, confirmToday
+        case home, settings, today, confirmToday, stats
     }
 
     func clearAllPaths() {
         homeNavPath = .init()
         settingsNavPath = .init()
+        todayViewNavPath = .init()
     }
 
     func sameTabTapped(tabTapped: Tabs) {
@@ -91,6 +92,19 @@ class NavManager: ObservableObject {
                 ExpenseDetailView(expense: expense)
             case let .newTimeBlock(todayShift):
                 CreateNewTimeBlockView(todayShift: todayShift)
+        }
+    }
+    
+    @ViewBuilder func getDestinationViewForHomeStack(destination: NavManager.AllViews) -> some View {
+        switch destination {
+            case .home:
+                NewHomeView()
+            case .settings:
+                SettingsView()
+            case .stats:
+                StatsView()
+            default:
+                EmptyView()
         }
     }
 }
