@@ -55,11 +55,11 @@ public extension User {
                 RegularSchedule([.tuesday, .wednesday, .thursday],
                                 user: self,
                                 context: context)
-                
+
                 // Make Expenses that will not be allocated
-                
+
                 try Expense.makeExpensesThatWontBeAllocated(user: self, context: context)
-                
+
             } catch {
                 fatalError(String(describing: error))
             }
@@ -162,7 +162,7 @@ public extension User {
             return totalTimeWorked() * wage.perSecond
         }
     }
-    
+
     func totalSpent() -> Double {
         let expenses = getExpensesSpentBetween()
         let goals = getGoalsSpentBetween()
@@ -261,7 +261,17 @@ public extension User {
 
     func getTimeBlocksBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [TimeBlock] {
         let shifts = getShiftsBetween(startDate: startDate, endDate: endDate)
+
         return shifts.flatMap { $0.getTimeBlocks() }
+    }
+
+    func getTimeBlocks(withTitle title: String, startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [TimeBlock] {
+        let simpleTitle = title.lowercased().removingWhiteSpaces()
+        return getTimeBlocksBetween(startDate: startDate, endDate: endDate)
+            .filter { block in
+                let blockSimpleTitle = block.getTitle().lowercased().removingWhiteSpaces()
+                return blockSimpleTitle == simpleTitle
+            }
     }
 
     func getTimeWorkedBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> TimeInterval {

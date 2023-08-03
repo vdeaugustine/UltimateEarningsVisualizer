@@ -23,6 +23,30 @@ struct NewHomeView: View {
 
                 PayoffQueueView_HomeView()
                 WageBreakdown_NewHomeView()
+
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text("Top Time Blocks")
+                            .format(size: 16, weight: .semibold)
+                        Spacer()
+                        Text("All")
+                            .format(size: 14, weight: .medium)
+                    }
+
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(vm.user.getTimeBlocksBetween().consolidate()) { block in
+
+                                TimeBlockRect(title: block.title,
+                                              subtitle: block.duration.breakDownTime(),
+                                              thirdTitle: "",
+                                              color: block.color)
+                            }
+                        }
+                        .padding()
+                    }
+                }
+                .padding(.horizontal)
             }
             .padding(.top)
         }
@@ -34,9 +58,9 @@ struct NewHomeView: View {
             vm.navManager.getDestinationViewForHomeStack(destination: view)
         }
     }
-
-    
 }
+
+// MARK: - ShadowForRect
 
 struct ShadowForRect: ViewModifier {
     func body(content: Content) -> some View {
