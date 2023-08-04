@@ -37,11 +37,11 @@ struct TodayViewHeaderContent: View {
                     HeaderButton(imageName: "gearshape.fill") {
                         viewModel.showHoursSheet.toggle()
                     }
-                    
+
                     HeaderButton(imageName: "minus.circle.fill") {
                         viewModel.tappedDeleteAction()
                     }
-                    
+
                     if viewModel.shiftIsOver {
                         HeaderButton(imageName: "checkmark") {
                             viewModel.navManager.todayViewNavPath.append(NavManager.TodayViewDestinations.confirmShift)
@@ -94,6 +94,8 @@ extension Font {
 // MARK: - HeaderButton
 
 struct HeaderButton: View {
+    @EnvironmentObject private var vm: TodayViewModel
+
     let imageName: String
 //    let widthHeight: CGFloat = 48
     let action: () -> Void
@@ -104,8 +106,8 @@ struct HeaderButton: View {
                 .font(.system(size: 20))
                 .padding(10)
                 .background {
-                    Circle()
-                        .fill(Color(hex: "3F63F3"))
+                    vm.settings.themeColor.brightness(0.2)
+                        .clipShape(Circle())
                 }
 //                .frame(width: widthHeight, height: widthHeight)
                 .onTapGesture(perform: action)

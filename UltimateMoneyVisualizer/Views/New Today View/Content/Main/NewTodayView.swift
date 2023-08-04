@@ -89,7 +89,7 @@ struct NewTodayView: View {
         }
         .background {
             VStack(spacing: 0) {
-                viewModel.settings.themeColor.frame(height: 300)
+                viewModel.settings.themeColor.frame(height: 500)
                 Color.white.frame(maxHeight: .infinity)
             }
             .ignoresSafeArea()
