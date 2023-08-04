@@ -24,6 +24,18 @@ public extension Allocation {
         self.goal = goal
         self.shift = shift
         self.savedItem = saved
+        
+        if let goal {
+            self.user = goal.user
+        } else if let expense {
+            self.user = expense.user
+        } else if let shift {
+            self.user = shift.user
+        } else if let saved {
+            self.user = saved.user
+        } else {
+            self.user = User.main
+        }
 
         try context.save()
     }
@@ -44,6 +56,7 @@ public extension Allocation {
         self.date = Date()
         self.shift = shift
         self.id = UUID()
+        self.user = user
         try context.save()
     }
 
@@ -68,5 +81,12 @@ extension Allocation {
             return expense.titleStr
         }
         return ""
+    }
+    
+    var payoffType: PayoffType {
+        if let goal {
+            return .goal
+        }
+        return .expense
     }
 }

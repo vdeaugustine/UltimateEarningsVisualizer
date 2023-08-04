@@ -16,13 +16,14 @@ struct TotalItem: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Image(systemName: type.imageName)
+            type.icon
                 .font(.system(size: 24))
-            Text(type.amount(vm).money()).format(size: 16,
-                                                 weight: .semibold,
-                                                 color: Color(red: 0.13,
-                                                              green: 0.13,
-                                                              blue: 0.13))
+            Text(type.amount(vm))
+                .format(size: 16,
+                        weight: .semibold,
+                        color: Color(red: 0.13,
+                                     green: 0.13,
+                                     blue: 0.13))
             Text(type.title)
                 .format(size: 12,
                         weight: .regular,
@@ -58,7 +59,7 @@ struct TotalItem: View {
 
 struct TotalsHeader: View {
     @EnvironmentObject private var vm: NewHomeViewModel
-    
+
     var body: some View {
         HStack {
             Text("Totals to Date")
@@ -74,9 +75,7 @@ struct TotalsHeader: View {
 //                .navigationDestination(for: NavManager.AllViews.self) { view in
 //                    vm.navManager.getDestinationViewForHomeStack(destination: view)
 //                }
-                
         }
-        
     }
 }
 
@@ -108,7 +107,6 @@ struct TotalsToDate_HomeView: View {
             .frame(maxWidth: 285)
         }
         .padding(.horizontal)
-        
     }
 }
 

@@ -10,6 +10,7 @@ struct TimeBlockStatsView: View {
             ScrollView {
                 VStack(spacing: 10) {
                     Toggle("Date range", isOn: $vm.includeDateRange)
+                        .padding()
 
                     if vm.includeDateRange {
                         HStack {
@@ -17,7 +18,7 @@ struct TimeBlockStatsView: View {
                             Text("-")
                             DatePicker("", selection: $vm.lastDate, displayedComponents: .date).labelsHidden()
                         }
-                        .padding(.vertical)
+                        .padding(.bottom)
                     }
 
                     LazyVStack {
@@ -36,6 +37,7 @@ struct TimeBlockStatsView: View {
                         }
                     }
                     .frame(maxWidth: .infinity)
+                    .padding(.horizontal)
 
                     VStack(spacing: 30) {
                         selectedBlocksHeader
@@ -44,12 +46,14 @@ struct TimeBlockStatsView: View {
 
                         showInstancesSection(scrollProxy)
 
-                        pieChart
+//                        pieChart
                     }
-                    .padding(.vertical)
+                    .padding()
+                    .background { Color.targetGray }
+                    
                 }
                 .frame(maxWidth: .infinity)
-                .padding()
+//                .padding()
             }
         }
         .putInTemplate(title: "Time Block Stats", displayMode: .large, settings: vm.settings)
@@ -117,6 +121,7 @@ extension TimeBlockStatsView {
         if !vm.instancesOfHighlighted.isEmpty {
             GPTPieChart(pieChartData: vm.pieChartData, includeLegend: true)
                 .frame(height: 200)
+                
         }
         
     }

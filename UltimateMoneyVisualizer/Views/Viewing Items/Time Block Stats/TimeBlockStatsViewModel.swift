@@ -56,7 +56,7 @@ class TimeBlockStatsViewModel: ObservableObject {
             }
         }()
 
-        return [.init(color: .blue, name: "In time block", amount: durationForHighlighted),
-                .init(color: .red, name: "Other work", amount: totalTimeWorked - durationForHighlighted)]
+        return [.init(name: "In time block", amount: durationForHighlighted),
+                .init(name: "Other work", amount: totalTimeWorked - durationForHighlighted)]
     }
 }

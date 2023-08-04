@@ -309,6 +309,34 @@ public extension User {
         return newSettings
     }
 
+    // MARK: - Allocations
+
+    func getExpenseAllocations() -> [Allocation] {
+        getAllocations().filter( {$0.payoffType == .expense })
+    }
+
+    func getGoalAllocations() -> [Allocation] {
+        getAllocations().filter({ $0.payoffType == .goal })
+    }
+
+    func getAllocations() -> [Allocation] {
+        guard let allocations = Array(allocations ?? []) as? [Allocation] else { return [] }
+        return allocations.sorted(by: { $0.date ?? .distantPast > $1.date ?? .distantPast })
+    }
+
+    func amountAllocated() -> Double {
+        getAllocations().reduce(Double.zero) { $0 + $1.amount }
+    }
+    
+    func amountAllocatedToGoals() -> Double {
+        getGoalAllocations().reduce(Double.zero, { $0 + $1.amount })
+    }
+    
+    func amountAllocatedToExpenses() -> Double {
+        getExpenseAllocations().reduce(Double.zero, { $0 + $1.amount })
+    }
+
+
     // MARK: - Expenses
 
     func getExpenses() -> [Expense] {
