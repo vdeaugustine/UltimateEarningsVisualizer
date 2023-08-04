@@ -7,11 +7,13 @@
 
 import SwiftUI
 
+// MARK: - TodayViewInfoRect
+
 struct TodayViewInfoRect: View {
     let imageName: String
     let valueString: String
     let bottomLabel: String
-    
+
     let isPayOffItem: Bool
     let circleColor: Color
 
@@ -19,34 +21,34 @@ struct TodayViewInfoRect: View {
         self.imageName = imageName
         self.valueString = valueString
         self.bottomLabel = bottomLabel
-        isPayOffItem = false
-        circleColor = .white
+        self.isPayOffItem = false
+        self.circleColor = .white
     }
 
     init(circleColor: Color, valueString: String, bottomLabel: String) {
         self.valueString = valueString
         self.bottomLabel = bottomLabel
         self.imageName = ""
-        
-        isPayOffItem = true
+
+        self.isPayOffItem = true
         self.circleColor = circleColor
     }
 
     var body: some View {
         ZStack(alignment: .leading) {
-            Rectangle()
-                .fill(Color.white)
-                .frame(height: 124)
-                .frame(maxWidth: 181)
-                .cornerRadius(20)
-                .shadow(color: .black.opacity(0.25), radius: 2, x: 1, y: 3)
+//            Rectangle()
+//                .fill(Color.white)
+//                .frame(height: 124)
+//                .frame(maxWidth: 181)
+//                .cornerRadius(20)
+//                .shadow(color: .black.opacity(0.25), radius: 2, x: 1, y: 3)
 
             VStack(alignment: .leading, spacing: 12) {
                 if isPayOffItem {
                     Circle()
                         .fill(circleColor)
                         .frame(height: 20)
-                        
+
                 } else {
                     Image(systemName: imageName)
                         .font(.system(size: 28))
@@ -62,8 +64,14 @@ struct TodayViewInfoRect: View {
             }
             .padding(.leading, 16)
         }
+        .frame(height: 124)
+        .frame(maxWidth: 181, alignment: .leading)
+        .cornerRadius(20)
+        .modifier(ShadowForRect())
     }
 }
+
+// MARK: - TodayViewInfoRect_Previews
 
 struct TodayViewInfoRect_Previews: PreviewProvider {
     static var previews: some View {

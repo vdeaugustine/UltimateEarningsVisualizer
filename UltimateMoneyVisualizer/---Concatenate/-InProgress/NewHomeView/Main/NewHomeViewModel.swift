@@ -17,6 +17,15 @@ class NewHomeViewModel: ObservableObject {
     @Published var selectedTotalItem: TotalTypes = .earned
     
     @Published var taxesToggleOn: Bool = User.main.getWage().includeTaxes
+    
+    func payoffItemTapped(_ item: PayoffItem?) {
+        if let goal = item as? Goal {
+            navManager.homeNavPath.append(NavManager.AllViews.goal(goal))
+        }
+        else if let expense = item as? Expense {
+            navManager.homeNavPath.append(NavManager.AllViews.expense(expense))
+        }
+    }
 
     enum TotalTypes: String, CaseIterable, Identifiable, Hashable, CustomStringConvertible {
         case earned, taxes, expenses, goals, saved
@@ -82,5 +91,10 @@ class NewHomeViewModel: ObservableObject {
                     "\(vm.user.getAllocations().count) items"
             }
         }
+        
+        
+        
+        
+        
     }
 }

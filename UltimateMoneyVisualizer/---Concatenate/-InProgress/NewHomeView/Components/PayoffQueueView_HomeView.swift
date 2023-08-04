@@ -10,8 +10,10 @@ import SwiftUI
 // MARK: - PayoffQueueView_HomeView
 
 struct PayoffQueueView_HomeView: View {
+    
+    @EnvironmentObject private var vm: NewHomeViewModel
+    
     @State private var payoffQueueIndexDisplayed: Int = 0
-
     @State private var selectedTab: Int = 0
     @ObservedObject private var user = User.main
     @State private var index: Int = 0
@@ -40,6 +42,10 @@ struct PayoffQueueView_HomeView: View {
         .frame(maxWidth: .infinity)
         .modifier(ShadowForRect())
         .padding(.horizontal)
+        .onTapGesture {
+            print("tapped")
+            vm.payoffItemTapped(payoffItemDisplayed)
+        }
     }
 
     struct ImagePart: View {
@@ -215,5 +221,6 @@ struct PayoffQueueView_HomeView_Previews: PreviewProvider {
     static var previews: some View {
         PayoffQueueView_HomeView()
             .templateForPreview()
+            .environmentObject(NewHomeViewModel.shared)
     }
 }

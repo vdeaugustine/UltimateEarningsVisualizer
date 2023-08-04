@@ -24,9 +24,9 @@ struct TodayPaidOffRectContainer<Content: View>: View {
             RoundedRectangle(cornerRadius: 15)
                 .inset(by: 0.5)
                 .fill(Color.white)
-                .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
+                /*shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 2)*/
                 .frame(height: 100)
-            
+                .modifier(ShadowForRect())
             
             content
         }

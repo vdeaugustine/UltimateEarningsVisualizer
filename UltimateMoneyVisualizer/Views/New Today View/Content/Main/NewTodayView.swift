@@ -14,13 +14,6 @@ struct NewTodayView: View {
 
     @State var offset: CGFloat = 0
 
-//    init() {
-//        UINavigationBar.appearance().barTintColor = .clear
-//        UINavigationBar.appearance().backgroundColor = .clear
-//        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
-//        UINavigationBar.appearance().shadowImage = UIImage()
-//    }
-
     var body: some View {
         Group {
             if viewModel.user.todayShift != nil {
@@ -68,21 +61,7 @@ struct NewTodayView: View {
 
                 Spacer()
             }
-
-//            .overlay {
-//                GeometryReader { geo in
-//                    Color.clear
-//                        .onAppear(perform: {
-//                            print(geo.frame(in: .global).minY)
-//                        })
-//                }
-//                .frame(width: 0, height: 0)
-//            }
-//
-//            .onPreferenceChange(RectanglePreferenceKey.self, perform: { value in
-//                print(value.minY)
-//            })
-            .background(Color.targetGray)
+            .background(Color.white)
             .frame(maxHeight: .infinity)
 
             Spacer()
@@ -95,21 +74,12 @@ struct NewTodayView: View {
             .ignoresSafeArea()
             
         }
-
-//        .safeAreaInset(edge: .top, content: {
-//            viewModel.settings.themeColor
-//                .ignoresSafeArea()
-//                .frame(height: 35)
-//
-//        })
         .putInTemplate(displayMode: .inline)
         .confirmationDialog("Delete shift?",
                             isPresented: $viewModel.showDeleteConfirmation,
                             titleVisibility: .visible) {
             Button("Confirm", role: .destructive, action: viewModel.deleteShift)
         }
-//        .navigationTitle("Today")
-//        .background(background)
         .onReceive(viewModel.timer) { _ in
             viewModel.addSecond()
         }
@@ -128,11 +98,6 @@ struct NewTodayView: View {
             viewModel.navManager.getDestinationViewForTodayViewStack(destination: $0)
         }
 
-//        .navigationTitle("Today Shift")
-//        .navigationBarTitleDisplayMode(.inline)
-//        .toolbarBackground(Color.blue.opacity(0.5))
-//        .toolbarColorScheme(.dark, for: .navigationBar)
-//        .toolbarBackground(.visible, for: .navigationBar)
     }
 
     var headerAndBar: some View {
