@@ -14,10 +14,22 @@ struct NewTodayView: View {
 
     @State var offset: CGFloat = 0
 
+//    init() {
+//        UINavigationBar.appearance().barTintColor = .clear
+//        UINavigationBar.appearance().backgroundColor = .clear
+//        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+//        UINavigationBar.appearance().shadowImage = UIImage()
+//    }
+
     var body: some View {
         Group {
             if viewModel.user.todayShift != nil {
                 mainView
+                    .safeAreaInset(edge: .top) {
+                        viewModel.settings.themeColor
+                        .ignoresSafeArea(edges: .top)
+                        .frame(height: 0)
+                }
 
             } else {
                 YouHaveNoShiftView(showHoursSheet: $viewModel.showHoursSheet)
@@ -27,6 +39,7 @@ struct NewTodayView: View {
             SelectHours()
         }
         .environmentObject(viewModel)
+        
     }
 
     var mainView: some View {
@@ -55,28 +68,52 @@ struct NewTodayView: View {
 
                 Spacer()
             }
+
+//            .overlay {
+//                GeometryReader { geo in
+//                    Color.clear
+//                        .onAppear(perform: {
+//                            print(geo.frame(in: .global).minY)
+//                        })
+//                }
+//                .frame(width: 0, height: 0)
+//            }
+//
+//            .onPreferenceChange(RectanglePreferenceKey.self, perform: { value in
+//                print(value.minY)
+//            })
             .background(Color.targetGray)
             .frame(maxHeight: .infinity)
 
             Spacer()
         }
-        .putInTemplate()
+        .background {
+            VStack(spacing: 0) {
+                viewModel.settings.themeColor.frame(height: 300)
+                Color.white.frame(maxHeight: .infinity)
+            }
+            .ignoresSafeArea()
+            
+        }
+
 //        .safeAreaInset(edge: .top, content: {
-//            Color(hex: "003DFF")
-//                .frame(height: 75).ignoresSafeArea()
+//            viewModel.settings.themeColor
+//                .ignoresSafeArea()
+//                .frame(height: 35)
+//
 //        })
+        .putInTemplate(displayMode: .inline)
         .confirmationDialog("Delete shift?",
                             isPresented: $viewModel.showDeleteConfirmation,
                             titleVisibility: .visible) {
             Button("Confirm", role: .destructive, action: viewModel.deleteShift)
         }
-        .navigationTitle("Confirm Shift")
-        .navigationBarTitleDisplayMode(.inline)
+//        .navigationTitle("Today")
 //        .background(background)
         .onReceive(viewModel.timer) { _ in
             viewModel.addSecond()
         }
-        
+
         .onAppear(perform: viewModel.user.updateTempQueue)
         .bottomBanner(isVisible: $viewModel.showBanner,
                       mainText: "Shift Complete!",
@@ -130,5 +167,15 @@ struct NewTodayView_Previews: PreviewProvider {
             NewTodayView()
                 .environmentObject(TodayViewModel.main)
         }
+    }
+}
+
+// MARK: - TodayViewPreferenceKey
+
+struct TodayViewPreferenceKey: PreferenceKey {
+    static var defaultValue: CGRect = .zero
+
+    static func reduce(value: inout CGRect, nextValue: () -> CGRect) {
+        value = nextValue()
     }
 }

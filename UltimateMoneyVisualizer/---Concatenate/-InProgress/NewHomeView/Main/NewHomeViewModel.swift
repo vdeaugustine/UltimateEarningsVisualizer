@@ -21,6 +21,7 @@ class NewHomeViewModel: ObservableObject {
     enum TotalTypes: String, CaseIterable, Identifiable, Hashable, CustomStringConvertible {
         case earned, taxes, expenses, goals, saved
         case paidOff = "Paid Off"
+        
 
         var title: String { rawValue.capitalized }
 

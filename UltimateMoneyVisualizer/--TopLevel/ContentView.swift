@@ -18,6 +18,13 @@ struct ContentView: View {
     @ObservedObject var settings = User.main.getSettings()
     @Environment(\.sizeCategory) var sizeCategory
     @State private var lastTab: Tabs = .home
+    
+    init() {
+        UINavigationBar.appearance().barTintColor = .clear
+        UINavigationBar.appearance().backgroundColor = .clear
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+        UINavigationBar.appearance().shadowImage = UIImage()
+    }
 
     var body: some View {
         TabView(selection: $tab.onUpdate(ifNoChange: navManager.sameTabTapped)) {
