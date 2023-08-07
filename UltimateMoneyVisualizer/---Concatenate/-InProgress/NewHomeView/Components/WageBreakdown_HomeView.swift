@@ -10,7 +10,7 @@ import SwiftUI
 
 // MARK: - WageBreakdown_NewHomeView
 
-struct WageBreakdown_NewHomeView: View {
+struct WageBreakdown_HomeView: View {
     @EnvironmentObject private var vm: NewHomeViewModel
 
     var body: some View {
@@ -123,7 +123,7 @@ struct WageBreakdown_NewHomeView: View {
 
 struct WageBreakdown_NewHomeView_Previews: PreviewProvider {
     static var previews: some View {
-        WageBreakdown_NewHomeView()
+        WageBreakdown_HomeView()
             .templateForPreview()
             .environmentObject(NewHomeViewModel.shared)
     }

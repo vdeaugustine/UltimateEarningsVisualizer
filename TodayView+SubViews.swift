@@ -64,7 +64,7 @@ extension TodayView {
 
         var body: some View {
             VStack {
-                Text("Hours for \(Date.now.getFormattedDate(format: .abreviatedMonth))")
+                Text("Hours for \(Date.now.getFormattedDate(format: .abbreviatedMonth))")
                     .font(.headline)
                     .spacedOut {
                         Button {

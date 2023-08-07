@@ -16,7 +16,7 @@ class PayPeriodsViewModel: ObservableObject {
     
     // for design / testing right now
     func format(_ date: Date?) -> String {
-        (date ?? .now).getFormattedDate(format: .abreviatedMonthAndMinimalTime)
+        (date ?? .now).getFormattedDate(format: .abbreviatedMonthAndMinimalTime)
     }
 }
 

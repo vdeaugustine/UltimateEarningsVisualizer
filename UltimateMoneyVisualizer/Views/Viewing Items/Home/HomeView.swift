@@ -161,66 +161,68 @@ struct HomeView: View {
             StatsView()
         })
         .putInTemplate()
-        .navigationTitle(Date.now.getFormattedDate(format: .abreviatedMonth))
+        .navigationTitle(Date.now.getFormattedDate(format: .abbreviatedMonth))
         .safeAreaInset(edge: .bottom) { QuickAddButton() }
     }
 
-    struct QuickAddButton: View {
-        @State private var didTapQuickAdd = false
-        @ObservedObject private var settings = User.main.getSettings()
-        var body: some View {
-            ZStack {
-                if didTapQuickAdd {
-                    PlusMenu(widthAndHeight: 50)
-                        .offset(y: -60)
-                }
+    
+}
 
-                NavigationLink {
-                    NewItemCreationView()
-                } label: {
-                    VStack {
-                        Image(systemName: "plus.circle.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 50)
-                            .background(Circle().fill(.white))
-                            .foregroundStyle(settings.getDefaultGradient())
-                            .rotationEffect(didTapQuickAdd ? .degrees(315) : .degrees(0))
-                    }
+struct QuickAddButton: View {
+    @State private var didTapQuickAdd = false
+    @ObservedObject private var settings = User.main.getSettings()
+    var body: some View {
+        ZStack {
+//            if didTapQuickAdd {
+//                PlusMenu(widthAndHeight: 50)
+//                    .offset(y: -60)
+//            }
+
+            NavigationLink {
+                NewItemCreationView()
+            } label: {
+                VStack {
+                    Image(systemName: "plus.circle.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 50)
+                        .background(Circle().fill(.white))
+                        .foregroundStyle(settings.getDefaultGradient())
+                        .rotationEffect(didTapQuickAdd ? .degrees(315) : .degrees(0))
                 }
             }
-            .padding(.bottom, 5)
         }
+        .padding(.bottom, 5)
     }
+}
 
-    struct PlusMenu: View {
-        let widthAndHeight: CGFloat
+struct PlusMenu: View {
+    let widthAndHeight: CGFloat
 
-        var body: some View {
-            HStack(spacing: 50) {
-                NavigationLink {
-                    SpendNewMoneyFirstView()
-                } label: {
-                    Image(systemName: "chart.line.downtrend.xyaxis.circle.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .foregroundStyle(Color.niceRed.getGradient())
-                        .background(Circle().fill(.white))
-                        .frame(width: widthAndHeight, height: widthAndHeight)
-                }
-                NavigationLink {
-                    AddNewMoneyFirstView()
-                } label: {
-                    Image(systemName: "chart.line.uptrend.xyaxis.circle.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .foregroundStyle(Color.okGreen.getGradient())
-                        .background(Circle().fill(.white))
-                        .frame(width: widthAndHeight, height: widthAndHeight)
-                }
+    var body: some View {
+        HStack(spacing: 50) {
+            NavigationLink {
+                SpendNewMoneyFirstView()
+            } label: {
+                Image(systemName: "chart.line.downtrend.xyaxis.circle.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .foregroundStyle(Color.niceRed.getGradient())
+                    .background(Circle().fill(.white))
+                    .frame(width: widthAndHeight, height: widthAndHeight)
             }
-            .transition(.scale)
+            NavigationLink {
+                AddNewMoneyFirstView()
+            } label: {
+                Image(systemName: "chart.line.uptrend.xyaxis.circle.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .foregroundStyle(Color.okGreen.getGradient())
+                    .background(Circle().fill(.white))
+                    .frame(width: widthAndHeight, height: widthAndHeight)
+            }
         }
+        .transition(.scale)
     }
 }
 

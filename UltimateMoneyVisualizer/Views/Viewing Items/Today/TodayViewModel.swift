@@ -210,7 +210,7 @@ class TodayViewModel: ObservableObject {
               let startTime = todayShift.startTime else {
             return ""
         }
-        return startTime.getFormattedDate(format: .abreviatedMonth)
+        return startTime.getFormattedDate(format: .abbreviatedMonth)
     }
 
     var elapsedTime: Double {

@@ -44,11 +44,11 @@ public extension PayPeriod {
 
 public extension PayPeriod {
     var title: String {
-        "Pay period for \(firstDate!.getFormattedDate(format: "MMM d")) - \(payDay!.getFormattedDate(format: .abreviatedMonth))"
+        "Pay period for \(firstDate!.getFormattedDate(format: "MMM d")) - \(payDay!.getFormattedDate(format: .abbreviatedMonth))"
     }
     
     var dateRangeString: String {
-        "\(firstDate!.getFormattedDate(format: "MMM d")) - \(payDay!.getFormattedDate(format: .abreviatedMonth))"
+        "\(firstDate!.getFormattedDate(format: "MMM d")) - \(payDay!.getFormattedDate(format: .abbreviatedMonth))"
     }
 
     func getFirstDate() -> Date {

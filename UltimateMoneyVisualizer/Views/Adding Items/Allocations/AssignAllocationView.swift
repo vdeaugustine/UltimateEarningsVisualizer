@@ -340,7 +340,7 @@ struct ShiftRowForAllocSheet: View {
                 .cornerRadius(8)
 
             VStack(alignment: .leading) {
-                Text(shift.start.getFormattedDate(format: .abreviatedMonth))
+                Text(shift.start.getFormattedDate(format: .abbreviatedMonth))
                     .font(.subheadline)
                     .foregroundColor(.primary)
 

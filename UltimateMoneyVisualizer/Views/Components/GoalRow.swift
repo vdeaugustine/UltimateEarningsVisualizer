@@ -69,7 +69,7 @@ struct GoalRow: View {
                             .cornerRadius(8)
 
                         if let dueDate = goal.dueDate {
-                            Text(dueDate.getFormattedDate(format: .abreviatedMonth))
+                            Text(dueDate.getFormattedDate(format: .abbreviatedMonth))
                                 .font(.caption)
                                 .foregroundColor(Color.hexStringToColor(hex: "8E8E93"))
                         }

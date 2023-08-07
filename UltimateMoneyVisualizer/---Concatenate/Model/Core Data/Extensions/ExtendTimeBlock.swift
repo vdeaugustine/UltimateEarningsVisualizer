@@ -131,18 +131,6 @@ struct TimeBlockKey: Hashable {
 }
 
 extension Array where Element == TimeBlock {
-//    func consolidate() -> [CondensedTimeBlock] {
-//        var consolidatedDict: [TimeBlockKey: TimeInterval] = [:]
-//
-//        for timeBlock in self {
-//            let key = TimeBlockKey(title: timeBlock.getTitle(), colorHex: timeBlock.getColor().getHex())
-//            consolidatedDict[key, default: 0] += timeBlock.duration
-//        }
-//
-//        return consolidatedDict.map {
-//            CondensedTimeBlock(title: $0.key.title, duration: $0.value, colorHex: $0.key.colorHex)
-//        }
-//    }
 
     func consolidate() -> [CondensedTimeBlock] {
         var retArr = [CondensedTimeBlock]()
@@ -171,6 +159,6 @@ extension Array where Element == TimeBlock {
             retArr.append(condensed)
             blocksThatHaveBeenUsed.insert(simpleTitle)
         }
-        return retArr
+        return retArr.sorted(by: { $0.duration > $1.duration })
     }
 }

@@ -41,7 +41,7 @@ class StatsViewModel: ObservableObject {
     func rowText(forIndex index: Int) -> (title: String, detail: String) {
         let item = itemsForList.safeGet(at: index)
         if let shift = item as? Shift {
-            return (shift.start.getFormattedDate(format: .abreviatedMonth), shift.totalEarned.money())
+            return (shift.start.getFormattedDate(format: .abbreviatedMonth), shift.totalEarned.money())
         }
         else if let saved = item as? Saved {
             return (saved.getTitle(), saved.getAmount().money())

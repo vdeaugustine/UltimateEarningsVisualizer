@@ -99,7 +99,7 @@ struct AllocationDetailView: View {
                         ShiftDetailView(shift: shift)
                     } label: {
                         HStack {
-                            Text("Shift for " + shift.start.getFormattedDate(format: .abreviatedMonth))
+                            Text("Shift for " + shift.start.getFormattedDate(format: .abbreviatedMonth))
                             Spacer()
 
                             Text(shift.totalEarned.money())

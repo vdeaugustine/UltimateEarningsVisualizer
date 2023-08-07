@@ -62,7 +62,7 @@ struct ExpenseWithImageAndGradientView: View {
                             ProgressBar(percentage: expense.percentPaidOff, height: 3)
 
                             HStack {
-                                Text(expense.dueDate?.getFormattedDate(format: .abreviatedMonth) ?? "")
+                                Text(expense.dueDate?.getFormattedDate(format: .abbreviatedMonth) ?? "")
 
                                 Spacer()
                                 Text((expense.percentPaidOff * 100).simpleStr() + "%")

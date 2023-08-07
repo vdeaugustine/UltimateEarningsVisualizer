@@ -15,7 +15,7 @@ struct TotalItem: View {
     let type: NewHomeViewModel.TotalTypes
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .center, spacing: 10) {
             type.icon
                 .font(.system(size: 24))
             Text(type.amount(vm))
@@ -47,8 +47,8 @@ struct TotalItem: View {
 //                }
             }
         }
-
-        .frame(width: 100)
+        .frame(maxWidth: .infinity)
+//        .pushLeft()
         .onTapGesture {
             vm.selectedTotalItem = type
         }
@@ -82,31 +82,43 @@ struct TotalsHeader: View {
 // MARK: - TotalsToDate_HomeView
 
 struct TotalsToDate_HomeView: View {
+    // Define the grid layout
+    let layout = [GridItem(.fixed(100)),
+                  GridItem(.fixed(100)),
+                  GridItem(.fixed(100))]
+
     var body: some View {
         VStack(spacing: 30) {
             TotalsHeader()
-            VStack(spacing: 14) {
-                HStack {
-                    TotalItem(type: .earned)
-                    Spacer()
-                    TotalItem(type: .paidOff)
-                    Spacer()
-                    TotalItem(type: .taxes)
-                }
-                .frame(height: 75)
-
-                HStack {
-                    TotalItem(type: .expenses)
-                    Spacer()
-                    TotalItem(type: .goals)
-                    Spacer()
-                    TotalItem(type: .saved)
-                }
-                .frame(height: 75)
+//            Grid(alignment: .center) {
+//                GridRow {
+//                    TotalItem(type: .earned)
+//                    TotalItem(type: .paidOff)
+//                    TotalItem(type: .taxes)
+//                }
+//
+//                GridRow {
+//                    TotalItem(type: .expenses)
+//                    TotalItem(type: .goals)
+//                    TotalItem(type: .saved)
+//                }
+//            }
+//             v
+//            .frame(alignment: .center)
+            LazyVGrid(columns: layout, alignment: .center) {
+                TotalItem(type: .earned)
+                TotalItem(type: .paidOff)
+                TotalItem(type: .taxes)
+                TotalItem(type: .expenses)
+                TotalItem(type: .goals)
+                TotalItem(type: .saved)
             }
-            .frame(maxWidth: 285)
+//            .frame(maxWidth: 285)
+            .frame(alignment: .center)
+            
         }
         .padding(.horizontal)
+        
     }
 }
 
@@ -118,3 +130,11 @@ struct TotalItem_Previews: PreviewProvider {
             .environmentObject(NewHomeViewModel())
     }
 }
+
+struct TotalsToDate_HomeView_Previews: PreviewProvider {
+    static var previews: some View {
+        TotalsToDate_HomeView()
+            .environmentObject(NewHomeViewModel.shared)
+    }
+}
+

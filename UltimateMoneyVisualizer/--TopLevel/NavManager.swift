@@ -22,7 +22,10 @@ class NavManager: ObservableObject {
     @Published var scrollProxy: ScrollViewProxy?
 
     enum AllViews: Hashable {
-        case home, settings, today, confirmToday, stats, wage(Wage), expense(Expense), goal(Goal)
+        case home, settings, today, confirmToday, stats, wage(Wage), expense(Expense), goal(Goal), newItemCreation
+        case allTimeBlocks
+        case timeBlockDetail(TimeBlock)
+        case condensedTimeBlock(CondensedTimeBlock)
     }
 
     func clearAllPaths() {
@@ -109,8 +112,27 @@ class NavManager: ObservableObject {
                 ExpenseDetailView(expense: expense)
             case .goal(let goal):
                 GoalDetailView(goal: goal)
+            case .allTimeBlocks:
+                AllTimeBlocksView()
+            case .newItemCreation:
+                NewItemCreationView()
+            case .timeBlockDetail(let block):
+                TimeBlockDetailView(block: block)
+            case .condensedTimeBlock(let block):
+                CondensedTimeBlockView(block: block)
+                
             default:
                 EmptyView()
         }
+    }
+}
+
+extension NavigationPath {
+    mutating func appendView(_ view: NavManager.AllViews) {
+        self.append(view)
+    }
+    
+    mutating func appendTodayView(_ view: NavManager.TodayViewDestinations) {
+        self.append(view)
     }
 }

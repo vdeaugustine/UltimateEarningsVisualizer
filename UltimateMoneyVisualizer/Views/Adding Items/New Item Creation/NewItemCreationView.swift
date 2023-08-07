@@ -16,7 +16,7 @@ struct NewItemCreationView: View {
         GeometryReader { geo in
             ScrollView {
                 VStack(spacing: 40) {
-                    EnterDoublePart(viewModel: viewModel, geo: geo)
+                    
 
                     HStack {
                         ForEach(NewItemViewModel.SelectedType.allCases) { type in
@@ -43,6 +43,8 @@ struct NewItemCreationView: View {
                             .minimumScaleFactor(0.01)
                     }
                     .font(.title2)
+                    
+                    EnterDoublePart(viewModel: viewModel, geo: geo)
                 }
                 .frame(maxHeight: .infinity)
             }

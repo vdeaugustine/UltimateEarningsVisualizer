@@ -59,7 +59,8 @@ struct TodayViewPaidOffRect: View {
                        gradient: gradient,
                        lineWidth: 5,
                        showCheckWhenComplete: false) {
-            Text(item.type.rawValue.uppercased())
+            Text(item.type.titleForProgressCircle)
+                .lineLimit(1)
                 .font(.lato(.regular, 12))
                 .fontWeight(.bold)
                 .foregroundStyle(Color(uiColor: .gray))

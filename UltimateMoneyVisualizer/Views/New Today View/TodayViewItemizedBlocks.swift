@@ -47,7 +47,7 @@ struct TodayViewItemizedBlocks: View {
                             // TODO: Navigate to time block creation page
 
                             if let todayShift = model.user.todayShift {
-                                navManager.todayViewNavPath.append(NavManager.TodayViewDestinations.newTimeBlock(todayShift))
+                                navManager.todayViewNavPath.appendTodayView(.newTimeBlock(todayShift))
                             }
 
                         } label: {

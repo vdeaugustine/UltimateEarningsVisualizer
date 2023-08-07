@@ -156,7 +156,7 @@ struct AddAllocationForGoalView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background { Color.listBackgroundColor }
             .putInTemplate()
-            .navigationTitle("Shift for " + shift.start.getFormattedDate(format: .abreviatedMonth))
+            .navigationTitle("Shift for " + shift.start.getFormattedDate(format: .abbreviatedMonth))
             .toast(isPresenting: $showToast, alert: { toastConfig })
             .bottomButton(label: "Save") {
                 do {
@@ -240,7 +240,7 @@ struct AddAllocationForGoalView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background { Color.listBackgroundColor }
             .putInTemplate()
-            .navigationTitle("Shift for " + saved.getDate().getFormattedDate(format: .abreviatedMonth))
+            .navigationTitle("Shift for " + saved.getDate().getFormattedDate(format: .abbreviatedMonth))
             .toast(isPresenting: $showToast, alert: { toastConfig })
             .bottomButton(label: "Save") {
                 do {

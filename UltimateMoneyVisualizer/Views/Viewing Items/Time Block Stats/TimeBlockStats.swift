@@ -99,7 +99,7 @@ extension TimeBlockStatsView {
 
                         TimeBlockRect(title: block.title ?? "",
                                       subtitle: block.duration.breakDownTime(),
-                                      thirdTitle: "Recent: " + (block.endTime?.getFormattedDate(format: .abreviatedMonthAndMinimalTime) ?? ""),
+                                      thirdTitle: "Recent: " + (block.endTime?.getFormattedDate(format: .abbreviatedMonthAndMinimalTime) ?? ""),
                                       color: block.getColor())
                     }
                 }

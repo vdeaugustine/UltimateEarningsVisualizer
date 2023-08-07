@@ -10,53 +10,26 @@ struct NewHomeView: View {
         ScrollView {
             VStack(spacing: 40) {
                 TotalsToDate_HomeView()
-                SummaryView()
 
-                VStack(alignment: .leading, spacing: 14) {
-                    Text("Net Money")
-                        .format(size: 16, weight: .semibold)
-                    NetMoneyGraph()
-                }
-                .padding()
-                .modifier(ShadowForRect())
-                .padding(.horizontal)
+                SummaryView_HomeView()
+
+                NetMoney_HomeView()
 
                 PayoffQueueView_HomeView()
-                WageBreakdown_NewHomeView()
+                WageBreakdown_HomeView()
 
-                VStack(alignment: .leading) {
-                    HStack {
-                        Text("Top Time Blocks")
-                            .format(size: 16, weight: .semibold)
-                        Spacer()
-                        Text("All")
-                            .format(size: 14, weight: .medium)
-                    }
-
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
-                            ForEach(vm.user.getTimeBlocksBetween().consolidate()) { block in
-
-                                TimeBlockRect(title: block.title,
-                                              subtitle: block.duration.breakDownTime(),
-                                              thirdTitle: "",
-                                              color: block.color)
-                            }
-                        }
-                        .padding()
-                    }
-                }
-                .padding(.horizontal)
+                TopTimeBlocks_HomeView()
             }
             .padding(.top)
         }
         .environmentObject(vm)
         .putInTemplate(displayMode: .large, settings: settings)
-        .navigationTitle(Date.now.getFormattedDate(format: .abreviatedMonth))
+        .navigationTitle(Date.now.getFormattedDate(format: .abbreviatedMonth))
         .navigationDestination(for: NavManager.AllViews.self) { view in
 
             vm.navManager.getDestinationViewForHomeStack(destination: view)
         }
+        .safeAreaInset(edge: .bottom) { QuickAddButton() }
     }
 }
 
@@ -78,7 +51,7 @@ struct ShadowForRect: ViewModifier {
 
 // MARK: - SummaryView
 
-struct SummaryView: View {
+struct SummaryView_HomeView: View {
     @EnvironmentObject private var vm: NewHomeViewModel
 
     var body: some View {
@@ -160,5 +133,55 @@ struct NewHomeView_Previews: PreviewProvider {
             NewHomeView()
                 .environmentObject(NewHomeViewModel.shared)
         }
+    }
+}
+
+struct NetMoney_HomeView: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            Text("Net Money")
+                .format(size: 16, weight: .semibold)
+            NetMoneyGraph()
+        }
+        .padding()
+        .modifier(ShadowForRect())
+        .padding(.horizontal)
+    }
+}
+
+struct TopTimeBlocks_HomeView: View {
+    @EnvironmentObject private var vm: NewHomeViewModel
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            HStack {
+                Text("Top Time Blocks")
+                    .format(size: 16, weight: .semibold)
+                Spacer()
+                Button {
+                    vm.navManager.homeNavPath.append(NavManager.AllViews.allTimeBlocks)
+                } label: {
+                    Text("All")
+                        .format(size: 14, weight: .medium)
+                }
+            }
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(vm.user.getTimeBlocksBetween().consolidate()) { block in
+                        
+                        TimeBlockRect(title: block.title,
+                                      subtitle: block.duration.breakDownTime(),
+                                      thirdTitle: "",
+                                      color: block.color)
+                        .onTapGesture {
+                            vm.navManager.homeNavPath.appendView(.condensedTimeBlock(block))
+                        }
+                    }
+                }
+                .padding()
+            }
+        }
+        .padding(.horizontal)
     }
 }

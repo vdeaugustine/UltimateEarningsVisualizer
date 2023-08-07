@@ -25,7 +25,7 @@ struct ExpenseDetailView: View {
             if let dueDate = expense.dueDate {
                 Text("Due")
                     .spacedOut {
-                        Text(dueDate.getFormattedDate(format: .abreviatedMonth))
+                        Text(dueDate.getFormattedDate(format: .abbreviatedMonth))
                             .foregroundColor(expense.isPassedDue ? Color.red : Color.black)
                     }
             }
@@ -86,7 +86,7 @@ struct ExpenseDetailView: View {
                             ExpenseDetailView(expense: thisExpense)
                         } label: {
                             
-                            Text(date.getFormattedDate(format: .abreviatedMonth))
+                            Text(date.getFormattedDate(format: .abbreviatedMonth))
                                 .spacedOut(text: thisExpense.amountMoneyStr)
                         }
                     }
