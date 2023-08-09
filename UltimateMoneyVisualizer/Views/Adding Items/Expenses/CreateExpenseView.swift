@@ -99,7 +99,6 @@ struct CreateExpenseView: View {
 
         .sheet(isPresented: $showSheet, content: {
             EnterMoneyView(dubToEdit: $doubleAmount)
-
         })
 
         .toolbar {

@@ -10,48 +10,59 @@ import SwiftUI
 // MARK: - NewItemCreationView
 
 struct NewItemCreationView: View {
-    @ObservedObject private var viewModel: NewItemViewModel = .init()
+    @StateObject private var viewModel: NewItemViewModel = .shared
 
     var body: some View {
         GeometryReader { geo in
             ScrollView {
-                VStack(spacing: 40) {
-                    EnterDoublePart(viewModel: viewModel, geo: geo)
-
-                    HStack {
-                        ForEach(NewItemViewModel.SelectedType.allCases) { type in
-                            Text(type.rawValue.capitalized)
-                                .padding(14)
-                                .background {
-                                    Capsule(style: .continuous)
-                                        .fill(viewModel.color(type))
-                                    Capsule(style: .continuous)
-                                        .stroke(viewModel.borderColor(type), style: .init(lineWidth: 1))
-                                }
-                                .foregroundStyle(viewModel.foreground(type))
-                                .onTapGesture { viewModel.tapAction(type) }
+                VStack(spacing: 20) {
+                        Picker("Item Type", selection: $viewModel.selectedType) {
+                            ForEach(NewItemViewModel.SelectedType.allCases) { type in
+                                Text(type.rawValue.capitalized)
+                                    .id(type)
+                            }
                         }
-                    }
+                        .pickerStyle(.segmented)
+                        .padding([.horizontal, .top], 5)
+                  
 
                     VStack {
                         Text(viewModel.timeLabelPrefix)
                             .fontWeight(.medium)
                             .minimumScaleFactor(0.01)
-                        Text(viewModel.toTime.formatForTime([.day, .hour, .minute, .second]))
+                        Text(viewModel.toTime.breakDownTime())
                             .fontWeight(.bold)
-                            .foregroundStyle(viewModel.settings.getDefaultGradient())
                             .minimumScaleFactor(0.01)
+                        
+                        Divider().padding(.horizontal)
                     }
                     .font(.title2)
+
+                    EnterDoublePart(viewModel: viewModel, geo: geo)
                 }
                 .frame(maxHeight: .infinity)
+                
             }
         }
-        .padding(.top).padding(.top)
+        
         .navigationTitle("Enter")
         .putInTemplate()
-        .bottomNavigation(label: "Next", destination: { viewModel.navLinkForNextView })
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    viewModel.navManager.homeNavPath.appendView(viewModel.getViewType())
+                } label: {
+                    Label("Next", systemImage: "chevron.right")
+                        .labelStyle(.titleOnly)
+                }
+                
+            }
+        }
+        .environmentObject(viewModel)
     }
+    
+    
+    
 
     struct EnterDoublePart: View {
         @ObservedObject var viewModel: NewItemViewModel
@@ -74,7 +85,6 @@ struct NewItemCreationView: View {
                         .frame(maxWidth: .infinity)
                         .font(.system(size: 55))
                         .fontWeight(.bold)
-                        .foregroundStyle(viewModel.settings.getDefaultGradient())
                         .padding(.bottom)
                         .lineLimit(1)
                         .minimumScaleFactor(0.8)
@@ -156,7 +166,7 @@ struct NewItemCreationView: View {
                     }
                 }
             }
-            .foregroundStyle(viewModel.settings.getDefaultGradient())
+//            .foregroundStyle(viewModel.settings.themeColor)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .onChange(of: viewModel.enteredStr) { newValue in
                 if newValue.isEmpty {

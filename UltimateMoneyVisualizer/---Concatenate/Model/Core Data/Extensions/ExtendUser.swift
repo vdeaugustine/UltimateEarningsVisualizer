@@ -55,11 +55,11 @@ public extension User {
                 RegularSchedule([.tuesday, .wednesday, .thursday],
                                 user: self,
                                 context: context)
-                
+
                 // Make Expenses that will not be allocated
-                
+
                 try Expense.makeExpensesThatWontBeAllocated(user: self, context: context)
-                
+
             } catch {
                 fatalError(String(describing: error))
             }
@@ -137,6 +137,10 @@ public extension User {
     func convertMoneyToTime(money: Double) -> TimeInterval {
         money / getWage().perSecond
     }
+    
+    func convertTimeToMoney(seconds: TimeInterval) -> Double {
+        getWage().perSecond * seconds
+    }
 
     // MARK: - Wage and Money
 
@@ -163,13 +167,19 @@ public extension User {
         }
     }
 
-    func totalNetMoneyBetween(_ startDate: Date, _ endDate: Date) -> Double {
+    func totalSpent() -> Double {
+        let expenses = getAmountForAllExpensesBetween()
+        let goals = getAmountForAllGoalsBetween()
+        return expenses + goals
+    }
+
+    func totalNetMoneyBetween(_ startDate: Date = .distantPast, _ endDate: Date = .distantFuture) -> Double {
         // Total net money should be this formula
         // Earned + Saved - (AllocatedUpToThisDay)
         let earned = getTotalEarnedBetween(startDate: startDate, endDate: endDate)
         let amountSaved = getAmountSavedBetween(startDate: startDate, endDate: endDate)
-        let expenses = getExpensesSpentBetween(startDate: startDate, endDate: endDate)
-        let goals = getGoalsSpentBetween(startDate: startDate, endDate: endDate)
+        let expenses = getAmountForAllExpensesBetween(startDate: startDate, endDate: endDate)
+        let goals = getAmountForAllGoalsBetween(startDate: startDate, endDate: endDate)
 
         return (earned + amountSaved) - (expenses + goals)
     }
@@ -255,7 +265,17 @@ public extension User {
 
     func getTimeBlocksBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [TimeBlock] {
         let shifts = getShiftsBetween(startDate: startDate, endDate: endDate)
+
         return shifts.flatMap { $0.getTimeBlocks() }
+    }
+
+    func getTimeBlocks(withTitle title: String, startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [TimeBlock] {
+        let simpleTitle = title.lowercased().removingWhiteSpaces()
+        return getTimeBlocksBetween(startDate: startDate, endDate: endDate)
+            .filter { block in
+                let blockSimpleTitle = block.getTitle().lowercased().removingWhiteSpaces()
+                return blockSimpleTitle == simpleTitle
+            }
     }
 
     func getTimeWorkedBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> TimeInterval {
@@ -293,6 +313,34 @@ public extension User {
         return newSettings
     }
 
+    // MARK: - Allocations
+
+    func getExpenseAllocations() -> [Allocation] {
+        getAllocations().filter( {$0.payoffType == .expense })
+    }
+
+    func getGoalAllocations() -> [Allocation] {
+        getAllocations().filter({ $0.payoffType == .goal })
+    }
+
+    func getAllocations() -> [Allocation] {
+        guard let allocations = Array(allocations ?? []) as? [Allocation] else { return [] }
+        return allocations.sorted(by: { $0.date ?? .distantPast > $1.date ?? .distantPast })
+    }
+
+    func amountAllocated() -> Double {
+        getAllocations().reduce(Double.zero) { $0 + $1.amount }
+    }
+    
+    func amountAllocatedToGoals() -> Double {
+        getGoalAllocations().reduce(Double.zero, { $0 + $1.amount })
+    }
+    
+    func amountAllocatedToExpenses() -> Double {
+        getExpenseAllocations().reduce(Double.zero, { $0 + $1.amount })
+    }
+
+
     // MARK: - Expenses
 
     func getExpenses() -> [Expense] {
@@ -308,9 +356,22 @@ public extension User {
         return filteredExpenses
     }
 
-    func getExpensesSpentBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> Double {
+    func getAmountForAllExpensesBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> Double {
         let expenses = getExpensesBetween(startDate: startDate, endDate: endDate)
         return expenses.reduce(Double.zero) { $0 + $1.amount }
+    }
+    
+    func getUnfinishedExpenses(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [Expense] {
+        getExpensesBetween(startDate: startDate, endDate: endDate).filter({ $0.isPaidOff == false })
+    }
+    
+    func getAmountRemainingToPay_Expenses() -> Double {
+        getUnfinishedExpenses().reduce(Double.zero, { $0 + $1.amountRemainingToPayOff })
+    }
+    
+    func getAmountActuallySpentOnExpenses(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> Double {
+        let expenses = getExpensesBetween(startDate: startDate, endDate: endDate)
+        return expenses.reduce(Double.zero) { $0 + $1.amountPaidOff }
     }
 
     func getInstancesOf(expense: Expense) -> [Expense] {
@@ -349,6 +410,14 @@ public extension User {
         guard let goals else { return [] }
         return Array(goals) as? [Goal] ?? []
     }
+    
+    func getUnfinishedGoals(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [Goal] {
+        getGoalsBetween(startDate: startDate, endDate: endDate).filter({ $0.isPaidOff == false })
+    }
+    
+    func getAmountRemainingToPay_Goals() -> Double {
+        getUnfinishedGoals().reduce(Double.zero, { $0 + $1.amountRemainingToPayOff })
+    }
 
     func getGoalsBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [Goal] {
         let filteredGoals = getGoals().filter { goal in
@@ -358,9 +427,14 @@ public extension User {
         return filteredGoals
     }
 
-    func getGoalsSpentBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> Double {
+    func getAmountForAllGoalsBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> Double {
         let goals = getGoalsBetween(startDate: startDate, endDate: endDate)
         return goals.reduce(Double.zero) { $0 + $1.amount }
+    }
+    
+    func getAmountActuallySpentOnGoals(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> Double {
+        let goals = getGoalsBetween(startDate: startDate, endDate: endDate)
+        return goals.reduce(Double.zero) { $0 + $1.amountPaidOff }
     }
 
     func getInstancesOf(goal: Goal) -> [Goal] {
@@ -428,6 +502,21 @@ public extension User {
             saved.getTitle() == savedItem.getTitle()
         }
         return filtered
+    }
+    
+    
+    // MARK: - Taxes
+    
+    func getStateTaxesPaid(from start: Date = .distantPast, to end: Date = .distantFuture) -> Double {
+        getWage().stateTaxMultiplier * getTotalEarnedBetween(startDate: start, endDate: end)
+    }
+    
+    func getFederalTaxesPaid(from start: Date = .distantPast, to end: Date = .distantFuture) -> Double {
+        getWage().federalTaxMultiplier * getTotalEarnedBetween(startDate: start, endDate: end)
+    }
+    
+    func getTotalTaxesPaid(from start: Date = .distantPast, to end: Date = .distantFuture) -> Double {
+        getWage().totalTaxMultiplier * getTotalEarnedBetween(startDate: start, endDate: end)
     }
 
     // MARK: - Payoff Queue

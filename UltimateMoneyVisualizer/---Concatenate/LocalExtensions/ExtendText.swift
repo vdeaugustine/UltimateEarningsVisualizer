@@ -25,4 +25,19 @@ extension Text {
     func boldNumber() -> some View {
         modifier(BoldNumber())
     }
+    
+    
+    func format(size: CGFloat, weight: Font.Weight = .regular, color: Color = .textPrimary) -> Text {
+        self.font(.system(size: size)).fontWeight(weight).foregroundColor(color)
+    }
+    
+    
+    
+    
+}
+
+extension Font {
+    static let robotoRegular: String = "Roboto-Regular"
+    
+    
 }

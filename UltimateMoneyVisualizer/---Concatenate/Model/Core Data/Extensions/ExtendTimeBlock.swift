@@ -100,3 +100,65 @@ extension TimeBlock {
         return "\(firstString) - \(secondString)"
     }
 }
+
+// MARK: - CondensedTimeBlock
+
+struct CondensedTimeBlock: Hashable, Identifiable {
+    let title: String
+    let duration: TimeInterval
+    let colorHex: String
+    let lastUsed: Date
+
+    
+    func actualBlocks(_ user: User) -> [TimeBlock] {
+        user.getTimeBlocks(withTitle: title)
+    }
+    
+    func actualBlocks(_ user: User, start: Date, end: Date) -> [TimeBlock] {
+        user.getTimeBlocks(withTitle: title, startDate: start, endDate: end)
+    }
+    
+    
+    var color: Color { Color(hex: colorHex) }
+    var id: Self { self }
+}
+
+// MARK: - TimeBlockKey
+
+struct TimeBlockKey: Hashable {
+    let title: String
+    let colorHex: String
+}
+
+extension Array where Element == TimeBlock {
+
+    func consolidate() -> [CondensedTimeBlock] {
+        var retArr = [CondensedTimeBlock]()
+        var blocksThatHaveBeenUsed = Set<String>()
+        for block in self {
+            let simpleTitle = block.getTitle().removingWhiteSpaces().lowercased()
+            guard let user = block.user,
+                  blocksThatHaveBeenUsed.contains(simpleTitle) == false
+            else { continue }
+
+            let thisBlockAndMatching: [TimeBlock] = user.getTimeBlocks(withTitle: block.getTitle()).sorted(by: {
+                let firstEnd = $0.endTime ?? .distantPast
+                let secondEnd = $1.endTime ?? .distantPast
+                return firstEnd > secondEnd
+            })
+            let combinedDuration: Double = thisBlockAndMatching.reduce(Double.zero) { partialResult, nextBlock in
+                partialResult + nextBlock.duration
+            }
+            
+            let lastUsedBlock = thisBlockAndMatching.first ?? thisBlockAndMatching.first(where: { $0.endTime != nil })
+            
+            let condensed = CondensedTimeBlock(title: block.getTitle(),
+                                               duration: combinedDuration,
+                                               colorHex: block.getColor().getHex(),
+                                               lastUsed: lastUsedBlock?.endTime ?? .now)
+            retArr.append(condensed)
+            blocksThatHaveBeenUsed.insert(simpleTitle)
+        }
+        return retArr.sorted(by: { $0.duration > $1.duration })
+    }
+}

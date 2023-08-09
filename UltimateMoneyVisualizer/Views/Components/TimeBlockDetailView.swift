@@ -20,9 +20,13 @@ struct TimeBlockDetailView: View {
 
     var body: some View {
         List {
+            
+            if let title = block.title {
+                Text(title)
+            }
             if let startDate = block.startTime {
                 Text("Date")
-                    .spacedOut(text: startDate.getFormattedDate(format: .abreviatedMonth))
+                    .spacedOut(text: startDate.getFormattedDate(format: .abbreviatedMonth))
                 Text("Start")
                     .spacedOut(text: startDate.getFormattedDate(format: .minimalTime))
             }

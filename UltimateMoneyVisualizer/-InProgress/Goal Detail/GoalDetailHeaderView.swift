@@ -61,7 +61,7 @@ struct GoalDetailHeaderView: View {
 
     var dueDateLineString: String {
         if let dueDate = goal.dueDate {
-            return dueDate.getFormattedDate(format: .abreviatedMonth)
+            return dueDate.getFormattedDate(format: .abbreviatedMonth)
         } else {
             return "Set a due date"
         }

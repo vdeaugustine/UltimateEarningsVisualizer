@@ -31,13 +31,30 @@ extension ScrollView {
 
 extension View {
     // Main function
-    func putInTemplate() -> some View {
-        navigationBarTitleDisplayMode(.inline)
+    func putInTemplate(displayMode: NavigationBarItem.TitleDisplayMode = .large, settings: Settings = User.main.getSettings()) -> some View {
+        navigationBarTitleDisplayMode(displayMode)
             .toolbarColorScheme(.dark, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarBackground(LinearGradient(stops: [.init(color: Color(hex: "003DFF"),
+            .toolbarBackground(LinearGradient(stops: [.init(color: settings.themeColor,
                                                             location: 0),
-                                                      .init(color: Color(hex: "003DFF").getLighterColorForGradient(90),
+                                                      .init(color: settings.themeColor.getLighterColorForGradient(90),
+                                                            location: 1)],
+                                              startPoint: .leading,
+                                              endPoint: .trailing),
+                               for: .navigationBar)
+            .toolbarBackground(.visible, for: .tabBar)
+            .accentColor(User.main.getSettings().themeColor)
+            .tint(User.main.getSettings().themeColor)
+    }
+    
+    func putInTemplate(title: String, displayMode: NavigationBarItem.TitleDisplayMode = .large, settings: Settings = User.main.getSettings()) -> some View {
+        navigationBarTitleDisplayMode(displayMode)
+            .navigationTitle(title)
+            .toolbarColorScheme(.dark, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
+            .toolbarBackground(LinearGradient(stops: [.init(color: settings.themeColor,
+                                                            location: 0),
+                                                      .init(color: settings.themeColor.getLighterColorForGradient(90),
                                                             location: 1)],
                                               startPoint: .leading,
                                               endPoint: .trailing),
@@ -51,6 +68,7 @@ extension View {
         ZStack {
             Color.listBackgroundColor
             self
+                .putInNavView(.large)
         }
         .ignoresSafeArea()
     }
@@ -89,6 +107,7 @@ extension View {
             }
         }
     }
+    
 
     // Home section views
     func homeSection<Content: View>(rectContainer: Bool = true,

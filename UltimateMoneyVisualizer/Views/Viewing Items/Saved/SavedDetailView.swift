@@ -80,7 +80,7 @@ struct SavedDetailView: View {
                         NavigationLink {
                             SavedDetailView(saved: thisSaved)
                         } label: {
-                            Text(thisSaved.getDate().getFormattedDate(format: .abreviatedMonth))
+                            Text(thisSaved.getDate().getFormattedDate(format: .abbreviatedMonth))
                                 .spacedOut(text: thisSaved.getAmount().money())
                         }
                     }

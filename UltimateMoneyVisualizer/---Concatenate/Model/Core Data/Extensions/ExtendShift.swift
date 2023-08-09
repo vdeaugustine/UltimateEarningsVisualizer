@@ -117,41 +117,42 @@ public extension Shift {
                           context: context)
 
             // MARK: - Allocations here
-            // For each shift, create 20 random allocations to goals and expenses.
-//            for _ in 0 ..< 20 {
-//                // Check if there is any available amount left in the shift before creating allocations.
-//                if shift.totalAvailable > 0 {
-//                    // Randomly pick a goal that has a remaining amount to be paid off and create an allocation for it.
-//                    if let chosenGoal = goalsNotFinished.randomElement() {
-//                        let allocatableAmount = min(chosenGoal.amountRemainingToPayOff,
-//                                                    shift.totalAvailable)
-//                        if allocatableAmount >= 0.01 {
-//                            let allocation = try! Allocation(amount: .random(in: 0.01 ... allocatableAmount),
-//                                                             goal: chosenGoal,
-//                                                             shift: shift,
-//                                                             date: day,
-//                                                             context: context)
-//                            shift.addToAllocations(allocation)
-//                            try context.save()
-//                        }
-//                    }
-//
-//                    // Randomly pick an expense that has a remaining amount to be paid off and create an allocation for it.
-//                    if let chosenExpense = expensesNotFinished.randomElement() {
-//                        let allocatableAmount = min(chosenExpense.amountRemainingToPayOff,
-//                                                    shift.totalAvailable)
-//                        if allocatableAmount >= 0.01 {
-//                            let allocation = try! Allocation(amount: .random(in: 0.01 ... allocatableAmount),
-//                                                             expense: chosenExpense,
-//                                                             shift: shift,
-//                                                             date: day,
-//                                                             context: context)
-//                            shift.addToAllocations(allocation)
-//                            try context.save()
-//                        }
-//                    }
-//                }
-//            }
+            // For each shift, create x random allocations to goals and expenses.
+            let x = 3
+            for _ in 0 ..< x {
+                // Check if there is any available amount left in the shift before creating allocations.
+                if shift.totalAvailable > 0 {
+                    // Randomly pick a goal that has a remaining amount to be paid off and create an allocation for it.
+                    if let chosenGoal = goalsNotFinished.randomElement() {
+                        let allocatableAmount = min(chosenGoal.amountRemainingToPayOff,
+                                                    shift.totalAvailable)
+                        if allocatableAmount >= 0.01 {
+                            let allocation = try! Allocation(amount: .random(in: 0.01 ... allocatableAmount),
+                                                             goal: chosenGoal,
+                                                             shift: shift,
+                                                             date: day,
+                                                             context: context)
+                            shift.addToAllocations(allocation)
+                            try context.save()
+                        }
+                    }
+
+                    // Randomly pick an expense that has a remaining amount to be paid off and create an allocation for it.
+                    if let chosenExpense = expensesNotFinished.randomElement() {
+                        let allocatableAmount = min(chosenExpense.amountRemainingToPayOff,
+                                                    shift.totalAvailable)
+                        if allocatableAmount >= 0.01 {
+                            let allocation = try! Allocation(amount: .random(in: 0.01 ... allocatableAmount),
+                                                             expense: chosenExpense,
+                                                             shift: shift,
+                                                             date: day,
+                                                             context: context)
+                            shift.addToAllocations(allocation)
+                            try context.save()
+                        }
+                    }
+                }
+            }
 
             try context.save()
         }

@@ -15,13 +15,11 @@ import Vin
 struct AllTimeBlocksView: View {
     @ObservedObject private var user: User = .main
     @State private var selectedBlock: TimeBlock? = nil
+    @ObservedObject private var navManager: NavManager = .shared
 
     var body: some View {
         List {
             ForEach(removeRedundant(user.getTimeBlocksBetween())) { block in
-//                NavigationLink {
-//                    TimeBlockDetailView(block: block)
-//                } label: {
                     VStack {
                         HStack {
                             Circle()
@@ -43,13 +41,9 @@ struct AllTimeBlocksView: View {
                         }
                         .foregroundStyle(isSelected(block) ? Color.white : Color.black)
                         .allPartsTappable(alignment: .leading)
-//                        .onTapGesture {
-//                            if isSelected(block) {
-//                                selectedBlock = nil
-//                            } else {
-//                                selectedBlock = block
-//                            }
-//                        }
+                        .onTapGesture {
+                            navManager.homeNavPath.append(NavManager.AllViews.timeBlockDetail(block))
+                        }
                     }
 //                }
 
@@ -85,6 +79,7 @@ struct AllTimeBlocksView: View {
                 .frame(minHeight: 250)
             }
         }
+        .background { Color.listBackgroundColor }
         .putInTemplate()
         .navigationTitle("Time Blocks")
     }

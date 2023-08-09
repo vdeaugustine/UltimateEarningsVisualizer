@@ -22,12 +22,17 @@ class NavManager: ObservableObject {
     @Published var scrollProxy: ScrollViewProxy?
 
     enum AllViews: Hashable {
-        case home, settings, today, confirmToday
+        case home, settings, today, confirmToday, stats, wage(Wage), expense(Expense), goal(Goal), newItemCreation
+        case allTimeBlocks
+        case timeBlockDetail(TimeBlock)
+        case condensedTimeBlock(CondensedTimeBlock)
+        case createExpense, createGoal, createSaved
     }
 
     func clearAllPaths() {
         homeNavPath = .init()
         settingsNavPath = .init()
+        todayViewNavPath = .init()
     }
 
     func sameTabTapped(tabTapped: Tabs) {
@@ -47,12 +52,17 @@ class NavManager: ObservableObject {
                 break
             case .allItems:
                 break
+            case .newHome:
+                break
         }
     }
 
     enum Tabs: String, Hashable, CustomStringConvertible, Equatable {
         var description: String { rawValue.capitalized }
         case settings, expenses, home, shifts, today, addShifts, allItems
+
+        // testing
+        case newHome
     }
 
     enum PossiblePaths: Hashable {
@@ -70,9 +80,8 @@ class NavManager: ObservableObject {
              goalDetail(Goal),
              expenseDetail(Expense)
     }
-    
-    
-    @ViewBuilder func getDestinationViewForTodayViewStack (destination: NavManager.TodayViewDestinations) -> some View {
+
+    @ViewBuilder func getDestinationViewForTodayViewStack(destination: NavManager.TodayViewDestinations) -> some View {
         switch destination {
             case .confirmShift:
                 ConfirmTodayShift().environmentObject(TodayViewModel.main)
@@ -87,5 +96,49 @@ class NavManager: ObservableObject {
             case let .newTimeBlock(todayShift):
                 CreateNewTimeBlockView(todayShift: todayShift)
         }
+    }
+
+    @ViewBuilder func getDestinationViewForHomeStack(destination: NavManager.AllViews) -> some View {
+        switch destination {
+            case .home:
+                NewHomeView()
+            case .settings:
+                SettingsView()
+            case .stats:
+                StatsView()
+            case let .wage(wage):
+                WageView(wage: wage)
+            case let .expense(expense):
+                ExpenseDetailView(expense: expense)
+            case let .goal(goal):
+                GoalDetailView(goal: goal)
+            case .allTimeBlocks:
+                AllTimeBlocksView()
+            case .newItemCreation:
+                NewItemCreationView()
+            case let .timeBlockDetail(block):
+                TimeBlockDetailView(block: block)
+            case let .condensedTimeBlock(block):
+                CondensedTimeBlockView(block: block)
+            case .createGoal:
+                CreateGoalView().environmentObject(NewItemViewModel.shared)
+            case .createExpense:
+                CreateExpenseView().environmentObject(NewItemViewModel.shared)
+            case .createSaved:
+                CreateSavedView().environmentObject(NewItemViewModel.shared)
+
+            default:
+                EmptyView()
+        }
+    }
+}
+
+extension NavigationPath {
+    mutating func appendView(_ view: NavManager.AllViews) {
+        append(view)
+    }
+
+    mutating func appendTodayView(_ view: NavManager.TodayViewDestinations) {
+        append(view)
     }
 }

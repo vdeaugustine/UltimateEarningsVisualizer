@@ -27,6 +27,17 @@ public enum PayoffType: String {
             self = .expense
         }
     }
+    
+    var titleForProgressCircle: String {
+        switch self {
+            case .goal:
+                return "GOAL"
+            case .expense:
+                return "EXP"
+            case .tax:
+                return "TAX"
+        }
+    }
 }
 
 public protocol PayoffItem {
