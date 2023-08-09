@@ -169,6 +169,7 @@ struct HomeView: View {
 }
 
 struct QuickAddButton: View {
+    @EnvironmentObject private var vm: NewHomeViewModel
     @State private var didTapQuickAdd = false
     @ObservedObject private var settings = User.main.getSettings()
     var body: some View {
@@ -178,8 +179,9 @@ struct QuickAddButton: View {
 //                    .offset(y: -60)
 //            }
 
-            NavigationLink {
-                NewItemCreationView()
+            
+            Button {
+                vm.navManager.homeNavPath.appendView(.newItemCreation)
             } label: {
                 VStack {
                     Image(systemName: "plus.circle.fill")

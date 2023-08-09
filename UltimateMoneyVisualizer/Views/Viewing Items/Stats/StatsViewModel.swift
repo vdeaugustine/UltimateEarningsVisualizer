@@ -76,7 +76,22 @@ class StatsViewModel: ObservableObject {
         guard let item = itemsForList.safeGet(at: index)
         
         else { return }
-        navManager.homeNavPath.append(item)
+//        navManager.homeNavPath.append(item)
+        
+        if let shift = item as? Shift {
+//            navManager.homeNavPath.appendView(.)
+        }
+        else if let saved = item as? Saved {
+//            SavedDetailView(saved: saved)
+//            navManager.homeNavPath.appendView(.)
+        }
+        else if let goal = item as? Goal {
+//            GoalDetailView(goal: goal)
+            navManager.homeNavPath.appendView(.goal(goal))
+        }
+        else if let expense = item as? Expense {
+            navManager.homeNavPath.appendView(.expense(expense))
+        }
     }
     
     
@@ -128,16 +143,16 @@ class StatsViewModel: ObservableObject {
                           .init(label: "Time", value: user.getTimeWorkedBetween(startDate: firstDate, endDate: secondDate).breakDownTime(), view: nil)]
             case .spent:
                 retArr = [.init(label: "Expenses", value: user.getExpensesBetween(startDate: firstDate, endDate: secondDate).count.str, view: nil),
-                          .init(label: "Amount", value: user.getExpensesSpentBetween(startDate: firstDate, endDate: secondDate).money(), view: nil),
-                          .init(label: "Time", value: user.convertMoneyToTime(money: user.getExpensesSpentBetween(startDate: firstDate, endDate: secondDate)).breakDownTime(), view: nil)]
+                          .init(label: "Amount", value: user.getAmountForAllExpensesBetween(startDate: firstDate, endDate: secondDate).money(), view: nil),
+                          .init(label: "Time", value: user.convertMoneyToTime(money: user.getAmountForAllExpensesBetween(startDate: firstDate, endDate: secondDate)).breakDownTime(), view: nil)]
             case .saved:
                 retArr = [.init(label: "Saved", value: user.getSavedBetween(startDate: firstDate, endDate: secondDate).count.str, view: nil),
                           .init(label: "Amount", value: user.getAmountSavedBetween(startDate: firstDate, endDate: secondDate).money(), view: nil),
                           .init(label: "Time", value: user.convertMoneyToTime(money: user.getAmountSavedBetween(startDate: firstDate, endDate: secondDate)).breakDownTime(), view: nil)]
             case .goals:
                 retArr = [.init(label: "Goals", value: user.getGoalsBetween(startDate: firstDate, endDate: secondDate).count.str, view: nil),
-                          .init(label: "Amount", value: user.getGoalsSpentBetween(startDate: firstDate, endDate: secondDate).money(), view: nil),
-                          .init(label: "Time", value: user.convertMoneyToTime(money: user.getGoalsSpentBetween(startDate: firstDate, endDate: secondDate)).breakDownTime(), view: nil)]
+                          .init(label: "Amount", value: user.getAmountForAllGoalsBetween(startDate: firstDate, endDate: secondDate).money(), view: nil),
+                          .init(label: "Time", value: user.convertMoneyToTime(money: user.getAmountForAllGoalsBetween(startDate: firstDate, endDate: secondDate)).breakDownTime(), view: nil)]
         }
 
         return retArr

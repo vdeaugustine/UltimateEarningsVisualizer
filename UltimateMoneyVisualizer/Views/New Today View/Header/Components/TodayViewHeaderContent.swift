@@ -32,6 +32,9 @@ struct TodayViewHeaderContent: View {
                         .font(.lato(.thin, 20))
                     }
                 }
+                .onChange(of: viewModel.user.wage?.amount) { newValue in
+                    print("New value \(newValue ?? 0)")
+                }
 
                 VStack(spacing: 4) {
                     HeaderButton(imageName: "gearshape.fill") {

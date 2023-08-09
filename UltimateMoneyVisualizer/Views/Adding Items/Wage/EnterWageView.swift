@@ -237,6 +237,11 @@ struct EnterWageView: View {
         }
         .toolbarSave {
             do {
+                if let existingWage = user.wage {
+                    viewContext.delete(existingWage)
+                    try viewContext.save()
+                    print("Was able to save")
+                }
                 let hourly = isSalaried ? getHourlyWage(salaryDouble) : hourlyDouble
                 let wage = try Wage(amount: hourly,
                                     isSalary: isSalaried,

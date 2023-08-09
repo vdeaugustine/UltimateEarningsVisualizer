@@ -32,8 +32,8 @@ struct WageBreakdown_HomeView: View {
 
             Spacer()
 
-            Text((vm.taxesToggleOn ? "After" : "Before") + " Taxes")
-                .format(size: 12,
+            Text("Taxes")
+                .format(size: 14,
                         weight: .regular,
                         color: vm.taxesToggleOn ? .textOnColor : .textPrimary)
                 .padding(8, 2)

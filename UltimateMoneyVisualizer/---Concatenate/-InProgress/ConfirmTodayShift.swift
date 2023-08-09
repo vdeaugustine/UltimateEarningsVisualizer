@@ -54,7 +54,7 @@ struct ConfirmTodayShift: View {
 
                         TodayViewInfoRect(imageName: "dollarsign.circle",
                                           valueString: viewModel.haveEarnedAfterTaxes.money(),
-                                          bottomLabel: "After Taxes")
+                                          bottomLabel: "Taxes")
                     }
                     HStack {
                         TodayViewInfoRect(imageName: "dollarsign.circle",

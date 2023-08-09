@@ -73,10 +73,6 @@ struct StatsView: View {
                         }
                         .allPartsTappable()
                         .onTapGesture { vm.tapAction(index: itemIndex) }
-//                        .navigationDestination(for: Shift.self) { ShiftDetailView(shift: $0) }
-//                        .navigationDestination(for: Goal.self) { GoalDetailView(goal: $0) }
-//                        .navigationDestination(for: Expense.self) { ExpenseDetailView(expense: $0) }
-//                        .navigationDestination(for: Saved.self) { SavedDetailView(saved: $0) }
                     }
                 } header: {
                     Text(vm.listHeader.capitalized)

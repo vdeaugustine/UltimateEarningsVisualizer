@@ -175,19 +175,19 @@ class TodayViewModel: ObservableObject {
 
     var taxesTempPayoffs: [TempTodayPayoff] {
         var expenses: [TempTodayPayoff] = []
-        if wage.includeTaxes {
-            if wage.stateTaxPercentage > 0 {
+        if user.getWage().includeTaxes {
+            if user.getWage().stateTaxPercentage > 0 {
                 expenses.append(
-                    .init(amount: willEarn * wage.stateTaxMultiplier,
+                    .init(amount: willEarn * user.getWage().stateTaxMultiplier,
                           amountPaidOff: 0,
                           title: "State Tax",
                           type: .tax,
                           id: .init())
                 )
             }
-            if wage.federalTaxPercentage > 0 {
+            if user.getWage().federalTaxPercentage > 0 {
                 expenses.append(
-                    .init(amount: willEarn * wage.federalTaxMultiplier,
+                    .init(amount: willEarn * user.getWage().federalTaxMultiplier,
                           amountPaidOff: 0,
                           title: "Federal Tax",
                           type: .tax,
@@ -242,15 +242,15 @@ class TodayViewModel: ObservableObject {
     }
 
     var willEarn: Double {
-        if wage.isSalary {
-            return wage.perDay
+        if user.getWage().isSalary {
+            return user.getWage().perDay
         } else {
-            return wage.perSecond * (user.todayShift?.totalShiftDuration ?? 0)
+            return user.getWage().perSecond * (user.todayShift?.totalShiftDuration ?? 0)
         }
     }
 
     var willEarnAfterTaxes: Double {
-        willEarn * (1 - wage.totalTaxMultiplier)
+        willEarn * (1 - user.getWage().totalTaxMultiplier)
     }
 
     // MARK: - Methods

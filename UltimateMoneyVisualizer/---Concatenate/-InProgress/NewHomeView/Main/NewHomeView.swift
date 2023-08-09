@@ -10,26 +10,22 @@ struct NewHomeView: View {
         ScrollView {
             VStack(spacing: 40) {
                 TotalsToDate_HomeView()
-
                 SummaryView_HomeView()
-
                 NetMoney_HomeView()
-
                 PayoffQueueView_HomeView()
                 WageBreakdown_HomeView()
-
                 TopTimeBlocks_HomeView()
             }
             .padding(.top)
         }
+        .safeAreaInset(edge: .bottom) { QuickAddButton() }
         .environmentObject(vm)
         .putInTemplate(displayMode: .large, settings: settings)
         .navigationTitle(Date.now.getFormattedDate(format: .abbreviatedMonth))
         .navigationDestination(for: NavManager.AllViews.self) { view in
-
             vm.navManager.getDestinationViewForHomeStack(destination: view)
         }
-        .safeAreaInset(edge: .bottom) { QuickAddButton() }
+        
     }
 }
 
@@ -49,7 +45,7 @@ struct ShadowForRect: ViewModifier {
     }
 }
 
-// MARK: - SummaryView
+// MARK: - SummaryView_HomeView
 
 struct SummaryView_HomeView: View {
     @EnvironmentObject private var vm: NewHomeViewModel
@@ -58,8 +54,9 @@ struct SummaryView_HomeView: View {
         VStack(spacing: 16) {
             HeaderView(title: "\(vm.selectedTotalItem.title) Summary", subtitle: vm.selectedTotalItem.quantityLabel(vm))
             VStack(spacing: 12) {
-                SubSectionView(title: "Paid off", value: "$821")
-                SubSectionView(title: "Outstanding", value: "$1,829")
+                ForEach(vm.getSummaryRows()) { row in
+                    SubSection(title: row.title, value: row.valueString)
+                }
             }
             Divider()
             HStack {
@@ -68,7 +65,7 @@ struct SummaryView_HomeView: View {
                     .underline()
                     .foregroundColor(Color(red: 0.13, green: 0.13, blue: 0.13))
                 Spacer()
-                Text("$2,400")
+                Text(vm.getSummaryTotal().money())
                     .font(.system(size: 14))
                     .fontWeight(.semibold)
                     .foregroundColor(Color(red: 0.13, green: 0.13, blue: 0.13))
@@ -104,14 +101,14 @@ struct SummaryView_HomeView: View {
 
     // MARK: - SubSectionView
 
-    struct SubSectionView: View {
+    struct SubSection: View {
         let title: String
         let value: String
 
         var body: some View {
             HStack {
                 Text(title)
-                    .underline()
+//                    .underline()
                     .foregroundColor(Color(red: 0.13, green: 0.13, blue: 0.13))
 
                 Spacer()
@@ -136,6 +133,8 @@ struct NewHomeView_Previews: PreviewProvider {
     }
 }
 
+// MARK: - NetMoney_HomeView
+
 struct NetMoney_HomeView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
@@ -149,9 +148,11 @@ struct NetMoney_HomeView: View {
     }
 }
 
+// MARK: - TopTimeBlocks_HomeView
+
 struct TopTimeBlocks_HomeView: View {
     @EnvironmentObject private var vm: NewHomeViewModel
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -165,18 +166,18 @@ struct TopTimeBlocks_HomeView: View {
                         .format(size: 14, weight: .medium)
                 }
             }
-            
+
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(vm.user.getTimeBlocksBetween().consolidate()) { block in
-                        
+
                         TimeBlockRect(title: block.title,
                                       subtitle: block.duration.breakDownTime(),
                                       thirdTitle: "",
                                       color: block.color)
-                        .onTapGesture {
-                            vm.navManager.homeNavPath.appendView(.condensedTimeBlock(block))
-                        }
+                            .onTapGesture {
+                                vm.navManager.homeNavPath.appendView(.condensedTimeBlock(block))
+                            }
                     }
                 }
                 .padding()

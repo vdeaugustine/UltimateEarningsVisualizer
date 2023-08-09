@@ -8,10 +8,14 @@
 import Foundation
 import SwiftUI
 class NewItemViewModel: ObservableObject {
+    static var shared = NewItemViewModel.init()
+    
     @ObservedObject var settings = User.main.getSettings()
     @ObservedObject var user = User.main
+    @ObservedObject var navManager = NavManager.shared
     @Published var enteredStr = ""
     @Published var selectedType: SelectedType = .expense
+    
 
     enum SelectedType: String, CaseIterable, Hashable, Identifiable {
         case expense, goal
@@ -80,6 +84,17 @@ class NewItemViewModel: ObservableObject {
     func append(_ num: Int) {
         if enteredStr.count < 14 {
             enteredStr += "\(num)"
+        }
+    }
+    
+    func getViewType() -> NavManager.AllViews {
+        switch selectedType {
+            case .expense:
+                return .createExpense
+            case .goal:
+                return .createGoal
+            case .saved:
+                return .createSaved
         }
     }
 }

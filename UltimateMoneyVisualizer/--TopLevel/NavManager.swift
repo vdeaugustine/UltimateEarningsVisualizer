@@ -26,6 +26,7 @@ class NavManager: ObservableObject {
         case allTimeBlocks
         case timeBlockDetail(TimeBlock)
         case condensedTimeBlock(CondensedTimeBlock)
+        case createExpense, createGoal, createSaved
     }
 
     func clearAllPaths() {
@@ -59,7 +60,7 @@ class NavManager: ObservableObject {
     enum Tabs: String, Hashable, CustomStringConvertible, Equatable {
         var description: String { rawValue.capitalized }
         case settings, expenses, home, shifts, today, addShifts, allItems
-        
+
         // testing
         case newHome
     }
@@ -79,9 +80,8 @@ class NavManager: ObservableObject {
              goalDetail(Goal),
              expenseDetail(Expense)
     }
-    
-    
-    @ViewBuilder func getDestinationViewForTodayViewStack (destination: NavManager.TodayViewDestinations) -> some View {
+
+    @ViewBuilder func getDestinationViewForTodayViewStack(destination: NavManager.TodayViewDestinations) -> some View {
         switch destination {
             case .confirmShift:
                 ConfirmTodayShift().environmentObject(TodayViewModel.main)
@@ -97,7 +97,7 @@ class NavManager: ObservableObject {
                 CreateNewTimeBlockView(todayShift: todayShift)
         }
     }
-    
+
     @ViewBuilder func getDestinationViewForHomeStack(destination: NavManager.AllViews) -> some View {
         switch destination {
             case .home:
@@ -106,21 +106,27 @@ class NavManager: ObservableObject {
                 SettingsView()
             case .stats:
                 StatsView()
-            case .wage(let wage):
+            case let .wage(wage):
                 WageView(wage: wage)
-            case .expense(let expense):
+            case let .expense(expense):
                 ExpenseDetailView(expense: expense)
-            case .goal(let goal):
+            case let .goal(goal):
                 GoalDetailView(goal: goal)
             case .allTimeBlocks:
                 AllTimeBlocksView()
             case .newItemCreation:
                 NewItemCreationView()
-            case .timeBlockDetail(let block):
+            case let .timeBlockDetail(block):
                 TimeBlockDetailView(block: block)
-            case .condensedTimeBlock(let block):
+            case let .condensedTimeBlock(block):
                 CondensedTimeBlockView(block: block)
-                
+            case .createGoal:
+                CreateGoalView().environmentObject(NewItemViewModel.shared)
+            case .createExpense:
+                CreateExpenseView().environmentObject(NewItemViewModel.shared)
+            case .createSaved:
+                CreateSavedView().environmentObject(NewItemViewModel.shared)
+
             default:
                 EmptyView()
         }
@@ -129,10 +135,10 @@ class NavManager: ObservableObject {
 
 extension NavigationPath {
     mutating func appendView(_ view: NavManager.AllViews) {
-        self.append(view)
+        append(view)
     }
-    
+
     mutating func appendTodayView(_ view: NavManager.TodayViewDestinations) {
-        self.append(view)
+        append(view)
     }
 }

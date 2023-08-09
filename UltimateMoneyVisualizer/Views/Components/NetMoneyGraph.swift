@@ -24,7 +24,7 @@ struct NetMoneyGraph: View {
             self.date = date
             self.day = day
             self.money = User.main.totalNetMoneyBetween(.distantPast, date)
-            self.expensesMoney = -User.main.getExpensesSpentBetween(startDate: .distantPast, endDate: date)
+            self.expensesMoney = -User.main.getAmountForAllExpensesBetween(startDate: .distantPast, endDate: date)
             self.earnedMoney = User.main.getTotalEarnedBetween(startDate: .distantPast, endDate: date)
         }
 
@@ -77,6 +77,7 @@ struct NetMoneyGraph: View {
                     
                 }
             }
+            
             .chartLegend(.visible)
             .chartForegroundStyleScale([
                 "Earned": Color.okGreen.getGradient(),

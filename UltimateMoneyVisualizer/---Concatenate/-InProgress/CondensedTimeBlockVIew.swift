@@ -10,11 +10,13 @@ struct CondensedTimeBlockView: View {
             Text(block.title)
             
             Text(block.duration.breakDownTime())
-            Color(hex: block.colorHex)
+            Text(user.convertTimeToMoney(seconds: block.duration).money())
+            Text("Average").spacedOut(text: (block.duration / Double(block.actualBlocks(user).count)).breakDownTime())
+            Text("Instances").spacedOut(text: block.actualBlocks(user).count.str)
+            Color(hex: block.colorHex).clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
             
             Section("Instances") {
                 ForEach(block.actualBlocks(user)) { block in
-                    
                     Button {
                         NavManager.shared.homeNavPath.append(NavManager.AllViews.timeBlockDetail(block))
                     } label: {
@@ -23,7 +25,7 @@ struct CondensedTimeBlockView: View {
                                 HStack {
                                     Text(block.startTime?.getFormattedDate(format: .minimalTime, amPMCapitalized: false) ?? "")
                                     Image(systemName: "chevron.right")
-                                        .foregroundStyle(Color.gray)
+                                        .font(.caption)
                                 }
                             }
                             .allPartsTappable()
