@@ -16,10 +16,30 @@ class NavManager: ObservableObject {
     @Published var homeNavPath: NavigationPath = .init()
     @Published var settingsNavPath: NavigationPath = .init()
     @Published var todayViewNavPath: NavigationPath = .init()
+    @Published var allItemsNavPath: NavigationPath = .init()
     @Published var lastPath: PossiblePaths = .none
     @Published var scrollViewID = UUID()
 
+    @Published var focusedPath: NavigationPath? = nil
+
+    @Published var currentTab: Tabs = .newHome
+
     @Published var scrollProxy: ScrollViewProxy?
+
+    func appendCorrectPath(newValue: AllViews) {
+        switch currentTab {
+            case .settings:
+                settingsNavPath.append(newValue)
+            case .today:
+                todayViewNavPath.append(newValue)
+            case .allItems:
+                allItemsNavPath.append(newValue)
+            case .newHome:
+                homeNavPath.append(newValue)
+            default:
+                break
+        }
+    }
 
     enum AllViews: Hashable {
         case home, settings, today, confirmToday, stats, wage(Wage), expense(Expense), goal(Goal), newItemCreation
@@ -27,6 +47,7 @@ class NavManager: ObservableObject {
         case timeBlockDetail(TimeBlock)
         case condensedTimeBlock(CondensedTimeBlock)
         case createExpense, createGoal, createSaved
+        case shift(Shift)
     }
 
     func clearAllPaths() {
@@ -98,7 +119,7 @@ class NavManager: ObservableObject {
         }
     }
 
-    @ViewBuilder func getDestinationViewForHomeStack(destination: NavManager.AllViews) -> some View {
+    @ViewBuilder func getDestinationViewForStack(destination: NavManager.AllViews) -> some View {
         switch destination {
             case .home:
                 NewHomeView()
@@ -126,6 +147,8 @@ class NavManager: ObservableObject {
                 CreateExpenseView().environmentObject(NewItemViewModel.shared)
             case .createSaved:
                 CreateSavedView().environmentObject(NewItemViewModel.shared)
+            case let .shift(shift):
+                ShiftDetailView(shift: shift)
 
             default:
                 EmptyView()

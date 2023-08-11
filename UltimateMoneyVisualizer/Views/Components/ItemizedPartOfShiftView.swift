@@ -85,13 +85,9 @@ struct ItemizedPartOfShiftView: View {
 
             divider(time: shift.end)
         }
-//        .navigationDestination(for: StartAndEnd.self) { newVal in
-//            CreateNewTimeBlockView(shift: shift, start: newVal.start, end: newVal.end)
+//        .navigationDestination(for: TimeBlock.self) { block in
+//            TimeBlockDetailView(block: block)
 //        }
-        .navigationDestination(for: TimeBlock.self) { block in
-            TimeBlockDetailView(block: block)
-        }
-        // }
     }
 
     func timeBlockSection(timeBlock: TimeBlock) -> some View {
@@ -100,7 +96,7 @@ struct ItemizedPartOfShiftView: View {
                let startTime = timeBlock.startTime {
                 divider(time: startTime)
             }
-            timeBlockPill(timeBlock: timeBlock)
+            row(timeBlock)
                 
             if let endTime = timeBlock.endTime {
                 divider(time: endTime)
@@ -133,15 +129,44 @@ struct ItemizedPartOfShiftView: View {
                 .foregroundColor(timeBlock.getColor())
         }
     }
+    
+    @ViewBuilder func row(_ block: TimeBlock) -> some View {
+        HStack {
+            RoundedRectangle(cornerRadius: 2)
+                .fill(block.getColor())
+                .frame(width: 3)
+                .padding(.vertical, 1)
+
+            VStack(alignment: .leading) {
+                Text(block.getTitle())
+                    .font(.lato(14))
+                    .fontWeight(.heavy)
+                    .lineLimit(1)
+
+                Text(block.timeRangeString())
+                    .font(.lato(12))
+                    .lineLimit(1)
+            }
+            .lineLimit(1)
+            Spacer()
+
+            Text(block.amountEarned().money()).font(.lato(12)).lineLimit(1)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(10)
+        .background {
+            Color.targetGray
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+        }
+        
+        .frame(height: 50)
+    }
 
     func divider(time: Date) -> some View {
         HStack(spacing: 9) {
             Text(time.getFormattedDate(format: .minimalTime))
                 .font(.system(size: 13))
-            Rectangle()
-                .frame(height: 1.5)
-                .foregroundColor(Color.black)
-                .cornerRadius(2)
+            VStack { Divider() }
         }
     }
 }

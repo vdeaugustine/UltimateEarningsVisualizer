@@ -8,6 +8,19 @@
 import CoreData
 import SwiftUI
 import Vin
+//extension Binding {
+//    func onUpdate(ifNoChange closureForNoChange: @escaping (Value) -> Void,
+//                  completion: ((Value) -> Void)? = nil) -> Binding<Value> where Value: Equatable {
+//        Binding(get: { wrappedValue },
+//                set: {
+//                    if $0 == wrappedValue {
+//                        closureForNoChange($0)
+//                    }
+//                    wrappedValue = $0
+//                    completion?(wrappedValue)
+//                })
+//    }
+//}
 
 // MARK: - ContentView
 
@@ -18,7 +31,7 @@ struct ContentView: View {
     @ObservedObject var settings = User.main.getSettings()
     @Environment(\.sizeCategory) var sizeCategory
     @State private var lastTab: Tabs = .home
-    
+
     init() {
         UINavigationBar.appearance().barTintColor = .clear
         UINavigationBar.appearance().backgroundColor = .clear
@@ -27,35 +40,39 @@ struct ContentView: View {
     }
 
     var body: some View {
-        TabView(selection: $tab.onUpdate(ifNoChange: navManager.sameTabTapped)) {
+        TabView(selection: $navManager.currentTab.onUpdate(ifNoChange: navManager.sameTabTapped)) {
 //            NavigationStack(path: $navManager.homeNavPath) {
 //                HomeView()
 //                    .id(navManager.scrollViewID)
 //            }
 //            .makeTab(tab: Tabs.home, systemImage: "house")
-            
+
             NavigationStack(path: $navManager.homeNavPath) {
                 NewHomeView()
                     .id(navManager.scrollViewID)
             }
             .makeTab(tab: Tabs.newHome, systemImage: "house")
 
-            AllItemsView()
-                .putInNavView(.inline)
-                .makeTab(tab: Tabs.allItems, systemImage: "dollarsign")
-//
+            NavigationStack(path: $navManager.allItemsNavPath){
+                AllItemsView()
+                    
+            }
+            .makeTab(tab: Tabs.allItems, systemImage: "dollarsign")
+
             NavigationStack(path: $navManager.todayViewNavPath) {
                 NewTodayView()
             }
-            .toolbarColorScheme(.dark, for: .navigationBar)
             .makeTab(tab: Tabs.today, systemImage: "bolt.shield")
 
-            SettingsView()
-                .putInNavView(.inline)
+            NavigationStack(path: $navManager.settingsNavPath) {
+                SettingsView()
+            }
                 .makeTab(tab: Tabs.settings, systemImage: "gear")
         }
         .tint(settings.themeColor)
+        
     }
+       
 }
 
 // MARK: - ContentView_Previews

@@ -12,6 +12,7 @@ import Vin
 // MARK: - ShiftListView
 
 struct ShiftListView: View {
+    @EnvironmentObject private var navManager: NavManager
     @Environment(\.managedObjectContext) private var viewContext
 
     @ObservedObject private var user: User = User.main
@@ -79,8 +80,11 @@ struct ShiftListView: View {
                                 .buttonStyle(.plain)
 
                             } else {
-                                NavigationLink {
-                                    ShiftDetailView(shift: shift)
+                                
+                                
+                                
+                                Button {
+                                    navManager.appendCorrectPath(newValue: .shift(shift))
                                 } label: {
                                     ShiftCircle(dateComponent: Calendar.current.dateComponents([.month, .day], from: shift.start),
                                                 isEditing: editMode.isEditing,
@@ -101,8 +105,8 @@ struct ShiftListView: View {
                     ForEach(user.getPayPeriods()) { period in
                         Section {
                             ForEach(period.getShifts()) { shift in
-                                NavigationLink {
-                                    ShiftDetailView(shift: shift)
+                                Button {
+                                    navManager.appendCorrectPath(newValue: .shift(shift))
                                 } label: {
                                     ShiftRowView(shift: shift)
                                 }

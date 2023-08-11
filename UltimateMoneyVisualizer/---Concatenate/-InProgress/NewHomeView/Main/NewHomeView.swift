@@ -23,7 +23,7 @@ struct NewHomeView: View {
         .putInTemplate(displayMode: .large, settings: settings)
         .navigationTitle(Date.now.getFormattedDate(format: .abbreviatedMonth))
         .navigationDestination(for: NavManager.AllViews.self) { view in
-            vm.navManager.getDestinationViewForHomeStack(destination: view)
+            vm.navManager.getDestinationViewForStack(destination: view)
         }
         
     }

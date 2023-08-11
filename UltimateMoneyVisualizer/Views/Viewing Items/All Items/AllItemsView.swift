@@ -10,6 +10,7 @@ import SwiftUI
 // MARK: - AllItemsView
 
 struct AllItemsView: View {
+    @EnvironmentObject private var navManager: NavManager
     @ObservedObject private var user = User.main
     @ObservedObject private var settings = User.main.getSettings()
     @State private var selectionType: SelectionType = .shifts
@@ -51,6 +52,9 @@ struct AllItemsView: View {
                     }
                 }
         )
+        .navigationDestination(for: NavManager.AllViews.self) { view in
+            navManager.getDestinationViewForStack(destination: view)
+        }
     }
 
     private func changeSelectionType(forward: Bool) {
