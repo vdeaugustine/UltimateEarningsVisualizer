@@ -140,18 +140,19 @@ struct ItemizedPartOfShiftView: View {
 
             VStack(alignment: .leading) {
                 Text(block.getTitle())
-                    .font(.lato(14))
-                    .fontWeight(.heavy)
+                    .format(size: 14, weight: .heavy)
                     .lineLimit(1)
 
                 Text(block.timeRangeString())
-                    .font(.lato(12))
+                    .format(size: 12)
                     .lineLimit(1)
             }
             .lineLimit(1)
             Spacer()
 
-            Text(block.amountEarned().money()).font(.lato(12)).lineLimit(1)
+            Text(block.amountEarned().money())
+                .format(size: 12)
+                .lineLimit(1)
         }
         .frame(maxWidth: .infinity)
         .padding(10)

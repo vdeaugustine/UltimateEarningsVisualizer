@@ -60,9 +60,9 @@ struct TodayViewPaidOffRect: View {
                        lineWidth: 5,
                        showCheckWhenComplete: false) {
             Text(item.type.titleForProgressCircle)
+                .format(size: 12, weight: .bold)
                 .lineLimit(1)
-                .font(.lato(.regular, 12))
-                .fontWeight(.bold)
+
                 .foregroundStyle(Color(uiColor: .gray))
         }
     }
@@ -76,7 +76,7 @@ struct TodayViewPaidOffRect: View {
             Text(item.amountPaidOff.money())
                 .lineLimit(1)
                 .minimumScaleFactor(0.85)
-                .font(.lato(16))
+                .font(.system(size: 16))
                 .fontWeight(.bold)
         }
     }
@@ -84,12 +84,12 @@ struct TodayViewPaidOffRect: View {
     var progressAndTotal: some View {
         VStack(spacing: 4) {
             Text(item.progressAmount.money().replacingOccurrences(of: "$", with: "+"))
-                .font(.lato(.regular, 16))
+                .font(.system(size: 16))
                 .fontWeight(.black)
                 .foregroundStyle(gradient)
 
             Text(item.amount.money())
-                .font(.lato(.regular, 12))
+                .font(.system(size: 12))
                 .fontWeight(.bold)
                 .foregroundStyle(Color(uiColor: .gray))
         }

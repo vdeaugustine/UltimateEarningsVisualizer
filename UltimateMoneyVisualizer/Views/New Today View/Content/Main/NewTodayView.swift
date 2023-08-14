@@ -11,9 +11,7 @@ import SwiftUI
 
 struct NewTodayView: View {
     @StateObject private var viewModel: TodayViewModel = .main
-
-    @State var offset: CGFloat = 0
-
+    
     var body: some View {
         Group {
             if viewModel.user.todayShift != nil {
@@ -35,7 +33,7 @@ struct NewTodayView: View {
         
     }
 
-    var mainView: some View {
+    @ViewBuilder var mainView: some View {
         ScrollView {
             VStack {
                 headerAndBar
@@ -100,7 +98,7 @@ struct NewTodayView: View {
 
     }
 
-    var headerAndBar: some View {
+    @ViewBuilder var headerAndBar: some View {
         VStack {
             VStack(spacing: -20) {
                 TodayViewHeader()
@@ -113,7 +111,7 @@ struct NewTodayView: View {
         }
     }
 
-    var background: some View {
+    @ViewBuilder var background: some View {
         VStack {
             Color(hex: "003DFF")
                 .frame(height: 355)

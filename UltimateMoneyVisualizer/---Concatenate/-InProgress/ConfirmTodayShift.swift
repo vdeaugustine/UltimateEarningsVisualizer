@@ -40,11 +40,9 @@ struct ConfirmTodayShift: View {
                    let end = shift.endTime {
                     VStack(spacing: 8) {
                         Text(Date.timeRangeString(start: start, end: end))
-                            .font(.lato(24))
-                            .fontWeight(.black)
+                            .format(size: 24, weight: .black)
                         Text(viewModel.elapsedTime.breakDownTime())
-                            .font(.lato(18))
-                            .fontWeight(.semibold)
+                            .format(size: 18, weight: .semibold)
                     }
 
                     HStack {
@@ -99,9 +97,7 @@ struct ConfirmTodayShift: View {
                         Spacer()
 
                         Text("Confirm Today Shift")
-                            .font(.lato(22))
-                            .fontWeight(.heavy)
-                            .foregroundStyle(Color.white)
+                            .format(size: 22, weight: .heavy, color: .white)
                         
                         Spacer()
                     }
@@ -144,7 +140,8 @@ struct ConfirmTodayShift: View {
                             Spacer()
                             Text(spentOnExpenses.money())
                         }
-                        .font(.lato(20)).fontWeight(.semibold)
+                        .font(.system(size: 20))
+                        .fontWeight(.semibold)
                         .foregroundColor(Color(hex: "4E4E4E"))
                     }
                 }
@@ -171,7 +168,9 @@ struct ConfirmTodayShift: View {
                             Spacer()
                             Text(spentOnGoals.money())
                         }
-                        .font(.lato(20)).fontWeight(.semibold)
+                        
+                        .font(.system(size: 20))
+                        .fontWeight(.semibold)
                         .foregroundColor(Color(hex: "4E4E4E"))
                     }
                 }

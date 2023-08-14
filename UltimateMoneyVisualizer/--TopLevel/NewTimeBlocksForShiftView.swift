@@ -54,13 +54,12 @@ struct NewTimeBlocksForShiftView: View {
 
             VStack(alignment: .leading) {
                 Text(block.getTitle())
-                    .font(.lato(16))
-                    .fontWeight(.heavy)
+                    .format(size: 16, weight: .heavy)
 
                 Text(block.timeRangeString())
-                    .font(.lato(14))
+                    .format(size: 14)
                 Text(block.duration.breakDownTime())
-                    .font(.lato(14))
+                    .format(size: 14)
             }
             .lineLimit(1)
             Spacer()

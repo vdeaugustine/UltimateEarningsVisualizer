@@ -20,13 +20,12 @@ struct TodayViewItemizedBlock: View {
 
             VStack(alignment: .leading) {
                 Text(block.getTitle())
-                    .font(.lato(16))
-                    .fontWeight(.heavy)
+                    .format(size: 16, weight: .heavy)
 
                 Text(block.timeRangeString())
-                    .font(.lato(14))
+                    .format(size: 14)
                 Text(block.duration.breakDownTime())
-                    .font(.lato(14))
+                    .format(size: 14)
             }
             .lineLimit(1)
             Spacer()
@@ -57,13 +56,12 @@ struct TodayViewExampleItemizedBlock: View {
 
             VStack(alignment: .leading) {
                 Text("Example time block")
-                    .font(.lato(16))
-                    .fontWeight(.heavy)
+                    .format(size: 16, weight: .heavy)
 
                 Text("10:00 - 11:30 AM")
-                    .font(.lato(14))
+                    .format(size: 14)
                 Text("1h 30m")
-                    .font(.lato(14))
+                    .format(size: 14)
             }
             .lineLimit(1)
         }

@@ -25,7 +25,7 @@ struct TodayViewItemizedBlocks: View {
                 Spacer()
 
             }
-            .font(.lato(16))
+            .font(.system(size: 16))
             .fontWeight(.semibold)
             .tracking(1)
             .foregroundStyle(Color(hex: "4E4E4E"))

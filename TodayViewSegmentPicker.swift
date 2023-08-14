@@ -15,15 +15,15 @@ struct TodayViewSegmentPicker: View {
     var body: some View {
         HStack(spacing: 16) {
             Text("Time")
-                .font(.lato(20))
+                .font(.system(size: 20))
                 .fontWeight(viewModel.timeSegmentLabelWeight)
-                .onTapGesture(perform: viewModel.tappedTimeSegment)
                 .foregroundStyle(viewModel.timeSegmentLabelColor)
+                .onTapGesture(perform: viewModel.tappedTimeSegment)
             Text("Money")
-                .font(.lato(20))
+                .font(.system(size: 20))
                 .fontWeight(viewModel.moneySegmentLabelWeight)
-                .onTapGesture(perform: viewModel.tappedMoneySegment)
                 .foregroundStyle(viewModel.moneySegmentLabelColor)
+                .onTapGesture(perform: viewModel.tappedMoneySegment)
         }
     }
 }
