@@ -450,6 +450,16 @@ extension TodayViewModel {
                 return todayShift.remainingTime(nowTime).formatForTime([.hour, .minute, .second])
         }
     }
+    
+    var afterTaxTotalValue: String {
+        guard let todayShift = user.todayShift else { return "" }
+        switch selectedSegment {
+            case .money:
+                return haveEarnedAfterTaxes.money()
+            case .time:
+                return user.convertMoneyToTime(money: haveEarnedAfterTaxes).breakDownTime()
+        }
+    }
 
     var taxesTotalValue: String {
         switch selectedSegment {

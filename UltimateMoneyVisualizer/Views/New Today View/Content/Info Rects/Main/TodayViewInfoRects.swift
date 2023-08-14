@@ -31,8 +31,8 @@ struct TodayViewInfoRects: View {
                                       valueString: viewModel.soFarTotalValue,
                                       bottomLabel: viewModel.soFarTotalLabel)
                     TodayViewInfoRect(imageName: "dollarsign.circle",
-                                      valueString: viewModel.remainingTotalValue,
-                                      bottomLabel: "Will Earn")
+                                      valueString: viewModel.afterTaxTotalValue,
+                                      bottomLabel: "After Tax")
                 }
                 
                 HStack {

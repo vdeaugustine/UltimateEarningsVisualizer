@@ -70,9 +70,6 @@ struct TotalsHeader: View {
                 .onTapGesture {
                     vm.navManager.appendCorrectPath(newValue: .stats)
                 }
-//                .navigationDestination(for: NavManager.AllViews.self) { view in
-//                    vm.navManager.getDestinationViewForHomeStack(destination: view)
-//                }
         }
     }
 }
@@ -80,29 +77,16 @@ struct TotalsHeader: View {
 // MARK: - TotalsToDate_HomeView
 
 struct TotalsToDate_HomeView: View {
+    
+    static let fixedSize: CGFloat = 120
     // Define the grid layout
-    let layout = [GridItem(.fixed(100)),
-                  GridItem(.fixed(100)),
-                  GridItem(.fixed(100))]
+    let layout = [GridItem(.fixed(fixedSize)),
+                  GridItem(.fixed(fixedSize)),
+                  GridItem(.fixed(fixedSize))]
 
     var body: some View {
-        VStack(spacing: 30) {
+        VStack(spacing: 65) {
             TotalsHeader()
-//            Grid(alignment: .center) {
-//                GridRow {
-//                    TotalItem(type: .earned)
-//                    TotalItem(type: .paidOff)
-//                    TotalItem(type: .taxes)
-//                }
-//
-//                GridRow {
-//                    TotalItem(type: .expenses)
-//                    TotalItem(type: .goals)
-//                    TotalItem(type: .saved)
-//                }
-//            }
-//             v
-//            .frame(alignment: .center)
             LazyVGrid(columns: layout, alignment: .center) {
                 TotalItem(type: .earned)
                 TotalItem(type: .paidOff)
@@ -111,7 +95,6 @@ struct TotalsToDate_HomeView: View {
                 TotalItem(type: .goals)
                 TotalItem(type: .saved)
             }
-//            .frame(maxWidth: 285)
             .frame(alignment: .center)
             
         }
