@@ -34,43 +34,63 @@ struct SettingsView: View {
             Section("Money") {
                 // MARK: - Set Wage
 
-                NavigationLink {
-                    if let wage = user.wage { WageView(wage: wage) }
-                    else { EnterWageView() }
+                Button {
+                    if let wage = user.wage {
+                        NavManager.shared.appendCorrectPath(newValue: .wage(wage))
+                    } else { NavManager.shared.appendCorrectPath(newValue: .enterWage) }
                 } label: {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "calendar",
                                                         backgroundColor: settings.themeColor)
                         Text("My Wage")
-                    }
+                        Spacer()
+                        Components.nextPageChevron
+                    }.allPartsTappable()
                 }
+                .buttonStyle(.plain)
 
-                NavigationLink {
-                    EnterWageView()
+                Button {
+                    NavManager.shared.appendCorrectPath(newValue: .enterWage)
                 } label: {
-                    SystemImageWithFilledBackground(systemName: "percent")
-                    Text("Taxes")
+                    HStack {
+                        SystemImageWithFilledBackground(systemName: "percent")
+                        Text("Taxes")
+                        Spacer()
+                        Components.nextPageChevron
+                    }.allPartsTappable()
                 }
+                .buttonStyle(.plain)
 
                 // MARK: - Set Hours
 
-                NavigationLink {
-                    RegularScheduleView()
+                Button {
+                    NavManager.shared.appendCorrectPath(newValue: .regularSchedule)
                 } label: {
-                    SystemImageWithFilledBackground(systemName: "hourglass",
-                                                    backgroundColor: settings.themeColor)
-                    Text("Normal working hours")
+                    HStack {
+                        SystemImageWithFilledBackground(systemName: "hourglass",
+                                                        backgroundColor: settings.themeColor)
+                        Text("Normal working hours")
+                        Spacer()
+                        Components.nextPageChevron
+                    }.allPartsTappable()
                 }
-
+                .buttonStyle(.plain)
                 // MARK: - Pay Period
 
-                NavigationLink {
-                    PayPeriodsView()
+                Button {
+                    NavManager.shared.appendCorrectPath(newValue: .payPeriods)
                 } label: {
-                    SystemImageWithFilledBackground(systemName: "calendar",
-                                                    backgroundColor: settings.themeColor)
-                    Text("Pay Periods")
+                    HStack {
+                        SystemImageWithFilledBackground(systemName: "calendar",
+                                                        backgroundColor: settings.themeColor)
+                        Text("Pay Periods")
+                        
+                        Spacer()
+                        Components.nextPageChevron
+                    }
+                    .allPartsTappable()
                 }
+                .buttonStyle(.plain)
             }
 
             Section("Visuals") {
@@ -94,10 +114,7 @@ struct SettingsView: View {
                                             .foregroundColor(.gray)
                                     })
 
-                                Image(systemName: "chevron.right")
-                                    .font(.system(size: 14))
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(.hexStringToColor(hex: "BFBFBF"))
+                                Components.nextPageChevron
                                     .rotationEffect(showColorOptions ? .degrees(90) : .degrees(0))
                             }
                         }
@@ -135,19 +152,26 @@ struct SettingsView: View {
             #endif
 
             Section("Plan") {
-                NavigationLink {
-                    PurchasePage()
+                Button {
+                    NavManager.shared.appendCorrectPath(newValue: .purchasePage)
                 } label: {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "star.fill", backgroundColor: user.getSettings().themeColor)
                         Text("Manage Plan")
                         Spacer()
+                        Components.nextPageChevron
                     }
+                    .allPartsTappable()
                 }
+                .buttonStyle(.plain)
             }
         }
+        .listStyle(.insetGrouped)
         .putInTemplate()
         .navigationTitle("Settings")
+        .navigationDestination(for: NavManager.AllViews.self) { view in
+            NavManager.shared.getDestinationViewForStack(destination: view)
+        }
     }
 }
 

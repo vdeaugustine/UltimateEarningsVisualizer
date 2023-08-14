@@ -39,8 +39,10 @@ class NavManager: ObservableObject {
             default:
                 break
         }
+        
+        print("Now showing", "\(newValue)")
     }
-    
+
     func clearCurrentPath() {
         switch currentTab {
             case .settings:
@@ -55,7 +57,7 @@ class NavManager: ObservableObject {
                 break
         }
     }
-    
+
     func makeCurrentPath(this newPath: NavigationPath) {
         switch currentTab {
             case .settings:
@@ -78,6 +80,8 @@ class NavManager: ObservableObject {
         case condensedTimeBlock(CondensedTimeBlock)
         case createExpense, createGoal, createSaved, createShift
         case shift(Shift), saved(Saved)
+        case enterWage, regularSchedule, payPeriods
+        case purchasePage
     }
 
     func clearAllPaths() {
@@ -157,8 +161,8 @@ class NavManager: ObservableObject {
                 SettingsView()
             case .stats:
                 StatsView()
-            case let .wage(wage):
-                WageView(wage: wage)
+            case .wage(_):
+                WageView()
             case let .expense(expense):
                 ExpenseDetailView(expense: expense)
             case let .goal(goal):
@@ -183,6 +187,14 @@ class NavManager: ObservableObject {
                 NewShiftView()
             case let .saved(saved):
                 SavedDetailView(saved: saved)
+            case .enterWage:
+                EnterWageView()
+            case .regularSchedule:
+                RegularScheduleView()
+            case .payPeriods:
+                PayPeriodsView()
+            case .purchasePage:
+                PurchasePage()
             default:
                 EmptyView()
         }

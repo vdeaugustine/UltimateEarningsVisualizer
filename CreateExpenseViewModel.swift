@@ -49,7 +49,7 @@ class CreateExpenseViewModel: ObservableObject {
             self.color = realTag.getColor()
         }
     }
-    
+
     enum FocusedField {
         case title, info
     }
@@ -73,11 +73,11 @@ class CreateExpenseViewModel: ObservableObject {
 
         do {
             let expense = try Expense(title: title,
-                                info: info,
-                                amount: amountDouble,
-                                dueDate: dueDate,
-                                user: user,
-                                context: viewContext)
+                                      info: info,
+                                      amount: amountDouble,
+                                      dueDate: dueDate,
+                                      user: user,
+                                      context: viewContext)
 
             let knownTags = user.getTags()
             let newTags = tags.filter { tempTag in
@@ -99,8 +99,8 @@ class CreateExpenseViewModel: ObservableObject {
             alertToastConfig.title = "Item saved successfully."
             showToast = true
             print("SAVED SUCCESSFULLY!")
-            navManager.makeCurrentPath(this: .init([ NavManager.AllViews.expense(expense) ]))
-            
+            navManager.makeCurrentPath(this: .init([NavManager.AllViews.expense(expense)]))
+
         } catch let error {
             // Show an error alert toast
             alertToastConfig.title = "Error: \(error.localizedDescription)"

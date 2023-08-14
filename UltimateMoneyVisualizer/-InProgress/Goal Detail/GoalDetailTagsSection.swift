@@ -59,31 +59,30 @@ struct GoalDetailTagsSection: View {
     }
 
     var tagsPart: some View {
-        
         ScrollView {
-               LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 10) {
-                   ForEach(viewModel.goal.getTags(), id: \.self) { tag in
-                       if let title = tag.title {
-                           VStack {
-                               Text(title)
-                                   .foregroundStyle(Color.white)
-                                   .padding(5)
-                                   .padding(.trailing)
-                                   .background {
-                                       PriceTag(width: nil,
-                                                height: 30,
-                                                color: tag.getColor(),
-                                                holePunchColor: .white,
-                                                rotation: 0)
-                                   }
-                           }
-                           .frame(height: 100) // Adjust the height as needed
-                       }
-                   }
-               }
-           }
-           .padding(.bottom)
-           .frame(maxHeight: viewModel.tagsRectIncreaseAmount - 10)
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 10) {
+                ForEach(viewModel.goal.getTags(), id: \.self) { tag in
+                    if let title = tag.title {
+                        VStack {
+                            Text(title)
+                                .foregroundStyle(Color.white)
+                                .padding(5)
+                                .padding(.trailing)
+                                .background {
+                                    PriceTag(width: nil,
+                                             height: 30,
+                                             color: tag.getColor(),
+                                             holePunchColor: .white,
+                                             rotation: 0)
+                                }
+                        }
+                        .frame(height: 100) // Adjust the height as needed
+                    }
+                }
+            }
+        }
+        .padding(.bottom)
+        .frame(maxHeight: viewModel.tagsRectIncreaseAmount - 10)
 //        List {
 //            ForEach(viewModel.goal.getTags(), id: \.self) { tag in
 //                if let title = tag.title {
@@ -100,7 +99,7 @@ struct GoalDetailTagsSection: View {
 //                        }
 //                }
 //            }
-////            .listRowSeparator(.hidden)
+        ////            .listRowSeparator(.hidden)
 //        }
 //        .padding(.bottom)
 //        .listStyle(.plain)
@@ -115,17 +114,17 @@ struct GoalDetailTagsSection: View {
     }
 
     var showHideButton: some View {
-        viewModel.styledButton(viewModel.tagsButtonText,
-                               width: 100,
-                               animationValue: viewModel.showTags,
-                               action: viewModel.tagsButtonAction)
+        PayoffItemDetailViewStyledButton(text: viewModel.tagsButtonText,
+                                         width: 100,
+                                         animationValue: viewModel.showTags,
+                                         action: viewModel.tagsButtonAction)
     }
 
     var addNewTagButton: some View {
-        viewModel.styledButton("New",
-                               width: 100,
-                               animationValue: viewModel.showTags) {
-            print("NEW TaPPEd")
+        PayoffItemDetailViewStyledButton(text: "New",
+                                         width: 100,
+                                         animationValue: viewModel.showTags) {
+            print("NEW TAPPED")
         }
     }
 

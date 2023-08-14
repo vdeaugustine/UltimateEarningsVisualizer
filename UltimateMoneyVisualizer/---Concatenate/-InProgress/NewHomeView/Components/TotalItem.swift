@@ -78,14 +78,14 @@ struct TotalsHeader: View {
 
 struct TotalsToDate_HomeView: View {
     
-    static let fixedSize: CGFloat = 120
+    static let fixedSize: CGFloat = 100
     // Define the grid layout
     let layout = [GridItem(.fixed(fixedSize)),
                   GridItem(.fixed(fixedSize)),
                   GridItem(.fixed(fixedSize))]
 
     var body: some View {
-        VStack(spacing: 65) {
+        VStack(spacing: 40)  {
             TotalsHeader()
             LazyVGrid(columns: layout, alignment: .center) {
                 TotalItem(type: .earned)

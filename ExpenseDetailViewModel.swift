@@ -144,20 +144,6 @@ class ExpenseDetailViewModel: ObservableObject {
         showTags ? "Hide" : "Show"
     }
 
-    func styledButton<Av: Equatable>(_ text: String, width: CGFloat = 120, height: CGFloat = 35, animationValue: Av, action: @escaping () -> Void) -> some View {
-        Button {
-            action()
-        } label: {
-            Text(text)
-                .fontWeight(.semibold)
-                .padding()
-                .foregroundStyle(Color.white)
-                .frame(width: width, height: height)
-                .background {
-                    Capsule(style: .circular)
-                }
-                .animation(.none, value: animationValue)
-        }
-        .padding(.bottom, 5)
-    }
+   
 }
+

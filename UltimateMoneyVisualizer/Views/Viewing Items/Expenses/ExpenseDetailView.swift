@@ -25,9 +25,9 @@ struct ExpenseDetailView: View {
             ScrollView {
                 VStack {
                     ExpenseDetailHeaderView(expense: viewModel.expense,
-                                         shownImage: viewModel.shownImage,
-                                         tappedImageAction: viewModel.expenseDetailHeaderAction)
-                    .padding(.bottom)
+                                            shownImage: viewModel.shownImage,
+                                            tappedImageAction: viewModel.expenseDetailHeaderAction)
+                        .padding(.bottom)
 
                     HStack {
                         ExpenseDetailProgressBox(viewModel: viewModel)
@@ -111,6 +111,7 @@ struct ExpenseDetailView: View {
     }
 }
 
+// MARK: - ExpenseDetailHeaderView
 
 struct ExpenseDetailHeaderView: View {
     @ObservedObject var expense: Expense
@@ -166,7 +167,6 @@ struct ExpenseDetailHeaderView: View {
                             .font(.caption)
                             .foregroundColor(.gray)
                     }
-                    
                 }
 //                Text(expense.amountMoneyStr)
 //                    .boldNumber()
@@ -175,6 +175,8 @@ struct ExpenseDetailHeaderView: View {
         .frame(maxWidth: .infinity)
     }
 }
+
+// MARK: - ExpenseDetailProgressBox
 
 struct ExpenseDetailProgressBox: View {
     @ObservedObject var viewModel: ExpenseDetailViewModel
@@ -196,7 +198,7 @@ struct ExpenseDetailProgressBox: View {
                     .font(.caption2)
             }
 
-            VStack (alignment: .leading, spacing: 35) {
+            VStack(alignment: .leading, spacing: 35) {
                 HStack {
                     batteryImage
 
@@ -205,20 +207,17 @@ struct ExpenseDetailProgressBox: View {
                             .fontWeight(.semibold)
                             .font(.title2)
                             .minimumScaleFactor(0.90)
-                            
+
                         Divider()
                         HStack(alignment: .bottom) {
                             Text([(viewModel.expense.percentPaidOff * 100).simpleStr(), "%"])
                                 .fontWeight(.semibold)
                                 .layoutPriority(1)
-                                
-                                
-                                
                         }
                         .padding(.top, 5)
                     }
                 }
-                
+
                 Text(viewModel.expense.amountRemainingToPayOff.money() + " remaining")
                     .font(.caption)
                     .foregroundStyle(Color.gray)
@@ -253,6 +252,8 @@ struct ExpenseDetailProgressBox: View {
         }
     }
 }
+
+// MARK: - ExpenseDetailTotalAmount
 
 struct ExpenseDetailTotalAmount: View {
     @ObservedObject var viewModel: ExpenseDetailViewModel
@@ -301,10 +302,10 @@ struct ExpenseDetailTotalAmount: View {
     }
 }
 
+// MARK: - ExpenseDetailDueDateBox
 
 struct ExpenseDetailDueDateBox: View {
     @ObservedObject var viewModel: ExpenseDetailViewModel
-    
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -351,6 +352,8 @@ struct ExpenseDetailDueDateBox: View {
         .frame(height: 120)
     }
 }
+
+// MARK: - ExpenseDetailTagsSection
 
 struct ExpenseDetailTagsSection: View {
     @ObservedObject var viewModel: ExpenseDetailViewModel
@@ -401,31 +404,30 @@ struct ExpenseDetailTagsSection: View {
     }
 
     var tagsPart: some View {
-        
         ScrollView {
-               LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 10) {
-                   ForEach(viewModel.expense.getTags(), id: \.self) { tag in
-                       if let title = tag.title {
-                           VStack {
-                               Text(title)
-                                   .foregroundStyle(Color.white)
-                                   .padding(5)
-                                   .padding(.trailing)
-                                   .background {
-                                       PriceTag(width: nil,
-                                                height: 30,
-                                                color: tag.getColor(),
-                                                holePunchColor: .white,
-                                                rotation: 0)
-                                   }
-                           }
-                           .frame(height: 100) // Adjust the height as needed
-                       }
-                   }
-               }
-           }
-           .padding(.bottom)
-           .frame(maxHeight: viewModel.tagsRectIncreaseAmount - 10)
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 10) {
+                ForEach(viewModel.expense.getTags(), id: \.self) { tag in
+                    if let title = tag.title {
+                        VStack {
+                            Text(title)
+                                .foregroundStyle(Color.white)
+                                .padding(5)
+                                .padding(.trailing)
+                                .background {
+                                    PriceTag(width: nil,
+                                             height: 30,
+                                             color: tag.getColor(),
+                                             holePunchColor: .white,
+                                             rotation: 0)
+                                }
+                        }
+                        .frame(height: 100) // Adjust the height as needed
+                    }
+                }
+            }
+        }
+        .padding(.bottom)
+        .frame(maxHeight: viewModel.tagsRectIncreaseAmount - 10)
 //        List {
 //            ForEach(viewModel.expense.getTags(), id: \.self) { tag in
 //                if let title = tag.title {
@@ -442,36 +444,36 @@ struct ExpenseDetailTagsSection: View {
 //                        }
 //                }
 //            }
-////            .listRowSeparator(.hidden)
+        ////            .listRowSeparator(.hidden)
 //        }
 //        .padding(.bottom)
 //        .listStyle(.plain)
 //        .frame(maxHeight: viewModel.tagsRectIncreaseAmount - 10)
     }
 
-    var buttonsPart: some View {
+    @ViewBuilder var buttonsPart: some View {
         HStack {
             showHideButton
             addNewTagButton
         }
     }
 
-    var showHideButton: some View {
-        viewModel.styledButton(viewModel.tagsButtonText,
-                               width: 100,
-                               animationValue: viewModel.showTags,
-                               action: viewModel.tagsButtonAction)
+    @ViewBuilder var showHideButton: some View {
+        PayoffItemDetailViewStyledButton(text: viewModel.tagsButtonText,
+                                         width: 100,
+                                         animationValue: viewModel.showTags,
+                                         action: viewModel.tagsButtonAction)
     }
 
-    var addNewTagButton: some View {
-        viewModel.styledButton("New",
-                               width: 100,
-                               animationValue: viewModel.showTags) {
-            print("NEW TaPPEd")
+    @ViewBuilder var addNewTagButton: some View {
+        PayoffItemDetailViewStyledButton(text: "New",
+                                         width: 100,
+                                         animationValue: viewModel.showTags) {
+            print("NEW Tapped")
         }
     }
 
-    var largePriceTag: some View {
+    @ViewBuilder var largePriceTag: some View {
         PriceTag(width: 75,
                  height: 50,
                  color: viewModel.user.getSettings().themeColor,
@@ -481,16 +483,17 @@ struct ExpenseDetailTagsSection: View {
     }
 }
 
+// MARK: - ExpenseDetailContributionsSection
 
 struct ExpenseDetailContributionsSection: View {
     @ObservedObject var viewModel: ExpenseDetailViewModel
 
-    var body: some View {
+    @ViewBuilder var body: some View {
         VStack {
             mainRect
 
             Spacer()
-            
+
             if viewModel.showContributions {
                 shiftsPart
             }
@@ -525,7 +528,7 @@ struct ExpenseDetailContributionsSection: View {
                 if let shift = alloc.shift {
                     AllocShiftRow(shift: shift, allocation: alloc)
                 }
-                
+
                 if let saved = alloc.savedItem {
                     AllocSavedRow(saved: saved, allocation: alloc)
                 }
@@ -546,9 +549,9 @@ struct ExpenseDetailContributionsSection: View {
     }
 
     var showHideButton: some View {
-        viewModel.styledButton(viewModel.contributionsButtonText,
-                               animationValue: viewModel.showContributions,
-                               action: viewModel.contributionsButtonAction)
+        PayoffItemDetailViewStyledButton(text: viewModel.contributionsButtonText,
+                                         animationValue: viewModel.showContributions,
+                                         action: viewModel.contributionsButtonAction)
     }
 
     var calendarIcon: some View {
@@ -574,8 +577,6 @@ struct ExpenseDetailContributionsSection: View {
         }
     }
 }
-
-
 
 // MARK: - ExpenseDetailView_Previews
 

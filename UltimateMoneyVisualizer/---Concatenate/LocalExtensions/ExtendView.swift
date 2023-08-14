@@ -29,6 +29,8 @@ extension ScrollView {
     }
 }
 
+
+
 extension View {
     // Main function
     func putInTemplate(displayMode: NavigationBarItem.TitleDisplayMode = .large, settings: Settings = User.main.getSettings()) -> some View {
