@@ -20,9 +20,9 @@ class NewHomeViewModel: ObservableObject {
 
     func payoffItemTapped(_ item: PayoffItem?) {
         if let goal = item as? Goal {
-            navManager.homeNavPath.append(NavManager.AllViews.goal(goal))
+            navManager.appendCorrectPath(newValue: .goal(goal))
         } else if let expense = item as? Expense {
-            navManager.homeNavPath.append(NavManager.AllViews.expense(expense))
+            navManager.appendCorrectPath(newValue: .expense(expense))
         }
     }
 

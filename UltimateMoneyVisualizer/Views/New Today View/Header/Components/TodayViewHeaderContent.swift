@@ -19,17 +19,17 @@ struct TodayViewHeaderContent: View {
                         .font(.system(size: 52))
                     VStack(alignment: .leading, spacing: 4) {
                         Text(viewModel.dateStringForHeader)
-                            .font(.lato(24))
+                            .font(.system(size: 24))
                             .fontWeight(.black)
                         Text(viewModel.timeStringForHeader)
-                            .font(.lato(.thin, 20))
+                            .font(.system(size: 20))
                             .kerning(-0.02 * 20)
                         HStack {
                             Text(viewModel.user.todayShift?.totalShiftDuration.breakDownTime() ?? "")
                             Text("•")
                             Text(viewModel.willEarn.money())
                         }
-                        .font(.lato(.thin, 20))
+                        .font(.system(size: 20))
                     }
                 }
                 .onChange(of: viewModel.user.wage?.amount) { newValue in

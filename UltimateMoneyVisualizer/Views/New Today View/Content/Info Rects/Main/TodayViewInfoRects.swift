@@ -19,7 +19,7 @@ struct TodayViewInfoRects: View {
 
                 HStack {
                     Text("TOTALS")
-                        .font(.lato(16))
+                        .font(.system(size: 16))
                         .fontWeight(.semibold)
                         .tracking(1)
                         .foregroundStyle(Color(hex: "4E4E4E"))
@@ -31,8 +31,8 @@ struct TodayViewInfoRects: View {
                                       valueString: viewModel.soFarTotalValue,
                                       bottomLabel: viewModel.soFarTotalLabel)
                     TodayViewInfoRect(imageName: "dollarsign.circle",
-                                      valueString: viewModel.remainingTotalValue,
-                                      bottomLabel: "Remaining")
+                                      valueString: viewModel.afterTaxTotalValue,
+                                      bottomLabel: "After Tax")
                 }
                 
                 HStack {

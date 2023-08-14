@@ -68,13 +68,8 @@ struct TotalsHeader: View {
             Text("More Stats")
                 .format(size: 14, weight: .medium, color: .textSecondary)
                 .onTapGesture {
-                    vm.navManager.homeNavPath.append(NavManager.AllViews.stats)
-//                    print("UPdated nav path", vm.navManager.homeNavPath)
-                    print(vm.navManager.homeNavPath.count)
+                    vm.navManager.appendCorrectPath(newValue: .stats)
                 }
-//                .navigationDestination(for: NavManager.AllViews.self) { view in
-//                    vm.navManager.getDestinationViewForHomeStack(destination: view)
-//                }
         }
     }
 }
@@ -82,29 +77,16 @@ struct TotalsHeader: View {
 // MARK: - TotalsToDate_HomeView
 
 struct TotalsToDate_HomeView: View {
+    
+    static let fixedSize: CGFloat = 100
     // Define the grid layout
-    let layout = [GridItem(.fixed(100)),
-                  GridItem(.fixed(100)),
-                  GridItem(.fixed(100))]
+    let layout = [GridItem(.fixed(fixedSize)),
+                  GridItem(.fixed(fixedSize)),
+                  GridItem(.fixed(fixedSize))]
 
     var body: some View {
-        VStack(spacing: 30) {
+        VStack(spacing: 40)  {
             TotalsHeader()
-//            Grid(alignment: .center) {
-//                GridRow {
-//                    TotalItem(type: .earned)
-//                    TotalItem(type: .paidOff)
-//                    TotalItem(type: .taxes)
-//                }
-//
-//                GridRow {
-//                    TotalItem(type: .expenses)
-//                    TotalItem(type: .goals)
-//                    TotalItem(type: .saved)
-//                }
-//            }
-//             v
-//            .frame(alignment: .center)
             LazyVGrid(columns: layout, alignment: .center) {
                 TotalItem(type: .earned)
                 TotalItem(type: .paidOff)
@@ -113,7 +95,6 @@ struct TotalsToDate_HomeView: View {
                 TotalItem(type: .goals)
                 TotalItem(type: .saved)
             }
-//            .frame(maxWidth: 285)
             .frame(alignment: .center)
             
         }

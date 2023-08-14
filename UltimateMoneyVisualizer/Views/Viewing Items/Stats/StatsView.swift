@@ -48,16 +48,7 @@ struct StatsView: View {
 
     var selectedSection: some View {
         VStack {
-            VStack(spacing: 0) {
-                LineChart()
-                    .frame(height: 300)
-
-                Text(vm.chartFooter(for: vm.selectedSection))
-                    .font(.footnote)
-                    .padding(.horizontal)
-                    .foregroundColor(.gray)
-            }
-            .padding([.horizontal, .bottom])
+//            ChartWithFooter(vm: vm)
 
             List {
                 Section {
@@ -84,6 +75,32 @@ struct StatsView: View {
         }
     }
 
+    
+}
+
+// MARK: - StatsView_Previews
+
+struct StatsView_Previews: PreviewProvider {
+    static var previews: some View {
+        StatsView()
+            .putInNavView(.inline)
+    }
+}
+
+struct ChartWithFooter: View {
+    @ObservedObject var vm: StatsViewModel
+    var body: some View {
+        VStack(spacing: 0) {
+            LineChart()
+                .frame(height: 300)
+            
+            Text(vm.chartFooter(for: vm.selectedSection))
+                .font(.footnote)
+                .padding(.horizontal)
+                .foregroundColor(.gray)
+        }
+        .padding([.horizontal, .bottom])
+    }
     struct LineChart: View {
         @ObservedObject private var user = User.main
         var title: String? = nil
@@ -111,14 +128,5 @@ struct StatsView: View {
                 .padding(.vertical)
             }
         }
-    }
-}
-
-// MARK: - StatsView_Previews
-
-struct StatsView_Previews: PreviewProvider {
-    static var previews: some View {
-        StatsView()
-            .putInNavView(.inline)
     }
 }

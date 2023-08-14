@@ -18,7 +18,7 @@ struct ContentView: View {
     @ObservedObject var settings = User.main.getSettings()
     @Environment(\.sizeCategory) var sizeCategory
     @State private var lastTab: Tabs = .home
-    
+
     init() {
         UINavigationBar.appearance().barTintColor = .clear
         UINavigationBar.appearance().backgroundColor = .clear
@@ -27,32 +27,27 @@ struct ContentView: View {
     }
 
     var body: some View {
-        TabView(selection: $tab.onUpdate(ifNoChange: navManager.sameTabTapped)) {
-//            NavigationStack(path: $navManager.homeNavPath) {
-//                HomeView()
-//                    .id(navManager.scrollViewID)
-//            }
-//            .makeTab(tab: Tabs.home, systemImage: "house")
-            
+        TabView(selection: $navManager.currentTab.onUpdate(ifNoChange: navManager.sameTabTapped)) {
             NavigationStack(path: $navManager.homeNavPath) {
                 NewHomeView()
                     .id(navManager.scrollViewID)
             }
             .makeTab(tab: Tabs.newHome, systemImage: "house")
 
-            AllItemsView()
-                .putInNavView(.inline)
-                .makeTab(tab: Tabs.allItems, systemImage: "dollarsign")
-//
+            NavigationStack(path: $navManager.allItemsNavPath) {
+                AllItemsView()
+            }
+            .makeTab(tab: Tabs.allItems, systemImage: "dollarsign")
+
             NavigationStack(path: $navManager.todayViewNavPath) {
                 NewTodayView()
             }
-            .toolbarColorScheme(.dark, for: .navigationBar)
             .makeTab(tab: Tabs.today, systemImage: "bolt.shield")
 
-            SettingsView()
-                .putInNavView(.inline)
-                .makeTab(tab: Tabs.settings, systemImage: "gear")
+            NavigationStack(path: $navManager.settingsNavPath) {
+                SettingsView()
+            }
+            .makeTab(tab: Tabs.settings, systemImage: "gear")
         }
         .tint(settings.themeColor)
     }
@@ -65,7 +60,5 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
             .environment(\.managedObjectContext, PersistenceController.context)
             .environmentObject(NavManager())
-
-//            .environment(\.sizeCategory, .large) // Set a fixed size category for the entire app
     }
 }

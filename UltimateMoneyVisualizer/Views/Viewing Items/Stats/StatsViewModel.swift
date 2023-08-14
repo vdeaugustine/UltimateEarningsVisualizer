@@ -1,6 +1,8 @@
 import Foundation
 import SwiftUI
 
+// MARK: - StatsViewModel
+
 class StatsViewModel: ObservableObject {
     static var shared = StatsViewModel()
     @ObservedObject var user: User = User.main
@@ -8,7 +10,7 @@ class StatsViewModel: ObservableObject {
     @Published var firstDate: Date = .now.addDays(-5)
     @Published var secondDate: Date = .endOfDay()
     @ObservedObject var navManager = NavManager.shared
-    
+
     typealias HashableAndIdentifiable = Hashable & Identifiable
 
     func chartFooter(for type: MoneySection) -> String {
@@ -16,15 +18,15 @@ class StatsViewModel: ObservableObject {
         switch type {
             case .earned:
                 interjection = "earned by working"
-            case .spent, .goals:
+            case .goals, .spent:
                 interjection = "spent"
             case .saved:
                 interjection = "saved"
         }
-        
+
         return "Shows the total amount of money you had \(interjection) up to each day, including all previous days not shown"
     }
-    
+
     var listHeader: String {
         switch selectedSection {
             case .earned:
@@ -37,66 +39,57 @@ class StatsViewModel: ObservableObject {
                 "Goals"
         }
     }
-    
+
     func rowText(forIndex index: Int) -> (title: String, detail: String) {
         let item = itemsForList.safeGet(at: index)
         if let shift = item as? Shift {
             return (shift.start.getFormattedDate(format: .abbreviatedMonth), shift.totalEarned.money())
-        }
-        else if let saved = item as? Saved {
+        } else if let saved = item as? Saved {
             return (saved.getTitle(), saved.getAmount().money())
-        }
-        else if let goal = item as? Goal {
+        } else if let goal = item as? Goal {
             return (goal.titleStr, goal.amountMoneyStr)
-        }
-        else if let expense = item as? Expense {
+        } else if let expense = item as? Expense {
             return (expense.titleStr, expense.amountMoneyStr)
         }
         return ("", "")
     }
-    
+
     func rowIcon(forIndex index: Int) -> (imageName: String, color: Color) {
         let item = itemsForList.safeGet(at: index)
         if item is Shift {
-            return ("chart.line.uptrend.xyaxis", .green)
-        }
-        else if item is Saved {
-            return ("chart.line.uptrend.xyaxis", .green)
-        }
-        else if item is Goal {
-            return ("chart.line.downtrend.xyaxis", .red)
-        }
-        else if item is Expense {
-            return ("chart.line.downtrend.xyaxis", .red)
+            return (IconManager.shiftsString, .black)
+        } else if item is Saved {
+            return ("chart.line.uptrend.xyaxis", .black)
+        } else if item is Goal {
+            return (IconManager.goalsString, .black)
+        } else if item is Expense {
+            return (IconManager.expenseString, .black)
         }
         return ("", .clear)
     }
-    
+
+
     func tapAction(index: Int) {
         guard let item = itemsForList.safeGet(at: index)
-        
+
         else { return }
 //        navManager.homeNavPath.append(item)
-        
+
         if let shift = item as? Shift {
 //            navManager.homeNavPath.appendView(.)
-        }
-        else if let saved = item as? Saved {
+            navManager.appendCorrectPath(newValue: .shift(shift))
+        } else if let saved = item as? Saved {
 //            SavedDetailView(saved: saved)
 //            navManager.homeNavPath.appendView(.)
-        }
-        else if let goal = item as? Goal {
+            navManager.appendCorrectPath(newValue: .saved(saved))
+        } else if let goal = item as? Goal {
 //            GoalDetailView(goal: goal)
-            navManager.homeNavPath.appendView(.goal(goal))
-        }
-        else if let expense = item as? Expense {
-            navManager.homeNavPath.appendView(.expense(expense))
+            navManager.appendCorrectPath(newValue: .goal(goal))
+        } else if let expense = item as? Expense {
+            navManager.appendCorrectPath(newValue: .expense(expense))
         }
     }
-    
-    
-    
-    
+
     var itemsForList: [any HashableAndIdentifiable] {
         switch selectedSection {
             case .earned:
@@ -109,24 +102,18 @@ class StatsViewModel: ObservableObject {
                 user.getGoalsBetween(startDate: firstDate, endDate: secondDate)
         }
     }
-    
+
     @ViewBuilder func destinationIfTapped<V: Identifiable>(_ item: V) -> some View {
         if let shift = item as? Shift {
             ShiftDetailView(shift: shift)
-        }
-        else if let saved = item as? Saved {
+        } else if let saved = item as? Saved {
             SavedDetailView(saved: saved)
-        }
-        else if let goal = item as? Goal {
+        } else if let goal = item as? Goal {
             GoalDetailView(goal: goal)
-        }
-        else if let expense = item as? Expense {
+        } else if let expense = item as? Expense {
             ExpenseDetailView(expense: expense)
         }
     }
-    
-    
-   
 
     var dataItems: [HorizontalDataDisplay.DataItem] {
         var retArr = [HorizontalDataDisplay.DataItem]()
@@ -157,6 +144,14 @@ class StatsViewModel: ObservableObject {
 
         return retArr
     }
+    
+    
+    
+   
+    
+    
+    
+    
 }
 
 extension StatsViewModel {

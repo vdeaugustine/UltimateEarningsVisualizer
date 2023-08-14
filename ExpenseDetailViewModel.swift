@@ -1,22 +1,22 @@
 //
-//  GoalDetailViewModel.swift
+//  ExpenseDetailViewModel.swift
 //  UltimateMoneyVisualizer
 //
-//  Created by Vincent DeAugustine on 7/10/23.
+//  Created by Vincent DeAugustine on 8/14/23.
 //
 
 import AlertToast
 import Foundation
 import SwiftUI
 
-class GoalDetailViewModel: ObservableObject {
-    init(goal: Goal) {
-        self.goal = goal
+class ExpenseDetailViewModel: ObservableObject {
+    init(expense: Expense) {
+        self.expense = expense
     }
 
     @ObservedObject var user: User = User.main
     @ObservedObject var settings: Settings = User.main.getSettings()
-    @ObservedObject var goal: Goal
+    @ObservedObject var expense: Expense
 
     @Published var presentConfirmation = false
     @Published var showSheet = false
@@ -50,16 +50,16 @@ class GoalDetailViewModel: ObservableObject {
     }
 
     func onAppearAction() {
-        initialImage = goal.loadImageIfPresent()
-        shownImage = goal.loadImageIfPresent()
+        initialImage = expense.loadImageIfPresent()
+        shownImage = expense.loadImageIfPresent()
     }
 
-    func goalDetailHeaderAction() {
+    func expenseDetailHeaderAction() {
         showImageSelector.toggle()
         showSpinner = true
     }
 
-    func deleteGoalTapped() {
+    func deleteExpenseTapped() {
         presentConfirmation.toggle()
     }
 
@@ -69,7 +69,7 @@ class GoalDetailViewModel: ObservableObject {
         }
 
         do {
-            context.delete(goal)
+            context.delete(expense)
             try context.save()
         } catch {
             print("Failed to delete")
@@ -83,7 +83,7 @@ class GoalDetailViewModel: ObservableObject {
     func saveButtonAction() {
         if let shownImage {
             do {
-                try goal.saveImage(image: shownImage)
+                try expense.saveImage(image: shownImage)
                 toastConfiguration = AlertToast(displayMode: .alert, type: .complete(settings.themeColor), title: "Saved successfully")
                 showAlert = true
                 viewIDForReload = UUID()
@@ -104,9 +104,11 @@ class GoalDetailViewModel: ObservableObject {
         showTags.toggle()
         tagsRectHeight += tagsRectIncreaseAmount
     }
+    
+    
 
     func breakDownTime() -> String {
-        let seconds = goal.timeRemaining
+        let seconds = expense.timeRemaining
         let timeUnits: [(unit: String, seconds: Double)] = [("y", 365 * 24 * 60 * 60),
                                                             ("mo", 30 * 24 * 60 * 60),
                                                             ("w", 7 * 24 * 60 * 60),
@@ -141,4 +143,7 @@ class GoalDetailViewModel: ObservableObject {
     var tagsButtonText: String {
         showTags ? "Hide" : "Show"
     }
+
+   
 }
+

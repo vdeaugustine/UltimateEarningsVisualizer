@@ -164,9 +164,9 @@ struct HomeView: View {
         .navigationTitle(Date.now.getFormattedDate(format: .abbreviatedMonth))
         .safeAreaInset(edge: .bottom) { QuickAddButton() }
     }
-
-    
 }
+
+// MARK: - QuickAddButton
 
 struct QuickAddButton: View {
     @EnvironmentObject private var vm: NewHomeViewModel
@@ -179,9 +179,8 @@ struct QuickAddButton: View {
 //                    .offset(y: -60)
 //            }
 
-            
             Button {
-                vm.navManager.homeNavPath.appendView(.newItemCreation)
+                vm.navManager.appendCorrectPath(newValue: .newItemCreation)
             } label: {
                 VStack {
                     Image(systemName: "plus.circle.fill")
@@ -197,6 +196,8 @@ struct QuickAddButton: View {
         .padding(.bottom, 5)
     }
 }
+
+// MARK: - PlusMenu
 
 struct PlusMenu: View {
     let widthAndHeight: CGFloat

@@ -1,26 +1,30 @@
 //
-//  Wage.swift
+//  WageBreakdown.swift
 //  UltimateMoneyVisualizer
 //
-//  Created by Vincent DeAugustine on 7/31/23.
+//  Created by Vincent DeAugustine on 8/14/23.
 //
 
-import Foundation
 import SwiftUI
 
-// MARK: - WageBreakdown_NewHomeView
+// MARK: - WageBreakdown
 
-struct WageBreakdown_HomeView: View {
-    @EnvironmentObject private var vm: NewHomeViewModel
+struct WageBreakdown: View {
+    @ObservedObject var wage: Wage
+    @State var toggleTaxes: Bool
+    let includeHeader: Bool
+    let includePadding: Bool
 
     var body: some View {
         VStack(spacing: 16) {
-            header
+            if includeHeader {
+                header
+            }
+
             rect
         }
-        .padding()
-        .onTapGesture {
-            vm.navManager.appendCorrectPath(newValue: .wage(vm.wage))
+        .conditionalModifier(includePadding) { thisView in
+            thisView.padding()
         }
     }
 
@@ -35,10 +39,10 @@ struct WageBreakdown_HomeView: View {
             Text("Taxes")
                 .format(size: 14,
                         weight: .regular,
-                        color: vm.taxesToggleOn ? .textOnColor : .textPrimary)
+                        color: toggleTaxes ? .textOnColor : .textPrimary)
                 .padding(8, 2)
                 .background {
-                    { vm.taxesToggleOn ? Color.black : Color.white }()
+                    { toggleTaxes ? Color.black : Color.white }()
                         .clipShape(Capsule())
                 }
                 .overlay {
@@ -46,7 +50,7 @@ struct WageBreakdown_HomeView: View {
                 }
                 .offset(y: 2)
                 .onTapGesture {
-                    vm.taxesToggleOn.toggle()
+                    toggleTaxes.toggle()
                 }
         }
     }
@@ -81,25 +85,25 @@ struct WageBreakdown_HomeView: View {
     var bodyInfoPart: some View {
         VStack {
             row(period: "Yearly",
-                amount: vm.wage.perYear * (vm.taxesToggleOn ? (1 - vm.wage.totalTaxMultiplier) : 1))
+                amount: wage.perYear * (toggleTaxes ? (1 - wage.totalTaxMultiplier) : 1))
             Divider()
             row(period: "Month",
-                amount: vm.wage.perMonth * (vm.taxesToggleOn ? (1 - vm.wage.totalTaxMultiplier) : 1))
+                amount: wage.perMonth * (toggleTaxes ? (1 - wage.totalTaxMultiplier) : 1))
             Divider()
             row(period: "Week",
-                amount: vm.wage.perWeek * (vm.taxesToggleOn ? (1 - vm.wage.totalTaxMultiplier) : 1))
+                amount: wage.perWeek * (toggleTaxes ? (1 - wage.totalTaxMultiplier) : 1))
             Divider()
             row(period: "Day",
-                amount: vm.wage.perDay * (vm.taxesToggleOn ? (1 - vm.wage.totalTaxMultiplier) : 1))
+                amount: wage.perDay * (toggleTaxes ? (1 - wage.totalTaxMultiplier) : 1))
             Divider()
             row(period: "Hour",
-                amount: vm.wage.hourly * (vm.taxesToggleOn ? (1 - vm.wage.totalTaxMultiplier) : 1))
+                amount: wage.hourly * (toggleTaxes ? (1 - wage.totalTaxMultiplier) : 1))
             Divider()
             row(period: "Minute",
-                amount: vm.wage.perMinute * (vm.taxesToggleOn ? (1 - vm.wage.totalTaxMultiplier) : 1))
+                amount: wage.perMinute * (toggleTaxes ? (1 - wage.totalTaxMultiplier) : 1))
             Divider()
             row(period: "Second",
-                amount: vm.wage.perSecond * (vm.taxesToggleOn ? (1 - vm.wage.totalTaxMultiplier) : 1),
+                amount: wage.perSecond * (toggleTaxes ? (1 - wage.totalTaxMultiplier) : 1),
                 extend: true)
         }
     }
@@ -119,12 +123,13 @@ struct WageBreakdown_HomeView: View {
     }
 }
 
-// MARK: - WageBreakdown_NewHomeView_Previews
+// MARK: - WageBreakdown_Previews
 
-struct WageBreakdown_NewHomeView_Previews: PreviewProvider {
+struct WageBreakdown_Previews: PreviewProvider {
     static var previews: some View {
-        WageBreakdown_HomeView()
-            .templateForPreview()
-            .environmentObject(NewHomeViewModel.shared)
+        WageBreakdown(wage: User.main.getWage(),
+                      toggleTaxes: true,
+                      includeHeader: true,
+                      includePadding: true)
     }
 }

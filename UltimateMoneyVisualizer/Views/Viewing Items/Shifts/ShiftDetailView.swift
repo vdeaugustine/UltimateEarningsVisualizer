@@ -33,9 +33,13 @@ struct ShiftDetailView: View {
 
     var body: some View {
         List {
-            HorizontalDataDisplay(data: [.init(label: "Start", value: shift.start.getFormattedDate(format: .minimalTime), view: nil),
-                                         .init(label: "End", value: shift.end.getFormattedDate(format: .minimalTime), view: nil),
-                                         .init(label: "Duration", value: shift.duration.formatForTime(), view: nil)])
+            Section  {
+                HorizontalDataDisplay(data: [.init(label: "Start", value: shift.start.getFormattedDate(format: .minimalTime), view: nil),
+                                             .init(label: "End", value: shift.end.getFormattedDate(format: .minimalTime), view: nil),
+                                             .init(label: "Duration", value: shift.duration.formatForTime(), view: nil)])
+            } header: {
+                Text("Hours")
+            }.headerProminence(.increased)
             
 
             Section("Earnings") {
@@ -83,9 +87,11 @@ struct ShiftDetailView: View {
             Section {
                 if showTimeBlockSection {
                     ItemizedPartOfShiftView(shift: shift)
+//                    NewTimeBlocksForShiftView(shift: shift)
                         .padding(.vertical)
                 }
             }
+//            .listRowBackground(Color.clear)
 
             Section("Allocations") {
                 ForEach(allocations) { alloc in
@@ -115,19 +121,23 @@ struct ShiftDetailView: View {
                     }
                 }
             }
+            
+            Button("Delete", role: .destructive) {
+                showDeleteConfirmation = true
+            }
         }
-        .listStyle(.sidebar)
+        .listStyle(.insetGrouped)
         .padding(.bottom, 15)
 
         .padding(.bottom)
-        .bottomButton(label: "Delete", action: {
-            showDeleteConfirmation = true
-        })
+//        .bottomButton(label: "Delete", action: {
+//            showDeleteConfirmation = true
+//        })
 
         .background(Color.listBackgroundColor)
         .putInTemplate()
         .navigationTitle("Shift for \(shift.start.getFormattedDate(format: .abbreviatedMonth))")
-        .confirmationDialog("Are you sure you want to delete this shift?", isPresented: $showDeleteConfirmation) {
+        .confirmationDialog("Are you sure you want to delete this shift?", isPresented: $showDeleteConfirmation, titleVisibility: .visible) {
             Button("Delete", role: .destructive) {
                 deleteAction()
             }

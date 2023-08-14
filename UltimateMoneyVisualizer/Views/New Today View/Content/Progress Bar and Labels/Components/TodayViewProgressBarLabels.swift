@@ -48,7 +48,7 @@ struct TodayViewProgressBarLabels: View {
                 Text(amount)
                     .fontWeight(.regular)
             }
-            .font(.lato(14))
+            .font(.system(size: 14))
             .fontWeight(.bold)
             .lineLimit(1)
 //        }

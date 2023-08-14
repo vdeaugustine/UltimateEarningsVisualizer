@@ -56,9 +56,9 @@ struct TodayViewInfoRect: View {
 
                 VStack(alignment: .leading, spacing: 0) {
                     Text(valueString)
-                        .font(.lato(.bold, 24))
+                        .format(size: 24, weight: .bold)
                     Text(bottomLabel)
-                        .font(.lato(.regular, 18))
+                        .format(size: 18, weight: .regular)
                         .foregroundStyle(Color(hex: "868686"))
                 }
             }

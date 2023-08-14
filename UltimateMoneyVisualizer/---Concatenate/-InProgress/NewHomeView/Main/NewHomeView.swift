@@ -23,7 +23,7 @@ struct NewHomeView: View {
         .putInTemplate(displayMode: .large, settings: settings)
         .navigationTitle(Date.now.getFormattedDate(format: .abbreviatedMonth))
         .navigationDestination(for: NavManager.AllViews.self) { view in
-            vm.navManager.getDestinationViewForHomeStack(destination: view)
+            vm.navManager.getDestinationViewForStack(destination: view)
         }
         
     }
@@ -160,7 +160,7 @@ struct TopTimeBlocks_HomeView: View {
                     .format(size: 16, weight: .semibold)
                 Spacer()
                 Button {
-                    vm.navManager.homeNavPath.append(NavManager.AllViews.allTimeBlocks)
+                    vm.navManager.appendCorrectPath(newValue: .allTimeBlocks)
                 } label: {
                     Text("All")
                         .format(size: 14, weight: .medium)
@@ -176,7 +176,7 @@ struct TopTimeBlocks_HomeView: View {
                                       thirdTitle: "",
                                       color: block.color)
                             .onTapGesture {
-                                vm.navManager.homeNavPath.appendView(.condensedTimeBlock(block))
+                                vm.navManager.appendCorrectPath(newValue: .condensedTimeBlock(block))
                             }
                     }
                 }

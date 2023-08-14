@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-// MARK: - GoalDetailShiftSection
+// MARK: - GoalDetailContributionsSection
 
 struct GoalDetailContributionsSection: View {
     @ObservedObject var viewModel: GoalDetailViewModel
@@ -17,7 +17,7 @@ struct GoalDetailContributionsSection: View {
             mainRect
 
             Spacer()
-            
+
             if viewModel.showContributions {
                 shiftsPart
             }
@@ -52,7 +52,7 @@ struct GoalDetailContributionsSection: View {
                 if let shift = alloc.shift {
                     AllocShiftRow(shift: shift, allocation: alloc)
                 }
-                
+
                 if let saved = alloc.savedItem {
                     AllocSavedRow(saved: saved, allocation: alloc)
                 }
@@ -73,9 +73,9 @@ struct GoalDetailContributionsSection: View {
     }
 
     var showHideButton: some View {
-        viewModel.styledButton(viewModel.contributionsButtonText,
-                               animationValue: viewModel.showContributions,
-                               action: viewModel.contributionsButtonAction)
+        PayoffItemDetailViewStyledButton(text: viewModel.contributionsButtonText,
+                                         animationValue: viewModel.showContributions,
+                                         action: viewModel.contributionsButtonAction)
     }
 
     var calendarIcon: some View {
@@ -102,7 +102,7 @@ struct GoalDetailContributionsSection: View {
     }
 }
 
-// MARK: - GoalDetailShiftSection_Previews
+// MARK: - GoalDetailContributionsSection_Previews
 
 struct GoalDetailContributionsSection_Previews: PreviewProvider {
     static var previews: some View {

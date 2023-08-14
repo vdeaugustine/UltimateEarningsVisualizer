@@ -121,6 +121,9 @@ struct SelectDaysView: View {
                             daysContainer.handleDayOfWeek(day)
                         }
                 }
+            } header: {
+                Text("Days")
+                    .hidden()
             }
         }
         .putInTemplate()

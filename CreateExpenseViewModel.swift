@@ -1,20 +1,20 @@
 //
-//  CreateGoalViewModel.swift
+//  CreateExpenseViewModel.swift
 //  UltimateMoneyVisualizer
 //
-//  Created by Vincent DeAugustine on 6/22/23.
+//  Created by Vincent DeAugustine on 8/14/23.
 //
 
 import AlertToast
 import SwiftUI
 
-class CreateGoalViewModel: ObservableObject {
+class CreateExpenseViewModel: ObservableObject {
     @Published var title: String = ""
     @Published var info: String = ""
     @Published var dueDate: Date = Date()
     @Published var amountDouble: Double = 0
     @Published var showRecentTags = false
-    @Published var showRecentGoals = false
+    @Published var showRecentExpenses = false
     @Published var tags: Set<TemporaryTag> = []
 
     @Published var showToast = false
@@ -29,7 +29,7 @@ class CreateGoalViewModel: ObservableObject {
     let viewContext = User.main.getContext()
 
     struct TemporaryTag: Hashable, Comparable {
-        static func < (lhs: CreateGoalViewModel.TemporaryTag, rhs: CreateGoalViewModel.TemporaryTag) -> Bool {
+        static func < (lhs: CreateExpenseViewModel.TemporaryTag, rhs: CreateExpenseViewModel.TemporaryTag) -> Bool {
             lhs.title < rhs.title
         }
 
@@ -49,12 +49,12 @@ class CreateGoalViewModel: ObservableObject {
             self.color = realTag.getColor()
         }
     }
-    
+
     enum FocusedField {
         case title, info
     }
 
-    func saveGoal(amount: String) {
+    func saveExpense(amount: String) {
         guard !title.isEmpty else {
             alertToastConfig = AlertToast(displayMode: .alert,
                                           type: .error(user.getSettings().themeColor),
@@ -72,12 +72,12 @@ class CreateGoalViewModel: ObservableObject {
         }
 
         do {
-            let goal = try Goal(title: title,
-                                info: info,
-                                amount: amountDouble,
-                                dueDate: dueDate,
-                                user: user,
-                                context: viewContext)
+            let expense = try Expense(title: title,
+                                      info: info,
+                                      amount: amountDouble,
+                                      dueDate: dueDate,
+                                      user: user,
+                                      context: viewContext)
 
             let knownTags = user.getTags()
             let newTags = tags.filter { tempTag in
@@ -90,7 +90,7 @@ class CreateGoalViewModel: ObservableObject {
                 try Tag(tag.title,
                         symbol: tag.symbolStr,
                         color: tag.color,
-                        goal: goal,
+                        expense: expense,
                         user: user,
                         context: user.getContext())
             }
@@ -99,8 +99,8 @@ class CreateGoalViewModel: ObservableObject {
             alertToastConfig.title = "Item saved successfully."
             showToast = true
             print("SAVED SUCCESSFULLY!")
-            navManager.makeCurrentPath(this: .init([ NavManager.AllViews.goal(goal) ]))
-            
+            navManager.makeCurrentPath(this: .init([NavManager.AllViews.expense(expense)]))
+
         } catch let error {
             // Show an error alert toast
             alertToastConfig.title = "Error: \(error.localizedDescription)"
