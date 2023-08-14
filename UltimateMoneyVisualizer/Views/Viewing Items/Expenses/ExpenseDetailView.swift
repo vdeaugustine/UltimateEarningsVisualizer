@@ -1,161 +1,581 @@
 //
 //  ExpenseDetailView.swift
-//  UltimateMoneyVisualizer
+//  UltimateExpenseVisualizer
 //
-//  Created by Vincent DeAugustine on 4/26/23.
+//  Created by ChatGPT on 4/26/23.
 //
 
+import AlertToast
 import SwiftUI
 import Vin
 
 // MARK: - ExpenseDetailView
 
 struct ExpenseDetailView: View {
-    let expense: Expense
-    @ObservedObject private var user: User = User.main
-    @ObservedObject private var settings: Settings = User.main.getSettings()
-    @State private var showDeleteWarning = false
+    @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.dismiss) private var dismiss
+    @StateObject var viewModel: ExpenseDetailViewModel
+
+    init(expense: Expense) {
+        _viewModel = StateObject(wrappedValue: ExpenseDetailViewModel(expense: expense))
+    }
 
     var body: some View {
-        List {
-            Text("Amount")
-                .spacedOut(text: expense.amount.money())
-
-            if let dueDate = expense.dueDate {
-                Text("Due")
-                    .spacedOut {
-                        Text(dueDate.getFormattedDate(format: .abbreviatedMonth))
-                            .foregroundColor(expense.isPassedDue ? Color.red : Color.black)
-                    }
-            }
-            
-            Section("Tags") {
+        ScrollViewReader { _ in
+            ScrollView {
                 VStack {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
-                            
+                    ExpenseDetailHeaderView(expense: viewModel.expense,
+                                         shownImage: viewModel.shownImage,
+                                         tappedImageAction: viewModel.expenseDetailHeaderAction)
+                    .padding(.bottom)
 
-                            ForEach(expense.getTags()) { tag in
-                                NavigationLink {
-                                    TagDetailView(tag: tag)
-
-                                } label: {
-                                    Text(tag.title ?? "NA")
-                                        .foregroundColor(.white)
-                                        .padding(10)
-                                        .padding(.trailing, 10)
-                                        .background {
-                                            PriceTag(height: 30, color: tag.getColor(), holePunchColor: .listBackgroundColor)
-                                        }
-                                }
-                            }
+                    HStack {
+                        ExpenseDetailProgressBox(viewModel: viewModel)
+                        VStack {
+                            ExpenseDetailTotalAmount(viewModel: viewModel)
+                            ExpenseDetailDueDateBox(viewModel: viewModel)
                         }
                     }
-                    
-                    NavigationLink {
-                        CreateTagView(expense: expense)
-                    } label: {
-                        Label("New Tag", systemImage: "plus")
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .tint(.blue)
-                    .padding(.top)
+
+                    ExpenseDetailTagsSection(viewModel: viewModel)
+
+                    ExpenseDetailContributionsSection(viewModel: viewModel)
                 }
-                .listRowBackground(Color.listBackgroundColor)
-            }
+                .padding()
 
-            Section("Progress") {
-                Text("Due in")
-                    .spacedOut {
-                        Text(expense.timeRemaining.formatForTime([.day, .hour, .minute, .second]))
-                            .foregroundColor(expense.isPassedDue ? Color.red : Color.black)
+                .blur(radius: viewModel.blurRadius)
+                .overlay {
+                    if viewModel.showSpinner {
+                        ProgressView()
                     }
-
-                Text("Paid off")
-                    .spacedOut(text: expense.amountPaidOff.money())
-
-                Text("Remaining to pay")
-                    .spacedOut(text: expense.amountRemainingToPayOff.money())
-            }
-            
-            Section("Instances") {
-                ForEach(user.getInstancesOf(expense: expense)) { thisExpense in
-                    if let date = thisExpense.dateCreated {
-                        NavigationLink {
-                            ExpenseDetailView(expense: thisExpense)
-                        } label: {
-                            
-                            Text(date.getFormattedDate(format: .abbreviatedMonth))
-                                .spacedOut(text: thisExpense.amountMoneyStr)
+                }
+                .overlay(fullScreenImage())
+                .background(Color.listBackgroundColor)
+                .confirmationDialog("Are you sure you want to delete this expense?", isPresented: $viewModel.presentConfirmation, titleVisibility: .visible, actions: {
+                    Button("Delete", role: .destructive, action: viewModel.doDeleteAction)
+                }, message: {
+                    Text("This action cannot be undone")
+                })
+                .listStyle(.insetGrouped)
+                .navigationBarTitleDisplayMode(.inline)
+                .putInTemplate()
+                .navigationTitle("Expense")
+                .sheet(isPresented: $viewModel.showImageSelector) {
+                    if viewModel.shownImage != nil {
+                        viewModel.viewIDForReload = UUID()
+                    }
+                } content: {
+                    ImagePicker(isShown: $viewModel.showImageSelector, image: $viewModel.shownImage)
+                        .onAppear {
+                            viewModel.showSpinner = false
+                        }
+                }
+                .toolbar {
+                    if viewModel.initialImage != viewModel.shownImage {
+                        ToolbarItem {
+                            Button("Save", action: viewModel.saveButtonAction)
                         }
                     }
                 }
+                .onAppear(perform: viewModel.onAppearAction)
+                .toast(isPresenting: $viewModel.showAlert,
+                       duration: 2,
+                       tapToDismiss: false,
+                       offsetY: 40,
+                       alert: { viewModel.toastConfiguration })
+                .ignoresSafeArea(.keyboard, edges: .bottom)
             }
-
-            Section("Insight") {
-                Text("Time required to pay off")
-                    .spacedOut(text: expense.totalTime.formatForTime([.day, .hour, .minute]))
-
-                Text("Time remaining to pay off")
-                    .spacedOut(text: expense.timeRemaining.formatForTime([.day, .hour, .minute]))
-            }
-
-            Section("Contributions") {
-                if expense.amountRemainingToPayOff.roundTo(places: 2) >= 0.01 {
-                    NavigationLink {
-                        AddAllocationForExpenseView(expense: expense)
-                    } label: {
-                        Label("Add Another", systemImage: "plus")
-                    }
-                }
-
-                ForEach(expense.getAllocations()) { alloc in
-
-                    if let shift = alloc.shift {
-                        AllocShiftRow(shift: shift, allocation: alloc)
-                    }
-
-                    if let saved = alloc.savedItem {
-                        AllocSavedRow(saved: saved, allocation: alloc)
-                    }
-                }
-            }
-
-            Section {
-                Button("Delete expense", role: .destructive) {
-                    showDeleteWarning.toggle()
-                }
-                .centerInParentView()
-                .listRowBackground(Color.clear)
-            }
-
-            // TODO: Put a countdown to due date
         }
+        .background(Color.listBackgroundColor)
+    }
 
-        .putInTemplate()
-        .navigationTitle(expense.titleStr)
-        .confirmationDialog("Delete expense", isPresented: $showDeleteWarning, titleVisibility: .visible, actions: {
-            Button("Delete", role: .destructive) {
-                guard let context = user.managedObjectContext else {
-                    return
-                }
-
-                do {
-                    context.delete(expense)
-                    try context.save()
-                } catch {
-                    print("Failed to delete")
-                }
-
-                dismiss()
+    func fullScreenImage() -> some View {
+        VStack {
+            if viewModel.isShowingFullScreenImage, let shownImage = viewModel.shownImage {
+                Image(uiImage: shownImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .onTapGesture {
+                        withAnimation {
+                            viewModel.isShowingFullScreenImage = false
+                            viewModel.isBlurred = false
+                        }
+                    }
             }
-        }, message: {
-            Text("This action cannot be undone.")
-        })
-        
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.black.opacity(0.7))
+        .edgesIgnoringSafeArea(.all)
+        .opacity(viewModel.isShowingFullScreenImage ? 1 : 0)
     }
 }
+
+
+struct ExpenseDetailHeaderView: View {
+    @ObservedObject var expense: Expense
+    let shownImage: UIImage?
+    let tappedImageAction: (() -> Void)?
+    var tappedDateAction: (() -> Void)? = nil
+
+    var dueDateLineString: String {
+        if let dueDate = expense.dueDate {
+            return dueDate.getFormattedDate(format: .abbreviatedMonth)
+        } else {
+            return "Set a due date"
+        }
+    }
+
+    var image: Image {
+        if let shownImage {
+            return Image(uiImage: shownImage)
+        } else if let image = expense.loadImageIfPresent() {
+            return Image(uiImage: image)
+        } else {
+            return Image("dollar3d")
+        }
+    }
+
+    var body: some View {
+        VStack {
+            image
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .clipShape(Circle())
+                .frame(width: 150, height: 150)
+                .overlayOnCircle(degrees: 37, widthHeight: 150) {
+                    Image(systemName: "pencil.circle.fill")
+                        .font(.largeTitle)
+                        .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                        .symbolRenderingMode(.multicolor)
+                        .foregroundStyle(User.main.getSettings().getDefaultGradient())
+                }
+                .onTapGesture {
+                    tappedImageAction?()
+                }
+                .frame(width: 150, height: 150)
+
+            VStack(spacing: 20) {
+                VStack {
+                    Text(expense.titleStr)
+                        .font(.title)
+                        .fontWeight(.bold)
+
+                    if let info = expense.info {
+                        Text(info)
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                    }
+                    
+                }
+//                Text(expense.amountMoneyStr)
+//                    .boldNumber()
+            }
+        }
+        .frame(maxWidth: .infinity)
+    }
+}
+
+struct ExpenseDetailProgressBox: View {
+    @ObservedObject var viewModel: ExpenseDetailViewModel
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 30) {
+            HStack {
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Progress")
+                        .fontWeight(.semibold)
+                    Text([viewModel.expense.getAllocations().count.str,
+                          "contributions"])
+                        .font(.caption2)
+                        .foregroundStyle(Color.gray)
+                        .lineLimit(1)
+                }
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.caption2)
+            }
+
+            VStack (alignment: .leading, spacing: 35) {
+                HStack {
+                    batteryImage
+
+                    VStack(alignment: .center) {
+                        Text(viewModel.expense.amountPaidOff.moneyExtended(decimalPlaces: 2))
+                            .fontWeight(.semibold)
+                            .font(.title2)
+                            .minimumScaleFactor(0.90)
+                            
+                        Divider()
+                        HStack(alignment: .bottom) {
+                            Text([(viewModel.expense.percentPaidOff * 100).simpleStr(), "%"])
+                                .fontWeight(.semibold)
+                                .layoutPriority(1)
+                                
+                                
+                                
+                        }
+                        .padding(.top, 5)
+                    }
+                }
+                
+                Text(viewModel.expense.amountRemainingToPayOff.money() + " remaining")
+                    .font(.caption)
+                    .foregroundStyle(Color.gray)
+            }
+        }
+        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background {
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color.white)
+                .shadow(radius: 0.2)
+        }
+        .frame(minWidth: 175)
+        .frame(minHeight: 225, maxHeight: .infinity)
+    }
+
+    var batteryImage: some View {
+        VStack(spacing: 2) {
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color(hex: "E7E7E7"))
+                .frame(width: 35, height: 7)
+
+            ZStack(alignment: .bottom) {
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color(hex: "E7E7E7"))
+                    .frame(width: 50, height: 75)
+
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color(hex: "389975"))
+                    .frame(width: 50, height: 75 * viewModel.expense.percentPaidOff)
+            }
+        }
+    }
+}
+
+struct ExpenseDetailTotalAmount: View {
+    @ObservedObject var viewModel: ExpenseDetailViewModel
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack {
+                Text(viewModel.expense.amountMoneyStr)
+                    .font(.title)
+                    .boldNumber()
+
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.caption2)
+            }
+            .layoutPriority(0)
+            VStack(alignment: .leading, spacing: 7) {
+                Text("Total Amount")
+                    .fontWeight(.semibold)
+                    .font(.title2)
+                    .frame(maxHeight: .infinity)
+                    .layoutPriority(2)
+                    .minimumScaleFactor(0.4)
+
+                HStack {
+                    Text(viewModel.user.convertMoneyToTime(money: viewModel.expense.amount).breakDownTime())
+                    Spacer()
+//                    Text("work time")
+                }
+                .font(.subheadline)
+                .foregroundStyle(Color.gray)
+                .layoutPriority(1)
+                .minimumScaleFactor(0.85)
+            }
+        }
+        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+        .background {
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color.white)
+                .shadow(radius: 0.2)
+        }
+        .frame(minWidth: 175)
+        .frame(height: 120)
+    }
+}
+
+
+struct ExpenseDetailDueDateBox: View {
+    @ObservedObject var viewModel: ExpenseDetailViewModel
+    
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack {
+                Image(systemName: "hourglass")
+                    .font(.title)
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.caption2)
+            }
+            .layoutPriority(0)
+            VStack(alignment: .leading, spacing: 7) {
+                Text(viewModel.breakDownTime())
+                    .fontWeight(.semibold)
+                    .font(.title2)
+                    .frame(maxHeight: .infinity)
+                    .layoutPriority(2)
+                    .minimumScaleFactor(0.4)
+
+                HStack {
+                    if let dueDate = viewModel.expense.dueDate {
+                        Text("Remaining")
+                        Spacer()
+                        Text(dueDate.getFormattedDate(format: .slashDate))
+                    } else {
+                        Text("Set due date")
+                    }
+                }
+                .font(.subheadline)
+                .foregroundStyle(Color.gray)
+                .layoutPriority(1)
+                .minimumScaleFactor(0.85)
+            }
+        }
+        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+        .background {
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color.white)
+                .shadow(radius: 0.2)
+        }
+        .frame(minWidth: 175)
+        .frame(height: 120)
+    }
+}
+
+struct ExpenseDetailTagsSection: View {
+    @ObservedObject var viewModel: ExpenseDetailViewModel
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            HStack {
+                VStack(alignment: .leading, spacing: 40) {
+                    header
+                    buttonsPart
+                }
+                .padding([.vertical, .leading], 17)
+                Spacer()
+                largePriceTag
+//                        .frame(maxHeight: .infinity)
+                    .padding(.trailing, 10)
+            }
+
+            if viewModel.showTags {
+                Spacer()
+                tagsPart
+            }
+        }
+
+        .frame(height: viewModel.tagsRectHeight)
+        .frame(maxWidth: .infinity)
+        .background {
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color.white)
+                .shadow(radius: 0.2)
+                .overlay {
+                    backDrop
+                }
+        }
+    }
+
+    var backDrop: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color.white)
+        }
+    }
+
+    var header: some View {
+        Text("Tags")
+            .font(.title)
+            .fontWeight(.semibold)
+    }
+
+    var tagsPart: some View {
+        
+        ScrollView {
+               LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 10) {
+                   ForEach(viewModel.expense.getTags(), id: \.self) { tag in
+                       if let title = tag.title {
+                           VStack {
+                               Text(title)
+                                   .foregroundStyle(Color.white)
+                                   .padding(5)
+                                   .padding(.trailing)
+                                   .background {
+                                       PriceTag(width: nil,
+                                                height: 30,
+                                                color: tag.getColor(),
+                                                holePunchColor: .white,
+                                                rotation: 0)
+                                   }
+                           }
+                           .frame(height: 100) // Adjust the height as needed
+                       }
+                   }
+               }
+           }
+           .padding(.bottom)
+           .frame(maxHeight: viewModel.tagsRectIncreaseAmount - 10)
+//        List {
+//            ForEach(viewModel.expense.getTags(), id: \.self) { tag in
+//                if let title = tag.title {
+//                    Text(title)
+//                        .foregroundStyle(Color.white)
+//                        .padding(5)
+//                        .padding(.trailing)
+//                        .background {
+//                            PriceTag(width: nil,
+//                                     height: 30,
+//                                     color: tag.getColor(),
+//                                     holePunchColor: .white,
+//                                     rotation: 0)
+//                        }
+//                }
+//            }
+////            .listRowSeparator(.hidden)
+//        }
+//        .padding(.bottom)
+//        .listStyle(.plain)
+//        .frame(maxHeight: viewModel.tagsRectIncreaseAmount - 10)
+    }
+
+    var buttonsPart: some View {
+        HStack {
+            showHideButton
+            addNewTagButton
+        }
+    }
+
+    var showHideButton: some View {
+        viewModel.styledButton(viewModel.tagsButtonText,
+                               width: 100,
+                               animationValue: viewModel.showTags,
+                               action: viewModel.tagsButtonAction)
+    }
+
+    var addNewTagButton: some View {
+        viewModel.styledButton("New",
+                               width: 100,
+                               animationValue: viewModel.showTags) {
+            print("NEW TaPPEd")
+        }
+    }
+
+    var largePriceTag: some View {
+        PriceTag(width: 75,
+                 height: 50,
+                 color: viewModel.user.getSettings().themeColor,
+                 holePunchColor: .white,
+                 rotation: 200)
+            .padding(.trailing, 10)
+    }
+}
+
+
+struct ExpenseDetailContributionsSection: View {
+    @ObservedObject var viewModel: ExpenseDetailViewModel
+
+    var body: some View {
+        VStack {
+            mainRect
+
+            Spacer()
+            
+            if viewModel.showContributions {
+                shiftsPart
+            }
+        }
+        .frame(height: viewModel.contributionsRectHeight)
+        .frame(maxWidth: .infinity)
+        .background {
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color.white)
+                .shadow(radius: 0.2)
+        }
+    }
+
+    var mainRect: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 40) {
+                header
+                showHideButton
+            }
+            .padding(.vertical)
+            Spacer()
+
+            calendarIcon
+        }
+        .padding(.horizontal, 20)
+    }
+
+    var shiftsPart: some View {
+        List {
+            ForEach(viewModel.expense.getAllocations()) { alloc in
+
+                if let shift = alloc.shift {
+                    AllocShiftRow(shift: shift, allocation: alloc)
+                }
+                
+                if let saved = alloc.savedItem {
+                    AllocSavedRow(saved: saved, allocation: alloc)
+                }
+            }
+        }
+        .padding(.bottom)
+        .listStyle(.plain)
+        .frame(maxHeight: viewModel.contributionsRectIncreaseAmount - 10)
+    }
+
+    var header: some View {
+        VStack {
+            Text("Contributions")
+                .font(.title2)
+                .fontWeight(.medium)
+        }
+        .padding(.top, 10)
+    }
+
+    var showHideButton: some View {
+        viewModel.styledButton(viewModel.contributionsButtonText,
+                               animationValue: viewModel.showContributions,
+                               action: viewModel.contributionsButtonAction)
+    }
+
+    var calendarIcon: some View {
+        Image(systemName: "tray.and.arrow.down.fill")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(height: 70)
+            .foregroundStyle(viewModel.settings.getDefaultGradient())
+    }
+
+    func shiftRow(_ shift: Shift) -> some View {
+        HStack {
+            Text(shift.start.firstLetterOrTwoOfWeekday())
+                .foregroundColor(.white)
+                .frame(width: 35, height: 35)
+                .background(viewModel.settings.getDefaultGradient())
+                .cornerRadius(8)
+        }
+        .padding()
+        .background {
+            Capsule(style: .circular)
+                .fill(Color.targetGray)
+        }
+    }
+}
+
+
 
 // MARK: - ExpenseDetailView_Previews
 

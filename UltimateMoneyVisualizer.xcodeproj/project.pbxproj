@@ -135,6 +135,7 @@
 		9C860F832A67836300D834C4 /* TodayViewHeaderContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C860F822A67836300D834C4 /* TodayViewHeaderContent.swift */; };
 		9C8937502A6A6E6B009339B2 /* SelectHoursSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C89374F2A6A6E6B009339B2 /* SelectHoursSheet.swift */; };
 		9C8C93552A8A2C7C000EE612 /* CreateExpenseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8C93542A8A2C7C000EE612 /* CreateExpenseViewModel.swift */; };
+		9C8C93572A8A2D90000EE612 /* ExpenseDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8C93562A8A2D90000EE612 /* ExpenseDetailViewModel.swift */; };
 		9C9735942A0D795600F651A1 /* AllocationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9735932A0D795600F651A1 /* AllocationDetailView.swift */; };
 		9C9735962A0D84D500F651A1 /* ExtendText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9735952A0D84D500F651A1 /* ExtendText.swift */; };
 		9C9735982A0D9B9000F651A1 /* NetMoneyGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9735972A0D9B9000F651A1 /* NetMoneyGraph.swift */; };
@@ -379,6 +380,7 @@
 		9C860F822A67836300D834C4 /* TodayViewHeaderContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewHeaderContent.swift; sourceTree = "<group>"; };
 		9C89374F2A6A6E6B009339B2 /* SelectHoursSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectHoursSheet.swift; sourceTree = SOURCE_ROOT; };
 		9C8C93542A8A2C7C000EE612 /* CreateExpenseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateExpenseViewModel.swift; sourceTree = SOURCE_ROOT; };
+		9C8C93562A8A2D90000EE612 /* ExpenseDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseDetailViewModel.swift; sourceTree = SOURCE_ROOT; };
 		9C9735932A0D795600F651A1 /* AllocationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AllocationDetailView.swift; path = "UltimateMoneyVisualizer/Views/Viewing Items/Allocations/AllocationDetailView.swift"; sourceTree = SOURCE_ROOT; };
 		9C9735952A0D84D500F651A1 /* ExtendText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendText.swift; sourceTree = "<group>"; };
 		9C9735972A0D9B9000F651A1 /* NetMoneyGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetMoneyGraph.swift; sourceTree = "<group>"; };
@@ -1256,6 +1258,7 @@
 		9CEEE33729F90890001FA4FB /* Expenses */ = {
 			isa = PBXGroup;
 			children = (
+				9C8C93562A8A2D90000EE612 /* ExpenseDetailViewModel.swift */,
 				9C0CFCDC2A5BB159005C7C81 /* Components */,
 				9C0CFCDA2A5A7B08005C7C81 /* ExpenseGrid.swift */,
 				9CEEE33029F904CC001FA4FB /* ExpenseListView.swift */,
@@ -1673,6 +1676,7 @@
 				9C0CFCE02A5C5989005C7C81 /* ShiftHasntStartedView.swift in Sources */,
 				9CEEE35129F90E37001FA4FB /* SavedDetailView.swift in Sources */,
 				9CDD4E612A68E56800AB8B4F /* TodayPaidOffRectContainer.swift in Sources */,
+				9C8C93572A8A2D90000EE612 /* ExpenseDetailViewModel.swift in Sources */,
 				9C7C985229FB613E0077EA25 /* ExtendColor.swift in Sources */,
 				9CF885AE2A5E063900F63766 /* StretchyHeader.swift in Sources */,
 				9C9FFB232A57C99400565B78 /* ExtendPayPeriodSettings.swift in Sources */,
