@@ -123,7 +123,7 @@ struct SelectDaysView: View {
                 }
             } header: {
                 Text("Days")
-                    .hidden()
+                    .hidden() 
             }
         }
         .putInTemplate()
