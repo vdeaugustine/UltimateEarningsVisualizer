@@ -23,6 +23,7 @@ struct TodayViewItemizedPart: View {
             .padding(.top, -12)
             .foregroundStyle(viewModel.settings.getDefaultGradient())
             .onTapGesture {
+                // TODO: Figure this out
                 navManager.homeNavPath.append(TodayViewModel.StartAndEnd(start: start, end: end))
             }
     }
@@ -43,7 +44,7 @@ struct TodayViewItemizedPart: View {
                 ForEach(shift.getTimeBlocks()) { timeBlock in
                     timeBlockSection(timeBlock: timeBlock)
                         .onTapGesture {
-                            navManager.homeNavPath.append(timeBlock)
+                            navManager.appendCorrectPath(newValue: .timeBlockDetail(timeBlock))
                         }
                 }
 

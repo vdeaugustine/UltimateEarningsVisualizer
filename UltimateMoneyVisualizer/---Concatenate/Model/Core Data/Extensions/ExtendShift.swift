@@ -108,7 +108,7 @@ public extension Shift {
                           user: user,
                           context: context)
 
-            try TimeBlock(title: "Balled out",
+            try TimeBlock(title: "Played Basketball",
                           start: Date.getThisTime(hour: 11, minute: 35, from: shiftStart)!,
                           end: Date.getThisTime(hour: 13, minute: 30, from: shiftStart)!,
                           colorHex: Color.overcastColors.randomElement()!,

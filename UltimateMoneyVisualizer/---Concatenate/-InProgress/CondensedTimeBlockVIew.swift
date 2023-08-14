@@ -3,6 +3,7 @@ import SwiftUI
 // MARK: - CondensedTimeBlockView
 
 struct CondensedTimeBlockView: View {
+    @EnvironmentObject private var navManager: NavManager
     let block: CondensedTimeBlock
     @ObservedObject private var user = User.main
     var body: some View {
@@ -18,7 +19,7 @@ struct CondensedTimeBlockView: View {
             Section("Instances") {
                 ForEach(block.actualBlocks(user)) { block in
                     Button {
-                        NavManager.shared.homeNavPath.append(NavManager.AllViews.timeBlockDetail(block))
+                        navManager.appendCorrectPath(newValue: .timeBlockDetail(block))
                     } label: {
                         Text(block.startTime?.getFormattedDate(format: .abbreviatedMonth) ?? "")
                             .spacedOut {

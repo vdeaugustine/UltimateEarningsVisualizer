@@ -48,6 +48,7 @@ struct ItemizedPartOfShiftView: View {
                 .padding(.top, -12)
                 .foregroundStyle(settings.getDefaultGradient())
                 .onTapGesture {
+                    // TODO: Figure this out
                     navManager.homeNavPath.append(StartAndEnd(start: start, end: end))
                 }
              
@@ -68,7 +69,7 @@ struct ItemizedPartOfShiftView: View {
             ForEach(shift.getTimeBlocks()) { timeBlock in
                 timeBlockSection(timeBlock: timeBlock)
                     .onTapGesture {
-                        navManager.homeNavPath.append(timeBlock)
+                        navManager.appendCorrectPath(newValue: .timeBlockDetail(timeBlock))
                     }
             }
 

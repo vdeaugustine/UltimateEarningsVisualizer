@@ -153,6 +153,7 @@
 		9CB418C62A0B616A006F44AB /* ExtendAlertToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB418C52A0B616A006F44AB /* ExtendAlertToast.swift */; };
 		9CB960642A5FD60F001F153A /* CompletedShiftSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB960632A5FD60F001F153A /* CompletedShiftSummary.swift */; };
 		9CC238E62A7853F400A92258 /* WageBreakdown_HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC238E52A7853F400A92258 /* WageBreakdown_HomeView.swift */; };
+		9CC2BA9B2A86C68D0075CA2D /* IconManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC2BA9A2A86C68D0075CA2D /* IconManager.swift */; };
 		9CC5BE632A09C08C006A2262 /* TodayPayoffGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC5BE622A09C08C006A2262 /* TodayPayoffGrid.swift */; };
 		9CC65D942A20867800D81712 /* TagDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC65D932A20867800D81712 /* TagDetailView.swift */; };
 		9CD2F2E72A287E7B00718667 /* EnterPaycheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD2F2E62A287E7B00718667 /* EnterPaycheckView.swift */; };
@@ -395,6 +396,7 @@
 		9CB418C52A0B616A006F44AB /* ExtendAlertToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendAlertToast.swift; sourceTree = "<group>"; };
 		9CB960632A5FD60F001F153A /* CompletedShiftSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedShiftSummary.swift; sourceTree = "<group>"; };
 		9CC238E52A7853F400A92258 /* WageBreakdown_HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WageBreakdown_HomeView.swift; sourceTree = "<group>"; };
+		9CC2BA9A2A86C68D0075CA2D /* IconManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = IconManager.swift; path = "Icon Manager/IconManager.swift"; sourceTree = SOURCE_ROOT; };
 		9CC5BE622A09C08C006A2262 /* TodayPayoffGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TodayPayoffGrid.swift; path = UltimateMoneyVisualizer/Views/Components/TodayPayoffGrid.swift; sourceTree = SOURCE_ROOT; };
 		9CC65D932A20867800D81712 /* TagDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailView.swift; sourceTree = "<group>"; };
 		9CD2F2E62A287E7B00718667 /* EnterPaycheckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPaycheckView.swift; sourceTree = "<group>"; };
@@ -596,6 +598,7 @@
 		9C4F0A2B2A14614500C78349 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				9CC2BA9A2A86C68D0075CA2D /* IconManager.swift */,
 				9C0CFCDD2A5BC2A1005C7C81 /* NavManager.swift */,
 				9C4F0A292A14614200C78349 /* NotificationManager.swift */,
 				9C7B5D512A1EE82600DBB877 /* SubscriptionManager.swift */,
@@ -1649,6 +1652,7 @@
 				9C514DAC29FF7359003DC43C /* HomePageSectionContainerModifier.swift in Sources */,
 				9CC5BE632A09C08C006A2262 /* TodayPayoffGrid.swift in Sources */,
 				9CEEE34529F90ABA001FA4FB /* ShiftListView.swift in Sources */,
+				9CC2BA9B2A86C68D0075CA2D /* IconManager.swift in Sources */,
 				9CEEE33129F904CC001FA4FB /* ExpenseListView.swift in Sources */,
 				9CEEE33429F90651001FA4FB /* ExpenseDetailView.swift in Sources */,
 				9CC65D942A20867800D81712 /* TagDetailView.swift in Sources */,

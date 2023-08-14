@@ -50,7 +50,7 @@ struct NewItemCreationView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    viewModel.navManager.homeNavPath.appendView(viewModel.getViewType())
+                    viewModel.navManager.appendCorrectPath(newValue: viewModel.getViewType())
                 } label: {
                     Label("Next", systemImage: "chevron.right")
                         .labelStyle(.titleOnly)

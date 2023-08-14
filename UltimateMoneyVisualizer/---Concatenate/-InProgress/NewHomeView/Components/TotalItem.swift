@@ -68,9 +68,7 @@ struct TotalsHeader: View {
             Text("More Stats")
                 .format(size: 14, weight: .medium, color: .textSecondary)
                 .onTapGesture {
-                    vm.navManager.homeNavPath.append(NavManager.AllViews.stats)
-//                    print("UPdated nav path", vm.navManager.homeNavPath)
-                    print(vm.navManager.homeNavPath.count)
+                    vm.navManager.appendCorrectPath(newValue: .stats)
                 }
 //                .navigationDestination(for: NavManager.AllViews.self) { view in
 //                    vm.navManager.getDestinationViewForHomeStack(destination: view)

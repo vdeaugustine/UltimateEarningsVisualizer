@@ -40,14 +40,44 @@ class NavManager: ObservableObject {
                 break
         }
     }
+    
+    func clearCurrentPath() {
+        switch currentTab {
+            case .settings:
+                settingsNavPath = .init()
+            case .today:
+                todayViewNavPath = .init()
+            case .allItems:
+                allItemsNavPath = .init()
+            case .newHome:
+                homeNavPath = .init()
+            default:
+                break
+        }
+    }
+    
+    func makeCurrentPath(this newPath: NavigationPath) {
+        switch currentTab {
+            case .settings:
+                settingsNavPath = newPath
+            case .today:
+                todayViewNavPath = newPath
+            case .allItems:
+                allItemsNavPath = newPath
+            case .newHome:
+                homeNavPath = newPath
+            default:
+                break
+        }
+    }
 
     enum AllViews: Hashable {
         case home, settings, today, confirmToday, stats, wage(Wage), expense(Expense), goal(Goal), newItemCreation
         case allTimeBlocks
         case timeBlockDetail(TimeBlock)
         case condensedTimeBlock(CondensedTimeBlock)
-        case createExpense, createGoal, createSaved
-        case shift(Shift)
+        case createExpense, createGoal, createSaved, createShift
+        case shift(Shift), saved(Saved)
     }
 
     func clearAllPaths() {
@@ -59,7 +89,7 @@ class NavManager: ObservableObject {
     func sameTabTapped(tabTapped: Tabs) {
         switch tabTapped {
             case .settings:
-                break
+                settingsNavPath = .init()
             case .expenses:
                 break
             case .home:
@@ -74,7 +104,7 @@ class NavManager: ObservableObject {
             case .allItems:
                 break
             case .newHome:
-                break
+                homeNavPath = .init()
         }
     }
 
@@ -149,7 +179,10 @@ class NavManager: ObservableObject {
                 CreateSavedView().environmentObject(NewItemViewModel.shared)
             case let .shift(shift):
                 ShiftDetailView(shift: shift)
-
+            case .createShift:
+                NewShiftView()
+            case let .saved(saved):
+                SavedDetailView(saved: saved)
             default:
                 EmptyView()
         }

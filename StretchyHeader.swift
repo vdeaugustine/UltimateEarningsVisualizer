@@ -205,7 +205,9 @@ struct GeometryGetter: View {
         GeometryReader { geometry in
             AnyView(Color.clear)
                 .preference(key: RectanglePreferenceKey.self, value: geometry.frame(in: .global))
-        }.onPreferenceChange(RectanglePreferenceKey.self) { (value) in
+        }
+        
+        .onPreferenceChange(RectanglePreferenceKey.self) { (value) in
             self.rect = value
         }
     }

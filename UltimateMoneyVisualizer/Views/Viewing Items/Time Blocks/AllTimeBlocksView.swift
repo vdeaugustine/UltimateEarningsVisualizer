@@ -42,10 +42,9 @@ struct AllTimeBlocksView: View {
                         .foregroundStyle(isSelected(block) ? Color.white : Color.black)
                         .allPartsTappable(alignment: .leading)
                         .onTapGesture {
-                            navManager.homeNavPath.append(NavManager.AllViews.timeBlockDetail(block))
+                            navManager.appendCorrectPath(newValue: .timeBlockDetail(block))
                         }
                     }
-//                }
 
                 .conditionalModifier(isSelected(block)) {
                     $0

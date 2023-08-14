@@ -51,8 +51,8 @@ struct ShiftListView: View {
 
                 ScrollView(.horizontal, showsIndicators: false) {
                     LazyHStack {
-                        NavigationLink {
-                            NewShiftView()
+                        Button {
+                            navManager.appendCorrectPath(newValue: .createShift)
                         } label: {
                             Label("Add shifts", systemImage: "plus")
                                 .padding()
