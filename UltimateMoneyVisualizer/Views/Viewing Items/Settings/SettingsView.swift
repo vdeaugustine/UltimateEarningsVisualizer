@@ -5,6 +5,7 @@
 //  Created by Vincent DeAugustine on 4/26/23.
 //
 
+import CoreData
 import SwiftUI
 import Vin
 
@@ -75,6 +76,7 @@ struct SettingsView: View {
                     }.allPartsTappable()
                 }
                 .buttonStyle(.plain)
+
                 // MARK: - Pay Period
 
                 Button {
@@ -84,7 +86,7 @@ struct SettingsView: View {
                         SystemImageWithFilledBackground(systemName: "calendar",
                                                         backgroundColor: settings.themeColor)
                         Text("Pay Periods")
-                        
+
                         Spacer()
                         Components.nextPageChevron
                     }
@@ -148,7 +150,50 @@ struct SettingsView: View {
                         .onChange(of: inMemory) { newValue in
                             UserDefaults.inMemory = newValue
                         }
+
+                    Button("Reset all Core Data") {
+                        do {
+                            let entityDescriptions = viewContext.persistentStoreCoordinator?.managedObjectModel.entities
+
+                            for entityDescription in entityDescriptions ?? [] {
+                                guard let entityName = entityDescription.name,
+                                      entityName != "User",
+                                      entityName != "Wage" else {
+                                    continue // Skip the "User" entity
+                                }
+
+                                // Fetch the instances of the current entity
+                                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+                                let instances = try viewContext.fetch(fetchRequest) as? [NSManagedObject]
+
+                                // Print and delete instances
+                                if let instances = instances {
+                                    print("Entities fetched for \(entityName):", instances.count)
+                                    instances.forEach {
+                                        print("Deleting", entityName, "with ID:", $0.objectID)
+                                        viewContext.delete($0)
+                                    }
+
+                                    // Save changes after deleting instances
+                                    try viewContext.save()
+
+                                    // Fetch and print the remaining instances
+                                    let remainingInstances = try viewContext.fetch(fetchRequest) as? [NSManagedObject]
+                                    print("Remaining \(entityName)s:")
+                                    remainingInstances?.forEach {
+                                        print("ID:", $0.objectID)
+                                    }
+                                }
+                            }
+                        } catch {
+                            print("ERROR BATCH DELETING: ", error)
+                        }
+                    }
+                    Button("Restore default") {
+                        user.instantiateExampleItems(context: viewContext)
+                    }
                 }
+
             #endif
 
             Section("Plan") {

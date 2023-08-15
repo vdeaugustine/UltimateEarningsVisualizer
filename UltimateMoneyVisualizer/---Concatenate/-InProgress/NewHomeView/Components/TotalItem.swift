@@ -11,14 +11,15 @@ import SwiftUI
 
 struct TotalItem: View {
     @EnvironmentObject private var vm: NewHomeViewModel
-
-    let type: NewHomeViewModel.TotalTypes
+    @ObservedObject private var user = User.main
+    var type: NewHomeViewModel.TotalTypes
+    
 
     var body: some View {
         VStack(alignment: .center, spacing: 10) {
             type.icon
                 .font(.system(size: 24))
-            Text(type.amount(vm))
+            Text(type.amount(user))
                 .format(size: 16,
                         weight: .semibold,
                         color: Color(red: 0.13,

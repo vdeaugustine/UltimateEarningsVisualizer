@@ -146,7 +146,6 @@ struct ConfirmTodayShift: View {
                     }
                 }
                 .listStyle(.plain)
-                .listRowSpacing(-10)
                 .frame(height: viewModel.getPayoffListsHeight(forCount: paidOffExpenses.count))
             }
 

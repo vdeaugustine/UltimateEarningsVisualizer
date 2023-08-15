@@ -26,46 +26,50 @@ public extension User {
                  context: context)
 
         if exampleItem {
-            do {
-                // Make Pay Period Settings
-                try PayPeriodSettings(cycleCadence: .weekly,
-                                      autoGenerate: true,
-                                      user: self,
-                                      context: context)
-
-                // Make Goals
-                try Goal.makeExampleGoals(user: self, context: context)
-
-                // Make Expenses
-                try Expense.makeExampleExpenses(user: self, context: context)
-
-                // Make Shifts
-                try Shift.makeExampleShifts(user: self, context: context)
-
-                // Make pay periods for existing shifts
-                try PayPeriod.assignShiftsToPayPeriods()
-
-                // Make Saved items
-                try Saved.makeExampleSavedItems(user: self, context: context)
-
-                // Make today shift
-                try TodayShift.makeExampleTodayShift(user: self, context: context)
-
-                // Set regular schedule
-                RegularSchedule([.tuesday, .wednesday, .thursday],
-                                user: self,
-                                context: context)
-
-                // Make Expenses that will not be allocated
-
-                try Expense.makeExpensesThatWontBeAllocated(user: self, context: context)
-
-            } catch {
-                fatalError(String(describing: error))
-            }
+            instantiateExampleItems(context: context)
         }
 
         try context.save()
+    }
+
+    func instantiateExampleItems(context: NSManagedObjectContext) {
+        do {
+            // Make Pay Period Settings
+            try PayPeriodSettings(cycleCadence: .weekly,
+                                  autoGenerate: true,
+                                  user: self,
+                                  context: context)
+
+            // Make Goals
+            try Goal.makeExampleGoals(user: self, context: context)
+
+            // Make Expenses
+            try Expense.makeExampleExpenses(user: self, context: context)
+
+            // Make Shifts
+            try Shift.makeExampleShifts(user: self, context: context)
+
+            // Make pay periods for existing shifts
+            try PayPeriod.assignShiftsToPayPeriods()
+
+            // Make Saved items
+            try Saved.makeExampleSavedItems(user: self, context: context)
+
+            // Make today shift
+            try TodayShift.makeExampleTodayShift(user: self, context: context)
+
+            // Set regular schedule
+            RegularSchedule([.tuesday, .wednesday, .thursday],
+                            user: self,
+                            context: context)
+
+            // Make Expenses that will not be allocated
+
+            try Expense.makeExpensesThatWontBeAllocated(user: self, context: context)
+
+        } catch {
+            fatalError(String(describing: error))
+        }
     }
 
     static var testing: User {
@@ -137,7 +141,7 @@ public extension User {
     func convertMoneyToTime(money: Double) -> TimeInterval {
         money / getWage().perSecond
     }
-    
+
     func convertTimeToMoney(seconds: TimeInterval) -> Double {
         getWage().perSecond * seconds
     }
@@ -190,8 +194,23 @@ public extension User {
     ///
     /// - Returns: An array of the user's shifts.
     func getShifts() -> [Shift] {
-        guard let shifts, let array = Array(shifts) as? [Shift] else { return [] }
-        return array.sorted(by: { $0.start > $1.start })
+        let fetchRequest: NSFetchRequest<Shift> = Shift.fetchRequest()
+        // Sort Descriptors
+        let sortDescriptor = NSSortDescriptor(key: "startDate", ascending: false)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+
+        do {
+            let shifts = try getContext().fetch(fetchRequest)
+            return shifts
+        } catch {
+            print(error)
+            return []
+        }
+
+        /// This is the old way I was doing it. I tried the fetch request approach to make sure it is updating properly when deleted and what not. It didn't work but going to keep it this way for now
+        /// if there are any problems, go back to this way
+//        guard let shifts, let array = Array(shifts) as? [Shift] else { return [] }
+//        return array.sorted(by: { $0.start > $1.start })
     }
 
     /// Retrieves the shift happening today from a collection of shifts.
@@ -316,11 +335,11 @@ public extension User {
     // MARK: - Allocations
 
     func getExpenseAllocations() -> [Allocation] {
-        getAllocations().filter( {$0.payoffType == .expense })
+        getAllocations().filter { $0.payoffType == .expense }
     }
 
     func getGoalAllocations() -> [Allocation] {
-        getAllocations().filter({ $0.payoffType == .goal })
+        getAllocations().filter { $0.payoffType == .goal }
     }
 
     func getAllocations() -> [Allocation] {
@@ -331,15 +350,14 @@ public extension User {
     func amountAllocated() -> Double {
         getAllocations().reduce(Double.zero) { $0 + $1.amount }
     }
-    
+
     func amountAllocatedToGoals() -> Double {
-        getGoalAllocations().reduce(Double.zero, { $0 + $1.amount })
-    }
-    
-    func amountAllocatedToExpenses() -> Double {
-        getExpenseAllocations().reduce(Double.zero, { $0 + $1.amount })
+        getGoalAllocations().reduce(Double.zero) { $0 + $1.amount }
     }
 
+    func amountAllocatedToExpenses() -> Double {
+        getExpenseAllocations().reduce(Double.zero) { $0 + $1.amount }
+    }
 
     // MARK: - Expenses
 
@@ -360,15 +378,15 @@ public extension User {
         let expenses = getExpensesBetween(startDate: startDate, endDate: endDate)
         return expenses.reduce(Double.zero) { $0 + $1.amount }
     }
-    
+
     func getUnfinishedExpenses(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [Expense] {
-        getExpensesBetween(startDate: startDate, endDate: endDate).filter({ $0.isPaidOff == false })
+        getExpensesBetween(startDate: startDate, endDate: endDate).filter { $0.isPaidOff == false }
     }
-    
+
     func getAmountRemainingToPay_Expenses() -> Double {
-        getUnfinishedExpenses().reduce(Double.zero, { $0 + $1.amountRemainingToPayOff })
+        getUnfinishedExpenses().reduce(Double.zero) { $0 + $1.amountRemainingToPayOff }
     }
-    
+
     func getAmountActuallySpentOnExpenses(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> Double {
         let expenses = getExpensesBetween(startDate: startDate, endDate: endDate)
         return expenses.reduce(Double.zero) { $0 + $1.amountPaidOff }
@@ -410,13 +428,13 @@ public extension User {
         guard let goals else { return [] }
         return Array(goals) as? [Goal] ?? []
     }
-    
+
     func getUnfinishedGoals(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [Goal] {
-        getGoalsBetween(startDate: startDate, endDate: endDate).filter({ $0.isPaidOff == false })
+        getGoalsBetween(startDate: startDate, endDate: endDate).filter { $0.isPaidOff == false }
     }
-    
+
     func getAmountRemainingToPay_Goals() -> Double {
-        getUnfinishedGoals().reduce(Double.zero, { $0 + $1.amountRemainingToPayOff })
+        getUnfinishedGoals().reduce(Double.zero) { $0 + $1.amountRemainingToPayOff }
     }
 
     func getGoalsBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [Goal] {
@@ -431,7 +449,7 @@ public extension User {
         let goals = getGoalsBetween(startDate: startDate, endDate: endDate)
         return goals.reduce(Double.zero) { $0 + $1.amount }
     }
-    
+
     func getAmountActuallySpentOnGoals(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> Double {
         let goals = getGoalsBetween(startDate: startDate, endDate: endDate)
         return goals.reduce(Double.zero) { $0 + $1.amountPaidOff }
@@ -503,18 +521,17 @@ public extension User {
         }
         return filtered
     }
-    
-    
+
     // MARK: - Taxes
-    
+
     func getStateTaxesPaid(from start: Date = .distantPast, to end: Date = .distantFuture) -> Double {
         getWage().stateTaxMultiplier * getTotalEarnedBetween(startDate: start, endDate: end)
     }
-    
+
     func getFederalTaxesPaid(from start: Date = .distantPast, to end: Date = .distantFuture) -> Double {
         getWage().federalTaxMultiplier * getTotalEarnedBetween(startDate: start, endDate: end)
     }
-    
+
     func getTotalTaxesPaid(from start: Date = .distantPast, to end: Date = .distantFuture) -> Double {
         getWage().totalTaxMultiplier * getTotalEarnedBetween(startDate: start, endDate: end)
     }

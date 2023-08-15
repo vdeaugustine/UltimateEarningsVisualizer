@@ -56,20 +56,20 @@ class NewHomeViewModel: ObservableObject {
             }
         }
 
-        func amount(_ vm: NewHomeViewModel) -> String {
+        func amount(_ user: User) -> String {
             switch self {
                 case .earned:
-                    vm.user.totalEarned().money()
+                    user.totalEarned().money()
                 case .taxes:
-                    (vm.user.totalEarned() * vm.user.getWage().totalTaxMultiplier).money()
+                    (user.totalEarned() * user.getWage().totalTaxMultiplier).money()
                 case .expenses:
-                    vm.user.getAmountForAllExpensesBetween().money()
+                    user.getAmountForAllExpensesBetween().money()
                 case .goals:
-                    vm.user.getAmountForAllGoalsBetween().money()
+                    user.getAmountForAllGoalsBetween().money()
                 case .saved:
-                    vm.user.getAmountSavedBetween().money()
+                    user.getAmountSavedBetween().money()
                 case .paidOff:
-                    vm.user.amountAllocated().money()
+                    user.amountAllocated().money()
             }
         }
 

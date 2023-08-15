@@ -19,13 +19,6 @@ struct ContentView: View {
     @Environment(\.sizeCategory) var sizeCategory
     @State private var lastTab: Tabs = .home
 
-    init() {
-        UINavigationBar.appearance().barTintColor = .clear
-        UINavigationBar.appearance().backgroundColor = .clear
-        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
-        UINavigationBar.appearance().shadowImage = UIImage()
-    }
-
     var body: some View {
         TabView(selection: $navManager.currentTab.onUpdate(ifNoChange: navManager.sameTabTapped)) {
             NavigationStack(path: $navManager.homeNavPath) {

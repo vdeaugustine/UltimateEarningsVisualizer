@@ -32,9 +32,11 @@ public struct PersistenceController {
 
     #if !DEBUG
         static let shared = PersistenceController()
+        /// In memory means it will not persist, it will start over as new every time the app launches
         public static let inMemory: Bool = false
     #else
-        public static var inMemory: Bool { true }
+        /// In memory means it will not persist, it will start over as new every time the app launches
+        public static var inMemory: Bool { false }
         static var shared: PersistenceController = {
             let isInPreview = ProcessInfo.processInfo.environment["_XCODE_RUNNING_FOR_PREVIEWS"] == nil
             let result = PersistenceController(inMemory: inMemory)
