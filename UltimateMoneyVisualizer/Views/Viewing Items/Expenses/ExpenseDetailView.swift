@@ -21,72 +21,88 @@ struct ExpenseDetailView: View {
     }
 
     var body: some View {
-        ScrollViewReader { _ in
-            ScrollView {
-                VStack {
-                    ExpenseDetailHeaderView(expense: viewModel.expense,
-                                            shownImage: viewModel.shownImage,
-                                            tappedImageAction: viewModel.expenseDetailHeaderAction)
-                        .padding(.bottom)
+        ScrollView {
+            VStack {
+                ExpenseDetailHeaderView(expense: viewModel.expense,
+                                        shownImage: viewModel.shownImage,
+                                        tappedImageAction: viewModel.expenseDetailHeaderAction)
+                    .padding(.bottom)
 
-                    HStack {
-                        ExpenseDetailProgressBox(viewModel: viewModel)
-                        VStack {
-                            ExpenseDetailTotalAmount(viewModel: viewModel)
-                            ExpenseDetailDueDateBox(viewModel: viewModel)
-                        }
-                    }
-
-                    ExpenseDetailTagsSection(viewModel: viewModel)
-
-                    ExpenseDetailContributionsSection(viewModel: viewModel)
-                }
-                .padding()
-
-                .blur(radius: viewModel.blurRadius)
-                .overlay {
-                    if viewModel.showSpinner {
-                        ProgressView()
+                HStack {
+                    ExpenseDetailProgressBox(viewModel: viewModel)
+                    VStack {
+                        ExpenseDetailTotalAmount(viewModel: viewModel)
+                        ExpenseDetailDueDateBox(viewModel: viewModel)
                     }
                 }
-                .overlay(fullScreenImage())
-                .background(Color.listBackgroundColor)
-                .confirmationDialog("Are you sure you want to delete this expense?", isPresented: $viewModel.presentConfirmation, titleVisibility: .visible, actions: {
-                    Button("Delete", role: .destructive, action: viewModel.doDeleteAction)
-                }, message: {
-                    Text("This action cannot be undone")
-                })
-                .listStyle(.insetGrouped)
-                .navigationBarTitleDisplayMode(.inline)
-                .putInTemplate()
-                .navigationTitle("Expense")
-                .sheet(isPresented: $viewModel.showImageSelector) {
-                    if viewModel.shownImage != nil {
-                        viewModel.viewIDForReload = UUID()
-                    }
-                } content: {
-                    ImagePicker(isShown: $viewModel.showImageSelector, image: $viewModel.shownImage)
-                        .onAppear {
-                            viewModel.showSpinner = false
-                        }
+
+                ExpenseDetailTagsSection(viewModel: viewModel)
+
+                ExpenseDetailContributionsSection(viewModel: viewModel)
+                
+                Spacer()
+                    .frame(height: 40)
+                
+//                Button("Delete", role: .destructive) {
+//                    
+//                }
+//                .frame(maxWidth: .infinity, alignment: .center)
+            }
+            .padding()
+
+            .blur(radius: viewModel.blurRadius)
+            .overlay {
+                if viewModel.showSpinner {
+                    ProgressView()
                 }
-                .toolbar {
-                    if viewModel.initialImage != viewModel.shownImage {
-                        ToolbarItem {
-                            Button("Save", action: viewModel.saveButtonAction)
-                        }
+            }
+            .overlay(fullScreenImage())
+            .background(Color.listBackgroundColor)
+            .confirmationDialog("Are you sure you want to delete this expense?", isPresented: $viewModel.presentConfirmation, titleVisibility: .visible, actions: {
+                Button("Delete", role: .destructive, action: viewModel.doDeleteAction)
+            }, message: {
+                Text("This action cannot be undone")
+            })
+            .listStyle(.insetGrouped)
+            .navigationBarTitleDisplayMode(.inline)
+            .putInTemplate()
+            .navigationTitle("Expense")
+            .sheet(isPresented: $viewModel.showImageSelector) {
+                if viewModel.shownImage != nil {
+                    viewModel.viewIDForReload = UUID()
+                }
+            } content: {
+                ImagePicker(isShown: $viewModel.showImageSelector, image: $viewModel.shownImage)
+                    .onAppear {
+                        viewModel.showSpinner = false
+                    }
+            }
+            .toolbar {
+                if viewModel.initialImage != viewModel.shownImage {
+                    ToolbarItem {
+                        Button("Save", action: viewModel.saveButtonAction)
                     }
                 }
-                .onAppear(perform: viewModel.onAppearAction)
-                .toast(isPresenting: $viewModel.showAlert,
-                       duration: 2,
-                       tapToDismiss: false,
-                       offsetY: 40,
-                       alert: { viewModel.toastConfiguration })
-                .ignoresSafeArea(.keyboard, edges: .bottom)
+            }
+            .onAppear(perform: viewModel.onAppearAction)
+            .toast(isPresenting: $viewModel.showAlert,
+                   duration: 2,
+                   tapToDismiss: false,
+                   offsetY: 40,
+                   alert: { viewModel.toastConfiguration })
+            .ignoresSafeArea(.keyboard, edges: .bottom)
+        }
+
+        .background(Color.listBackgroundColor)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+//                    showDeleteConfirmation.toggle()
+                } label: {
+                    Label("Delete", systemImage: "trash")
+                }
             }
         }
-        .background(Color.listBackgroundColor)
     }
 
     func fullScreenImage() -> some View {
@@ -156,7 +172,7 @@ struct ExpenseDetailHeaderView: View {
                 }
                 .frame(width: 150, height: 150)
 
-            VStack(spacing: 20) {
+            VStack(spacing: 30) {
                 VStack {
                     Text(expense.titleStr)
                         .font(.title)
@@ -232,6 +248,9 @@ struct ExpenseDetailProgressBox: View {
         }
         .frame(minWidth: 175)
         .frame(minHeight: 225, maxHeight: .infinity)
+        .onTapGesture {
+            NavManager.shared.appendCorrectPath(newValue: .expenseContributions(viewModel.expense))
+        }
     }
 
     var batteryImage: some View {
@@ -542,8 +561,8 @@ struct ExpenseDetailContributionsSection: View {
     var header: some View {
         VStack {
             Text("Contributions")
-                .font(.title2)
-                .fontWeight(.medium)
+                .font(.title)
+                .fontWeight(.semibold)
         }
         .padding(.top, 10)
     }

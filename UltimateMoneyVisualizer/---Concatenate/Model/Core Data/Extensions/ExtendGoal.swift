@@ -263,6 +263,16 @@ public extension Goal {
 
 public extension Goal {
     // MARK: Properties
+    
+    public var amountPaidByShifts: Double {
+        let shiftAllocations = getAllocations().filter({ $0.shift != nil })
+        return shiftAllocations.reduce(Double.zero, { $0 + $1.amount })
+    }
+    
+    public var amountPaidBySaved: Double {
+        let savedAllocations = getAllocations().filter({ $0.savedItem != nil })
+        return savedAllocations.reduce(Double.zero, { $0 + $1.amount })
+    }
 
     var timeRemaining: TimeInterval {
         guard let dueDate else { return 0 }

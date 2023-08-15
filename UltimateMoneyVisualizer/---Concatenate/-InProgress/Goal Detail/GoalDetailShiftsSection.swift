@@ -23,9 +23,8 @@ struct GoalDetailShiftsSection: View {
                         ScrollView(.horizontal) {
                             HStack {
                                 ForEach(viewModel.goal.getTags()) { tag in
-                                    NavigationLink {
-                                        TagDetailView(tag: tag)
-
+                                    Button {
+                                        NavManager.shared.appendCorrectPath(newValue: .tagDetail(tag))
                                     } label: {
                                         Text(tag.title ?? "NA")
                                             .foregroundColor(.white)
@@ -35,6 +34,7 @@ struct GoalDetailShiftsSection: View {
                                                 PriceTag(height: 30, color: tag.getColor(), holePunchColor: .listBackgroundColor)
                                             }
                                     }
+                                    .buttonStyle(.plain)
                                 }
                             }
                         }

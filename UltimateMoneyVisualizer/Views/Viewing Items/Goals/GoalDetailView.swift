@@ -87,6 +87,15 @@ struct GoalDetailView: View {
             }
         }
         .background(Color.listBackgroundColor)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+//                    showDeleteConfirmation.toggle()
+                } label: {
+                    Label("Delete", systemImage: "trash")
+                }
+            }
+        }
     }
 
     func fullScreenImage() -> some View {

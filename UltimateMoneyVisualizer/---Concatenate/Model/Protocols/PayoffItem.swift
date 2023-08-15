@@ -58,7 +58,8 @@ public protocol PayoffItem {
     var titleStr: String { get }
     var type: PayoffType { get }
     var dueDate: Date? { get set }
-    
+    var amountPaidByShifts: Double { get }
+    var amountPaidBySaved: Double { get }
     
     // MARK: - Protocol Methods:
     

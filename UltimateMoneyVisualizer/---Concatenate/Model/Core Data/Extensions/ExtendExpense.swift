@@ -61,6 +61,16 @@ extension Expense {
 // MARK: - Expense + PayoffItem
 
 extension Expense: PayoffItem {
+    public var amountPaidByShifts: Double {
+        let shiftAllocations = getAllocations().filter({ $0.shift != nil })
+        return shiftAllocations.reduce(Double.zero, { $0 + $1.amount })
+    }
+    
+    public var amountPaidBySaved: Double {
+        let savedAllocations = getAllocations().filter({ $0.savedItem != nil })
+        return savedAllocations.reduce(Double.zero, { $0 + $1.amount })
+    }
+    
     // MARK: Properties
 
     public var amountMoneyStr: String {

@@ -96,7 +96,7 @@ struct GoalDetailHeaderView: View {
                 }
                 .frame(width: 150, height: 150)
 
-            VStack(spacing: 20) {
+            VStack(spacing: 30) {
                 VStack {
                     Text(goal.titleStr)
                         .font(.title)

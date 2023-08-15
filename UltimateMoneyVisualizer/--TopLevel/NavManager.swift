@@ -13,75 +13,39 @@ import SwiftUI
 class NavManager: ObservableObject {
     static var shared: NavManager = NavManager()
 
+    // swiftformat:sort:begin
+    @Published var allItemsNavPath: NavigationPath = .init()
+    @Published var currentTab: Tabs = .newHome
+    @Published var focusedPath: NavigationPath? = nil
     @Published var homeNavPath: NavigationPath = .init()
+    @Published var lastPath: PossiblePaths = .none
+    @Published var scrollProxy: ScrollViewProxy?
+    @Published var scrollViewID = UUID()
     @Published var settingsNavPath: NavigationPath = .init()
     @Published var todayViewNavPath: NavigationPath = .init()
-    @Published var allItemsNavPath: NavigationPath = .init()
-    @Published var lastPath: PossiblePaths = .none
-    @Published var scrollViewID = UUID()
+    // swiftformat:sort:end
 
-    @Published var focusedPath: NavigationPath? = nil
+    // MARK: - Methods
 
-    @Published var currentTab: Tabs = .newHome
-
-    @Published var scrollProxy: ScrollViewProxy?
-
+    // swiftformat:sort:begin
     func appendCorrectPath(newValue: AllViews) {
         switch currentTab {
-            case .settings:
-                settingsNavPath.append(newValue)
-            case .today:
-                todayViewNavPath.append(newValue)
             case .allItems:
                 allItemsNavPath.append(newValue)
             case .newHome:
                 homeNavPath.append(newValue)
+            case .settings:
+                settingsNavPath.append(newValue)
+            case .today:
+                todayViewNavPath.append(newValue)
             default:
                 break
         }
-        
         print("Now showing", "\(newValue)")
-    }
 
-    func clearCurrentPath() {
-        switch currentTab {
-            case .settings:
-                settingsNavPath = .init()
-            case .today:
-                todayViewNavPath = .init()
-            case .allItems:
-                allItemsNavPath = .init()
-            case .newHome:
-                homeNavPath = .init()
-            default:
-                break
+        let x = 1 < 2
+        if x == true {
         }
-    }
-
-    func makeCurrentPath(this newPath: NavigationPath) {
-        switch currentTab {
-            case .settings:
-                settingsNavPath = newPath
-            case .today:
-                todayViewNavPath = newPath
-            case .allItems:
-                allItemsNavPath = newPath
-            case .newHome:
-                homeNavPath = newPath
-            default:
-                break
-        }
-    }
-
-    enum AllViews: Hashable {
-        case home, settings, today, confirmToday, stats, wage(Wage), expense(Expense), goal(Goal), newItemCreation
-        case allTimeBlocks
-        case timeBlockDetail(TimeBlock)
-        case condensedTimeBlock(CondensedTimeBlock)
-        case createExpense, createGoal, createSaved, createShift
-        case shift(Shift), saved(Saved)
-        case enterWage, regularSchedule, payPeriods
-        case purchasePage
     }
 
     func clearAllPaths() {
@@ -90,34 +54,90 @@ class NavManager: ObservableObject {
         todayViewNavPath = .init()
     }
 
-    func sameTabTapped(tabTapped: Tabs) {
-        switch tabTapped {
+    func clearCurrentPath() {
+        switch currentTab {
+            case .allItems:
+                allItemsNavPath = .init()
+            case .newHome:
+                homeNavPath = .init()
             case .settings:
                 settingsNavPath = .init()
+            case .today:
+                todayViewNavPath = .init()
+            default:
+                break
+        }
+    }
+
+    func makeCurrentPath(this newPath: NavigationPath) {
+        switch currentTab {
+            case .allItems:
+                allItemsNavPath = newPath
+            case .newHome:
+                homeNavPath = newPath
+            case .settings:
+                settingsNavPath = newPath
+            case .today:
+                todayViewNavPath = newPath
+            default:
+                break
+        }
+    }
+
+    func sameTabTapped(tabTapped: Tabs) {
+        switch tabTapped {
+            case .addShifts:
+                break
+            case .allItems:
+                break
             case .expenses:
                 break
             case .home:
                 homeNavPath = .init()
                 scrollViewID = UUID()
+            case .newHome:
+                homeNavPath = .init()
+            case .settings:
+                settingsNavPath = .init()
             case .shifts:
                 break
             case .today:
                 break
-            case .addShifts:
-                break
-            case .allItems:
-                break
-            case .newHome:
-                homeNavPath = .init()
         }
     }
 
-    enum Tabs: String, Hashable, CustomStringConvertible, Equatable {
-        var description: String { rawValue.capitalized }
-        case settings, expenses, home, shifts, today, addShifts, allItems
+    // swiftformat:sort:end
 
-        // testing
-        case newHome
+    // MARK: - Enums
+
+    // swiftformat:sort:begin
+    enum AllViews: Hashable {
+        case allTimeBlocks
+        case condensedTimeBlock(CondensedTimeBlock)
+        case confirmToday
+        case createExpense
+        case createGoal
+        case createSaved
+        case createShift
+        case enterWage
+        case expense(Expense)
+        case expenseContributions(Expense)
+        case goal(Goal)
+        case home
+        case newItemCreation
+        case payPeriodDetail(PayPeriod)
+        case payPeriods
+        case purchasePage
+        case regularSchedule
+        case saved(Saved)
+        case settings
+        case shift(Shift)
+        case shiftAllocSheet_Expense(Shift, Expense)
+        case stats
+        case tagDetail(Tag)
+        case timeBlockDetail(TimeBlock)
+        case today
+        case wage(Wage)
     }
 
     enum PossiblePaths: Hashable {
@@ -127,14 +147,29 @@ class NavManager: ObservableObject {
         case none
     }
 
-    enum TodayViewDestinations: Hashable {
-        case payoffQueue,
-             confirmShift,
-             timeBlockDetail(TimeBlock),
-             newTimeBlock(TodayShift),
-             goalDetail(Goal),
-             expenseDetail(Expense)
+    enum Tabs: String, Hashable, CustomStringConvertible, Equatable {
+        var description: String { rawValue.capitalized }
+
+        case addShifts
+        case allItems
+        case expenses
+        case home
+        case newHome // testing
+        case settings
+        case shifts
+        case today
     }
+
+    enum TodayViewDestinations: Hashable {
+        case confirmShift
+        case expenseDetail(Expense)
+        case goalDetail(Goal)
+        case newTimeBlock(TodayShift)
+        case payoffQueue
+        case timeBlockDetail(TimeBlock)
+    }
+
+    // swiftformat:sort:end
 
     @ViewBuilder func getDestinationViewForTodayViewStack(destination: NavManager.TodayViewDestinations) -> some View {
         switch destination {
@@ -155,46 +190,52 @@ class NavManager: ObservableObject {
 
     @ViewBuilder func getDestinationViewForStack(destination: NavManager.AllViews) -> some View {
         switch destination {
-            case .home:
-                NewHomeView()
-            case .settings:
-                SettingsView()
-            case .stats:
-                StatsView()
-            case .wage(_):
-                WageView()
-            case let .expense(expense):
-                ExpenseDetailView(expense: expense)
-            case let .goal(goal):
-                GoalDetailView(goal: goal)
             case .allTimeBlocks:
                 AllTimeBlocksView()
-            case .newItemCreation:
-                NewItemCreationView()
-            case let .timeBlockDetail(block):
-                TimeBlockDetailView(block: block)
             case let .condensedTimeBlock(block):
                 CondensedTimeBlockView(block: block)
-            case .createGoal:
-                CreateGoalView().environmentObject(NewItemViewModel.shared)
             case .createExpense:
                 CreateExpenseView().environmentObject(NewItemViewModel.shared)
+            case .createGoal:
+                CreateGoalView().environmentObject(NewItemViewModel.shared)
             case .createSaved:
                 CreateSavedView().environmentObject(NewItemViewModel.shared)
-            case let .shift(shift):
-                ShiftDetailView(shift: shift)
             case .createShift:
                 NewShiftView()
-            case let .saved(saved):
-                SavedDetailView(saved: saved)
             case .enterWage:
                 EnterWageView()
-            case .regularSchedule:
-                RegularScheduleView()
+            case let .expense(expense):
+                ExpenseDetailView(expense: expense)
+            case let .expenseContributions(expense):
+                ContributionsForExpenseView(expense: expense)
+            case let .goal(goal):
+                GoalDetailView(goal: goal)
+            case .home:
+                NewHomeView()
+            case .newItemCreation:
+                NewItemCreationView()
+            case let .payPeriodDetail(period):
+                PayPeriodDetailView(payPeriod: period)
             case .payPeriods:
                 PayPeriodsView()
             case .purchasePage:
                 PurchasePage()
+            case .regularSchedule:
+                RegularScheduleView()
+            case let .saved(saved):
+                SavedDetailView(saved: saved)
+            case .settings:
+                SettingsView()
+            case let .shift(shift):
+                ShiftDetailView(shift: shift)
+            case let .shiftAllocSheet_Expense(shift, expense):
+                AddAllocationForExpenseView.ShiftAllocSheet(shift: shift, expense: expense)
+            case .stats:
+                StatsView()
+            case let .tagDetail(tag):
+                TagDetailView(tag: tag)
+            case let .timeBlockDetail(block):
+                TimeBlockDetailView(block: block)
             default:
                 EmptyView()
         }

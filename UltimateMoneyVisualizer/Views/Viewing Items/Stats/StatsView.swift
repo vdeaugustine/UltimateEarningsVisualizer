@@ -38,18 +38,13 @@ struct StatsView: View {
             selectedSection
         }
         .background(Color.targetGray)
-        .putInTemplate(displayMode: .large)
+        .putInTemplate()
         .navigationTitle("My Stats")
-        .navigationDestination(for: Shift.self) { ShiftDetailView(shift: $0) }
-        .navigationDestination(for: Goal.self) { GoalDetailView(goal: $0) }
-        .navigationDestination(for: Expense.self) { ExpenseDetailView(expense: $0) }
-        .navigationDestination(for: Saved.self) { SavedDetailView(saved: $0) }
+        
     }
 
     var selectedSection: some View {
         VStack {
-//            ChartWithFooter(vm: vm)
-
             List {
                 Section {
                     ForEach(vm.itemsForList.indices, id: \.self) { itemIndex in
@@ -61,6 +56,7 @@ struct StatsView: View {
                             }
                             Spacer()
                             Text(vm.rowText(forIndex: itemIndex).detail)
+                            Components.nextPageChevron
                         }
                         .allPartsTappable()
                         .onTapGesture { vm.tapAction(index: itemIndex) }

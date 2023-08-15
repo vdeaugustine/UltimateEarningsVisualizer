@@ -100,33 +100,7 @@ struct ShiftListView: View {
             }
             .background(Color.listBackgroundColor)
 
-            VStack(alignment: .leading, spacing: 0) {
-                List {
-                    ForEach(user.getPayPeriods()) { period in
-                        Section {
-                            ForEach(period.getShifts()) { shift in
-                                Button {
-                                    navManager.appendCorrectPath(newValue: .shift(shift))
-                                } label: {
-                                    ShiftRowView(shift: shift)
-                                }
-                            }
-                        } header: {
-                            NavigationLink {
-                                PayPeriodDetailView(payPeriod: period)
-                            } label: {
-                                HStack {
-                                    Text(period.dateRangeString)
-                                    Spacer()
-                                    Label("More", systemImage: "ellipsis")
-                                        .labelStyle(.iconOnly)
-                                }
-                            }
-                        }
-                    }
-                }
-                .listStyle(.insetGrouped)
-            }
+            listPart
         }
         .onChange(of: wage, perform: { _ in
             shifts = user.getShifts()
@@ -193,6 +167,38 @@ struct ShiftListView: View {
                 let nsError = error as NSError
                 fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             }
+        }
+    }
+    
+    
+    @ViewBuilder var listPart: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            List {
+                ForEach(user.getPayPeriods()) { period in
+                    Section {
+                        ForEach(period.getShifts()) { shift in
+                            Button {
+                                navManager.appendCorrectPath(newValue: .shift(shift))
+                            } label: {
+                                ShiftRowView(shift: shift)
+                            }
+                        }
+                    } header: {
+                        Button {
+                            navManager.appendCorrectPath(newValue: .payPeriodDetail(period))
+                        } label: {
+                            HStack {
+                                Text(period.dateRangeString)
+                                Spacer()
+                                Label("More", systemImage: "ellipsis")
+                                    .labelStyle(.iconOnly)
+                            }
+                        }
+                        .foregroundStyle(Color.black)
+                    }
+                }
+            }
+            .listStyle(.insetGrouped)
         }
     }
 }

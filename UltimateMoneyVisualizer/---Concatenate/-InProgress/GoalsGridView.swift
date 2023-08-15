@@ -18,12 +18,13 @@ struct GoalsGridView: View {
             LazyVGrid(columns: GridItem.fixedItems(2, size: 180),
                       alignment: .center) {
                 ForEach(user.getGoals()) { goal in
-                    NavigationLink {
-                        GoalDetailView(goal: goal)
+                    Button {
+                        NavManager.shared.appendCorrectPath(newValue: .goal(goal))
                     } label: {
                         PayoffWithImageAndGradientView(item: goal)
 
                     }
+                    .buttonStyle(.plain)
                 }
             }
         }

@@ -39,7 +39,7 @@ struct ShiftDetailView: View {
                                              .init(label: "Duration", value: shift.duration.formatForTime(), view: nil)])
             } header: {
                 Text("Hours")
-            }.headerProminence(.increased)
+            }
             
 
             Section("Earnings") {
@@ -70,7 +70,8 @@ struct ShiftDetailView: View {
                     
                     
                 }
-            }.headerProminence(.increased)
+            }
+            .listRowSeparator(.hidden)
             
             Section {
                 GPTPieChart(pieChartData: [
@@ -81,10 +82,12 @@ struct ShiftDetailView: View {
                 
                 ])
                 .frame(height: 200)
+                
             }
             .listRowBackground(Color.clear)
+            .listRowSeparator(.hidden)
 
-            Section {
+            Section("Time Blocks") {
                 if showTimeBlockSection {
                     ItemizedPartOfShiftView(shift: shift)
 //                    NewTimeBlocksForShiftView(shift: shift)
@@ -133,7 +136,15 @@ struct ShiftDetailView: View {
 //        .bottomButton(label: "Delete", action: {
 //            showDeleteConfirmation = true
 //        })
-
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    showDeleteConfirmation.toggle()
+                } label: {
+                    Label("Delete", systemImage: "trash")
+                }
+            }
+        }
         .background(Color.listBackgroundColor)
         .putInTemplate()
         .navigationTitle("Shift for \(shift.start.getFormattedDate(format: .abbreviatedMonth))")

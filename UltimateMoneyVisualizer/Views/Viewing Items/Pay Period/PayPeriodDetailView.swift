@@ -38,7 +38,7 @@ struct PayPeriodDetailView: View {
                         .centerInParentView()
                         .listRowBackground(Color.clear)
                 } header: {
-                    Text("Details")
+                    Text("Details").hidden()
                 }
             }
 
@@ -95,14 +95,19 @@ struct PayPeriodDetailView: View {
                 }
             }
             
-            Button("Delete", role: .destructive) {
-                showDeleteConfirmation.toggle()
+//            Button("Delete", role: .destructive) {
+//                showDeleteConfirmation.toggle()
+//            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    showDeleteConfirmation.toggle()
+                } label: {
+                    Label("Delete", systemImage: "trash")
+                }
             }
         }
-//        .bottomButton(label: "Delete",
-//                      gradient: Color.niceRed.getGradient()) {
-//            showDeleteConfirmation.toggle()
-//        }
         .navigationTitle("Pay Period")
         .putInTemplate()
         .toast(isPresenting: $showDeleteFailAlert, alert: { .errorWith(message: "Error deleting pay period") })

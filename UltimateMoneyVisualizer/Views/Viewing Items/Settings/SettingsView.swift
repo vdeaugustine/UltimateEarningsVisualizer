@@ -159,7 +159,7 @@ struct SettingsView: View {
                                 guard let entityName = entityDescription.name,
                                       entityName != "User",
                                       entityName != "Wage" else {
-                                    continue // Skip the "User" entity
+                                    continue // Skip the "User" and "Wage" entities
                                 }
 
                                 // Fetch the instances of the current entity

@@ -46,7 +46,7 @@ struct AddAllocationForExpenseView: View {
     private var shiftsSection: some View {
         ForEach(user.getShifts().filter { $0.totalAvailable >= 0.01 }) { shift in
 
-            NavigationLink {
+            Button {
                 ShiftAllocSheet(shift: shift, expense: expense)
             } label: {
                 HStack {
