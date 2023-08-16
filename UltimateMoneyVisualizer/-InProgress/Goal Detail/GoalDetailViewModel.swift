@@ -10,9 +10,13 @@ import Foundation
 import SwiftUI
 
 class GoalDetailViewModel: ObservableObject {
+    // CATEGORY: Lifecycle
+
     init(goal: Goal) {
         self.goal = goal
     }
+
+    // CATEGORY: Internal
 
     @ObservedObject var user: User = User.main
     @ObservedObject var settings: Settings = User.main.getSettings()
@@ -49,6 +53,18 @@ class GoalDetailViewModel: ObservableObject {
         return 250 * multiplier
     }
 
+    var blurRadius: CGFloat {
+        isBlurred || showSpinner ? 10 : 0
+    }
+
+    var contributionsButtonText: String {
+        showContributions ? "Hide" : "Show"
+    }
+
+    var tagsButtonText: String {
+        showTags ? "Hide" : "Show"
+    }
+
     func onAppearAction() {
         initialImage = goal.loadImageIfPresent()
         shownImage = goal.loadImageIfPresent()
@@ -74,10 +90,6 @@ class GoalDetailViewModel: ObservableObject {
         } catch {
             print("Failed to delete")
         }
-    }
-
-    var blurRadius: CGFloat {
-        isBlurred || showSpinner ? 10 : 0
     }
 
     func saveButtonAction() {
@@ -132,13 +144,5 @@ class GoalDetailViewModel: ObservableObject {
         } else {
             return timeComponents.joined(separator: " ")
         }
-    }
-
-    var contributionsButtonText: String {
-        showContributions ? "Hide" : "Show"
-    }
-
-    var tagsButtonText: String {
-        showTags ? "Hide" : "Show"
     }
 }

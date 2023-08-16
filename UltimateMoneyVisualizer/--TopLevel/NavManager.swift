@@ -13,7 +13,7 @@ import SwiftUI
 class NavManager: ObservableObject {
     static var shared: NavManager = NavManager()
 
-    // swiftformat:sort:begin
+    
     @Published var allItemsNavPath: NavigationPath = .init()
     @Published var currentTab: Tabs = .newHome
     @Published var focusedPath: NavigationPath? = nil
@@ -23,11 +23,11 @@ class NavManager: ObservableObject {
     @Published var scrollViewID = UUID()
     @Published var settingsNavPath: NavigationPath = .init()
     @Published var todayViewNavPath: NavigationPath = .init()
-    // swiftformat:sort:end
+    
 
     // MARK: - Methods
 
-    // swiftformat:sort:begin
+    
     func appendCorrectPath(newValue: AllViews) {
         switch currentTab {
             case .allItems:
@@ -106,11 +106,11 @@ class NavManager: ObservableObject {
         }
     }
 
-    // swiftformat:sort:end
+    
 
     // MARK: - Enums
 
-    // swiftformat:sort:begin
+    
     enum AllViews: Hashable {
         case allTimeBlocks
         case condensedTimeBlock(CondensedTimeBlock)
@@ -169,7 +169,7 @@ class NavManager: ObservableObject {
         case timeBlockDetail(TimeBlock)
     }
 
-    // swiftformat:sort:end
+    
 
     @ViewBuilder func getDestinationViewForTodayViewStack(destination: NavManager.TodayViewDestinations) -> some View {
         switch destination {
@@ -188,6 +188,7 @@ class NavManager: ObservableObject {
         }
     }
 
+    
     @ViewBuilder func getDestinationViewForStack(destination: NavManager.AllViews) -> some View {
         switch destination {
             case .allTimeBlocks:

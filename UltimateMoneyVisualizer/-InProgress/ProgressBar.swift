@@ -10,12 +10,23 @@ import SwiftUI
 // MARK: - ProgressBar
 
 struct ProgressBar: View {
+    // CATEGORY: Internal
+
     let percentage: Double
     let cornerRadius: CGFloat = 25
     var height: CGFloat = 8
     var color: Color = .accentColor
     var barBackgroundColor: Color = Color(uiColor: .lightGray)
     var showBackgroundBar = true
+
+    var body: some View {
+        GeometryReader { geo in
+            barPart(width: geo.size.width)
+        }
+        .frame(height: height)
+    }
+
+    // CATEGORY: Private
 
     private var isComplete: Bool {
         percentage >= 1
@@ -29,34 +40,28 @@ struct ProgressBar: View {
     }
 
     private func barPart(width: CGFloat) -> some View {
-        let entireBarWidth = width
-        return ZStack(alignment: .leading) {
+        ZStack(alignment: .leading) {
             if showBackgroundBar {
                 RoundedRectangle(cornerRadius: cornerRadius)
                     .foregroundStyle(barBackgroundColor)
-                    .frame(width: entireBarWidth)
+                    .frame(width: width)
             }
             RoundedRectangle(cornerRadius: cornerRadius)
-                .foregroundStyle(isComplete ? Color.okGreen.getGradient() : color.getGradient())
-                .frame(width: max(0, percentageToUse * entireBarWidth))
+                .foregroundStyle(isComplete ? Color.okGreen.getGradient() : color.getGradient(brightnessConstant: 20))
+                .frame(width: max(0, percentageToUse * width))
         }
         .frame(height: height)
     }
+}
 
-    var body: some View {
-        GeometryReader { geo in
-            barPart(width: geo.size.width)
-        }
-        .frame(height: height)
-    }
-
+extension ProgressBar {
     struct Preview: View {
         @State var percentage: Double
         let increaseAmount: Double
         let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
         var body: some View {
-            ProgressBar(percentage: percentage, height: 60)
+            ProgressBar(percentage: percentage, height: 60, color: User.main.getSettings().themeColor)
                 .onReceive(timer) { _ in
                     withAnimation{
                         percentage += increaseAmount
@@ -79,8 +84,8 @@ struct ProgressBar_Previews: PreviewProvider {
                 .previewLayout(.sizeThatFits)
                 .background {
                     Color.white
-                    .cornerRadius(15)
-                    .shadow(color: .black.opacity(0.25), radius: 2, x: 4, y: 4)
+                        .cornerRadius(15)
+                        .shadow(color: .black.opacity(0.25), radius: 2, x: 4, y: 4)
                 }
         }
     }

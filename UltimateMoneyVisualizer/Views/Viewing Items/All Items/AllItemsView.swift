@@ -28,13 +28,13 @@ struct AllItemsView: View {
 
             switch selectionType {
                 case .goals:
-                    GoalsGridView()
+                    NewPayoffList(payoffType: .goal)
                 case .saved:
                     SavedListView()
                 case .shifts:
                     ShiftListView()
                 case .expenses:
-                    ExpenseGrid()
+                    NewPayoffList(payoffType: .expense)
             }
         }
         .background(Color.listBackgroundColor)
