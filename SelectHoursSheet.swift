@@ -13,19 +13,23 @@ struct SelectHours: View {
 
     var body: some View {
         Form {
-            DatePicker("Start Time", selection: $viewModel.start, displayedComponents: .hourAndMinute)
-            DatePicker("End Time", selection: $viewModel.end, displayedComponents: .hourAndMinute)
-            
-            
-            // TODO: - Remove this before finishing
-            Button("Testing") {
-                viewModel.start = .now.addMinutes(-3)
-                viewModel.end = .now.addMinutes(2)
-            }
-            
-            Button("9-5") {
-                viewModel.start = Date.getThisTime(hour: 9, minute: 0)!
-                viewModel.end = Date.getThisTime(hour: 17, minute: 0)!
+            Section {
+                DatePicker("Start Time", selection: $viewModel.start, displayedComponents: .hourAndMinute)
+                DatePicker("End Time", selection: $viewModel.end, displayedComponents: .hourAndMinute)
+                
+                
+                // TODO: - Remove this before finishing
+                Button("Testing") {
+                    viewModel.start = .now.addMinutes(-3)
+                    viewModel.end = .now.addMinutes(2)
+                }
+                
+                Button("9-5") {
+                    viewModel.start = Date.getThisTime(hour: 9, minute: 0)!
+                    viewModel.end = Date.getThisTime(hour: 17, minute: 0)!
+                }
+            } header: {
+                Text("Hours").hidden()
             }
         }
         .safeAreaInset(edge: .bottom) {

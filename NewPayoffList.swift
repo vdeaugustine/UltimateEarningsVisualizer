@@ -14,7 +14,6 @@ struct NewPayoffList: View {
     // CATEGORY: Internal
 
     enum ShowTypeChoice: String, CaseIterable, Identifiable {
-//        case all = "All"
         case paidOff = "Paid Off"
         case notPaidOff = "Not Paid Off"
         case dueDate = "Has Due Date"
@@ -29,25 +28,20 @@ struct NewPayoffList: View {
             Section {
                 ForEach(sortedItems.indices, id: \.self) { index in
                     if let item = sortedItems.safeGet(at: index) {
-                        PayoffItemRectGeneral(item: item)
-                            .allPartsTappable()
-                            .onTapGesture {
-                                print("Was tapped?")
-                                if let goal = item as? Goal {
-                                    print("tapped goal")
-                                    NavManager.shared.appendCorrectPath(newValue: .goal(goal))
-                                } else if let expense = item as? Expense {
-                                    print("tapped expense")
-                                    NavManager.shared.appendCorrectPath(newValue: .expense(expense))
-                                }
-                                else {
-                                    print("tapped but neither")
-                                }
-                                
-                                
+                        Button {
+                            if let goal = item as? Goal {
+                                print("tapped goal")
+                                NavManager.shared.appendCorrectPath(newValue: .goal(goal))
+                            } else if let expense = item as? Expense {
+                                print("tapped expense")
+                                NavManager.shared.appendCorrectPath(newValue: .expense(expense))
                             }
+                        } label: {
+                            PayoffItemRectGeneral(item: item)
+                                .allPartsTappable()
+                        }
+                        .buttonStyle(.plain)
                     }
-                    
                 }
                 .listRowSeparator(.hidden)
             }
@@ -94,8 +88,6 @@ struct NewPayoffList: View {
         return items
             .sorted(by: { ($0.dueDate ?? .distantFuture) < ($1.dueDate ?? .distantFuture) })
     }
-
-
 
     private var filterBar: some View {
         HStack {

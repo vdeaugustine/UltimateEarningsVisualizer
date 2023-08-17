@@ -17,107 +17,158 @@ struct ConfirmTodayShift: View {
     @State private var paidOffExpenses: [TempTodayPayoff] = []
 
     var spentOnGoals: Double {
-        paidOffGoals.reduce(Double(0)) { $0 + $1.amountPaidOff }
+        paidOffGoals.reduce(Double(0)) { $0 + $1.progressAmount }
     }
 
     var spentOnExpenses: Double {
-        paidOffExpenses.reduce(Double(0)) { $0 + $1.amountPaidOff }
+        paidOffExpenses.reduce(Double(0)) { $0 + $1.progressAmount }
+    }
+
+    var spentOnTaxes: Double {
+        let taxes = paidOffItems.filter { $0.type == .tax }
+        return taxes.reduce(Double.zero) { $0 + $1.progressAmount }
     }
 
     var spentTotal: Double {
-        spentOnGoals + spentOnExpenses
+        spentOnGoals + spentOnExpenses + spentOnTaxes
     }
 
     var unspent: Double {
         viewModel.haveEarnedAfterTaxes - spentTotal
     }
 
+    var earnedAfterTaxes: Double {
+        viewModel.haveEarned - spentOnTaxes
+    }
+
+    @State private var showExpenses = true
+    @State private var showGoals = true
+    @State private var showTaxes = true
+
     var body: some View {
-        ScrollView {
-            VStack {
-                if let shift = viewModel.user.todayShift,
-                   let start = shift.startTime,
-                   let end = shift.endTime {
-                    VStack(spacing: 8) {
-                        Text(Date.timeRangeString(start: start, end: end))
-                            .format(size: 24, weight: .black)
-                        Text(viewModel.elapsedTime.breakDownTime())
-                            .format(size: 18, weight: .semibold)
+        List {
+            if let shift = viewModel.user.todayShift,
+               let start = shift.startTime,
+               let end = shift.endTime {
+                Section("Time") {
+                    Text("Start")
+                        .spacedOut(text: start.getFormattedDate(format: .minimalTime))
+                    Text("End")
+                        .spacedOut(text: end.getFormattedDate(format: .minimalTime))
+                    Text("Duration")
+                        .spacedOut(text: shift.totalShiftDuration.breakDownTime())
+                }
+
+                Section("Earnings") {
+                    Text("Scheduled to earn")
+                        .spacedOut(text: shift.totalWillEarn.money())
+                    Text("Total earned")
+                        .spacedOut(text: shift.totalEarnedSoFar(.now).money())
+                    Text("After taxes")
+                        .spacedOut(text: earnedAfterTaxes.money())
+                }
+
+                Section("Expenses") {
+                    Button {
+                        withAnimation {
+                            showExpenses.toggle()
+                        }
+                    } label: {
+                        Text("Total")
+                            .spacedOut {
+                                HStack {
+                                    Text(spentOnExpenses.money())
+                                    Components.nextPageChevron
+                                        .rotationEffect(.degrees(showExpenses ? 90 : 0))
+                                }
+                            }
                     }
-
-                    HStack {
-                        TodayViewInfoRect(imageName: "dollarsign.circle",
-                                          valueString: viewModel.haveEarned.money(),
-                                          bottomLabel: "Earned")
-
-                        TodayViewInfoRect(imageName: "dollarsign.circle",
-                                          valueString: viewModel.haveEarnedAfterTaxes.money(),
-                                          bottomLabel: "Taxes")
-                    }
-                    HStack {
-                        TodayViewInfoRect(imageName: "dollarsign.circle",
-                                          valueString: spentTotal.money(),
-                                          bottomLabel: "Total Spent")
-
-                        TodayViewInfoRect(imageName: "dollarsign.circle",
-                                          valueString: unspent.money(),
-                                          bottomLabel: "Surplus")
+                    .foregroundStyle(Color.black)
+                    if showExpenses {
+                        ForEach(paidOffExpenses) { expense in
+                            Text(expense.title)
+                                .spacedOut(text: expense.progressAmount.money())
+                                .padding(.leading)
+                        }
                     }
                 }
 
-                payoffSection.padding(.vertical)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-        }
+                Section("Goals") {
+                    Button {
+                        withAnimation {
+                            showGoals.toggle()
+                        }
+                    } label: {
+                        Text("Total")
+                            .spacedOut {
+                                HStack {
+                                    Text(spentOnGoals.money())
+                                    Components.nextPageChevron
+                                        .rotationEffect(.degrees(showGoals ? 90 : 0))
+                                }
+                            }
+                    }
+                    .foregroundStyle(Color.black)
 
+                    if showGoals {
+                        ForEach(paidOffGoals) { goal in
+                            Text(goal.title)
+                                .spacedOut(text: goal.progressAmount.money())
+                                .padding(.leading)
+                        }
+                        
+                    }
+
+                    
+                }
+                
+                Section("Taxes") {
+                    
+                    Button {
+                        withAnimation {
+                            showTaxes.toggle()
+                        }
+                    } label: {
+                        Text("Total")
+                            .spacedOut {
+                                HStack {
+                                    Text(spentOnTaxes.money())
+                                    Components.nextPageChevron
+                                        .rotationEffect(.degrees(showTaxes ? 90 : 0))
+                                }
+                            }
+                            
+                    }
+                    .foregroundStyle(Color.black)
+                    .transition(.slide)
+                    
+                    if showTaxes {
+                        ForEach(paidOffItems.filter { $0.type == .tax }) { item in
+                            Text(item.title)
+                                .spacedOut(text: item.progressAmount.money())
+                                .padding(.leading)
+                                .transition(.slide)
+                        }
+                        
+                    }
+                }
+            }
+        }
+        
         .background {
             Color.targetGray.ignoresSafeArea()
         }
-        .safeAreaInset(edge: .top, content: {
-            GeometryReader { geo in
-                ZStack {
-                    Color(hex: "003DFF")
-
-                    HStack {
-                        Button {
-                            viewModel.navManager.todayViewNavPath.removeLast()
-                        } label: {
-                            
-                                
-                                Label("Back", systemImage: "chevron.left")
-                                    .labelStyle(.iconOnly)
-                                    .background {
-                                        Circle()
-                                            .fill(Color(hex: "3F63F3"))
-                                    }
-                            
-                        }
-                        .buttonStyle(.plain)
-                        
-                        Spacer()
-
-                        Text("Confirm Today Shift")
-                            .format(size: 22, weight: .heavy, color: .white)
-                        
-                        Spacer()
-                    }
-                    .padding(.horizontal)
-                    .frame(width: geo.size.width, height: geo.size.height)
-                    .position(x: geo.frame(in: .local).midX,
-                              y: geo.frame(in: .local).maxY - 40)
-                    
-                    
-                }
-            }
-            .frame(height: 125)
-            .ignoresSafeArea()
-        })
-        .navigationBarHidden(true)
+        .navigationTitle("Confirm Today's Shift")
+        .putInTemplate()
         .onAppear(perform: {
             paidOffItems = viewModel.tempPayoffs
             paidOffExpenses = viewModel.expensePayoffItems
             paidOffGoals = viewModel.goalPayoffItems
         })
+        .bottomButton(label: "Save") {
+            
+        }
+        
     }
 
     var payoffSection: some View {
@@ -167,7 +218,7 @@ struct ConfirmTodayShift: View {
                             Spacer()
                             Text(spentOnGoals.money())
                         }
-                        
+
                         .font(.system(size: 20))
                         .fontWeight(.semibold)
                         .foregroundColor(Color(hex: "4E4E4E"))

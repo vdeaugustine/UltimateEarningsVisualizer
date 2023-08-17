@@ -69,9 +69,9 @@ struct SetHoursForRegularDaysView: View {
                             .foregroundStyle(user.getSettings().getDefaultGradient())
                             .minimumScaleFactor(0.01)
                     }
-                    
+
                     Divider().padding(.horizontal)
-                    
+
                     VStack {
                         Text((totalTime / Double(totalDays)).formatForTime([.hour, .minute]))
                             .fontWeight(.medium)
@@ -83,9 +83,11 @@ struct SetHoursForRegularDaysView: View {
                     }
                 }
                 .padding(.horizontal)
-                
+
                 .centerInParentView()
                 .listRowBackground(Color.listBackgroundColor)
+            } header: {
+                Text("Hours").hidden()
             }
 
             ForEach(daysContainer.daysOfWeekSelected) { day in
@@ -102,12 +104,10 @@ struct SetHoursForRegularDaysView: View {
                                 Text(
                                     daysContainer.startTimeDict[day]?.getFormattedDate(format: .minimalTime) ?? "Not set"
                                 )
-                                .foregroundStyle(User.main.getSettings().getDefaultGradient())
+                                .fontWeight(.semibold)
                             }
                             .allPartsTappable()
                     }
-
-                    .buttonStyle(.plain)
 
                     Button {
                         if selectedDay == day {
@@ -120,12 +120,10 @@ struct SetHoursForRegularDaysView: View {
                                 Text(
                                     daysContainer.endTimeDict[day]?.getFormattedDate(format: .minimalTime) ?? "Not set"
                                 )
-                                .foregroundStyle(User.main.getSettings().getDefaultGradient())
+                                .fontWeight(.semibold)
                             }
                             .allPartsTappable()
                     }
-
-                    .buttonStyle(.plain)
                 }
                 .onChange(of: selectedDay) { _ in
                     showTimeSheet = true
@@ -165,37 +163,91 @@ struct SetHoursForRegularDaysView: View {
         @ObservedObject var settings = User.main.getSettings()
         @ObservedObject var user = User.main
 
+        @Environment(\.dismiss) private var dismiss
+
         var body: some View {
             Form {
-                DatePicker("Start Time", selection: $start, displayedComponents: .hourAndMinute)
-                DatePicker("End Time", selection: $end, displayedComponents: .hourAndMinute)
-            }
-            .safeAreaInset(edge: .bottom) {
-                Button {
-                    daysContainer.startTimeDict[day] = start
-                    daysContainer.endTimeDict[day] = end
-
-                    showHoursSheet = false
-
-                } label: {
-                    ZStack {
-                        Capsule()
-                            .fill(settings.getDefaultGradient())
-                        Text("Save")
-                            .fontWeight(.medium)
-                            .foregroundColor(.white)
-                    }
-                    .frame(width: 135, height: 50)
+                Section {
+                    DatePicker("Start", selection: $start, displayedComponents: .hourAndMinute)
+                    DatePicker("End", selection: $end, displayedComponents: .hourAndMinute)
+                } header: {
+                    Text("Times")
+                } footer: {
+                    Text("Set Hours For \(day.rawValue)")
                 }
+
+                Section {
+                    Button {
+                        daysContainer.startTimeDict[day] = start
+                        daysContainer.endTimeDict[day] = end
+
+                        showHoursSheet = false
+
+                    } label: {
+                        ZStack {
+                            Capsule()
+                                .fill(settings.getDefaultGradient())
+                            Text("Save")
+                                .fontWeight(.medium)
+                                .foregroundColor(.white)
+                        }
+                        .frame(width: 135, height: 50)
+                        .centerInParentView()
+                    }
+                }
+                .listRowBackground(Color.clear)
             }
-            .navigationTitle("Set Hours For \(day.rawValue)")
-            .background(Color.clear)
-            .putInTemplate()
+//            .toolbar(.visible)
+//            .safeAreaInset(edge: .bottom) {
+//                Button {
+//                    daysContainer.startTimeDict[day] = start
+//                    daysContainer.endTimeDict[day] = end
+//
+//                    showHoursSheet = false
+//
+//                } label: {
+//                    ZStack {
+//                        Capsule()
+//                            .fill(settings.getDefaultGradient())
+//                        Text("Save")
+//                            .fontWeight(.medium)
+//                            .foregroundColor(.white)
+//                    }
+//                    .frame(width: 135, height: 50)
+//                }
+//            }
+//            .safeAreaInset(edge: .top, content: {
+//                VStack {
+//                    HStack {
+//                        Button {
+//                            dismiss()
+//                        } label: {
+//                            Label("Cancel", systemImage: "xmark.circle.fill")
+//                                .labelStyle(.iconOnly)
+//                                .font(.title2)
+//                                .foregroundStyle(.gray)
+//                        }
+//
+//                        Spacer()
+//                        Button("Save") {
+//
+//                        }
+//                    }.padding([.horizontal, .top])
+            ////                    Divider()
+//                }
+//
+//            })
+//            .navigationTitle("Set Hours For \(day.rawValue)")
+//            .background(Color.clear)
+//            .putInTemplate()
+//            .toolbar(.hidden)
             .putInNavView(.inline)
-            .presentationDetents([.medium, .fraction(0.9_999_999_999_999_999)])
+
+            .presentationDetents([.fraction(0.4)])
             .presentationDragIndicator(.visible)
-            .tint(.white)
-            .accentColor(.white)
+//            .tint(.white)
+//            .accentColor(.white)
+//            .preferredColorScheme(.light)
         }
     }
 }

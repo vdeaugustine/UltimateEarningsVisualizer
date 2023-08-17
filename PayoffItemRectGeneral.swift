@@ -31,12 +31,10 @@ struct PayoffItemRectGeneral: View {
         }
 
 //        .frame(height: 300)\
-        .frame(maxWidth: .infinity)
-        .padding(.horizontal)
-        .modifier(ShadowForRect())
 
-        .onTapGesture {
-        }
+        .padding(.horizontal)
+        .frame(maxWidth: .infinity)
+        .modifier(ShadowForRect())
     }
 
     var image: Image {

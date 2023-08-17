@@ -35,6 +35,7 @@ struct AllItemsView: View {
                     ShiftListView()
                 case .expenses:
                     NewPayoffList(payoffType: .expense)
+                        
             }
         }
         .background(Color.listBackgroundColor)
