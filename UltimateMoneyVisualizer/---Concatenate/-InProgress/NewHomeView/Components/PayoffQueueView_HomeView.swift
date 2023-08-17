@@ -29,6 +29,28 @@ struct PayoffQueueView_HomeView: View {
                Color.blue]
 
     var body: some View {
+        VStack {
+            
+            HStack {
+                // SectionHeader-HomeView
+                Text("Payoff Queue")
+                    .format(size: 16, weight: .semibold, color: .textPrimary)
+
+                Spacer()
+
+                Image(systemName: "ellipsis")
+                    .font(.system(size: 16))
+                    .onTapGesture {
+                        vm.navManager.appendCorrectPath(newValue: .oldPayoffQueue)
+                    }
+            }
+            .padding(.horizontal)
+            
+            rectWithItems
+        }
+    }
+    
+    @ViewBuilder var rectWithItems: some View {
         VStack(spacing: 0) {
             if let item = payoffItemDisplayed {
                 ImagePart(index: $index)

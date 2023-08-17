@@ -9,6 +9,7 @@ import CoreData
 import Foundation
 import SwiftUI
 import Vin
+import Combine
 
 public extension User {
     @discardableResult convenience init(exampleItem: Bool = true,
@@ -28,6 +29,7 @@ public extension User {
         if exampleItem {
             instantiateExampleItems(context: context)
         }
+
 
         try context.save()
     }
@@ -134,6 +136,7 @@ public extension User {
     func getContext() -> NSManagedObjectContext {
         managedObjectContext ?? PersistenceController.context
     }
+
 
     // MARK: - Money Calculations
 

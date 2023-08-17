@@ -30,6 +30,9 @@ struct NewTodayView: View {
             SelectHours()
         }
         .environmentObject(viewModel)
+        .navigationDestination(for: NavManager.AllViews.self) { view in
+            NavManager.shared.getDestinationViewForStack(destination: view)
+        }
         
     }
 
@@ -40,11 +43,14 @@ struct NewTodayView: View {
                 Group {
                     Spacer()
                         .frame(height: 24)
+                    
+                    // The totals section. The ones that tell progress by the second
                     TodayViewInfoRects()
 
                     Spacer()
                         .frame(height: 24)
 
+                    // Payoff queue
                     if !viewModel.nonZeroPayoffItems.isEmpty {
                         TodayPaidOffStackWithHeader()
                     }
@@ -92,9 +98,7 @@ struct NewTodayView: View {
                           viewModel.saveBannerWasDismissed = true
                       })
 
-        .navigationDestination(for: NavManager.TodayViewDestinations.self) {
-            viewModel.navManager.getDestinationViewForTodayViewStack(destination: $0)
-        }
+        
 
     }
 

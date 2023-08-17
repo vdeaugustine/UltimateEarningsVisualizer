@@ -32,34 +32,27 @@ struct PayoffQueueView: View {
             ForEach(queue.indices, id: \.self) { index in
 
                 if let expense = user.getItemWith(queueSlot: index + 1) as? Expense {
-                    NavigationLink {
-                        ExpenseDetailView(expense: expense)
+                    Button {
+                        NavManager.shared.appendCorrectPath(newValue: .expense(expense))
                     } label: {
-                        ExpenseRow(expense: expense)
+                        PayoffItemRectGeneral(item: expense)
                     }
                     .buttonStyle(.plain)
-                    .contextMenu(menuItems: {
-                        Button("Delete", role: .destructive) {
-                            expenseToDelete = expense
-                            showExpenseDeleteConformation.toggle()
-                        }
-                    })
+//                    .contextMenu(menuItems: {
+//                        Button("Delete", role: .destructive) {
+//                            expenseToDelete = expense
+//                            showExpenseDeleteConformation.toggle()
+//                        }
+//                    })
                 }
 
                 if let goal = user.getItemWith(queueSlot: index + 1) as? Goal {
-                    NavigationLink {
-                        GoalDetailView(goal: goal)
+                    Button {
+                        NavManager.shared.appendCorrectPath(newValue: .goal(goal))
                     } label: {
-                        GoalRow(goal: goal)
+                        PayoffItemRectGeneral(item: goal)
                     }
                     .buttonStyle(.plain)
-
-                    .contextMenu(menuItems: {
-                        Button("Delete", role: .destructive) {
-                            goalToDelete = goal
-                            showGoalDeleteConformation.toggle()
-                        }
-                    })
                 }
             }
             .onMove(perform: move)
@@ -138,6 +131,8 @@ struct PayoffQueueView: View {
         user.expenses = NSSet(array: expenses)
 
         try! user.managedObjectContext!.save()
+        
+        TodayViewModel.main.updateInitialPayoffs()
     }
 }
 

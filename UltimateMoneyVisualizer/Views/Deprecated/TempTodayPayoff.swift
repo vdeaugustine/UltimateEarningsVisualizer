@@ -74,25 +74,43 @@ public struct TempTodayPayoff: Identifiable, Equatable {
     }
 }
 
-func payOffExpenses(with amount: Double, expenses: [TempTodayPayoff]) -> [TempTodayPayoff] {
-    var newExp: [TempTodayPayoff] = []
-    var remainingAmount = amount
+// Function to pay off given items from a total amount available, returning a modified array of payoff items
+func payOfPayoffItems(with amount: Double, payoffItems: [TempTodayPayoff]) -> [TempTodayPayoff] {
+    // Initialize an empty array to store the modified payoff items
+    var newTemporaryPayoffItems: [TempTodayPayoff] = []
+    
+    // Store the remaining amount available for payment
+    var remainingAmountAvailableToUseForPayment = amount
 
-    for expense in expenses {
-        var thisExp = expense
-        let amountToPayOff = min(remainingAmount, expense.amountRemaining)
-        thisExp.amountPaidOff += amountToPayOff
-        remainingAmount -= amountToPayOff
-        newExp.append(thisExp)
+    // Iterate through each item in the given payoff items
+    for item in payoffItems {
+        // Make a mutable copy of the current item to work with
+        var thisItem = item
 
-        if remainingAmount <= 0 {
-            let countDifference = expenses.count - newExp.count
+        // Calculate the amount to be paid off for this item, which is the lesser of the remaining amount or the amount remaining in the item
+        let amountToPayOff = min(remainingAmountAvailableToUseForPayment, item.amountRemaining)
+        
+        // Increment the amount paid off for this item by the calculated amount
+        thisItem.amountPaidOff += amountToPayOff
+        
+        // Decrease the remaining amount available to use for payment by the amount paid off
+        remainingAmountAvailableToUseForPayment -= amountToPayOff
+        
+        // Append the modified item to the new array
+        newTemporaryPayoffItems.append(thisItem)
+
+        // Check if there's no remaining amount available for payment, then exit the loop if so
+        if remainingAmountAvailableToUseForPayment <= 0 {
+            // Check if there's a difference in count between the original and new arrays
+            let countDifference = payoffItems.count - newTemporaryPayoffItems.count
             if countDifference != 0 {
-                newExp += expenses.suffixArray(countDifference)
+                // If there's a difference, append the remaining items from the original array to the new array
+                newTemporaryPayoffItems += payoffItems.suffixArray(countDifference)
             }
             break
         }
     }
 
-    return newExp
+    // Return the new array with modified payoff items
+    return newTemporaryPayoffItems
 }

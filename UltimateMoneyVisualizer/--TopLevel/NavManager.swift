@@ -13,7 +13,6 @@ import SwiftUI
 class NavManager: ObservableObject {
     static var shared: NavManager = NavManager()
 
-    
     @Published var allItemsNavPath: NavigationPath = .init()
     @Published var currentTab: Tabs = .newHome
     @Published var focusedPath: NavigationPath? = nil
@@ -23,11 +22,9 @@ class NavManager: ObservableObject {
     @Published var scrollViewID = UUID()
     @Published var settingsNavPath: NavigationPath = .init()
     @Published var todayViewNavPath: NavigationPath = .init()
-    
 
     // MARK: - Methods
 
-    
     func appendCorrectPath(newValue: AllViews) {
         switch currentTab {
             case .allItems:
@@ -106,12 +103,10 @@ class NavManager: ObservableObject {
         }
     }
 
-    
-
     // MARK: - Enums
 
-    
     enum AllViews: Hashable {
+        // swiftformat:sort:begin
         case allTimeBlocks
         case condensedTimeBlock(CondensedTimeBlock)
         case confirmToday
@@ -125,6 +120,7 @@ class NavManager: ObservableObject {
         case goal(Goal)
         case home
         case newItemCreation
+        case oldPayoffQueue
         case payPeriodDetail(PayPeriod)
         case payPeriods
         case purchasePage
@@ -137,7 +133,9 @@ class NavManager: ObservableObject {
         case tagDetail(Tag)
         case timeBlockDetail(TimeBlock)
         case today
+        case todayViewPayoffQueue
         case wage(Wage)
+        // swiftformat:sort:end
     }
 
     enum PossiblePaths: Hashable {
@@ -169,8 +167,6 @@ class NavManager: ObservableObject {
         case timeBlockDetail(TimeBlock)
     }
 
-    
-
     @ViewBuilder func getDestinationViewForTodayViewStack(destination: NavManager.TodayViewDestinations) -> some View {
         switch destination {
             case .confirmShift:
@@ -188,7 +184,6 @@ class NavManager: ObservableObject {
         }
     }
 
-    
     @ViewBuilder func getDestinationViewForStack(destination: NavManager.AllViews) -> some View {
         switch destination {
             case .allTimeBlocks:
@@ -237,6 +232,10 @@ class NavManager: ObservableObject {
                 TagDetailView(tag: tag)
             case let .timeBlockDetail(block):
                 TimeBlockDetailView(block: block)
+            case .todayViewPayoffQueue:
+                PayoffQueueForTodayView()
+            case .oldPayoffQueue:
+                PayoffQueueView()
             default:
                 EmptyView()
         }

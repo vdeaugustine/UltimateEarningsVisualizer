@@ -100,7 +100,7 @@ public extension TodayShift {
 
         let haveEarned = totalWillEarn
 
-        let tempPayoffs: [TempTodayPayoff] = payOffExpenses(with: haveEarned, expenses: initialPayoffs)
+        let tempPayoffs: [TempTodayPayoff] = payOfPayoffItems(with: haveEarned, payoffItems: initialPayoffs)
 
         let shift = try Shift(day: .init(date: startTime), start: startTime, end: endTime, user: user, context: context)
 

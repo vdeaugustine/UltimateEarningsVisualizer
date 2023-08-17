@@ -1,3 +1,4 @@
+import Combine
 import CoreData
 import Foundation
 import SwiftUI
@@ -8,8 +9,6 @@ import Vin
 class TodayViewModel: ObservableObject {
     // MARK: - Properties
 
-    /// Main Payoff Queue that has been filtered out for only items that haven't been paid off
-    let initialPayoffs: [TempTodayPayoff]
     static var main = TodayViewModel()
     let viewContext: NSManagedObjectContext
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -24,19 +23,27 @@ class TodayViewModel: ObservableObject {
 
     // MARK: - Published properties
 
-    @Published var start: Date = User.main.regularSchedule?.getStartTime(for: .now) ?? Date.getThisTime(hour: 9, minute: 0)!
+    // swiftformat:sort:begin
+    @Published var completedShiftTempPayoffs: [TempTodayPayoff] = []
     @Published var end: Date = User.main.regularSchedule?.getEndTime(for: .now) ?? .fivePM
     @Published var hasShownBanner = false
+    /// Main Payoff Queue that has been filtered out for only items that haven't been paid off
+    ///
+    /// If the user modifies the queue at any point during a TodayShift, this value will need to be set again because the tempPayoffs calculated property grabs from here each time
+    /// So, since this var initially grabs from the MainQueue, we need to know if the temp queue has been modified since that time
+    @Published var initialPayoffs: [TempTodayPayoff]
     @Published var nowTime: Date = .now
+    @Published var paidOffStackIsExpanded = false
+    @Published var saveBannerWasDismissed = false
     @Published var selectedSegment: SelectedSegment = .money
     @Published var showBanner = false
+    @Published var showDeleteConfirmation = false
     @Published var showDeleteWarning = false
     @Published var showHoursSheet = false
-    @Published var saveBannerWasDismissed = false
-    @Published var paidOffStackIsExpanded = false
-    @Published var showDeleteConfirmation = false
-    @Published var completedShiftTempPayoffs: [TempTodayPayoff] = []
+
+    @Published var start: Date = User.main.regularSchedule?.getStartTime(for: .now) ?? Date.getThisTime(hour: 9, minute: 0)!
     @Published var todayViewCurrentScrollOffset: CGFloat = 0
+    // swiftformat:sort:end
 
     // MARK: - Observed Objects
 
@@ -45,47 +52,60 @@ class TodayViewModel: ObservableObject {
     @ObservedObject var wage = User.main.getWage()
     @ObservedObject var navManager = NavManager.shared
 
+
     // MARK: - Initializer
 
     init(context: NSManagedObjectContext = PersistenceController.context) {
         self.viewContext = context
         let allQueue = User.main.getQueue().filter { !$0.isPaidOff }
-        //        let goalsPaidOff = allQueue.filter { $0.type == .expense }.map { TempTodayPayoff(payoff: $0) }
-        //        let expensesPaidOff = allQueue.filter { $0.type == .goal }.map { TempTodayPayoff(payoff: $0) }
 
         self.initialPayoffs = allQueue.map { TempTodayPayoff(payoff: $0) }
+
+    }
+
+    func updateInitialPayoffs() {
+        // Your logic to pull, filter, and map from User.main.getQueue()
+//        initialPayoffs = ...
+
+        let allQueue = user.getQueue().filter { !$0.isPaidOff }
+
+        initialPayoffs = allQueue.map { TempTodayPayoff(payoff: $0) }
     }
 
     // MARK: - Computed Properties
 
     // MARK: Handling segment controller
 
-    var timeSegmentLabelWeight: Font.Weight {
-        selectedSegment == .time ? .black : .regular
-    }
-
-    var moneySegmentLabelWeight: Font.Weight {
-        selectedSegment == .money ? .black : .regular
+    // swiftformat:sort:begin
+    var moneySegmentLabelColor: AnyShapeStyle {
+        selectedSegment == .money ? AnyShapeStyle(settings.getDefaultGradient()) : AnyShapeStyle(Color.black)
     }
 
     var moneySegmentLabelSize: CGFloat {
         selectedSegment == .money ? 24 : 16
     }
 
-    var timeSegmentLabelSize: CGFloat {
-        selectedSegment == .time ? 24 : 16
+    var moneySegmentLabelWeight: Font.Weight {
+        selectedSegment == .money ? .black : .regular
     }
 
     var timeSegmentLabelColor: AnyShapeStyle {
         selectedSegment == .time ? AnyShapeStyle(settings.getDefaultGradient()) : AnyShapeStyle(Color.black)
     }
 
-    var moneySegmentLabelColor: AnyShapeStyle {
-        selectedSegment == .money ? AnyShapeStyle(settings.getDefaultGradient()) : AnyShapeStyle(Color.black)
+    var timeSegmentLabelSize: CGFloat {
+        selectedSegment == .time ? 24 : 16
     }
+
+    var timeSegmentLabelWeight: Font.Weight {
+        selectedSegment == .time ? .black : .regular
+    }
+
+    // swiftformat:sort:end
 
     // MARK: Progress calculations
 
+    // swiftformat:sort:begin
     var haveEarned: Double {
         user.todayShift?.totalEarnedSoFar(nowTime) ?? 0
     }
@@ -114,15 +134,41 @@ class TodayViewModel: ObservableObject {
     var showExpensesProgress: Bool { spentOnExpenses >= 0.01 }
     var showGoalsProgress: Bool { spentOnGoals >= 0.01 }
     var showUnspent: Bool { unspent >= 0.01 }
+    // swiftformat:sort:end
 
     // MARK: Spending
+
+    // swiftformat:sort:begin
+    var expensePayoffItems: [TempTodayPayoff] {
+        tempPayoffs.lazy.filter { $0.type == .expense && $0.amountPaidOff > 0.01 }
+    }
 
     var goalPayoffItems: [TempTodayPayoff] {
         tempPayoffs.lazy.filter { $0.type == .goal && $0.amountPaidOff > 0.01 }
     }
 
-    var expensePayoffItems: [TempTodayPayoff] {
-        tempPayoffs.lazy.filter { $0.type == .expense && $0.amountPaidOff > 0.01 }
+    var haveEarnedAfterTaxes: Double {
+        haveEarned - taxesPaidSoFar
+    }
+
+    var percentForExpenses: Double {
+        spentOnExpenses / spentTotal
+    }
+
+    var percentForGoals: Double {
+        spentOnGoals / spentTotal
+    }
+
+    var percentForTaxesSoFar: Double {
+        taxesPaidSoFar / spentTotal
+    }
+
+    var percentForUnpaid: Double {
+        unspent / haveEarned
+    }
+
+    var percentPaidSoFar: Double {
+        spentTotal / haveEarned
     }
 
     var spentOnExpenses: Double {
@@ -141,36 +187,8 @@ class TodayViewModel: ObservableObject {
         spentOnGoals + spentOnExpenses + taxesPaidSoFar
     }
 
-    var unspent: Double {
-        max(haveEarned - spentTotal, 0)
-    }
-
-    var percentForExpenses: Double {
-        spentOnExpenses / spentTotal
-    }
-
-    var percentForGoals: Double {
-        spentOnGoals / spentTotal
-    }
-
-    var percentPaidSoFar: Double {
-        spentTotal / haveEarned
-    }
-
-    var percentForTaxesSoFar: Double {
-        taxesPaidSoFar / spentTotal
-    }
-
-    var percentForUnpaid: Double {
-        unspent / haveEarned
-    }
-
     var taxesPaidSoFar: Double {
         tempPayoffs.lazy.filter { $0.type == .tax }.reduce(Double.zero) { $0 + $1.progressAmount }
-    }
-
-    var haveEarnedAfterTaxes: Double {
-        haveEarned - taxesPaidSoFar
     }
 
     var taxesTempPayoffs: [TempTodayPayoff] {
@@ -199,12 +217,19 @@ class TodayViewModel: ObservableObject {
     }
 
     var tempPayoffs: [TempTodayPayoff] {
-        let expensesToPay = taxesTempPayoffs + initialPayoffs
-        return payOffExpenses(with: haveEarned, expenses: expensesToPay).reversed()
+        let payoffsToPay = taxesTempPayoffs + initialPayoffs
+        return payOfPayoffItems(with: haveEarned, payoffItems: payoffsToPay).reversed()
     }
+
+    var unspent: Double {
+        max(haveEarned - spentTotal, 0)
+    }
+
+    // swiftformat:sort:end
 
     // MARK: Header
 
+    // swiftformat:sort:begin
     var dateStringForHeader: String {
         guard let todayShift = user.todayShift,
               let startTime = todayShift.startTime else {
@@ -253,25 +278,16 @@ class TodayViewModel: ObservableObject {
         willEarn * (1 - user.getWage().totalTaxMultiplier)
     }
 
+    // swiftformat:sort:end
+
     // MARK: - Methods
 
+    // swiftformat:sort:begin
     func addSecond() {
         nowTime = .now
         if !saveBannerWasDismissed {
             showBanner = shiftIsOver
         }
-    }
-
-    var shiftIsOver: Bool {
-        if let shift = user.todayShift,
-           let endTime = shift.endTime {
-            return nowTime >= endTime
-        }
-        return false
-    }
-
-    func tappedDeleteAction() {
-        showDeleteConfirmation.toggle()
     }
 
     func deleteShift() {
@@ -327,18 +343,46 @@ class TodayViewModel: ObservableObject {
         if filtered.isEmpty { return nil }
         return filtered
     }
-    
+
     func getPayoffListsHeight(forCount itemCount: Int) -> CGFloat? {
         let count = CGFloat(itemCount)
         let spaces = count - 1
         let heightOfRect: CGFloat = 110
         let heightOfSpace: CGFloat = 10
-        return ((heightOfRect * CGFloat(count)) + CGFloat(count) * heightOfSpace  + 70)
+        return ((heightOfRect * CGFloat(count)) + CGFloat(count) * heightOfSpace + 70)
     }
 
     func saveShift() {
         completedShiftTempPayoffs = tempPayoffs.filter { $0.progressAmount >= 0.01 }
         navManager.todayViewNavPath.append(NavManager.TodayViewDestinations.confirmShift)
+    }
+
+    var shiftIsOver: Bool {
+        if let shift = user.todayShift,
+           let endTime = shift.endTime {
+            return nowTime >= endTime
+        }
+        return false
+    }
+
+    func tappedDeleteAction() {
+        showDeleteConfirmation.toggle()
+    }
+
+    func tappedMoneySegment() {
+        print("tapped")
+        if selectedSegment == .money { return }
+        withAnimation {
+            selectedSegment = .money
+        }
+    }
+
+    func tappedTimeSegment() {
+        print("tapped")
+        if selectedSegment == .time { return }
+        withAnimation {
+            selectedSegment = .time
+        }
     }
 
     func timeUntilShiftString() -> String {
@@ -374,21 +418,7 @@ class TodayViewModel: ObservableObject {
         }
     }
 
-    func tappedTimeSegment() {
-        print("tapped")
-        if selectedSegment == .time { return }
-        withAnimation {
-            selectedSegment = .time
-        }
-    }
-
-    func tappedMoneySegment() {
-        print("tapped")
-        if selectedSegment == .money { return }
-        withAnimation {
-            selectedSegment = .money
-        }
-    }
+    // swiftformat:sort:end
 }
 
 extension TodayViewModel {
@@ -450,7 +480,7 @@ extension TodayViewModel {
                 return todayShift.remainingTime(nowTime).formatForTime([.hour, .minute, .second])
         }
     }
-    
+
     var afterTaxTotalValue: String {
         guard let todayShift = user.todayShift else { return "" }
         switch selectedSegment {

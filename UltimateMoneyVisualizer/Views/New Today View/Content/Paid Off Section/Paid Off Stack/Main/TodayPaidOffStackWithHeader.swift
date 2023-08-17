@@ -25,7 +25,7 @@ struct TodayPaidOffStackWithHeader: View {
 
                 Text("Queue")
                     .onTapGesture {
-                        viewModel.navManager.todayViewNavPath.append(NavManager.TodayViewDestinations.payoffQueue)
+                        viewModel.navManager.appendCorrectPath(newValue: .todayViewPayoffQueue)
                     }
             }
             .font(.system(size: 16))
