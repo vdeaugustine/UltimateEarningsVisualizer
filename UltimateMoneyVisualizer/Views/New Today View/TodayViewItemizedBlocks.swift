@@ -19,62 +19,76 @@ struct TodayViewItemizedBlocks: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            HStack {
-                Text("TIME BLOCKS")
+            header
 
-                Spacer()
-                
-                Button {
-//                    navManager.appendCorrectPath(newValue: .)
-                } label: {
-                    Label("More", systemImage: "list.bullet")
-                        .labelStyle(.iconOnly)
+            if model.timeBlocksExpanded {
+                if let shift = model.user.todayShift {
+                    TodayViewTimeBlocksExpanded(shift: shift)
                 }
-                
-
+            } else {
+                compactView
             }
-            .font(.callout)
-            .fontWeight(.semibold)
-//            .tracking(1)
-            .foregroundStyle(Color(hex: "4E4E4E"))
-
-            ScrollView(.horizontal, showsIndicators: false) {
-                if let todayShift = model.user.todayShift {
-                    HStack {
-                        ForEach(todayShift.getTimeBlocks()) { block in
-                            TodayViewItemizedBlock(block: block)
-                        }
-
-                        if todayShift.getTimeBlocks().isEmpty {
-                            TodayViewExampleItemizedBlock()
-                        }
-
-                        Button {
-                            // TODO: Navigate to time block creation page
-
-                            if let todayShift = model.user.todayShift {
-                                navManager.appendCorrectPath(newValue: .createTimeBlockForToday(.init(start: nil, end: nil, todayShift: todayShift)))
-                            }
-
-                        } label: {
-                            Label("Add Block", systemImage: "plus")
-                                .labelStyle(.iconOnly)
-                                .padding()
-                                .background {
-                                    Color.white
-                                        .clipShape(Circle())
-                                        .shadow(color: .black.opacity(0.25), radius: 2, x: 1, y: 3)
-                                }
-                        }
-                        .padding(.leading)
-                    }
-                    .frame(maxHeight: .infinity)
-                    .padding(.bottom)
-                }
-            }
+            
 //            .frame(height: 115)
         }
     }
+    
+    @ViewBuilder var header: some View {
+        HStack {
+            Text("TIME BLOCKS")
+            Spacer()
+            Button {
+                model.timeBlocksExpanded.toggle()
+            } label: {
+                Label("More", systemImage: model.timeBlocksHeaderButtonName)
+                    .labelStyle(.iconOnly)
+            }
+        }
+        .font(.callout)
+        .fontWeight(.semibold)
+        .foregroundStyle(Color(hex: "4E4E4E"))
+    }
+    
+    
+    @ViewBuilder var compactView: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            if let todayShift = model.user.todayShift {
+                HStack {
+                    ForEach(todayShift.getTimeBlocks()) { block in
+                        TodayViewItemizedBlock(block: block)
+                    }
+
+                    if todayShift.getTimeBlocks().isEmpty {
+                        TodayViewExampleItemizedBlock()
+                    }
+
+                    Button {
+                        // TODO: Navigate to time block creation page
+
+                        if let todayShift = model.user.todayShift {
+                            navManager.appendCorrectPath(newValue: .createTimeBlockForToday(.init(start: nil, end: nil, todayShift: todayShift)))
+                        }
+
+                    } label: {
+                        Label("Add Block", systemImage: "plus")
+                            .labelStyle(.iconOnly)
+                            .padding()
+                            .background {
+                                Color.white
+                                    .clipShape(Circle())
+                                    .shadow(color: .black.opacity(0.25), radius: 2, x: 1, y: 3)
+                            }
+                    }
+                    .padding(.leading)
+                }
+                .frame(maxHeight: .infinity)
+                .padding(.bottom)
+            }
+        }
+    }
+    
+    
+    
 }
 
 // MARK: - TodayViewItemizedBlocks_Previews
@@ -93,5 +107,3 @@ struct TodayViewItemizedBlocks_Previews: PreviewProvider {
         }
     }
 }
-
-

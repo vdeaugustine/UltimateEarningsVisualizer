@@ -43,14 +43,18 @@ class TodayViewModel: ObservableObject {
 
     @Published var start: Date = User.main.regularSchedule?.getStartTime(for: .now) ?? Date.getThisTime(hour: 9, minute: 0)!
     @Published var todayViewCurrentScrollOffset: CGFloat = 0
+    @Published var timeBlocksExpanded: Bool = false
     // swiftformat:sort:end
 
     // MARK: - Observed Objects
 
+    // swiftformat:sort:begin
+    @ObservedObject var navManager = NavManager.shared
     @ObservedObject var settings = User.main.getSettings()
     @ObservedObject var user = User.main
     @ObservedObject var wage = User.main.getWage()
-    @ObservedObject var navManager = NavManager.shared
+
+    // swiftformat:sort:end
 
     // MARK: - Initializer
 
@@ -62,9 +66,6 @@ class TodayViewModel: ObservableObject {
     }
 
     func updateInitialPayoffs() {
-        // Your logic to pull, filter, and map from User.main.getQueue()
-//        initialPayoffs = ...
-
         let allQueue = user.getQueue().filter { !$0.isPaidOff }
 
         initialPayoffs = allQueue.map { TempTodayPayoff(payoff: $0) }
@@ -546,6 +547,13 @@ extension TodayViewModel {
 
         return retArr
     }
+    
+    
+    var timeBlocksHeaderButtonName: String {
+        timeBlocksExpanded ? "slider.horizontal.below.square.filled.and.square" : "list.bullet"
+    }
+    
+    
 
     func compareDates(_ date1: Date, _ date2: Date, accuracy: AccuracyLevel) -> Bool {
         let calendar = Calendar.current

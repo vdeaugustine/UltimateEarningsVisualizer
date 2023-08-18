@@ -111,7 +111,7 @@ struct CondensedTimeBlock: Hashable, Identifiable {
 
     
     func actualBlocks(_ user: User) -> [TimeBlock] {
-        user.getTimeBlocks(withTitle: title)
+        user.getTimeBlocks(withTitle: title).sorted(by: { ($0.endTime ?? .distantPast) > ($1.endTime ?? .distantPast) })
     }
     
     func actualBlocks(_ user: User, start: Date, end: Date) -> [TimeBlock] {

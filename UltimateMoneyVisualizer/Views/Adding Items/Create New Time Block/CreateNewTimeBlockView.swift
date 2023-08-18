@@ -95,12 +95,24 @@ struct CreateNewTimeBlockView: View {
             }
 
             Section {
-                ForEach(viewModel.titles, id: \.self) { blockTitle in
-                    Text(blockTitle)
-                        .allPartsTappable(alignment: .leading)
-                        .onTapGesture {
-                            viewModel.title = blockTitle
+                ForEach(viewModel.pastBlocks, id: \.self) { block in
+                    if let recent = block.actualBlocks(viewModel.user).first,
+                       let recentEnd = recent.endTime {
+                        HStack {
+                            Components.coloredBar(block.color)
+                            VStack(alignment: .leading) {
+                                Text(block.title)
+                                    .font(.subheadline)
+
+                                Text(recentEnd.getFormattedDate(format: .abbreviatedMonth))
+                                    .font(.caption)
+                            }
+                            Spacer()
+
+                            Text(recent.timeRangeString())
+                                .font(.caption)
                         }
+                    }
                 }
             } header: {
                 Text("Recent")
@@ -110,12 +122,23 @@ struct CreateNewTimeBlockView: View {
         }
         .navigationTitle("Create TimeBlock")
         .putInTemplate()
-        .conditionalModifier(viewModel.title.isEmpty == false) { thisView in
-            thisView
-                .bottomButton(label: "Save") {
-                    viewModel.saveAction(context: viewContext)
+        .alert(isPresented: $viewModel.showErrorAlert, error: viewModel.error) {}
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                if viewModel.title.isEmpty == false {
+                    Button("Save") {
+                        try? viewModel.saveAction(context: viewContext)
+                    }
                 }
+            }
         }
+
+//        .conditionalModifier(viewModel.title.isEmpty == false) { thisView in
+//            thisView
+//                .bottomButton(label: "Save") {
+//                    try? viewModel.saveAction(context: viewContext)
+//                }
+//        }
     }
 
     struct TimeBlockStarter_Shift: Equatable, Hashable {

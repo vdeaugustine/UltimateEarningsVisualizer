@@ -135,6 +135,7 @@ class NavManager: ObservableObject {
         case tagDetail(Tag)
         case timeBlockDetail(TimeBlock)
         case today
+        case todayTimeBlocksExpanded(TodayShift)
         case todayViewPayoffQueue
         case wage(Wage)
         // swiftformat:sort:end
@@ -225,6 +226,8 @@ class NavManager: ObservableObject {
                 PayoffQueueForTodayView()
             case .oldPayoffQueue:
                 PayoffQueueView()
+            case let .todayTimeBlocksExpanded(shift):
+                TodayViewTimeBlocksExpanded(shift: shift)
             default:
                 Text("Error navigating to page.")
         }

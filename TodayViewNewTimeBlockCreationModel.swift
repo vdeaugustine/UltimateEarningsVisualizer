@@ -20,7 +20,21 @@ class TodayViewNewTimeBlockCreationModel: CreateNewTimeBlockViewModel {
         }
     }
 
-    override func saveAction(context: NSManagedObjectContext) {
+    override func saveAction(context: NSManagedObjectContext) throws {
+        let check = isOverlappingWithAnExistingBlock()
+        guard !check.answer else {
+            if let message = check.message {
+                
+                showErrorAlert = true
+                error = .overlapping(message)
+                throw SavingError.overlapping(message)
+            } else {
+                showErrorAlert = true
+                throw SavingError.unknown
+                
+            }
+        }
+
         do {
             try TimeBlock(title: title,
                           start: start,
@@ -29,8 +43,9 @@ class TodayViewNewTimeBlockCreationModel: CreateNewTimeBlockViewModel {
                           todayShift: shift as? TodayShift,
                           user: user,
                           context: context)
+            print("Successful")
         } catch {
-            print("Error saving time block")
+            throw SavingError.couldNotSaveContext
         }
     }
 }

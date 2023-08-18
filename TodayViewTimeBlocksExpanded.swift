@@ -57,7 +57,9 @@ struct TodayViewTimeBlocksExpanded: View {
     var body: some View {
         // ScrollView {
         VStack {
-            divider(time: shift.getStart())
+            if shift.getTimeBlocks().first?.startTime != shift.startTime {
+                divider(time: shift.getStart())
+            }
 
             if let first = shift.getTimeBlocks().first,
                let startOfFirst = first.startTime,
@@ -79,6 +81,7 @@ struct TodayViewTimeBlocksExpanded: View {
                let shiftEnd = shift.endTime,
                endOfLast < shiftEnd {
                 plusNavigation(start: endOfLast, end: shiftEnd)
+                    .offset(y: 3)
             }
 
             if shift.getTimeBlocks().isEmpty {
@@ -105,7 +108,8 @@ struct TodayViewTimeBlocksExpanded: View {
                 divider(time: endTime)
 
                 if gaps.contains(endTime) {
-                    plusNavigation(start: endTime, end: getBlockAfter(this: timeBlock)?.startTime ?? endTime)
+                    plusNavigation(start: endTime,
+                                   end: getBlockAfter(this: timeBlock)?.startTime ?? endTime)
                 }
             }
         }
@@ -175,6 +179,16 @@ struct TodayViewTimeBlocksExpanded: View {
     }
 }
 
+// MARK: - PlusNavigationGapPreferenceKey
+
+struct PlusNavigationGapPreferenceKey: PreferenceKey {
+    static var defaultValue: CGRect = .zero
+
+    static func reduce(value: inout CGRect, nextValue: () -> CGRect) {
+        value = nextValue()
+    }
+}
+
 extension TodayViewTimeBlocksExpanded {
     func getBlockAfter(this block: TimeBlock) -> TimeBlock? {
         guard let indexOfThisBlock = shift.getTimeBlocks().firstIndex(of: block)
@@ -231,9 +245,9 @@ struct TodayViewTimeBlocksExpanded_Previews: PreviewProvider {
     static let todayShift: TodayShift = {
         if let existing = User.main.todayShift { return existing }
         let new = try! TodayShift(startTime: .now.addHours(-1),
-                             endTime: .now.addHours(1),
-                             user: User.testing,
-                             context: PersistenceController.testing)
+                                  endTime: .now.addHours(1),
+                                  user: User.testing,
+                                  context: PersistenceController.testing)
         return new
     }()
 
