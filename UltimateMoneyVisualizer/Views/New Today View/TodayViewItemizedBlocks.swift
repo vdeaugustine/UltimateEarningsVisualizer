@@ -25,7 +25,7 @@ struct TodayViewItemizedBlocks: View {
                 Spacer()
 
             }
-            .font(.system(size: 16))
+            .font(.callout)
             .fontWeight(.semibold)
             .tracking(1)
             .foregroundStyle(Color(hex: "4E4E4E"))
@@ -35,19 +35,17 @@ struct TodayViewItemizedBlocks: View {
                     HStack {
                         ForEach(todayShift.getTimeBlocks()) { block in
                             TodayViewItemizedBlock(block: block)
-//                                .padding(.vertical)
                         }
 
                         if todayShift.getTimeBlocks().isEmpty {
                             TodayViewExampleItemizedBlock()
-//                                .padding(.vertical)
                         }
 
                         Button {
                             // TODO: Navigate to time block creation page
 
                             if let todayShift = model.user.todayShift {
-                                navManager.todayViewNavPath.appendTodayView(.newTimeBlock(todayShift))
+                                navManager.appendCorrectPath(newValue: .createTimeBlockForToday(.init(start: nil, end: nil, todayShift: todayShift)))
                             }
 
                         } label: {

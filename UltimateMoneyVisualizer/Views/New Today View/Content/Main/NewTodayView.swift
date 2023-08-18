@@ -11,16 +11,16 @@ import SwiftUI
 
 struct NewTodayView: View {
     @StateObject private var viewModel: TodayViewModel = .main
-    
+
     var body: some View {
         Group {
             if viewModel.user.todayShift != nil {
                 mainView
                     .safeAreaInset(edge: .top) {
                         viewModel.settings.themeColor
-                        .ignoresSafeArea(edges: .top)
-                        .frame(height: 0)
-                }
+                            .ignoresSafeArea(edges: .top)
+                            .frame(height: 0)
+                    }
 
             } else {
                 YouHaveNoShiftView(showHoursSheet: $viewModel.showHoursSheet)
@@ -33,7 +33,6 @@ struct NewTodayView: View {
         .navigationDestination(for: NavManager.AllViews.self) { view in
             NavManager.shared.getDestinationViewForStack(destination: view)
         }
-        
     }
 
     @ViewBuilder var mainView: some View {
@@ -43,7 +42,7 @@ struct NewTodayView: View {
                 Group {
                     Spacer()
                         .frame(height: 24)
-                    
+
                     // The totals section. The ones that tell progress by the second
                     TodayViewInfoRects()
 
@@ -76,7 +75,6 @@ struct NewTodayView: View {
                 Color.white.frame(maxHeight: .infinity)
             }
             .ignoresSafeArea()
-            
         }
         .putInTemplate(displayMode: .inline)
         .confirmationDialog("Delete shift?",
@@ -93,13 +91,10 @@ struct NewTodayView: View {
                       mainText: "Shift Complete!",
                       buttonText: "Save",
                       buttonAction: {
-                          viewModel.navManager.todayViewNavPath.append(NavManager.TodayViewDestinations.confirmShift)
+                          viewModel.navManager.appendCorrectPath(newValue: NavManager.AllViews.confirmToday)
                       }, onDismiss: {
                           viewModel.saveBannerWasDismissed = true
                       })
-
-        
-
     }
 
     @ViewBuilder var headerAndBar: some View {

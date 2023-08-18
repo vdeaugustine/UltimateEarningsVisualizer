@@ -20,7 +20,8 @@ struct TodayViewItemizedBlock: View {
 
             VStack(alignment: .leading) {
                 Text(block.getTitle())
-                    .format(size: 16, weight: .heavy)
+                    .font(.callout)
+                    .fontWeight(.heavy)
 
                 Text(block.timeRangeString())
                     .format(size: 14)
@@ -56,7 +57,8 @@ struct TodayViewExampleItemizedBlock: View {
 
             VStack(alignment: .leading) {
                 Text("Example time block")
-                    .format(size: 16, weight: .heavy)
+                    .font(.callout)
+                    .fontWeight(.heavy)
 
                 Text("10:00 - 11:30 AM")
                     .format(size: 14)

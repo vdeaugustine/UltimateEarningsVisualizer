@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-
-
 // MARK: - ItemizedPartOfShiftView
 
 struct ItemizedPartOfShiftView: View {
@@ -36,22 +34,24 @@ struct ItemizedPartOfShiftView: View {
 
         return retArr
     }
-    
+
     struct StartAndEnd: Hashable {
         let start: Date
         let end: Date
     }
 
     func plusNavigation(start: Date, end: Date) -> some View {
-
-            Image(systemName: "plus.circle")
-                .padding(.top, -12)
-                .foregroundStyle(settings.getDefaultGradient())
-                .onTapGesture {
-                    // TODO: Figure this out
-                    navManager.homeNavPath.append(StartAndEnd(start: start, end: end))
-                }
-             
+        Image(systemName: "plus.circle")
+            .padding(.top, -12)
+            .foregroundStyle(settings.getDefaultGradient())
+            .onTapGesture {
+                // TODO: Figure this out
+                navManager.appendCorrectPath(
+                    newValue: .createTimeBlockForShift(.init(start: start,
+                                                             end: end,
+                                                             shift: shift))
+                )
+            }
     }
 
     var body: some View {
@@ -98,7 +98,7 @@ struct ItemizedPartOfShiftView: View {
                 divider(time: startTime)
             }
             row(timeBlock)
-                
+
             if let endTime = timeBlock.endTime {
                 divider(time: endTime)
 
@@ -130,7 +130,7 @@ struct ItemizedPartOfShiftView: View {
                 .foregroundColor(timeBlock.getColor())
         }
     }
-    
+
     @ViewBuilder func row(_ block: TimeBlock) -> some View {
         HStack {
             RoundedRectangle(cornerRadius: 2)
@@ -160,7 +160,7 @@ struct ItemizedPartOfShiftView: View {
             Color.targetGray
                 .clipShape(RoundedRectangle(cornerRadius: 8))
         }
-        
+
         .frame(height: 50)
     }
 
@@ -231,6 +231,5 @@ struct ItemizedPartOfShiftView_Previews: PreviewProvider {
             ItemizedPartOfShiftView(shift: User.main.getShifts().first!)
                 .padding()
         }
-            
     }
 }

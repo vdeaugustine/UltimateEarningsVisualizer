@@ -20,11 +20,12 @@ struct TotalItem: View {
             type.icon
                 .font(.system(size: 24))
             Text(type.amount(user))
-                .format(size: 16,
-                        weight: .semibold,
-                        color: Color(red: 0.13,
-                                     green: 0.13,
-                                     blue: 0.13))
+                .font(.callout)
+                .fontWeight(.semibold)
+                .foregroundStyle(Color(red: 0.13,
+                                       green: 0.13,
+                                       blue: 0.13))
+                
             Text(type.title)
                 .format(size: 12,
                         weight: .regular,
@@ -64,7 +65,8 @@ struct TotalsHeader: View {
     var body: some View {
         HStack {
             Text("Totals to Date")
-                .format(size: 16, weight: .semibold)
+                .font(.callout)
+                .fontWeight(.semibold)
             Spacer()
             Text("More Stats")
                 .format(size: 14, weight: .medium, color: .textSecondary)

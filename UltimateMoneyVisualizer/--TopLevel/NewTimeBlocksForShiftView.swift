@@ -54,7 +54,8 @@ struct NewTimeBlocksForShiftView: View {
 
             VStack(alignment: .leading) {
                 Text(block.getTitle())
-                    .format(size: 16, weight: .heavy)
+                    .font(.callout)
+                    .fontWeight(.heavy)
 
                 Text(block.timeRangeString())
                     .format(size: 14)

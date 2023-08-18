@@ -29,12 +29,12 @@ struct TodayViewPaidOffRect: View {
             switch item.type {
                 case .goal:
                     if let goal = item.getPayoffItem(user: viewModel.user) as? Goal {
-                        viewModel.navManager.todayViewNavPath.append(NavManager.TodayViewDestinations.goalDetail(goal))
+                        viewModel.navManager.appendCorrectPath(newValue: .goal(goal))
                     }
 
                 case .expense:
                     if let expense = item.getPayoffItem(user: viewModel.user) as? Expense {
-                        viewModel.navManager.todayViewNavPath.append(NavManager.TodayViewDestinations.expenseDetail(expense))
+                        viewModel.navManager.appendCorrectPath(newValue: .expense(expense))
                     }
                 case .tax:
                     break
@@ -70,22 +70,22 @@ struct TodayViewPaidOffRect: View {
     var titleAndTotalPaidOff: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(item.title)
-                .font(.lato(.regular, 16))
-                .fontWeight(.black)
+                .font(.callout)
+                .fontWeight(.heavy)
 
             Text(item.amountPaidOff.money())
                 .lineLimit(1)
                 .minimumScaleFactor(0.85)
-                .font(.system(size: 16))
-                .fontWeight(.bold)
+                .font(.callout)
+                .fontWeight(.semibold)
         }
     }
 
     var progressAndTotal: some View {
         VStack(spacing: 4) {
             Text(item.progressAmount.money().replacingOccurrences(of: "$", with: "+"))
-                .font(.system(size: 16))
-                .fontWeight(.black)
+                .font(.callout)
+                .fontWeight(.heavy)
                 .foregroundStyle(gradient)
 
             Text(item.amount.money())

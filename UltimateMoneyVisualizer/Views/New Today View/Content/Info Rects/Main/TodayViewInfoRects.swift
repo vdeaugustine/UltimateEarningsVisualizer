@@ -19,7 +19,7 @@ struct TodayViewInfoRects: View {
 
                 HStack {
                     Text("TOTALS")
-                        .font(.system(size: 16))
+                        .font(.callout)
                         .fontWeight(.semibold)
                         .tracking(1)
                         .foregroundStyle(Color(hex: "4E4E4E"))

@@ -17,8 +17,14 @@ protocol ShiftProtocol {
 
 class CreateNewTimeBlockForShiftViewModel: CreateNewTimeBlockViewModel {
     
-    init(shift: Shift) {
+    init(shift: Shift, start: Date? = nil, end: Date? = nil) {
         super.init(shift: shift)
+        if let start{
+            self.start = start
+        }
+        if let end {
+            self.end = end
+        }
     }
     
     override func saveAction(context: NSManagedObjectContext) {

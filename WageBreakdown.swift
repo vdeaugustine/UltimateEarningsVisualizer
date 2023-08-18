@@ -32,14 +32,15 @@ struct WageBreakdown: View {
         HStack {
             // SectionHeader-HomeView
             Text("Wage Breakdown")
-                .format(size: 16, weight: .semibold, color: .textPrimary)
+                .font(.callout)
+                .fontWeight(.semibold)
+                .foregroundStyle(Color.textPrimary)
 
             Spacer()
 
             Text("Taxes")
-                .format(size: 14,
-                        weight: .regular,
-                        color: toggleTaxes ? .textOnColor : .textPrimary)
+                .font(.footnote)
+                .foregroundStyle(toggleTaxes ? Color.textOnColor : Color.textPrimary)
                 .padding(8, 2)
                 .background {
                     { toggleTaxes ? Color.black : Color.white }()

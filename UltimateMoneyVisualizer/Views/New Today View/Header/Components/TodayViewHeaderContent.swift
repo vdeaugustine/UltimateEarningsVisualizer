@@ -45,11 +45,17 @@ struct TodayViewHeaderContent: View {
                         viewModel.tappedDeleteAction()
                     }
 
+                    #if DEBUG
+                    HeaderButton(imageName: "checkmark") {
+                        viewModel.saveShift()
+                    }
+                    #else
                     if viewModel.shiftIsOver {
                         HeaderButton(imageName: "checkmark") {
-                            viewModel.navManager.todayViewNavPath.append(NavManager.TodayViewDestinations.confirmShift)
+                            viewModel.saveShift()
                         }
                     }
+                    #endif
                 }
             }
             .foregroundStyle(Color.white)

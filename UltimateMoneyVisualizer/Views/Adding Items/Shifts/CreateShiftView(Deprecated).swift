@@ -40,12 +40,6 @@ struct CreateShiftView: View {
                     .spacedOut(text: dayOfWeek.rawValue)
             }
 
-//            Section {
-//                Button("Save") {
-//
-//                }
-//            }
-            
             Section("Add Multiple Shifts") {
                 
                 NavigationLink("Add Multiple Shifts") {

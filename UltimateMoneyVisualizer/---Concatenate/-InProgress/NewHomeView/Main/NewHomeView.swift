@@ -61,9 +61,10 @@ struct SummaryView_HomeView: View {
             Divider()
             HStack {
                 Text("Total")
-                    .font(.system(size: 16))
+                    .font(.callout)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(Color(red: 0.13, green: 0.13, blue: 0.13))
                     .underline()
-                    .foregroundColor(Color(red: 0.13, green: 0.13, blue: 0.13))
                 Spacer()
                 Text(vm.getSummaryTotal().money())
                     .font(.system(size: 14))
@@ -87,7 +88,7 @@ struct SummaryView_HomeView: View {
         var body: some View {
             HStack {
                 Text(title)
-                    .font(.system(size: 16))
+                    .font(.callout)
                     .fontWeight(.semibold)
                     .foregroundColor(Color(red: 0.13, green: 0.13, blue: 0.13))
 
@@ -139,7 +140,8 @@ struct NetMoney_HomeView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             Text("Net Money")
-                .format(size: 16, weight: .semibold)
+                .font(.callout)
+                .fontWeight(.semibold)
             NetMoneyGraph()
         }
         .padding()
@@ -157,7 +159,8 @@ struct TopTimeBlocks_HomeView: View {
         VStack(alignment: .leading) {
             HStack {
                 Text("Top Time Blocks")
-                    .format(size: 16, weight: .semibold)
+                    .font(.callout)
+                    .fontWeight(.semibold)
                 Spacer()
                 Button {
                     vm.navManager.appendCorrectPath(newValue: .allTimeBlocks)

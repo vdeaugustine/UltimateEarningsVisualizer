@@ -34,12 +34,14 @@ struct PayoffQueueView_HomeView: View {
             HStack {
                 // SectionHeader-HomeView
                 Text("Payoff Queue")
-                    .format(size: 16, weight: .semibold, color: .textPrimary)
+                    .font(.callout)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(Color.textPrimary)
 
                 Spacer()
 
                 Image(systemName: "ellipsis")
-                    .font(.system(size: 16))
+                    .font(.callout)
                     .onTapGesture {
                         vm.navManager.appendCorrectPath(newValue: .oldPayoffQueue)
                     }

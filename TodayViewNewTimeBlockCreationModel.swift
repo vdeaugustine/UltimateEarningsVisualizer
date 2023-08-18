@@ -10,9 +10,14 @@ import Foundation
 import SwiftUI
 
 class TodayViewNewTimeBlockCreationModel: CreateNewTimeBlockViewModel {
-    
-    init(todayShift: TodayShift) {
+    init(todayShift: TodayShift, start: Date? = nil, end: Date? = nil) {
         super.init(shift: todayShift)
+        if let start{
+            self.start = start
+        }
+        if let end {
+            self.end = end
+        }
     }
 
     override func saveAction(context: NSManagedObjectContext) {

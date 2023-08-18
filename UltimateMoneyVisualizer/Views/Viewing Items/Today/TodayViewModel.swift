@@ -354,7 +354,7 @@ class TodayViewModel: ObservableObject {
 
     func saveShift() {
         completedShiftTempPayoffs = tempPayoffs.filter { $0.progressAmount >= 0.01 }
-        navManager.todayViewNavPath.append(NavManager.TodayViewDestinations.confirmShift)
+            navManager.appendCorrectPath(newValue: .confirmToday)
     }
 
     var shiftIsOver: Bool {

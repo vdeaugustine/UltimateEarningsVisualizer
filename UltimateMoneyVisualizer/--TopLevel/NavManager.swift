@@ -114,6 +114,8 @@ class NavManager: ObservableObject {
         case createGoal
         case createSaved
         case createShift
+        case createTimeBlockForShift(CreateNewTimeBlockView.TimeBlockStarter_Shift)
+        case createTimeBlockForToday(CreateNewTimeBlockView.TimeBlockStarter_Today)
         case enterWage
         case expense(Expense)
         case expenseContributions(Expense)
@@ -158,31 +160,14 @@ class NavManager: ObservableObject {
         case today
     }
 
-    enum TodayViewDestinations: Hashable {
-        case confirmShift
-        case expenseDetail(Expense)
-        case goalDetail(Goal)
-        case newTimeBlock(TodayShift)
-        case payoffQueue
-        case timeBlockDetail(TimeBlock)
-    }
-
-    @ViewBuilder func getDestinationViewForTodayViewStack(destination: NavManager.TodayViewDestinations) -> some View {
-        switch destination {
-            case .confirmShift:
-                ConfirmTodayShift().environmentObject(TodayViewModel.main)
-            case .payoffQueue:
-                PayoffQueueView()
-            case let .timeBlockDetail(block):
-                TimeBlockDetailView(block: block)
-            case let .goalDetail(goal):
-                GoalDetailView(goal: goal)
-            case let .expenseDetail(expense):
-                ExpenseDetailView(expense: expense)
-            case let .newTimeBlock(todayShift):
-                CreateNewTimeBlockView(todayShift: todayShift)
-        }
-    }
+//    enum TodayViewDestinations: Hashable {
+//        case confirmShift
+//        case expenseDetail(Expense)
+//        case goalDetail(Goal)
+//        case newTimeBlock(TodayShift)
+//        case payoffQueue
+//        case timeBlockDetail(TimeBlock)
+//    }
 
     @ViewBuilder func getDestinationViewForStack(destination: NavManager.AllViews) -> some View {
         switch destination {
@@ -198,6 +183,10 @@ class NavManager: ObservableObject {
                 CreateSavedView().environmentObject(NewItemViewModel.shared)
             case .createShift:
                 NewShiftView()
+            case let .createTimeBlockForShift(starter):
+                CreateNewTimeBlockView(starter)
+            case let .createTimeBlockForToday(starter):
+                CreateNewTimeBlockView(starter)
             case .enterWage:
                 EnterWageView()
             case let .expense(expense):
@@ -237,17 +226,7 @@ class NavManager: ObservableObject {
             case .oldPayoffQueue:
                 PayoffQueueView()
             default:
-                EmptyView()
+                Text("Error navigating to page.")
         }
-    }
-}
-
-extension NavigationPath {
-    mutating func appendView(_ view: NavManager.AllViews) {
-        append(view)
-    }
-
-    mutating func appendTodayView(_ view: NavManager.TodayViewDestinations) {
-        append(view)
     }
 }

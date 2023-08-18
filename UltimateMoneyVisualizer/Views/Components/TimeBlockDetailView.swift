@@ -11,29 +11,34 @@ import SwiftUI
 // MARK: - TimeBlockDetailView
 
 struct TimeBlockDetailView: View {
+    @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) private var viewContext
-    let block: TimeBlock
-    @State private var showDetailConfirmation = false
-
+    @State private var showDeleteConfirmation = false
     @State private var showDeleteError = false
-    @Environment (\.dismiss) private var dismiss
+
+    let block: TimeBlock
 
     var body: some View {
         List {
-            
             if let title = block.title {
-                Text(title)
+                Section("Title") {
+                    Text(title)
+                }
             }
+
             if let startDate = block.startTime {
-                Text("Date")
-                    .spacedOut(text: startDate.getFormattedDate(format: .abbreviatedMonth))
-                Text("Start")
-                    .spacedOut(text: startDate.getFormattedDate(format: .minimalTime))
+                Section("Date") {
+                    Text(startDate.getFormattedDate(format: .abbreviatedMonth))
+                }
+                Section("Start time") {
+                    Text(startDate.getFormattedDate(format: .minimalTime))
+                }
             }
 
             if let endDate = block.endTime {
-                Text("End")
-                    .spacedOut(text: endDate.getFormattedDate(format: .minimalTime))
+                Section("End time") {
+                    Text(endDate.getFormattedDate(format: .minimalTime))
+                }
             }
 
             Section("Stats") {
@@ -43,14 +48,18 @@ struct TimeBlockDetailView: View {
                 Text("Earned")
                     .spacedOut(text: block.amountEarned().money())
             }
+
+            Section {
+                Button("Delete", role: .destructive) {
+                    showDeleteConfirmation.toggle()
+                }
+            }
         }
         .navigationTitle("Time Block Details")
         .putInTemplate()
-        .bottomButton(label: "Delete") {
-            showDetailConfirmation.toggle()
-        }
+
         .confirmationDialog("Delete Time Block?",
-                            isPresented: $showDetailConfirmation,
+                            isPresented: $showDeleteConfirmation,
                             titleVisibility: .visible) {
             Button("Delete", role: .destructive) {
                 viewContext.delete(block)
@@ -66,16 +75,6 @@ struct TimeBlockDetailView: View {
         .toast(isPresenting: $showDeleteError) {
             .errorWith(message: "Error saving")
         }
-
-//        .toolbar {
-//            ToolbarItem {
-//                Button {
-//
-//                } label: {
-//                    Text("Delete")
-//                }
-//            }
-//        }
     }
 }
 

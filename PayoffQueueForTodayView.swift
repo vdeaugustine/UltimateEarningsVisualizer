@@ -16,7 +16,7 @@ struct PayoffQueueForTodayView: View {
 
     var body: some View {
         List {
-            ForEach(queue) { item in
+            ForEach(vm.tempPayoffs) { item in
                 TodayViewPaidOffRect(item: item)
                     .environmentObject(vm)
             }
@@ -32,7 +32,9 @@ struct PayoffQueueForTodayView: View {
                 EditButton()
             }
         }
-
+        .onReceive(vm.timer) { _ in
+            vm.addSecond()
+        }
         .putInTemplate()
     }
 }

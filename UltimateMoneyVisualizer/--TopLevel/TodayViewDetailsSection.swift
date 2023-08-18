@@ -69,7 +69,8 @@ struct TodayViewLabeledRect: View {
                     Text(topText)
                         .font(.system(size: 24, weight: .bold))
                     Text(bottomText)
-                        .font(.system(size: 16, weight: .medium))
+                        .font(.callout)
+                        .fontWeight(.medium)
                         .foregroundStyle(Color.gray)
                 }
             }

@@ -28,7 +28,9 @@ struct WageBreakdown_HomeView: View {
         HStack {
             // SectionHeader-HomeView
             Text("Wage Breakdown")
-                .format(size: 16, weight: .semibold, color: .textPrimary)
+                .font(.callout)
+                .fontWeight(.semibold)
+                .foregroundStyle(Color.textPrimary)
 
             Spacer()
 

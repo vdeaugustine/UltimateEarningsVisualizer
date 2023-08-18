@@ -8,7 +8,11 @@
 import CoreData
 import Foundation
 
+// swiftformat:sort:begin
+
 public extension Wage {
+    // swiftformat:sort:begin
+
     @discardableResult convenience init(amount: Double,
                                         isSalary: Bool,
                                         user: User,
@@ -31,6 +35,48 @@ public extension Wage {
         try context.save()
     }
 
+    var federalTaxMultiplier: Double {
+        federalTaxPercentage / 100
+    }
+
+    var hourly: Double {
+        if isSalary {
+            let weeks = weeksPerYear
+            let totalHours = weeksPerYear * hoursPerDay * daysPerWeek
+            return amount / totalHours
+        } else {
+            return amount
+        }
+    }
+
+    var perDay: Double {
+        hourly * hoursPerDay
+    }
+
+    var perMinute: Double {
+        hourly / 60
+    }
+
+    var perMonth: Double {
+        perWeek * 4
+    }
+
+    var perSecond: Double {
+        perMinute / 60
+    }
+
+    var perWeek: Double {
+        perDay * daysPerWeek
+    }
+
+    var perYear: Double {
+        perWeek * weeksPerYear
+    }
+
+    var secondly: Double {
+        perMinute / 60
+    }
+
     var stateTaxMultiplier: Double {
         stateTaxPercentage / 100
     }
@@ -39,41 +85,7 @@ public extension Wage {
         stateTaxMultiplier + federalTaxMultiplier
     }
 
-    var federalTaxMultiplier: Double {
-        federalTaxPercentage / 100
-    }
-
-    var hourly: Double {
-        amount
-    }
-
-    var secondly: Double {
-        amount / 60 / 60
-    }
-
-    var perSecond: Double {
-        perMinute / 60
-    }
-
-    var perMinute: Double {
-        amount / 60
-    }
-
-    var perDay: Double {
-        amount * hoursPerDay
-    }
-
-    var perWeek: Double {
-        perDay * daysPerWeek
-    }
-
-    var perMonth: Double {
-        perWeek * 4
-    }
-
-    var perYear: Double {
-        perWeek * weeksPerYear
-    }
+    // swiftformat:sort:end
 
     enum TimePeriod {
         case hourly(wage: Wage)
@@ -149,3 +161,5 @@ public extension Wage {
         }
     }
 }
+
+// swiftformat:sort:end
