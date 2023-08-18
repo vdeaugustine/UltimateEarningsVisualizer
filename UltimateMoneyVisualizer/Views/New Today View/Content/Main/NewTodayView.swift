@@ -35,7 +35,7 @@ struct NewTodayView: View {
         }
     }
 
-    @ViewBuilder var mainView: some View {
+    var mainView: some View {
         ScrollView {
             VStack {
                 headerAndBar
@@ -85,7 +85,6 @@ struct NewTodayView: View {
         .onReceive(viewModel.timer) { _ in
             viewModel.addSecond()
         }
-
         .onAppear(perform: viewModel.user.updateTempQueue)
         .bottomBanner(isVisible: $viewModel.showBanner,
                       mainText: "Shift Complete!",
@@ -107,6 +106,7 @@ struct NewTodayView: View {
             }
 
             TodayViewSegmentPicker()
+                .padding(.top)
         }
     }
 

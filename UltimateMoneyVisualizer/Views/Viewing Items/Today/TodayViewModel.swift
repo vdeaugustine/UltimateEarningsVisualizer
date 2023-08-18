@@ -52,7 +52,6 @@ class TodayViewModel: ObservableObject {
     @ObservedObject var wage = User.main.getWage()
     @ObservedObject var navManager = NavManager.shared
 
-
     // MARK: - Initializer
 
     init(context: NSManagedObjectContext = PersistenceController.context) {
@@ -60,7 +59,6 @@ class TodayViewModel: ObservableObject {
         let allQueue = User.main.getQueue().filter { !$0.isPaidOff }
 
         self.initialPayoffs = allQueue.map { TempTodayPayoff(payoff: $0) }
-
     }
 
     func updateInitialPayoffs() {
@@ -354,7 +352,7 @@ class TodayViewModel: ObservableObject {
 
     func saveShift() {
         completedShiftTempPayoffs = tempPayoffs.filter { $0.progressAmount >= 0.01 }
-            navManager.appendCorrectPath(newValue: .confirmToday)
+        navManager.appendCorrectPath(newValue: .confirmToday)
     }
 
     var shiftIsOver: Bool {
@@ -372,17 +370,13 @@ class TodayViewModel: ObservableObject {
     func tappedMoneySegment() {
         print("tapped")
         if selectedSegment == .money { return }
-        withAnimation {
-            selectedSegment = .money
-        }
+        selectedSegment = .money
     }
 
     func tappedTimeSegment() {
         print("tapped")
         if selectedSegment == .time { return }
-        withAnimation {
-            selectedSegment = .time
-        }
+        selectedSegment = .time
     }
 
     func timeUntilShiftString() -> String {

@@ -23,11 +23,19 @@ struct TodayViewItemizedBlocks: View {
                 Text("TIME BLOCKS")
 
                 Spacer()
+                
+                Button {
+//                    navManager.appendCorrectPath(newValue: .)
+                } label: {
+                    Label("More", systemImage: "list.bullet")
+                        .labelStyle(.iconOnly)
+                }
+                
 
             }
             .font(.callout)
             .fontWeight(.semibold)
-            .tracking(1)
+//            .tracking(1)
             .foregroundStyle(Color(hex: "4E4E4E"))
 
             ScrollView(.horizontal, showsIndicators: false) {

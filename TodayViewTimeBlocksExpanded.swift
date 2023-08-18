@@ -1,19 +1,19 @@
 //
-//  ItemizedPartOfShiftView.swift
+//  TodayViewTimeBlocksExpanded.swift
 //  UltimateMoneyVisualizer
 //
-//  Created by Vincent DeAugustine on 6/3/23.
+//  Created by Vincent DeAugustine on 8/17/23.
 //
 
 import SwiftUI
 
-// MARK: - ItemizedPartOfShiftView
+// MARK: - TodayViewTimeBlocksExpanded
 
-struct ItemizedPartOfShiftView: View {
+struct TodayViewTimeBlocksExpanded: View {
     @EnvironmentObject private var navManager: NavManager
     @ObservedObject private var settings = User.main.getSettings()
 
-    let shift: Shift
+    let shift: TodayShift
 
     @State private var timesToShow: [Date] = []
 
@@ -47,9 +47,9 @@ struct ItemizedPartOfShiftView: View {
             .onTapGesture {
                 // TODO: Figure this out
                 navManager.appendCorrectPath(
-                    newValue: .createTimeBlockForShift(.init(start: start,
+                    newValue: .createTimeBlockForToday(.init(start: start,
                                                              end: end,
-                                                             shift: shift))
+                                                             todayShift: shift))
                 )
             }
     }
@@ -57,11 +57,11 @@ struct ItemizedPartOfShiftView: View {
     var body: some View {
         // ScrollView {
         VStack {
-            divider(time: shift.start)
+            divider(time: shift.getStart())
 
             if let first = shift.getTimeBlocks().first,
                let startOfFirst = first.startTime,
-               let shiftStart = shift.startDate,
+               let shiftStart = shift.startTime,
                startOfFirst > shiftStart {
                 plusNavigation(start: shiftStart, end: startOfFirst)
                     .offset(y: 4)
@@ -76,18 +76,17 @@ struct ItemizedPartOfShiftView: View {
 
             if let last = shift.getTimeBlocks().last,
                let endOfLast = last.endTime,
-               let shiftEnd = shift.endDate,
+               let shiftEnd = shift.endTime,
                endOfLast < shiftEnd {
                 plusNavigation(start: endOfLast, end: shiftEnd)
-                    .offset(y: 4)
             }
 
             if shift.getTimeBlocks().isEmpty {
-                plusNavigation(start: shift.start, end: shift.end)
+                plusNavigation(start: shift.getStart(), end: shift.getEnd())
                     .offset(y: 4)
             }
 
-            divider(time: shift.end)
+            divider(time: shift.getEnd())
         }
 //        .navigationDestination(for: TimeBlock.self) { block in
 //            TimeBlockDetailView(block: block)
@@ -143,7 +142,7 @@ struct ItemizedPartOfShiftView: View {
 
             VStack(alignment: .leading) {
                 Text(block.getTitle())
-                    .format(size: 14, weight: .bold)
+                    .format(size: 14, weight: .heavy)
                     .lineLimit(1)
 
                 Text(block.timeRangeString())
@@ -154,7 +153,7 @@ struct ItemizedPartOfShiftView: View {
             Spacer()
 
             Text(block.amountEarned().money())
-                .font(.caption)
+                .format(size: 12)
                 .lineLimit(1)
         }
         .frame(maxWidth: .infinity)
@@ -176,7 +175,7 @@ struct ItemizedPartOfShiftView: View {
     }
 }
 
-extension ItemizedPartOfShiftView {
+extension TodayViewTimeBlocksExpanded {
     func getBlockAfter(this block: TimeBlock) -> TimeBlock? {
         guard let indexOfThisBlock = shift.getTimeBlocks().firstIndex(of: block)
         else { return nil }
@@ -226,12 +225,24 @@ extension ItemizedPartOfShiftView {
     }
 }
 
-// MARK: - ItemizedPartOfShiftView_Previews
+// MARK: - TodayViewTimeBlocksExpanded_Previews
 
-struct ItemizedPartOfShiftView_Previews: PreviewProvider {
+struct TodayViewTimeBlocksExpanded_Previews: PreviewProvider {
+    static let todayShift: TodayShift = {
+        if let existing = User.main.todayShift { return existing }
+        let new = try! TodayShift(startTime: .now.addHours(-1),
+                             endTime: .now.addHours(1),
+                             user: User.testing,
+                             context: PersistenceController.testing)
+        return new
+    }()
+
     static var previews: some View {
         NavigationStack(path: .constant(NavManager.shared.homeNavPath)) {
-            ItemizedPartOfShiftView(shift: User.main.getShifts().first!)
+            TodayViewTimeBlocksExpanded(shift: try! TodayShift(startTime: .now.addHours(-1),
+                                                               endTime: .now.addHours(1),
+                                                               user: User.testing,
+                                                               context: PersistenceController.testing))
                 .padding()
         }
     }

@@ -15,7 +15,7 @@ struct TodayPaidOffStackWithHeader: View {
     var bottomButtonText: String {
         viewModel.paidOffStackIsExpanded ? "Collapse" : "Expand"
     }
-    
+
     var body: some View {
         VStack(spacing: 16) {
             HStack {
@@ -23,24 +23,25 @@ struct TodayPaidOffStackWithHeader: View {
 
                 Spacer()
 
-                Text("Queue")
-                    .onTapGesture {
-                        viewModel.navManager.appendCorrectPath(newValue: .todayViewPayoffQueue)
-                    }
+                Button {
+                    viewModel.navManager.appendCorrectPath(newValue: .todayViewPayoffQueue)
+
+                } label: {
+                    Label("More", systemImage: "ellipsis")
+                        .labelStyle(.iconOnly)
+                }
             }
             .font(.callout)
             .fontWeight(.semibold)
-            .tracking(1)
+//            .tracking(1)
             .foregroundStyle(Color(hex: "4E4E4E"))
 
             TodayPaidOffStack()
-            
+
             Button(bottomButtonText) {
                 viewModel.paidOffStackIsExpanded.toggle()
-                    
             }
             .padding(.top)
-            
         }
 //        .animation(.none, value: viewModel.paidOffStackIsExpanded)
     }
