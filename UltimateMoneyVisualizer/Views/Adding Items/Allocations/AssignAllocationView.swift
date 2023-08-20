@@ -5,36 +5,30 @@
 //  Created by Vincent DeAugustine on 4/27/23.
 //
 
+import AlertToast
 import SwiftUI
 import Vin
-import AlertToast
 
-// MARK: - AssignAllocationForExpenseView
+// MARK: - AssignAllocationToPayoffView
 
 struct AssignAllocationToPayoffView: View {
-    
     @Environment(\.managedObjectContext) private var viewContext
-    
-    @State private var note: String = ""
-
     let payoffItem: PayoffItem
-    @State private var sourceType: String = "shift"
 
-    @State private var shift: Shift? = nil
-
-    @State private var saved: Saved? = nil
-
-    @State private var showShiftSheet = false
-    @State private var showSavedSheet = false
-
+    // swiftformat:sort:begin
     @State private var allocAmount: Double = 0
-
-    @ObservedObject var user = User.main
-    @ObservedObject var settings = User.main.getSettings()
-    
+    @State private var note: String = ""
+    @State private var saved: Saved? = nil
+    @State private var shift: Shift? = nil
     @State private var showAlert = false
-
+    @State private var showSavedSheet = false
+    @State private var showShiftSheet = false
+    @State private var sourceType: String = "shift"
     @State private var toastConfiguration: AlertToast = AlertToast(type: .regular)
+    // swiftformat:sort:end
+    
+    @ObservedObject var settings = User.main.getSettings()
+    @ObservedObject var user = User.main
 
     var sourceIsNil: Bool {
         shift == nil && saved == nil
@@ -108,6 +102,7 @@ struct AssignAllocationToPayoffView: View {
                 }
             }
         }
+        .listStyle(.insetGrouped)
         .onChange(of: shift) { newShift in
 
             if newShift != nil {
@@ -130,29 +125,24 @@ struct AssignAllocationToPayoffView: View {
         .navigationTitle("Add Contribution")
 
         .bottomCapsule(label: "Save", gradient: settings.getDefaultGradient(), bool: !sourceIsNil, bottomPadding: 10) {
-            
             do {
                 if let expense = payoffItem as? Expense {
                     try Allocation(amount: allocAmount, expense: expense, goal: nil, shift: shift, saved: saved, date: .now, context: viewContext)
                 }
-                
+
                 if let goal = payoffItem as? Goal {
-                    
                     try Allocation(amount: allocAmount, expense: nil, goal: goal, shift: shift, saved: saved, date: .now, context: viewContext)
                 }
-                
+
                 toastConfiguration = AlertToast(displayMode: .alert, type: .complete(settings.themeColor), title: "Saved successfully")
                 showAlert = true
-            }
-            catch {
+            } catch {
                 print(error)
                 toastConfiguration = AlertToast(displayMode: .alert, type: .error(settings.themeColor), title: "Failed to save")
-                showAlert = true 
+                showAlert = true
             }
-            
-            
         }
-        
+
         .toast(isPresenting: $showAlert,
                duration: 2,
                tapToDismiss: false,
@@ -259,8 +249,7 @@ struct ChooseSavedForAllocSheet: View {
 
                 } else {
                     ForEach(savedsToShow) { thisSaved in
-
-                        SavedItemForAllocSheet(saved: thisSaved, isAvailable: true)
+                        SavedItemRow(saved: thisSaved, user: user)
                             .allPartsTappable()
                             .onTapGesture {
                                 self.saved = thisSaved
@@ -275,9 +264,10 @@ struct ChooseSavedForAllocSheet: View {
                     }
                 }
             }
+            .listStyle(.insetGrouped)
         }
         .putInTemplate()
-        .navigationTitle("Shifts")
+        .navigationTitle("Saved Items")
         .putInNavView(.inline)
     }
 }
@@ -375,5 +365,9 @@ struct AssignAllocationForExpenseView_Previews: PreviewProvider {
 
         ChooseShiftForAllocSheet(shift: .constant(User.main.getShifts()[4]))
             .putInNavView(.inline)
+        
+        ShiftRowForAllocSheet(shift: User.main.getShifts().randomElement()!)
+        
+        SavedItemForAllocSheet(saved: User.main.getSaved().randomElement()!, isAvailable: true)
     }
 }

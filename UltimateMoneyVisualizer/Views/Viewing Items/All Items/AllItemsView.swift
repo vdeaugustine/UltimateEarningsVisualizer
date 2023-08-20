@@ -24,7 +24,6 @@ struct AllItemsView: View {
             }
             .pickerStyle(.segmented)
             .padding([.horizontal, .top])
-            
 
             switch selectionType {
                 case .goals:
@@ -35,7 +34,6 @@ struct AllItemsView: View {
                     ShiftListView()
                 case .expenses:
                     NewPayoffList(payoffType: .expense)
-                        
             }
         }
         .background(Color.listBackgroundColor)
@@ -79,7 +77,6 @@ struct AllItemsView: View {
         selectionType = SelectionType.allCases[newIndex]
     }
 }
-
 
 extension AllItemsView {
     enum SelectionType: String, CaseIterable {

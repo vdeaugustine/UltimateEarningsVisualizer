@@ -44,25 +44,43 @@ struct NewPayoffList: View {
                     }
                 }
                 .listRowSeparator(.hidden)
+            } header: {
+                Text("Items").hidden()
             }
             .listRowBackground(Color.clear)
         }
+
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    showSearch.toggle()
+                } label: {
+                    Label("Search", systemImage: "magnifyingglass")
+                }
+            }
+
+            ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink {
+                    CreateSavedView()
+                } label: {
+                    Label("Add Saved Item", systemImage: "plus")
+                }
+            }
+        }
+        .conditionalModifier(showSearch) { view in
+            view
+                .searchable(text: $searchText)
+        }
         .background { Color.clear }
-//        .searchable(text: $searchText)
         .listStyle(.plain)
         .navigationTitle(payoffType == .goal ? "Goals" : "Expenses")
         .putInTemplate()
-//        .safeAreaInset(edge: .top) {
-//            filterBar
-//        }
     }
 
     @ViewBuilder func background(for filter: ShowTypeChoice) -> some View {
         if filtersApplied.contains(filter) {
             Color.googleBlueLabelBackground
                 .clipShape(Capsule(style: .continuous))
-//                .border(Color.googleBlueLabelBackground, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
-//                .clipShape(Capsule(style: .continuous))
         } else {
             Color.textSecondary
                 .clipShape(Capsule(style: .continuous).stroke(lineWidth: 1))

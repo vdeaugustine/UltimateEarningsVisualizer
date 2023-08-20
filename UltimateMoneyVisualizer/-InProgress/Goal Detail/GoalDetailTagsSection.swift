@@ -60,26 +60,25 @@ struct GoalDetailTagsSection: View {
 
     var tagsPart: some View {
         ScrollView {
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 10) {
-                ForEach(viewModel.goal.getTags(), id: \.self) { tag in
-                    if let title = tag.title {
-                        VStack {
-                            Text(title)
-                                .foregroundStyle(Color.white)
-                                .padding(5)
-                                .padding(.trailing)
-                                .background {
-                                    PriceTag(width: nil,
-                                             height: 30,
-                                             color: tag.getColor(),
-                                             holePunchColor: .white,
-                                             rotation: 0)
-                                }
-                        }
-                        .frame(height: 100) // Adjust the height as needed
+            Divider()
+                .padding(.bottom)
+
+            ForEach(0 ..< viewModel.goal.getTags().count / 2, id: \.self) { index in
+                HStack {
+                    if let even = viewModel.goal.getTags().safeGet(at: index * 2) {
+                        NewTagDesign(tag: even)
+                            .shadow(color: .black.opacity(0.12), radius: 8, x: 0, y: 6)
+                    }
+
+                    if let odd = viewModel.goal.getTags().safeGet(at: index * 2 + 1) {
+                        NewTagDesign(tag: odd)
+                            .shadow(color: .black.opacity(0.12), radius: 8, x: 0, y: 6)
                     }
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
+
+            .padding(.horizontal)
         }
         .padding(.bottom)
         .frame(maxHeight: viewModel.tagsRectIncreaseAmount - 10)
@@ -141,6 +140,9 @@ struct GoalDetailTagsSection: View {
 // MARK: - GoalDetailTagsSection_Previews
 
 struct GoalDetailTagsSection_Previews: PreviewProvider {
+    static var model = GoalDetailViewModel(goal: User.main.getGoals()
+        .sorted(by: { $0.timeRemaining > $1.timeRemaining })
+        .last!)
     static var previews: some View {
         ZStack(alignment: .leading) {
             Color.listBackgroundColor

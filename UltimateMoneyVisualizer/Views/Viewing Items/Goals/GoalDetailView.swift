@@ -15,6 +15,7 @@ struct GoalDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.dismiss) private var dismiss
     @StateObject var viewModel: GoalDetailViewModel
+    @State private var showContributionsSheet = false
 
     init(goal: Goal) {
         _viewModel = StateObject(wrappedValue: GoalDetailViewModel(goal: goal))
@@ -31,6 +32,11 @@ struct GoalDetailView: View {
 
                     HStack {
                         GoalDetailProgressBox(viewModel: viewModel)
+                            .onTapGesture {
+                                print("Tapped")
+                                showContributionsSheet.toggle()
+                            }
+                            
                         VStack {
                             GoalDetailTotalAmount(viewModel: viewModel)
                             GoalDetailDueDateBox(viewModel: viewModel)
@@ -39,10 +45,9 @@ struct GoalDetailView: View {
 
                     GoalDetailTagsSection(viewModel: viewModel)
 
-                    GoalDetailContributionsSection(viewModel: viewModel)
+//                    GoalDetailContributionsSection(viewModel: viewModel)
                 }
                 .padding()
-
                 .blur(radius: viewModel.blurRadius)
                 .overlay {
                     if viewModel.showSpinner {
@@ -70,13 +75,13 @@ struct GoalDetailView: View {
                             viewModel.showSpinner = false
                         }
                 }
-                .toolbar {
-                    if viewModel.initialImage != viewModel.shownImage {
-                        ToolbarItem {
-                            Button("Save", action: viewModel.saveButtonAction)
-                        }
-                    }
-                }
+//                .toolbar {
+//                    if viewModel.initialImage != viewModel.shownImage {
+//                        ToolbarItem {
+//                            Button("Save", action: viewModel.saveButtonAction)
+//                        }
+//                    }
+//                }
                 .onAppear(perform: viewModel.onAppearAction)
                 .toast(isPresenting: $viewModel.showAlert,
                        duration: 2,
@@ -86,6 +91,7 @@ struct GoalDetailView: View {
                 .ignoresSafeArea(.keyboard, edges: .bottom)
             }
         }
+        
         .background(Color.listBackgroundColor)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -95,7 +101,15 @@ struct GoalDetailView: View {
                     Label("Delete", systemImage: "trash")
                 }
             }
+            
+            
         }
+        .fullScreenCover(isPresented: $showContributionsSheet) {
+            GoalContributionsView(payoffItem: viewModel.goal)
+                .presentationDragIndicator(.visible)
+        }
+        
+        
     }
 
     func fullScreenImage() -> some View {

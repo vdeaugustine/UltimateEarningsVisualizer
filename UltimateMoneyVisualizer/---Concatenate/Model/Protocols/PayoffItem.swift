@@ -8,26 +8,27 @@
 import Foundation
 import SwiftUI
 
+// MARK: - PayoffType
+
 public enum PayoffType: String {
     case goal, expense, tax
-    
+
     init(_ expense: Expense) {
         self = .expense
     }
-    
+
     init(_ goal: Goal) {
         self = .goal
     }
-    
+
     init(_ payoff: PayoffItem) {
         if payoff is Goal {
             self = .goal
-        }
-        else {
+        } else {
             self = .expense
         }
     }
-    
+
     var titleForProgressCircle: String {
         switch self {
             case .goal:
@@ -40,16 +41,20 @@ public enum PayoffType: String {
     }
 }
 
-public protocol PayoffItem {
-    
+// MARK: - PayoffItem
 
+public protocol PayoffItem {
     // MARK: - Protocol Properties:
-    
+
+    // swiftformat:sort:begin
     var amount: Double { get }
     var amountMoneyStr: String { get }
+    var amountPaidBySaved: Double { get }
+    var amountPaidByShifts: Double { get }
     var amountPaidOff: Double { get }
     var amountRemainingToPayOff: Double { get }
     var dateCreated: Date? { get set }
+    var dueDate: Date? { get set }
     var isPaidOff: Bool { get }
     var optionalQSlotNumber: Int16? { get set }
     var optionalTempQNum: Int16? { get set }
@@ -57,34 +62,34 @@ public protocol PayoffItem {
     var percentTemporarilyPaidOff: Double { get }
     var titleStr: String { get }
     var type: PayoffType { get }
-    var dueDate: Date? { get set }
-    var amountPaidByShifts: Double { get }
-    var amountPaidBySaved: Double { get }
-    
+    // swiftformat:sort:end
+
     // MARK: - Protocol Methods:
-    
-    func getArrayOfTemporaryAllocations() -> [TemporaryAllocation]
+
+    // swiftformat:sort:begin
     func getAllocations() -> [Allocation]
+    func getArrayOfTemporaryAllocations() -> [TemporaryAllocation]
     func getID() -> UUID
     func getMostRecentTemporaryAllocation() -> TemporaryAllocation?
+    func getSavedItems() -> [Saved]
+    func getShifts() -> [Shift]
     func handleWhenPaidOff() throws
     func handleWhenTempPaidOff() throws
+    func loadImageIfPresent() -> UIImage?
     func setOptionalQSlotNumber(newVal: Int16?)
     func setOptionalTempQNum(newVal: Int16?)
-    func loadImageIfPresent() -> UIImage?
-    
+    // swiftformat:sort:end
 }
 
-
-//public struct AnyPayoffItem: PayoffItem, Identifiable {
+// public struct AnyPayoffItem: PayoffItem, Identifiable {
 //    public func getID() -> UUID {
 //        <#code#>
 //    }
-//    
+//
 //    public var dateCreated: Date?
-//    
+//
 //    public var id: UUID?
-//    
+//
 //    private let _getQueueSlotNumber: () -> Int16
 //    private let _setQueueSlotNumber: (Int16) -> Void
 //
@@ -94,7 +99,7 @@ public protocol PayoffItem {
 //            var mutableWrapped = wrapped
 //            mutableWrapped.queueSlotNumber = newValue
 //        }
-//        
+//
 //        dateCreated = wrapped.dateCreated
 //        id = wrapped.id
 //    }
@@ -107,7 +112,4 @@ public protocol PayoffItem {
 //            _setQueueSlotNumber(newValue)
 //        }
 //    }
-//}
-
-
-
+// }

@@ -12,31 +12,27 @@ import SwiftUI
 struct ExpenseListView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @ObservedObject private var user = User.main
-    
+
     @State private var showPassedDue = true
+    @State private var showSearch = false
+    @State private var searchText: String = ""
 
     var expensesToShow: [Expense] {
         var expenses = user.getExpenses()
-        
+
         if !showPassedDue {
-            
             expenses.removeAll(where: { $0.isPassedDue })
-            
         }
-        
+
         return expenses
-        
-        
     }
-    
+
     var body: some View {
         List {
-            
             Section {
                 Toggle("Show passed due expenses", isOn: $showPassedDue)
             }
-            
-            
+
             ForEach(expensesToShow, id: \.self) { expense in
                 NavigationLink(destination: ExpenseDetailView(expense: expense)) {
                     ExpenseRow(expense: expense)

@@ -61,20 +61,22 @@ extension Expense {
 // MARK: - Expense + PayoffItem
 
 extension Expense: PayoffItem {
-    public var amountPaidByShifts: Double {
-        let shiftAllocations = getAllocations().filter({ $0.shift != nil })
-        return shiftAllocations.reduce(Double.zero, { $0 + $1.amount })
-    }
-    
-    public var amountPaidBySaved: Double {
-        let savedAllocations = getAllocations().filter({ $0.savedItem != nil })
-        return savedAllocations.reduce(Double.zero, { $0 + $1.amount })
-    }
-    
+    // swiftformat:sort:begin
+
     // MARK: Properties
 
     public var amountMoneyStr: String {
         return amount.money(includeCents: true)
+    }
+
+    public var amountPaidBySaved: Double {
+        let savedAllocations = getAllocations().filter { $0.savedItem != nil }
+        return savedAllocations.reduce(Double.zero) { $0 + $1.amount }
+    }
+
+    public var amountPaidByShifts: Double {
+        let shiftAllocations = getAllocations().filter { $0.shift != nil }
+        return shiftAllocations.reduce(Double.zero) { $0 + $1.amount }
     }
 
     public var amountPaidOff: Double {
@@ -83,12 +85,68 @@ extension Expense: PayoffItem {
 
     public var amountRemainingToPayOff: Double { return amount - amountPaidOff }
 
-    public var isPassedDue: Bool { timeRemaining <= 0 }
-    
+    public func getAllocations() -> [Allocation] {
+        guard let allocations = Array(allocations ?? []) as? [Allocation] else { return [] }
+        return allocations
+    }
+
+    public func getArrayOfTemporaryAllocations() -> [TemporaryAllocation] {
+        guard let temporaryAllocations = temporaryAllocations?.allObjects as? [TemporaryAllocation] else {
+            return []
+        }
+        return temporaryAllocations
+    }
+
+    public func getID() -> UUID {
+        if let id { return id }
+        let newID = UUID()
+        id = newID
+
+        try? managedObjectContext?.save()
+
+        return newID
+    }
+
+    public func getMostRecentTemporaryAllocation() -> TemporaryAllocation? {
+        let tempAllocsArray = getArrayOfTemporaryAllocations()
+
+        let sorted = tempAllocsArray.sorted { ($0.lastEdited ?? .now) > ($1.lastEdited ?? .now) }
+
+        return sorted.first
+    }
+
+    // MARK: Methods
+
+    public func getSavedItems() -> [Saved] {
+        getAllocations().compactMap { $0.savedItem }
+    }
+
+    public func getShifts() -> [Shift] {
+        getAllocations().compactMap { $0.shift }
+    }
+
+    public func getTags() -> [Tag] {
+        if let tagsArray = tags?.allObjects as? [Tag] {
+            return tagsArray
+        }
+        return []
+    }
+
+    public func handleWhenPaidOff() throws {
+        guard amountRemainingToPayOff <= 0 else { return }
+        optionalTempQNum = nil
+    }
+
+    public func handleWhenTempPaidOff() throws {
+        guard temporaryRemainingToPayOff <= 0 else { return }
+        optionalTempQNum = nil
+    }
+
     public var isPaidOff: Bool {
         amountRemainingToPayOff < 0.01
     }
 
+    public var isPassedDue: Bool { timeRemaining <= 0 }
     public var optionalQSlotNumber: Int16? {
         get {
             if queueSlotNumber == -7_777 {
@@ -117,6 +175,16 @@ extension Expense: PayoffItem {
 
     public var percentTemporarilyPaidOff: Double { temporarilyPaidOff / amount }
 
+    // Optional Queue Slot Number
+    public func setOptionalQSlotNumber(newVal: Int16?) {
+        optionalQSlotNumber = newVal
+    }
+
+    // Optional Temporary Queue Number
+    public func setOptionalTempQNum(newVal: Int16?) {
+        optionalTempQNum = newVal
+    }
+
     public var temporarilyPaidOff: Double {
         guard let temporaryAllocations = temporaryAllocations as? Set<TemporaryAllocation>
         else {
@@ -136,64 +204,7 @@ extension Expense: PayoffItem {
 
     public var type: PayoffType { return .goal }
 
-    // MARK: Methods
-
-    public func getAllocations() -> [Allocation] {
-        guard let allocations = Array(allocations ?? []) as? [Allocation] else { return [] }
-        return allocations
-    }
-
-    public func getArrayOfTemporaryAllocations() -> [TemporaryAllocation] {
-        guard let temporaryAllocations = temporaryAllocations?.allObjects as? [TemporaryAllocation] else {
-            return []
-        }
-        return temporaryAllocations
-    }
-
-    public func getID() -> UUID {
-        if let id { return id }
-        let newID = UUID()
-        id = newID
-
-        try? managedObjectContext?.save()
-
-        return newID
-    }
-
-    public func getTags() -> [Tag] {
-        if let tagsArray = tags?.allObjects as? [Tag] {
-            return tagsArray
-        }
-        return []
-    }
-
-    public func getMostRecentTemporaryAllocation() -> TemporaryAllocation? {
-        let tempAllocsArray = getArrayOfTemporaryAllocations()
-
-        let sorted = tempAllocsArray.sorted { ($0.lastEdited ?? .now) > ($1.lastEdited ?? .now) }
-
-        return sorted.first
-    }
-
-    public func handleWhenPaidOff() throws {
-        guard amountRemainingToPayOff <= 0 else { return }
-        optionalTempQNum = nil
-    }
-
-    public func handleWhenTempPaidOff() throws {
-        guard temporaryRemainingToPayOff <= 0 else { return }
-        optionalTempQNum = nil
-    }
-
-    // Optional Queue Slot Number
-    public func setOptionalQSlotNumber(newVal: Int16?) {
-        optionalQSlotNumber = newVal
-    }
-
-    // Optional Temporary Queue Number
-    public func setOptionalTempQNum(newVal: Int16?) {
-        optionalTempQNum = newVal
-    }
+    // swiftformat:sort:end
 }
 
 // MARK: - Expense Properties

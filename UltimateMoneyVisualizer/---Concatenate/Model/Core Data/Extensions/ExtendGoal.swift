@@ -52,7 +52,7 @@ public extension Goal {
                                 user: user,
                                 context: context)
                     #else
-                        try Tag(tagStr, symbol: nil, goal: self, user: user, context: context)
+                        try Tag(tagStr, symbol: nil, payoffItem: self, user: user, context: context)
                     #endif
                 }
             }
@@ -60,19 +60,13 @@ public extension Goal {
 
         try context.save()
     }
-    
-    
-    
-    
-    
-    
 }
 
 // MARK: - Goal + PayoffItem
 
 extension Goal: PayoffItem {
     // MARK: Properties
-    
+
     public var isPaidOff: Bool {
         amountRemainingToPayOff < 0.01
     }
@@ -263,25 +257,24 @@ public extension Goal {
 
 public extension Goal {
     // MARK: Properties
-    
-    public var amountPaidByShifts: Double {
-        let shiftAllocations = getAllocations().filter({ $0.shift != nil })
-        return shiftAllocations.reduce(Double.zero, { $0 + $1.amount })
-    }
-    
-    public var amountPaidBySaved: Double {
-        let savedAllocations = getAllocations().filter({ $0.savedItem != nil })
-        return savedAllocations.reduce(Double.zero, { $0 + $1.amount })
+
+    // swiftformat:sort:begin
+    var amountPaidBySaved: Double {
+        let savedAllocations = getAllocations().filter { $0.savedItem != nil }
+        return savedAllocations.reduce(Double.zero) { $0 + $1.amount }
     }
 
-    var timeRemaining: TimeInterval {
-        guard let dueDate else { return 0 }
-        return dueDate - .now
+    var amountPaidByShifts: Double {
+        let shiftAllocations = getAllocations().filter { $0.shift != nil }
+        return shiftAllocations.reduce(Double.zero) { $0 + $1.amount }
     }
 
-    var totalTimeRemaining: TimeInterval {
-        guard let dateCreated, let dueDate else { return 0 }
-        return dueDate - dateCreated
+    func getSavedItems() -> [Saved] {
+        getAllocations().compactMap { $0.savedItem }
+    }
+
+    func getShifts() -> [Shift] {
+        getAllocations().compactMap { $0.shift }
     }
 
     // MARK: Methods
@@ -313,4 +306,16 @@ public extension Goal {
             throw NSError(domain: "Error converting image to data", code: 99)
         }
     }
+
+    var timeRemaining: TimeInterval {
+        guard let dueDate else { return 0 }
+        return dueDate - .now
+    }
+
+    var totalTimeRemaining: TimeInterval {
+        guard let dateCreated, let dueDate else { return 0 }
+        return dueDate - dateCreated
+    }
+
+    // swiftformat:sort:end
 }

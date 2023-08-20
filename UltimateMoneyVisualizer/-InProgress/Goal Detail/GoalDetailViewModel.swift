@@ -50,7 +50,7 @@ class GoalDetailViewModel: ObservableObject {
 
     var tagsRectIncreaseAmount: CGFloat {
         let multiplier: Double = showTags ? 1 : -1
-        return 250 * multiplier
+        return CGFloat(CGFloat(goal.getTags().count) / 2) * 100 * multiplier 
     }
 
     var blurRadius: CGFloat {

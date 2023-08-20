@@ -12,8 +12,8 @@ class NotificationManager {
     
     static func scheduleDailyNotification() {
         let content = UNMutableNotificationContent()
-        content.title = "Daily Reminder"
-        content.body = "Don't forget to use the app today!"
+        content.title = "Teddy is a very good ted dog."
+        content.body = "Tiana is a very good red dog."
         content.sound = .default
         
         var dateComponents = DateComponents()
