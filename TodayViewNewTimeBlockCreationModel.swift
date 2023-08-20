@@ -21,19 +21,7 @@ class TodayViewNewTimeBlockCreationModel: CreateNewTimeBlockViewModel {
     }
 
     override func saveAction(context: NSManagedObjectContext) throws {
-        let check = isOverlappingWithAnExistingBlock()
-        guard !check.answer else {
-            if let message = check.message {
-                
-                showErrorAlert = true
-                error = .overlapping(message)
-                throw SavingError.overlapping(message)
-            } else {
-                showErrorAlert = true
-                throw SavingError.unknown
-                
-            }
-        }
+        try saveCheck()
 
         do {
             try TimeBlock(title: title,

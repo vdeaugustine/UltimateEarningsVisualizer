@@ -32,14 +32,7 @@ class CreateNewTimeBlockForShiftViewModel: CreateNewTimeBlockViewModel {
     }
 
     override func saveAction(context: NSManagedObjectContext) throws {
-        let check = isOverlappingWithAnExistingBlock()
-        guard !check.answer else {
-            if let message = check.message {
-                throw SavingError.overlapping(message)
-            } else {
-                throw SavingError.unknown
-            }
-        }
+        try saveCheck()
         do {
             try TimeBlock(title: title,
                           start: start,
@@ -92,26 +85,11 @@ class CreateNewTimeBlockViewModel: ObservableObject {
 
             return firstEnd > secondEnd
         }
-//        if !title.isEmpty {
-//            return blocks
-//                .filter { thisBlock in
-//                    let thisTitle = thisBlock.title ?? ""
-//                    return thisTitle.contains(title)
-//                }
-//                .sorted { $0.dateCreated ?? .distantPast > $1.dateCreated ?? .distantPast }
-//        }
-//        return blocks
     }
-
-//    var titles: [String] {
-//        var retArr: [String] = []
-//        for block in pastBlocks {
-//            guard let title = block.title else { continue }
-//            if retArr.contains(title) { continue }
-//            retArr.append(title)
-//        }
-//        return retArr
-//    }
+    
+    func saveCheck() throws {
+        
+    }
 
     func saveAction(context: NSManagedObjectContext) throws {}
 

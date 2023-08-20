@@ -169,6 +169,7 @@ struct TopTimeBlocks_HomeView: View {
                         .format(size: 14, weight: .medium)
                 }
             }
+            .padding(.horizontal)
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
@@ -186,6 +187,7 @@ struct TopTimeBlocks_HomeView: View {
                 .padding()
             }
         }
-        .padding(.horizontal)
+        
+        .background { Color.clear }
     }
 }

@@ -13,6 +13,7 @@ import SwiftUI
 struct CreateNewTimeBlockView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @StateObject private var viewModel: CreateNewTimeBlockViewModel
+    @FocusState private var titleFocused: Bool
 
     init(_ starter: TimeBlockStarter_Shift) {
         _viewModel = StateObject(
@@ -34,6 +35,7 @@ struct CreateNewTimeBlockView: View {
         Form {
             Section {
                 TextField("Title", text: $viewModel.title)
+                    .focused($titleFocused)
                 DatePicker("Start Time", selection: $viewModel.start,
                            in: viewModel.shift.getStart() ... viewModel.shift.getEnd(),
                            displayedComponents: .hourAndMinute)
@@ -98,20 +100,25 @@ struct CreateNewTimeBlockView: View {
                 ForEach(viewModel.pastBlocks, id: \.self) { block in
                     if let recent = block.actualBlocks(viewModel.user).first,
                        let recentEnd = recent.endTime {
-                        HStack {
-                            Components.coloredBar(block.color)
-                            VStack(alignment: .leading) {
-                                Text(block.title)
-                                    .font(.subheadline)
+                        Button {
+                            
+                        } label: {
+                            HStack {
+                                Components.coloredBar(block.color)
+                                VStack(alignment: .leading) {
+                                    Text(block.title)
+                                        .font(.subheadline)
 
-                                Text(recentEnd.getFormattedDate(format: .abbreviatedMonth))
+                                    Text(recentEnd.getFormattedDate(format: .abbreviatedMonth))
+                                        .font(.caption)
+                                }
+                                Spacer()
+
+                                Text(recent.timeRangeString())
                                     .font(.caption)
                             }
-                            Spacer()
-
-                            Text(recent.timeRangeString())
-                                .font(.caption)
                         }
+                        .buttonStyle(.plain)
                     }
                 }
             } header: {
@@ -125,10 +132,18 @@ struct CreateNewTimeBlockView: View {
         .alert(isPresented: $viewModel.showErrorAlert, error: viewModel.error) {}
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                if viewModel.title.isEmpty == false {
+                if viewModel.title.isEmpty == false,
+                   viewModel.start != viewModel.end {
                     Button("Save") {
                         try? viewModel.saveAction(context: viewContext)
                     }
+                }
+            }
+
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("Done") {
+                    titleFocused = false
                 }
             }
         }
