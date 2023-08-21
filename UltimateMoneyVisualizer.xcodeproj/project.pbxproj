@@ -398,7 +398,7 @@
 		9C860F822A67836300D834C4 /* TodayViewHeaderContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewHeaderContent.swift; sourceTree = "<group>"; };
 		9C89374F2A6A6E6B009339B2 /* SelectHoursSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectHoursSheet.swift; sourceTree = SOURCE_ROOT; };
 		9C8C93542A8A2C7C000EE612 /* CreateExpenseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateExpenseViewModel.swift; sourceTree = SOURCE_ROOT; };
-		9C8C93562A8A2D90000EE612 /* ExpenseDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseDetailViewModel.swift; sourceTree = SOURCE_ROOT; };
+		9C8C93562A8A2D90000EE612 /* ExpenseDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ExpenseDetailViewModel.swift; path = "UltimateMoneyVisualizer/Views/Viewing Items/Expenses/Expense Detail/ExpenseDetailViewModel.swift"; sourceTree = SOURCE_ROOT; };
 		9C8C935A2A8AB816000EE612 /* PayoffItemDetailViewStyledButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayoffItemDetailViewStyledButton.swift; sourceTree = "<group>"; };
 		9C8C935C2A8ABA0B000EE612 /* WageBreakdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WageBreakdown.swift; sourceTree = "<group>"; };
 		9C8C935E2A8AC032000EE612 /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
@@ -607,14 +607,6 @@
 			path = "Pay Period";
 			sourceTree = "<group>";
 		};
-		9C0CFCDC2A5BB159005C7C81 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				9C0CFCD82A5A70CC005C7C81 /* ExpenseGridBlock.swift */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
 		9C460EE72A049DC30007EBA9 /* New Money Items */ = {
 			isa = PBXGroup;
 			children = (
@@ -672,6 +664,9 @@
 		9C65A7642A00DA7400A5BCF1 /* Payoff Queue */ = {
 			isa = PBXGroup;
 			children = (
+				9C8C935A2A8AB816000EE612 /* PayoffItemDetailViewStyledButton.swift */,
+				9C58DC9A2A8CB5E600499C9E /* NewPayoffList.swift */,
+				9C58DC982A8CAE8B00499C9E /* PayoffItemRectGeneral.swift */,
 				9C514DB42A00A480003DC43C /* PayoffQueueView.swift */,
 			);
 			path = "Payoff Queue";
@@ -785,16 +780,7 @@
 		9C7F964E29F8F03C00F5035C = {
 			isa = PBXGroup;
 			children = (
-				9CA17D6F2A91D86D00332C62 /* GoalContributionsView.swift */,
-				9CA17D6D2A91A52000332C62 /* NewTagDesign.swift */,
-				9C58DCA62A8F379B00499C9E /* TodayViewTimeBlocksExpanded.swift */,
-				9C58DCA42A8F264100499C9E /* EditShiftView.swift */,
 				9C58DC9C2A8CD81000499C9E /* tryinganimations.swift */,
-				9C58DC982A8CAE8B00499C9E /* PayoffItemRectGeneral.swift */,
-				9C58DC9A2A8CB5E600499C9E /* NewPayoffList.swift */,
-				9C8C93882A8B5071000EE612 /* ContributionsForExpenseView.swift */,
-				9C8C935C2A8ABA0B000EE612 /* WageBreakdown.swift */,
-				9C8C935A2A8AB816000EE612 /* PayoffItemDetailViewStyledButton.swift */,
 				9C7F965929F8F03C00F5035C /* UltimateMoneyVisualizer */,
 				9C7F965829F8F03C00F5035C /* Products */,
 				9C7F967029F8F03E00F5035C /* UltimateMoneyVisualizerTests */,
@@ -815,13 +801,13 @@
 		9C7F965929F8F03C00F5035C /* UltimateMoneyVisualizer */ = {
 			isa = PBXGroup;
 			children = (
-				9CA17D712A91F64D00332C62 /* SearchBarX.swift */,
-				9C7F96A329F8FEB000F5035C /* --TopLevel */,
-				9CB960612A5FC8FC001F153A /* ---Concatenate */,
 				9C4F0A282A14534100C78349 /* UltimateMoneyVisualizer.entitlements */,
 				9C7F966829F8F03E00F5035C /* Info.plist */,
-				9CDD4E2A2A67C10D00AB8B4F /* Fonts */,
+				9CA17D712A91F64D00332C62 /* SearchBarX.swift */,
 				9C7F965E29F8F03E00F5035C /* Assets.xcassets */,
+				9CB960612A5FC8FC001F153A /* ---Concatenate */,
+				9C7F96A329F8FEB000F5035C /* --TopLevel */,
+				9CDD4E2A2A67C10D00AB8B4F /* Fonts */,
 				9C7F966029F8F03E00F5035C /* Preview Content */,
 				9CEEE32C29F904A0001FA4FB /* Views */,
 			);
@@ -950,6 +936,7 @@
 		9C860F7E2A667A6800D834C4 /* New Today View */ = {
 			isa = PBXGroup;
 			children = (
+				9C58DCA62A8F379B00499C9E /* TodayViewTimeBlocksExpanded.swift */,
 				9C2DF89A2A6BBE62001B8ED5 /* TodayViewNewTimeBlockCreationModel.swift */,
 				9CA37AFE2A6BA623004F60AC /* TodayViewItemizedPart.swift */,
 				9C2DF8982A6BB06D001B8ED5 /* TodayViewItemizedBlocks.swift */,
@@ -1071,6 +1058,7 @@
 		9CDBE0A92A2160C700741EEE /* Tag */ = {
 			isa = PBXGroup;
 			children = (
+				9CA17D6D2A91A52000332C62 /* NewTagDesign.swift */,
 				9CC65D932A20867800D81712 /* TagDetailView.swift */,
 			);
 			path = Tag;
@@ -1244,6 +1232,7 @@
 		9CEEE32C29F904A0001FA4FB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9CF324DE2A933288003736F5 /* Editing Items */,
 				9CEEE32D29F904A3001FA4FB /* Adding Items */,
 				9C7C985629FB72320077EA25 /* Components */,
 				9C05059F2A11E7B500FC6511 /* Deprecated */,
@@ -1303,6 +1292,7 @@
 				9C5F0B912A3500C7006AAB46 /* Time Blocks */,
 				9C65A7682A00DAC700A5BCF1 /* Today */,
 				9CEEE35829F9EBCC001FA4FB /* Wage */,
+				9CF324DF2A9332A4003736F5 /* Wage Breakdown */,
 			);
 			path = "Viewing Items";
 			sourceTree = "<group>";
@@ -1310,11 +1300,9 @@
 		9CEEE33729F90890001FA4FB /* Expenses */ = {
 			isa = PBXGroup;
 			children = (
-				9C8C93562A8A2D90000EE612 /* ExpenseDetailViewModel.swift */,
-				9C0CFCDC2A5BB159005C7C81 /* Components */,
-				9C0CFCDA2A5A7B08005C7C81 /* ExpenseGrid.swift */,
-				9CEEE33029F904CC001FA4FB /* ExpenseListView.swift */,
-				9CEEE33329F90651001FA4FB /* ExpenseDetailView.swift */,
+				9CF324DA2A930A5A003736F5 /* Expense List */,
+				9CF324D92A930A4C003736F5 /* Deprecated */,
+				9CF324D82A930A2C003736F5 /* Expense Detail */,
 			);
 			path = Expenses;
 			sourceTree = "<group>";
@@ -1322,8 +1310,8 @@
 		9CEEE33829F90897001FA4FB /* Goals */ = {
 			isa = PBXGroup;
 			children = (
-				9CEEE33929F908BE001FA4FB /* GoalListView.swift */,
-				9CEEE33B29F908E8001FA4FB /* GoalDetailView.swift */,
+				9CF324DD2A930B0B003736F5 /* Goal List */,
+				9CF324DB2A930AFD003736F5 /* Goal Detail */,
 			);
 			path = Goals;
 			sourceTree = "<group>";
@@ -1408,6 +1396,74 @@
 				9C7C983929F9EC410077EA25 /* EnterWageView.swift */,
 			);
 			path = Wage;
+			sourceTree = "<group>";
+		};
+		9CF324D82A930A2C003736F5 /* Expense Detail */ = {
+			isa = PBXGroup;
+			children = (
+				9C8C93562A8A2D90000EE612 /* ExpenseDetailViewModel.swift */,
+				9C8C93882A8B5071000EE612 /* ContributionsForExpenseView.swift */,
+				9CEEE33329F90651001FA4FB /* ExpenseDetailView.swift */,
+			);
+			path = "Expense Detail";
+			sourceTree = "<group>";
+		};
+		9CF324D92A930A4C003736F5 /* Deprecated */ = {
+			isa = PBXGroup;
+			children = (
+				9C0CFCDA2A5A7B08005C7C81 /* ExpenseGrid.swift */,
+				9C0CFCD82A5A70CC005C7C81 /* ExpenseGridBlock.swift */,
+			);
+			path = Deprecated;
+			sourceTree = "<group>";
+		};
+		9CF324DA2A930A5A003736F5 /* Expense List */ = {
+			isa = PBXGroup;
+			children = (
+				9CEEE33029F904CC001FA4FB /* ExpenseListView.swift */,
+			);
+			path = "Expense List";
+			sourceTree = "<group>";
+		};
+		9CF324DB2A930AFD003736F5 /* Goal Detail */ = {
+			isa = PBXGroup;
+			children = (
+				9CEEE33B29F908E8001FA4FB /* GoalDetailView.swift */,
+				9CF324DC2A930B02003736F5 /* Goal Contributions */,
+			);
+			path = "Goal Detail";
+			sourceTree = "<group>";
+		};
+		9CF324DC2A930B02003736F5 /* Goal Contributions */ = {
+			isa = PBXGroup;
+			children = (
+				9CA17D6F2A91D86D00332C62 /* GoalContributionsView.swift */,
+			);
+			path = "Goal Contributions";
+			sourceTree = "<group>";
+		};
+		9CF324DD2A930B0B003736F5 /* Goal List */ = {
+			isa = PBXGroup;
+			children = (
+				9CEEE33929F908BE001FA4FB /* GoalListView.swift */,
+			);
+			path = "Goal List";
+			sourceTree = "<group>";
+		};
+		9CF324DE2A933288003736F5 /* Editing Items */ = {
+			isa = PBXGroup;
+			children = (
+				9C58DCA42A8F264100499C9E /* EditShiftView.swift */,
+			);
+			path = "Editing Items";
+			sourceTree = "<group>";
+		};
+		9CF324DF2A9332A4003736F5 /* Wage Breakdown */ = {
+			isa = PBXGroup;
+			children = (
+				9C8C935C2A8ABA0B000EE612 /* WageBreakdown.swift */,
+			);
+			path = "Wage Breakdown";
 			sourceTree = "<group>";
 		};
 		9CF9CE532A7A120800164D75 /* Objects */ = {

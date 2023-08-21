@@ -43,63 +43,7 @@ struct ShiftListView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            VStack(alignment: .leading, spacing: 0) {
-                Text("Upcoming")
-                    .font(.headline)
-                    .padding([.top, .leading])
-                    .padding(.leading, 21)
-
-                ScrollView(.horizontal, showsIndicators: false) {
-                    LazyHStack {
-                        Button {
-                            navManager.appendCorrectPath(newValue: .createShift)
-                        } label: {
-                            Label("Add shifts", systemImage: "plus")
-                                .padding()
-                                .rectContainer(shadowRadius: 0, cornerRadius: 7)
-                        }
-
-                        .padding(.vertical)
-                        .padding(.leading, 6)
-
-                        ForEach(upcomingShifts) { shift in
-                            if editMode.isEditing {
-                                Button {
-                                    if isSelected(shift) {
-                                        upcomingToDelete.removeAll(where: { $0 == shift })
-                                    } else {
-                                        upcomingToDelete.append(shift)
-                                    }
-                                } label: {
-                                    ShiftCircle(dateComponent: Calendar.current.dateComponents([.month,
-                                                                                                .day],
-                                                                                               from: shift.start),
-                                                isEditing: editMode.isEditing,
-                                                isSelected: isSelected(shift))
-                                }
-                                .buttonStyle(.plain)
-
-                            } else {
-                                
-                                
-                                
-                                Button {
-                                    navManager.appendCorrectPath(newValue: .shift(shift))
-                                } label: {
-                                    ShiftCircle(dateComponent: Calendar.current.dateComponents([.month, .day], from: shift.start),
-                                                isEditing: editMode.isEditing,
-                                                isSelected: isSelected(shift))
-                                }
-                                .buttonStyle(.plain)
-                            }
-                        }
-                    }
-                    .padding(.horizontal)
-                }
-                .frame(height: 100)
-            }
-            .background(Color.listBackgroundColor)
-
+//            upcomingPart
             listPart
         }
         .onChange(of: wage, perform: { _ in
@@ -158,6 +102,8 @@ struct ShiftListView: View {
         .environment(\.editMode, $editMode)
     }
 
+    // swiftformat:sort:begin
+
     private func deleteShifts(offsets: IndexSet) {
         withAnimation {
             offsets.map { shifts[$0] }.forEach(viewContext.delete)
@@ -169,11 +115,14 @@ struct ShiftListView: View {
             }
         }
     }
-    
-    
-    @ViewBuilder var listPart: some View {
+
+    var listPart: some View {
         VStack(alignment: .leading, spacing: 0) {
             List {
+                upcomingScroll
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+
                 ForEach(user.getPayPeriods()) { period in
                     Section {
                         ForEach(period.getShifts()) { shift in
@@ -201,6 +150,71 @@ struct ShiftListView: View {
             .listStyle(.insetGrouped)
         }
     }
+
+    var upcomingHeader: some View {
+        Text("Upcoming")
+            .font(.headline)
+            .padding([.top, .leading])
+            .padding(.leading, 21)
+    }
+
+    var upcomingPart: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            upcomingHeader
+            upcomingScroll
+        }
+        .background(Color.listBackgroundColor)
+    }
+
+    @ViewBuilder var upcomingScroll: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            LazyHStack {
+                Button {
+                    navManager.appendCorrectPath(newValue: .createShift)
+                } label: {
+                    Label("Add shifts", systemImage: "plus")
+                        .padding()
+                        .rectContainer(shadowRadius: 0, cornerRadius: 7)
+                }
+
+                .padding(.vertical)
+//                .padding(.leading, 6)
+
+                ForEach(upcomingShifts) { shift in
+                    if editMode.isEditing {
+                        Button {
+                            if isSelected(shift) {
+                                upcomingToDelete.removeAll(where: { $0 == shift })
+                            } else {
+                                upcomingToDelete.append(shift)
+                            }
+                        } label: {
+                            ShiftCircle(dateComponent: Calendar.current.dateComponents([.month,
+                                                                                        .day],
+                                                                                       from: shift.start),
+                                        isEditing: editMode.isEditing,
+                                        isSelected: isSelected(shift))
+                        }
+                        .buttonStyle(.plain)
+
+                    } else {
+                        Button {
+                            navManager.appendCorrectPath(newValue: .shift(shift))
+                        } label: {
+                            ShiftCircle(dateComponent: Calendar.current.dateComponents([.month, .day], from: shift.start),
+                                        isEditing: editMode.isEditing,
+                                        isSelected: isSelected(shift))
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+            }
+//            .padding(.horizontal)
+        }
+        .frame(height: 100)
+    }
+
+    // swiftformat:sort:end
 }
 
 // MARK: - ShiftRowView
