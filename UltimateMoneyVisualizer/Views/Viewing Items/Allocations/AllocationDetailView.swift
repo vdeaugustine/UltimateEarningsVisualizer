@@ -111,27 +111,27 @@ struct AllocationDetailView: View {
             }
 
             Section(spentOnHeaderStr) {
+                
+                
+                
                 if let goal = allocation.goal {
-                    NavigationLink {
-                        GoalDetailView(goal: goal)
+                    Button {
+                        NavManager.shared.appendCorrectPath(newValue: .goal(goal))
                     } label: {
-                        GoalRow(goal: goal)
+                        PayoffItemRectGeneral(item: goal)
                     }
+                    .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    .listRowBackground(Color.clear)
                 }
                 if let expense = allocation.expense {
-                    NavigationLink {
-                        ExpenseDetailView(expense: expense)
+                    Button {
+                        NavManager.shared.appendCorrectPath(newValue: .expense(expense))
 
                     } label: {
-                        VStack {
-                            Text(expense.titleStr)
-                                .spacedOut {
-                                    Text(expense.amount.money())
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(user.getSettings().getDefaultGradient())
-                                }
-                        }
+                        PayoffItemRectGeneral(item: expense)
                     }
+                    .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    .listRowBackground(Color.clear)
                 }
             }
 

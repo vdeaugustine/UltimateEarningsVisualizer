@@ -105,6 +105,37 @@ class NavManager: ObservableObject {
 
     // MARK: - Enums
 
+    
+
+    enum PossiblePaths: Hashable {
+        case home
+        case settings
+        case today
+        case none
+    }
+
+    enum Tabs: String, Hashable, CustomStringConvertible, Equatable {
+        var description: String { rawValue.capitalized }
+
+        case addShifts
+        case allItems
+        case expenses
+        case home
+        case newHome // testing
+        case settings
+        case shifts
+        case today
+    }
+
+//    enum TodayViewDestinations: Hashable {
+//        case confirmShift
+//        case expenseDetail(Expense)
+//        case goalDetail(Goal)
+//        case newTimeBlock(TodayShift)
+//        case payoffQueue
+//        case timeBlockDetail(TimeBlock)
+//    }
+    
     enum AllViews: Hashable {
         // swiftformat:sort:begin
         case allTimeBlocks
@@ -138,37 +169,11 @@ class NavManager: ObservableObject {
         case todayTimeBlocksExpanded(TodayShift)
         case todayViewPayoffQueue
         case wage(Wage)
+        case setHoursForRegularSchedule(RegularDaysContainer)
+        case multipleNewShiftsView
+        case createTag(AnyPayoffItem)
         // swiftformat:sort:end
     }
-
-    enum PossiblePaths: Hashable {
-        case home
-        case settings
-        case today
-        case none
-    }
-
-    enum Tabs: String, Hashable, CustomStringConvertible, Equatable {
-        var description: String { rawValue.capitalized }
-
-        case addShifts
-        case allItems
-        case expenses
-        case home
-        case newHome // testing
-        case settings
-        case shifts
-        case today
-    }
-
-//    enum TodayViewDestinations: Hashable {
-//        case confirmShift
-//        case expenseDetail(Expense)
-//        case goalDetail(Goal)
-//        case newTimeBlock(TodayShift)
-//        case payoffQueue
-//        case timeBlockDetail(TimeBlock)
-//    }
 
     @ViewBuilder func getDestinationViewForStack(destination: NavManager.AllViews) -> some View {
         switch destination {
@@ -228,6 +233,12 @@ class NavManager: ObservableObject {
                 PayoffQueueView()
             case let .todayTimeBlocksExpanded(shift):
                 TodayViewTimeBlocksExpanded(shift: shift)
+            case let .setHoursForRegularSchedule(container):
+                SetHoursForRegularDaysView(daysContainer: container)
+            case .multipleNewShiftsView:
+                MultipleNewShiftsView()
+            case let .createTag(payoff):
+                CreateTagView(payoff: payoff)
             default:
                 Text("Error navigating to page.")
         }

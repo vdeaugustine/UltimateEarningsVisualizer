@@ -73,12 +73,102 @@ public protocol PayoffItem {
     func getMostRecentTemporaryAllocation() -> TemporaryAllocation?
     func getSavedItems() -> [Saved]
     func getShifts() -> [Shift]
+    func getTags() -> [Tag]
     func handleWhenPaidOff() throws
     func handleWhenTempPaidOff() throws
     func loadImageIfPresent() -> UIImage?
     func setOptionalQSlotNumber(newVal: Int16?)
     func setOptionalTempQNum(newVal: Int16?)
     // swiftformat:sort:end
+}
+
+// MARK: - AnyPayoffItem
+
+public struct AnyPayoffItem: PayoffItem, Hashable {
+    // MARK: - Properties
+
+    private var payoffItem: PayoffItem
+
+    // MARK: - Object Methods
+
+    public func getGoal() -> Goal? {
+        payoffItem as? Goal
+    }
+
+    public func getExpense() -> Expense? {
+        payoffItem as? Expense
+    }
+
+    // MARK: - Protocol Properties
+
+    public var amount: Double { payoffItem.amount }
+    public var amountMoneyStr: String { payoffItem.amountMoneyStr }
+    public var amountPaidBySaved: Double { payoffItem.amountPaidBySaved }
+    public var amountPaidByShifts: Double { payoffItem.amountPaidByShifts }
+    public var amountPaidOff: Double { payoffItem.amountPaidOff }
+    public var amountRemainingToPayOff: Double { payoffItem.amountRemainingToPayOff }
+    public var dateCreated: Date? {
+        get { payoffItem.dateCreated }
+        set { payoffItem.dateCreated = newValue }
+    }
+
+    public var dueDate: Date? {
+        get { payoffItem.dueDate }
+        set { payoffItem.dueDate = newValue }
+    }
+
+    public var isPaidOff: Bool { payoffItem.isPaidOff }
+    public var optionalQSlotNumber: Int16? {
+        get { payoffItem.optionalQSlotNumber }
+        set { payoffItem.optionalQSlotNumber = newValue }
+    }
+
+    public var optionalTempQNum: Int16? {
+        get { payoffItem.optionalTempQNum }
+        set { payoffItem.optionalTempQNum = newValue }
+    }
+
+    public var percentPaidOff: Double { payoffItem.percentPaidOff }
+    public var percentTemporarilyPaidOff: Double { payoffItem.percentTemporarilyPaidOff }
+    public var titleStr: String { payoffItem.titleStr }
+    public var type: PayoffType { payoffItem.type }
+
+    // MARK: - Protocol Methods
+
+    // swiftformat:sort:begin
+
+    public func getAllocations() -> [Allocation] { payoffItem.getAllocations() }
+    public func getArrayOfTemporaryAllocations() -> [TemporaryAllocation] { payoffItem.getArrayOfTemporaryAllocations() }
+    public func getID() -> UUID { payoffItem.getID() }
+    public func getMostRecentTemporaryAllocation() -> TemporaryAllocation? { payoffItem.getMostRecentTemporaryAllocation() }
+    public func getSavedItems() -> [Saved] { payoffItem.getSavedItems() }
+    public func getShifts() -> [Shift] { payoffItem.getShifts() }
+    public func getTags() -> [Tag] { payoffItem.getTags() }
+    public func handleWhenPaidOff() throws { try payoffItem.handleWhenPaidOff() }
+    public func handleWhenTempPaidOff() throws { try payoffItem.handleWhenTempPaidOff() }
+    public func loadImageIfPresent() -> UIImage? { payoffItem.loadImageIfPresent() }
+    public func setOptionalQSlotNumber(newVal: Int16?) { payoffItem.setOptionalQSlotNumber(newVal: newVal) }
+    public func setOptionalTempQNum(newVal: Int16?) { payoffItem.setOptionalTempQNum(newVal: newVal) }
+
+    // swiftformat:sort:end
+
+    // MARK: - Hashable
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(payoffItem.getID())
+    }
+
+    // MARK: - Initializer
+
+    public init(_ item: PayoffItem) {
+        self.payoffItem = item
+    }
+
+    // MARK: - Equatable
+
+    public static func == (lhs: AnyPayoffItem, rhs: AnyPayoffItem) -> Bool {
+        return lhs.payoffItem.getID() == rhs.payoffItem.getID()
+    }
 }
 
 // public struct AnyPayoffItem: PayoffItem, Identifiable {

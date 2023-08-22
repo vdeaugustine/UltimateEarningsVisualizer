@@ -8,6 +8,7 @@
 import AlertToast
 import SwiftUI
 import Vin
+
 // MARK: - CreateShiftView
 
 struct CreateShiftView: View {
@@ -23,17 +24,16 @@ struct CreateShiftView: View {
     var duration: TimeInterval {
         abs(endDate - startDate)
     }
-    
+
     var dayOfWeek: DayOfWeek {
         DayOfWeek(date: startDate)
     }
-    
+
     var body: some View {
         Form {
             Section(header: Text("Shift Information")) {
-                
                 DatePicker("Start Time", selection: $startDate)
-                DatePicker("End Time", selection: $endDate,  in: startDate ... .distantFuture)
+                DatePicker("End Time", selection: $endDate, in: startDate ... .distantFuture)
                 Text("Duration")
                     .spacedOut(text: duration.formatForTime())
                 Text("Day of Week")
@@ -41,16 +41,12 @@ struct CreateShiftView: View {
             }
 
             Section("Add Multiple Shifts") {
-                
-                NavigationLink("Add Multiple Shifts") {
-                    MultipleNewShiftsView()
+                Button("Add Multiple Shifts") {
+                    NavManager.shared.appendCorrectPath(newValue: .multipleNewShiftsView)
                 }
-                
             }
-            
-            
         }
-        
+
         .putInTemplate()
         .navigationTitle("New Shift")
         .bottomButton(label: "Save", action: {

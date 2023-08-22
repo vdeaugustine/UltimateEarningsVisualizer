@@ -260,3 +260,4 @@ struct ShiftListView_Previews: PreviewProvider {
             .putInNavView(.inline)
     }
 }
+

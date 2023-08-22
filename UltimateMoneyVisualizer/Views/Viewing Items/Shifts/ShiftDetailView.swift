@@ -81,7 +81,9 @@ struct ShiftDetailView: View {
                     .init(color: .green, name: "Available", amount: shift.totalAvailable)
                 
                 ])
+                .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                 .frame(height: 200)
+                .frame(maxWidth: .infinity, alignment: .center)
                 
             }
             .listRowBackground(Color.clear)
@@ -105,7 +107,8 @@ struct ShiftDetailView: View {
                     } label: {
                         if let goal = alloc.goal {
                             HStack {
-                                SystemImageWithFilledBackground(systemName: "target", backgroundColor: settings.themeColor)
+//                                SystemImageWithFilledBackground(systemName: IconManager.goalsString, backgroundColor: settings.themeColor)
+                                Image(systemName: IconManager.goalsString)
 
                                 Text(goal.titleStr)
                                     .spacedOut(text: alloc.amount.money())
@@ -114,8 +117,9 @@ struct ShiftDetailView: View {
 
                         if let expense = alloc.expense {
                             HStack {
-                                SystemImageWithFilledBackground(systemName: "creditcard.fill",
-                                                                backgroundColor: settings.themeColor)
+//                                SystemImageWithFilledBackground(systemName: IconManager.expenseString,
+//                                                                backgroundColor: settings.themeColor)
+                                Image(systemName: IconManager.expenseString)
 
                                 Text(expense.titleStr)
                                     .spacedOut(text: alloc.amount.money())

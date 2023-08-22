@@ -22,6 +22,7 @@ public extension Tag {
         self.lastUsed = now
         self.dateCreated = now
         self.user = user
+        self.symbolString = symbol
         user.addToTags(self)
 
         let colorToUse = color ?? user.getSettings().themeColor
@@ -43,10 +44,13 @@ public extension Tag {
         self.lastUsed = now
         self.dateCreated = now
         self.user = user
+        self.symbolString = symbol
         user.addToTags(self)
 
         let colorToUse = color ?? user.getSettings().themeColor
         self.colorHexStr = colorToUse.getHex()
+        
+        print("Created and saved tag for goal")
 
         try context.save()
     }
@@ -63,7 +67,7 @@ public extension Tag {
         let now = Date.now
         self.lastUsed = now
         self.dateCreated = now
-
+        self.symbolString = symbol
         let colorToUse = color ?? user.getSettings().themeColor
         self.colorHexStr = colorToUse.getHex()
         try context.save()
@@ -81,7 +85,7 @@ public extension Tag {
         let now = Date.now
         self.lastUsed = now
         self.dateCreated = now
-
+        self.symbolString = symbol
         let colorToUse = color ?? user.getSettings().themeColor
         self.colorHexStr = colorToUse.getHex()
 
@@ -175,5 +179,26 @@ public extension Tag {
             returnedArray.append(selected)
         }
         return returnedArray
+    }
+}
+
+extension Tag {
+    func getGoals() -> [Goal] {
+        guard let goals else { return [] }
+        return Array(goals) as? [Goal] ?? []
+    }
+    
+    func getExpenses() -> [Expense] {
+        guard let expenses else { return [] }
+        return Array(expenses) as? [Expense] ?? []
+    }
+    
+    func getSavedItems() -> [Saved] {
+        guard let savedItems else { return [] }
+        return Array(savedItems) as? [Saved] ?? []
+    }
+    
+    func getTotalInstances() -> Int {
+        getSavedItems().count + getGoals().count + getExpenses().count
     }
 }

@@ -16,24 +16,41 @@ struct GoalDetailTagsSection: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                VStack(alignment: .leading, spacing: 40) {
+//                VStack(alignment: .leading, spacing: 40) {
                     header
-                    buttonsPart
-                }
+//                }
                 .padding([.vertical, .leading], 17)
                 Spacer()
                 largePriceTag
-//                        .frame(maxHeight: .infinity)
-                    .padding(.trailing, 10)
+                    .padding([.trailing, .top], 10)
             }
-
-            if viewModel.showTags {
-                Spacer()
-                tagsPart
-            }
+            .padding(.top)
+            
+            Divider()
+                .padding(.top)
+            
+            LazyVStack(content: {
+                ForEach(viewModel.goal.getTags()) { tag in
+                    TagRow(tag: tag)
+                        
+                        .padding(.vertical, 5)
+                    Divider()
+                }
+                Button {
+                    NavManager.shared.appendCorrectPath(newValue: .createTag(AnyPayoffItem(viewModel.goal)))
+                } label: {
+                    Label("New", systemImage: "plus")
+                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: 45, alignment: .leading)
+                }
+                
+                
+                .padding(.vertical)
+                .padding(.leading, 4)
+                .padding(.bottom, 4)
+            })
+            .padding(.horizontal)
         }
 
-        .frame(height: viewModel.tagsRectHeight)
         .frame(maxWidth: .infinity)
         .background {
             RoundedRectangle(cornerRadius: 20)
@@ -43,6 +60,9 @@ struct GoalDetailTagsSection: View {
                     backDrop
                 }
         }
+        .sheet(isPresented: $viewModel.showTags, content: {
+            TagListForItemView(item: viewModel.goal)
+        })
     }
 
     var backDrop: some View {
@@ -123,7 +143,7 @@ struct GoalDetailTagsSection: View {
         PayoffItemDetailViewStyledButton(text: "New",
                                          width: 100,
                                          animationValue: viewModel.showTags) {
-            print("NEW TAPPED")
+            NavManager.shared.appendCorrectPath(newValue: .createTag(.init(viewModel.goal)))
         }
     }
 

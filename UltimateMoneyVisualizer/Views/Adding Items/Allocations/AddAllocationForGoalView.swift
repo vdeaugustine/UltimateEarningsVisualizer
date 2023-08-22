@@ -20,67 +20,71 @@ struct AddAllocationForGoalView: View {
     @State private var showShiftSheet = false
 
     var body: some View {
-        Form {
-            if selectedSource == "shifts" {
-                ForEach(user.getShifts().filter { $0.totalAvailable >= 0.01 }) { shift in
-
-                    NavigationLink {
-                        ShiftAllocSheet(shift: shift, goal: goal)
-                    } label: {
-                        HStack {
-                            DateCircle(date: shift.start, height: 35)
-
-                            VStack(alignment: .leading) {
-                                Text(shift.duration.formatForTime() + " shift")
-                                    .foregroundColor(.primary)
-                            }
-                            Spacer()
-
-                            Text(shift.totalAvailable.money())
-                                .fontWeight(.semibold)
-
-                                .foregroundStyle(user.getSettings().getDefaultGradient())
-                        }
-                    }
-                    .allPartsTappable()
-                }
-            }
-
-            if selectedSource == "saved" {
-                ForEach(user.getSaved().filter { $0.totalAvailable >= 0.01 }) { saved in
-
-                    NavigationLink {
-                        SavedAllocSheet(saved: saved, goal: goal)
-                    } label: {
-                        HStack {
-                            DateCircle(date: saved.getDate(), height: 35)
-
-                            VStack(alignment: .leading) {
-                                Text(saved.getTitle())
-                                    .foregroundColor(.primary)
-                            }
-                            Spacer()
-
-                            Text(saved.totalAvailable.money())
-                                .fontWeight(.semibold)
-
-                                .foregroundStyle(user.getSettings().getDefaultGradient())
-                        }
-                    }
-                    .allPartsTappable()
-                }
-            }
-        }
-        .putInTemplate()
-        .navigationTitle("Allocate Money")
-        .safeAreaInset(edge: .top) {
+        VStack(spacing: 0) {
             Picker("Source", selection: $selectedSource) {
                 Text("Shifts").tag("shifts")
                 Text("Saved Items").tag("saved")
 
-            }.pickerStyle(.segmented).padding([.horizontal, .top])
-                .background(Color.listBackgroundColor)
+            }
+            .pickerStyle(.segmented).padding([.horizontal, .top])
+            .background(Color.clear)
+            
+            Form {
+                if selectedSource == "shifts" {
+                    ForEach(user.getShifts().filter { $0.totalAvailable >= 0.01 }) { shift in
+
+                        NavigationLink {
+                            ShiftAllocSheet(shift: shift, goal: goal)
+                        } label: {
+                            HStack {
+                                DateCircle(date: shift.start, height: 35)
+
+                                VStack(alignment: .leading) {
+                                    Text(shift.duration.formatForTime() + " shift")
+                                        .foregroundColor(.primary)
+                                }
+                                Spacer()
+
+                                Text(shift.totalAvailable.money())
+                                    .fontWeight(.semibold)
+
+                                    .foregroundStyle(user.getSettings().getDefaultGradient())
+                            }
+                        }
+                        .allPartsTappable()
+                    }
+                }
+
+                if selectedSource == "saved" {
+                    ForEach(user.getSaved().filter { $0.totalAvailable >= 0.01 }) { saved in
+
+                        NavigationLink {
+                            SavedAllocSheet(saved: saved, goal: goal)
+                        } label: {
+                            HStack {
+                                DateCircle(date: saved.getDate(), height: 35)
+
+                                VStack(alignment: .leading) {
+                                    Text(saved.getTitle())
+                                        .foregroundColor(.primary)
+                                }
+                                Spacer()
+
+                                Text(saved.totalAvailable.money())
+                                    .fontWeight(.semibold)
+
+                                    .foregroundStyle(user.getSettings().getDefaultGradient())
+                            }
+                        }
+                        .allPartsTappable()
+                    }
+                }
+            }
         }
+        .background { Color.listBackgroundColor }
+        .putInTemplate()
+        .navigationTitle("Allocate Money")
+        
     }
 
     struct ShiftAllocSheet: View {

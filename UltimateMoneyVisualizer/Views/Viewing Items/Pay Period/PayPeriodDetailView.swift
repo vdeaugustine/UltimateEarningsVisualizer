@@ -32,10 +32,12 @@ struct PayPeriodDetailView: View {
                                                  .init(label: "Shifts",
                                                        value: payPeriod.getShifts().count.str,
                                                        view: nil)])
+                        .frame(maxWidth: .infinity, alignment: .center)
 
-                        .padding(.horizontal, -50)
-                        .padding(.vertical, -20)
-                        .centerInParentView()
+//                        .padding(.horizontal, -50)
+//                        .padding(.vertical, -20)
+//                        .centerInParentView()
+                        .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                         .listRowBackground(Color.clear)
                 } header: {
                     Text("Details").hidden()
@@ -49,9 +51,7 @@ struct PayPeriodDetailView: View {
                 Text(payPeriod.totalTimeWorked().formatForTime([.hour, .minute, .second]))
                     .fontWeight(.medium)
             }
-            
-            
-            
+
             HStack {
                 SystemImageWithFilledBackground(systemName: "dollarsign")
                 Text("Total Earned")
@@ -59,7 +59,7 @@ struct PayPeriodDetailView: View {
                 Text(payPeriod.totalEarned().money())
                     .fontWeight(.medium)
             }
-            
+
             HStack {
                 SystemImageWithFilledBackground(systemName: "dollarsign.arrow.circlepath")
                 Text("Taxes paid")
@@ -67,9 +67,6 @@ struct PayPeriodDetailView: View {
                 Text(payPeriod.taxesPaid().money())
                     .fontWeight(.medium)
             }
-
-
-            
 
             Section {
                 GPTPieChart(pieChartData: [.init(color: .defaultColorOptions[0],
@@ -82,6 +79,7 @@ struct PayPeriodDetailView: View {
                                                  name: "Net Money",
                                                  amount: payPeriod.totalEarnedAfterTaxes())])
                     .frame(height: 200)
+                    .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
             }
             .listRowBackground(Color.clear)
 
@@ -94,7 +92,7 @@ struct PayPeriodDetailView: View {
                     }
                 }
             }
-            
+
 //            Button("Delete", role: .destructive) {
 //                showDeleteConfirmation.toggle()
 //            }
@@ -139,6 +137,5 @@ struct PayPeriodDetailView_Previews: PreviewProvider {
                 .previewDevice("iPhone 14 Pro Max")
                 .putInNavView(.inline)
         }
-        
     }
 }

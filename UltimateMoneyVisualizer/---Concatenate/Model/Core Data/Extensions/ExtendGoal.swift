@@ -280,7 +280,8 @@ public extension Goal {
     // MARK: Methods
 
     func getTags() -> [Tag] {
-        if let tagsArray = tags?.allObjects as? [Tag] {
+        if let tagsSet = tags,
+           let tagsArray = Array(tagsSet) as? [Tag] {
             return tagsArray
         }
         return []

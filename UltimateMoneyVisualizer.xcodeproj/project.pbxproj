@@ -229,6 +229,8 @@
 		9CF194DB2A1C7980000F83A9 /* AddTagToGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF194DA2A1C7980000F83A9 /* AddTagToGoalView.swift */; };
 		9CF194DD2A1C7B21000F83A9 /* ExtendTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF194DC2A1C7B21000F83A9 /* ExtendTag.swift */; };
 		9CF194DF2A1E03E7000F83A9 /* PriceTagShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF194DE2A1E03E7000F83A9 /* PriceTagShape.swift */; };
+		9CF324E12A934670003736F5 /* TagRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF324E02A934670003736F5 /* TagRow.swift */; };
+		9CF324E32A9349B8003736F5 /* TagListForItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF324E22A9349B8003736F5 /* TagListForItemView.swift */; };
 		9CF411C72A85746E00A49F08 /* NewTimeBlocksForShiftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF411C62A85746E00A49F08 /* NewTimeBlocksForShiftView.swift */; };
 		9CF411C92A8575BF00A49F08 /* TodayViewItemizedBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF411C82A8575BF00A49F08 /* TodayViewItemizedBlock.swift */; };
 		9CF885A82A5D12C200F63766 /* GoalDetailProgressBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF885A72A5D12C200F63766 /* GoalDetailProgressBox.swift */; };
@@ -485,6 +487,8 @@
 		9CF194DA2A1C7980000F83A9 /* AddTagToGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagToGoalView.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		9CF194DC2A1C7B21000F83A9 /* ExtendTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendTag.swift; sourceTree = "<group>"; };
 		9CF194DE2A1E03E7000F83A9 /* PriceTagShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceTagShape.swift; sourceTree = "<group>"; };
+		9CF324E02A934670003736F5 /* TagRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagRow.swift; sourceTree = "<group>"; };
+		9CF324E22A9349B8003736F5 /* TagListForItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListForItemView.swift; sourceTree = "<group>"; };
 		9CF411C62A85746E00A49F08 /* NewTimeBlocksForShiftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTimeBlocksForShiftView.swift; sourceTree = "<group>"; };
 		9CF411C82A8575BF00A49F08 /* TodayViewItemizedBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewItemizedBlock.swift; sourceTree = "<group>"; };
 		9CF885A72A5D12C200F63766 /* GoalDetailProgressBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GoalDetailProgressBox.swift; path = "UltimateMoneyVisualizer/-InProgress/Goal Detail/GoalDetailProgressBox.swift"; sourceTree = SOURCE_ROOT; };
@@ -780,6 +784,8 @@
 		9C7F964E29F8F03C00F5035C = {
 			isa = PBXGroup;
 			children = (
+				9CF324E22A9349B8003736F5 /* TagListForItemView.swift */,
+				9CF324E02A934670003736F5 /* TagRow.swift */,
 				9C58DC9C2A8CD81000499C9E /* tryinganimations.swift */,
 				9C7F965929F8F03C00F5035C /* UltimateMoneyVisualizer */,
 				9C7F965829F8F03C00F5035C /* Products */,
@@ -1717,6 +1723,7 @@
 				9CEEE34F29F90E09001FA4FB /* SavedListView.swift in Sources */,
 				9CED53482A08ACC7002DC183 /* AllocSavedRow.swift in Sources */,
 				9CED534C2A09BAD5002DC183 /* PayoffTodaySquare.swift in Sources */,
+				9CF324E12A934670003736F5 /* TagRow.swift in Sources */,
 				9C69C5CC2A1832E5006F5C23 /* PayoffWithImageAndGradientView.swift in Sources */,
 				9C05059C2A10A5BF00FC6511 /* ExtendRegularDay.swift in Sources */,
 				9CDBE0EC2A26F6C600741EEE /* ExpenseWithImageAndGradientView.swift in Sources */,
@@ -1808,6 +1815,7 @@
 				9C9FFB252A57CD8700565B78 /* ExtendSection.swift in Sources */,
 				9C3F80C42A5949BE00FCF040 /* GPTPieChart.swift in Sources */,
 				9C860F832A67836300D834C4 /* TodayViewHeaderContent.swift in Sources */,
+				9CF324E32A9349B8003736F5 /* TagListForItemView.swift in Sources */,
 				9C58DC992A8CAE8B00499C9E /* PayoffItemRectGeneral.swift in Sources */,
 				9C0CCC042A77525300BA855D /* NewHomeView.swift in Sources */,
 				9C7C986529FCF3B60077EA25 /* PieChart.swift in Sources */,

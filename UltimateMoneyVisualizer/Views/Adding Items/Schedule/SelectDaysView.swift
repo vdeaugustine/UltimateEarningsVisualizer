@@ -10,7 +10,7 @@ import SwiftUI
 
 // MARK: - RegularDaysContainer
 
-public class RegularDaysContainer: ObservableObject {
+public class RegularDaysContainer: ObservableObject, Hashable {
     @Published var regularDays: [RegularDay] = []
 
     @Published var daysOfWeekSelected: [DayOfWeek] = User.main.regularSchedule?.getDays() ?? []
@@ -96,7 +96,26 @@ public class RegularDaysContainer: ObservableObject {
         try RegularSchedule(days: regularDays, user: user, context: context)
     }
 }
+extension RegularDaysContainer: Equatable {
+    public static func == (lhs: RegularDaysContainer, rhs: RegularDaysContainer) -> Bool {
+        lhs.regularDays == rhs.regularDays &&
+        lhs.daysOfWeekSelected == rhs.daysOfWeekSelected &&
+        lhs.startTimeDict == rhs.startTimeDict &&
+        lhs.endTimeDict == rhs.endTimeDict &&
+        lhs.lastStart == rhs.lastStart &&
+        lhs.lastEnd == rhs.lastEnd
+    }
 
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(regularDays)
+        hasher.combine(daysOfWeekSelected)
+        hasher.combine(startTimeDict)
+        hasher.combine(endTimeDict)
+        hasher.combine(lastStart)
+        hasher.combine(lastEnd)
+    }
+    
+}
 // MARK: - SelectDaysView
 
 struct SelectDaysView: View {
@@ -123,15 +142,16 @@ struct SelectDaysView: View {
                 }
             } header: {
                 Text("Days")
-                    .hidden() 
+                    .hidden()
             }
         }
         .putInTemplate()
         .navigationTitle("Create Schedule")
         .safeAreaInset(edge: .bottom) {
             if daysContainer.daysOfWeekSelected.isEmpty == false {
-                NavigationLink {
-                    SetHoursForRegularDaysView(daysContainer: daysContainer)
+                Button {
+                    NavManager.shared.appendCorrectPath(newValue: .setHoursForRegularSchedule(daysContainer))
+
                 } label: {
                     BottomButtonView(label: "Next")
                 }
