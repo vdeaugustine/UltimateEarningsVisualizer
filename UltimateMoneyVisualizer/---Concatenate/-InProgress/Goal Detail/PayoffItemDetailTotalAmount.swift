@@ -15,7 +15,7 @@ struct PayoffItemDetailTotalAmount: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Text(viewModel.payoffItem.amountMoneyStr)
+                Text(viewModel.amountPaidOff.money())
                     .font(.title)
                     .boldNumber()
 
@@ -33,7 +33,7 @@ struct PayoffItemDetailTotalAmount: View {
                     .minimumScaleFactor(0.4)
 
                 HStack {
-                    Text(viewModel.user.convertMoneyToTime(money: viewModel.payoffItem.amount).breakDownTime())
+                    Text(viewModel.user.convertMoneyToTime(money: viewModel.amountPaidOff).breakDownTime())
                     Spacer()
 //                    Text("work time")
                 }

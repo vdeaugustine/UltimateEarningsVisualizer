@@ -229,6 +229,7 @@
 		9CF194DD2A1C7B21000F83A9 /* ExtendTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF194DC2A1C7B21000F83A9 /* ExtendTag.swift */; };
 		9CF194DF2A1E03E7000F83A9 /* PriceTagShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF194DE2A1E03E7000F83A9 /* PriceTagShape.swift */; };
 		9CF1B3362A957EBC00CB600F /* SavedDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF1B3352A957EBC00CB600F /* SavedDetailViewModel.swift */; };
+		9CF1B3382A97335000CB600F /* SelectATagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF1B3372A97335000CB600F /* SelectATagView.swift */; };
 		9CF324E12A934670003736F5 /* TagRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF324E02A934670003736F5 /* TagRow.swift */; };
 		9CF324E32A9349B8003736F5 /* TagListForItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF324E22A9349B8003736F5 /* TagListForItemView.swift */; };
 		9CF411C72A85746E00A49F08 /* NewTimeBlocksForShiftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF411C62A85746E00A49F08 /* NewTimeBlocksForShiftView.swift */; };
@@ -487,6 +488,7 @@
 		9CF194DC2A1C7B21000F83A9 /* ExtendTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendTag.swift; sourceTree = "<group>"; };
 		9CF194DE2A1E03E7000F83A9 /* PriceTagShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceTagShape.swift; sourceTree = "<group>"; };
 		9CF1B3352A957EBC00CB600F /* SavedDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedDetailViewModel.swift; sourceTree = "<group>"; };
+		9CF1B3372A97335000CB600F /* SelectATagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectATagView.swift; sourceTree = "<group>"; };
 		9CF324E02A934670003736F5 /* TagRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagRow.swift; sourceTree = "<group>"; };
 		9CF324E22A9349B8003736F5 /* TagListForItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListForItemView.swift; sourceTree = "<group>"; };
 		9CF411C62A85746E00A49F08 /* NewTimeBlocksForShiftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTimeBlocksForShiftView.swift; sourceTree = "<group>"; };
@@ -784,6 +786,7 @@
 		9C7F964E29F8F03C00F5035C = {
 			isa = PBXGroup;
 			children = (
+				9CF1B3372A97335000CB600F /* SelectATagView.swift */,
 				9CF1B3352A957EBC00CB600F /* SavedDetailViewModel.swift */,
 				9CF324E22A9349B8003736F5 /* TagListForItemView.swift */,
 				9CF324E02A934670003736F5 /* TagRow.swift */,
@@ -1695,6 +1698,7 @@
 				9C3F80C22A593C6C00FCF040 /* PayPeriodDetailView.swift in Sources */,
 				9CF9CE5A2A7B072300164D75 /* TimeBlockStatsViewModel.swift in Sources */,
 				9C9735962A0D84D500F651A1 /* ExtendText.swift in Sources */,
+				9CF1B3382A97335000CB600F /* SelectATagView.swift in Sources */,
 				9CF411C92A8575BF00A49F08 /* TodayViewItemizedBlock.swift in Sources */,
 				9C9735982A0D9B9000F651A1 /* NetMoneyGraph.swift in Sources */,
 				9C8C93552A8A2C7C000EE612 /* CreateExpenseViewModel.swift in Sources */,

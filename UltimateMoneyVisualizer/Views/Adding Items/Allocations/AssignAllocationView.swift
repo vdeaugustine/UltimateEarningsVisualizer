@@ -26,7 +26,7 @@ struct AssignAllocationToPayoffView: View {
     @State private var sourceType: String = "shift"
     @State private var toastConfiguration: AlertToast = AlertToast(type: .regular)
     // swiftformat:sort:end
-    
+
     @ObservedObject var settings = User.main.getSettings()
     @ObservedObject var user = User.main
 
@@ -67,38 +67,31 @@ struct AssignAllocationToPayoffView: View {
                 }
             }
 
-            if let shift {
-                Section("Source") {
+            Section {
+                if let shift {
                     ShiftRowForAllocSheet(shift: shift)
-                }
-
-                Section("Amount") {
-                    Slider(value: $allocAmount, in: 0 ... sliderLimit, step: 0.01) {
-                        Text("Amount")
-                    } minimumValueLabel: {
-                        Text(0.money())
-                    } maximumValueLabel: {
-                        Text(sliderLimit.money())
-                    }
-                }
-            } else if let saved {
-                Section("Source") {
+                } else if let saved {
                     SavedItemForAllocSheet(saved: saved, isAvailable: true)
+                    Text("Amount chosen")
+                        .spacedOut(text: allocAmount.money())
                 }
+            } header: {
+                if shift != nil || saved != nil {
+                    Text("Source")
+                } else {
+                    Text("").hidden()
+                }
+            }
 
-                Section("Amount") {
-                    Slider(value: $allocAmount, in: 0 ... sliderLimit, step: 0.01) {
+            if sliderLimit > 0 {
+                Section("Choose Amount") {
+                    Slider(value: $allocAmount, in: 0 ... max(sliderLimit, 0), step: 0.01) {
                         Text("Amount")
                     } minimumValueLabel: {
                         Text(0.money())
                     } maximumValueLabel: {
                         Text(sliderLimit.money())
                     }
-                }
-
-                Section {
-                    Text("Allocate")
-                        .spacedOut(text: allocAmount.money())
                 }
             }
         }
@@ -177,19 +170,22 @@ struct ChooseShiftForAllocSheet: View {
     @State private var showSpentShifts = false
 
     var body: some View {
-        VStack(spacing: 0) {
-            Toggle("Show spent shifts", isOn: $showSpentShifts)
-                .padding()
-                .background {
-                    Color.listBackgroundColor
-                }
-                .fontWeight(.medium)
-
-            List {
-                if shiftsToShow.isEmpty {
+        List {
+            if shiftsToShow.isEmpty {
+                Section {
                     Text("No shifts with available money")
+                } header: {
+                    Text("Empty").hidden()
+                }
 
-                } else {
+            } else {
+                Section {
+                    Toggle("Show spent shifts", isOn: $showSpentShifts)
+                } header: {
+                    Text("Show Shifts").hidden()
+                }
+
+                Section {
                     ForEach(shiftsToShow) { thisShift in
 
                         ShiftRowForAllocSheet(shift: thisShift)
@@ -199,15 +195,18 @@ struct ChooseShiftForAllocSheet: View {
                                 dismiss()
                             }
                     }
+                } header: {
+                    Text("Shifts").hidden()
                 }
+            }
 
-                if showSpentShifts {
-                    ForEach(spentShifts) { thisShift in
-                        ShiftRowForAllocSheet(shift: thisShift)
-                    }
+            if showSpentShifts {
+                ForEach(spentShifts) { thisShift in
+                    ShiftRowForAllocSheet(shift: thisShift)
                 }
             }
         }
+        .listStyle(.insetGrouped)
         .putInTemplate()
         .navigationTitle("Shifts")
         .putInNavView(.inline)
@@ -238,12 +237,14 @@ struct ChooseSavedForAllocSheet: View {
     @State private var showSpentSaved = false
 
     var body: some View {
-        VStack(spacing: 0) {
-            List {
-                Section {
-                    Toggle("Show spent items", isOn: $showSpentSaved)
-                }
+        List {
+            Section {
+                Toggle("Show spent items", isOn: $showSpentSaved)
+            } header: {
+                Text("Spent Items").hidden()
+            }
 
+            Section("Choose one") {
                 if savedsToShow.isEmpty {
                     Text("No saved items with available money")
 
@@ -264,8 +265,9 @@ struct ChooseSavedForAllocSheet: View {
                     }
                 }
             }
-            .listStyle(.insetGrouped)
         }
+        .listStyle(.insetGrouped)
+
         .putInTemplate()
         .navigationTitle("Saved Items")
         .putInNavView(.inline)
@@ -283,8 +285,7 @@ struct SavedItemForAllocSheet: View {
 
     var body: some View {
         HStack {
-            Image("green.background.pig")
-                .resizable()
+            IconManager.savedIcon
                 .frame(width: 35, height: 35)
                 .cornerRadius(8)
 
@@ -325,7 +326,7 @@ struct ShiftRowForAllocSheet: View {
         HStack {
             Text(shift.start.firstLetterOrTwoOfWeekday())
                 .foregroundColor(.white)
-                .frame(width: 35, height: 35)
+                .frame(width: 40, height: 40)
                 .background(settings.getDefaultGradient())
                 .cornerRadius(8)
 
@@ -365,9 +366,9 @@ struct AssignAllocationForExpenseView_Previews: PreviewProvider {
 
         ChooseShiftForAllocSheet(shift: .constant(User.main.getShifts()[4]))
             .putInNavView(.inline)
-        
+
         ShiftRowForAllocSheet(shift: User.main.getShifts().randomElement()!)
-        
+
         SavedItemForAllocSheet(saved: User.main.getSaved().randomElement()!, isAvailable: true)
     }
 }

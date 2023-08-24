@@ -12,6 +12,7 @@ import Vin
 
 struct PayoffItemDetailProgressBox: View {
     @ObservedObject var viewModel: PayoffItemDetailViewModel
+    
 
     var body: some View {
         VStack(alignment: .leading, spacing: 30) {
@@ -19,7 +20,7 @@ struct PayoffItemDetailProgressBox: View {
                 VStack(alignment: .leading, spacing: 10) {
                     Text("Progress")
                         .fontWeight(.semibold)
-                    Text([viewModel.payoffItem.getAllocations().count.str,
+                    Text([viewModel.allocations.count.str,
                           "contributions"])
                         .font(.caption2)
                         .foregroundStyle(Color.gray)
@@ -35,7 +36,7 @@ struct PayoffItemDetailProgressBox: View {
                     batteryImage
 
                     VStack(alignment: .center) {
-                        Text(viewModel.payoffItem.amountPaidOff.moneyExtended(decimalPlaces: 2))
+                        Text(viewModel.amountPaidOff.moneyExtended(decimalPlaces: 2))
                             .fontWeight(.semibold)
                             .font(.title2)
                             .minimumScaleFactor(0.90)
@@ -53,7 +54,7 @@ struct PayoffItemDetailProgressBox: View {
                     }
                 }
                 
-                Text(viewModel.payoffItem.amountRemainingToPayOff.money() + " remaining")
+                Text(viewModel.amountRemaining.money() + " remaining")
                     .font(.caption)
                     .foregroundStyle(Color.gray)
             }

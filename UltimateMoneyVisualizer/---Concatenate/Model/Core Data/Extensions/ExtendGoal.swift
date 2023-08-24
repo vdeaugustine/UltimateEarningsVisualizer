@@ -65,8 +65,17 @@ public extension Goal {
 // MARK: - Goal + PayoffItem
 
 extension Goal: PayoffItem {
+    public func addTag(tag: Tag) throws {
+        self.addToTags(tag)
+        try self.managedObjectContext?.save()
+    }
+    
     // MARK: Properties
 
+    public func removeTag(tag: Tag) throws {
+        self.removeFromTags(tag)
+        try self.managedObjectContext?.save()
+    }
     public var isPaidOff: Bool {
         amountRemainingToPayOff < 0.01
     }

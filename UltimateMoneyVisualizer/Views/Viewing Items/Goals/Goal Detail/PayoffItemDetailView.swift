@@ -106,7 +106,7 @@ struct PayoffItemDetailView: View {
         }
         
         .sheet(isPresented: $showContributionsSheet) {
-            PayoffContributionsView(payoffItem: viewModel.payoffItem)
+            PayoffContributionsView(payoffItem: viewModel.payoffItem, vm: viewModel)
                 .presentationDragIndicator(.visible)
         }
         

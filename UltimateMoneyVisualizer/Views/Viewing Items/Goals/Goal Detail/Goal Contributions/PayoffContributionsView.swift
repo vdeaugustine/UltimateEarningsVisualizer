@@ -14,17 +14,20 @@ struct PayoffContributionsView: View {
     @Environment(\.dismiss) private var dismiss
     let payoffItem: PayoffItem
     @State private var showingErrorAlert = false
+    @ObservedObject var vm: PayoffItemDetailViewModel
 
     var body: some View {
         List {
             if !payoffItem.getShifts().isEmpty {
                 Section("Shifts") {
-                    ForEach(payoffItem.getAllocations()) { alloc in
+                    ForEach(vm.allocations) { alloc in
                         if let shift = alloc.shift {
-                            AllocShiftRow(shift: shift, allocation: alloc)
-                                .onTapGesture {
-                                    NavManager.shared.appendCorrectPath(newValue: .shift(shift))
-                                }
+                            NavigationLink {
+                                ShiftDetailView(shift: shift)
+                            } label: {
+                                AllocShiftRow(shift: shift, allocation: alloc)
+                            }
+                                
                         }
                     }
                     .onDelete(perform: deleteShift)
@@ -33,7 +36,7 @@ struct PayoffContributionsView: View {
 
             if !payoffItem.getSavedItems().isEmpty {
                 Section("Saved Items") {
-                    ForEach(payoffItem.getAllocations()) { alloc in
+                    ForEach(vm.allocations) { alloc in
                         if let saved = alloc.savedItem {
                             AllocSavedRow(saved: saved, allocation: alloc)
                         }
@@ -73,6 +76,8 @@ struct PayoffContributionsView: View {
             if let alloc = payoffItem.getAllocations().safeGet(at: index) {
                 do {
                     try payoffItem.removeAllocation(alloc: alloc)
+                    vm.allocations = payoffItem.getAllocations()
+                    vm.amountPaidOff = payoffItem.amountPaidOff
                 } catch {
                     showingErrorAlert = true
                 }
@@ -84,8 +89,11 @@ struct PayoffContributionsView: View {
 // MARK: - GoalContributionsView_Previews
 
 struct GoalContributionsView_Previews: PreviewProvider {
+    
+    static let item = User.main.getGoals().randomElement()!
+    
     static var previews: some View {
-        PayoffContributionsView(payoffItem: User.main.getGoals().randomElement()!)
+        PayoffContributionsView(payoffItem: item, vm: .init(payoffItem: item))
     }
 }
 

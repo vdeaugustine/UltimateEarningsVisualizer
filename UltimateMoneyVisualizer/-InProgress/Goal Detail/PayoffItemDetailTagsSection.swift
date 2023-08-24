@@ -1,3 +1,4 @@
+
 //
 //  PayoffItemDetailTagsSection.swift
 //  UltimateMoneyVisualizer
@@ -12,110 +13,101 @@ import Vin
 
 struct PayoffItemDetailTagsSection: View {
     @ObservedObject var viewModel: PayoffItemDetailViewModel
+    @State private var showAlert = false
+    @State private var showSelectTagsSheet = false
 
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-//                VStack(alignment: .leading, spacing: 40) {
-                    header
-//                }
-                .padding([.vertical, .leading], 17)
+                header
+                    .padding([.vertical, .leading], 17)
                 Spacer()
                 largePriceTag
                     .padding([.trailing, .top], 10)
             }
             .padding(.top)
-            
+
             Divider()
                 .padding(.top)
-            
+
             LazyVStack(content: {
-                ForEach(viewModel.payoffItem.getTags()) { tag in
-                    TagRow(tag: tag)
+                ForEach(viewModel.tags) { tag in
+                    Menu {
+                        Button {
+                            NavManager.shared.appendCorrectPath(newValue: .tagDetail(tag))
+                        } label: {
+                            Label("View", systemImage: "info.circle")
+                        }
                         
-                        .padding(.vertical, 5)
+                        Button {
+                            do {
+                                try viewModel.payoffItem.removeTag(tag: tag)
+                                viewModel.tags = viewModel.payoffItem.getTags()
+                            } catch {
+                                showAlert = true
+                            }
+                        } label: {
+                            Label("Remove", systemImage: "trash")
+                        }
+                        
+                        
+                    } label: {
+                        TagRow(tag: tag)
+                            .padding(.vertical, 5)
+
+                    }.foregroundStyle(Color.black)
                     Divider()
                 }
-                Button {
-                    NavManager.shared.appendCorrectPath(newValue: .createTag(AnyPayoffItem(viewModel.payoffItem)))
+                Menu {
+                    Button {
+                        showSelectTagsSheet.toggle()
+                    } label: {
+                        Label("Existing", systemImage: "list")
+                    }
+                    
+                    Button {
+                        NavManager.shared.appendCorrectPath(newValue: .createTag(AnyPayoffItem(viewModel.payoffItem)))
+                    } label: {
+                        Label("New", systemImage: "plus")
+                    }
+                    
+                    
                 } label: {
-                    Label("New", systemImage: "plus")
-                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: 45, alignment: .leading)
+                    Label("Add", systemImage: "plus")
+                        .frame(maxWidth: /*@START_MENU_TOKEN@*/ .infinity/*@END_MENU_TOKEN@*/, maxHeight: 45, alignment: .leading)
                 }
-                
-                
+
                 .padding(.vertical)
                 .padding(.leading, 4)
                 .padding(.bottom, 4)
             })
             .padding(.horizontal)
         }
-
         .frame(maxWidth: .infinity)
         .background {
             RoundedRectangle(cornerRadius: 20)
                 .fill(Color.white)
                 .shadow(radius: 0.2)
-                
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text("Error"), message: Text("Failed to remove tag"), dismissButton: .default(Text("OK")))
         }
         .sheet(isPresented: $viewModel.showTags, content: {
             TagListForItemView(item: viewModel.payoffItem)
         })
+        .sheet(isPresented: $showSelectTagsSheet, onDismiss: {
+            viewModel.tags = viewModel.payoffItem.getTags()
+        } ) {
+            SelectATagView(item: viewModel.payoffItem)
+        }
+        
     }
-
 
     var header: some View {
         Text("Tags")
             .font(.title)
             .fontWeight(.semibold)
     }
-//
-//    var tagsPart: some View {
-//        ScrollView {
-//            Divider()
-//                .padding(.bottom)
-//
-//            ForEach(0 ..< viewModel.payoffItem.getTags().count / 2, id: \.self) { index in
-//                HStack {
-//                    if let even = viewModel.payoffItem.getTags().safeGet(at: index * 2) {
-//                        NewTagDesign(tag: even)
-//                            .shadow(color: .black.opacity(0.12), radius: 8, x: 0, y: 6)
-//                    }
-//
-//                    if let odd = viewModel.payoffItem.getTags().safeGet(at: index * 2 + 1) {
-//                        NewTagDesign(tag: odd)
-//                            .shadow(color: .black.opacity(0.12), radius: 8, x: 0, y: 6)
-//                    }
-//                }
-//                .frame(maxWidth: .infinity, alignment: .leading)
-//            }
-//
-//            .padding(.horizontal)
-//        }
-//        .padding(.bottom)
-//        .frame(maxHeight: viewModel.tagsRectIncreaseAmount - 10)
-////        List {
-////            ForEach(viewModel.payoffItem.getTags(), id: \.self) { tag in
-////                if let title = tag.title {
-////                    Text(title)
-////                        .foregroundStyle(Color.white)
-////                        .padding(5)
-////                        .padding(.trailing)
-////                        .background {
-////                            PriceTag(width: nil,
-////                                     height: 30,
-////                                     color: tag.getColor(),
-////                                     holePunchColor: .white,
-////                                     rotation: 0)
-////                        }
-////                }
-////            }
-//        ////            .listRowSeparator(.hidden)
-////        }
-////        .padding(.bottom)
-////        .listStyle(.plain)
-////        .frame(maxHeight: viewModel.tagsRectIncreaseAmount - 10)
-//    }
 
     var buttonsPart: some View {
         HStack {
@@ -149,7 +141,7 @@ struct PayoffItemDetailTagsSection: View {
     }
 }
 
-// MARK: - GoalDetailTagsSection_Previews
+// MARK: - PayoffItemDetailTagsSection_Previews
 
 struct PayoffItemDetailTagsSection_Previews: PreviewProvider {
     static var model = PayoffItemDetailViewModel(payoffItem: User.main.getGoals()
@@ -164,3 +156,4 @@ struct PayoffItemDetailTagsSection_Previews: PreviewProvider {
         .ignoresSafeArea()
     }
 }
+

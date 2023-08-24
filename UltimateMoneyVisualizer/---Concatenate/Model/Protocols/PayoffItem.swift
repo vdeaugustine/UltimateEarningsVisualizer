@@ -1,3 +1,4 @@
+
 //
 //  PayoffItem.swift
 //  UltimateMoneyVisualizer
@@ -69,6 +70,7 @@ public protocol PayoffItem {
     // MARK: - Protocol Methods:
 
     // swiftformat:sort:begin
+    func addTag(tag: Tag) throws
     func getAllocations() -> [Allocation]
     func getArrayOfTemporaryAllocations() -> [TemporaryAllocation]
     func getID() -> UUID
@@ -80,6 +82,7 @@ public protocol PayoffItem {
     func handleWhenTempPaidOff() throws
     func loadImageIfPresent() -> UIImage?
     func removeAllocation(alloc: Allocation) throws
+    func removeTag(tag: Tag) throws
     func setOptionalQSlotNumber(newVal: Int16?)
     func setOptionalTempQNum(newVal: Int16?)
     // swiftformat:sort:end
@@ -163,7 +166,8 @@ public struct AnyPayoffItem: PayoffItem, Hashable {
     public func setOptionalQSlotNumber(newVal: Int16?) { payoffItem.setOptionalQSlotNumber(newVal: newVal) }
     public func setOptionalTempQNum(newVal: Int16?) { payoffItem.setOptionalTempQNum(newVal: newVal) }
     public func removeAllocation(alloc: Allocation) throws { try payoffItem.removeAllocation(alloc: alloc) }
-    
+    public func removeTag(tag: Tag) throws { try payoffItem.removeTag(tag: tag) }
+    public func addTag(tag: Tag) throws { try payoffItem.addTag(tag: tag) }
     
     // swiftformat:sort:end
 

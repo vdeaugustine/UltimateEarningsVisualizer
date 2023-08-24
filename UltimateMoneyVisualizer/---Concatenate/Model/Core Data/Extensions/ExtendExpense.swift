@@ -61,14 +61,18 @@ extension Expense {
 // MARK: - Expense + PayoffItem
 
 extension Expense: PayoffItem {
+    public func addTag(tag: Tag) throws {
+        addToTags(tag)
+        try managedObjectContext?.save()
+    }
+
+    public func removeTag(tag: Tag) throws {
+        removeFromTags(tag)
+        try managedObjectContext?.save()
+    }
+
     // swiftformat:sort:begin
 
-
-    public func removeAllocation(alloc: Allocation) throws {
-        self.removeFromAllocations(alloc)
-        try self.managedObjectContext?.save()
-    }
-    
     public var amountMoneyStr: String {
         return amount.money(includeCents: true)
     }
@@ -118,7 +122,6 @@ extension Expense: PayoffItem {
 
         return sorted.first
     }
-
 
     public func getSavedItems() -> [Saved] {
         getAllocations().compactMap { $0.savedItem }
@@ -177,6 +180,11 @@ extension Expense: PayoffItem {
     public var percentPaidOff: Double { amountPaidOff / amount }
 
     public var percentTemporarilyPaidOff: Double { temporarilyPaidOff / amount }
+
+    public func removeAllocation(alloc: Allocation) throws {
+        removeFromAllocations(alloc)
+        try managedObjectContext?.save()
+    }
 
     // Optional Queue Slot Number
     public func setOptionalQSlotNumber(newVal: Int16?) {

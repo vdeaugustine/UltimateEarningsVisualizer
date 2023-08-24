@@ -14,6 +14,10 @@ class PayoffItemDetailViewModel: ObservableObject {
 
     init(payoffItem: PayoffItem) {
         self.payoffItem = payoffItem
+        self.allocations = payoffItem.getAllocations()
+        self.amountPaidOff = payoffItem.amountPaidOff
+        self.amountRemaining = payoffItem.amountRemainingToPayOff
+        self.tags = payoffItem.getTags()
     }
 
     // CATEGORY: Internal
@@ -21,7 +25,10 @@ class PayoffItemDetailViewModel: ObservableObject {
     @ObservedObject var user: User = User.main
     @ObservedObject var settings: Settings = User.main.getSettings()
     @Published var payoffItem: PayoffItem
-
+    @Published var allocations: [Allocation]
+    @Published var tags: [Tag]
+    @Published var amountPaidOff: Double
+    @Published var amountRemaining: Double
     @Published var presentConfirmation = false
     @Published var showSheet = false
     @Published var showImageSelector = false
@@ -37,10 +44,10 @@ class PayoffItemDetailViewModel: ObservableObject {
     @Published var showTags: Bool = false
     @Published var contributionsRectHeight: CGFloat = 150
     @Published var tagsRectHeight: CGFloat = 150
-
     @Published var contributionsID = UUID()
-
     @Published var idToScrollTo: UUID = UUID()
+    
+    
 
     var contributionsRectIncreaseAmount: CGFloat {
         let multiplier: Double = showContributions ? 1 : -1
