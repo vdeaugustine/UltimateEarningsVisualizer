@@ -63,8 +63,12 @@ extension Expense {
 extension Expense: PayoffItem {
     // swiftformat:sort:begin
 
-    // MARK: Properties
 
+    public func removeAllocation(alloc: Allocation) throws {
+        self.removeFromAllocations(alloc)
+        try self.managedObjectContext?.save()
+    }
+    
     public var amountMoneyStr: String {
         return amount.money(includeCents: true)
     }
@@ -115,7 +119,6 @@ extension Expense: PayoffItem {
         return sorted.first
     }
 
-    // MARK: Methods
 
     public func getSavedItems() -> [Saved] {
         getAllocations().compactMap { $0.savedItem }
@@ -202,7 +205,7 @@ extension Expense: PayoffItem {
 
     public var titleStr: String { title ?? "Unknown Expense" }
 
-    public var type: PayoffType { return .goal }
+    public var type: PayoffType { return .expense }
 
     // swiftformat:sort:end
 }

@@ -1,5 +1,5 @@
 //
-//  GoalDetailProgressBox.swift
+//  PayoffItemDetailProgressBox.swift
 //  UltimateMoneyVisualizer
 //
 //  Created by Vincent DeAugustine on 7/10/23.
@@ -8,10 +8,10 @@
 import SwiftUI
 import Vin
 
-// MARK: - GoalDetailProgressBox
+// MARK: - PayoffItemDetailProgressBox
 
-struct GoalDetailProgressBox: View {
-    @ObservedObject var viewModel: GoalDetailViewModel
+struct PayoffItemDetailProgressBox: View {
+    @ObservedObject var viewModel: PayoffItemDetailViewModel
 
     var body: some View {
         VStack(alignment: .leading, spacing: 30) {
@@ -19,7 +19,7 @@ struct GoalDetailProgressBox: View {
                 VStack(alignment: .leading, spacing: 10) {
                     Text("Progress")
                         .fontWeight(.semibold)
-                    Text([viewModel.goal.getAllocations().count.str,
+                    Text([viewModel.payoffItem.getAllocations().count.str,
                           "contributions"])
                         .font(.caption2)
                         .foregroundStyle(Color.gray)
@@ -35,14 +35,14 @@ struct GoalDetailProgressBox: View {
                     batteryImage
 
                     VStack(alignment: .center) {
-                        Text(viewModel.goal.amountPaidOff.moneyExtended(decimalPlaces: 2))
+                        Text(viewModel.payoffItem.amountPaidOff.moneyExtended(decimalPlaces: 2))
                             .fontWeight(.semibold)
                             .font(.title2)
                             .minimumScaleFactor(0.90)
                             
                         Divider()
                         HStack(alignment: .bottom) {
-                            Text([(viewModel.goal.percentPaidOff * 100).simpleStr(), "%"])
+                            Text([(viewModel.payoffItem.percentPaidOff * 100).simpleStr(), "%"])
                                 .fontWeight(.semibold)
                                 .layoutPriority(1)
                                 
@@ -53,7 +53,7 @@ struct GoalDetailProgressBox: View {
                     }
                 }
                 
-                Text(viewModel.goal.amountRemainingToPayOff.money() + " remaining")
+                Text(viewModel.payoffItem.amountRemainingToPayOff.money() + " remaining")
                     .font(.caption)
                     .foregroundStyle(Color.gray)
             }
@@ -82,19 +82,19 @@ struct GoalDetailProgressBox: View {
 
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color(hex: "389975"))
-                    .frame(width: 50, height: 75 * viewModel.goal.percentPaidOff)
+                    .frame(width: 50, height: 75 * viewModel.payoffItem.percentPaidOff)
             }
         }
     }
 }
 
-// MARK: - GoalDetailProgressBox_Previews
+// MARK: - PayoffItemDetailProgressBox_Previews
 
-struct GoalDetailProgressBox_Previews: PreviewProvider {
+struct PayoffItemDetailProgressBox_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             Color.listBackgroundColor
-            GoalDetailProgressBox(viewModel: GoalDetailViewModel(goal: User.main.getGoals().first!))
+            PayoffItemDetailProgressBox(viewModel: PayoffItemDetailViewModel(payoffItem: User.main.getGoals().first!))
                 
         }
         .ignoresSafeArea()

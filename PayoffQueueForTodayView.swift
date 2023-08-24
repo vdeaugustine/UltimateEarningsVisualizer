@@ -39,8 +39,10 @@ struct PayoffQueueForTodayView: View {
     }
 }
 
-#Preview {
-    PayoffQueueForTodayView(vm: TodayViewModel.main)
-        .templateForPreview()
-        .environmentObject(TodayViewModel.main)
+struct PayoffQueueForTodayView_Previews: PreviewProvider {
+    static var previews: some View {
+        PayoffQueueForTodayView(vm: TodayViewModel.main)
+            .templateForPreview()
+            .environmentObject(TodayViewModel.main)
+    }
 }

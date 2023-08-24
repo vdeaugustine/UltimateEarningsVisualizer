@@ -74,10 +74,13 @@ struct TagRow: View {
     }
 }
 
-#Preview {
-    ZStack {
-        Color.listBackgroundColor
-        TagRow(tag: User.main.getTags().randomElement()!)
-            
+struct TagRow_Previews: PreviewProvider {
+    static var previews: some View {
+        ZStack {
+            Color.listBackgroundColor
+            TagRow(tag: User.main.getTags().randomElement()!)
+                
+        }
     }
 }
+

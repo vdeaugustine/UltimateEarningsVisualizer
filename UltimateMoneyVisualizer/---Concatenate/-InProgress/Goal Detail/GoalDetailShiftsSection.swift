@@ -11,7 +11,7 @@ import Vin
 // MARK: - GoalDetailShiftsSection
 
 struct GoalDetailShiftsSection: View {
-    @ObservedObject var viewModel: GoalDetailViewModel
+    @ObservedObject var viewModel: PayoffItemDetailViewModel
 
 
     var body: some View {
@@ -22,7 +22,7 @@ struct GoalDetailShiftsSection: View {
                         header
                         ScrollView(.horizontal) {
                             HStack {
-                                ForEach(viewModel.goal.getTags()) { tag in
+                                ForEach(viewModel.payoffItem.getTags()) { tag in
                                     Button {
                                         NavManager.shared.appendCorrectPath(newValue: .tagDetail(tag))
                                     } label: {
@@ -91,7 +91,7 @@ struct GoalDetailShiftsSection_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             Color.listBackgroundColor
-            GoalDetailShiftsSection(viewModel: GoalDetailViewModel(goal: User.main.getGoals()
+            GoalDetailShiftsSection(viewModel: PayoffItemDetailViewModel(payoffItem: User.main.getGoals()
                     .sorted(by: { $0.timeRemaining > $1.timeRemaining })
                     .last!))
                 .padding()

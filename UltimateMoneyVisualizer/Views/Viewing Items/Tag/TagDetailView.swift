@@ -41,7 +41,7 @@ struct TagDetailView: View {
                 ForEach(user.getGoalsWith(tag: tag)) { goal in
 
                     NavigationLink {
-                        GoalDetailView(goal: goal)
+                        PayoffItemDetailView(payoffItem: goal)
                     } label: {
                         Text(goal.titleStr)
                     }

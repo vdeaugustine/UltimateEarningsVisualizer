@@ -130,6 +130,7 @@ extension Goal: PayoffItem {
 
     // MARK: Methods
 
+    // swiftformat:sort:begin
     public func getAllocations() -> [Allocation] {
         guard let allocations = Array(allocations ?? []) as? [Allocation] else { return [] }
         return allocations.sorted(by: { $0.date ?? .distantPast > $1.date ?? .distantPast })
@@ -170,6 +171,11 @@ extension Goal: PayoffItem {
         optionalTempQNum = nil
     }
 
+    public func removeAllocation(alloc: Allocation) throws {
+        removeFromAllocations(alloc)
+        try managedObjectContext?.save()
+    }
+
     // Optional Queue Slot Number
     public func setOptionalQSlotNumber(newVal: Int16?) {
         optionalQSlotNumber = newVal
@@ -180,6 +186,8 @@ extension Goal: PayoffItem {
         optionalTempQNum = newVal
     }
 }
+
+// swiftformat:sort:end
 
 // MARK: - Example Items for Testing
 

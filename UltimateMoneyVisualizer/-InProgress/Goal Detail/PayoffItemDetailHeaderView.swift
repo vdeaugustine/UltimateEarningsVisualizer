@@ -1,5 +1,5 @@
 //
-//  GoalDetailHeaderView.swift
+//  PayoffItemDetailHeaderView.swift
 //  UltimateMoneyVisualizer
 //
 //  Created by Vincent DeAugustine on 7/10/23.
@@ -51,16 +51,16 @@ extension View {
     }
 }
 
-// MARK: - GoalDetailHeaderView
+// MARK: - PayoffItemDetailHeaderView
 
-struct GoalDetailHeaderView: View {
-    @ObservedObject var goal: Goal
+struct PayoffItemDetailHeaderView: View {
+    @ObservedObject var viewModel: PayoffItemDetailViewModel
     let shownImage: UIImage?
     let tappedImageAction: (() -> Void)?
     var tappedDateAction: (() -> Void)? = nil
 
     var dueDateLineString: String {
-        if let dueDate = goal.dueDate {
+        if let dueDate = viewModel.payoffItem.dueDate {
             return dueDate.getFormattedDate(format: .abbreviatedMonth)
         } else {
             return "Set a due date"
@@ -70,7 +70,7 @@ struct GoalDetailHeaderView: View {
     var image: Image {
         if let shownImage {
             return Image(uiImage: shownImage)
-        } else if let image = goal.loadImageIfPresent() {
+        } else if let image = viewModel.payoffItem.loadImageIfPresent() {
             return Image(uiImage: image)
         } else {
             return Image("dollar3d")
@@ -98,18 +98,18 @@ struct GoalDetailHeaderView: View {
 
             VStack(spacing: 30) {
                 VStack {
-                    Text(goal.titleStr)
+                    Text(viewModel.payoffItem.titleStr)
                         .font(.title)
                         .fontWeight(.bold)
 
-                    if let info = goal.info {
+                    if let info = viewModel.payoffItem.info {
                         Text(info)
                             .font(.caption)
                             .foregroundColor(.gray)
                     }
                     
                 }
-//                Text(goal.amountMoneyStr)
+//                Text(PayoffItem.amountMoneyStr)
 //                    .boldNumber()
             }
         }
@@ -117,12 +117,12 @@ struct GoalDetailHeaderView: View {
     }
 }
 
-// MARK: - GoalDetailHeaderView_Previews
+// MARK: - PayoffItemDetailHeaderView_Previews
 
-struct GoalDetailHeaderView_Previews: PreviewProvider {
+struct PayoffItemDetailHeaderView_Previews: PreviewProvider {
+    static let item = User.main.getGoals().first!
     static var previews: some View {
-        GoalDetailHeaderView(goal: User.main.getGoals().first!,
-                             shownImage: nil) {
+        PayoffItemDetailHeaderView(viewModel: PayoffItemDetailViewModel.init(payoffItem: item), shownImage: item.loadImageIfPresent()) {
         } tappedDateAction: {
         }
     }

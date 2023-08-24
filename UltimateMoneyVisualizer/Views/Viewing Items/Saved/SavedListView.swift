@@ -117,14 +117,13 @@ struct SavedItemRow: View {
 
                 VStack(alignment: .leading) {
                     Text(title)
-                        .font(.headline)
+                        .font(.callout)
                 }
 
                 Spacer()
                 Text(saved.amount.money())
-                    .font(.headline)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(user.getSettings().getDefaultGradient())
+                    .font(.subheadline)
+                    
             }
         }
     }

@@ -55,6 +55,8 @@ struct ContributionsForExpenseView: View {
     }
 }
 
-#Preview {
-    ContributionsForExpenseView(expense: User.main.getExpenses().first!)
+struct ContributionsForExpenseView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContributionsForExpenseView(expense: User.main.getExpenses().first!)
+    }
 }

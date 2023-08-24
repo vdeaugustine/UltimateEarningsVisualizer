@@ -172,6 +172,7 @@ class NavManager: ObservableObject {
         case setHoursForRegularSchedule(RegularDaysContainer)
         case multipleNewShiftsView
         case createTag(AnyPayoffItem)
+        case createTagForSaved(Saved)
         // swiftformat:sort:end
     }
 
@@ -196,11 +197,11 @@ class NavManager: ObservableObject {
             case .enterWage:
                 EnterWageView()
             case let .expense(expense):
-                ExpenseDetailView(expense: expense)
+                PayoffItemDetailView(payoffItem: expense)
             case let .expenseContributions(expense):
                 ContributionsForExpenseView(expense: expense)
             case let .goal(goal):
-                GoalDetailView(goal: goal)
+                PayoffItemDetailView(payoffItem: goal)
             case .home:
                 NewHomeView()
             case .newItemCreation:
@@ -239,6 +240,8 @@ class NavManager: ObservableObject {
                 MultipleNewShiftsView()
             case let .createTag(payoff):
                 CreateTagView(payoff: payoff)
+            case let .createTagForSaved(saved):
+                CreateTagView(saved: saved)
             default:
                 Text("Error navigating to page.")
         }

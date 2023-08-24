@@ -11,39 +11,39 @@ import Vin
 
 // MARK: - GoalDetailView
 
-struct GoalDetailView: View {
+struct PayoffItemDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.dismiss) private var dismiss
-    @StateObject var viewModel: GoalDetailViewModel
+    @StateObject var viewModel: PayoffItemDetailViewModel
     @State private var showContributionsSheet = false
 
-    init(goal: Goal) {
-        _viewModel = StateObject(wrappedValue: GoalDetailViewModel(goal: goal))
+    init(payoffItem: PayoffItem) {
+        _viewModel = StateObject(wrappedValue: PayoffItemDetailViewModel(payoffItem: payoffItem))
     }
 
     var body: some View {
         ScrollViewReader { _ in
             ScrollView {
                 VStack {
-                    GoalDetailHeaderView(goal: viewModel.goal,
+                    PayoffItemDetailHeaderView(viewModel: viewModel,
                                          shownImage: viewModel.shownImage,
                                          tappedImageAction: viewModel.goalDetailHeaderAction)
                     .padding(.bottom)
 
                     HStack {
-                        GoalDetailProgressBox(viewModel: viewModel)
+                        PayoffItemDetailProgressBox(viewModel: viewModel)
                             .onTapGesture {
                                 print("Tapped")
                                 showContributionsSheet.toggle()
                             }
                             
                         VStack {
-                            GoalDetailTotalAmount(viewModel: viewModel)
-                            GoalDetailDueDateBox(viewModel: viewModel)
+                            PayoffItemDetailTotalAmount(viewModel: viewModel)
+                            PayoffItemDetailDueDateBox(viewModel: viewModel)
                         }
                     }
 
-                    GoalDetailTagsSection(viewModel: viewModel)
+                    PayoffItemDetailTagsSection(viewModel: viewModel)
 
 //                    GoalDetailContributionsSection(viewModel: viewModel)
                 }
@@ -56,7 +56,7 @@ struct GoalDetailView: View {
                 }
                 .overlay(fullScreenImage())
                 .background(Color.listBackgroundColor)
-                .confirmationDialog("Are you sure you want to delete this goal?", isPresented: $viewModel.presentConfirmation, titleVisibility: .visible, actions: {
+                .confirmationDialog("Are you sure you want to delete this item?", isPresented: $viewModel.presentConfirmation, titleVisibility: .visible, actions: {
                     Button("Delete", role: .destructive, action: viewModel.doDeleteAction)
                 }, message: {
                     Text("This action cannot be undone")
@@ -64,7 +64,7 @@ struct GoalDetailView: View {
                 .listStyle(.insetGrouped)
                 .navigationBarTitleDisplayMode(.inline)
                 .putInTemplate()
-                .navigationTitle("Goal")
+                .navigationTitle(viewModel.payoffItem.type == .goal ? "Goal" : "Expense")
                 .sheet(isPresented: $viewModel.showImageSelector) {
                     if viewModel.shownImage != nil {
                         viewModel.viewIDForReload = UUID()
@@ -104,8 +104,9 @@ struct GoalDetailView: View {
             
             
         }
-        .fullScreenCover(isPresented: $showContributionsSheet) {
-            GoalContributionsView(payoffItem: viewModel.goal)
+        
+        .sheet(isPresented: $showContributionsSheet) {
+            PayoffContributionsView(payoffItem: viewModel.payoffItem)
                 .presentationDragIndicator(.visible)
         }
         
@@ -215,7 +216,7 @@ struct ChooseImageView: View {
 
 struct GoalDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        GoalDetailView(goal: User.main.getGoals().first!)
+        PayoffItemDetailView(payoffItem: User.main.getGoals().first!)
             .putInNavView(.inline)
             .environment(\.managedObjectContext, PersistenceController.context)
     }

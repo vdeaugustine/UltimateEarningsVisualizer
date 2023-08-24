@@ -109,7 +109,7 @@ class StatsViewModel: ObservableObject {
         } else if let saved = item as? Saved {
             SavedDetailView(saved: saved)
         } else if let goal = item as? Goal {
-            GoalDetailView(goal: goal)
+            PayoffItemDetailView(payoffItem: goal)
         } else if let expense = item as? Expense {
             ExpenseDetailView(expense: expense)
         }

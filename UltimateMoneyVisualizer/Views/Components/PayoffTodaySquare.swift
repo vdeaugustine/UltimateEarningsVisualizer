@@ -102,7 +102,7 @@ struct PayoffTodaySquare: View {
     var body: some View {
         if let correspondingGoal {
             NavigationLink {
-                GoalDetailView(goal: correspondingGoal)
+                PayoffItemDetailView(payoffItem: correspondingGoal)
             } label: {
                 mainContent
             }

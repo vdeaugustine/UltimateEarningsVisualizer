@@ -27,7 +27,6 @@ struct TagListForItemView: View {
                 } header: {
                     Text("Tags").hidden()
                 }
-                
             }
             .putInTemplate(title: "Tags")
             .toolbar {
@@ -42,10 +41,6 @@ struct TagListForItemView: View {
             }
         }
         .presentationDetents([.medium, .large])
-        
-        
-        
-        
     }
 }
 

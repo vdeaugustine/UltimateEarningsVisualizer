@@ -10,7 +10,7 @@ import SwiftUI
 // MARK: - GoalDetailContributionsSection
 
 struct GoalDetailContributionsSection: View {
-    @ObservedObject var viewModel: GoalDetailViewModel
+    @ObservedObject var viewModel: PayoffItemDetailViewModel
 
     var body: some View {
         VStack {
@@ -47,7 +47,7 @@ struct GoalDetailContributionsSection: View {
 
     var shiftsPart: some View {
         List {
-            ForEach(viewModel.goal.getAllocations()) { alloc in
+            ForEach(viewModel.payoffItem.getAllocations()) { alloc in
 
                 if let shift = alloc.shift {
                     AllocShiftRow(shift: shift, allocation: alloc)
@@ -106,7 +106,7 @@ struct GoalDetailContributionsSection: View {
 
 struct GoalDetailContributionsSection_Previews: PreviewProvider {
     static var previews: some View {
-        GoalDetailContributionsSection(viewModel: GoalDetailViewModel(goal: User.main.getGoals().first(where: { $0.getAllocations().isEmpty == false })!))
+        GoalDetailContributionsSection(viewModel: PayoffItemDetailViewModel(payoffItem: User.main.getGoals().first(where: { $0.getAllocations().isEmpty == false })!))
             .padding()
             .templateForPreview()
     }

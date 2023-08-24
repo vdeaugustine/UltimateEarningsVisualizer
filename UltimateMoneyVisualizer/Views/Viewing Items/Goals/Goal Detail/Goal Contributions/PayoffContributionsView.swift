@@ -1,3 +1,4 @@
+
 //
 //  GoalContributionsView.swift
 //  UltimateMoneyVisualizer
@@ -7,9 +8,12 @@
 
 import SwiftUI
 
-struct GoalContributionsView: View {
-    @Environment (\.dismiss) private var dismiss
+// MARK: - PayoffContributionsView
+
+struct PayoffContributionsView: View {
+    @Environment(\.dismiss) private var dismiss
     let payoffItem: PayoffItem
+    @State private var showingErrorAlert = false
 
     var body: some View {
         List {
@@ -18,8 +22,12 @@ struct GoalContributionsView: View {
                     ForEach(payoffItem.getAllocations()) { alloc in
                         if let shift = alloc.shift {
                             AllocShiftRow(shift: shift, allocation: alloc)
+                                .onTapGesture {
+                                    NavManager.shared.appendCorrectPath(newValue: .shift(shift))
+                                }
                         }
                     }
+                    .onDelete(perform: deleteShift)
                 }
             }
 
@@ -43,22 +51,41 @@ struct GoalContributionsView: View {
                         .labelStyle(.iconOnly)
                 }
             }
-            
+
             ToolbarItem(placement: .topBarLeading) {
                 Button("Dismiss") {
                     dismiss()
                 }
             }
         }
-        
+
         .accentColor(User.main.getSettings().themeColor)
         .tint(User.main.getSettings().themeColor)
         .putInTemplate()
         .putInNavView(.large)
+        .alert(isPresented: $showingErrorAlert) {
+            Alert(title: Text("Error"), message: Text("Error deleting shift"), dismissButton: .default(Text("OK")))
+        }
+    }
+
+    private func deleteShift(at offsets: IndexSet) {
+        offsets.forEach { index in
+            if let alloc = payoffItem.getAllocations().safeGet(at: index) {
+                do {
+                    try payoffItem.removeAllocation(alloc: alloc)
+                } catch {
+                    showingErrorAlert = true
+                }
+            }
+        }
     }
 }
 
-#Preview {
-    GoalContributionsView(payoffItem: User.main.getGoals().randomElement()!)
-//        .templateForPreview()
+// MARK: - GoalContributionsView_Previews
+
+struct GoalContributionsView_Previews: PreviewProvider {
+    static var previews: some View {
+        PayoffContributionsView(payoffItem: User.main.getGoals().randomElement()!)
+    }
 }
+

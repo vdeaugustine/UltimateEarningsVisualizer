@@ -39,20 +39,20 @@ class NewHomeViewModel: ObservableObject {
         @ViewBuilder var icon: some View {
             switch self {
                 case .earned:
-                    Image(systemName: "chart.line.uptrend.xyaxis")
+                    Image(systemName: IconManager.shiftsString)
                 case .taxes:
-                    Image(systemName: "percent")
+                    Image(systemName: IconManager.taxesString)
                 case .expenses:
-                    Image(systemName: "cart")
+                    Image(systemName: IconManager.expenseString)
                 case .goals:
-                    Image(systemName: "scope")
+                    Image(systemName: IconManager.goalsString)
                 case .saved:
-                    PiggyBankShape()
+                    IconManager.savedIcon
                         .stroke(lineWidth: 1.5)
                         .frame(width: 30, height: 30)
 
                 case .paidOff:
-                    Image(systemName: "checklist")
+                    Image(systemName: IconManager.paidOffString)
             }
         }
 

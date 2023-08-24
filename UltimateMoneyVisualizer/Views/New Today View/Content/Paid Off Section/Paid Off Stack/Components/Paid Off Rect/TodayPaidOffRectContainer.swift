@@ -38,11 +38,13 @@ struct TodayPaidOffRectContainer<Content: View>: View {
     }
 }
 
-#Preview {
-    TodayPaidOffRectContainer {
-        VStack {
-            Text("HI")
+struct TodayPaidOffRectContainer_Previews: PreviewProvider {
+    static var previews: some View {
+        TodayPaidOffRectContainer {
+            VStack {
+                Text("HI")
+            }
         }
+        .environmentObject(TodayViewModel.main)
     }
-    .environmentObject(TodayViewModel.main)
 }

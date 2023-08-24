@@ -16,7 +16,7 @@ struct GoalListView: View {
     var body: some View {
         List {
             ForEach(goals) { goal in
-                NavigationLink(destination: GoalDetailView(goal: goal)) {
+                NavigationLink(destination: PayoffItemDetailView(payoffItem: goal)) {
                     
 
                     PayoffWithImageAndGradientView(item: goal, maxHeight: 100)

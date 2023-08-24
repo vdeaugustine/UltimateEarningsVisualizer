@@ -1,5 +1,5 @@
 //
-//  GoalDetailTagsSection.swift
+//  PayoffItemDetailTagsSection.swift
 //  UltimateMoneyVisualizer
 //
 //  Created by Vincent DeAugustine on 7/11/23.
@@ -8,10 +8,10 @@
 import SwiftUI
 import Vin
 
-// MARK: - GoalDetailTagsSection
+// MARK: - PayoffItemDetailTagsSection
 
-struct GoalDetailTagsSection: View {
-    @ObservedObject var viewModel: GoalDetailViewModel
+struct PayoffItemDetailTagsSection: View {
+    @ObservedObject var viewModel: PayoffItemDetailViewModel
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -30,14 +30,14 @@ struct GoalDetailTagsSection: View {
                 .padding(.top)
             
             LazyVStack(content: {
-                ForEach(viewModel.goal.getTags()) { tag in
+                ForEach(viewModel.payoffItem.getTags()) { tag in
                     TagRow(tag: tag)
                         
                         .padding(.vertical, 5)
                     Divider()
                 }
                 Button {
-                    NavManager.shared.appendCorrectPath(newValue: .createTag(AnyPayoffItem(viewModel.goal)))
+                    NavManager.shared.appendCorrectPath(newValue: .createTag(AnyPayoffItem(viewModel.payoffItem)))
                 } label: {
                     Label("New", systemImage: "plus")
                         .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: 45, alignment: .leading)
@@ -56,74 +56,66 @@ struct GoalDetailTagsSection: View {
             RoundedRectangle(cornerRadius: 20)
                 .fill(Color.white)
                 .shadow(radius: 0.2)
-                .overlay {
-                    backDrop
-                }
+                
         }
         .sheet(isPresented: $viewModel.showTags, content: {
-            TagListForItemView(item: viewModel.goal)
+            TagListForItemView(item: viewModel.payoffItem)
         })
     }
 
-    var backDrop: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 20)
-                .fill(Color.white)
-        }
-    }
 
     var header: some View {
         Text("Tags")
             .font(.title)
             .fontWeight(.semibold)
     }
-
-    var tagsPart: some View {
-        ScrollView {
-            Divider()
-                .padding(.bottom)
-
-            ForEach(0 ..< viewModel.goal.getTags().count / 2, id: \.self) { index in
-                HStack {
-                    if let even = viewModel.goal.getTags().safeGet(at: index * 2) {
-                        NewTagDesign(tag: even)
-                            .shadow(color: .black.opacity(0.12), radius: 8, x: 0, y: 6)
-                    }
-
-                    if let odd = viewModel.goal.getTags().safeGet(at: index * 2 + 1) {
-                        NewTagDesign(tag: odd)
-                            .shadow(color: .black.opacity(0.12), radius: 8, x: 0, y: 6)
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-            }
-
-            .padding(.horizontal)
-        }
-        .padding(.bottom)
-        .frame(maxHeight: viewModel.tagsRectIncreaseAmount - 10)
-//        List {
-//            ForEach(viewModel.goal.getTags(), id: \.self) { tag in
-//                if let title = tag.title {
-//                    Text(title)
-//                        .foregroundStyle(Color.white)
-//                        .padding(5)
-//                        .padding(.trailing)
-//                        .background {
-//                            PriceTag(width: nil,
-//                                     height: 30,
-//                                     color: tag.getColor(),
-//                                     holePunchColor: .white,
-//                                     rotation: 0)
-//                        }
+//
+//    var tagsPart: some View {
+//        ScrollView {
+//            Divider()
+//                .padding(.bottom)
+//
+//            ForEach(0 ..< viewModel.payoffItem.getTags().count / 2, id: \.self) { index in
+//                HStack {
+//                    if let even = viewModel.payoffItem.getTags().safeGet(at: index * 2) {
+//                        NewTagDesign(tag: even)
+//                            .shadow(color: .black.opacity(0.12), radius: 8, x: 0, y: 6)
+//                    }
+//
+//                    if let odd = viewModel.payoffItem.getTags().safeGet(at: index * 2 + 1) {
+//                        NewTagDesign(tag: odd)
+//                            .shadow(color: .black.opacity(0.12), radius: 8, x: 0, y: 6)
+//                    }
 //                }
+//                .frame(maxWidth: .infinity, alignment: .leading)
 //            }
-        ////            .listRowSeparator(.hidden)
+//
+//            .padding(.horizontal)
 //        }
 //        .padding(.bottom)
-//        .listStyle(.plain)
 //        .frame(maxHeight: viewModel.tagsRectIncreaseAmount - 10)
-    }
+////        List {
+////            ForEach(viewModel.payoffItem.getTags(), id: \.self) { tag in
+////                if let title = tag.title {
+////                    Text(title)
+////                        .foregroundStyle(Color.white)
+////                        .padding(5)
+////                        .padding(.trailing)
+////                        .background {
+////                            PriceTag(width: nil,
+////                                     height: 30,
+////                                     color: tag.getColor(),
+////                                     holePunchColor: .white,
+////                                     rotation: 0)
+////                        }
+////                }
+////            }
+//        ////            .listRowSeparator(.hidden)
+////        }
+////        .padding(.bottom)
+////        .listStyle(.plain)
+////        .frame(maxHeight: viewModel.tagsRectIncreaseAmount - 10)
+//    }
 
     var buttonsPart: some View {
         HStack {
@@ -143,7 +135,7 @@ struct GoalDetailTagsSection: View {
         PayoffItemDetailViewStyledButton(text: "New",
                                          width: 100,
                                          animationValue: viewModel.showTags) {
-            NavManager.shared.appendCorrectPath(newValue: .createTag(.init(viewModel.goal)))
+            NavManager.shared.appendCorrectPath(newValue: .createTag(.init(viewModel.payoffItem)))
         }
     }
 
@@ -159,16 +151,14 @@ struct GoalDetailTagsSection: View {
 
 // MARK: - GoalDetailTagsSection_Previews
 
-struct GoalDetailTagsSection_Previews: PreviewProvider {
-    static var model = GoalDetailViewModel(goal: User.main.getGoals()
+struct PayoffItemDetailTagsSection_Previews: PreviewProvider {
+    static var model = PayoffItemDetailViewModel(payoffItem: User.main.getGoals()
         .sorted(by: { $0.timeRemaining > $1.timeRemaining })
         .last!)
     static var previews: some View {
         ZStack(alignment: .leading) {
             Color.listBackgroundColor
-            GoalDetailTagsSection(viewModel: GoalDetailViewModel(goal: User.main.getGoals()
-                    .sorted(by: { $0.timeRemaining > $1.timeRemaining })
-                    .last!))
+            PayoffItemDetailTagsSection(viewModel: model)
                 .padding()
         }
         .ignoresSafeArea()

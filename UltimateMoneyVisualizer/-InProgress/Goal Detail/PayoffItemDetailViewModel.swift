@@ -9,18 +9,18 @@ import AlertToast
 import Foundation
 import SwiftUI
 
-class GoalDetailViewModel: ObservableObject {
+class PayoffItemDetailViewModel: ObservableObject {
     // CATEGORY: Lifecycle
 
-    init(goal: Goal) {
-        self.goal = goal
+    init(payoffItem: PayoffItem) {
+        self.payoffItem = payoffItem
     }
 
     // CATEGORY: Internal
 
     @ObservedObject var user: User = User.main
     @ObservedObject var settings: Settings = User.main.getSettings()
-    @ObservedObject var goal: Goal
+    @Published var payoffItem: PayoffItem
 
     @Published var presentConfirmation = false
     @Published var showSheet = false
@@ -35,7 +35,6 @@ class GoalDetailViewModel: ObservableObject {
     @Published var viewIDForReload: UUID = UUID()
     @Published var showContributions: Bool = false
     @Published var showTags: Bool = false
-
     @Published var contributionsRectHeight: CGFloat = 150
     @Published var tagsRectHeight: CGFloat = 150
 
@@ -50,7 +49,7 @@ class GoalDetailViewModel: ObservableObject {
 
     var tagsRectIncreaseAmount: CGFloat {
         let multiplier: Double = showTags ? 1 : -1
-        return CGFloat(CGFloat(goal.getTags().count) / 2) * 100 * multiplier 
+        return CGFloat(CGFloat(payoffItem.getTags().count) / 2) * 100 * multiplier 
     }
 
     var blurRadius: CGFloat {
@@ -66,8 +65,8 @@ class GoalDetailViewModel: ObservableObject {
     }
 
     func onAppearAction() {
-        initialImage = goal.loadImageIfPresent()
-        shownImage = goal.loadImageIfPresent()
+        initialImage = payoffItem.loadImageIfPresent()
+        shownImage = payoffItem.loadImageIfPresent()
     }
 
     func goalDetailHeaderAction() {
@@ -85,7 +84,14 @@ class GoalDetailViewModel: ObservableObject {
         }
 
         do {
-            context.delete(goal)
+            if let goal = payoffItem as? Goal {
+                context.delete(goal)
+            }
+            
+            else if let expense = payoffItem as? Expense {
+                context.delete(expense)
+            }
+            
             try context.save()
         } catch {
             print("Failed to delete")
@@ -95,7 +101,14 @@ class GoalDetailViewModel: ObservableObject {
     func saveButtonAction() {
         if let shownImage {
             do {
-                try goal.saveImage(image: shownImage)
+                if let goal = payoffItem as? Goal {
+                    try goal.saveImage(image: shownImage)
+                }
+                
+                else if let expense = payoffItem as? Expense {
+                    try expense.saveImage(image: shownImage)
+                }
+                
                 toastConfiguration = AlertToast(displayMode: .alert, type: .complete(settings.themeColor), title: "Saved successfully")
                 showAlert = true
                 viewIDForReload = UUID()
@@ -118,7 +131,7 @@ class GoalDetailViewModel: ObservableObject {
     }
 
     func breakDownTime() -> String {
-        let seconds = goal.timeRemaining
+        let seconds = payoffItem.timeRemaining
         let timeUnits: [(unit: String, seconds: Double)] = [("y", 365 * 24 * 60 * 60),
                                                             ("mo", 30 * 24 * 60 * 60),
                                                             ("w", 7 * 24 * 60 * 60),

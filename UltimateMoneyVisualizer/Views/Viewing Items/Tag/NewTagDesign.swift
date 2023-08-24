@@ -28,6 +28,8 @@ struct NewTagDesign: View {
     }
 }
 
-#Preview {
-    NewTagDesign(tag: User.main.getTags().first!)
+struct NewTagDesign_Previews: PreviewProvider {
+    static var previews: some View {
+        NewTagDesign(tag: User.main.getTags().first!)
+    }
 }

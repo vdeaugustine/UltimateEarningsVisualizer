@@ -129,7 +129,9 @@ struct NewPayoffList: View {
     }
 }
 
-#Preview {
-    NewPayoffList(payoffType: .goal)
-        .templateForPreview()
+struct NewPayoffList_Previews: PreviewProvider {
+    static var previews: some View {
+        NewPayoffList(payoffType: .goal)
+            .templateForPreview()
+    }
 }

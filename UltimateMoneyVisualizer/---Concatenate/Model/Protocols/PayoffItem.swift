@@ -55,11 +55,13 @@ public protocol PayoffItem {
     var amountRemainingToPayOff: Double { get }
     var dateCreated: Date? { get set }
     var dueDate: Date? { get set }
+    var info: String? { get set }
     var isPaidOff: Bool { get }
     var optionalQSlotNumber: Int16? { get set }
     var optionalTempQNum: Int16? { get set }
     var percentPaidOff: Double { get }
     var percentTemporarilyPaidOff: Double { get }
+    var timeRemaining: Double { get }
     var titleStr: String { get }
     var type: PayoffType { get }
     // swiftformat:sort:end
@@ -77,6 +79,7 @@ public protocol PayoffItem {
     func handleWhenPaidOff() throws
     func handleWhenTempPaidOff() throws
     func loadImageIfPresent() -> UIImage?
+    func removeAllocation(alloc: Allocation) throws
     func setOptionalQSlotNumber(newVal: Int16?)
     func setOptionalTempQNum(newVal: Int16?)
     // swiftformat:sort:end
@@ -117,6 +120,15 @@ public struct AnyPayoffItem: PayoffItem, Hashable {
         set { payoffItem.dueDate = newValue }
     }
 
+    public var info: String? {
+        get {
+            payoffItem.info
+        }
+        set {
+            payoffItem.info = newValue
+        }
+    }
+
     public var isPaidOff: Bool { payoffItem.isPaidOff }
     public var optionalQSlotNumber: Int16? {
         get { payoffItem.optionalQSlotNumber }
@@ -132,6 +144,7 @@ public struct AnyPayoffItem: PayoffItem, Hashable {
     public var percentTemporarilyPaidOff: Double { payoffItem.percentTemporarilyPaidOff }
     public var titleStr: String { payoffItem.titleStr }
     public var type: PayoffType { payoffItem.type }
+    public var timeRemaining: Double { payoffItem.timeRemaining }
 
     // MARK: - Protocol Methods
 
@@ -149,7 +162,9 @@ public struct AnyPayoffItem: PayoffItem, Hashable {
     public func loadImageIfPresent() -> UIImage? { payoffItem.loadImageIfPresent() }
     public func setOptionalQSlotNumber(newVal: Int16?) { payoffItem.setOptionalQSlotNumber(newVal: newVal) }
     public func setOptionalTempQNum(newVal: Int16?) { payoffItem.setOptionalTempQNum(newVal: newVal) }
-
+    public func removeAllocation(alloc: Allocation) throws { try payoffItem.removeAllocation(alloc: alloc) }
+    
+    
     // swiftformat:sort:end
 
     // MARK: - Hashable

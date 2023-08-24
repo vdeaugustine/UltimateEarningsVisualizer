@@ -145,9 +145,11 @@ struct PayoffItemRectGeneral: View {
     }
 }
 
-#Preview {
-    Group {
-        PayoffItemRectGeneral(item: User.main.getGoals().randomElement()!)
-        PayoffItemRectGeneral(item: User.main.getExpenses().randomElement()!)
+struct PayoffItemRectGeneral_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            PayoffItemRectGeneral(item: User.main.getGoals().randomElement()!)
+            PayoffItemRectGeneral(item: User.main.getExpenses().randomElement()!)
+        }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  GoalDetailTotalAmount.swift
+//  PayoffItemDetailTotalAmount.swift
 //  UltimateMoneyVisualizer
 //
 //  Created by Vincent DeAugustine on 7/12/23.
@@ -7,21 +7,21 @@
 
 import SwiftUI
 
-// MARK: - GoalDetailTotalAmount
+// MARK: - PayoffItemDetailTotalAmount
 
-struct GoalDetailTotalAmount: View {
-    @ObservedObject var viewModel: GoalDetailViewModel
+struct PayoffItemDetailTotalAmount: View {
+    @ObservedObject var viewModel: PayoffItemDetailViewModel
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Text(viewModel.goal.amountMoneyStr)
+                Text(viewModel.payoffItem.amountMoneyStr)
                     .font(.title)
                     .boldNumber()
 
                 Spacer()
-                Image(systemName: "chevron.right")
-                    .font(.caption2)
+//                Image(systemName: "chevron.right")
+//                    .font(.caption2)
             }
             .layoutPriority(0)
             VStack(alignment: .leading, spacing: 7) {
@@ -33,7 +33,7 @@ struct GoalDetailTotalAmount: View {
                     .minimumScaleFactor(0.4)
 
                 HStack {
-                    Text(viewModel.user.convertMoneyToTime(money: viewModel.goal.amount).breakDownTime())
+                    Text(viewModel.user.convertMoneyToTime(money: viewModel.payoffItem.amount).breakDownTime())
                     Spacer()
 //                    Text("work time")
                 }
@@ -56,13 +56,13 @@ struct GoalDetailTotalAmount: View {
     }
 }
 
-// MARK: - GoalDetailTotalAmount_Previews
+// MARK: - PayoffItemDetailTotalAmount_Previews
 
-struct GoalDetailTotalAmount_Previews: PreviewProvider {
+struct PayoffItemDetailTotalAmount_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             Color.listBackgroundColor
-            GoalDetailTotalAmount(viewModel: GoalDetailViewModel(goal: User.main.getGoals()
+            PayoffItemDetailTotalAmount(viewModel: PayoffItemDetailViewModel(payoffItem: User.main.getGoals()
                     .sorted(by: { $0.timeRemaining > $1.timeRemaining })
                     .last!))
         }

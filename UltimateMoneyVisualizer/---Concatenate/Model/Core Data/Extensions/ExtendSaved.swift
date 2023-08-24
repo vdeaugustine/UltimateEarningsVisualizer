@@ -114,6 +114,10 @@ public extension Saved {
     var totalAvailable: Double {
         amount - totalAllocated
     }
+    
+    var percentSpent: Double {
+        (totalAllocated / amount).roundTo(places: 1)
+    }
 
     func getAllocations() -> [Allocation] {
         guard let allocations = allocations?.allObjects as? [Allocation] else {
@@ -121,6 +125,13 @@ public extension Saved {
         }
 
         return allocations
+    }
+    
+    func amountForAllInstances(user: User) -> Double {
+        user.getInstancesOf(savedItem: self)
+            .reduce(Double.zero) { partialResult, saved in
+                partialResult + saved.amount
+            }
     }
 
     static func makeExampleSavedItems(user: User, context: NSManagedObjectContext) throws {

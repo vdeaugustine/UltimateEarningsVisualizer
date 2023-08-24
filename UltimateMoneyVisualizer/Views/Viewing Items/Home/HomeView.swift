@@ -134,7 +134,7 @@ struct HomeView: View {
 
                                     if let goal = user.getItemWith(queueSlot: index) as? Goal {
                                         NavigationLink {
-                                            GoalDetailView(goal: goal)
+                                            PayoffItemDetailView(payoffItem: goal)
                                         } label: {
                                             PayoffWithImageAndGradientView(item: goal)
                                                 .allPartsTappable()

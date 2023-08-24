@@ -9,8 +9,8 @@ import SwiftUI
 
 // MARK: - GoalDetailDueDateBox
 
-struct GoalDetailDueDateBox: View {
-    @ObservedObject var viewModel: GoalDetailViewModel
+struct PayoffItemDetailDueDateBox: View {
+    @ObservedObject var viewModel: PayoffItemDetailViewModel
     
 
     var body: some View {
@@ -19,8 +19,8 @@ struct GoalDetailDueDateBox: View {
                 Image(systemName: "hourglass")
                     .font(.title)
                 Spacer()
-                Image(systemName: "chevron.right")
-                    .font(.caption2)
+//                Image(systemName: "chevron.right")
+//                    .font(.caption2)
             }
             .layoutPriority(0)
             VStack(alignment: .leading, spacing: 7) {
@@ -32,7 +32,7 @@ struct GoalDetailDueDateBox: View {
                     .minimumScaleFactor(0.4)
 
                 HStack {
-                    if let dueDate = viewModel.goal.dueDate {
+                    if let dueDate = viewModel.payoffItem.dueDate {
                         Text("Remaining")
                         Spacer()
                         Text(dueDate.getFormattedDate(format: .slashDate))
@@ -65,7 +65,7 @@ struct GoalDetailDueDateBox_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             Color.listBackgroundColor
-            GoalDetailDueDateBox(viewModel: GoalDetailViewModel(goal: User.main.getGoals()
+            PayoffItemDetailDueDateBox(viewModel: PayoffItemDetailViewModel(payoffItem: User.main.getGoals()
                     .sorted(by: { $0.timeRemaining > $1.timeRemaining })
                     .last!))
         }
