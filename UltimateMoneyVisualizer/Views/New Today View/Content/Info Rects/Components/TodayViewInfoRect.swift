@@ -62,7 +62,7 @@ struct TodayViewInfoRect: View {
                 if isPayOffItem {
                     Circle()
                         .fill(circleColor)
-                        .frame(height: imageFont)
+                        .frame(height: imageFont ?? 20)
                         .padding(.bottom, 2)
 //                        .padding(.top)
 

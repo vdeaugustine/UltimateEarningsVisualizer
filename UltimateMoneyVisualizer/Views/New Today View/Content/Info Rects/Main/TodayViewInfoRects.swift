@@ -23,127 +23,41 @@ struct TodayViewInfoRects: View {
 
                 HStack {
                     Text("TOTALS")
-                        .modifier(HeaderModifier())
+                        .font(.callout)
+                        .fontWeight(.semibold)
+                        .tracking(1)
+                        .foregroundStyle(Color(hex: "4E4E4E"))
                     Spacer()
                 }
 
                 HStack {
-                    
-                    // Earned so far / time worked so far
                     TodayViewInfoRect(imageName: "stopwatch",
                                       valueString: viewModel.soFarTotalValue,
-                                      bottomLabel: viewModel.soFarTotalLabel,
-                                      isPayOffItem: false,
-                                      circleColor: viewModel.goalsColor,
-                                      height: height,
-                                      titleFont: titleFont,
-                                      subtitleFont: subtitleFont,
-                                      imageFontSize: imageFont)
-
-                    // After tax earnings
+                                      bottomLabel: viewModel.soFarTotalLabel)
                     TodayViewInfoRect(imageName: "dollarsign.circle",
                                       valueString: viewModel.afterTaxTotalValue,
-                                      bottomLabel: "After Tax",
-                                      isPayOffItem: false,
-                                      circleColor: viewModel.goalsColor,
-                                      height: height,
-                                      titleFont: titleFont,
-                                      subtitleFont: subtitleFont,
-                                      imageFontSize: imageFont)
-
-                    
+                                      bottomLabel: "After Tax")
                 }
 
                 HStack {
-                    
-                    // Taxes paid
-                    TodayViewInfoRect(imageName: "dollarsign.circle",
+                    TodayViewInfoRect(circleColor: viewModel.taxesColor,
                                       valueString: viewModel.taxesTotalValue,
-                                      bottomLabel: "Taxes",
-                                      isPayOffItem: true,
-                                      circleColor: viewModel.taxesColor,
-                                      height: height,
-                                      titleFont: titleFont,
-                                      subtitleFont: subtitleFont,
-                                      imageFontSize: imageFont)
-                    
-                    
-                    // Expenses Paid
-                    TodayViewInfoRect(imageName: "dollarsign.circle",
+                                      bottomLabel: "Taxes")
+
+                    TodayViewInfoRect(circleColor: viewModel.expensesColor,
                                       valueString: viewModel.expensesTotalValue,
-                                      bottomLabel: "Expenses",
-                                      isPayOffItem: true,
-                                      circleColor: viewModel.expensesColor,
-                                      height: height,
-                                      titleFont: titleFont,
-                                      subtitleFont: subtitleFont,
-                                      imageFontSize: imageFont)
-
-                    // Goals Paid
-                    TodayViewInfoRect(imageName: "dollarsign.circle",
-                                      valueString: viewModel.goalsTotalValue,
-                                      bottomLabel: "Goals",
-                                      isPayOffItem: true,
-                                      circleColor: viewModel.goalsColor,
-                                      height: height,
-                                      titleFont: titleFont,
-                                      subtitleFont: subtitleFont,
-                                      imageFontSize: imageFont)
+                                      bottomLabel: "Expenses")
                 }
-//
+
                 HStack {
-                    // Unspent
-                    TodayViewInfoRect(imageName: "dollarsign.circle",
+                    TodayViewInfoRect(circleColor: viewModel.goalsColor,
+                                      valueString: viewModel.goalsTotalValue,
+                                      bottomLabel: "Goals")
+                    TodayViewInfoRect(circleColor: viewModel.unspentColor,
                                       valueString: viewModel.unspentTotalValue,
-                                      bottomLabel: "Unspent",
-                                      isPayOffItem: true,
-                                      circleColor: viewModel.unspentColor,
-                                      height: height,
-                                      titleFont: titleFont,
-                                      subtitleFont: subtitleFont,
-                                      imageFontSize: imageFont)
-
-                    // Time elapsed
-                    TodayViewInfoRect(imageName: "hourglass",
-                                      valueString: viewModel.elapsedTime.breakDownTime(),
-                                      bottomLabel: "Elapsed",
-                                      isPayOffItem: false,
-                                      circleColor: viewModel.unspentColor,
-                                      height: height,
-                                      titleFont: titleFont,
-                                      subtitleFont: subtitleFont,
-                                      imageFontSize: imageFont)
-
-                    // Time remaining
-                    TodayViewInfoRect(imageName: "dollarsign.square",
-                                      valueString: viewModel.remainingTime.breakDownTime(),
-                                      bottomLabel: "Remaining",
-                                      isPayOffItem: false,
-                                      circleColor: viewModel.unspentColor,
-                                      height: height,
-                                      titleFont: titleFont,
-                                      subtitleFont: subtitleFont,
-                                      imageFontSize: imageFont)
+                                      bottomLabel: "Unspent")
                 }
             }
-
-//            HStack {
-//                TodayViewInfoRect(imageName: "hourglass",
-//                                  valueString: viewModel.elapsedTime.breakDownTime(),
-//                                  bottomLabel: "Elapsed")
-//                TodayViewInfoRect(imageName: "dollarsign.square",
-//                                  valueString: viewModel.remainingTime.breakDownTime(),
-//                                  bottomLabel: "Remaining")
-//            }
-
-//            HStack {
-//                TodayViewInfoRect(imageName: "hourglass",
-//                                  valueString: viewModel.remainingTime.breakDownTime(),
-//                                  bottomLabel: "Remaining")
-//                TodayViewInfoRect(imageName: "dollarsign.square",
-//                                  valueString: viewModel.willEarn.money(),
-//                                  bottomLabel: "Will earn")
-//            }
         }
     }
 }
@@ -174,7 +88,7 @@ struct NewInfoRects: View {
                                       titleFont: titleFont,
                                       subtitleFont: subtitleFont,
                                       imageFontSize: imageFont)
-                    
+
                     TodayViewInfoRect(imageName: "hourglass",
                                       valueString: viewModel.elapsedTime.breakDownTime(),
                                       bottomLabel: "After Taxes",
@@ -184,7 +98,7 @@ struct NewInfoRects: View {
                                       titleFont: titleFont,
                                       subtitleFont: subtitleFont,
                                       imageFontSize: imageFont)
-                    
+
                     TodayViewInfoRect(imageName: "hourglass",
                                       valueString: viewModel.elapsedTime.breakDownTime(),
                                       bottomLabel: "Remaining",
@@ -204,7 +118,7 @@ struct NewInfoRects: View {
 
                 HStack {
                     // After tax earnings
-                    
+
                     TodayViewInfoRect(imageName: "hourglass",
                                       valueString: viewModel.taxesPaidSoFar.money(),
                                       bottomLabel: "Paid",
@@ -214,7 +128,7 @@ struct NewInfoRects: View {
                                       titleFont: titleFont,
                                       subtitleFont: subtitleFont,
                                       imageFontSize: imageFont)
-                    
+
                     TodayViewInfoRect(imageName: "hourglass",
                                       valueString: viewModel.willPayInTaxes.money(),
                                       bottomLabel: "Will Pay",
@@ -224,7 +138,7 @@ struct NewInfoRects: View {
                                       titleFont: titleFont,
                                       subtitleFont: subtitleFont,
                                       imageFontSize: imageFont)
-                    
+
                     TodayViewInfoRect(imageName: "hourglass",
                                       valueString: viewModel.taxesRemainingToPay.money(),
                                       bottomLabel: "Remaining",
@@ -236,7 +150,7 @@ struct NewInfoRects: View {
                                       imageFontSize: imageFont)
                 }
             }
-            
+
             VStack {
                 Text("Goals")
                     .modifier(HeaderModifier())
@@ -253,7 +167,7 @@ struct NewInfoRects: View {
                                       titleFont: titleFont,
                                       subtitleFont: subtitleFont,
                                       imageFontSize: imageFont)
-                    
+
                     TodayViewInfoRect(imageName: "hourglass",
                                       valueString: viewModel.elapsedTime.breakDownTime(),
                                       bottomLabel: "Will Pay",
@@ -263,7 +177,7 @@ struct NewInfoRects: View {
                                       titleFont: titleFont,
                                       subtitleFont: subtitleFont,
                                       imageFontSize: imageFont)
-                    
+
                     TodayViewInfoRect(imageName: "hourglass",
                                       valueString: viewModel.elapsedTime.breakDownTime(),
                                       bottomLabel: "Remaining",
@@ -275,7 +189,7 @@ struct NewInfoRects: View {
                                       imageFontSize: imageFont)
                 }
             }
-            
+
             VStack {
                 Text("Expenses")
                     .modifier(HeaderModifier())
@@ -292,7 +206,7 @@ struct NewInfoRects: View {
                                       titleFont: titleFont,
                                       subtitleFont: subtitleFont,
                                       imageFontSize: imageFont)
-                    
+
                     TodayViewInfoRect(imageName: "hourglass",
                                       valueString: viewModel.elapsedTime.breakDownTime(),
                                       bottomLabel: "Will Pay",
@@ -302,7 +216,7 @@ struct NewInfoRects: View {
                                       titleFont: titleFont,
                                       subtitleFont: subtitleFont,
                                       imageFontSize: imageFont)
-                    
+
                     TodayViewInfoRect(imageName: "hourglass",
                                       valueString: viewModel.elapsedTime.breakDownTime(),
                                       bottomLabel: "Remaining",
@@ -338,7 +252,7 @@ struct TodayViewInfoRects_Previews: PreviewProvider {
             ZStack{
                 Color.targetGray
                 VStack {
-    //                TodayViewInfoRects()
+                    //                TodayViewInfoRects()
                     NewInfoRects()
                         .onReceive(TodayViewModel.main.timer,
                                    perform: { _ in
@@ -358,6 +272,5 @@ struct TodayViewInfoRects_Previews: PreviewProvider {
         }
 
 //        NewInfoRects()
-            
     }
 }

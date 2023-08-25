@@ -52,7 +52,13 @@ public extension Goal {
                                 user: user,
                                 context: context)
                     #else
-                        try Tag(tagStr, symbol: nil, payoffItem: self, user: user, context: context)
+                        try Tag(tagStr,
+                                symbol: nil,
+                                color: user.getSettings().themeColor,
+                                goal: self,
+                                user: user,
+                                context: context)
+//                        try Tag(tagStr, symbol: nil, payoffItem: self, user: user, context: context)
                     #endif
                 }
             }
@@ -66,16 +72,17 @@ public extension Goal {
 
 extension Goal: PayoffItem {
     public func addTag(tag: Tag) throws {
-        self.addToTags(tag)
-        try self.managedObjectContext?.save()
+        addToTags(tag)
+        try managedObjectContext?.save()
     }
-    
+
     // MARK: Properties
 
     public func removeTag(tag: Tag) throws {
-        self.removeFromTags(tag)
-        try self.managedObjectContext?.save()
+        removeFromTags(tag)
+        try managedObjectContext?.save()
     }
+
     public var isPaidOff: Bool {
         amountRemainingToPayOff < 0.01
     }
