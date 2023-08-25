@@ -75,18 +75,18 @@ struct SavedListView: View {
             }
             
             ToolbarItem(placement: .navigationBarTrailing) {
-                NavigationLink {
-                    CreateSavedView()
+                Button {
+                    NavManager.shared.appendCorrectPath(newValue: .createSaved)
                 } label: {
                     Label("Add Saved Item", systemImage: "plus")
                 }
             }
         }
-        
-        .conditionalModifier(showSearch) { view in
-            view
-                .searchable(text: $searchText)
-        }
+        .conditionallySearchable(isSearching: showSearch, searchText: $searchText)
+//        .conditionalModifier(showSearch) { view in
+//            view
+//                .searchable(text: $searchText)
+//        }
     }
 
     private func addSavedItem() {

@@ -24,30 +24,32 @@ class PayoffItemDetailViewModel: ObservableObject {
 
     @ObservedObject var user: User = User.main
     @ObservedObject var settings: Settings = User.main.getSettings()
-    @Published var payoffItem: PayoffItem
+
+    // swiftformat:sort:begin
     @Published var allocations: [Allocation]
-    @Published var tags: [Tag]
     @Published var amountPaidOff: Double
     @Published var amountRemaining: Double
+    @Published var contributionsID = UUID()
+    @Published var contributionsRectHeight: CGFloat = 150
+    @Published var idToScrollTo: UUID = UUID()
+    @Published var initialImage: UIImage? = nil
+    @Published var isBlurred = false
+    @Published var isShowingFullScreenImage = false
+    @Published var payoffItem: PayoffItem
     @Published var presentConfirmation = false
-    @Published var showSheet = false
+    @Published var showAlert = false
+    @Published var showContributions: Bool = false
     @Published var showImageSelector = false
     @Published var shownImage: UIImage? = nil
-    @Published var initialImage: UIImage? = nil
-    @Published var showAlert = false
-    @Published var toastConfiguration: AlertToast = AlertToast(type: .regular)
-    @Published var isShowingFullScreenImage = false
-    @Published var isBlurred = false
+    @Published var showSheet = false
     @Published var showSpinner = false
-    @Published var viewIDForReload: UUID = UUID()
-    @Published var showContributions: Bool = false
     @Published var showTags: Bool = false
-    @Published var contributionsRectHeight: CGFloat = 150
+    @Published var tags: [Tag]
     @Published var tagsRectHeight: CGFloat = 150
-    @Published var contributionsID = UUID()
-    @Published var idToScrollTo: UUID = UUID()
-    
-    
+    @Published var toastConfiguration: AlertToast = AlertToast(type: .regular)
+    @Published var viewIDForReload: UUID = UUID()
+
+    // swiftformat:sort:end
 
     var contributionsRectIncreaseAmount: CGFloat {
         let multiplier: Double = showContributions ? 1 : -1
@@ -56,7 +58,7 @@ class PayoffItemDetailViewModel: ObservableObject {
 
     var tagsRectIncreaseAmount: CGFloat {
         let multiplier: Double = showTags ? 1 : -1
-        return CGFloat(CGFloat(payoffItem.getTags().count) / 2) * 100 * multiplier 
+        return CGFloat(CGFloat(payoffItem.getTags().count) / 2) * 100 * multiplier
     }
 
     var blurRadius: CGFloat {
@@ -89,16 +91,12 @@ class PayoffItemDetailViewModel: ObservableObject {
         guard let context = user.managedObjectContext else {
             return
         }
-
         do {
             if let goal = payoffItem as? Goal {
                 context.delete(goal)
-            }
-            
-            else if let expense = payoffItem as? Expense {
+            } else if let expense = payoffItem as? Expense {
                 context.delete(expense)
             }
-            
             try context.save()
         } catch {
             print("Failed to delete")
@@ -110,12 +108,10 @@ class PayoffItemDetailViewModel: ObservableObject {
             do {
                 if let goal = payoffItem as? Goal {
                     try goal.saveImage(image: shownImage)
-                }
-                
-                else if let expense = payoffItem as? Expense {
+                } else if let expense = payoffItem as? Expense {
                     try expense.saveImage(image: shownImage)
                 }
-                
+
                 toastConfiguration = AlertToast(displayMode: .alert, type: .complete(settings.themeColor), title: "Saved successfully")
                 showAlert = true
                 viewIDForReload = UUID()

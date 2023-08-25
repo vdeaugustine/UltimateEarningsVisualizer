@@ -9,13 +9,14 @@ import AlertToast
 import SwiftUI
 import Vin
 
-// MARK: - GoalDetailView
+// MARK: - PayoffItemDetailView
 
 struct PayoffItemDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.dismiss) private var dismiss
     @StateObject var viewModel: PayoffItemDetailViewModel
     @State private var showContributionsSheet = false
+    @State private var showDeleteConfirmation = false
 
     init(payoffItem: PayoffItem) {
         _viewModel = StateObject(wrappedValue: PayoffItemDetailViewModel(payoffItem: payoffItem))
@@ -26,9 +27,9 @@ struct PayoffItemDetailView: View {
             ScrollView {
                 VStack {
                     PayoffItemDetailHeaderView(viewModel: viewModel,
-                                         shownImage: viewModel.shownImage,
-                                         tappedImageAction: viewModel.goalDetailHeaderAction)
-                    .padding(.bottom)
+                                               shownImage: viewModel.shownImage,
+                                               tappedImageAction: viewModel.goalDetailHeaderAction)
+                        .padding(.bottom)
 
                     HStack {
                         PayoffItemDetailProgressBox(viewModel: viewModel)
@@ -36,7 +37,7 @@ struct PayoffItemDetailView: View {
                                 print("Tapped")
                                 showContributionsSheet.toggle()
                             }
-                            
+
                         VStack {
                             PayoffItemDetailTotalAmount(viewModel: viewModel)
                             PayoffItemDetailDueDateBox(viewModel: viewModel)
@@ -44,8 +45,6 @@ struct PayoffItemDetailView: View {
                     }
 
                     PayoffItemDetailTagsSection(viewModel: viewModel)
-
-//                    GoalDetailContributionsSection(viewModel: viewModel)
                 }
                 .padding()
                 .blur(radius: viewModel.blurRadius)
@@ -57,7 +56,10 @@ struct PayoffItemDetailView: View {
                 .overlay(fullScreenImage())
                 .background(Color.listBackgroundColor)
                 .confirmationDialog("Are you sure you want to delete this item?", isPresented: $viewModel.presentConfirmation, titleVisibility: .visible, actions: {
-                    Button("Delete", role: .destructive, action: viewModel.doDeleteAction)
+                    Button("Delete", role: .destructive) {
+                        viewModel.doDeleteAction()
+                        dismiss()
+                    }
                 }, message: {
                     Text("This action cannot be undone")
                 })
@@ -91,26 +93,22 @@ struct PayoffItemDetailView: View {
                 .ignoresSafeArea(.keyboard, edges: .bottom)
             }
         }
-        
+
         .background(Color.listBackgroundColor)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-//                    showDeleteConfirmation.toggle()
+                    viewModel.presentConfirmation.toggle()
                 } label: {
                     Label("Delete", systemImage: "trash")
                 }
             }
-            
-            
         }
-        
+
         .sheet(isPresented: $showContributionsSheet) {
             PayoffContributionsView(payoffItem: viewModel.payoffItem, vm: viewModel)
                 .presentationDragIndicator(.visible)
         }
-        
-        
     }
 
     func fullScreenImage() -> some View {

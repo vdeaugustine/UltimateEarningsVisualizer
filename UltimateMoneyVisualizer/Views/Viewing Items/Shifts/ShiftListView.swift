@@ -177,7 +177,7 @@ struct ShiftListView: View {
                         .rectContainer(shadowRadius: 0, cornerRadius: 7)
                 }
 
-                .padding(.vertical)
+                .padding(.bottom)
 //                .padding(.leading, 6)
 
                 ForEach(upcomingShifts) { shift in

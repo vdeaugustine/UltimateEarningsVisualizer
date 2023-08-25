@@ -42,26 +42,20 @@ struct NewTodayView: View {
                 Group {
                     Spacer()
                         .frame(height: 24)
-
                     // The totals section. The ones that tell progress by the second
                     TodayViewInfoRects()
-
                     Spacer()
                         .frame(height: 24)
-
                     // Payoff queue
                     if !viewModel.nonZeroPayoffItems.isEmpty {
                         TodayPaidOffStackWithHeader()
                     }
                     Spacer()
                         .frame(height: 24)
-
                     TodayViewItemizedBlocks()
-
                     Spacer()
                 }
                 .padding(.horizontal)
-
                 Spacer()
             }
             .background(Color.white)

@@ -17,10 +17,7 @@ struct GoalListView: View {
         List {
             ForEach(goals) { goal in
                 NavigationLink(destination: PayoffItemDetailView(payoffItem: goal)) {
-                    
-
                     PayoffWithImageAndGradientView(item: goal, maxHeight: 100)
-                    
                 }
             }
             .listRowBackground(Color.listBackgroundColor)
@@ -43,4 +40,3 @@ struct GoalListView_Previews: PreviewProvider {
             .putInNavView(.inline)
     }
 }
-
