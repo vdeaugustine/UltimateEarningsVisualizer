@@ -82,20 +82,22 @@ struct WageBreakdown_HomeView: View {
 
     var bodyInfoPart: some View {
         VStack {
-            row(period: "Yearly",
-                amount: vm.wage.perYear * (vm.taxesToggleOn ? (1 - vm.wage.totalTaxMultiplier) : 1))
-            Divider()
-            row(period: "Month",
-                amount: vm.wage.perMonth * (vm.taxesToggleOn ? (1 - vm.wage.totalTaxMultiplier) : 1))
-            Divider()
-            row(period: "Week",
-                amount: vm.wage.perWeek * (vm.taxesToggleOn ? (1 - vm.wage.totalTaxMultiplier) : 1))
-            Divider()
-            row(period: "Day",
-                amount: vm.wage.perDay * (vm.taxesToggleOn ? (1 - vm.wage.totalTaxMultiplier) : 1))
-            Divider()
-            row(period: "Hour",
-                amount: vm.wage.hourly * (vm.taxesToggleOn ? (1 - vm.wage.totalTaxMultiplier) : 1))
+            Group {
+                row(period: "Yearly",
+                    amount: vm.wage.perYear * (vm.taxesToggleOn ? (1 - vm.wage.totalTaxMultiplier) : 1))
+                Divider()
+                row(period: "Month",
+                    amount: vm.wage.perMonth * (vm.taxesToggleOn ? (1 - vm.wage.totalTaxMultiplier) : 1))
+                Divider()
+                row(period: "Week",
+                    amount: vm.wage.perWeek * (vm.taxesToggleOn ? (1 - vm.wage.totalTaxMultiplier) : 1))
+                Divider()
+                row(period: "Day",
+                    amount: vm.wage.perDay * (vm.taxesToggleOn ? (1 - vm.wage.totalTaxMultiplier) : 1))
+                Divider()
+                row(period: "Hour",
+                    amount: vm.wage.hourly * (vm.taxesToggleOn ? (1 - vm.wage.totalTaxMultiplier) : 1))
+            }
             Divider()
             row(period: "Minute",
                 amount: vm.wage.perMinute * (vm.taxesToggleOn ? (1 - vm.wage.totalTaxMultiplier) : 1))

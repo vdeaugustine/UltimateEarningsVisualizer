@@ -30,13 +30,13 @@ class StatsViewModel: ObservableObject {
     var listHeader: String {
         switch selectedSection {
             case .earned:
-                "Shifts"
+                return "Shifts"
             case .spent:
-                "Expenses"
+                return "Expenses"
             case .saved:
-                "Saved"
+                return "Saved"
             case .goals:
-                "Goals"
+                return "Goals"
         }
     }
 
@@ -93,13 +93,13 @@ class StatsViewModel: ObservableObject {
     var itemsForList: [any HashableAndIdentifiable] {
         switch selectedSection {
             case .earned:
-                user.getShiftsBetween(startDate: firstDate, endDate: secondDate)
+                return user.getShiftsBetween(startDate: firstDate, endDate: secondDate)
             case .spent:
-                user.getSavedBetween(startDate: firstDate, endDate: secondDate)
+                return user.getSavedBetween(startDate: firstDate, endDate: secondDate)
             case .saved:
-                user.getExpensesBetween(startDate: firstDate, endDate: secondDate)
+                return user.getExpensesBetween(startDate: firstDate, endDate: secondDate)
             case .goals:
-                user.getGoalsBetween(startDate: firstDate, endDate: secondDate)
+                return user.getGoalsBetween(startDate: firstDate, endDate: secondDate)
         }
     }
 

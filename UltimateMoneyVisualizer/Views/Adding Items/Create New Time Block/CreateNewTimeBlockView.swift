@@ -131,7 +131,7 @@ struct CreateNewTimeBlockView: View {
         .putInTemplate()
         .alert(isPresented: $viewModel.showErrorAlert, error: viewModel.error) {}
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItem(placement: .navigationBarTrailing) {
                 if viewModel.title.isEmpty == false,
                    viewModel.start != viewModel.end {
                     Button("Save") {

@@ -104,7 +104,7 @@ struct NewPayoffList: View {
             }
 
             if sortedItems.isEmpty == false {
-                ToolbarItem(placement: .topBarLeading) {
+                ToolbarItem(placement: .navigationBarLeading) {
                     EditButton()
                 }
             }

@@ -48,7 +48,7 @@ struct NewItemCreationView: View {
         .navigationTitle("Enter")
         .putInTemplate()
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
                     viewModel.navManager.appendCorrectPath(newValue: viewModel.getViewType())
                 } label: {

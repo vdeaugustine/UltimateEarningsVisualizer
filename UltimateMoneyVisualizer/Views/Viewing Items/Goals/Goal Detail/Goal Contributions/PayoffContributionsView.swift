@@ -46,7 +46,7 @@ struct PayoffContributionsView: View {
         }
         .navigationTitle("Contributions")
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink {
                     AssignAllocationToPayoffView(payoffItem: payoffItem)
                 } label: {
@@ -55,7 +55,7 @@ struct PayoffContributionsView: View {
                 }
             }
 
-            ToolbarItem(placement: .topBarLeading) {
+            ToolbarItem(placement: .navigationBarLeading) {
                 Button("Dismiss") {
                     dismiss()
                 }

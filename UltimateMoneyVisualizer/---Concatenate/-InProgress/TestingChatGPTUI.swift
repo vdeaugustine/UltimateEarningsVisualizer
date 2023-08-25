@@ -30,9 +30,6 @@ struct UserProfileView: View {
                 )
                 .blur(radius: 5)
                 .frame(width: 150, height: 200)
-//                .modify {
-//                    if #available(iOS 15.0, *)
-//                }
 //                .clipShape(.rect(cornerRadius: 20))
 
             Text("Today View")
