@@ -21,18 +21,18 @@ struct TodayViewItemizedBlocks: View {
         VStack(spacing: 16) {
             header
 
-            if model.timeBlocksExpanded {
+            if !model.timeBlocksExpanded || model.timeBlockCount == 0 {
+                compactView
+            } else {
                 if let shift = model.user.todayShift {
                     TodayViewTimeBlocksExpanded(shift: shift)
                 }
-            } else {
-                compactView
             }
-            
+
 //            .frame(height: 115)
         }
     }
-    
+
     @ViewBuilder var header: some View {
         HStack {
             Text("TIME BLOCKS")
@@ -48,8 +48,7 @@ struct TodayViewItemizedBlocks: View {
         .fontWeight(.semibold)
         .foregroundStyle(Color(hex: "4E4E4E"))
     }
-    
-    
+
     @ViewBuilder var compactView: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             if let todayShift = model.user.todayShift {
@@ -86,9 +85,6 @@ struct TodayViewItemizedBlocks: View {
             }
         }
     }
-    
-    
-    
 }
 
 // MARK: - TodayViewItemizedBlocks_Previews

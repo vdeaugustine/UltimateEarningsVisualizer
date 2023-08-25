@@ -21,12 +21,12 @@ struct SelectHours: View {
                 DatePicker("End Time", selection: $viewModel.end, displayedComponents: .hourAndMinute)
 
                 // TODO: - Remove this before finishing
-                #if DEUBG
+//                #if DEUBG
                     Button("Testing") {
                         viewModel.start = .now.addMinutes(-3)
                         viewModel.end = .now.addMinutes(2)
                     }
-                #endif
+//                #endif
 
                 Button("9-5") {
                     viewModel.start = Date.getThisTime(hour: 9, minute: 0)!

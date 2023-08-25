@@ -30,7 +30,10 @@ struct UserProfileView: View {
                 )
                 .blur(radius: 5)
                 .frame(width: 150, height: 200)
-                .clipShape(.rect(cornerRadius: 20))
+//                .modify {
+//                    if #available(iOS 15.0, *)
+//                }
+//                .clipShape(.rect(cornerRadius: 20))
 
             Text("Today View")
                 .foregroundStyle(Color.white)
@@ -43,6 +46,17 @@ struct UserProfileView: View {
                                        Gradient.Stop(color: Color(red: 0.23, green: 0.38, blue: 0.45), location: 5)],
                                center: UnitPoint(x: 0.22, y: 0.36))
         )
+    }
+}
+
+public extension View {
+    @ViewBuilder
+    func modify(@ViewBuilder _ transform: (Self) -> (some View)?) -> some View {
+        if let view = transform(self), !(view is EmptyView) {
+            view
+        } else {
+            self
+        }
     }
 }
 

@@ -43,7 +43,7 @@ struct NewTodayView: View {
                     Spacer()
                         .frame(height: 24)
                     // The totals section. The ones that tell progress by the second
-                    TodayViewInfoRects()
+                    NewInfoRects()
                     Spacer()
                         .frame(height: 24)
                     // Payoff queue

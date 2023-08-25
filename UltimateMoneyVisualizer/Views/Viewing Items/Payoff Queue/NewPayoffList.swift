@@ -46,7 +46,7 @@ struct NewPayoffList: View {
     }
 
     var body: some View {
-        Group {
+        VStack {
             if sortedItems.isEmpty == false {
                 List{
                     Section {

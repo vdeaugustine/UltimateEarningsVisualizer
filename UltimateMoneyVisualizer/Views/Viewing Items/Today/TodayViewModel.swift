@@ -42,8 +42,8 @@ class TodayViewModel: ObservableObject {
     @Published var showHoursSheet = false
 
     @Published var start: Date = User.main.regularSchedule?.getStartTime(for: .now) ?? Date.getThisTime(hour: 9, minute: 0)!
+    @Published var timeBlocksExpanded: Bool = true
     @Published var todayViewCurrentScrollOffset: CGFloat = 0
-    @Published var timeBlocksExpanded: Bool = false
     // swiftformat:sort:end
 
     // MARK: - Observed Objects
@@ -189,6 +189,10 @@ class TodayViewModel: ObservableObject {
     var taxesPaidSoFar: Double {
         tempPayoffs.lazy.filter { $0.type == .tax }.reduce(Double.zero) { $0 + $1.progressAmount }
     }
+    
+    var taxesRemainingToPay: Double {
+        willPayInTaxes - taxesPaidSoFar
+    }
 
     var taxesTempPayoffs: [TempTodayPayoff] {
         var expenses: [TempTodayPayoff] = []
@@ -222,6 +226,10 @@ class TodayViewModel: ObservableObject {
 
     var unspent: Double {
         max(haveEarned - spentTotal, 0)
+    }
+
+    var willPayInTaxes: Double {
+        willEarn * wage.totalTaxMultiplier
     }
 
     // swiftformat:sort:end
@@ -548,12 +556,13 @@ extension TodayViewModel {
         return retArr
     }
     
-    
+    var timeBlockCount: Int {
+        user.todayShift?.getTimeBlocks().count ?? 0
+    }
+
     var timeBlocksHeaderButtonName: String {
         timeBlocksExpanded ? "slider.horizontal.below.square.filled.and.square" : "list.bullet"
     }
-    
-    
 
     func compareDates(_ date1: Date, _ date2: Date, accuracy: AccuracyLevel) -> Bool {
         let calendar = Calendar.current
