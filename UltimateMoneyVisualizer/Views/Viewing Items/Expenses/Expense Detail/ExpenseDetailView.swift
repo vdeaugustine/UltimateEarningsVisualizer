@@ -95,7 +95,7 @@ struct ExpenseDetailView: View {
 
         .background(Color.listBackgroundColor)
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
 //                    showDeleteConfirmation.toggle()
                 } label: {

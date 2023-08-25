@@ -189,14 +189,14 @@ struct EnterDoubleView: View {
         .putInTemplate()
         .presentationDetents([.fraction(0.85)])
         .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
+            ToolbarItem(placement: .navigationBarLeading) {
                 Button("Cancel") {
                     dismiss()
                 }
                 .tint(Color.white)
             }
 
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItem(placement: .navigationBarTrailing) {
                 Button("Save") {
                     dubToEdit = dubValue
                     dismiss()

@@ -85,18 +85,20 @@ struct WageBreakdown: View {
 
     var bodyInfoPart: some View {
         VStack {
-            row(period: "Yearly",
-                amount: wage.perYear * (toggleTaxes ? (1 - wage.totalTaxMultiplier) : 1))
-            Divider()
-            row(period: "Month",
-                amount: wage.perMonth * (toggleTaxes ? (1 - wage.totalTaxMultiplier) : 1))
-            Divider()
-            row(period: "Week",
-                amount: wage.perWeek * (toggleTaxes ? (1 - wage.totalTaxMultiplier) : 1))
-            Divider()
-            row(period: "Day",
-                amount: wage.perDay * (toggleTaxes ? (1 - wage.totalTaxMultiplier) : 1))
-            Divider()
+            Group {
+                row(period: "Yearly",
+                    amount: wage.perYear * (toggleTaxes ? (1 - wage.totalTaxMultiplier) : 1))
+                Divider()
+                row(period: "Month",
+                    amount: wage.perMonth * (toggleTaxes ? (1 - wage.totalTaxMultiplier) : 1))
+                Divider()
+                row(period: "Week",
+                    amount: wage.perWeek * (toggleTaxes ? (1 - wage.totalTaxMultiplier) : 1))
+                Divider()
+                row(period: "Day",
+                    amount: wage.perDay * (toggleTaxes ? (1 - wage.totalTaxMultiplier) : 1))
+                Divider()
+            }
             row(period: "Hour",
                 amount: wage.hourly * (toggleTaxes ? (1 - wage.totalTaxMultiplier) : 1))
             Divider()

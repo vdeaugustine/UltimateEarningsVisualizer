@@ -98,7 +98,7 @@ struct PayPeriodDetailView: View {
 //            }
         }
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
                     showDeleteConfirmation.toggle()
                 } label: {

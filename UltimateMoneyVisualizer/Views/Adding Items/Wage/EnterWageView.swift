@@ -49,11 +49,11 @@ struct EnterWageView: View {
 
     var wageToShow: String {
         if isSalaried {
-            getHourlyWage(salaryDouble)
+            return getHourlyWage(salaryDouble)
                 .money(trimZeroCents: false)
                 .replacingOccurrences(of: "$", with: "")
         } else {
-            hourlyDouble
+            return hourlyDouble
                 .money(trimZeroCents: false)
                 .replacingOccurrences(of: "$", with: "")
         }

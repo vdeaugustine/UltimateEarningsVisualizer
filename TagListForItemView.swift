@@ -30,7 +30,7 @@ struct TagListForItemView: View {
             }
             .putInTemplate(title: "Tags")
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink {
                         CreateTagView(payoff: AnyPayoffItem(item))
                             .presentationDetents([.large])

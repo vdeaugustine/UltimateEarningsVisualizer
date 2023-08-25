@@ -30,7 +30,7 @@ struct UserProfileView: View {
                 )
                 .blur(radius: 5)
                 .frame(width: 150, height: 200)
-                .clipShape(.rect(cornerRadius: 20))
+//                .clipShape(.rect(cornerRadius: 20))
 
             Text("Today View")
                 .foregroundStyle(Color.white)

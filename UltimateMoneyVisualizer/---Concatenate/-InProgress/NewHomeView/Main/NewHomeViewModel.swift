@@ -38,72 +38,70 @@ class NewHomeViewModel: ObservableObject {
 
         @ViewBuilder var icon: some View {
             switch self {
-                case .earned:
-                    Image(systemName: IconManager.shiftsString)
-                case .taxes:
-                    Image(systemName: IconManager.taxesString)
-                case .expenses:
-                    Image(systemName: IconManager.expenseString)
-                case .goals:
-                    Image(systemName: IconManager.goalsString)
-                case .saved:
-                    IconManager.savedIcon
-                        .stroke(lineWidth: 1.5)
-                        .frame(width: 30, height: 30)
+            case .earned:
+                Image(systemName: IconManager.shiftsString)
+            case .taxes:
+                Image(systemName: IconManager.taxesString)
+            case .expenses:
+                Image(systemName: IconManager.expenseString)
+            case .goals:
+                Image(systemName: IconManager.goalsString)
+            case .saved:
+                IconManager.savedIcon
+                    .stroke(lineWidth: 1.5)
+                    .frame(width: 30, height: 30)
 
-                case .paidOff:
-                    Image(systemName: IconManager.paidOffString)
+            case .paidOff:
+                Image(systemName: IconManager.paidOffString)
             }
         }
 
         func amount(_ user: User) -> String {
             switch self {
-                case .earned:
-                    user.totalEarned().money()
-                case .taxes:
-                    (user.totalEarned() * user.getWage().totalTaxMultiplier).money()
-                case .expenses:
-                    user.getAmountForAllExpensesBetween().money()
-                case .goals:
-                    user.getAmountForAllGoalsBetween().money()
-                case .saved:
-                    user.getAmountSavedBetween().money()
-                case .paidOff:
-                    user.amountAllocated().money()
+            case .earned:
+                return user.totalEarned().money()
+            case .taxes:
+                return (user.totalEarned() * user.getWage().totalTaxMultiplier).money()
+            case .expenses:
+                return user.getAmountForAllExpensesBetween().money()
+            case .goals:
+                return user.getAmountForAllGoalsBetween().money()
+            case .saved:
+                return user.getAmountSavedBetween().money()
+            case .paidOff:
+                return user.amountAllocated().money()
             }
         }
 
         func quantityLabel(_ vm: NewHomeViewModel) -> String {
             switch vm.selectedTotalItem {
-                case .earned:
-                    "\(vm.user.getShifts().count) shifts"
-                case .taxes:
-                    "\((vm.user.getWage().totalTaxMultiplier * 100).simpleStr()) %"
-                case .expenses:
-                    "\(vm.user.getExpenses().count) items"
-                case .goals:
-                    "\(vm.user.getGoals().count) items"
-                case .saved:
-                    "\(vm.user.getSaved().count) items"
-                case .paidOff:
-                    "\(vm.user.getAllocations().count) allocations"
+            case .earned:
+                return "\(vm.user.getShifts().count) shifts"
+            case .taxes:
+                return"\((vm.user.getWage().totalTaxMultiplier * 100).simpleStr()) %"
+            case .expenses:
+                return"\(vm.user.getExpenses().count) items"
+            case .goals:
+                return "\(vm.user.getGoals().count) items"
+            case .saved:
+                return "\(vm.user.getSaved().count) items"
+            case .paidOff:
+                return "\(vm.user.getAllocations().count) allocations"
             }
         }
     }
 
     struct SummaryRow: Identifiable, Hashable {
         var id: Self { self }
-        
-        
+
         let title: String
         let valueString: String
-        
     }
 
     var earnedSummaryRows: [SummaryRow] {
         [.init(title: "Shifts", valueString: user.getShifts().count.str),
          .init(title: "Time worked", valueString: user.totalTimeWorked().breakDownTime()),
-         ]
+        ]
     }
 
     var paidOffSummaryRows: [SummaryRow] {
@@ -116,7 +114,7 @@ class NewHomeViewModel: ObservableObject {
         [.init(title: "State", valueString: "\((user.getWage().stateTaxMultiplier * 100).simpleStr()) %"),
          .init(title: "State Paid", valueString: user.getStateTaxesPaid().money()),
          .init(title: "Federal", valueString: "\((user.getWage().federalTaxMultiplier * 100).simpleStr()) %"),
-         .init(title: "Federal Paid", valueString: user.getFederalTaxesPaid().money())
+         .init(title: "Federal Paid", valueString: user.getFederalTaxesPaid().money()),
         ]
     }
 
@@ -124,50 +122,50 @@ class NewHomeViewModel: ObservableObject {
         [.init(title: "Paid off", valueString: user.getAmountActuallySpentOnExpenses().money()),
          .init(title: "Remaining to pay", valueString: user.getAmountRemainingToPay_Expenses().money())]
     }
-    
+
     var goalsSummaryRows: [SummaryRow] {
         [.init(title: "Paid off", valueString: user.getAmountActuallySpentOnGoals().money()),
          .init(title: "Remaining to pay", valueString: user.getAmountRemainingToPay_Goals().money())]
     }
-    
+
     var savedSummaryRows: [SummaryRow] {
         [
             .init(title: "Money", valueString: user.getAmountSavedBetween().money()),
-            .init(title: "Time", valueString: user.getTimeSavedBetween().breakDownTime())
+            .init(title: "Time", valueString: user.getTimeSavedBetween().breakDownTime()),
         ]
     }
-    
+
     func getSummaryRows() -> [SummaryRow] {
         switch selectedTotalItem {
-            case .earned:
-                earnedSummaryRows
-            case .taxes:
-                taxesSummaryRows
-            case .expenses:
-                expensesSummaryRows
-            case .goals:
-                goalsSummaryRows
-            case .saved:
-                savedSummaryRows
-            case .paidOff:
-                paidOffSummaryRows
+        case .earned:
+            return earnedSummaryRows
+        case .taxes:
+            return taxesSummaryRows
+        case .expenses:
+            return expensesSummaryRows
+        case .goals:
+            return goalsSummaryRows
+        case .saved:
+            return savedSummaryRows
+        case .paidOff:
+            return paidOffSummaryRows
         }
     }
-    
+
     func getSummaryTotal() -> Double {
         switch selectedTotalItem {
-            case .earned:
-                user.totalEarned()
-            case .taxes:
-                user.getTotalTaxesPaid()
-            case .expenses:
-                user.getAmountForAllExpensesBetween()
-            case .goals:
-                user.getAmountForAllGoalsBetween()
-            case .saved:
-                user.getAmountSavedBetween()
-            case .paidOff:
-                user.getAmountActuallySpentOnGoals() + user.getAmountActuallySpentOnExpenses()
+        case .earned:
+            return user.totalEarned()
+        case .taxes:
+            return user.getTotalTaxesPaid()
+        case .expenses:
+            return user.getAmountForAllExpensesBetween()
+        case .goals:
+            return user.getAmountForAllGoalsBetween()
+        case .saved:
+            return user.getAmountSavedBetween()
+        case .paidOff:
+            return user.getAmountActuallySpentOnGoals() + user.getAmountActuallySpentOnExpenses()
         }
     }
 }

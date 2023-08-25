@@ -23,7 +23,7 @@ protocol ShiftProtocol {
 class CreateNewTimeBlockForShiftViewModel: CreateNewTimeBlockViewModel {
     init(shift: Shift, start: Date? = nil, end: Date? = nil) {
         super.init(shift: shift)
-        if let start{
+        if let start {
             self.start = start
         }
         if let end {
@@ -86,9 +86,8 @@ class CreateNewTimeBlockViewModel: ObservableObject {
             return firstEnd > secondEnd
         }
     }
-    
+
     func saveCheck() throws {
-        
     }
 
     func saveAction(context: NSManagedObjectContext) throws {}
@@ -118,23 +117,23 @@ class CreateNewTimeBlockViewModel: ObservableObject {
 
         var description: String {
             switch self {
-                case .couldNotSaveContext:
-                    "Error saving. Please try again. If issue persists, try restarting the app"
-                case let .overlapping(message):
-                    message
-                case .unknown:
-                    "Unknown error. Please try again. If issue persists, try restarting the app"
+            case .couldNotSaveContext:
+                return "Error saving. Please try again. If issue persists, try restarting the app"
+            case let .overlapping(message):
+                return message
+            case .unknown:
+                return "Unknown error. Please try again. If issue persists, try restarting the app"
             }
         }
 
         var errorDescription: String? {
             switch self {
-                case .couldNotSaveContext:
-                    "Error saving. Please try again. If issue persists, try restarting the app"
-                case let .overlapping(message):
-                    message
-                case .unknown:
-                    "Unknown error. Please try again. If issue persists, try restarting the app"
+            case .couldNotSaveContext:
+                return "Error saving. Please try again. If issue persists, try restarting the app"
+            case let .overlapping(message):
+                return message
+            case .unknown:
+                return "Unknown error. Please try again. If issue persists, try restarting the app"
             }
         }
     }

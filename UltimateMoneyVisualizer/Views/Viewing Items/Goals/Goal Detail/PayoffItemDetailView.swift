@@ -96,7 +96,7 @@ struct PayoffItemDetailView: View {
 
         .background(Color.listBackgroundColor)
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
                     viewModel.presentConfirmation.toggle()
                 } label: {

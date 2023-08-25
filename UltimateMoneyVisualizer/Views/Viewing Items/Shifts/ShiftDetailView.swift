@@ -138,7 +138,7 @@ struct ShiftDetailView: View {
 
         .padding(.bottom)
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
                     showDeleteConfirmation.toggle()
                 } label: {
