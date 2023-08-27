@@ -19,6 +19,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 //        }
         
         
+        User.main.addNewVisit()
+        
         return true
     }
 }

@@ -15,6 +15,10 @@ public extension User {
     @discardableResult convenience init(exampleItem: Bool = true,
                                         context: NSManagedObjectContext = PersistenceController.testing) throws {
         self.init(context: context)
+        
+        try self.statusTracker = .init(user: self, context: context)
+        
+        
         self.username = "Testing User"
         self.email = "TestUser@ExampleForTest.com"
 
@@ -82,6 +86,8 @@ public extension User {
         try User(exampleItem: true)
     }
 
+    
+    // MARK: - MAIN USER
     static var main: User {
         let userContext = PersistenceController.context
 
@@ -790,4 +796,21 @@ public extension User {
                         context: getContext())
         }
     }
+}
+
+
+
+// MARK: - Status Tracking
+
+public extension User {
+
+    func addNewVisit() {
+        self.statusTracker?.numberOfTimesOpeningApp += 1
+        do {
+            try self.managedObjectContext?.save()
+        } catch {
+            print("Error saving a new visit", error)
+        }
+    }
+    
 }

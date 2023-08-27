@@ -113,6 +113,16 @@
         <relationship name="timeBlocks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TimeBlock" inverseName="shift" inverseEntity="TimeBlock"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="shifts" inverseEntity="User"/>
     </entity>
+    <entity name="StatusTracker" representedClassName="StatusTracker" syncable="YES" codeGenerationType="class">
+        <attribute name="hasFoundEasterEgg" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="hasSeenHomeTutorial" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="hasSeenSettingsTutorial" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="hasSeenShiftsTutorial" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="hasSeenTodayViewTutorial" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="hasSeenWageTutorial" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="numberOfTimesOpeningApp" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="User" inverseName="statusTracker" inverseEntity="User"/>
+    </entity>
     <entity name="Tag" representedClassName="Tag" syncable="YES" codeGenerationType="class">
         <attribute name="colorHexStr" optional="YES" attributeType="String"/>
         <attribute name="dateCreated" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -169,6 +179,7 @@
         <relationship name="savedItems" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Saved" inverseName="user" inverseEntity="Saved"/>
         <relationship name="settings" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Settings" inverseName="user" inverseEntity="Settings"/>
         <relationship name="shifts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Shift" inverseName="user" inverseEntity="Shift"/>
+        <relationship name="statusTracker" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="StatusTracker" inverseName="user" inverseEntity="StatusTracker"/>
         <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tag" inverseName="user" inverseEntity="Tag"/>
         <relationship name="timeBlocks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TimeBlock" inverseName="user" inverseEntity="TimeBlock"/>
         <relationship name="todayShift" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TodayShift" inverseName="user" inverseEntity="TodayShift"/>

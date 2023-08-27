@@ -217,6 +217,6 @@ struct EnterDoubleView: View {
 
 struct EnterDoubleView_Previews: PreviewProvider {
     static var previews: some View {
-        EnterDoubleView(dubToEdit: .constant(0), format: .dollar)
+        EnterDoubleView(dubToEdit: .constant(1000), format: .dollar)
     }
 }

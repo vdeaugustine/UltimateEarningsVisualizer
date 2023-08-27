@@ -210,6 +210,17 @@ struct SettingsView: View {
                 }
                 .buttonStyle(.plain)
             }
+            
+            
+            if let numberOfVisits = User.main.statusTracker?.numberOfTimesOpeningApp {
+                Section {
+                    
+                } header: {
+                    
+                } footer: {
+                    Text("You have opened the app \(numberOfVisits) time\(numberOfVisits > 1 ? "s" : "")! Nice Job!")
+                }
+            }
         }
         .listStyle(.insetGrouped)
         .putInTemplate()
@@ -217,6 +228,7 @@ struct SettingsView: View {
         .navigationDestination(for: NavManager.AllViews.self) { view in
             NavManager.shared.getDestinationViewForStack(destination: view)
         }
+        
     }
 }
 
