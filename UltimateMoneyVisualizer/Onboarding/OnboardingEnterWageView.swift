@@ -9,11 +9,13 @@ import SwiftUI
 
 // MARK: - OnboardingSecondView
 
-struct OnboardingSecondView: View {
+struct OnboardingEnterWageView: View {
     @EnvironmentObject private var model: OnboardingModel
     @State private var paymentType: WageType = .salary
     @State private var amount: Double = 110_000
     @State private var showNumberKeyboard = false
+    
+   
 
     var body: some View {
         VStack {
@@ -27,8 +29,9 @@ struct OnboardingSecondView: View {
 
             nextButton
         }
-        .frame(maxWidth: .infinity)
-        .padding(30)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding(.horizontal, 30)
+        .padding(.bottom, 50)
         .sheet(isPresented: $showNumberKeyboard, content: {
             EnterDouble(doubleToEdit: $amount)
 
@@ -39,7 +42,6 @@ struct OnboardingSecondView: View {
         Text("How much do you earn?")
             .font(.system(.largeTitle, weight: .bold))
             .frame(width: 240)
-            .clipped()
             .multilineTextAlignment(.center)
     }
 
@@ -48,11 +50,7 @@ struct OnboardingSecondView: View {
             showNumberKeyboard.toggle()
         } label: {
             HStack(spacing: 10) {
-                Image(systemName: "dollarsign")
-                    .imageScale(.large)
-                    .symbolRenderingMode(.monochrome)
-                    .font(.system(size: 30, weight: .regular, design: .default))
-                Text("110,000")
+                Text(amount.money())
                     .font(.system(size: 50, weight: .semibold, design: .default).width(.expanded))
             }
             .foregroundStyle(Color.black)
@@ -91,19 +89,24 @@ struct OnboardingSecondView: View {
     }
 
     var nextButton: some View {
-        Text("Next")
-            .font(.system(.callout, weight: .semibold))
-            .padding()
-            .frame(maxWidth: .infinity)
-            .frame(height: 50)
-            .foregroundColor(.white)
-            .background(.blue)
-            .mask { RoundedRectangle(cornerRadius: 16, style: .continuous) }
+        Button {
+            model.increaseScreenNumber()
+        } label: {
+            Text("Next")
+                .font(.system(.callout, weight: .semibold))
+                .padding()
+                .frame(maxWidth: .infinity)
+                .frame(height: 50)
+                .foregroundColor(.white)
+                .background(.blue)
+                .mask { RoundedRectangle(cornerRadius: 16, style: .continuous) }
+        }
     }
 
     struct EnterDouble: View {
         @Binding var doubleToEdit: Double
         @State private var enteredStr = ""
+        @Environment (\.dismiss) private var dismiss
 
         func getWidth(geo: GeometryProxy) -> CGFloat {
             return geo.size.width * 100 / 375
@@ -126,9 +129,8 @@ struct OnboardingSecondView: View {
             return double / 100
         }
 
-        
         @State private var width: CGFloat = 300
-        
+
         var body: some View {
             GeometryReader { geo in
                 VStack(spacing: 10) {
@@ -208,40 +210,26 @@ struct OnboardingSecondView: View {
                             }
                         }
                         .foregroundStyle(Color.black)
-                        
 
                         Button {
+                            doubleToEdit = dubValue
+                            dismiss()
                         } label: {
                             Text("Enter")
                                 .font(.system(.callout, weight: .semibold))
                                 .padding()
                                 .frame(width: width)
-//                                .frame(maxWidth: .infinity)
                                 .frame(height: 50)
-                                
-                                
+
                                 .foregroundColor(.white)
                                 .background(.blue)
-//                                .overlay {
-//                                    GeometryReader { geo in
-//                                        Color.red
-//                                            .preference(key: SizePreference.self, value: geo.size)
-//                                            .onPreferenceChange(SizePreference.self, perform: { value in
-//                                                print(value)
-//                                            })
-//                                    }
-//                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-//                                }
                                 .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-//                                .padding(.horizontal)
                                 .padding(.horizontal, 30)
-                                
                         }
                     }
                 }
                 .padding(.bottom, geo.size.height * 0.04)
                 .presentationDragIndicator(.visible)
-//                .presentationDetents([.fraction(0.9)])
             }
             .onChange(of: enteredStr) { newValue in
                 if newValue.isEmpty {
@@ -250,14 +238,13 @@ struct OnboardingSecondView: View {
             }
         }
     }
-    
+
     struct SizePreference: PreferenceKey {
         static var defaultValue: CGSize = .zero
 
         static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
             print("Size:", nextValue())
             value = nextValue()
-            
         }
     }
 }
@@ -266,7 +253,7 @@ struct OnboardingSecondView: View {
 
 struct OnboardingSecondView_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardingSecondView()
+        OnboardingEnterWageView()
             .environmentObject(OnboardingModel.shared)
     }
 }

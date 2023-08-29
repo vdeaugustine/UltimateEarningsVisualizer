@@ -7,48 +7,25 @@
 
 import SwiftUI
 
-
-class OnboardingModel: ObservableObject {
-    
-    public static var shared: OnboardingModel = OnboardingModel()
-    let backgroundColor: Color = .clear
-    @Published var screenNumber: Int = 1
-    
-    @ObservedObject var user: User = User.main
-    
-    
-    func increaseScreenNumber() {
-        withAnimation {
-            screenNumber += 1
-        }
-    }
-    
-    func decreaseScreenNumber() {
-        withAnimation {
-            screenNumber += 1
-        }
-    }
-    
-}
-
-
-
 // MARK: - OnboardingFirstView
 
 struct OnboardingFirstView: View {
     @StateObject private var model = OnboardingModel.shared
-    @Environment (\.dismiss) private var dismiss
+    @Environment(\.dismiss) private var dismiss
     @State private var tab: Int = 1
 
     var body: some View {
         TabView(selection: $model.screenNumber) {
-            first
+            WelcomeView()
                 .tag(1)
 
-            OnboardingSecondView()
+            OnboardingEnterWageView()
                 .tag(2)
+
+            OnboardingRegularDaysView()
+                .tag(3)
         }
-        
+
         .tabViewStyle(.page(indexDisplayMode: .always))
         .indexViewStyle(.page(backgroundDisplayMode: .always))
         .background(model.backgroundColor.ignoresSafeArea())
@@ -81,14 +58,14 @@ struct OnboardingFirstView: View {
                 model.increaseScreenNumber()
             }
             .buttonStyle(.borderedProminent)
-            
+
             Spacer()
         }
         .frame(maxHeight: .infinity)
         .padding()
         .background(model.backgroundColor.ignoresSafeArea())
     }
-    
+
     @ViewBuilder var arrows: some View {
         HStack {
             if tab > 1 {
@@ -103,10 +80,8 @@ struct OnboardingFirstView: View {
                     .padding()
                     .cornerRadius(10)
                 }
-                
-                
             }
-            
+
             Spacer()
 
             Button(action: {
