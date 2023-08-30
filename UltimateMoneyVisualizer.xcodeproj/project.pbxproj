@@ -83,6 +83,11 @@
 		9C602CCD2A9DB74800B42DDF /* OnboardingFirstExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C602CCC2A9DB74800B42DDF /* OnboardingFirstExpenseView.swift */; };
 		9C602CCF2A9E652D00B42DDF /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C602CCE2A9E652D00B42DDF /* WelcomeView.swift */; };
 		9C602CD12A9EFD2F00B42DDF /* WhatIsASavedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C602CD02A9EFD2F00B42DDF /* WhatIsASavedItem.swift */; };
+		9C602CD42A9F056F00B42DDF /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 9C602CD32A9F056F00B42DDF /* PopupView */; };
+		9C602CD72A9F060400B42DDF /* FloatingButton in Frameworks */ = {isa = PBXBuildFile; productRef = 9C602CD62A9F060400B42DDF /* FloatingButton */; };
+		9C602CDA2A9F071900B42DDF /* WelcomeSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 9C602CD92A9F071900B42DDF /* WelcomeSheet */; };
+		9C602CDC2A9F075B00B42DDF /* NewOnboardingFirstView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C602CDB2A9F075B00B42DDF /* NewOnboardingFirstView.swift */; };
+		9C602CDF2A9F13D700B42DDF /* NewOnboardingWage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C602CDE2A9F13D700B42DDF /* NewOnboardingWage.swift */; };
 		9C65A75F2A00D28E00A5BCF1 /* GoalRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C65A75E2A00D28E00A5BCF1 /* GoalRow.swift */; };
 		9C65A7612A00D4B900A5BCF1 /* ExpenseRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C65A7602A00D4B900A5BCF1 /* ExpenseRow.swift */; };
 		9C69C5CC2A1832E5006F5C23 /* PayoffWithImageAndGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C69C5CB2A1832E5006F5C23 /* PayoffWithImageAndGradientView.swift */; };
@@ -352,6 +357,8 @@
 		9C602CCC2A9DB74800B42DDF /* OnboardingFirstExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFirstExpenseView.swift; sourceTree = "<group>"; };
 		9C602CCE2A9E652D00B42DDF /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		9C602CD02A9EFD2F00B42DDF /* WhatIsASavedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatIsASavedItem.swift; sourceTree = "<group>"; };
+		9C602CDB2A9F075B00B42DDF /* NewOnboardingFirstView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewOnboardingFirstView.swift; sourceTree = "<group>"; };
+		9C602CDE2A9F13D700B42DDF /* NewOnboardingWage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewOnboardingWage.swift; sourceTree = "<group>"; };
 		9C65A75E2A00D28E00A5BCF1 /* GoalRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalRow.swift; sourceTree = "<group>"; };
 		9C65A7602A00D4B900A5BCF1 /* ExpenseRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRow.swift; sourceTree = "<group>"; };
 		9C69C5CB2A1832E5006F5C23 /* PayoffWithImageAndGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayoffWithImageAndGradientView.swift; sourceTree = "<group>"; };
@@ -533,8 +540,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C602CD72A9F060400B42DDF /* FloatingButton in Frameworks */,
 				9C7F96A229F8FE6700F5035C /* Vin in Frameworks */,
 				9C7F96A929F9004000F5035C /* AlertToast in Frameworks */,
+				9C602CDA2A9F071900B42DDF /* WelcomeSheet in Frameworks */,
+				9C602CD42A9F056F00B42DDF /* PopupView in Frameworks */,
 				9CE4F66B2A5E60820046183C /* FancyScrollView in Frameworks */,
 				9C5F0B882A3057CD006AAB46 /* SwiftPieChart in Frameworks */,
 			);
@@ -697,6 +707,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		9C602CDD2A9F13C400B42DDF /* New Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				9C602CDE2A9F13D700B42DDF /* NewOnboardingWage.swift */,
+			);
+			path = "New Onboarding";
+			sourceTree = "<group>";
+		};
 		9C65A7642A00DA7400A5BCF1 /* Payoff Queue */ = {
 			isa = PBXGroup;
 			children = (
@@ -841,6 +859,7 @@
 		9C7F965929F8F03C00F5035C /* UltimateMoneyVisualizer */ = {
 			isa = PBXGroup;
 			children = (
+				9C602CDD2A9F13C400B42DDF /* New Onboarding */,
 				9CF411C62A85746E00A49F08 /* NewTimeBlocksForShiftView.swift */,
 				9CFDAED82A65B3890098202B /* TodayViewDetailsSection.swift */,
 				9CAE0B3C2A9AD4F8009034EC /* Onboarding */,
@@ -1066,6 +1085,7 @@
 				9C74F9FE2A9C1F6700466779 /* OnboardingFirstGoalView.swift */,
 				9C602CCC2A9DB74800B42DDF /* OnboardingFirstExpenseView.swift */,
 				9C602CCB2A9DB41900B42DDF /* Model */,
+				9C602CDB2A9F075B00B42DDF /* NewOnboardingFirstView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -1562,6 +1582,9 @@
 				9C7F96A829F9004000F5035C /* AlertToast */,
 				9C5F0B872A3057CD006AAB46 /* SwiftPieChart */,
 				9CE4F66A2A5E60820046183C /* FancyScrollView */,
+				9C602CD32A9F056F00B42DDF /* PopupView */,
+				9C602CD62A9F060400B42DDF /* FloatingButton */,
+				9C602CD92A9F071900B42DDF /* WelcomeSheet */,
 			);
 			productName = UltimateMoneyVisualizer;
 			productReference = 9C7F965729F8F03C00F5035C /* UltimateMoneyVisualizer.app */;
@@ -1640,6 +1663,9 @@
 				9C7F96A729F9004000F5035C /* XCRemoteSwiftPackageReference "AlertToast" */,
 				9C5F0B862A3057CD006AAB46 /* XCRemoteSwiftPackageReference "SwiftPieChart" */,
 				9CE4F6692A5E60820046183C /* XCRemoteSwiftPackageReference "FancyScrollView" */,
+				9C602CD22A9F056F00B42DDF /* XCRemoteSwiftPackageReference "PopupView" */,
+				9C602CD52A9F060400B42DDF /* XCRemoteSwiftPackageReference "FloatingButton" */,
+				9C602CD82A9F071900B42DDF /* XCRemoteSwiftPackageReference "Welcome-Sheet" */,
 			);
 			productRefGroup = 9C7F965829F8F03C00F5035C /* Products */;
 			projectDirPath = "";
@@ -1827,6 +1853,7 @@
 				9C07097A2A77855A00A324BA /* PayoffQueueView_HomeView.swift in Sources */,
 				9C7B5D5A2A202E8D00DBB877 /* CreateTagView.swift in Sources */,
 				9CA51EDE2A7C802E00FAF848 /* PiggyBankShape.swift in Sources */,
+				9C602CDC2A9F075B00B42DDF /* NewOnboardingFirstView.swift in Sources */,
 				9CA17D722A91F64D00332C62 /* SearchBarX.swift in Sources */,
 				9C7C985F29FCD5AB0077EA25 /* HorizontalDataDisplay.swift in Sources */,
 				9C3A7B302A2BD63300F2AC88 /* ExtendTimeBlock.swift in Sources */,
@@ -1865,6 +1892,7 @@
 				9C8C93572A8A2D90000EE612 /* ExpenseDetailViewModel.swift in Sources */,
 				9C7C985229FB613E0077EA25 /* ExtendColor.swift in Sources */,
 				9CF885AE2A5E063900F63766 /* StretchyHeader.swift in Sources */,
+				9C602CDF2A9F13D700B42DDF /* NewOnboardingWage.swift in Sources */,
 				9C58DCA52A8F264100499C9E /* EditShiftView.swift in Sources */,
 				9C9FFB232A57C99400565B78 /* ExtendPayPeriodSettings.swift in Sources */,
 				9C7C984529FA0DA80077EA25 /* SettingsView.swift in Sources */,
@@ -2265,6 +2293,30 @@
 				minimumVersion = 1.0.61;
 			};
 		};
+		9C602CD22A9F056F00B42DDF /* XCRemoteSwiftPackageReference "PopupView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/PopupView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.6.1;
+			};
+		};
+		9C602CD52A9F060400B42DDF /* XCRemoteSwiftPackageReference "FloatingButton" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/FloatingButton.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.5;
+			};
+		};
+		9C602CD82A9F071900B42DDF /* XCRemoteSwiftPackageReference "Welcome-Sheet" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MAJKFL/Welcome-Sheet";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		9C7F96A029F8FE6700F5035C /* XCRemoteSwiftPackageReference "VinPackage" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/vdeaugustine/VinPackage";
@@ -2296,6 +2348,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9C5F0B862A3057CD006AAB46 /* XCRemoteSwiftPackageReference "SwiftPieChart" */;
 			productName = SwiftPieChart;
+		};
+		9C602CD32A9F056F00B42DDF /* PopupView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9C602CD22A9F056F00B42DDF /* XCRemoteSwiftPackageReference "PopupView" */;
+			productName = PopupView;
+		};
+		9C602CD62A9F060400B42DDF /* FloatingButton */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9C602CD52A9F060400B42DDF /* XCRemoteSwiftPackageReference "FloatingButton" */;
+			productName = FloatingButton;
+		};
+		9C602CD92A9F071900B42DDF /* WelcomeSheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9C602CD82A9F071900B42DDF /* XCRemoteSwiftPackageReference "Welcome-Sheet" */;
+			productName = WelcomeSheet;
 		};
 		9C7F96A129F8FE6700F5035C /* Vin */ = {
 			isa = XCSwiftPackageProductDependency;

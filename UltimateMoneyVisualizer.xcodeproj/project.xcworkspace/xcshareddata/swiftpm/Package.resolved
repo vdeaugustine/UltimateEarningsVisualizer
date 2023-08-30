@@ -19,6 +19,24 @@
       }
     },
     {
+      "identity" : "floatingbutton",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/exyte/FloatingButton.git",
+      "state" : {
+        "revision" : "0fcbf6c1eed0450382fb8b0efd07f3d82a35da6d",
+        "version" : "1.1.5"
+      }
+    },
+    {
+      "identity" : "popupview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/exyte/PopupView.git",
+      "state" : {
+        "revision" : "87f3bf660ba23e8ee49ea2b503e86dfdf8e61ca7",
+        "version" : "2.6.1"
+      }
+    },
+    {
       "identity" : "swiftpiechart",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ilamanov/SwiftPieChart",
@@ -34,6 +52,15 @@
       "state" : {
         "revision" : "7df98ef36c57486d5e6ae0d9aa943f9f0ae9f0d5",
         "version" : "1.1.25"
+      }
+    },
+    {
+      "identity" : "welcome-sheet",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/MAJKFL/Welcome-Sheet",
+      "state" : {
+        "branch" : "main",
+        "revision" : "93332013d3253bcf0f748a008400d542fb9c9c3e"
       }
     }
   ],

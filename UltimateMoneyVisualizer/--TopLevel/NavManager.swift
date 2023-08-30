@@ -100,6 +100,8 @@ class NavManager: ObservableObject {
                 break
             case .today:
                 break
+            case .onboarding:
+                break
         }
     }
 
@@ -125,6 +127,8 @@ class NavManager: ObservableObject {
         case settings
         case shifts
         case today
+        
+        case onboarding
     }
 
 //    enum TodayViewDestinations: Hashable {
