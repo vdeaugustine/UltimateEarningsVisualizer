@@ -16,6 +16,7 @@ class CreateExpenseViewModel: ObservableObject {
     @Published var showRecentTags = false
     @Published var showRecentExpenses = false
     @Published var tags: Set<TemporaryTag> = []
+    @Published var repeatFrequency: RepeatFrequency = .never
 
     @Published var showToast = false
     @Published var alertToastConfig = AlertToast(displayMode: .hud,

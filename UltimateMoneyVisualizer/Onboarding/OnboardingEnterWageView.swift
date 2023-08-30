@@ -7,24 +7,35 @@
 
 import SwiftUI
 
-// MARK: - OnboardingSecondView
+// MARK: - OnboardingEnterWageView
 
 struct OnboardingEnterWageView: View {
     @EnvironmentObject private var model: OnboardingModel
     @State private var paymentType: WageType = .salary
     @State private var amount: Double = 110_000
     @State private var showNumberKeyboard = false
-    
-   
+    @State private var showWageSheet = false
 
     var body: some View {
-        VStack {
+        VStack(spacing: 40) {
             howMuchDoYouEarnLabel
+                .padding(30)
+
+            Image("working")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(maxWidth: .infinity, maxHeight: 250)
+//                .layoutPriority(2)
+
             Spacer()
-            VStack(spacing: 30) {
-                moneyButton
-                perYear
-            }
+            
+            Text("Entering your wage allows you to enter your shifts and watch yourself earn money in real time")
+                .font(.title2)
+            
+//            VStack(spacing: 30) {
+//                moneyButton
+//                perYear
+//            }
             Spacer()
 
             nextButton
@@ -36,12 +47,19 @@ struct OnboardingEnterWageView: View {
             EnterDouble(doubleToEdit: $amount)
 
         })
+        
+        .sheet(isPresented: $showWageSheet) {
+            NavigationView {
+                EnterWageView()
+            }
+                
+        }
     }
 
     var howMuchDoYouEarnLabel: some View {
-        Text("How much do you earn?")
+        Text("Enter Your Wage")
             .font(.system(.largeTitle, weight: .bold))
-            .frame(width: 240)
+            .frame(width: 270)
             .multilineTextAlignment(.center)
     }
 
@@ -89,24 +107,15 @@ struct OnboardingEnterWageView: View {
     }
 
     var nextButton: some View {
-        Button {
-            model.increaseScreenNumber()
-        } label: {
-            Text("Next")
-                .font(.system(.callout, weight: .semibold))
-                .padding()
-                .frame(maxWidth: .infinity)
-                .frame(height: 50)
-                .foregroundColor(.white)
-                .background(.blue)
-                .mask { RoundedRectangle(cornerRadius: 16, style: .continuous) }
+        OnboardingButton(title: "Enter Wage") {
+            showWageSheet.toggle()
         }
     }
 
     struct EnterDouble: View {
         @Binding var doubleToEdit: Double
         @State private var enteredStr = ""
-        @Environment (\.dismiss) private var dismiss
+        @Environment(\.dismiss) private var dismiss
 
         func getWidth(geo: GeometryProxy) -> CGFloat {
             return geo.size.width * 100 / 375

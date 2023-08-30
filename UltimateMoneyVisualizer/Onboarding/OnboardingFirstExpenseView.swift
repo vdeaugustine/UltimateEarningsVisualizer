@@ -1,23 +1,19 @@
 //
-//  CreateExpenseView.swift
+//  OnboardingFirstExpenseView.swift
 //  UltimateMoneyVisualizer
 //
-//  Created by Vincent DeAugustine on 4/25/23.
+//  Created by Vincent DeAugustine on 8/28/23.
 //
 
-import AlertToast
 import SwiftUI
-import Vin
 
-// MARK: - CreateExpenseView
-
-struct CreateExpenseView: View {
+struct OnboardingFirstExpenseView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject private var newItemViewModel: NewItemViewModel
     @StateObject var vm = CreateExpenseViewModel()
+
     @State private var firstTextMax: CGFloat = 0
     @State private var secondTextMax: CGFloat = 0
-    @State private var isRepeatingExpense = false // New toggle for repeating expense
 
     typealias TempTag = CreateExpenseViewModel.TemporaryTag
 
@@ -35,6 +31,7 @@ struct CreateExpenseView: View {
         Form {
             Section {
                 titleRow
+
             } header: {
                 Text("Title")
             } footer: {
@@ -45,16 +42,13 @@ struct CreateExpenseView: View {
                 infoRow
             } header: {
                 Text("Description")
-            } footer: {
+            }footer: {
                 Text("A short description about the expense (optional)")
             }
 
             Section("Due date") {
                 dateRow
-                repeatRow
             }
-            
-            
 
             Section("Amount") {
                 amountRow
@@ -76,10 +70,16 @@ struct CreateExpenseView: View {
             } footer: {
                 Text("Tap on a recent tag to add it to this expense")
             }
-            
-            
 
-            
+//            Section {
+//                showRecentsButtonRow
+//                expandedRecents
+//
+//            } header: {
+//                Text("Recent")
+//            } footer: {
+//                Text("Tap on a recent expense to create a new instance of that same expense")
+//            }
         }
         .putInTemplate()
         .navigationTitle("New Expense")
@@ -105,7 +105,7 @@ struct CreateExpenseView: View {
         .onAppear {
             vm.amountDouble = newItemViewModel.dubValue
             #if !DEBUG
-                focusedField = .title
+            focusedField = .title
             #endif
         }
         .onChange(of: focusedField) { newValue in
@@ -164,17 +164,6 @@ struct CreateExpenseView: View {
         }
 
 //            .frame(maxWidth: .infinity, alignment: .center)
-    }
-    
-    var repeatRow: some View {
-        // New section for repeating expense toggle
-            Picker("Repeat", selection: $vm.repeatFrequency) {
-                ForEach(RepeatFrequency.allCases, id: \.self) { frequency in
-                    Text(frequency.rawValue).tag(frequency)
-                }
-            }
-            .pickerStyle(MenuPickerStyle())
-        
     }
 
 //    @ViewBuilder var showRecentsRow: some View {
@@ -320,130 +309,8 @@ struct CreateExpenseView: View {
     }
 }
 
-// MARK: - CreateTagForExpense
-
-struct CreateTagForExpense: View {
-    @ObservedObject var vm: CreateExpenseViewModel
-
-    @State private var tagTitle = ""
-    @State private var symbolStr = Tag.defaultSymbolStr
-
-    @State private var colorSelected: Color = User.main.getSettings().themeColor
-
-    @State private var showColorOptions = false
-
-    @Environment(\.dismiss) private var dismiss
-
-    @FocusState var isTitleFocused: Bool
-
-    let symbolWidthHeight: CGFloat = 35
-
-    var body: some View {
-        NavigationStack {
-            Form {
-                Section("Tag Title") {
-                    TextField("Ex: Groceries", text: $tagTitle)
-                        .focused($isTitleFocused)
-                    if !symbolStr.isEmpty {
-                        HStack {
-                            Text("Symbol")
-                            Spacer()
-                            SystemImageWithFilledBackground(systemName: symbolStr, backgroundColor: colorSelected, width: symbolWidthHeight, height: symbolWidthHeight)
-                        }
-                    }
-                }
-
-                Section("Color") {
-                    Button {
-                        withAnimation {
-                            showColorOptions.toggle()
-                        }
-
-                    } label: {
-                        Text("Color (PREMIUM)")
-                            .foregroundColor(.black)
-                            .spacedOut {
-                                HStack {
-                                    Circle()
-                                        .fill(colorSelected)
-                                        .frame(height: 20)
-
-                                        .overlay(content: {
-                                            Circle()
-                                                .stroke(lineWidth: 1)
-                                                .foregroundColor(.gray)
-                                        })
-
-                                    Image(systemName: "chevron.right")
-                                        .font(.system(size: 14))
-                                        .fontWeight(.semibold)
-                                        .foregroundColor(.hexStringToColor(hex: "BFBFBF"))
-                                        .rotationEffect(showColorOptions ? .degrees(90) : .degrees(0))
-                                }
-                            }
-                    }
-
-                    if showColorOptions {
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            LazyHStack {
-                                ForEach(Color.defaultColorOptions, id: \.self) { color in
-                                    Button {
-                                        colorSelected = color
-                                    } label: {
-                                        Circle()
-                                            .frame(height: 20)
-                                            .foregroundColor(color)
-                                            .overlay {
-                                                Circle()
-                                                    .stroke(lineWidth: 1)
-                                                    .foregroundColor(.gray)
-                                            }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                Section("Select New Symbol") {
-                    SFSymbolsPicker(selectedSymbol: $symbolStr, numberOfColumns: 5, width: symbolWidthHeight, height: symbolWidthHeight, color: colorSelected)
-                        .padding(.vertical)
-                }
-            }
-            .toolbarSave {
-                vm.tags.insert(
-                    CreateExpenseViewModel.TemporaryTag(title: tagTitle,
-                                                        symbolStr: symbolStr,
-                                                        color: colorSelected)
-                )
-                dismiss()
-            }
-            .toolbar {
-                ToolbarItemGroup(placement: .keyboard) {
-                    Spacer()
-                    Button("Done") {
-                        isTitleFocused = false
-                    }
-                }
-            }
-            .navigationTitle("New Tag")
-            .putInTemplate()
-            .onAppear(perform: {
-                isTitleFocused = true
-            })
-        }
-    }
-}
-
-// MARK: - CreateExpenseView_Previews
-
-struct CreateExpenseView_Previews: PreviewProvider {
+struct OnboardingFirstExpenseView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateExpenseView()
-            .environment(\.managedObjectContext, PersistenceController.context)
-            .putInNavView(.inline)
-            .environmentObject(NewItemViewModel.shared)
-
-        CreateExpenseView().tagPill(.init(User.main.getTags().first!), includeRemoveButton: true)
+        OnboardingFirstExpenseView()
     }
 }

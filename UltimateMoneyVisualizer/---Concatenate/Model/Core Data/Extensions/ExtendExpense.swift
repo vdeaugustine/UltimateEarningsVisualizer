@@ -15,6 +15,7 @@ public extension Expense {
                                         isRecurring: Bool = false,
                                         recurringDate: Date? = nil,
                                         tagStrings: [String]? = nil,
+                                        repeatFrequency: RepeatFrequency? = nil,
                                         user: User,
                                         context: NSManagedObjectContext = PersistenceController.context) throws {
         self.init(context: context)
@@ -407,3 +408,18 @@ public extension Expense {
                     context: context)
     }
 }
+
+
+
+public enum RepeatFrequency: String, Identifiable, CaseIterable, Hashable {
+    case never = "Never"
+    case daily = "Daily"
+    case weekly = "Weekly"
+    case monthly = "Monthly"
+    case yearly = "Yearly"
+
+    public var id: String { self.rawValue }
+}
+
+
+

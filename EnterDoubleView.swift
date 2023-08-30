@@ -67,7 +67,7 @@ struct EnterDoubleView: View {
     var title: String {
         switch format {
             case .dollar:
-                return "Edit Money"
+                return "Edit Amount"
             case .percent:
                 return "Edit Percent"
             case .plain:

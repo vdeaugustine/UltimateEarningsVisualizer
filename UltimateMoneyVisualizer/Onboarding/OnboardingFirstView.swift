@@ -18,15 +18,21 @@ struct OnboardingFirstView: View {
         TabView(selection: $model.screenNumber) {
             WelcomeView()
                 .tag(1)
-
-            OnboardingEnterWageView()
+            
+            FeaturesListView()
                 .tag(2)
 
-            OnboardingRegularDaysView()
+            OnboardingEnterWageView()
                 .tag(3)
+
+            OnboardingRegularDaysView()
+                .tag(4)
+            
+            WhatIsASavedItem()
+                .tag(5)
         }
 
-        .tabViewStyle(.page(indexDisplayMode: .always))
+        .tabViewStyle(.page(indexDisplayMode: .automatic))
         .indexViewStyle(.page(backgroundDisplayMode: .always))
         .background(model.backgroundColor.ignoresSafeArea())
         .environmentObject(model)

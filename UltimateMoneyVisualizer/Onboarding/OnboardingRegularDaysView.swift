@@ -61,15 +61,9 @@ struct OnboardingRegularDaysView: View {
             }
             
             Spacer()
-            Text("Continue")
-                .font(.system(.callout, weight: .semibold))
-                .padding()
-                .frame(maxWidth: .infinity)
-                .frame(height: 50)
-                .clipped()
-                .foregroundColor(.white)
-                .background(.blue)
-                .mask { RoundedRectangle(cornerRadius: 16, style: .continuous) }
+            OnboardingButton(title: "Continue") {
+                model.increaseScreenNumber()
+            }
                 
         }
         .frame(maxWidth: .infinity)

@@ -2,122 +2,80 @@
 //  WelcomeView.swift
 //  UltimateMoneyVisualizer
 //
-//  Created by Vincent DeAugustine on 8/26/23.
+//  Created by Vincent DeAugustine on 8/29/23.
 //
 
 import SwiftUI
-import Vin
 
 // MARK: - WelcomeView
 
 struct WelcomeView: View {
-    
     @EnvironmentObject private var vm: OnboardingModel
-    let titles = ["Real-time Earnings Tracker",
-                  "Flexible Shift Management",
-                  "Goal-Oriented Savings",
-                  "Comprehensive Stats Overview"]
-
-    let descriptions = ["Watch your money grow by the second, minute, hour, and more. Know exactly what you earn, as you earn it.",
-                        "Edit shifts easily, from start to end times, including breaks. Review past shifts and see your earnings at a glance.",
-                        "Set, track, and visualize items you’re working to pay off. View your progress in real-time and celebrate each achievement.",
-                        "Dive deep into your earnings with detailed statistics. Break down your income by week, month, or pay period with interactive bar charts"]
-
-    let imageStrings = ["clock",
-                        "calendar",
-                        "target",
-                        "chart.line.uptrend.xyaxis"]
-
+    
     var body: some View {
-        VStack {
-            Text("Welcome to your Money Visualizer!")
+        VStack(spacing: 40) {
+            
+            Text("Welcome to your\nUltimate Money\nVisualizer")
                 .font(.system(.largeTitle, weight: .bold))
-                .frame(maxWidth: 350)
                 .multilineTextAlignment(.center)
-
+                .padding(.top, 50)
+            
+            Image("welcome")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+            
+            Text("Empower your financial journey by visualizing earnings, managing goals, and celebrating every saving.")
+                .font(.system(.title2, weight: .regular))
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
+            
             Spacer()
             
-            ScrollView {
-                
-                VStack(spacing: 28) {
-                    Spacer()
-                    ForEach(0 ..< 5) { num in // Replace with your data model here
-                        if let title = titles.safeGet(at: num),
-                           let description = descriptions.safeGet(at: num),
-                           let image = imageStrings.safeGet(at: num) {
-                            HStack {
-                                Image(systemName: image)
-                                    .foregroundColor(.blue)
-                                    .font(.system(.title, weight: .regular))
-                                    .frame(width: 60, height: 50)
-                                    .clipped()
-                                VStack(alignment: .leading, spacing: 3) {
-                                    Text(title)
-                                        .font(.system(.footnote, weight: .semibold))
-                                    Text(description)
-                                        .font(.footnote)
-                                        .foregroundColor(.secondary)
-                                }
-                                .fixedSize(horizontal: false, vertical: true)
-                                
-                            }
-                        }
-                    }
-                    
-                    
-                }
-                
-                
+            OnboardingButton(title: "Let's get started!") {
+                vm.increaseScreenNumber()
             }
-            .frame(maxHeight: .infinity)
-            
-            Spacer()
-            
-           bottomButtons
+            .padding(.horizontal, 30)
+            .padding(.bottom, 50)
             
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding(.horizontal, 30)
-        .padding(.bottom, 50)
         
     }
+}
+                
+
+                
+                
+struct OnboardingButton: View {
     
-    var bottomButtons: some View {
-        VStack {
-            HStack(alignment: .firstTextBaseline) {
-                Text("Skip walkthrough")
-                Image(systemName: "chevron.forward")
-                    .imageScale(.small)
-            }
-            .foregroundColor(.blue)
-            .font(.subheadline)
-            
-            Button {
-                vm.increaseScreenNumber()
-            } label: {
-                Text("Continue")
-                    .font(.system(.callout, weight: .semibold))
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .foregroundColor(.white)
-                    .background {
-                        Color.blue.clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                    }
-            }
+    let title: String
+    let action: () -> Void
+    
+    init(title: String, _ action: @escaping () -> Void) {
+        self.title = title
+        self.action = action
+    }
+    
+    var body: some View {
+        Button {
+            action()
+        } label: {
+            Text(title)
+                .font(.headline)
+                .padding()
+                .frame(maxWidth: .infinity)
+                .foregroundColor(.white)
+                .background {
+                    Color.blue.clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                }
+                .frame(height: 50)
         }
     }
 }
-
 // MARK: - WelcomeView_Previews
 
 struct WelcomeView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            WelcomeView()
-                .previewDevice("iPhone SE (3rd generation)")
-            WelcomeView()
-                .previewDevice("iPhone 14 Pro Max")
-        }
-        .environmentObject(OnboardingModel())
+        WelcomeView()
+            .environmentObject(OnboardingModel())
     }
 }

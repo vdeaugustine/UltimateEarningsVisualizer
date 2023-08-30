@@ -10,6 +10,7 @@ import SwiftUI
 // MARK: - OnboardingFirstGoalView
 
 struct OnboardingFirstGoalView: View {
+    @EnvironmentObject private var vm: OnboardingModel
     @State private var title: String = ""
     @State private var description: String = ""
     @State private var amount: Double = 0
@@ -24,33 +25,56 @@ struct OnboardingFirstGoalView: View {
     @FocusState private var focusedField: CreateGoalViewModel.FocusedField?
 
     var body: some View {
-        Form {
-            Section {
-                titleRow
-            } header: {
-                Text("Title")
-            } footer: {
-                Text("A title that helps you identify the goal")
+        VStack {
+            Form {
+                Section {
+                    titleRow
+                } header: {
+                    Text("Title")
+                } footer: {
+                    Text("A title that helps you identify the goal")
+                }
+
+                Section {
+                    infoRow
+                } header: {
+                    Text("Description")
+                }footer: {
+                    Text("A short description about the goal (optional)")
+                }
+
+                Section("Amount") {
+                    amountRow
+                }
+
+                Section("Due date") {
+                    dateRow
+                }
             }
 
-            Section {
-                infoRow
-            } header: {
-                Text("Description")
-            }footer: {
-                Text("A short description about the goal (optional)")
-            }
-            
-            Section("Amount") {
-                amountRow
+            Spacer()
+
+            Button("Skip") {
+                
             }
 
-            Section("Due date") {
-                dateRow
-            }
+            Button{
+                vm.increaseScreenNumber()
 
-            
+            } label: {
+                Text("Next")
+                    .font(.headline)
+                    .foregroundStyle(Color.white)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 50)
+                    .background {
+                        Color.blue.clipShape(RoundedRectangle(cornerRadius: 16))
+                    }
+                    .padding(.horizontal, 30)
+            }
         }
+        .background { Color.listBackgroundColor }
         .onChange(of: focusedField) { newValue in
             print(newValue ?? "nil")
         }
@@ -78,9 +102,9 @@ struct OnboardingFirstGoalView: View {
                 }
             }
 
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Next") { }
-            }
+//            ToolbarItem(placement: .navigationBarTrailing) {
+//                Button("Next") { }
+//            }
         }
         .navigationTitle("Create your first goal")
 //        .modifier(Modifiers(vm: vm))
@@ -107,7 +131,7 @@ struct OnboardingFirstGoalView: View {
             SystemImageWithFilledBackground(systemName: "dollarsign",
                                             backgroundColor: .blue)
             Text(amount.money().replacingOccurrences(of: "$", with: ""))
-                .font(.system(size: 20))
+                .font(.headline)
         }
         .allPartsTappable(alignment: .leading)
         .onTapGesture {
