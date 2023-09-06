@@ -10,6 +10,16 @@ import Foundation
 import SwiftUI
 import Vin
 
+func doDateRangesOverlap(startTime1: Date, endTime1: Date, startTime2: Date, endTime2: Date) -> Bool {
+    let sortedDates1 = [startTime1, endTime1].sorted()
+    let sortedDates2 = [startTime2, endTime2].sorted()
+
+    let latestStartTime = max(sortedDates1[0], sortedDates2[0])
+    let earliestEndTime = min(sortedDates1[1], sortedDates2[1])
+
+    return latestStartTime < earliestEndTime
+}
+
 public extension Shift {
     @discardableResult convenience init(day: DayOfWeek,
                                         start: Date,
@@ -17,6 +27,30 @@ public extension Shift {
                                         fixedExpense: PercentShiftExpense? = nil,
                                         user: User,
                                         context: NSManagedObjectContext) throws {
+        let conflictingShifts = user.getShifts().filter { existingShift in
+
+            doDateRangesOverlap(startTime1: start, endTime1: end, startTime2: existingShift.start, endTime2: existingShift.end)
+        }
+
+        if !conflictingShifts.isEmpty {
+            throw NSError(domain: "Shift Conflict", code: 0, userInfo: [NSLocalizedDescriptionKey: "There are existing shifts with the same start or end time within the same hour."])
+        }
+
+//        // Check if shifts already exist with same start time or end time
+//        let existingShifts = try context.fetch(NSFetchRequest<Shift>(entityName: "Shift"))
+//        let conflictingShifts = existingShifts.filter { shift in
+//            let shiftStartHour = Calendar.current.component(.hour, from: shift.start)
+//            let shiftEndHour = Calendar.current.component(.hour, from: shift.end)
+//            let newShiftStartHour = Calendar.current.component(.hour, from: start)
+//            let newShiftEndHour = Calendar.current.component(.hour, from: end)
+//
+//            return (shiftStartHour == newShiftStartHour || shiftEndHour == newShiftEndHour)
+//        }
+//
+//        if !conflictingShifts.isEmpty {
+//            throw NSError(domain: "Shift Conflict", code: 0, userInfo: [NSLocalizedDescriptionKey: "There are existing shifts with the same start or end time within the same hour."])
+//        }
+
         self.init(context: context)
         self.startDate = start
         self.endDate = end
@@ -36,13 +70,14 @@ public extension Shift {
         try context.save()
     }
 
+    /// Creates a new shift given a ``TodayShift``
     convenience init(fromTodayShift todayShift: TodayShift, context: NSManagedObjectContext) throws {
         self.init(context: context)
 
         self.startDate = todayShift.startTime
         self.endDate = todayShift.endTime
         self.dayOfWeek = DayOfWeek(date: todayShift.startTime ?? .now).rawValue
-        
+
         // Set any other properties from TodayShift
 
         self.user = todayShift.user
@@ -117,6 +152,7 @@ public extension Shift {
                           context: context)
 
             // MARK: - Allocations here
+
             // For each shift, create x random allocations to goals and expenses.
             let x = 3
             for _ in 0 ..< x {
@@ -327,14 +363,14 @@ extension Shift {
     }
 }
 
+// MARK: - Shift + ShiftProtocol
+
 extension Shift: ShiftProtocol {
     func getStart() -> Date {
-        self.start
+        start
     }
-    
+
     func getEnd() -> Date {
-        self.end
+        end
     }
-    
-    
 }

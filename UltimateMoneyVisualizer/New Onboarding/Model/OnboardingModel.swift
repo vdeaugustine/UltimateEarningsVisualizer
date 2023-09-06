@@ -35,6 +35,35 @@ class OnboardingModel: ObservableObject {
     @Published var firstGoalAmount: String = ""
     @Published var firstGoalDueDate: Date = .now.addDays(7)
     @Published var firstGoalInfo: String = ""
+    
+    @Published var wageWasSet = false
+    
+    let padFromTop: CGFloat = 30
+    let padFromBottom: CGFloat = 50
+    let buttonPad: CGFloat = 30
+    let horizontalPad: CGFloat = 30
+    let textAlignment: TextAlignment = .leading
+    let imageHeight: CGFloat = 250
+    let headerMaxWidth: CGFloat = 270
+    let vStackSpacing: CGFloat = 40
+    let minScaleFactorForHeader = 0.90
+    
+    func topPadding(_ geo: GeometryProxy) -> CGFloat {
+        let knownGood: CGFloat = 30 / 763
+        return min(knownGood * geo.size.height, 30)
+    }
+    
+    func bottomPadding(_ geo: GeometryProxy) -> CGFloat {
+        let knownGood: CGFloat = 50 / 763
+        let calculatedValue = min(knownGood * geo.size.height, 50)
+        if geo.size.height < 740 { return calculatedValue + 8 }
+        return calculatedValue
+    }
+    
+    func spacingBetweenHeaderAndContent(_ geo: GeometryProxy) -> CGFloat {
+        let knownGood: CGFloat = 40 / 763
+        return min(knownGood * geo.size.height, 30)
+    }
 
     func increaseScreenNumber() {
         withAnimation {
@@ -136,4 +165,23 @@ class OnboardingModel: ObservableObject {
                                      set: { self.sundayEndTime = $0 })
         }
     }
+    
+    // MARK: - Content Data Source
+    
+    let featuresHeader = "How You Will Benefit".capitalized
+    
+    let featuresTitles = ["Real-time Earnings Tracker",
+                  "Flexible Shift Management",
+                  "Goal-Oriented Savings",
+                  "Comprehensive Stats Overview"]
+
+    let featuresDescriptions = ["Watch your money grow by the second, minute, hour, and more. Know exactly what you earn, as you earn it.",
+                        "Edit shifts easily, from start to end times, including breaks. Review past shifts and see your earnings at a glance.",
+                        "Set, track, and visualize items you’re working to pay off. View your progress in real-time and celebrate each achievement.",
+                        "Dive deep into your earnings with detailed statistics. Break down your income by week, month, or pay period with interactive bar charts"]
+
+    let featuresImageStrings = ["clock",
+                        "calendar",
+                        "target",
+                        "chart.line.uptrend.xyaxis"]
 }

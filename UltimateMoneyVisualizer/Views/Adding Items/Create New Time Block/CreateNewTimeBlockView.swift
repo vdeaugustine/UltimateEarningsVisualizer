@@ -12,8 +12,11 @@ import SwiftUI
 
 struct CreateNewTimeBlockView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment (\.dismiss) private var dismiss
     @StateObject private var viewModel: CreateNewTimeBlockViewModel
     @FocusState private var titleFocused: Bool
+    
+    
 
     init(_ starter: TimeBlockStarter_Shift) {
         _viewModel = StateObject(
@@ -101,7 +104,7 @@ struct CreateNewTimeBlockView: View {
                     if let recent = block.actualBlocks(viewModel.user).first,
                        let recentEnd = recent.endTime {
                         Button {
-                            
+                            viewModel.title = block.title
                         } label: {
                             HStack {
                                 Components.coloredBar(block.color)
@@ -128,6 +131,7 @@ struct CreateNewTimeBlockView: View {
             }
         }
         .navigationTitle("Create TimeBlock")
+        
         .putInTemplate()
         .alert(isPresented: $viewModel.showErrorAlert, error: viewModel.error) {}
         .toolbar {
@@ -135,12 +139,21 @@ struct CreateNewTimeBlockView: View {
                 if viewModel.title.isEmpty == false,
                    viewModel.start != viewModel.end {
                     Button("Save") {
-                        try? viewModel.saveAction(context: viewContext)
+                        do {
+                            try viewModel.saveAction(context: viewContext)
+                            dismiss()
+                        } catch {
+                            print("error")
+                        }
+                        
                     }
                 }
             }
 
             ToolbarItemGroup(placement: .keyboard) {
+                Button("Clear") {
+                    viewModel.title = ""
+                }
                 Spacer()
                 Button("Done") {
                     titleFocused = false

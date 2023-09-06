@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/exyte/PopupView.git",
       "state" : {
-        "revision" : "87f3bf660ba23e8ee49ea2b503e86dfdf8e61ca7",
-        "version" : "2.6.1"
+        "revision" : "da417a13f0042bdad8e24c042433cfc7e82761d1",
+        "version" : "2.6.2"
       }
     },
     {
@@ -43,6 +43,15 @@
       "state" : {
         "revision" : "6afd9b32821b42c9dacb351c8ad8ca49f723ef1d",
         "version" : "1.0.1"
+      }
+    },
+    {
+      "identity" : "svgview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/exyte/SVGView.git",
+      "state" : {
+        "revision" : "6465962facdd25cb96eaebc35603afa2f15d2c0d",
+        "version" : "1.0.6"
       }
     },
     {
@@ -68,8 +77,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/vdeaugustine/VinPackage",
       "state" : {
-        "revision" : "7df98ef36c57486d5e6ae0d9aa943f9f0ae9f0d5",
-        "version" : "1.1.25"
+        "revision" : "4f98238180a73c2ccbd34fa8e4f9e0b576d2770c",
+        "version" : "1.1.26"
       }
     },
     {
@@ -77,8 +86,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/MAJKFL/Welcome-Sheet",
       "state" : {
-        "branch" : "main",
-        "revision" : "93332013d3253bcf0f748a008400d542fb9c9c3e"
+        "revision" : "93332013d3253bcf0f748a008400d542fb9c9c3e",
+        "version" : "1.2.0"
       }
     }
   ],

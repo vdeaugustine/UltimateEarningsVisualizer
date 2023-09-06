@@ -31,15 +31,19 @@ struct ShiftListView: View {
         user.getShiftsBetween(startDate: .now.addHours(1), endDate: .distantFuture).reversed()
     }
 
-    var pastShifts: [Shift] {
-        user.getShiftsBetween(startDate: .distantPast, endDate: .now.addHours(-1))
-    }
-
     func isSelected(_ shift: Shift) -> Bool {
         return upcomingToDelete.contains(where: { $0 == shift })
     }
 
+    @State private var showErrorDeletingShift = false
+
+    @State private var shiftThatCouldntBeDeleted: Shift? = nil
+
     @State private var mostRecentSelected = false
+
+    @State private var payPeriods: [PayPeriod] = User.main.getPayPeriods().filter{ $0.getShifts().isEmpty == false }
+    
+    @State private var showResetUpcomingShiftsAlert = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -49,6 +53,9 @@ struct ShiftListView: View {
         .onChange(of: wage, perform: { _ in
             shifts = user.getShifts()
         })
+        .refreshable {
+            update()
+        }
         .toolbar {
             if shifts.isEmpty == false {
                 EditButton()
@@ -59,7 +66,15 @@ struct ShiftListView: View {
                     }
             }
         }
+        .alert("Error deleting shift", isPresented: $showErrorDeletingShift, actions: {
+        }, message: {
+            if let shift = shiftThatCouldntBeDeleted {
+                Text("Could not delete shift for \(shift.start)")
+            } else {
+                Text("Shift is nil")
+            }
 
+        })
         .sheet(isPresented: $showNewShiftSheet) {
             NewShiftView()
                 .presentationDragIndicator(.visible)
@@ -100,10 +115,18 @@ struct ShiftListView: View {
             Text("Every shift that has been highlighted will be permanently deleted")
         })
         .environment(\.editMode, $editMode)
+        .alert("Reset upcoming shifts", isPresented: $showResetUpcomingShiftsAlert) {
+            Button("Reset", role: .destructive) {
+                resetUpcoming()
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("This will delete all upcoming shifts but not previously completed shifts.")
+        }
+
     }
 
     // swiftformat:sort:begin
-
     private func deleteShifts(offsets: IndexSet) {
         withAnimation {
             offsets.map { shifts[$0] }.forEach(viewContext.delete)
@@ -123,7 +146,7 @@ struct ShiftListView: View {
                     .listRowBackground(Color.clear)
                     .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
 
-                ForEach(user.getPayPeriods()) { period in
+                ForEach(payPeriods) { period in
                     Section {
                         ForEach(period.getShifts()) { shift in
                             Button {
@@ -166,9 +189,9 @@ struct ShiftListView: View {
         .background(Color.listBackgroundColor)
     }
 
-    @ViewBuilder var upcomingScroll: some View {
+    var upcomingScroll: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            LazyHStack {
+            LazyHStack(alignment: .center) {
                 Button {
                     navManager.appendCorrectPath(newValue: .createShift)
                 } label: {
@@ -177,7 +200,7 @@ struct ShiftListView: View {
                         .rectContainer(shadowRadius: 0, cornerRadius: 7)
                 }
 
-                .padding(.bottom)
+//                .padding(.bottom)
 //                .padding(.leading, 6)
 
                 ForEach(upcomingShifts) { shift in
@@ -208,10 +231,37 @@ struct ShiftListView: View {
                         .buttonStyle(.plain)
                     }
                 }
+                
+                Divider()
+                    .padding()
+                
+                if upcomingShifts.isEmpty == false {
+                    Button {
+                        showResetUpcomingShiftsAlert = true
+                    } label: {
+                        ResetUpcoming()
+                    }
+                }
             }
+            .frame(height: 80)
 //            .padding(.horizontal)
         }
-        .frame(height: 100)
+        
+    }
+
+    private func update() {
+        print("Called")
+        shifts = user.getShifts()
+        payPeriods = user.getPayPeriods().filter { $0.getShifts().isEmpty == false }
+    }
+    
+    private func resetUpcoming() {
+        for shift in upcomingShifts {
+            user.removeFromShifts(shift)
+            viewContext.delete(shift)
+            
+            try? viewContext.save()
+        }
     }
 
     // swiftformat:sort:end
@@ -258,6 +308,36 @@ struct ShiftListView_Previews: PreviewProvider {
         ShiftListView()
             .environment(\.managedObjectContext, PersistenceController.context)
             .putInNavView(.inline)
+    }
+}
+
+
+// MARK: - ResetUpcoming
+
+struct ResetUpcoming: View {
+    var body: some View {
+        VStack {
+            Image(systemName: "x.circle.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 40)
+                .background(Circle().fill(.white))
+                .foregroundStyle(Color(uiColor: .lightGray))
+//            Text("Reset")
+//                .font(.caption2)
+//                .multilineTextAlignment(.center)
+//                .lineLimit(3)
+//                .foregroundStyle(Color(uiColor: .secondaryLabel))
+        }
+//        .frame(width: 65)
+    }
+}
+
+// MARK: - ResetUpcoming_Previews
+
+struct ResetUpcoming_Previews: PreviewProvider {
+    static var previews: some View {
+        ResetUpcoming()
     }
 }
 

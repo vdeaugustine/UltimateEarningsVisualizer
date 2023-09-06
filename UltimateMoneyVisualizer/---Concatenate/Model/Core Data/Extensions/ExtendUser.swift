@@ -74,7 +74,7 @@ public extension User {
             try Expense.makeExpensesThatWontBeAllocated(user: self, context: context)
 
         } catch {
-            fatalError(String(describing: error))
+            print(String(describing: error))
         }
     }
 
@@ -132,7 +132,11 @@ public extension User {
 
                 return user
             } else {
+                #if !DEBUG
                 return try User(exampleItem: true, context: userContext)
+                #else
+                return try User(context: userContext)
+                #endif
             }
         } catch {
             fatalError("Error retrieving or creating main user: \(error)")

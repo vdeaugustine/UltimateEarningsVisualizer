@@ -174,11 +174,6 @@ struct QuickAddButton: View {
     @ObservedObject private var settings = User.main.getSettings()
     var body: some View {
         ZStack {
-//            if didTapQuickAdd {
-//                PlusMenu(widthAndHeight: 50)
-//                    .offset(y: -60)
-//            }
-
             Button {
                 vm.navManager.appendCorrectPath(newValue: .newItemCreation)
             } label: {

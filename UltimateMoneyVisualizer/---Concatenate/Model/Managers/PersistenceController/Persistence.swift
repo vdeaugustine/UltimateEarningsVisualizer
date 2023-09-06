@@ -39,7 +39,6 @@ public struct PersistenceController {
     #else
         /// In memory means it will not persist, it will start over as new every time the app launches
         public static var inMemory: Bool {
-            return true 
             #if DEBUG
                 UserDefaults.inMemory
             #else

@@ -30,7 +30,6 @@ struct ContentView: View {
             NavigationStack(path: $navManager.allItemsNavPath) {
                 AllItemsView()
             }
-            
             .makeTab(tab: Tabs.allItems, systemImage: "dollarsign")
 
             NavigationStack(path: $navManager.todayViewNavPath) {

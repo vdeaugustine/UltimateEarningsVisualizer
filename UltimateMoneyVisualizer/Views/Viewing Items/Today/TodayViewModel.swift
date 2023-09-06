@@ -561,7 +561,7 @@ extension TodayViewModel {
     }
 
     var timeBlocksHeaderButtonName: String {
-        timeBlocksExpanded ? "slider.horizontal.below.square.filled.and.square" : "list.bullet"
+        timeBlocksExpanded ? "slider.horizontal.below.square.filled.and.square" : "calendar.day.timeline.left"
     }
 
     func compareDates(_ date1: Date, _ date2: Date, accuracy: AccuracyLevel) -> Bool {

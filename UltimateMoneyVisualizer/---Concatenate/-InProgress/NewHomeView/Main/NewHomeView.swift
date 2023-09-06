@@ -18,7 +18,14 @@ struct NewHomeView: View {
             }
             .padding(.top)
         }
-        .safeAreaInset(edge: .bottom) { QuickAddButton() }
+        .safeAreaInset(edge: .bottom) {
+            HStack {
+                Spacer()
+                FloatingPlusButton(isShowing: $vm.quickMenuOpen)
+//                    .shadow(color: Color.gray.opacity(0.5) ,radius: 12, x: 8, y: 8)
+                    .padding(.bottom)
+            }
+        }
         .environmentObject(vm)
         .putInTemplate(displayMode: .large, settings: settings)
         .navigationTitle(Date.now.getFormattedDate(format: .abbreviatedMonth))
@@ -127,9 +134,11 @@ struct SummaryView_HomeView: View {
 
 struct NewHomeView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationStack {
-            NewHomeView()
-                .environmentObject(NewHomeViewModel.shared)
+        TabView {
+            NavigationStack {
+                NewHomeView()
+                    .environmentObject(NewHomeViewModel.shared)
+            }
         }
     }
 }

@@ -126,7 +126,7 @@ struct StretchyHeader: View {
                     
                     Text("How to build a parallax scroll view")
                         .font(.avenirNext(size: 28))
-                        .background(GeometryGetter(rect: self.$titleRect)) // 2
+                        .background(GeometryGetter(key: RectanglePreferenceKey.self, value: self.$titleRect)) // 2
                     
                     Text(loremIpsum)
                         .lineLimit(nil)
@@ -136,7 +136,7 @@ struct StretchyHeader: View {
                 .padding(.top, 16.0)
             }
             .offset(y: imageHeight + 16)
-            .background(GeometryGetter(rect: $articleContent.frame))
+            .background(GeometryGetter(key: RectanglePreferenceKey.self, value: $articleContent.frame))
             
             GeometryReader { geometry in
                 // 3
@@ -147,7 +147,7 @@ struct StretchyHeader: View {
                         .frame(width: geometry.size.width, height: self.getHeightForHeaderImage(geometry))
                         .blur(radius: self.getBlurRadiusForImage(geometry))
                         .clipped()
-                        .background(GeometryGetter(rect: self.$headerImageRect))
+                        .background(GeometryGetter(key: RectanglePreferenceKey.self, value: self.$headerImageRect))
 
                     // 4
                     Text("How to build a parallax scroll view")
@@ -198,17 +198,18 @@ class ViewFrame: ObservableObject {
     }
 }
 
-struct GeometryGetter: View {
-    @Binding var rect: CGRect
+struct GeometryGetter<Key: PreferenceKey>: View where Key.Value: Equatable {
+    let key: Key.Type
+    @Binding var value: Key.Value
     
     var body: some View {
         GeometryReader { geometry in
             AnyView(Color.clear)
-                .preference(key: RectanglePreferenceKey.self, value: geometry.frame(in: .global))
+                .preference(key: Key.self, value: geometry.frame(in: .global) as? Key.Value ?? Key.defaultValue)
         }
-        
-        .onPreferenceChange(RectanglePreferenceKey.self) { (value) in
-            self.rect = value
+        .onPreferenceChange(Key.self) { (newValue) in
+            self.value = newValue 
+            print("NEW VALUE", newValue)
         }
     }
 }

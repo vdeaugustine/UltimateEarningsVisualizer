@@ -17,6 +17,8 @@ class NewHomeViewModel: ObservableObject {
     @Published var selectedTotalItem: TotalTypes = .earned
 
     @Published var taxesToggleOn: Bool = User.main.getWage().includeTaxes
+    
+    @Published var quickMenuOpen: Bool = false 
 
     func payoffItemTapped(_ item: PayoffItem?) {
         if let goal = item as? Goal {

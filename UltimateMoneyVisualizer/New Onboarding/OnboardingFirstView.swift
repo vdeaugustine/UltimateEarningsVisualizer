@@ -13,25 +13,33 @@ struct OnboardingFirstView: View {
     @StateObject private var model = OnboardingModel.shared
     @Environment(\.dismiss) private var dismiss
     @State private var tab: Int = 1
+    @State private var wageIsGood = false
 
     var body: some View {
         TabView(selection: $model.screenNumber) {
             WelcomeView()
                 .tag(1)
-            
+
             FeaturesListView()
                 .tag(2)
 
-            OnboardingEnterWageView()
+            OnboardingWageWalkthrough()
                 .tag(3)
 
-            OnboardingRegularDaysView()
-                .tag(4)
-            
-            WhatIsASavedItem()
-                .tag(5)
-        }
+            if model.wageWasSet {
+                OnboardingRegularDaysView()
+                    .tag(4)
 
+                WhatIsASavedItem()
+                    .tag(5)
+            }
+        }
+//        .onChange(of: model.screenNumber) { new in
+//            if new > 2 {
+//                model.screenNumber = 2
+//                print("new")
+//            }
+//        }
         .tabViewStyle(.page(indexDisplayMode: .automatic))
         .indexViewStyle(.page(backgroundDisplayMode: .always))
         .background(model.backgroundColor.ignoresSafeArea())

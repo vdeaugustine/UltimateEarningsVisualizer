@@ -54,6 +54,27 @@ struct AllItemsView: View {
         .navigationDestination(for: NavManager.AllViews.self) { view in
             navManager.getDestinationViewForStack(destination: view)
         }
+        
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Menu("Debug") {
+                    Button("Delete all shifts") {
+                        for shift in user.getShifts() {
+                            do {
+                                let context = user.getContext()
+                                user.removeFromShifts(shift)
+                                context.delete(shift)
+                                try context.save()
+                                print("Deleted shift")
+                            }
+                            catch {
+                                fatalError(String(describing: error))
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private func changeSelectionType(forward: Bool) {
