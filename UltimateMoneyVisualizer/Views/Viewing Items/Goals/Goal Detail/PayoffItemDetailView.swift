@@ -212,9 +212,12 @@ struct ChooseImageView: View {
 
 // MARK: - GoalDetailView_Previews
 
-struct GoalDetailView_Previews: PreviewProvider {
+struct PayoffItemDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        PayoffItemDetailView(payoffItem: User.main.getGoals().first!)
+        
+        DebugOperations.restoreToDefault()
+        
+       return  PayoffItemDetailView(payoffItem: User.main.getGoals().first ?? User.main.getExpenses().first!)
             .putInNavView(.inline)
             .environment(\.managedObjectContext, PersistenceController.context)
     }

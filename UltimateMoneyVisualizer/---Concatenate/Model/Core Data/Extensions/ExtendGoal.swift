@@ -77,6 +77,10 @@ extension Goal: PayoffItem {
     }
 
     // MARK: Properties
+    
+    public var repeatFrequencyObject: RepeatFrequency {
+        RepeatFrequency(rawValue: self.repeatFrequency ?? RepeatFrequency.never.rawValue) ?? .never
+    }
 
     public func removeTag(tag: Tag) throws {
         removeFromTags(tag)

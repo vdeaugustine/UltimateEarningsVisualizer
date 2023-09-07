@@ -128,11 +128,6 @@ struct GPTPieChart: View {
             self.amount = amount
         }
 
-        init(name: String, amount: Double) {
-            self.color = .defaultColorOptions.randomElement()!
-            self.name = name
-            self.amount = amount
-        }
     }
 }
 

@@ -20,12 +20,14 @@ struct PayoffItemDetailTotalAmount: View {
                     .boldNumber()
 
                 Spacer()
+                
+                Components.nextPageChevron
 //                Image(systemName: "chevron.right")
 //                    .font(.caption2)
             }
             .layoutPriority(0)
             VStack(alignment: .leading, spacing: 7) {
-                Text("Total Amount")
+                Text("Repeats")
                     .fontWeight(.semibold)
                     .font(.title2)
                     .frame(maxHeight: .infinity)
@@ -33,7 +35,7 @@ struct PayoffItemDetailTotalAmount: View {
                     .minimumScaleFactor(0.4)
 
                 HStack {
-                    Text(viewModel.user.convertMoneyToTime(money: viewModel.amountPaidOff).breakDownTime())
+                    Text(viewModel.payoffItem.repeatFrequencyObject.rawValue)
                     Spacer()
 //                    Text("work time")
                 }
@@ -59,7 +61,10 @@ struct PayoffItemDetailTotalAmount: View {
 // MARK: - PayoffItemDetailTotalAmount_Previews
 
 struct PayoffItemDetailTotalAmount_Previews: PreviewProvider {
+    
     static var previews: some View {
+        
+        
         ZStack {
             Color.listBackgroundColor
             PayoffItemDetailTotalAmount(viewModel: PayoffItemDetailViewModel(payoffItem: User.main.getGoals()

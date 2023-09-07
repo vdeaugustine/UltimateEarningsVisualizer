@@ -107,8 +107,6 @@ class NavManager: ObservableObject {
 
     // MARK: - Enums
 
-    
-
     enum PossiblePaths: Hashable {
         case home
         case settings
@@ -127,7 +125,7 @@ class NavManager: ObservableObject {
         case settings
         case shifts
         case today
-        
+
         case onboarding
     }
 
@@ -139,9 +137,11 @@ class NavManager: ObservableObject {
 //        case payoffQueue
 //        case timeBlockDetail(TimeBlock)
 //    }
-    
+
     enum AllViews: Hashable {
         // swiftformat:sort:begin
+        case allocationDetail(Allocation)
+
         case allTimeBlocks
         case condensedTimeBlock(CondensedTimeBlock)
         case confirmToday
@@ -149,6 +149,8 @@ class NavManager: ObservableObject {
         case createGoal
         case createSaved
         case createShift
+        case createTag(AnyPayoffItem)
+        case createTagForSaved(Saved)
         case createTimeBlockForShift(CreateNewTimeBlockView.TimeBlockStarter_Shift)
         case createTimeBlockForToday(CreateNewTimeBlockView.TimeBlockStarter_Today)
         case enterWage
@@ -156,6 +158,7 @@ class NavManager: ObservableObject {
         case expenseContributions(Expense)
         case goal(Goal)
         case home
+        case multipleNewShiftsView
         case newItemCreation
         case oldPayoffQueue
         case payPeriodDetail(PayPeriod)
@@ -163,6 +166,7 @@ class NavManager: ObservableObject {
         case purchasePage
         case regularSchedule
         case saved(Saved)
+        case setHoursForRegularSchedule(RegularDaysContainer)
         case settings
         case shift(Shift)
         case shiftAllocSheet_Expense(Shift, Expense)
@@ -173,10 +177,6 @@ class NavManager: ObservableObject {
         case todayTimeBlocksExpanded(TodayShift)
         case todayViewPayoffQueue
         case wage(Wage)
-        case setHoursForRegularSchedule(RegularDaysContainer)
-        case multipleNewShiftsView
-        case createTag(AnyPayoffItem)
-        case createTagForSaved(Saved)
         // swiftformat:sort:end
     }
 
@@ -246,6 +246,8 @@ class NavManager: ObservableObject {
                 CreateTagView(payoff: payoff)
             case let .createTagForSaved(saved):
                 CreateTagView(saved: saved)
+            case let .wage(wage):
+                WageView()
             default:
                 Text("Error navigating to page.")
         }

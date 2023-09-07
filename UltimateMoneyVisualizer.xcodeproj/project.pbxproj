@@ -164,6 +164,8 @@
 		9C8C935D2A8ABA0B000EE612 /* WageBreakdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8C935C2A8ABA0B000EE612 /* WageBreakdown.swift */; };
 		9C8C935F2A8AC032000EE612 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8C935E2A8AC032000EE612 /* Components.swift */; };
 		9C8C93892A8B5071000EE612 /* ContributionsForExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8C93882A8B5071000EE612 /* ContributionsForExpenseView.swift */; };
+		9C94DB342AA9717C002C6130 /* DebugOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C94DB332AA9717C002C6130 /* DebugOperations.swift */; };
+		9C94DB362AA9A5FD002C6130 /* PayoffItemRepeatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C94DB352AA9A5FD002C6130 /* PayoffItemRepeatView.swift */; };
 		9C9735942A0D795600F651A1 /* AllocationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9735932A0D795600F651A1 /* AllocationDetailView.swift */; };
 		9C9735962A0D84D500F651A1 /* ExtendText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9735952A0D84D500F651A1 /* ExtendText.swift */; };
 		9C9735982A0D9B9000F651A1 /* NetMoneyGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9735972A0D9B9000F651A1 /* NetMoneyGraph.swift */; };
@@ -442,6 +444,8 @@
 		9C8C935C2A8ABA0B000EE612 /* WageBreakdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WageBreakdown.swift; sourceTree = "<group>"; };
 		9C8C935E2A8AC032000EE612 /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
 		9C8C93882A8B5071000EE612 /* ContributionsForExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributionsForExpenseView.swift; sourceTree = "<group>"; };
+		9C94DB332AA9717C002C6130 /* DebugOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugOperations.swift; sourceTree = "<group>"; };
+		9C94DB352AA9A5FD002C6130 /* PayoffItemRepeatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayoffItemRepeatView.swift; sourceTree = "<group>"; };
 		9C9735932A0D795600F651A1 /* AllocationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AllocationDetailView.swift; path = "UltimateMoneyVisualizer/Views/Viewing Items/Allocations/AllocationDetailView.swift"; sourceTree = SOURCE_ROOT; };
 		9C9735952A0D84D500F651A1 /* ExtendText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendText.swift; sourceTree = "<group>"; };
 		9C9735972A0D9B9000F651A1 /* NetMoneyGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetMoneyGraph.swift; sourceTree = "<group>"; };
@@ -865,6 +869,8 @@
 		9C7F964E29F8F03C00F5035C = {
 			isa = PBXGroup;
 			children = (
+				9C94DB352AA9A5FD002C6130 /* PayoffItemRepeatView.swift */,
+				9C94DB332AA9717C002C6130 /* DebugOperations.swift */,
 				9C3FE53F2AA704D1008A1A24 /* FloatingPlusButton.swift */,
 				9CAE0B342A9927D7009034EC /* YouHaveNoShiftView.swift */,
 				9CF1B3372A97335000CB600F /* SelectATagView.swift */,
@@ -1902,6 +1908,7 @@
 				9C7C986F29FE30290077EA25 /* SystemImageWithFilledBackground.swift in Sources */,
 				9C3C58622A0C8BE200169A0F /* DateCircle.swift in Sources */,
 				9CDBE0EA2A25CD6300741EEE /* GoalsGridView.swift in Sources */,
+				9C94DB342AA9717C002C6130 /* DebugOperations.swift in Sources */,
 				9C602CD12A9EFD2F00B42DDF /* WhatIsASavedItem.swift in Sources */,
 				9C9FFB212A57C60900565B78 /* PayPeriodsViewModel.swift in Sources */,
 				9CEEE34029F909CC001FA4FB /* WageType.swift in Sources */,
@@ -1921,6 +1928,7 @@
 				9CED53462A08AA77002DC183 /* PurchasePage.swift in Sources */,
 				9CE288DD2A4270C20050A4DC /* EnterPaycheckViewModel.swift in Sources */,
 				9C9FFB1F2A57C59700565B78 /* PayPeriodsView.swift in Sources */,
+				9C94DB362AA9A5FD002C6130 /* PayoffItemRepeatView.swift in Sources */,
 				9C7C984C29FA5C1D0077EA25 /* ExtendWorkSchedule.swift in Sources */,
 				9C65A7612A00D4B900A5BCF1 /* ExpenseRow.swift in Sources */,
 				9C7F965B29F8F03C00F5035C /* UltimateMoneyVisualizerApp.swift in Sources */,

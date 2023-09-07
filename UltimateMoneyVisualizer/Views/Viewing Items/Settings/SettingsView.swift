@@ -48,7 +48,7 @@ struct SettingsView: View {
                         Components.nextPageChevron
                     }.allPartsTappable()
                 }
-                .buttonStyle(.plain)
+                .foregroundStyle(.black)
 
                 Button {
                     NavManager.shared.appendCorrectPath(newValue: .enterWage)
@@ -152,45 +152,10 @@ struct SettingsView: View {
                         }
 
                     Button("Reset all Core Data") {
-                        do {
-                            let entityDescriptions = viewContext.persistentStoreCoordinator?.managedObjectModel.entities
-
-                            for entityDescription in entityDescriptions ?? [] {
-                                guard let entityName = entityDescription.name,
-                                      entityName != "User",
-                                      entityName != "Wage" else {
-                                    continue // Skip the "User" and "Wage" entities
-                                }
-
-                                // Fetch the instances of the current entity
-                                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
-                                let instances = try viewContext.fetch(fetchRequest) as? [NSManagedObject]
-
-                                // Print and delete instances
-                                if let instances = instances {
-                                    print("Entities fetched for \(entityName):", instances.count)
-                                    instances.forEach {
-                                        print("Deleting", entityName, "with ID:", $0.objectID)
-                                        viewContext.delete($0)
-                                    }
-
-                                    // Save changes after deleting instances
-                                    try viewContext.save()
-
-                                    // Fetch and print the remaining instances
-                                    let remainingInstances = try viewContext.fetch(fetchRequest) as? [NSManagedObject]
-                                    print("Remaining \(entityName)s:")
-                                    remainingInstances?.forEach {
-                                        print("ID:", $0.objectID)
-                                    }
-                                }
-                            }
-                        } catch {
-                            print("ERROR BATCH DELETING: ", error)
-                        }
+                        DebugOperations.deleteAll()
                     }
                     Button("Restore default") {
-                        user.instantiateExampleItems(context: viewContext)
+                        
                     }
                 }
 

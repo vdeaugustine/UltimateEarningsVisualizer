@@ -27,7 +27,9 @@ public extension Expense {
         self.recurringDate = recurringDate
         self.user = user
         self.dateCreated = dateCreated ?? .now
-
+        
+        self.repeatFrequency = repeatFrequency?.rawValue
+        
         let currentQueueCount = Int16(user.getQueue().count)
         // Put the item at the back of the queue at first initialization
         self.queueSlotNumber = currentQueueCount
@@ -57,11 +59,35 @@ extension Expense {
         let dayNumber = Calendar.current.component(.day, from: recurringDate)
         return min(dayNumber, 30)
     }
+
+    func getDaysBetweenTodayAndFutureDate(futureDate: Date) -> [Date] {
+        guard let repeatFrequency,
+              let frequencyObject = RepeatFrequency(rawValue: repeatFrequency),
+              let cadenceDays = frequencyObject.cadenceDays
+        else {
+            return []
+        }
+
+        var days: [Date] = []
+        var currentDate = Date()
+
+        while currentDate <= futureDate {
+            days.append(currentDate)
+            currentDate = Calendar.current.date(byAdding: .day, value: cadenceDays, to: currentDate)!
+        }
+
+        return days
+    }
 }
 
 // MARK: - Expense + PayoffItem
 
 extension Expense: PayoffItem {
+    
+    public var repeatFrequencyObject: RepeatFrequency {
+        RepeatFrequency(rawValue: self.repeatFrequency ?? RepeatFrequency.never.rawValue) ?? .never
+    }
+    
     public func addTag(tag: Tag) throws {
         addToTags(tag)
         try managedObjectContext?.save()
@@ -409,7 +435,7 @@ public extension Expense {
     }
 }
 
-
+// MARK: - RepeatFrequency
 
 public enum RepeatFrequency: String, Identifiable, CaseIterable, Hashable {
     case never = "Never"
@@ -418,8 +444,20 @@ public enum RepeatFrequency: String, Identifiable, CaseIterable, Hashable {
     case monthly = "Monthly"
     case yearly = "Yearly"
 
-    public var id: String { self.rawValue }
+    public var cadenceDays: Int? {
+        switch self {
+            case .never:
+                return nil
+            case .daily:
+                return 1
+            case .weekly:
+                return 7
+            case .monthly:
+                return 30
+            case .yearly:
+                return 365
+        }
+    }
+
+    public var id: String { rawValue }
 }
-
-
-

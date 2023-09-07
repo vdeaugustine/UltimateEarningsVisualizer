@@ -62,6 +62,7 @@ public protocol PayoffItem {
     var optionalTempQNum: Int16? { get set }
     var percentPaidOff: Double { get }
     var percentTemporarilyPaidOff: Double { get }
+    var repeatFrequencyObject: RepeatFrequency { get }
     var timeRemaining: Double { get }
     var titleStr: String { get }
     var type: PayoffType { get }
@@ -107,6 +108,8 @@ public struct AnyPayoffItem: PayoffItem, Hashable {
 
     // MARK: - Protocol Properties
 
+    // swiftformat:sort:begin
+
     public var amount: Double { payoffItem.amount }
     public var amountMoneyStr: String { payoffItem.amountMoneyStr }
     public var amountPaidBySaved: Double { payoffItem.amountPaidBySaved }
@@ -145,13 +148,19 @@ public struct AnyPayoffItem: PayoffItem, Hashable {
 
     public var percentPaidOff: Double { payoffItem.percentPaidOff }
     public var percentTemporarilyPaidOff: Double { payoffItem.percentTemporarilyPaidOff }
+
+    public var repeatFrequencyObject: RepeatFrequency { payoffItem.repeatFrequencyObject }
+    public var timeRemaining: Double { payoffItem.timeRemaining }
     public var titleStr: String { payoffItem.titleStr }
     public var type: PayoffType { payoffItem.type }
-    public var timeRemaining: Double { payoffItem.timeRemaining }
+
+    // swiftformat:sort:end
 
     // MARK: - Protocol Methods
 
     // swiftformat:sort:begin
+
+    public func addTag(tag: Tag) throws { try payoffItem.addTag(tag: tag) }
 
     public func getAllocations() -> [Allocation] { payoffItem.getAllocations() }
     public func getArrayOfTemporaryAllocations() -> [TemporaryAllocation] { payoffItem.getArrayOfTemporaryAllocations() }
@@ -163,12 +172,11 @@ public struct AnyPayoffItem: PayoffItem, Hashable {
     public func handleWhenPaidOff() throws { try payoffItem.handleWhenPaidOff() }
     public func handleWhenTempPaidOff() throws { try payoffItem.handleWhenTempPaidOff() }
     public func loadImageIfPresent() -> UIImage? { payoffItem.loadImageIfPresent() }
-    public func setOptionalQSlotNumber(newVal: Int16?) { payoffItem.setOptionalQSlotNumber(newVal: newVal) }
-    public func setOptionalTempQNum(newVal: Int16?) { payoffItem.setOptionalTempQNum(newVal: newVal) }
     public func removeAllocation(alloc: Allocation) throws { try payoffItem.removeAllocation(alloc: alloc) }
     public func removeTag(tag: Tag) throws { try payoffItem.removeTag(tag: tag) }
-    public func addTag(tag: Tag) throws { try payoffItem.addTag(tag: tag) }
-    
+    public func setOptionalQSlotNumber(newVal: Int16?) { payoffItem.setOptionalQSlotNumber(newVal: newVal) }
+    public func setOptionalTempQNum(newVal: Int16?) { payoffItem.setOptionalTempQNum(newVal: newVal) }
+
     // swiftformat:sort:end
 
     // MARK: - Hashable

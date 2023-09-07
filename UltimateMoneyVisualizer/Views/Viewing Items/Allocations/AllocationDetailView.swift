@@ -81,8 +81,8 @@ struct AllocationDetailView: View {
         List {
             Section(sourceTypeString) {
                 if let saved = allocation.savedItem {
-                    NavigationLink {
-                        SavedDetailView(saved: saved)
+                    Button {
+                        NavManager.shared.appendCorrectPath(newValue: .saved(saved))
                     } label: {
                         HStack {
                             Text(saved.getTitle())
@@ -90,13 +90,13 @@ struct AllocationDetailView: View {
 
                             Text(saved.getAmount().money())
                                 .fontWeight(.bold)
-                                .foregroundStyle(user.getSettings().getDefaultGradient())
                         }
+                        .foregroundStyle(.black)
                     }
                 }
                 if let shift = allocation.shift {
-                    NavigationLink {
-                        ShiftDetailView(shift: shift)
+                    Button {
+                        NavManager.shared.appendCorrectPath(newValue: .shift(shift))
                     } label: {
                         HStack {
                             Text("Shift for " + shift.start.getFormattedDate(format: .abbreviatedMonth))
@@ -111,9 +111,6 @@ struct AllocationDetailView: View {
             }
 
             Section(spentOnHeaderStr) {
-                
-                
-                
                 if let goal = allocation.goal {
                     Button {
                         NavManager.shared.appendCorrectPath(newValue: .goal(goal))
@@ -136,26 +133,27 @@ struct AllocationDetailView: View {
             }
 
             Section("Amount") {
-                Text("Allocation total")
+                Text("Total")
                     .spacedOut {
-                        VStack(alignment: .trailing) {
+                        
                             Text(allocation.amount.money())
-                                .fontWeight(.bold)
-                                .foregroundStyle(user.getSettings().getDefaultGradient())
-
-                            Text(formatDouble(value: amountPercent, decimalPoints: 2, includeLeadingZero: true) + "%")
-                                .font(.caption)
-                                .fontWeight(.medium)
-                                .foregroundStyle(Color.gray.getGradient())
-                        }
                     }
+                
+                Text("Portion of \(spentOnHeaderStr)")
+                    .spacedOut {
+                        Text(formatDouble(value: amountPercent, decimalPoints: 2, includeLeadingZero: true) + "%")
+//                            .font(.caption)
+//                            .fontWeight(.medium)
+                            .foregroundStyle(Color(uiColor: .secondaryLabel))
+                    }
+            }
+
+            Button("Delete", role: .destructive) {
             }
         }
         .listStyle(.insetGrouped)
-        .bottomButton(label: "Delete", gradient: Color.niceRed.getGradient()) {
-        }
-        .putInTemplate()
-        .navigationTitle("Allocation Details")
+
+        .putInTemplate(title: "Allocation Details")
     }
 }
 

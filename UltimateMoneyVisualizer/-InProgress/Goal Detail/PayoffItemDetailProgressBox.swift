@@ -27,8 +27,7 @@ struct PayoffItemDetailProgressBox: View {
                         .lineLimit(1)
                 }
                 Spacer()
-                Image(systemName: "chevron.right")
-                    .font(.caption2)
+                Components.nextPageChevron
             }
 
             VStack (alignment: .leading, spacing: 35) {
