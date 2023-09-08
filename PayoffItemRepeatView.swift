@@ -10,15 +10,39 @@ import SwiftUI
 // MARK: - PayoffItemRepeatView
 
 struct PayoffItemRepeatView: View {
+    
+    @ObservedObject private var user = User.main
+    
     let payoffItem: Expense
 
     @State private var futureDate: Date = .now.addDays(365)
-
+    
+    var dates: [Date] {
+        payoffItem.getDaysBetweenTodayAndFutureDate(futureDate: futureDate)
+    }
+    
+    var total: Double {
+        Double(dates.count) * payoffItem.amount
+    }
+    
+    
+    
     var body: some View {
         List {
-            DatePicker("Between now and", selection: $futureDate, displayedComponents: .date)
+            Section {
+                DatePicker("Between now and", selection: $futureDate, displayedComponents: .date)
+                Text("Repeats")
+                    .spacedOut(text: dates.count.str)
+                Text("Total amount")
+                    .spacedOut(text: total.money())
+                Text("Total work time")
+                    .spacedOut(text: user.convertMoneyToTime(money: total).breakDownTime())
+            } header: {
+                Text("Date").hidden()
+            }
+            
 
-            ForEach(payoffItem.getDaysBetweenTodayAndFutureDate(futureDate: futureDate), id: \.self) { day in
+            ForEach(dates, id: \.self) { day in
 
                 Text(day.getFormattedDate(format: .abbreviatedMonth))
             }
@@ -50,6 +74,6 @@ struct PayoffItemRepeatView_Previews: PreviewProvider {
     static var previews: some View {
         DebugOperations.restoreToDefault()
 
-        return PayoffItemRepeatView(payoffItem: expense)
+        return PayoffItemRepeatView(payoffItem: expense).templateForPreview()
     }
 }

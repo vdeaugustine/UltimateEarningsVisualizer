@@ -11,6 +11,7 @@ import SwiftUI
 
 struct PayoffItemDetailTotalAmount: View {
     @ObservedObject var viewModel: PayoffItemDetailViewModel
+    @State private var showRepeatSheet = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -55,6 +56,15 @@ struct PayoffItemDetailTotalAmount: View {
         }
         .frame(minWidth: 175)
         .frame(height: 120)
+        .onTapGesture {
+            showRepeatSheet.toggle()
+        }
+        .sheet(isPresented: $showRepeatSheet, content: {
+            if let expense = viewModel.payoffItem as? Expense {
+                PayoffItemRepeatView(payoffItem: expense)
+            }
+           
+        })
     }
 }
 

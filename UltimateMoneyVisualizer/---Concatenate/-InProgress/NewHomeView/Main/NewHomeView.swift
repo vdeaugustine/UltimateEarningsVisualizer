@@ -22,7 +22,6 @@ struct NewHomeView: View {
             HStack {
                 Spacer()
                 FloatingPlusButton(isShowing: $vm.quickMenuOpen)
-//                    .shadow(color: Color.gray.opacity(0.5) ,radius: 12, x: 8, y: 8)
                     .padding(.bottom)
             }
         }

@@ -12,7 +12,6 @@ import Vin
 
 struct PayoffItemDetailProgressBox: View {
     @ObservedObject var viewModel: PayoffItemDetailViewModel
-    
 
     var body: some View {
         VStack(alignment: .leading, spacing: 30) {
@@ -67,6 +66,7 @@ struct PayoffItemDetailProgressBox: View {
         }
         .frame(minWidth: 175)
         .frame(minHeight: 225, maxHeight: .infinity)
+        
     }
 
     var batteryImage: some View {

@@ -21,7 +21,7 @@ struct TodayViewItemizedBlocks: View {
         VStack(spacing: 16) {
             header
 
-            if !model.timeBlocksExpanded || model.timeBlockCount == 0 {
+            if !model.timeBlocksExpanded {
                 compactView
             } else {
                 if let shift = model.user.todayShift {

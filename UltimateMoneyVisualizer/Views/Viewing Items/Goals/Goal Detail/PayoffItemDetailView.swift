@@ -213,11 +213,29 @@ struct ChooseImageView: View {
 // MARK: - GoalDetailView_Previews
 
 struct PayoffItemDetailView_Previews: PreviewProvider {
+    
+    static let expense: Expense = {
+        let expense = try! Expense(title: "Test expense",
+                              info: "For repeat view",
+                              amount: 125,
+                              dueDate: .now.addDays(7),
+                              dateCreated: .now,
+                              isRecurring: true,
+                              recurringDate: .now.addDays(7),
+                              tagStrings: ["Test for repeat", "Repeating"],
+                              repeatFrequency: .weekly,
+                              user: User.main,
+                              context: PersistenceController.context)
+        
+        return expense
+
+    }()
+    
     static var previews: some View {
         
         DebugOperations.restoreToDefault()
         
-       return  PayoffItemDetailView(payoffItem: User.main.getGoals().first ?? User.main.getExpenses().first!)
+       return  PayoffItemDetailView(payoffItem: expense)
             .putInNavView(.inline)
             .environment(\.managedObjectContext, PersistenceController.context)
     }
