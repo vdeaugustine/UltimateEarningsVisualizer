@@ -35,7 +35,7 @@ struct PayoffItemDetailView: View {
                         PayoffItemDetailProgressBox(viewModel: viewModel)
                             .onTapGesture {
                                 print("Tapped")
-                                showContributionsSheet.toggle()
+                                NavManager.shared.appendCorrectPath(newValue: .payoffContributionsView(viewModel))
                             }
 
                         VStack {
@@ -77,13 +77,6 @@ struct PayoffItemDetailView: View {
                             viewModel.showSpinner = false
                         }
                 }
-//                .toolbar {
-//                    if viewModel.initialImage != viewModel.shownImage {
-//                        ToolbarItem {
-//                            Button("Save", action: viewModel.saveButtonAction)
-//                        }
-//                    }
-//                }
                 .onAppear(perform: viewModel.onAppearAction)
                 .toast(isPresenting: $viewModel.showAlert,
                        duration: 2,
@@ -105,10 +98,10 @@ struct PayoffItemDetailView: View {
             }
         }
 
-        .sheet(isPresented: $showContributionsSheet) {
-            PayoffContributionsView(payoffItem: viewModel.payoffItem, vm: viewModel)
-                .presentationDragIndicator(.visible)
-        }
+//        .sheet(isPresented: $showContributionsSheet) {
+//            PayoffContributionsView(payoffItem: viewModel.payoffItem, vm: viewModel)
+//                .presentationDragIndicator(.visible)
+//        }
     }
 
     func fullScreenImage() -> some View {

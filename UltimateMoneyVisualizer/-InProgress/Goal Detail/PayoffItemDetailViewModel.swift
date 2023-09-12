@@ -9,7 +9,7 @@ import AlertToast
 import Foundation
 import SwiftUI
 
-class PayoffItemDetailViewModel: ObservableObject {
+class PayoffItemDetailViewModel: ObservableObject, Hashable, Equatable {
     // CATEGORY: Lifecycle
 
     init(payoffItem: PayoffItem) {
@@ -18,6 +18,13 @@ class PayoffItemDetailViewModel: ObservableObject {
         self.amountPaidOff = payoffItem.amountPaidOff
         self.amountRemaining = payoffItem.amountRemainingToPayOff
         self.tags = payoffItem.getTags()
+    }
+    
+    static func == (lhs: PayoffItemDetailViewModel, rhs: PayoffItemDetailViewModel) -> Bool {
+        lhs.payoffItem.getID() == rhs.payoffItem.getID()
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(payoffItem.getID())
     }
 
     // CATEGORY: Internal
@@ -162,3 +169,4 @@ class PayoffItemDetailViewModel: ObservableObject {
         }
     }
 }
+

@@ -186,6 +186,7 @@
 		9CAE0B392A99359F009034EC /* OnboardingWageWalkthrough.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAE0B382A99359F009034EC /* OnboardingWageWalkthrough.swift */; };
 		9CAE0B3B2A993C80009034EC /* ExtendStatusTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAE0B3A2A993C80009034EC /* ExtendStatusTracker.swift */; };
 		9CAE0B3E2A9AD509009034EC /* OnboardingRegularDaysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAE0B3D2A9AD509009034EC /* OnboardingRegularDaysView.swift */; };
+		9CAFA6DB2AAD29FC009E03BB /* TestingCloudkit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAFA6DA2AAD29FC009E03BB /* TestingCloudkit.swift */; };
 		9CB418C22A0A0E07006F44AB /* TempTodayPayoff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB418C12A0A0E07006F44AB /* TempTodayPayoff.swift */; };
 		9CB418C42A0B2C81006F44AB /* EditSavedItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB418C32A0B2C81006F44AB /* EditSavedItemView.swift */; };
 		9CB418C62A0B616A006F44AB /* ExtendAlertToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB418C52A0B616A006F44AB /* ExtendAlertToast.swift */; };
@@ -466,6 +467,7 @@
 		9CAE0B382A99359F009034EC /* OnboardingWageWalkthrough.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWageWalkthrough.swift; sourceTree = "<group>"; };
 		9CAE0B3A2A993C80009034EC /* ExtendStatusTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ExtendStatusTracker.swift; path = UltimateMoneyVisualizer/ExtendStatusTracker.swift; sourceTree = SOURCE_ROOT; };
 		9CAE0B3D2A9AD509009034EC /* OnboardingRegularDaysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingRegularDaysView.swift; sourceTree = "<group>"; };
+		9CAFA6DA2AAD29FC009E03BB /* TestingCloudkit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingCloudkit.swift; sourceTree = "<group>"; };
 		9CB418C12A0A0E07006F44AB /* TempTodayPayoff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempTodayPayoff.swift; sourceTree = "<group>"; };
 		9CB418C32A0B2C81006F44AB /* EditSavedItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSavedItemView.swift; sourceTree = "<group>"; };
 		9CB418C52A0B616A006F44AB /* ExtendAlertToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendAlertToast.swift; sourceTree = "<group>"; };
@@ -818,13 +820,6 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
-		9C7C985529FB722D0077EA25 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
 		9C7C985629FB72320077EA25 /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -869,6 +864,7 @@
 		9C7F964E29F8F03C00F5035C = {
 			isa = PBXGroup;
 			children = (
+				9CAFA6DA2AAD29FC009E03BB /* TestingCloudkit.swift */,
 				9C94DB352AA9A5FD002C6130 /* PayoffItemRepeatView.swift */,
 				9C94DB332AA9717C002C6130 /* DebugOperations.swift */,
 				9C3FE53F2AA704D1008A1A24 /* FloatingPlusButton.swift */,
@@ -1023,7 +1019,6 @@
 				9C0505A02A11EBF700FC6511 /* ConfirmTodayShift.swift */,
 				9CDBE0E52A2520D200741EEE /* CustomStatsView.swift */,
 				9C0CFCDF2A5C5989005C7C81 /* ShiftHasntStartedView.swift */,
-				9C7C985529FB722D0077EA25 /* Components */,
 				9CB960602A5F87AB001F153A /* Goal Detail */,
 				9CDBE0E92A25CD6300741EEE /* GoalsGridView.swift */,
 				9C97358F2A0D789000F651A1 /* Incomplete(Abandoned) */,
@@ -1970,6 +1965,7 @@
 				9CEEE33A29F908BE001FA4FB /* GoalListView.swift in Sources */,
 				9C58DC9B2A8CB5E600499C9E /* NewPayoffList.swift in Sources */,
 				9C602CCF2A9E652D00B42DDF /* WelcomeView.swift in Sources */,
+				9CAFA6DB2AAD29FC009E03BB /* TestingCloudkit.swift in Sources */,
 				9C9FFB252A57CD8700565B78 /* ExtendSection.swift in Sources */,
 				9C3F80C42A5949BE00FCF040 /* GPTPieChart.swift in Sources */,
 				9C860F832A67836300D834C4 /* TodayViewHeaderContent.swift in Sources */,
@@ -2186,7 +2182,6 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2219,7 +2214,6 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (

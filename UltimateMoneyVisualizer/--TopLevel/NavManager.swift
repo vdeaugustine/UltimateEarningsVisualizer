@@ -121,7 +121,7 @@ class NavManager: ObservableObject {
         case allItems
         case expenses
         case home
-        case newHome // testing
+        case newHome = "Home" // testing
         case settings
         case shifts
         case today
@@ -141,8 +141,8 @@ class NavManager: ObservableObject {
     enum AllViews: Hashable {
         // swiftformat:sort:begin
         case allocationDetail(Allocation)
-
         case allTimeBlocks
+        case assignAllocationToPayoff(PayoffItemDetailViewModel)
         case condensedTimeBlock(CondensedTimeBlock)
         case confirmToday
         case createExpense
@@ -176,7 +176,8 @@ class NavManager: ObservableObject {
         case today
         case todayTimeBlocksExpanded(TodayShift)
         case todayViewPayoffQueue
-        case wage(Wage)
+        case wage
+        case payoffContributionsView(PayoffItemDetailViewModel)
         // swiftformat:sort:end
     }
 
@@ -184,6 +185,10 @@ class NavManager: ObservableObject {
         switch destination {
             case .allTimeBlocks:
                 AllTimeBlocksView()
+            case let .allocationDetail(alloc):
+                AllocationDetailView(allocation: alloc)
+            case let .assignAllocationToPayoff(viewModel):
+                AssignAllocationToPayoffView(payoffItem: viewModel.payoffItem)
             case let .condensedTimeBlock(block):
                 CondensedTimeBlockView(block: block)
             case .createExpense:
@@ -246,8 +251,10 @@ class NavManager: ObservableObject {
                 CreateTagView(payoff: payoff)
             case let .createTagForSaved(saved):
                 CreateTagView(saved: saved)
-            case let .wage(wage):
+            case .wage:
                 WageView()
+            case let .payoffContributionsView(viewModel):
+                PayoffContributionsView(vm: viewModel)
             default:
                 Text("Error navigating to page.")
         }

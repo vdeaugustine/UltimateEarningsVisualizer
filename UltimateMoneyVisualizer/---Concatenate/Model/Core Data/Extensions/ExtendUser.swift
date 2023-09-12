@@ -132,10 +132,10 @@ public extension User {
 
                 return user
             } else {
-                #if !DEBUG
-                return try User(exampleItem: true, context: userContext)
+                #if DEBUG
+                return try User(exampleItem: false, context: userContext)
                 #else
-                return try User(context: userContext)
+                return User(context: userContext)
                 #endif
             }
         } catch {

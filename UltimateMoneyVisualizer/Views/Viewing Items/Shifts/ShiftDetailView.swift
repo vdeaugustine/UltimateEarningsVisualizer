@@ -101,6 +101,8 @@ struct ShiftDetailView: View {
 
                                 Text(goal.titleStr)
                                     .spacedOut(text: alloc.amount.money())
+                                
+                                Components.nextPageChevron
                             }
                         }
 
@@ -110,9 +112,12 @@ struct ShiftDetailView: View {
 
                                 Text(expense.titleStr)
                                     .spacedOut(text: alloc.amount.money())
+                                
+                                Components.nextPageChevron
                             }
                         }
                     }
+                    .foregroundStyle(Color.black)
                 }
             }
 

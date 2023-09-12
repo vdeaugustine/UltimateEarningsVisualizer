@@ -105,8 +105,10 @@ struct AllocationDetailView: View {
                             Text(shift.totalEarned.money())
                                 .fontWeight(.bold)
                                 .foregroundStyle(user.getSettings().getDefaultGradient())
+                            Components.nextPageChevron
                         }
                     }
+                    .foregroundStyle(.black)
                 }
             }
 
@@ -135,10 +137,9 @@ struct AllocationDetailView: View {
             Section("Amount") {
                 Text("Total")
                     .spacedOut {
-                        
-                            Text(allocation.amount.money())
+                        Text(allocation.amount.money())
                     }
-                
+
                 Text("Portion of \(spentOnHeaderStr)")
                     .spacedOut {
                         Text(formatDouble(value: amountPercent, decimalPoints: 2, includeLeadingZero: true) + "%")

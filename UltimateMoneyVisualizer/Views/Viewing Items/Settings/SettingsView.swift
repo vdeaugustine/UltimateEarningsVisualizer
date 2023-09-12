@@ -37,7 +37,7 @@ struct SettingsView: View {
 
                 Button {
                     if let wage = user.wage {
-                        NavManager.shared.appendCorrectPath(newValue: .wage(wage))
+                        NavManager.shared.appendCorrectPath(newValue: .wage)
                     } else { NavManager.shared.appendCorrectPath(newValue: .enterWage) }
                 } label: {
                     HStack {
@@ -155,7 +155,7 @@ struct SettingsView: View {
                         DebugOperations.deleteAll()
                     }
                     Button("Restore default") {
-                        
+                        user.instantiateExampleItems(context: viewContext)
                     }
                 }
 

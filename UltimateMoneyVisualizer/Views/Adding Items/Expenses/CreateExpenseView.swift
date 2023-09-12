@@ -25,12 +25,6 @@ struct CreateExpenseView: View {
 
     // MARK: Helper functions
 
-    func getMaxX(geo: GeometryProxy) -> CGFloat {
-        let x = geo.frame(in: .local).maxX
-        print(x)
-        return x
-    }
-
     var body: some View {
         Form {
             Section {
@@ -104,9 +98,9 @@ struct CreateExpenseView: View {
 //                .bottomButton(label: "Save", action: vm.saveExpense)
         .onAppear {
             vm.amountDouble = newItemViewModel.dubValue
-            #if !DEBUG
+//            #if !DEBUG
                 focusedField = .title
-            #endif
+//            #endif
         }
         .onChange(of: focusedField) { newValue in
             print(newValue ?? "nil")

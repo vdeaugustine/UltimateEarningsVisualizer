@@ -20,7 +20,7 @@ struct WageBreakdown_HomeView: View {
         }
         .padding()
         .onTapGesture {
-            vm.navManager.appendCorrectPath(newValue: .wage(vm.wage))
+            vm.navManager.appendCorrectPath(newValue: .wage)
         }
     }
 
