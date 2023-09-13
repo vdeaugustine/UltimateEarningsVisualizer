@@ -16,6 +16,8 @@ struct ShiftDetailView: View {
     @ObservedObject private var user = User.main
     @ObservedObject private var settings = User.main.getSettings()
     @Environment(\.managedObjectContext) private var viewContext
+    @State private var showEarningsSection = true
+    @State private var showTimeBlockSection = true
 
     var last4Shifts: [Shift] { user.getShifts().prefixArray(4) }
 
@@ -30,19 +32,22 @@ struct ShiftDetailView: View {
     }
 
     var body: some View {
-        VStack {
-            List {
+        List {
+            Section {
                 HorizontalDataDisplay(data: [.init(label: "Start", value: shift.start.getFormattedDate(format: .minimalTime), view: nil),
                                              .init(label: "End", value: shift.end.getFormattedDate(format: .minimalTime), view: nil),
                                              .init(label: "Duration", value: shift.duration.formatForTime(), view: nil)])
-                    .listRowBackground(Color.clear)
+            } header: {
+                Text("Hours")
+            }
 
-                Section {
+            Section("Earnings") {
+                if showEarningsSection {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "chart.line.uptrend.xyaxis", backgroundColor: settings.themeColor)
                         Text("Earnings")
                             .spacedOut {
-                                Text(shift.totalEarned.formattedForMoney())
+                                Text(shift.totalEarned.money())
                             }
                     }
 
@@ -50,7 +55,7 @@ struct ShiftDetailView: View {
                         SystemImageWithFilledBackground(systemName: "chart.line.downtrend.xyaxis", backgroundColor: .niceRed)
                         Text("Spent")
                             .spacedOut {
-                                Text(shift.totalAllocated.formattedForMoney())
+                                Text(shift.totalAllocated.money())
                             }
                     }
 
@@ -58,57 +63,85 @@ struct ShiftDetailView: View {
                         SystemImageWithFilledBackground(systemName: "dollarsign.arrow.circlepath", backgroundColor: .okGreen)
                         Text("Available")
                             .spacedOut {
-                                Text(shift.totalAvailable.formattedForMoney())
+                                Text(shift.totalAvailable.money())
                             }
-                    }
-                }
-
-                Section {
-                    ItemizedPartOfShiftView(shift: shift)
-                        .padding(.vertical)
-//                        .frame(height:  CGFloat(shift.getTimeBlocks().count) * 75 + 75)
-                }
-
-                Section("Allocations") {
-                    ForEach(allocations) { alloc in
-
-                        NavigationLink {
-                            AllocationDetailView(allocation: alloc)
-
-                        } label: {
-                            if let goal = alloc.goal {
-                                HStack {
-                                    SystemImageWithFilledBackground(systemName: "target", backgroundColor: settings.themeColor)
-
-                                    Text(goal.titleStr)
-                                        .spacedOut(text: alloc.amount.formattedForMoney())
-                                }
-                            }
-
-                            if let expense = alloc.expense {
-                                HStack {
-                                    SystemImageWithFilledBackground(systemName: "creditcard.fill", backgroundColor: settings.themeColor)
-
-                                    Text(expense.titleStr)
-                                        .spacedOut(text: alloc.amount.formattedForMoney())
-                                }
-                            }
-                        }
                     }
                 }
             }
-            .listStyle(.insetGrouped)
-            .padding(.bottom, 15)
-        }
-        .padding(.bottom)
-        .bottomButton(label: "Delete", action: {
-            showDeleteConfirmation = true
-        })
+            .listRowSeparator(.hidden)
 
-        .background(Color.targetGray)
+            Section {
+                GPTPieChart(pieChartData: [.init(color: Components.taxesColor, name: "Taxes", amount: shift.taxesPaid),
+                                           .init(color: Components.goalsColor, name: "Goals", amount: shift.allocatedToGoals),
+                                           .init(color: Components.expensesColor, name: "Expenses", amount: shift.allocatedToExpenses),
+                                           .init(color: Components.unspentColor, name: "Available", amount: shift.totalAvailable)])
+                    .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    .frame(height: 200)
+                    .frame(maxWidth: .infinity, alignment: .center)
+            }
+            .listRowBackground(Color.clear)
+            .listRowSeparator(.hidden)
+
+            Section("Time Blocks") {
+                if showTimeBlockSection {
+                    ItemizedPartOfShiftView(shift: shift)
+                        .padding(.vertical)
+                }
+            }
+            Section("Allocations") {
+                ForEach(allocations) { alloc in
+
+                    Button {
+                        NavManager.shared.appendCorrectPath(newValue: .allocationDetail(alloc))
+
+                    } label: {
+                        if let goal = alloc.goal {
+                            HStack {
+                                Image(systemName: IconManager.goalsString)
+
+                                Text(goal.titleStr)
+                                    .spacedOut(text: alloc.amount.money())
+                                
+                                Components.nextPageChevron
+                            }
+                        }
+
+                        if let expense = alloc.expense {
+                            HStack {
+                                Image(systemName: IconManager.expenseString)
+
+                                Text(expense.titleStr)
+                                    .spacedOut(text: alloc.amount.money())
+                                
+                                Components.nextPageChevron
+                            }
+                        }
+                    }
+                    .foregroundStyle(Color.black)
+                }
+            }
+
+            Button("Delete", role: .destructive) {
+                showDeleteConfirmation = true
+            }
+        }
+        .listStyle(.insetGrouped)
+        .padding(.bottom, 15)
+
+        .padding(.bottom)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    showDeleteConfirmation.toggle()
+                } label: {
+                    Label("Delete", systemImage: "trash")
+                }
+            }
+        }
+        .background(Color.listBackgroundColor)
         .putInTemplate()
-        .navigationTitle("Shift for \(shift.start.getFormattedDate(format: .abreviatedMonth))")
-        .confirmationDialog("Are you sure you want to delete this shift?", isPresented: $showDeleteConfirmation) {
+        .navigationTitle("Shift for \(shift.start.getFormattedDate(format: .abbreviatedMonth))")
+        .confirmationDialog("Are you sure you want to delete this shift?", isPresented: $showDeleteConfirmation, titleVisibility: .visible) {
             Button("Delete", role: .destructive) {
                 deleteAction()
             }
@@ -116,7 +149,6 @@ struct ShiftDetailView: View {
         } message: {
             Text("This action cannot be undone")
         }
-        
     }
 
     func deleteAction() {

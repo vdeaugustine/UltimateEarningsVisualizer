@@ -5,36 +5,30 @@
 //  Created by Vincent DeAugustine on 4/27/23.
 //
 
+import AlertToast
 import SwiftUI
 import Vin
-import AlertToast
 
-// MARK: - AssignAllocationForExpenseView
+// MARK: - AssignAllocationToPayoffView
 
 struct AssignAllocationToPayoffView: View {
-    
     @Environment(\.managedObjectContext) private var viewContext
-    
-    @State private var note: String = ""
-
     let payoffItem: PayoffItem
-    @State private var sourceType: String = "shift"
 
-    @State private var shift: Shift? = nil
-
-    @State private var saved: Saved? = nil
-
-    @State private var showShiftSheet = false
-    @State private var showSavedSheet = false
-
+    // swiftformat:sort:begin
     @State private var allocAmount: Double = 0
-
-    @ObservedObject var user = User.main
-    @ObservedObject var settings = User.main.getSettings()
-    
+    @State private var note: String = ""
+    @State private var saved: Saved? = nil
+    @State private var shift: Shift? = nil
     @State private var showAlert = false
-
+    @State private var showSavedSheet = false
+    @State private var showShiftSheet = false
+    @State private var sourceType: String = "shift"
     @State private var toastConfiguration: AlertToast = AlertToast(type: .regular)
+    // swiftformat:sort:end
+
+    @ObservedObject var settings = User.main.getSettings()
+    @ObservedObject var user = User.main
 
     var sourceIsNil: Bool {
         shift == nil && saved == nil
@@ -60,7 +54,7 @@ struct AssignAllocationToPayoffView: View {
                 Text("Total")
                     .spacedOut(text: payoffItem.amountMoneyStr)
                 Text("Remaining")
-                    .spacedOut(text: payoffItem.amountRemainingToPayOff.formattedForMoney())
+                    .spacedOut(text: payoffItem.amountRemainingToPayOff.money())
             }
 
             Section("Choose Source") {
@@ -73,41 +67,35 @@ struct AssignAllocationToPayoffView: View {
                 }
             }
 
-            if let shift {
-                Section("Source") {
+            Section {
+                if let shift {
                     ShiftRowForAllocSheet(shift: shift)
-                }
-
-                Section("Amount") {
-                    Slider(value: $allocAmount, in: 0 ... sliderLimit, step: 0.01) {
-                        Text("Amount")
-                    } minimumValueLabel: {
-                        Text(0.formattedForMoney())
-                    } maximumValueLabel: {
-                        Text(sliderLimit.formattedForMoney())
-                    }
-                }
-            } else if let saved {
-                Section("Source") {
+                } else if let saved {
                     SavedItemForAllocSheet(saved: saved, isAvailable: true)
+                    Text("Amount chosen")
+                        .spacedOut(text: allocAmount.money())
                 }
+            } header: {
+                if shift != nil || saved != nil {
+                    Text("Source")
+                } else {
+                    Text("").hidden()
+                }
+            }
 
-                Section("Amount") {
-                    Slider(value: $allocAmount, in: 0 ... sliderLimit, step: 0.01) {
+            if sliderLimit > 0 {
+                Section("Choose Amount") {
+                    Slider(value: $allocAmount, in: 0 ... max(sliderLimit, 0), step: 0.01) {
                         Text("Amount")
                     } minimumValueLabel: {
-                        Text(0.formattedForMoney())
+                        Text(0.money())
                     } maximumValueLabel: {
-                        Text(sliderLimit.formattedForMoney())
+                        Text(sliderLimit.money())
                     }
-                }
-
-                Section {
-                    Text("Allocate")
-                        .spacedOut(text: allocAmount.formattedForMoney())
                 }
             }
         }
+        .listStyle(.insetGrouped)
         .onChange(of: shift) { newShift in
 
             if newShift != nil {
@@ -130,29 +118,24 @@ struct AssignAllocationToPayoffView: View {
         .navigationTitle("Add Contribution")
 
         .bottomCapsule(label: "Save", gradient: settings.getDefaultGradient(), bool: !sourceIsNil, bottomPadding: 10) {
-            
             do {
                 if let expense = payoffItem as? Expense {
                     try Allocation(amount: allocAmount, expense: expense, goal: nil, shift: shift, saved: saved, date: .now, context: viewContext)
                 }
-                
+
                 if let goal = payoffItem as? Goal {
-                    
                     try Allocation(amount: allocAmount, expense: nil, goal: goal, shift: shift, saved: saved, date: .now, context: viewContext)
                 }
-                
+
                 toastConfiguration = AlertToast(displayMode: .alert, type: .complete(settings.themeColor), title: "Saved successfully")
                 showAlert = true
-            }
-            catch {
+            } catch {
                 print(error)
                 toastConfiguration = AlertToast(displayMode: .alert, type: .error(settings.themeColor), title: "Failed to save")
-                showAlert = true 
+                showAlert = true
             }
-            
-            
         }
-        
+
         .toast(isPresenting: $showAlert,
                duration: 2,
                tapToDismiss: false,
@@ -187,19 +170,22 @@ struct ChooseShiftForAllocSheet: View {
     @State private var showSpentShifts = false
 
     var body: some View {
-        VStack(spacing: 0) {
-            Toggle("Show spent shifts", isOn: $showSpentShifts)
-                .padding()
-                .background {
-                    Color.listBackgroundColor
-                }
-                .fontWeight(.medium)
-
-            List {
-                if shiftsToShow.isEmpty {
+        List {
+            if shiftsToShow.isEmpty {
+                Section {
                     Text("No shifts with available money")
+                } header: {
+                    Text("Empty").hidden()
+                }
 
-                } else {
+            } else {
+                Section {
+                    Toggle("Show spent shifts", isOn: $showSpentShifts)
+                } header: {
+                    Text("Show Shifts").hidden()
+                }
+
+                Section {
                     ForEach(shiftsToShow) { thisShift in
 
                         ShiftRowForAllocSheet(shift: thisShift)
@@ -209,15 +195,18 @@ struct ChooseShiftForAllocSheet: View {
                                 dismiss()
                             }
                     }
+                } header: {
+                    Text("Shifts").hidden()
                 }
+            }
 
-                if showSpentShifts {
-                    ForEach(spentShifts) { thisShift in
-                        ShiftRowForAllocSheet(shift: thisShift)
-                    }
+            if showSpentShifts {
+                ForEach(spentShifts) { thisShift in
+                    ShiftRowForAllocSheet(shift: thisShift)
                 }
             }
         }
+        .listStyle(.insetGrouped)
         .putInTemplate()
         .navigationTitle("Shifts")
         .putInNavView(.inline)
@@ -248,19 +237,20 @@ struct ChooseSavedForAllocSheet: View {
     @State private var showSpentSaved = false
 
     var body: some View {
-        VStack(spacing: 0) {
-            List {
-                Section {
-                    Toggle("Show spent items", isOn: $showSpentSaved)
-                }
+        List {
+            Section {
+                Toggle("Show spent items", isOn: $showSpentSaved)
+            } header: {
+                Text("Spent Items").hidden()
+            }
 
+            Section("Choose one") {
                 if savedsToShow.isEmpty {
                     Text("No saved items with available money")
 
                 } else {
                     ForEach(savedsToShow) { thisSaved in
-
-                        SavedItemForAllocSheet(saved: thisSaved, isAvailable: true)
+                        SavedItemRow(saved: thisSaved, user: user)
                             .allPartsTappable()
                             .onTapGesture {
                                 self.saved = thisSaved
@@ -276,8 +266,10 @@ struct ChooseSavedForAllocSheet: View {
                 }
             }
         }
+        .listStyle(.insetGrouped)
+
         .putInTemplate()
-        .navigationTitle("Shifts")
+        .navigationTitle("Saved Items")
         .putInNavView(.inline)
     }
 }
@@ -293,8 +285,7 @@ struct SavedItemForAllocSheet: View {
 
     var body: some View {
         HStack {
-            Image("green.background.pig")
-                .resizable()
+            IconManager.savedIcon
                 .frame(width: 35, height: 35)
                 .cornerRadius(8)
 
@@ -311,7 +302,7 @@ struct SavedItemForAllocSheet: View {
             Spacer()
 
             VStack {
-                Text(saved.totalAvailable.formattedForMoney())
+                Text(saved.totalAvailable.money())
                     .font(.subheadline)
                     .foregroundColor(.primary)
                     .multilineTextAlignment(.trailing)
@@ -335,23 +326,23 @@ struct ShiftRowForAllocSheet: View {
         HStack {
             Text(shift.start.firstLetterOrTwoOfWeekday())
                 .foregroundColor(.white)
-                .frame(width: 35, height: 35)
+                .frame(width: 40, height: 40)
                 .background(settings.getDefaultGradient())
                 .cornerRadius(8)
 
             VStack(alignment: .leading) {
-                Text(shift.start.getFormattedDate(format: .abreviatedMonth))
+                Text(shift.start.getFormattedDate(format: .abbreviatedMonth))
                     .font(.subheadline)
                     .foregroundColor(.primary)
 
-                Text("Spent: \(shift.totalAllocated.formattedForMoney())")
+                Text("Spent: \(shift.totalAllocated.money())")
                     .font(.caption2)
                     .foregroundColor(.secondary)
             }
             Spacer()
 
             VStack {
-                Text("\(shift.totalAvailable.formattedForMoney())")
+                Text("\(shift.totalAvailable.money())")
                     .font(.subheadline)
                     .foregroundColor(.primary)
                     .multilineTextAlignment(.trailing)
@@ -375,5 +366,9 @@ struct AssignAllocationForExpenseView_Previews: PreviewProvider {
 
         ChooseShiftForAllocSheet(shift: .constant(User.main.getShifts()[4]))
             .putInNavView(.inline)
+
+        ShiftRowForAllocSheet(shift: User.main.getShifts().randomElement()!)
+
+        SavedItemForAllocSheet(saved: User.main.getSaved().randomElement()!, isAvailable: true)
     }
 }

@@ -35,13 +35,6 @@ struct HomeView: View {
                                         .font(.subheadline)
                                         .padding(.trailing)
                                 }
-//                                NavigationLink {
-//                                    StatsView()
-//                                } label: {
-//                                    Text("Stats")
-//                                        .font(.subheadline)
-//                                        .padding(.trailing)
-//                                }
                             }
                         } content: {
                             HStack {
@@ -50,7 +43,7 @@ struct HomeView: View {
                                         Text("Earnings")
                                             .fontWeight(.medium)
                                             .minimumScaleFactor(0.01)
-                                        Text(user.totalEarned().formattedForMoney())
+                                        Text(user.totalEarned().money())
                                             .fontWeight(.bold)
                                             .foregroundStyle(settings.getDefaultGradient())
                                             .minimumScaleFactor(0.01)
@@ -133,7 +126,6 @@ struct HomeView: View {
                                             ExpenseDetailView(expense: expense)
                                         } label: {
                                             PayoffWithImageAndGradientView(item: expense)
-
                                                 .allPartsTappable()
                                                 .rectContainer()
                                         }
@@ -142,7 +134,7 @@ struct HomeView: View {
 
                                     if let goal = user.getItemWith(queueSlot: index) as? Goal {
                                         NavigationLink {
-                                            GoalDetailView(goal: goal)
+                                            PayoffItemDetailView(payoffItem: goal)
                                         } label: {
                                             PayoffWithImageAndGradientView(item: goal)
                                                 .allPartsTappable()
@@ -169,72 +161,66 @@ struct HomeView: View {
             StatsView()
         })
         .putInTemplate()
-        .navigationTitle(Date.now.getFormattedDate(format: .abreviatedMonth))
-        .safeAreaInset(edge: .bottom) {
-            QuickAddButton()
-        }
+        .navigationTitle(Date.now.getFormattedDate(format: .abbreviatedMonth))
+        .safeAreaInset(edge: .bottom) { QuickAddButton() }
     }
+}
 
-    struct QuickAddButton: View {
-        @State private var didTapQuickAdd = false
-        @ObservedObject private var settings = User.main.getSettings()
-        var body: some View {
-            ZStack {
-                if didTapQuickAdd {
-                    PlusMenu(widthAndHeight: 50)
-                        .offset(y: -60)
-                }
+// MARK: - QuickAddButton
 
-                Button {
-                    withAnimation(.easeInOut(duration: 0.7)) {
-                        didTapQuickAdd.toggle()
-                    }
-
-                } label: {
-                    VStack {
-                        Image(systemName: "plus.circle.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 50)
-                            .background(Circle().fill(.white))
-                            .foregroundStyle(settings.getDefaultGradient())
-                            .rotationEffect(didTapQuickAdd ? .degrees(315) : .degrees(0))
-                    }
-                }
-            }
-            .padding(.bottom, 5)
-        }
-    }
-
-    struct PlusMenu: View {
-        let widthAndHeight: CGFloat
-
-        var body: some View {
-            HStack(spacing: 50) {
-                NavigationLink {
-                    SpendNewMoneyFirstView()
-
-                } label: {
-                    Image(systemName: "chart.line.downtrend.xyaxis.circle.fill")
+struct QuickAddButton: View {
+    @EnvironmentObject private var vm: NewHomeViewModel
+    @State private var didTapQuickAdd = false
+    @ObservedObject private var settings = User.main.getSettings()
+    var body: some View {
+        ZStack {
+            Button {
+                vm.navManager.appendCorrectPath(newValue: .newItemCreation)
+            } label: {
+                VStack {
+                    Image(systemName: "plus.circle.fill")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .foregroundStyle(Color.niceRed.getGradient())
+                        .frame(width: 50)
                         .background(Circle().fill(.white))
-                        .frame(width: widthAndHeight, height: widthAndHeight)
-                }
-                NavigationLink {
-                    AddNewMoneyFirstView()
-                } label: {
-                    Image(systemName: "chart.line.uptrend.xyaxis.circle.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .foregroundStyle(Color.okGreen.getGradient())
-                        .background(Circle().fill(.white))
-                        .frame(width: widthAndHeight, height: widthAndHeight)
+                        .foregroundStyle(settings.getDefaultGradient())
+                        .rotationEffect(didTapQuickAdd ? .degrees(315) : .degrees(0))
                 }
             }
-            .transition(.scale)
         }
+        .padding(.bottom, 5)
+    }
+}
+
+// MARK: - PlusMenu
+
+struct PlusMenu: View {
+    let widthAndHeight: CGFloat
+
+    var body: some View {
+        HStack(spacing: 50) {
+            NavigationLink {
+                SpendNewMoneyFirstView()
+            } label: {
+                Image(systemName: "chart.line.downtrend.xyaxis.circle.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .foregroundStyle(Color.niceRed.getGradient())
+                    .background(Circle().fill(.white))
+                    .frame(width: widthAndHeight, height: widthAndHeight)
+            }
+            NavigationLink {
+                AddNewMoneyFirstView()
+            } label: {
+                Image(systemName: "chart.line.uptrend.xyaxis.circle.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .foregroundStyle(Color.okGreen.getGradient())
+                    .background(Circle().fill(.white))
+                    .frame(width: widthAndHeight, height: widthAndHeight)
+            }
+        }
+        .transition(.scale)
     }
 }
 
@@ -242,10 +228,8 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            HomeView()
-                .putInNavView(.inline)
-                .environmentObject(NavManager())
-        }
+        HomeView()
+            .putInNavView(.inline)
+            .environmentObject(NavManager())
     }
 }

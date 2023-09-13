@@ -12,17 +12,27 @@ import SwiftUI
 struct ProgressCircle<Content: View>: View {
     var percent: Double
     var widthHeight: CGFloat = 33
+    let gradient: LinearGradient
     var lineWidth: CGFloat = 2
     let showCheckWhenComplete: Bool
-    let content: () -> Content
+    /// The text that goes in the middle of the circle 
+    @ViewBuilder let content: () -> Content
     @ObservedObject var settings = User.main.getSettings()
 
-    init(percent: Double, widthHeight: CGFloat = 33, lineWidth: CGFloat = 2, showCheck: Bool = false, @ViewBuilder content: @escaping () -> Content) {
+    internal init(percent: Double,
+                  widthHeight: CGFloat = 33,
+                  gradient: LinearGradient,
+                  lineWidth: CGFloat = 2,
+                  showCheckWhenComplete: Bool = false,
+                  @ViewBuilder content: @escaping () -> Content,
+                  settings: Settings = User.main.getSettings()) {
         self.percent = percent
         self.widthHeight = widthHeight
+        self.gradient = gradient
         self.lineWidth = lineWidth
-        self.showCheckWhenComplete = showCheck
+        self.showCheckWhenComplete = showCheckWhenComplete
         self.content = content
+        self.settings = settings
     }
 
     var body: some View {
@@ -44,7 +54,7 @@ struct ProgressCircle<Content: View>: View {
                         .stroke(lineWidth: lineWidth)
                         .rotationEffect(.degrees(-90))
                         .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
-                        .foregroundStyle(settings.getDefaultGradient())
+                        .foregroundStyle(gradient)
                     content()
                         .padding(.horizontal, 2)
                 }
@@ -98,7 +108,10 @@ struct ProgressCircle<Content: View>: View {
 
 struct ProgressCircle_Previews: PreviewProvider {
     static var previews: some View {
-        ProgressCircle(percent: 1, widthHeight: 330, lineWidth: 2) {
+        ProgressCircle(percent: 1,
+                       widthHeight: 330,
+                       gradient: User.main.getSettings().getDefaultGradient(),
+                       lineWidth: 2) {
             Text("50%")
                 .minimumScaleFactor(0.2)
         }

@@ -81,81 +81,80 @@ struct AllocationDetailView: View {
         List {
             Section(sourceTypeString) {
                 if let saved = allocation.savedItem {
-                    NavigationLink {
-                        SavedDetailView(saved: saved)
+                    Button {
+                        NavManager.shared.appendCorrectPath(newValue: .saved(saved))
                     } label: {
                         HStack {
                             Text(saved.getTitle())
                             Spacer()
 
-                            Text(saved.getAmount().formattedForMoney())
+                            Text(saved.getAmount().money())
                                 .fontWeight(.bold)
-                                .foregroundStyle(user.getSettings().getDefaultGradient())
                         }
+                        .foregroundStyle(.black)
                     }
                 }
                 if let shift = allocation.shift {
-                    NavigationLink {
-                        ShiftDetailView(shift: shift)
+                    Button {
+                        NavManager.shared.appendCorrectPath(newValue: .shift(shift))
                     } label: {
                         HStack {
-                            Text("Shift for " + shift.start.getFormattedDate(format: .abreviatedMonth))
+                            Text("Shift for " + shift.start.getFormattedDate(format: .abbreviatedMonth))
                             Spacer()
 
-                            Text(shift.totalEarned.formattedForMoney())
+                            Text(shift.totalEarned.money())
                                 .fontWeight(.bold)
                                 .foregroundStyle(user.getSettings().getDefaultGradient())
+                            Components.nextPageChevron
                         }
                     }
+                    .foregroundStyle(.black)
                 }
             }
 
             Section(spentOnHeaderStr) {
                 if let goal = allocation.goal {
-                    NavigationLink {
-                        GoalDetailView(goal: goal)
+                    Button {
+                        NavManager.shared.appendCorrectPath(newValue: .goal(goal))
                     } label: {
-                        GoalRow(goal: goal)
+                        PayoffItemRectGeneral(item: goal)
                     }
+                    .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    .listRowBackground(Color.clear)
                 }
                 if let expense = allocation.expense {
-                    NavigationLink {
-                        ExpenseDetailView(expense: expense)
+                    Button {
+                        NavManager.shared.appendCorrectPath(newValue: .expense(expense))
 
                     } label: {
-                        VStack {
-                            Text(expense.titleStr)
-                                .spacedOut {
-                                    Text(expense.amount.formattedForMoney())
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(user.getSettings().getDefaultGradient())
-                                }
-                        }
+                        PayoffItemRectGeneral(item: expense)
                     }
+                    .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    .listRowBackground(Color.clear)
                 }
             }
 
             Section("Amount") {
-                Text("Allocation total")
+                Text("Total")
                     .spacedOut {
-                        VStack(alignment: .trailing) {
-                            Text(allocation.amount.formattedForMoney())
-                                .fontWeight(.bold)
-                                .foregroundStyle(user.getSettings().getDefaultGradient())
-
-                            Text(formatDouble(value: amountPercent, decimalPoints: 2, includeLeadingZero: true) + "%")
-                                .font(.caption)
-                                .fontWeight(.medium)
-                                .foregroundStyle(Color.gray.getGradient())
-                        }
+                        Text(allocation.amount.money())
                     }
+
+                Text("Portion of \(spentOnHeaderStr)")
+                    .spacedOut {
+                        Text(formatDouble(value: amountPercent, decimalPoints: 2, includeLeadingZero: true) + "%")
+//                            .font(.caption)
+//                            .fontWeight(.medium)
+                            .foregroundStyle(Color(uiColor: .secondaryLabel))
+                    }
+            }
+
+            Button("Delete", role: .destructive) {
             }
         }
         .listStyle(.insetGrouped)
-        .bottomButton(label: "Delete", gradient: Color.niceRed.getGradient()) {
-        }
-        .putInTemplate()
-        .navigationTitle("Allocation Details")
+
+        .putInTemplate(title: "Allocation Details")
     }
 }
 

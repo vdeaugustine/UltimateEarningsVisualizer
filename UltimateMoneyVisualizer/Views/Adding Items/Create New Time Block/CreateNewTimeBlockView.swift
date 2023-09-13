@@ -5,84 +5,124 @@
 //  Created by Vincent DeAugustine on 6/3/23.
 //
 
-import SwiftUI
 import CoreData
+import SwiftUI
+
+// MARK: - CreateNewTimeBlockView
 
 struct CreateNewTimeBlockView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @ObservedObject private var viewModel: CreateNewTimeBlockViewModel
+    @Environment (\.dismiss) private var dismiss
+    @StateObject private var viewModel: CreateNewTimeBlockViewModel
+    @FocusState private var titleFocused: Bool
+    
+    
 
-    init(shift: Shift) {
-        self.viewModel = CreateNewTimeBlockViewModel(shift: shift)
+    init(_ starter: TimeBlockStarter_Shift) {
+        _viewModel = StateObject(
+            wrappedValue: CreateNewTimeBlockForShiftViewModel(shift: starter.shift,
+                                                              start: starter.start,
+                                                              end: starter.end)
+        )
+    }
+
+    init(_ starter: TimeBlockStarter_Today) {
+        _viewModel = StateObject(
+            wrappedValue: TodayViewNewTimeBlockCreationModel(todayShift: starter.todayShift,
+                                                             start: starter.start,
+                                                             end: starter.end)
+        )
     }
 
     var body: some View {
         Form {
-            TextField("Title", text: $viewModel.title)
-            DatePicker("Start Time", selection: $viewModel.start,
-                       in: viewModel.shift.start ... viewModel.shift.end,
-                       displayedComponents: .hourAndMinute)
-            DatePicker("End Time", selection: $viewModel.end,
-                       in: viewModel.shift.start ... viewModel.shift.end,
-                       displayedComponents: .hourAndMinute)
-            VStack {
-                Button {
-                    withAnimation {
-                        viewModel.showColorOptions.toggle()
-                    }
-                } label: {
-                    Text("Color")
-                        .foregroundColor(.black)
-                        .spacedOut {
-                            HStack {
-                                Circle()
-                                    .fill(Color.hexStringToColor(hex: viewModel.selectedColorHex))
-                                    .frame(height: 20)
-                                    .overlay(content: {
-                                        Circle()
-                                            .stroke(lineWidth: 1)
-                                            .foregroundColor(.gray)
-                                    })
-
-                                Image(systemName: "chevron.right")
-                                    .font(.system(size: 14))
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(.hexStringToColor(hex: "BFBFBF"))
-                                    .rotationEffect(viewModel.showColorOptions ? .degrees(90) : .degrees(0))
-                            }
+            Section {
+                TextField("Title", text: $viewModel.title)
+                    .focused($titleFocused)
+                DatePicker("Start Time", selection: $viewModel.start,
+                           in: viewModel.shift.getStart() ... viewModel.shift.getEnd(),
+                           displayedComponents: .hourAndMinute)
+                DatePicker("End Time", selection: $viewModel.end,
+                           in: viewModel.shift.getStart() ... viewModel.shift.getEnd(),
+                           displayedComponents: .hourAndMinute)
+                VStack {
+                    Button {
+                        withAnimation {
+                            viewModel.showColorOptions.toggle()
                         }
-                        .padding(.top, viewModel.showColorOptions ? 10 : 0)
-                }
-
-                if viewModel.showColorOptions {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        LazyHStack {
-                            ForEach(Color.overcastColors, id: \.self) { colorHex in
-                                Button {
-                                    viewModel.selectedColorHex = colorHex
-                                } label: {
+                    } label: {
+                        Text("Color")
+                            .foregroundColor(.black)
+                            .spacedOut {
+                                HStack {
                                     Circle()
+                                        .fill(Color.hexStringToColor(hex: viewModel.selectedColorHex))
                                         .frame(height: 20)
-                                        .foregroundColor(.hexStringToColor(hex: colorHex))
-                                        .overlay {
+                                        .overlay(content: {
                                             Circle()
                                                 .stroke(lineWidth: 1)
                                                 .foregroundColor(.gray)
-                                        }
+                                        })
+
+                                    Image(systemName: "chevron.right")
+                                        .font(.system(size: 14))
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(.hexStringToColor(hex: "BFBFBF"))
+                                        .rotationEffect(viewModel.showColorOptions ? .degrees(90) : .degrees(0))
+                                }
+                            }
+                            .padding(.top, viewModel.showColorOptions ? 10 : 0)
+                    }
+
+                    if viewModel.showColorOptions {
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            LazyHStack {
+                                ForEach(Color.overcastColors, id: \.self) { colorHex in
+                                    Button {
+                                        viewModel.selectedColorHex = colorHex
+                                    } label: {
+                                        Circle()
+                                            .frame(height: 20)
+                                            .foregroundColor(.hexStringToColor(hex: colorHex))
+                                            .overlay {
+                                                Circle()
+                                                    .stroke(lineWidth: 1)
+                                                    .foregroundColor(.gray)
+                                            }
+                                    }
                                 }
                             }
                         }
                     }
                 }
+            } header: {
+                Text("Info").hidden()
             }
 
             Section {
-                ForEach(viewModel.titles, id: \.self) { blockTitle in
-                    Text(blockTitle)
-                        .allPartsTappable(alignment: .leading)
-                        .onTapGesture {
-                            viewModel.title = blockTitle
+                ForEach(viewModel.pastBlocks, id: \.self) { block in
+                    if let recent = block.actualBlocks(viewModel.user).first,
+                       let recentEnd = recent.endTime {
+                        Button {
+                            viewModel.title = block.title
+                        } label: {
+                            HStack {
+                                Components.coloredBar(block.color)
+                                VStack(alignment: .leading) {
+                                    Text(block.title)
+                                        .font(.subheadline)
+
+                                    Text(recentEnd.getFormattedDate(format: .abbreviatedMonth))
+                                        .font(.caption)
+                                }
+                                Spacer()
+
+                                Text(recent.timeRangeString())
+                                    .font(.caption)
+                            }
                         }
+                        .buttonStyle(.plain)
+                    }
                 }
             } header: {
                 Text("Recent")
@@ -91,21 +131,62 @@ struct CreateNewTimeBlockView: View {
             }
         }
         .navigationTitle("Create TimeBlock")
+        
         .putInTemplate()
-        .conditionalModifier(viewModel.title.isEmpty == false) { thisView in
-            thisView
-                .bottomButton(label: "Save") {
-                    viewModel.saveAction(context: viewContext)
+        .alert(isPresented: $viewModel.showErrorAlert, error: viewModel.error) {}
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                if viewModel.title.isEmpty == false,
+                   viewModel.start != viewModel.end {
+                    Button("Save") {
+                        do {
+                            try viewModel.saveAction(context: viewContext)
+                            dismiss()
+                        } catch {
+                            print("error")
+                        }
+                        
+                    }
                 }
+            }
+
+            ToolbarItemGroup(placement: .keyboard) {
+                Button("Clear") {
+                    viewModel.title = ""
+                }
+                Spacer()
+                Button("Done") {
+                    titleFocused = false
+                }
+            }
         }
+
+//        .conditionalModifier(viewModel.title.isEmpty == false) { thisView in
+//            thisView
+//                .bottomButton(label: "Save") {
+//                    try? viewModel.saveAction(context: viewContext)
+//                }
+//        }
+    }
+
+    struct TimeBlockStarter_Shift: Equatable, Hashable {
+        let start: Date?
+        let end: Date?
+        let shift: Shift
+    }
+
+    struct TimeBlockStarter_Today: Equatable, Hashable {
+        let start: Date?
+        let end: Date?
+        let todayShift: TodayShift
     }
 }
 
-
+// MARK: - CreateNewTimeBlockView_Previews
 
 struct CreateNewTimeBlockView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateNewTimeBlockView(shift: User.main.getShifts().first!)
+        CreateNewTimeBlockView(.init(start: nil, end: nil, shift: User.main.getShifts().first!))
             .putInNavView(.inline)
     }
 }

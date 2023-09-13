@@ -19,6 +19,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 //        }
         
         
+        User.main.addNewVisit()
+        
         return true
     }
 }
@@ -42,6 +44,7 @@ struct UltimateMoneyVisualizerApp: App {
                 .onAppear() {
                     NotificationManager.scheduleDailyNotification()
                 }
+                
         }
     }
 }

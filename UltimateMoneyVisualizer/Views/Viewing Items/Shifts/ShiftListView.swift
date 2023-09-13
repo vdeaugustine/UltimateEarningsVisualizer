@@ -12,10 +12,13 @@ import Vin
 // MARK: - ShiftListView
 
 struct ShiftListView: View {
+    @EnvironmentObject private var navManager: NavManager
     @Environment(\.managedObjectContext) private var viewContext
 
     @ObservedObject private var user: User = User.main
     @ObservedObject private var settings = User.main.getSettings()
+    @ObservedObject private var wage = User.main.getWage()
+
     @State private var shifts: [Shift] = User.main.getShifts()
 
     @State private var showNewShiftSheet = false
@@ -28,120 +31,31 @@ struct ShiftListView: View {
         user.getShiftsBetween(startDate: .now.addHours(1), endDate: .distantFuture).reversed()
     }
 
-    var pastShifts: [Shift] {
-        user.getShiftsBetween(startDate: .distantPast, endDate: .now.addHours(-1))
-    }
-
     func isSelected(_ shift: Shift) -> Bool {
         return upcomingToDelete.contains(where: { $0 == shift })
     }
 
-    var shiftsByWeek: [Date: [Shift]] {
-        Dictionary(grouping: pastShifts, by: { $0.start.startOfWeek() })
-    }
+    @State private var showErrorDeletingShift = false
 
-    var sortedWeeks: [Date] {
-        shiftsByWeek.keys.sorted(by: >)
-    }
+    @State private var shiftThatCouldntBeDeleted: Shift? = nil
 
     @State private var mostRecentSelected = false
 
+    @State private var payPeriods: [PayPeriod] = User.main.getPayPeriods().filter{ $0.getShifts().isEmpty == false }
+    
+    @State private var showResetUpcomingShiftsAlert = false
+
     var body: some View {
         VStack(spacing: 0) {
-            VStack(alignment: .leading, spacing: 0) {
-                Text("Upcoming")
-                    .font(.headline)
-                    .padding([.top, .leading])
-                    .padding(.leading, 21)
-
-                ScrollView(.horizontal, showsIndicators: false) {
-                    LazyHStack {
-//                        if upcomingShifts.isEmpty {
-                        NavigationLink {
-                            NewShiftView()
-                        } label: {
-                            Label("Add shifts", systemImage: "plus")
-                                .padding()
-                                .rectContainer(shadowRadius: 0, cornerRadius: 7)
-                        }
-
-                        .padding(.vertical)
-                        .padding(.leading, 6)
-//                        }
-
-//                        if upcomingShifts.isEmpty == false {
-//                            ZStack {
-//                               Circle()
-//                                    .fill(Color.white)
-//                                VStack(spacing: 5) {
-//                                   Text("New")
-//
-//                                       .font(.system(size: 10))
-//                                   Image(systemName: "plus")
-//                                       .font(.system(size: 14, weight: .medium))
-//                               }
-//                                .foregroundStyle(settings.getDefaultGradient())
-//                           }
-//                           .frame(height: 50)
-//                        }
-
-                        ForEach(upcomingShifts) { shift in
-                            if editMode.isEditing {
-                                Button {
-                                    if isSelected(shift) {
-                                        upcomingToDelete.removeAll(where: { $0 == shift })
-                                    } else {
-                                        upcomingToDelete.append(shift)
-                                    }
-                                } label: {
-                                    ShiftCircle(dateComponent: Calendar.current.dateComponents([.month,
-                                                                                                .day],
-                                                                                               from: shift.start),
-                                                isEditing: editMode.isEditing,
-                                                isSelected: isSelected(shift))
-                                }
-                                .buttonStyle(.plain)
-
-                            } else {
-                                NavigationLink {
-                                    ShiftDetailView(shift: shift)
-                                } label: {
-                                    ShiftCircle(dateComponent: Calendar.current.dateComponents([.month, .day], from: shift.start),
-                                                isEditing: editMode.isEditing,
-                                                isSelected: isSelected(shift))
-                                }
-                                .buttonStyle(.plain)
-                            }
-                        }
-                    }
-                    .padding(.horizontal)
-                }
-                .frame(height: 100)
-            }
-            .background(Color.listBackgroundColor)
-
-            VStack(alignment: .leading, spacing: 0) {
-                List {
-                    ForEach(user.groupShiftsByWeek().sortedKeys, id: \.self) { key in
-
-                        if let arrayOfShifts = user.groupShiftsByWeek().dict[key] {
-                            Section(key) {
-                                ForEach(arrayOfShifts) { shift in
-
-                                    NavigationLink {
-                                        ShiftDetailView(shift: shift)
-                                    } label: {
-                                        ShiftRowView(shift: shift)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                .listStyle(.insetGrouped)
-            }
+//            upcomingPart
+            listPart
         }
-
+        .onChange(of: wage, perform: { _ in
+            shifts = user.getShifts()
+        })
+        .refreshable {
+            update()
+        }
         .toolbar {
             if shifts.isEmpty == false {
                 EditButton()
@@ -152,7 +66,15 @@ struct ShiftListView: View {
                     }
             }
         }
+        .alert("Error deleting shift", isPresented: $showErrorDeletingShift, actions: {
+        }, message: {
+            if let shift = shiftThatCouldntBeDeleted {
+                Text("Could not delete shift for \(shift.start)")
+            } else {
+                Text("Shift is nil")
+            }
 
+        })
         .sheet(isPresented: $showNewShiftSheet) {
             NewShiftView()
                 .presentationDragIndicator(.visible)
@@ -171,9 +93,9 @@ struct ShiftListView: View {
 
                 } label: {
                     if upcomingToDelete.isEmpty {
-                        BottomViewButton(label: "Cancel")
+                        BottomButtonView(label: "Cancel")
                     } else {
-                        BottomViewButton(label: "Delete", gradient: Color.niceRed.getGradient())
+                        BottomButtonView(label: "Delete", gradient: Color.niceRed.getGradient())
                     }
                 }
             }
@@ -193,8 +115,18 @@ struct ShiftListView: View {
             Text("Every shift that has been highlighted will be permanently deleted")
         })
         .environment(\.editMode, $editMode)
+        .alert("Reset upcoming shifts", isPresented: $showResetUpcomingShiftsAlert) {
+            Button("Reset", role: .destructive) {
+                resetUpcoming()
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("This will delete all upcoming shifts but not previously completed shifts.")
+        }
+
     }
 
+    // swiftformat:sort:begin
     private func deleteShifts(offsets: IndexSet) {
         withAnimation {
             offsets.map { shifts[$0] }.forEach(viewContext.delete)
@@ -206,6 +138,133 @@ struct ShiftListView: View {
             }
         }
     }
+
+    var listPart: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            List {
+                upcomingScroll
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+
+                ForEach(payPeriods) { period in
+                    Section {
+                        ForEach(period.getShifts()) { shift in
+                            Button {
+                                navManager.appendCorrectPath(newValue: .shift(shift))
+                            } label: {
+                                ShiftRowView(shift: shift)
+                            }
+                        }
+                    } header: {
+                        Button {
+                            navManager.appendCorrectPath(newValue: .payPeriodDetail(period))
+                        } label: {
+                            HStack {
+                                Text(period.dateRangeString)
+                                Spacer()
+                                Label("More", systemImage: "ellipsis")
+                                    .labelStyle(.iconOnly)
+                            }
+                        }
+                        .foregroundStyle(Color.black)
+                    }
+                }
+            }
+            .listStyle(.insetGrouped)
+        }
+    }
+
+    var upcomingHeader: some View {
+        Text("Upcoming")
+            .font(.headline)
+            .padding([.top, .leading])
+            .padding(.leading, 21)
+    }
+
+    var upcomingPart: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            upcomingHeader
+            upcomingScroll
+        }
+        .background(Color.listBackgroundColor)
+    }
+
+    var upcomingScroll: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            LazyHStack(alignment: .center) {
+                Button {
+                    navManager.appendCorrectPath(newValue: .createShift)
+                } label: {
+                    Label("Add shifts", systemImage: "plus")
+                        .padding()
+                        .rectContainer(shadowRadius: 0, cornerRadius: 7)
+                }
+
+//                .padding(.bottom)
+//                .padding(.leading, 6)
+
+                ForEach(upcomingShifts) { shift in
+                    if editMode.isEditing {
+                        Button {
+                            if isSelected(shift) {
+                                upcomingToDelete.removeAll(where: { $0 == shift })
+                            } else {
+                                upcomingToDelete.append(shift)
+                            }
+                        } label: {
+                            ShiftCircle(dateComponent: Calendar.current.dateComponents([.month,
+                                                                                        .day],
+                                                                                       from: shift.start),
+                                        isEditing: editMode.isEditing,
+                                        isSelected: isSelected(shift))
+                        }
+                        .buttonStyle(.plain)
+
+                    } else {
+                        Button {
+                            navManager.appendCorrectPath(newValue: .shift(shift))
+                        } label: {
+                            ShiftCircle(dateComponent: Calendar.current.dateComponents([.month, .day], from: shift.start),
+                                        isEditing: editMode.isEditing,
+                                        isSelected: isSelected(shift))
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                
+                Divider()
+                    .padding()
+                
+                if upcomingShifts.isEmpty == false {
+                    Button {
+                        showResetUpcomingShiftsAlert = true
+                    } label: {
+                        ResetUpcoming()
+                    }
+                }
+            }
+            .frame(height: 80)
+//            .padding(.horizontal)
+        }
+        
+    }
+
+    private func update() {
+        print("Called")
+        shifts = user.getShifts()
+        payPeriods = user.getPayPeriods().filter { $0.getShifts().isEmpty == false }
+    }
+    
+    private func resetUpcoming() {
+        for shift in upcomingShifts {
+            user.removeFromShifts(shift)
+            viewContext.delete(shift)
+            
+            try? viewContext.save()
+        }
+    }
+
+    // swiftformat:sort:end
 }
 
 // MARK: - ShiftRowView
@@ -213,6 +272,7 @@ struct ShiftListView: View {
 struct ShiftRowView: View {
     let shift: Shift
     @ObservedObject private var settings = User.main.getSettings()
+    @ObservedObject private var wage = User.main.getWage()
 
     var body: some View {
         HStack {
@@ -223,7 +283,7 @@ struct ShiftRowView: View {
                 .cornerRadius(8)
 
             VStack(alignment: .leading) {
-                Text(shift.start.getFormattedDate(format: .abreviatedMonth))
+                Text(shift.start.getFormattedDate(format: .abbreviatedMonth))
                     .font(.subheadline)
                     .foregroundColor(.primary)
 
@@ -233,7 +293,7 @@ struct ShiftRowView: View {
             }
             Spacer()
 
-            Text("\(shift.totalEarned.formattedForMoney())")
+            Text("\(shift.totalEarned.money())")
                 .font(.subheadline)
                 .foregroundColor(.primary)
                 .multilineTextAlignment(.trailing)
@@ -250,3 +310,34 @@ struct ShiftListView_Previews: PreviewProvider {
             .putInNavView(.inline)
     }
 }
+
+
+// MARK: - ResetUpcoming
+
+struct ResetUpcoming: View {
+    var body: some View {
+        VStack {
+            Image(systemName: "x.circle.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 40)
+                .background(Circle().fill(.white))
+                .foregroundStyle(Color(uiColor: .lightGray))
+//            Text("Reset")
+//                .font(.caption2)
+//                .multilineTextAlignment(.center)
+//                .lineLimit(3)
+//                .foregroundStyle(Color(uiColor: .secondaryLabel))
+        }
+//        .frame(width: 65)
+    }
+}
+
+// MARK: - ResetUpcoming_Previews
+
+struct ResetUpcoming_Previews: PreviewProvider {
+    static var previews: some View {
+        ResetUpcoming()
+    }
+}
+

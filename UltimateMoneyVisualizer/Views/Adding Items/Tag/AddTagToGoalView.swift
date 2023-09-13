@@ -5,9 +5,9 @@
 //  Created by Vincent DeAugustine on 5/22/23.
 //
 
+import AlertToast
 import SwiftUI
 import Vin
-import AlertToast
 
 // MARK: - AddTagToGoalView
 
@@ -43,7 +43,9 @@ struct AddTagToGoalView: View {
             }
 
             Section("Previously Used Tags") {
-                NavigationLink {
+                Button {
+                    NavManager.shared.appendCorrectPath(newValue: .createTag(AnyPayoffItem(goal)))
+
                 } label: {
                     Label("Create New", systemImage: "plus")
                 }
@@ -83,7 +85,6 @@ struct AddTagToGoalView: View {
         .toast(isPresenting: $showSuccessAlert) {
             .successWith(message: "Saved Tags")
         }
-        
     }
 }
 

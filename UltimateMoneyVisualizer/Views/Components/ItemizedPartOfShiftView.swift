@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-
-
 // MARK: - ItemizedPartOfShiftView
 
 struct ItemizedPartOfShiftView: View {
@@ -36,21 +34,24 @@ struct ItemizedPartOfShiftView: View {
 
         return retArr
     }
-    
+
     struct StartAndEnd: Hashable {
         let start: Date
         let end: Date
     }
 
     func plusNavigation(start: Date, end: Date) -> some View {
-
-            Image(systemName: "plus.circle")
-                .padding(.top, -12)
-                .foregroundStyle(settings.getDefaultGradient())
-                .onTapGesture {
-                    navManager.homeNavPath.append(StartAndEnd(start: start, end: end))
-                }
-             
+        Image(systemName: "plus.circle")
+            .padding(.top, -12)
+            .foregroundStyle(settings.getDefaultGradient())
+            .onTapGesture {
+                // TODO: Figure this out
+                navManager.appendCorrectPath(
+                    newValue: .createTimeBlockForShift(.init(start: start,
+                                                             end: end,
+                                                             shift: shift))
+                )
+            }
     }
 
     var body: some View {
@@ -63,12 +64,13 @@ struct ItemizedPartOfShiftView: View {
                let shiftStart = shift.startDate,
                startOfFirst > shiftStart {
                 plusNavigation(start: shiftStart, end: startOfFirst)
+                    .offset(y: 4)
             }
 
             ForEach(shift.getTimeBlocks()) { timeBlock in
                 timeBlockSection(timeBlock: timeBlock)
                     .onTapGesture {
-                        navManager.homeNavPath.append(timeBlock)
+                        navManager.appendCorrectPath(newValue: .timeBlockDetail(timeBlock))
                     }
             }
 
@@ -77,21 +79,19 @@ struct ItemizedPartOfShiftView: View {
                let shiftEnd = shift.endDate,
                endOfLast < shiftEnd {
                 plusNavigation(start: endOfLast, end: shiftEnd)
+                    .offset(y: 4)
             }
 
             if shift.getTimeBlocks().isEmpty {
                 plusNavigation(start: shift.start, end: shift.end)
+                    .offset(y: 4)
             }
 
             divider(time: shift.end)
         }
-//        .navigationDestination(for: StartAndEnd.self) { newVal in
-//            CreateNewTimeBlockView(shift: shift, start: newVal.start, end: newVal.end)
+//        .navigationDestination(for: TimeBlock.self) { block in
+//            TimeBlockDetailView(block: block)
 //        }
-        .navigationDestination(for: TimeBlock.self) { block in
-            TimeBlockDetailView(block: block)
-        }
-        // }
     }
 
     func timeBlockSection(timeBlock: TimeBlock) -> some View {
@@ -100,8 +100,8 @@ struct ItemizedPartOfShiftView: View {
                let startTime = timeBlock.startTime {
                 divider(time: startTime)
             }
-            timeBlockPill(timeBlock: timeBlock)
-                
+            row(timeBlock)
+
             if let endTime = timeBlock.endTime {
                 divider(time: endTime)
 
@@ -116,13 +116,13 @@ struct ItemizedPartOfShiftView: View {
         HStack {
             if let title = timeBlock.title {
                 Text(title)
-                    .font(.system(size: 12))
+                    .font(.caption)
                     .foregroundColor(.white)
 
                 Spacer()
 
-                Text(timeBlock.amountEarned().formattedForMoney())
-                    .font(.system(size: 12))
+                Text(timeBlock.amountEarned().money())
+                    .font(.caption)
                     .fontWeight(.semibold)
                     .foregroundColor(.white)
             }
@@ -134,14 +134,44 @@ struct ItemizedPartOfShiftView: View {
         }
     }
 
+    @ViewBuilder func row(_ block: TimeBlock) -> some View {
+        HStack {
+            RoundedRectangle(cornerRadius: 2)
+                .fill(block.getColor())
+                .frame(width: 3)
+                .padding(.vertical, 1)
+
+            VStack(alignment: .leading) {
+                Text(block.getTitle())
+                    .format(size: 14, weight: .bold)
+                    .lineLimit(1)
+
+                Text(block.timeRangeString())
+                    .font(.caption)
+                    .lineLimit(1)
+            }
+            .lineLimit(1)
+            Spacer()
+
+            Text(block.amountEarned().money())
+                .font(.caption)
+                .lineLimit(1)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(10)
+        .background {
+            Color.targetGray
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+        }
+
+        .frame(height: 50)
+    }
+
     func divider(time: Date) -> some View {
         HStack(spacing: 9) {
             Text(time.getFormattedDate(format: .minimalTime))
-                .font(.system(size: 13))
-            Rectangle()
-                .frame(height: 1.5)
-                .foregroundColor(Color.black)
-                .cornerRadius(2)
+                .font(.footnote)
+            VStack { Divider() }
         }
     }
 }
@@ -204,6 +234,5 @@ struct ItemizedPartOfShiftView_Previews: PreviewProvider {
             ItemizedPartOfShiftView(shift: User.main.getShifts().first!)
                 .padding()
         }
-            
     }
 }

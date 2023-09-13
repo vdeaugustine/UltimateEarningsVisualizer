@@ -23,7 +23,7 @@ struct AllocShiftRow: View {
                 .cornerRadius(8)
 
             VStack(alignment: .leading) {
-                Text(shift.start.getFormattedDate(format: .abreviatedMonth))
+                Text(shift.start.getFormattedDate(format: .abbreviatedMonth))
                     .font(.subheadline)
                     .foregroundColor(.primary)
 
@@ -35,7 +35,7 @@ struct AllocShiftRow: View {
             Spacer()
 
             VStack {
-                Text(allocation.amount.formattedForMoney())
+                Text(allocation.amount.money())
                     .font(.subheadline)
                     .foregroundColor(.primary)
                     .multilineTextAlignment(.trailing)

@@ -5,6 +5,7 @@
 //  Created by Vincent DeAugustine on 4/26/23.
 //
 
+import CoreData
 import SwiftUI
 import Vin
 
@@ -24,7 +25,7 @@ struct SettingsView: View {
 
     private var wageStr: String {
         if let wage = user.wage {
-            return wage.amount.formattedForMoney(includeCents: true)
+            return wage.amount.money(includeCents: true)
         }
         return "Not set"
     }
@@ -34,26 +35,64 @@ struct SettingsView: View {
             Section("Money") {
                 // MARK: - Set Wage
 
-                NavigationLink {
-                    if let wage = user.wage { WageView(wage: wage) }
-                    else { EnterWageView() }
+                Button {
+                    if let wage = user.wage {
+                        NavManager.shared.appendCorrectPath(newValue: .wage)
+                    } else { NavManager.shared.appendCorrectPath(newValue: .enterWage) }
                 } label: {
                     HStack {
-                        SystemImageWithFilledBackground(systemName: "calendar", backgroundColor: settings.themeColor)
-                        Text("Set wage")
-                    }
+                        SystemImageWithFilledBackground(systemName: "calendar",
+                                                        backgroundColor: settings.themeColor)
+                        Text("My Wage")
+                        Spacer()
+                        Components.nextPageChevron
+                    }.allPartsTappable()
                 }
+                .foregroundStyle(.black)
+
+                Button {
+                    NavManager.shared.appendCorrectPath(newValue: .enterWage)
+                } label: {
+                    HStack {
+                        SystemImageWithFilledBackground(systemName: "percent")
+                        Text("Taxes")
+                        Spacer()
+                        Components.nextPageChevron
+                    }.allPartsTappable()
+                }
+                .buttonStyle(.plain)
 
                 // MARK: - Set Hours
 
-                NavigationLink {
-                    RegularScheduleView()
+                Button {
+                    NavManager.shared.appendCorrectPath(newValue: .regularSchedule)
                 } label: {
-                    SystemImageWithFilledBackground(systemName: "hourglass", backgroundColor: settings.themeColor)
-                    Text("Normal working hours")
+                    HStack {
+                        SystemImageWithFilledBackground(systemName: "hourglass",
+                                                        backgroundColor: settings.themeColor)
+                        Text("Normal working hours")
+                        Spacer()
+                        Components.nextPageChevron
+                    }.allPartsTappable()
                 }
+                .buttonStyle(.plain)
 
-                // TODO: - Add a taxes section
+                // MARK: - Pay Period
+
+                Button {
+                    NavManager.shared.appendCorrectPath(newValue: .payPeriods)
+                } label: {
+                    HStack {
+                        SystemImageWithFilledBackground(systemName: "calendar",
+                                                        backgroundColor: settings.themeColor)
+                        Text("Pay Periods")
+
+                        Spacer()
+                        Components.nextPageChevron
+                    }
+                    .allPartsTappable()
+                }
+                .buttonStyle(.plain)
             }
 
             Section("Visuals") {
@@ -77,10 +116,7 @@ struct SettingsView: View {
                                             .foregroundColor(.gray)
                                     })
 
-                                Image(systemName: "chevron.right")
-                                    .font(.system(size: 14))
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(.hexStringToColor(hex: "BFBFBF"))
+                                Components.nextPageChevron
                                     .rotationEffect(showColorOptions ? .degrees(90) : .degrees(0))
                             }
                         }
@@ -114,23 +150,50 @@ struct SettingsView: View {
                         .onChange(of: inMemory) { newValue in
                             UserDefaults.inMemory = newValue
                         }
+
+                    Button("Reset all Core Data") {
+                        DebugOperations.deleteAll()
+                    }
+                    Button("Restore default") {
+                        user.instantiateExampleItems(context: viewContext)
+                    }
                 }
+
             #endif
 
             Section("Plan") {
-                NavigationLink {
-                    PurchasePage()
+                Button {
+                    NavManager.shared.appendCorrectPath(newValue: .purchasePage)
                 } label: {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "star.fill", backgroundColor: user.getSettings().themeColor)
                         Text("Manage Plan")
                         Spacer()
+                        Components.nextPageChevron
                     }
+                    .allPartsTappable()
+                }
+                .buttonStyle(.plain)
+            }
+            
+            
+            if let numberOfVisits = User.main.statusTracker?.numberOfTimesOpeningApp {
+                Section {
+                    
+                } header: {
+                    
+                } footer: {
+                    Text("You have opened the app \(numberOfVisits) time\(numberOfVisits > 1 ? "s" : "")! Nice Job!")
                 }
             }
         }
+        .listStyle(.insetGrouped)
         .putInTemplate()
         .navigationTitle("Settings")
+        .navigationDestination(for: NavManager.AllViews.self) { view in
+            NavManager.shared.getDestinationViewForStack(destination: view)
+        }
+        
     }
 }
 

@@ -15,50 +15,78 @@ struct SavedListView: View {
 
     @State private var searchText: String = ""
     @ObservedObject private var user = User.main
-
-    @State private var alertConfig = AlertToast(displayMode: .alert, type: .complete(User.main.getSettings().themeColor))
-
+    @State private var alertConfig = AlertToast(displayMode: .alert,
+                                                type: .complete(User.main.getSettings().themeColor))
     @State private var savedItems = User.main.getSaved()
     @State private var showAlert = false
+    @FocusState var searchFocused
+    @State private var showSearch = false
+    
+    var filteredItems: [Saved] {
+        if searchText.isEmpty {
+            return savedItems
+        }
+        return savedItems.filter { item in
+            item.getTitle().removingWhiteSpaces().lowercased().contains(searchText.removingWhiteSpaces().lowercased())
+        }
+    }
+    
+   
 
     var body: some View {
         List {
-            ForEach(savedItems) { saved in
-                NavigationLink {
-                    
-                    SavedDetailView(saved: saved)
-                    
-                } label: {
-                    HStack {
-                        
-                        DateCircle(date: saved.getDate(), height: 40)
-                            
-                        
-                        VStack(alignment: .leading) {
-                            Text(saved.getTitle())
-                                .font(.headline)
-                            Text(saved.getAmount().formattedForMoney())
-                                .font(.subheadline)
-                                .fontWeight(.semibold)
-                                .foregroundStyle(user.getSettings().getDefaultGradient())
+            Section {
+                ForEach(filteredItems) { saved in
+                    if saved.title != nil,
+                       saved.date != nil,
+                       saved.amount > 0 {
+                        NavigationLink {
+                            SavedDetailView(saved: saved)
+                        } label: {
+                            SavedItemRow(saved: saved, user: user)
                         }
                     }
                 }
+                .onDelete(perform: { indexSet in
+                    for index in indexSet {
+                        if let item = savedItems.safeGet(at: index) {
+                            viewContext.delete(item)
+                            savedItems.removeAll(where: { $0 == item })
+                        }
+                    }
+                })
+            } header: {
+                Text("Items").hidden()
             }
         }
-
+        
+//        .scrollContentBackground(.hidden)
+        .scrollDismissesKeyboard(.immediately)
         .putInTemplate()
         .navigationTitle("Saved Items")
         .toolbar {
+            
             ToolbarItem(placement: .navigationBarTrailing) {
-                NavigationLink {
-                    CreateSavedView()
+                Button {
+                    showSearch.toggle()
+                } label: {
+                    Label("Search", systemImage: "magnifyingglass")
+                }
+            }
+            
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    NavManager.shared.appendCorrectPath(newValue: .createSaved)
                 } label: {
                     Label("Add Saved Item", systemImage: "plus")
                 }
             }
-           
         }
+        .conditionallySearchable(isSearching: showSearch, searchText: $searchText)
+//        .conditionalModifier(showSearch) { view in
+//            view
+//                .searchable(text: $searchText)
+//        }
     }
 
     private func addSavedItem() {
@@ -73,11 +101,33 @@ struct SavedListView: View {
             }
         }
     }
-
-
 }
 
+// MARK: - SavedItemRow
 
+struct SavedItemRow: View {
+    let saved: Saved
+    @ObservedObject var user: User
+    var body: some View {
+        HStack {
+            if let title = saved.title,
+               let date = saved.date,
+               saved.amount > 0 {
+                DateCircle(date: date, height: 40)
+
+                VStack(alignment: .leading) {
+                    Text(title)
+                        .font(.callout)
+                }
+
+                Spacer()
+                Text(saved.amount.money())
+                    .font(.subheadline)
+                    
+            }
+        }
+    }
+}
 
 // MARK: - SavedListView_Previews
 

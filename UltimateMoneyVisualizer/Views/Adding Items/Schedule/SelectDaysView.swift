@@ -10,7 +10,7 @@ import SwiftUI
 
 // MARK: - RegularDaysContainer
 
-public class RegularDaysContainer: ObservableObject {
+public class RegularDaysContainer: ObservableObject, Hashable {
     @Published var regularDays: [RegularDay] = []
 
     @Published var daysOfWeekSelected: [DayOfWeek] = User.main.regularSchedule?.getDays() ?? []
@@ -19,27 +19,26 @@ public class RegularDaysContainer: ObservableObject {
         guard let days = User.main.regularSchedule?.getDays() else {
             return [:]
         }
-        
+
         return days.reduce(into: [DayOfWeek: Date]()) { partialResult, day in
             partialResult[day] = .nineAM
         }
-        
+
     }()
+
     @Published var endTimeDict: [DayOfWeek: Date] = {
         guard let days = User.main.regularSchedule?.getDays() else {
             return [:]
         }
-        
+
         return days.reduce(into: [DayOfWeek: Date]()) { partialResult, day in
             partialResult[day] = .fivePM
         }
-        
+
     }()
-    
-    
+
     @Published var lastStart: Date = .nineAM
     @Published var lastEnd: Date = .fivePM
-    
 
     static var shared: RegularDaysContainer = .init()
 
@@ -52,7 +51,6 @@ public class RegularDaysContainer: ObservableObject {
     }
 
     func handleDayOfWeek(_ day: DayOfWeek) {
-        
         var set = Set(daysOfWeekSelected)
         if set.contains(day) {
             set.remove(day)
@@ -86,7 +84,11 @@ public class RegularDaysContainer: ObservableObject {
     func finalizeAndSave(user: User, context: NSManagedObjectContext) throws {
         let regularDays: [RegularDay] = daysOfWeekSelected.map { dayOfWeek in
 
-            let regularDay = RegularDay(dayOfWeek: dayOfWeek, startTime: startTimeDict[dayOfWeek] ?? .nineAM, endTime: endTimeDict[dayOfWeek] ?? .fivePM, user: user, context: context)
+            let regularDay = RegularDay(dayOfWeek: dayOfWeek,
+                                        startTime: startTimeDict[dayOfWeek] ?? .nineAM,
+                                        endTime: endTimeDict[dayOfWeek] ?? .fivePM,
+                                        user: user,
+                                        context: context)
 
             return regularDay
         }
@@ -94,7 +96,26 @@ public class RegularDaysContainer: ObservableObject {
         try RegularSchedule(days: regularDays, user: user, context: context)
     }
 }
+extension RegularDaysContainer: Equatable {
+    public static func == (lhs: RegularDaysContainer, rhs: RegularDaysContainer) -> Bool {
+        lhs.regularDays == rhs.regularDays &&
+        lhs.daysOfWeekSelected == rhs.daysOfWeekSelected &&
+        lhs.startTimeDict == rhs.startTimeDict &&
+        lhs.endTimeDict == rhs.endTimeDict &&
+        lhs.lastStart == rhs.lastStart &&
+        lhs.lastEnd == rhs.lastEnd
+    }
 
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(regularDays)
+        hasher.combine(daysOfWeekSelected)
+        hasher.combine(startTimeDict)
+        hasher.combine(endTimeDict)
+        hasher.combine(lastStart)
+        hasher.combine(lastEnd)
+    }
+    
+}
 // MARK: - SelectDaysView
 
 struct SelectDaysView: View {
@@ -119,16 +140,20 @@ struct SelectDaysView: View {
                             daysContainer.handleDayOfWeek(day)
                         }
                 }
+            } header: {
+                Text("Days")
+                    .hidden()
             }
         }
         .putInTemplate()
         .navigationTitle("Create Schedule")
         .safeAreaInset(edge: .bottom) {
             if daysContainer.daysOfWeekSelected.isEmpty == false {
-                NavigationLink {
-                    SetHoursForRegularDaysView(daysContainer: daysContainer)
+                Button {
+                    NavManager.shared.appendCorrectPath(newValue: .setHoursForRegularSchedule(daysContainer))
+
                 } label: {
-                    BottomViewButton(label: "Next")
+                    BottomButtonView(label: "Next")
                 }
             }
         }

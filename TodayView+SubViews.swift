@@ -41,55 +41,9 @@ extension TodayView {
         }
     }
 
-    // MARK: - SelectHours
-
-    struct SelectHours: View {
-        @Environment(\.managedObjectContext) private var viewContext
-        @ObservedObject var viewModel: TodayViewModel
-
-        var body: some View {
-            Form {
-                DatePicker("Start Time", selection: $viewModel.start, displayedComponents: .hourAndMinute)
-                DatePicker("End Time", selection: $viewModel.end, displayedComponents: .hourAndMinute)
-            }
-            .safeAreaInset(edge: .bottom) {
-                Button {
-                    do {
-                        let ts = try TodayShift(startTime: viewModel.start, endTime: viewModel.end, user: viewModel.user, context: viewModel.viewContext)
-
-                        // TODO: See if these are needed
-                        viewModel.todayShift = ts
-                        viewModel.user.todayShift = ts
-                        viewModel.showHoursSheet = false
-
-                    } catch {
-                        print(error)
-                    }
-
-                } label: {
-                    ZStack {
-                        Capsule()
-                            .fill(viewModel.settings.getDefaultGradient())
-                        Text("Save")
-                            .fontWeight(.medium)
-                            .foregroundColor(.white)
-                    }
-                    .frame(width: 135, height: 50)
-                }
-            }
-            .navigationTitle("Set hours")
-            .background(Color.clear)
-            .putInTemplate()
-            .putInNavView(.inline)
-            .presentationDetents([.medium, .fraction(0.9_999_999_999_999_999)])
-            .presentationDragIndicator(.visible)
-            .tint(.white)
-            .accentColor(.white)
-        }
-    }
 
     struct TimeMoneyPicker: View {
-        @ObservedObject var viewModel: TodayViewModel
+        @EnvironmentObject private var viewModel: TodayViewModel
 
         var body: some View {
             Picker("Time/Money", selection: $viewModel.selectedSegment) {
@@ -106,11 +60,11 @@ extension TodayView {
     // MARK: - Start End Total
 
     struct StartEndTotalView: View {
-        @ObservedObject var viewModel: TodayViewModel
+        @EnvironmentObject private var viewModel: TodayViewModel
 
         var body: some View {
             VStack {
-                Text("Hours for \(Date.now.getFormattedDate(format: .abreviatedMonth))")
+                Text("Hours for \(Date.now.getFormattedDate(format: .abbreviatedMonth))")
                     .font(.headline)
                     .spacedOut {
                         Button {
@@ -122,10 +76,10 @@ extension TodayView {
                     }
                     .padding(.horizontal)
 
-                if let start = viewModel.todayShift?.startTime,
-                   let end = viewModel.todayShift?.endTime,
-                   let totalDuration = viewModel.todayShift?.totalShiftDuration,
-                   let totalWillEarn = viewModel.todayShift?.totalWillEarn {
+                if let start = viewModel.user.todayShift?.startTime,
+                   let end = viewModel.user.todayShift?.endTime,
+                   let totalDuration = viewModel.user.todayShift?.totalShiftDuration,
+                   let totalWillEarn = viewModel.user.todayShift?.totalWillEarn {
                     HorizontalDataDisplay(data: [.init(label: "Start",
                                                        value: start.getFormattedDate(format: .minimalTime, amPMCapitalized: false),
                                                        view: nil),
@@ -137,7 +91,7 @@ extension TodayView {
                                                            value: totalDuration.formatForTime(),
                                                            view: nil) :
                                                      .init(label: "Will Earn",
-                                                           value: totalWillEarn.formattedForMoney(),
+                                                           value: totalWillEarn.money(),
                                                            view: nil)])
                 }
             }
@@ -147,44 +101,61 @@ extension TodayView {
     // MARK: - Individual Views
 
     struct ProgressSectionView: View {
-        @ObservedObject var viewModel: TodayViewModel
+        @EnvironmentObject private var viewModel: TodayViewModel
 
         var body: some View {
             VStack {
                 HStack {
-                    
                     Text(viewModel.selectedSegment.rawValue.capitalized)
                     Spacer()
                     Text(viewModel.totalValueForProgressSection())
                 }
 
-                ProgressBar(percentage: viewModel.todayShiftPercentCompleted,
-                            color: viewModel.settings.themeColor)
+                ZStack {
+                    ProgressBar(percentage: viewModel.todayShiftPercentCompleted,
+                                color: viewModel.settings.themeColor)
+                    if viewModel.wage.includeTaxes {
+                        ProgressBar(percentage: min(viewModel.todayShiftPercentCompleted,
+                                                    viewModel.wage.totalTaxMultiplier),
+                                    color: .niceRed,
+                                    showBackgroundBar: false)
+                    }
+                }
 
                 HStack {
-                    Text(viewModel.todayShiftValueSoFar)
+                    Text(viewModel.soFarTotalValue)
                     Spacer()
                     Text(viewModel.todayShiftRemainingValue)
                 }
+
+                HStack {
+                    Circle()
+                        .frame(width: 8)
+                        .foregroundStyle(Color.niceRed)
+                    Text("Taxes")
+                        .font(.caption2)
+                    Spacer()
+                }
+                .offset(y: 20)
             }
             .font(.footnote)
             .padding()
             .padding(.top)
             .overlay {
                 if viewModel.isCurrentlyMidShift {
-                    AnimatePlusAmount(str: "+" + (viewModel.user.getWage().secondly * 2).formattedForMoneyExtended())
+                    AnimatePlusAmount(str: "+" + (viewModel.wage.perSecond * 2)
+                        .moneyExtended())
                 }
             }
         }
     }
-
 
     // MARK: - Payoff Item Section
 
     // MARK: - Today's Spending Section
 
     struct TodaysSpendingView: View {
-        @ObservedObject var viewModel: TodayViewModel
+        @EnvironmentObject private var viewModel: TodayViewModel
 
         var body: some View {
             VStack {
@@ -195,12 +166,11 @@ extension TodayView {
                     Spacer()
 
                     NavigationLink("Edit Queue") {
-                        PayoffQueueView() 
+                        PayoffQueueView()
                     }
                 }
 
-                TodayPayoffGrid(shiftDuration: viewModel.todayShift?.totalShiftDuration ?? 0,
-                                haveEarned: viewModel.todayShift?.totalEarnedSoFar(viewModel.nowTime) ?? 0)
+                TodayPayoffGrid()
             }
             .padding()
             .padding(.vertical)
@@ -208,3 +178,10 @@ extension TodayView {
         }
     }
 }
+
+// struct TodayViewSubviews_Previews: PreviewProvider {
+//    static var previews: some View {
+//        TodayView.ProgressSectionView(viewModel: .init())
+//            .environment(\.managedObjectContext, PersistenceController.context)
+//    }
+// }

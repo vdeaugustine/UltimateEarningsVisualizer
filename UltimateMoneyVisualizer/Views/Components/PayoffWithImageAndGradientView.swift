@@ -42,7 +42,7 @@ struct PayoffWithImageAndGradientView: View {
     var maxHeight: CGFloat = 150
     
     var moneyString: String {
-        let completed: String = item.amountPaidOff.formattedForMoney()
+        let completed: String = item.amountPaidOff.money()
         let total: String = item.amountMoneyStr
         
         return completed + " / " + total
@@ -96,7 +96,7 @@ struct PayoffWithImageAndGradientView: View {
                             ProgressBar(percentage: item.percentPaidOff, height: 3)
                             
                             HStack {
-                                Text(item.dueDate?.getFormattedDate(format: .abreviatedMonth) ?? "")
+                                Text(item.dueDate?.getFormattedDate(format: .abbreviatedMonth) ?? "")
                                 
                                 Spacer()
                                 Text( (item.percentPaidOff * 100).simpleStr() + "%")

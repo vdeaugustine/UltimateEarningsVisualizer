@@ -15,50 +15,47 @@ import Vin
 struct AllTimeBlocksView: View {
     @ObservedObject private var user: User = .main
     @State private var selectedBlock: TimeBlock? = nil
+    @ObservedObject private var navManager: NavManager = .shared
 
     var body: some View {
         List {
-            ForEach(removeRedundant(user.getTimeBlocksBetween())) { block in
-//                NavigationLink {
-//                    TimeBlockDetailView(block: block)
-//                } label: {
-                    VStack {
-                        HStack {
-                            Circle()
-                                .fill(block.getColor())
-                                .frame(height: 10)
+            Section {
+                ForEach(removeRedundant(user.getTimeBlocksBetween())) { block in
+                        VStack {
+                            HStack {
+                                Circle()
+                                    .fill(block.getColor())
+                                    .frame(height: 10)
 
-                            VStack(alignment: .leading) {
-                                if let title = block.title {
-                                    Text(title)
+                                VStack(alignment: .leading) {
+                                    if let title = block.title {
+                                        Text(title)
+                                    }
                                 }
+                                Spacer()
+                                VStack {
+                                    Text("\(totalDurationFor(block: block).formatForTime())")
+                                        .font(.caption2)
+                                    Text(occurrencesOf(block).str + " times")
+                                }
+                                .font(.caption2)
                             }
-                            Spacer()
-                            VStack {
-                                Text("\(totalDurationFor(block: block).formatForTime())")
-                                    .font(.caption2)
-                                Text(occurrencesOf(block).str + " times")
+                            .foregroundStyle(isSelected(block) ? Color.white : Color.black)
+                            .allPartsTappable(alignment: .leading)
+                            .onTapGesture {
+                                navManager.appendCorrectPath(newValue: .timeBlockDetail(block))
                             }
-                            .font(.caption2)
                         }
-                        .foregroundStyle(isSelected(block) ? Color.white : Color.black)
-                        .allPartsTappable(alignment: .leading)
-//                        .onTapGesture {
-//                            if isSelected(block) {
-//                                selectedBlock = nil
-//                            } else {
-//                                selectedBlock = block
-//                            }
-//                        }
-                    }
-//                }
 
-                .conditionalModifier(isSelected(block)) {
-                    $0
-                        .listRowBackground(
-                            user.getSettings().getDefaultGradient()
-                        )
+                    .conditionalModifier(isSelected(block)) {
+                        $0
+                            .listRowBackground(
+                                user.getSettings().getDefaultGradient()
+                            )
+                    }
                 }
+            } header: {
+                Text("Times").hidden()
             }
 
             Section {
@@ -70,7 +67,7 @@ struct AllTimeBlocksView: View {
                                     y: .value("Title", blockTitle))
                                 .foregroundStyle(block.getColor())
                                 .annotation(position: .overlay) {
-                                    Text(totalMadeFor(block: block).formattedForMoney())
+                                    Text(totalMadeFor(block: block).money())
                                         .font(.caption2)
                                         .fontWeight(.medium)
                                         .foregroundStyle(Color.white)
@@ -85,6 +82,7 @@ struct AllTimeBlocksView: View {
                 .frame(minHeight: 250)
             }
         }
+        .background { Color.listBackgroundColor }
         .putInTemplate()
         .navigationTitle("Time Blocks")
     }

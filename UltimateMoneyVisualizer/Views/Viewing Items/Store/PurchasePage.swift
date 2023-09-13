@@ -105,9 +105,9 @@ struct PurchasePage: View {
                 case .trial:
                     return "Free"
                 case .monthly:
-                    return 5.formattedForMoney(includeCents: false)
+                    return 5.money(includeCents: false)
                 case .yearly:
-                    return 50.formattedForMoney(includeCents: false)
+                    return 50.money(includeCents: false)
             }
         }
 

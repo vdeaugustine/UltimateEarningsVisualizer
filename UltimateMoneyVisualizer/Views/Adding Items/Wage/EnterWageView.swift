@@ -3,10 +3,12 @@ import SwiftUI
 
 // MARK: - EnterWageView
 
+// swiftformat:sort:begin
+
 struct EnterWageView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
-    @State private var isSalaried: Bool = false
+    @State private var isSalaried: Bool = User.main.getWage().isSalary
 
     @State private var showErrorToast: Bool = false
     @State private var errorMessage: String = ""
@@ -19,6 +21,7 @@ struct EnterWageView: View {
     @State private var hoursPerDay: Double = User.main.getWage().hoursPerDay
     @State private var daysPerWeek: Int = Int(User.main.getWage().daysPerWeek)
     @State private var weeksPerYear: Int = Int(User.main.getWage().weeksPerYear)
+
     let hoursOptions = stride(from: 1.0, to: 24.25, by: 0.5).map { $0 }
 
     private func getHourlyWage(_ salary: Double) -> Double {
@@ -35,49 +38,83 @@ struct EnterWageView: View {
     @State private var showHourlySheet = false
     @State private var showSalarySheet = false
 
-    var body: some View {
-        Form {
+    @State private var includeTaxes = User.main.getWage().includeTaxes
+    @State private var stateTax = User.main.getWage().stateTaxPercentage
+    @State private var federalTax = User.main.getWage().federalTaxPercentage
+
+    @State private var showStateSheet = false
+    @State private var showFederalSheet = false
+
+    @State private var showAssumptions = false
+
+    var wageToShow: String {
+        if isSalaried {
+            return getHourlyWage(salaryDouble)
+                .money(trimZeroCents: false)
+                .replacingOccurrences(of: "$", with: "")
+        } else {
+            return hourlyDouble
+                .money(trimZeroCents: false)
+                .replacingOccurrences(of: "$", with: "")
+        }
+    }
+
+    @ViewBuilder var hourlyWageSection: some View {
+        Section {
+            HStack {
+                SystemImageWithFilledBackground(systemName: "dollarsign",
+                                                backgroundColor: user.getSettings().themeColor)
+                Text(wageToShow)
+                    .boldNumber()
+                Spacer()
+                if !isSalaried {
+                    Button("Edit") {
+                        showHourlySheet = !isSalaried
+                    }
+                }
+            }
+            .allPartsTappable()
+            .onTapGesture {
+                showHourlySheet = !isSalaried
+            }
+
+        } header: {
+            Text("Hourly Wage")
+        } footer: {
+            if isSalaried {
+                Text("An hourly representation of your yearly salary")
+            }
+        }
+    }
+
+    @ViewBuilder var salarySection: some View {
+        if isSalaried {
             Section {
                 HStack {
-                    SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
-                    Text(isSalaried ? getHourlyWage(salaryDouble).formattedForMoney().replacingOccurrences(of: "$", with: "") : hourlyDouble.formattedForMoney().replacingOccurrences(of: "$", with: ""))
-                        .font(.system(size: 24))
-                        .fontWeight(.bold)
-                        .foregroundStyle(user.getSettings().getDefaultGradient())
+                    SystemImageWithFilledBackground(systemName: "dollarsign",
+                                                    backgroundColor: user.getSettings().themeColor)
+                    Text(salaryDouble
+                        .money()
+                        .replacingOccurrences(of: "$", with: ""))
+                        .boldNumber()
                     Spacer()
+                    Button("Edit") {
+                        showSalarySheet = true
+                    }
                 }
                 .allPartsTappable()
                 .onTapGesture {
-                    showHourlySheet = true
+                    showSalarySheet = true
                 }
-
             } header: {
-                Text("Hourly Wage")
-            } footer: {
-                Text("Tap to edit")
+                Text("Salary")
             }
+        }
+    }
 
-            Toggle("I have a yearly salary", isOn: $isSalaried)
-
-            if isSalaried {
-                Section {
-                    HStack {
-                        SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: user.getSettings().themeColor)
-                        Text(salaryDouble.formattedForMoney().replacingOccurrences(of: "$", with: ""))
-                        Spacer()
-                    }
-                    .allPartsTappable()
-                    .onTapGesture {
-                        showSalarySheet = true
-                    }
-                } header: {
-                    Text("Salary")
-                } footer: {
-                    Text("Tap to edit")
-                }
-            }
-
-            Section {
+    @ViewBuilder var assumptionsSection: some View {
+        Section {
+            if showAssumptions {
                 Picker("Hours Per Day", selection: $hoursPerDay) {
                     ForEach(hoursOptions, id: \.self) { num in
                         Text(num.simpleStr())
@@ -104,7 +141,7 @@ struct EnterWageView: View {
                     Label("Reset", systemImage: "arrow.uturn.backward")
                         .labelStyle(.titleOnly)
                 }
-                
+
                 Button {
                     hoursPerDay = 8
                     daysPerWeek = 5
@@ -113,12 +150,111 @@ struct EnterWageView: View {
                     Label("Standard", systemImage: "arrow.uturn.backward")
                         .labelStyle(.titleOnly)
                 }
-                
-            } header: {
-                Text("Calculation Assumptions")
-            } footer: {
-                Text("When calculating daily, weekly, monthly, and yearly, these values will be used respectively")
+                Button("Hide") {
+                    showAssumptions.toggle()
+                }
+            } else {
+                Button("Show") {
+                    showAssumptions.toggle()
+                }
             }
+
+        } header: {
+            Text("Calculation Assumptions")
+        } footer: {
+            Text("When calculating daily, weekly, monthly, and yearly, these values will be used respectively")
+        }
+    }
+
+    @ViewBuilder var taxesSection: some View {
+        if includeTaxes {
+            Section("State tax") {
+                HStack {
+                    SystemImageWithFilledBackground(systemName: "percent",
+                                                    backgroundColor: user.getSettings().themeColor)
+                    Text(stateTax.simpleStr(3, false))
+                        .boldNumber()
+                    Spacer()
+                    Button("Edit") {
+                        showFederalSheet = true
+                    }
+                }
+                .allPartsTappable()
+                .onTapGesture {
+                    showStateSheet = true
+                }
+                NavigationLink {
+                    CalculateTaxView(taxType: .state, bindedRate: $stateTax)
+                } label: {
+                    Label("Calculate for me", systemImage: "info.circle")
+                }
+            }
+
+            Section("Federal tax") {
+                HStack {
+                    SystemImageWithFilledBackground(systemName: "percent",
+                                                    backgroundColor: user.getSettings().themeColor)
+                    Text(federalTax.simpleStr(3, false))
+                        .boldNumber()
+                    Spacer()
+                    Button("Edit") {
+                        showFederalSheet = true
+                    }
+                }
+                .allPartsTappable()
+                .onTapGesture {
+                    showFederalSheet = true
+                }
+
+                NavigationLink {
+                    CalculateTaxView(taxType: .federal, bindedRate: $federalTax)
+                } label: {
+                    Label("Calculate for me", systemImage: "info.circle")
+                }
+            }
+        }
+    }
+
+    func saveAction() {
+        do {
+            if let existingWage = user.wage {
+                viewContext.delete(existingWage)
+                try viewContext.save()
+                print("Was able to save")
+            }
+            let wage = try Wage(amount: isSalaried ? salaryDouble : hourlyDouble,
+                                isSalary: isSalaried,
+                                user: user,
+                                includeTaxes: includeTaxes,
+                                stateTax: includeTaxes ? stateTax : nil,
+                                federalTax: includeTaxes ? federalTax : nil,
+                                context: viewContext)
+            wage.daysPerWeek = Double(daysPerWeek)
+            wage.hoursPerDay = Double(hoursPerDay)
+            wage.weeksPerYear = Double(weeksPerYear)
+
+            try viewContext.save()
+            showSuccessfulSaveToast = true
+        } catch {
+            fatalError(String(describing: error))
+        }
+    }
+
+    var body: some View {
+        Form {
+            hourlyWageSection
+
+            Toggle("Salary", isOn: $isSalaried)
+
+            salarySection
+
+            assumptionsSection
+
+            Section {
+                Toggle("Include taxes", isOn: $includeTaxes)
+            }
+
+            taxesSection
         }
         .putInTemplate()
         .navigationTitle("My Wage")
@@ -142,32 +278,25 @@ struct EnterWageView: View {
                                      titleFont: nil,
                                      subTitleFont: nil))
         }
-        .bottomButton(label: "Save", gradient: settings.getDefaultGradient()) {
-            do {
-                let hourly = isSalaried ? getHourlyWage(salaryDouble) : hourlyDouble
-                let wage = try Wage(amount: hourly,
-                                    user: user,
-                                    context: viewContext)
-                wage.daysPerWeek = Double(daysPerWeek)
-                wage.hoursPerDay = Double(hoursPerDay)
-                wage.weeksPerYear = Double(weeksPerYear)
-
-                try viewContext.save()
-                showSuccessfulSaveToast = true
-            } catch {
-                fatalError(String(describing: error))
-            }
-        }
+        .toolbarSave { saveAction() }
         .sheet(isPresented: $showHourlySheet) {
-            EnterMoneyView(dubToEdit: $hourlyDouble)
+            EnterDoubleView(dubToEdit: $hourlyDouble, format: .dollar)
         }
         .sheet(isPresented: $showSalarySheet) {
-            EnterMoneyView(dubToEdit: $salaryDouble)
+            EnterDoubleView(dubToEdit: $salaryDouble, format: .dollar)
+        }
+        .sheet(isPresented: $showStateSheet) {
+            EnterDoubleView(dubToEdit: $stateTax, format: .percent)
+        }
+        .sheet(isPresented: $showFederalSheet) {
+            EnterDoubleView(dubToEdit: $federalTax, format: .percent)
         }
     }
 }
 
 // MARK: - EnterWageView_Previews
+
+// swiftformat:sort:end
 
 struct EnterWageView_Previews: PreviewProvider {
     static var previews: some View {

@@ -9,34 +9,49 @@ import AlertToast
 import CoreData
 import SwiftUI
 
+class WageViewModel: ObservableObject {
+    public static var shared: WageViewModel = .init()
+    
+    
+    @ObservedObject var wage: Wage = User.main.getWage()
+    @ObservedObject var user: User = .main
+    @Published var hourlyWage: String = ""
+    @Published var isSalaried: Bool = false
+    @Published var salary: String = ""
+    @Published var hoursPerWeek: String = ""
+    @Published var vacationDays: String = ""
+    @Published var calculatedHourlyWage: Double?
+
+    @Published var showErrorToast: Bool = false
+    @Published var errorMessage: String = ""
+    @Published var showSuccessfulSaveToast = false
+
+    @Published var isEditing = false
+
+    @Published var toggleTaxes = User.main.getWage().includeTaxes
+
+
+    func calculateHourlyWage(salary: Double, hoursPerWeek: Double, vacationDays: Double) -> Double? {
+        let weeksPerYear = 52.0
+        let vacationWeeks = vacationDays / 5.0
+        let workingWeeks = weeksPerYear - vacationWeeks
+        let totalWorkingHours = workingWeeks * hoursPerWeek
+        return salary / totalWorkingHours
+    }
+}
+
+
 // MARK: - WageView
 
 struct WageView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Wage.amount, ascending: false)]) private var wages: FetchedResults<Wage>
 
-    @FetchRequest(sortDescriptors: []) var users: FetchedResults<User>
-
-    @State var wage: Wage
-
-    @ObservedObject private var user = User.main
-    @State private var hourlyWage: String = ""
-    @State private var isSalaried: Bool = false
-    @State private var salary: String = ""
-    @State private var hoursPerWeek: String = ""
-    @State private var vacationDays: String = ""
-    @State private var calculatedHourlyWage: Double?
-
-    @State private var showErrorToast: Bool = false
-    @State private var errorMessage: String = ""
-    @State private var showSuccessfulSaveToast = false
-
-    @State private var isEditing = false
+    @ObservedObject private var vm = WageViewModel.shared
 
     private func calculateHourlyWage() {
-        guard let salaryValue = Double(salary),
-              let hoursPerWeekValue = Double(hoursPerWeek),
-              let vacationDaysValue = Double(vacationDays) else { return }
+        guard let salaryValue = Double(vm.salary),
+              let hoursPerWeekValue = Double(vm.hoursPerWeek),
+              let vacationDaysValue = Double(vm.vacationDays) else { return }
 
         let weeksPerYear = 52.0
         let vacationWeeks = vacationDaysValue / 5.0
@@ -44,20 +59,36 @@ struct WageView: View {
         let totalWorkingHours = workingWeeks * hoursPerWeekValue
         let hourlyWage = salaryValue / totalWorkingHours
 
-        calculatedHourlyWage = hourlyWage
+        vm.calculatedHourlyWage = hourlyWage
     }
 
     private func populateHourlyWage() {
-        if let calculatedHourlyWage = calculatedHourlyWage {
-            hourlyWage = String(format: "%.2f", calculatedHourlyWage)
+        if let calculatedHourlyWage = vm.calculatedHourlyWage {
+            vm.hourlyWage = String(format: "%.2f", calculatedHourlyWage)
+        }
+    }
+
+    private var wageToShow: Double {
+        if vm.wage.isSalary {
+            return vm.wage.perYear
+        } else {
+            return vm.wage.hourly
         }
     }
 
     var body: some View {
         List {
             Section(header: Text("Current Wage")) {
-                
-                Text(user.getWage().hourly.formattedForMoney())
+                HStack {
+                    SystemImageWithFilledBackground(systemName: "dollarsign", backgroundColor: vm.user.getSettings().themeColor)
+                    Text(wageToShow.money(trimZeroCents: false)
+                        .replacingOccurrences(of: "$", with: ""))
+                        .boldNumber()
+                    Spacer()
+                    Text(vm.wage.isSalary ? "SALARY" : "HOURLY")
+                        .font(.caption)
+                        .fontWeight(.medium)
+                }
             }
 
             Section {
@@ -73,56 +104,55 @@ struct WageView: View {
                     VStack {
                         Group {
                             Text("Year")
-                                .spacedOut(text: user.getWage().perYear.formattedForMoney())
+                                .spacedOut(text: vm.wage.perYear.money())
                             Divider()
                             Text("Month")
-                                .spacedOut(text: user.getWage().perMonth.formattedForMoney())
+                                .spacedOut(text: vm.wage.perMonth.money())
                             Divider()
                             Text("Week")
-                                .spacedOut(text: user.getWage().perWeek.formattedForMoney())
+                                .spacedOut(text: vm.wage.perWeek.money())
                             Divider()
                             Text("Day")
-                                .spacedOut(text: user.getWage().perDay.formattedForMoney())
+                                .spacedOut(text: vm.wage.perDay.money())
                             Divider()
                             Text("Hour")
-                                .spacedOut(text: user.getWage().hourly.formattedForMoney())
+                                .spacedOut(text: vm.wage.hourly.money())
                         }
                         Divider()
                         Text("Minute")
-                            .spacedOut(text: wage.perMinute.formattedForMoney())
+                            .spacedOut(text: vm.wage.perMinute.money())
                         Divider()
                         Text("Second")
-                            .spacedOut(text: wage.perSecond.formattedForMoney())
+                            .spacedOut(text: vm.wage.perSecond.money())
                     }
                     .font(.subheadline)
                 }
+            } header: {
+                Text("Breakdown")
+
+            } footer: {
+                Text("These values are based on your wage settings and can be edited by tapping the **Edit** button.")
             }
         }
 
-//            }
-//        }
         .putInTemplate()
-        .navigationTitle("View Wage")
+        .navigationTitle("My Wage")
 
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink("Edit") {
                     EnterWageView()
                 }
+                .tint(Color.white)
             }
         }
 
-//        .navigationBarItems(trailing: Button(action: {
-//            isEditing.toggle()
-//        }) {
-//            Text(isEditing ? "Cancel" : "Edit")
-//        })
-        .toast(isPresenting: $showErrorToast, duration: 2, tapToDismiss: true) {
-            AlertToast(displayMode: .alert, type: .error(.blue), title: errorMessage)
+        .toast(isPresenting: $vm.showErrorToast, duration: 2, tapToDismiss: true) {
+            AlertToast(displayMode: .alert, type: .error(.blue), title: vm.errorMessage)
         } onTap: {
-            showErrorToast = false
+            vm.showErrorToast = false
         }
-        .toast(isPresenting: $showSuccessfulSaveToast, offsetY: -400) {
+        .toast(isPresenting: $vm.showSuccessfulSaveToast, offsetY: -400) {
             AlertToast(displayMode: .banner(.pop), type: .complete(.green), title: "Wage saved successfully", style: .style(backgroundColor: .white, titleColor: nil, subTitleColor: nil, titleFont: nil, subTitleFont: nil))
         }
     }
@@ -138,7 +168,7 @@ struct ViewWageView_Previews: PreviewProvider {
     }()
 
     static var previews: some View {
-        WageView(wage: wage)
+        WageView()
             .environment(\.managedObjectContext, PersistenceController.context)
             .putInTemplate()
             .putInNavView(.inline)

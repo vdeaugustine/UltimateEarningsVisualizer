@@ -11,23 +11,24 @@ import Vin
 // MARK: - TodayView
 
 struct TodayView: View {
-    @StateObject var viewModel = TodayViewModel()
+    @StateObject var viewModel = TodayViewModel.main
+    @EnvironmentObject private var navManager: NavManager
 
     var body: some View {
         VStack {
-            if viewModel.todayShift != nil {
+            if viewModel.user.todayShift != nil {
                 ScrollView {
-                    TimeMoneyPicker(viewModel: viewModel)
+                    TimeMoneyPicker()
                         .padding(.vertical)
                     VStack {
-                        StartEndTotalView(viewModel: viewModel)
+                        StartEndTotalView()
                             .padding(.top)
-                        ProgressSectionView(viewModel: viewModel)
+                        ProgressSectionView()
                     }
                     .padding([.vertical, .top])
                     .background(Color.white)
 
-                    TodaysSpendingView(viewModel: viewModel)
+                    TodaysSpendingView()
                 }
 
             } else {
@@ -38,18 +39,17 @@ struct TodayView: View {
         .onAppear(perform: viewModel.user.updateTempQueue)
         .putInTemplate()
         .bottomBanner(isVisible: $viewModel.showBanner,
-                      swipeToDismiss: false,
-                      buttonText: "Save") {
-            do {
-                try viewModel.todayShift?.finalizeAndSave(user: viewModel.user, context: viewModel.viewContext)
-            } catch {
-                print("Error saving")
-            }
-        }
+                      mainText: "Shift Complete!",
+                      buttonText: "Save",
+                      destination: {
+                          CompletedShiftSummary()
+        }, onDismiss: {
+            viewModel.saveBannerWasDismissed = true
+        })
         .background(Color.targetGray.frame(maxHeight: .infinity).ignoresSafeArea())
         .navigationTitle("Today Live")
         .sheet(isPresented: $viewModel.showHoursSheet) {
-            SelectHours(viewModel: viewModel)
+            SelectHours()
         }
         .onReceive(viewModel.timer) { _ in
             viewModel.addSecond()
@@ -66,79 +66,27 @@ struct TodayView: View {
                 viewModel.deleteShift()
             }
         }
-    }
-}
-
-// MARK: - YouHaveNoShiftView
-
-// Views like TimeMoneyPicker, SelectHours, ProgressSectionView,
-// TodaysSpendingView, StartEndTotalView, YouHaveNoShiftView will remain same as I have mentioned in previous responses.
-
-struct YouHaveNoShiftView: View {
-    @Environment(\.managedObjectContext) private var viewContext
-    @Binding var showHoursSheet: Bool
-    @ObservedObject var settings = User.main.getSettings()
-
-    var body: some View {
-        VStack {
-            Spacer()
-
-            Image(systemName: "calendar.badge.clock")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 85)
-                .foregroundColor(.gray)
-
-            VStack(spacing: 14) {
-                Text("Today's Shift")
-                    .font(.largeTitle)
-                    .fontWeight(.semibold)
-
-                Text("You do not have a shift scheduled for today.")
-                    .fontWeight(.medium)
+        .blur(radius: viewModel.nowTime < viewModel.start ? 5 : 0)
+        .overlay {
+            if viewModel.nowTime < viewModel.start {
+                ShiftHasntStartedView()
             }
-
-            Spacer()
         }
-        .frame(maxHeight: .infinity)
-        .safeAreaInset(edge: .bottom, content: {
-            Button {
-                showHoursSheet = true
-            } label: {
-                ZStack {
-                    Capsule()
-                        .fill(settings.getDefaultGradient())
-                    Text("Add Shift")
-                        .fontWeight(.medium)
-                        .foregroundColor(.white)
-                }
-                .frame(width: 135, height: 50)
-            }
-
-        })
-        .padding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.clear)
+        .environmentObject(viewModel)
     }
 }
+
+
 
 // MARK: - TodayView_Previews
 
 struct TodayView_Previews: PreviewProvider {
-    static let ts: TodayShift = {
-        let ts = TodayShift(context: PersistenceController.context)
-        ts.startTime = .nineAM
-        ts.endTime = .now.addHours(5)
-        ts.user = User.main
-        ts.expiration = Date.endOfDay()
-        ts.dateCreated = .now
-        return ts
-    }()
-
     static var previews: some View {
-        TodayView(viewModel: TodayViewModel())
-            .putInTemplate()
-            .putInNavView(.inline)
-            .environment(\.managedObjectContext, PersistenceController.context)
+        NavigationStack(path: .constant(NavManager.shared.todayViewNavPath)) {
+            TodayView(viewModel: TodayViewModel())
+                .putInTemplate()
+                .environment(\.managedObjectContext, PersistenceController.context)
+                .environmentObject(NavManager.shared)
+        }
     }
 }

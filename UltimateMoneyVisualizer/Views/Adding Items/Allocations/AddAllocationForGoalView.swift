@@ -20,67 +20,71 @@ struct AddAllocationForGoalView: View {
     @State private var showShiftSheet = false
 
     var body: some View {
-        Form {
-            if selectedSource == "shifts" {
-                ForEach(user.getShifts().filter { $0.totalAvailable >= 0.01 }) { shift in
-
-                    NavigationLink {
-                        ShiftAllocSheet(shift: shift, goal: goal)
-                    } label: {
-                        HStack {
-                            DateCircle(date: shift.start, height: 35)
-
-                            VStack(alignment: .leading) {
-                                Text(shift.duration.formatForTime() + " shift")
-                                    .foregroundColor(.primary)
-                            }
-                            Spacer()
-
-                            Text(shift.totalAvailable.formattedForMoney())
-                                .fontWeight(.semibold)
-
-                                .foregroundStyle(user.getSettings().getDefaultGradient())
-                        }
-                    }
-                    .allPartsTappable()
-                }
-            }
-
-            if selectedSource == "saved" {
-                ForEach(user.getSaved().filter { $0.totalAvailable >= 0.01 }) { saved in
-
-                    NavigationLink {
-                        SavedAllocSheet(saved: saved, goal: goal)
-                    } label: {
-                        HStack {
-                            DateCircle(date: saved.getDate(), height: 35)
-
-                            VStack(alignment: .leading) {
-                                Text(saved.getTitle())
-                                    .foregroundColor(.primary)
-                            }
-                            Spacer()
-
-                            Text(saved.totalAvailable.formattedForMoney())
-                                .fontWeight(.semibold)
-
-                                .foregroundStyle(user.getSettings().getDefaultGradient())
-                        }
-                    }
-                    .allPartsTappable()
-                }
-            }
-        }
-        .putInTemplate()
-        .navigationTitle("Allocate Money")
-        .safeAreaInset(edge: .top) {
+        VStack(spacing: 0) {
             Picker("Source", selection: $selectedSource) {
                 Text("Shifts").tag("shifts")
                 Text("Saved Items").tag("saved")
 
-            }.pickerStyle(.segmented).padding([.horizontal, .top])
-                .background(Color.listBackgroundColor)
+            }
+            .pickerStyle(.segmented).padding([.horizontal, .top])
+            .background(Color.clear)
+            
+            Form {
+                if selectedSource == "shifts" {
+                    ForEach(user.getShifts().filter { $0.totalAvailable >= 0.01 }) { shift in
+
+                        NavigationLink {
+                            ShiftAllocSheet(shift: shift, goal: goal)
+                        } label: {
+                            HStack {
+                                DateCircle(date: shift.start, height: 35)
+
+                                VStack(alignment: .leading) {
+                                    Text(shift.duration.formatForTime() + " shift")
+                                        .foregroundColor(.primary)
+                                }
+                                Spacer()
+
+                                Text(shift.totalAvailable.money())
+                                    .fontWeight(.semibold)
+
+                                    .foregroundStyle(user.getSettings().getDefaultGradient())
+                            }
+                        }
+                        .allPartsTappable()
+                    }
+                }
+
+                if selectedSource == "saved" {
+                    ForEach(user.getSaved().filter { $0.totalAvailable >= 0.01 }) { saved in
+
+                        NavigationLink {
+                            SavedAllocSheet(saved: saved, goal: goal)
+                        } label: {
+                            HStack {
+                                DateCircle(date: saved.getDate(), height: 35)
+
+                                VStack(alignment: .leading) {
+                                    Text(saved.getTitle())
+                                        .foregroundColor(.primary)
+                                }
+                                Spacer()
+
+                                Text(saved.totalAvailable.money())
+                                    .fontWeight(.semibold)
+
+                                    .foregroundStyle(user.getSettings().getDefaultGradient())
+                            }
+                        }
+                        .allPartsTappable()
+                    }
+                }
+            }
         }
+        .background { Color.listBackgroundColor }
+        .putInTemplate()
+        .navigationTitle("Allocate Money")
+        
     }
 
     struct ShiftAllocSheet: View {
@@ -109,7 +113,7 @@ struct AddAllocationForGoalView: View {
                         Text("Available")
                             .fontWeight(.medium)
                             .minimumScaleFactor(0.01)
-                        Text(shift.totalAvailable.formattedForMoney())
+                        Text(shift.totalAvailable.money())
                             .fontWeight(.bold)
                             .foregroundStyle(settings.getDefaultGradient())
                             .minimumScaleFactor(0.01)
@@ -121,7 +125,7 @@ struct AddAllocationForGoalView: View {
                         Text("Remaining")
                             .fontWeight(.medium)
                             .minimumScaleFactor(0.01)
-                        Text(goal.amountRemainingToPayOff.formattedForMoney())
+                        Text(goal.amountRemainingToPayOff.money())
                             .fontWeight(.bold)
                             .foregroundStyle(settings.getDefaultGradient())
                             .minimumScaleFactor(0.01)
@@ -133,7 +137,7 @@ struct AddAllocationForGoalView: View {
                         Text("Allocate")
                             .fontWeight(.medium)
                             .minimumScaleFactor(0.01)
-                        Text(amount.formattedForMoney())
+                        Text(amount.money())
                             .fontWeight(.bold)
                             .foregroundStyle(settings.getDefaultGradient())
                             .minimumScaleFactor(0.01)
@@ -146,9 +150,9 @@ struct AddAllocationForGoalView: View {
                     Slider(value: $amount, in: range, step: 0.01) {
                         Text("Set Amount")
                     } minimumValueLabel: {
-                        Text(range.lowerBound.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                        Text(range.lowerBound.money().replacingOccurrences(of: "$", with: ""))
                     } maximumValueLabel: {
-                        Text(range.upperBound.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                        Text(range.upperBound.money().replacingOccurrences(of: "$", with: ""))
                     } 
                     .padding()
                 }
@@ -156,7 +160,7 @@ struct AddAllocationForGoalView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background { Color.listBackgroundColor }
             .putInTemplate()
-            .navigationTitle("Shift for " + shift.start.getFormattedDate(format: .abreviatedMonth))
+            .navigationTitle("Shift for " + shift.start.getFormattedDate(format: .abbreviatedMonth))
             .toast(isPresenting: $showToast, alert: { toastConfig })
             .bottomButton(label: "Save") {
                 do {
@@ -193,7 +197,7 @@ struct AddAllocationForGoalView: View {
                         Text("Available")
                             .fontWeight(.medium)
                             .minimumScaleFactor(0.01)
-                        Text(saved.totalAvailable.formattedForMoney())
+                        Text(saved.totalAvailable.money())
                             .fontWeight(.bold)
                             .foregroundStyle(settings.getDefaultGradient())
                             .minimumScaleFactor(0.01)
@@ -205,7 +209,7 @@ struct AddAllocationForGoalView: View {
                         Text("Remaining")
                             .fontWeight(.medium)
                             .minimumScaleFactor(0.01)
-                        Text(goal.amountRemainingToPayOff.formattedForMoney())
+                        Text(goal.amountRemainingToPayOff.money())
                             .fontWeight(.bold)
                             .foregroundStyle(settings.getDefaultGradient())
                             .minimumScaleFactor(0.01)
@@ -217,7 +221,7 @@ struct AddAllocationForGoalView: View {
                         Text("Allocate")
                             .fontWeight(.medium)
                             .minimumScaleFactor(0.01)
-                        Text(amount.formattedForMoney())
+                        Text(amount.money())
                             .fontWeight(.bold)
                             .foregroundStyle(settings.getDefaultGradient())
                             .minimumScaleFactor(0.01)
@@ -230,9 +234,9 @@ struct AddAllocationForGoalView: View {
                     Slider(value: $amount, in: range, step: 0.01) {
                         Text("Set Amount")
                     } minimumValueLabel: {
-                        Text(range.lowerBound.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                        Text(range.lowerBound.money().replacingOccurrences(of: "$", with: ""))
                     } maximumValueLabel: {
-                        Text(range.upperBound.formattedForMoney().replacingOccurrences(of: "$", with: ""))
+                        Text(range.upperBound.money().replacingOccurrences(of: "$", with: ""))
                     }
                     .padding()
                 }
@@ -240,7 +244,7 @@ struct AddAllocationForGoalView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background { Color.listBackgroundColor }
             .putInTemplate()
-            .navigationTitle("Shift for " + saved.getDate().getFormattedDate(format: .abreviatedMonth))
+            .navigationTitle("Shift for " + saved.getDate().getFormattedDate(format: .abbreviatedMonth))
             .toast(isPresenting: $showToast, alert: { toastConfig })
             .bottomButton(label: "Save") {
                 do {

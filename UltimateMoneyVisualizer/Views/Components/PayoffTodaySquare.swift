@@ -48,21 +48,27 @@ struct PayoffTodaySquare: View {
         user.getExpenses().first(where: { $0.getID() == item.id })
     }
 
+    var gradient: LinearGradient {
+        
+        item.type == .tax ? Color.niceRed.getGradient() : settings.getDefaultGradient()
+    }
+
     var mainContent: some View {
         VStack {
             HStack {
                 ProgressCircle(percent: percent,
                                widthHeight: 75,
+                               gradient: gradient,
                                lineWidth: 5) {
                     VStack(spacing: 2) {
-                        Text(havedPaidOff.formattedForMoney())
+                        Text(havedPaidOff.money())
                             .lineLimit(1)
                             .minimumScaleFactor(0.85)
                             .font(.subheadline)
                             .fontWeight(.bold)
-                            
-                            .foregroundStyle( title.lowercased() == "taxes" ? Color.niceRed.getGradient() : settings.getDefaultGradient())
-                        Text(progressToShow.formattedForMoney(includeCents: true).replacingOccurrences(of: "$", with: "+"))
+                            .foregroundStyle(gradient)
+
+                        Text(progressToShow.money(includeCents: true).replacingOccurrences(of: "$", with: "+"))
                             .font(.caption2)
                             .minimumScaleFactor(0.5)
                             .lineLimit(1)
@@ -78,19 +84,17 @@ struct PayoffTodaySquare: View {
                         .multilineTextAlignment(.leading)
 
                     HStack(alignment: .bottom, spacing: 5) {
-                        Text(itemTotal.formattedForMoney())
+                        Text(itemTotal.money())
                             .lineLimit(1)
                             .font(.subheadline)
                             .fontWeight(.bold)
-                            .foregroundStyle(settings.getDefaultGradient())
+                            .foregroundStyle(gradient)
                     }
 
                     Text(payoffType.rawValue.uppercased())
                         .font(.system(size: 12, weight: .bold, design: .rounded))
                         .foregroundColor(.gray)
                 }
-                //                .padding([.horizontal])
-                //                .pushLeft()
             }
         }
     }
@@ -98,7 +102,7 @@ struct PayoffTodaySquare: View {
     var body: some View {
         if let correspondingGoal {
             NavigationLink {
-                GoalDetailView(goal: correspondingGoal)
+                PayoffItemDetailView(payoffItem: correspondingGoal)
             } label: {
                 mainContent
             }

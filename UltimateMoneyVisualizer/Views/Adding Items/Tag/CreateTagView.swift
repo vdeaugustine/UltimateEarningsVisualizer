@@ -31,6 +31,24 @@ struct CreateTagView: View {
     
     let symbolWidthHeight: CGFloat = 40
     
+    init(payoff: AnyPayoffItem) {
+        if let goal = payoff.getGoal() {
+            self.goal = goal
+            
+        }
+        if let expense = payoff.getExpense() {
+            self.expense = expense
+        }
+    }
+    
+    init(saved: Saved) {
+        self.saved = saved
+    }
+    
+    init() {
+        print("NO INIT")
+    }
+    
     var body: some View {
         Form {
             Section("Tag Title") {

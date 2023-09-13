@@ -10,9 +10,11 @@ import SwiftUI
 // MARK: - AllItemsView
 
 struct AllItemsView: View {
+    @EnvironmentObject private var navManager: NavManager
     @ObservedObject private var user = User.main
     @ObservedObject private var settings = User.main.getSettings()
     @State private var selectionType: SelectionType = .shifts
+    @State private var editMode: EditMode = .inactive
 
     var body: some View {
         VStack(spacing: 0) {
@@ -23,34 +25,59 @@ struct AllItemsView: View {
             }
             .pickerStyle(.segmented)
             .padding([.horizontal, .top])
-            
+            .onChange(of: selectionType) { _ in editMode = .inactive }
 
             switch selectionType {
                 case .goals:
-                    GoalsGridView()
+                    NewPayoffList(payoffType: .goal)
                 case .saved:
                     SavedListView()
                 case .shifts:
                     ShiftListView()
                 case .expenses:
-                    ExpenseListView()
+                    NewPayoffList(payoffType: .expense)
             }
         }
         .background(Color.listBackgroundColor)
         .tint(settings.themeColor)
         .putInTemplate()
-        .gesture(
-            DragGesture()
-                .onEnded { value in
-                    if value.translation.width < 0 {
-                        // Swiped to the left
-                        changeSelectionType(forward: true)
-                    } else if value.translation.width > 0 {
-                        // Swiped to the right
-                        changeSelectionType(forward: false)
+        .environment(\.editMode, $editMode)
+
+//        .gesture(
+//            DragGesture()
+//                .onEnded { value in
+//                    if value.translation.width < 0 {
+//                        // Swiped to the left
+//                        changeSelectionType(forward: true)
+//                    } else if value.translation.width > 0 {
+//                        // Swiped to the right
+//                        changeSelectionType(forward: false)
+//                    }
+//                }
+//        )
+        .navigationDestination(for: NavManager.AllViews.self) { view in
+            navManager.getDestinationViewForStack(destination: view)
+        }
+
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Menu("Debug") {
+                    Button("Delete all shifts") {
+                        for shift in user.getShifts() {
+                            do {
+                                let context = user.getContext()
+                                user.removeFromShifts(shift)
+                                context.delete(shift)
+                                try context.save()
+                                print("Deleted shift")
+                            } catch {
+                                fatalError(String(describing: error))
+                            }
+                        }
                     }
                 }
-        )
+            }
+        }
     }
 
     private func changeSelectionType(forward: Bool) {
@@ -74,7 +101,6 @@ struct AllItemsView: View {
         selectionType = SelectionType.allCases[newIndex]
     }
 }
-
 
 extension AllItemsView {
     enum SelectionType: String, CaseIterable {
