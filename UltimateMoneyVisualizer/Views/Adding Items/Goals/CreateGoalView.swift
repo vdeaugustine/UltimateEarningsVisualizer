@@ -138,17 +138,34 @@ struct CreateGoalView: View {
         }
 //        .modifier(Modifiers(vm: vm))
     }
+    
+    func nextButtonTapped() {
+        if focusedField == .title {
+            focusedField = .info
+        } else {
+            focusedField = nil
+        }
+        
+    }
 
     // MARK: - Subviews
 
     @ViewBuilder var titleRow: some View {
         TextField("Vacation", text: $vm.title)
+            .submitLabel(.next)
             .focused($focusedField, equals: .title)
+            .onSubmit {
+                nextButtonTapped()
+            }
     }
 
     @ViewBuilder var infoRow: some View {
         TextField("I want to take the family to Hawaii", text: $vm.info)
+            .submitLabel(.done)
             .focused($focusedField, equals: .info)
+            .onSubmit {
+                nextButtonTapped()
+            }
     }
 
     @ViewBuilder var dateRow: some View {
@@ -396,7 +413,11 @@ struct CreateTagForGoal: View {
                 }
 
                 Section("Select New Symbol") {
-                    SFSymbolsPicker(selectedSymbol: $symbolStr, numberOfColumns: 5, width: symbolWidthHeight, height: symbolWidthHeight, color: colorSelected)
+                    SFSymbolsPicker(selectedSymbol: $symbolStr,
+                                    numberOfColumns: 5,
+                                    width: symbolWidthHeight,
+                                    height: symbolWidthHeight,
+                                    color: colorSelected)
                         .padding(.vertical)
                 }
             }
@@ -434,6 +455,6 @@ struct CreateGoalView_Previews: PreviewProvider {
             .putInNavView(.inline)
             .environmentObject(NewItemViewModel.shared)
 
-        CreateGoalView().tagPill(.init(User.main.getTags().first!), includeRemoveButton: true)
+//        CreateGoalView().tagPill(.init(User.main.getTags().first!), includeRemoveButton: true)
     }
 }

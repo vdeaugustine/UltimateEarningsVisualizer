@@ -47,8 +47,6 @@ struct CreateExpenseView: View {
                 dateRow
                 repeatRow
             }
-            
-            
 
             Section("Amount") {
                 amountRow
@@ -70,10 +68,6 @@ struct CreateExpenseView: View {
             } footer: {
                 Text("Tap on a recent tag to add it to this expense")
             }
-            
-            
-
-            
         }
         .putInTemplate()
         .navigationTitle("New Expense")
@@ -99,7 +93,7 @@ struct CreateExpenseView: View {
         .onAppear {
             vm.amountDouble = newItemViewModel.dubValue
 //            #if !DEBUG
-                focusedField = .title
+            focusedField = .title
 //            #endif
         }
         .onChange(of: focusedField) { newValue in
@@ -116,7 +110,7 @@ struct CreateExpenseView: View {
                     Spacer()
 
                     Button("Next") {
-                        focusedField = .info
+                        nextButtonTapped()
                     }
                 } else {
                     Button("Back") {
@@ -124,7 +118,7 @@ struct CreateExpenseView: View {
                     }
 
                     Button("Done") {
-                        focusedField = nil
+                        nextButtonTapped()
                     }
                 }
             }
@@ -132,19 +126,38 @@ struct CreateExpenseView: View {
 //        .modifier(Modifiers(vm: vm))
     }
 
+    
+    
+    func nextButtonTapped() {
+        if focusedField == .title {
+            focusedField = .info
+        }
+        else {
+            focusedField = nil
+        }
+    }
+    
     // MARK: - Subviews
 
-    @ViewBuilder var titleRow: some View {
+    var titleRow: some View {
         TextField("Vacation", text: $vm.title)
+            .submitLabel(.next)
             .focused($focusedField, equals: .title)
+            .onSubmit {
+                nextButtonTapped()
+            }
     }
 
-    @ViewBuilder var infoRow: some View {
+    var infoRow: some View {
         TextField("I want to take the family to Hawaii", text: $vm.info)
+            .submitLabel(.done)
             .focused($focusedField, equals: .info)
+            .onSubmit {
+                nextButtonTapped()
+            }
     }
 
-    @ViewBuilder var dateRow: some View {
+    var dateRow: some View {
         DatePicker("Due Date", selection: $vm.dueDate, displayedComponents: .date)
     }
 
@@ -159,16 +172,15 @@ struct CreateExpenseView: View {
 
 //            .frame(maxWidth: .infinity, alignment: .center)
     }
-    
+
     var repeatRow: some View {
         // New section for repeating expense toggle
-            Picker("Repeat", selection: $vm.repeatFrequency) {
-                ForEach(RepeatFrequency.allCases, id: \.self) { frequency in
-                    Text(frequency.rawValue).tag(frequency)
-                }
+        Picker("Repeat", selection: $vm.repeatFrequency) {
+            ForEach(RepeatFrequency.allCases, id: \.self) { frequency in
+                Text(frequency.rawValue).tag(frequency)
             }
-            .pickerStyle(MenuPickerStyle())
-        
+        }
+        .pickerStyle(MenuPickerStyle())
     }
 
 //    @ViewBuilder var showRecentsRow: some View {
