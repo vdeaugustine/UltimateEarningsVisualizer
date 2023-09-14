@@ -39,17 +39,17 @@ struct HowMuchIEarnView: View {
                         Text(day.description)
                     }
                 }
-                
+
                 Section {
-                    ForEach(schedule.getDays(from: startingDate, to: endDate), id: \.self) { date in
-                        
-                        Text(date.getFormattedDate(format: .shortWeekdayFullDayMonthYear))
-                        
-                    }
+//                    ForEach(schedule.getDays(from: startingDate, to: endDate), id: \.self) { date in
+//                        Text(date.getFormattedDate(format: .shortWeekdayFullDayMonthYear))
+//                    }
+                    Text("You will work \(schedule.countDaysInTimeFrame(startDate: startingDate, endDate: endDate)) shifts")
+                    Text("In those shifts, you will make \(schedule.willEarn(from: startingDate, to: endDate).money())")
+                    
+                    
                 }
             }
-            
-            
         }
     }
 
@@ -218,8 +218,8 @@ struct HowMuchIEarnView_Previews: PreviewProvider {
     static var previews: some View {
         HowMuchIEarnView()
             .onAppear(perform: {
-                User.main.instantiateExampleItems(context: PersistenceController.context)
-                User.main.regularSchedule?.addToDays(.init(dayOfWeek: .sunday, startTime: .nineAM, endTime: .fivePM, user: User.main))
+                DebugOperations.restoreToDefault()
+//                User.main.instantiateExampleItems(context: PersistenceController.context)
             })
     }
 }
