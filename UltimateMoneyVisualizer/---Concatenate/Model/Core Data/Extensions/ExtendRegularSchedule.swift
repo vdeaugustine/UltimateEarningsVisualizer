@@ -102,4 +102,24 @@ public extension RegularSchedule {
         let nowIsBeforeEnd = Date.now <= end
         return nowIsAfterStart && nowIsBeforeEnd
     }
+
+    func countDaysInTimeFrame(startDate: Date, endDate: Date) -> Int {
+        getDays(from: startDate, to: endDate).count
+    }
+
+    func getDays(from firstDate: Date, to secondDate: Date) -> [Date] {
+        var date = firstDate
+        let daysInSchedule = getDays()
+        var returningArray: [Date] = []
+
+        while date <= secondDate {
+            let dayOfWeek = DayOfWeek(date: date)
+            if daysInSchedule.contains(dayOfWeek) {
+                returningArray.append(date)
+            }
+            date = Calendar.current.date(byAdding: .day, value: 1, to: date)!
+        }
+
+        return returningArray
+    }
 }

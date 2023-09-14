@@ -47,6 +47,11 @@ struct ContentView: View {
                 .makeTab(tab: Tabs.onboarding , systemImage: "play")
             
             
+            TestingEventKit()
+                .tabItem {
+                    Label("Testing Calendar", image: "calendar")
+                }
+            
         }
         .tint(settings.themeColor)
     }
