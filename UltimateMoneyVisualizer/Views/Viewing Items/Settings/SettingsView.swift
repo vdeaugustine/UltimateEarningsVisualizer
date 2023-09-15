@@ -94,6 +94,13 @@ struct SettingsView: View {
                 }
                 .buttonStyle(.plain)
             }
+            
+            Section {
+                Button("Calendars") {
+                    NavManager.shared.appendCorrectPath(newValue: .selectCalendarsForSettings)
+//                    SelectCalendarForSettingsView()
+                }
+            }
 
             Section("Visuals") {
                 Button {

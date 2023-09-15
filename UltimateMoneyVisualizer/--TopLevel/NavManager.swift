@@ -102,6 +102,8 @@ class NavManager: ObservableObject {
                 break
             case .onboarding:
                 break
+            case .testingCalendar:
+                break
         }
     }
 
@@ -127,6 +129,7 @@ class NavManager: ObservableObject {
         case today
 
         case onboarding
+        case testingCalendar
     }
 
 //    enum TodayViewDestinations: Hashable {
@@ -178,6 +181,7 @@ class NavManager: ObservableObject {
         case todayViewPayoffQueue
         case wage
         case payoffContributionsView(PayoffItemDetailViewModel)
+        case selectCalendarsForSettings
         // swiftformat:sort:end
     }
 
@@ -255,6 +259,8 @@ class NavManager: ObservableObject {
                 WageView()
             case let .payoffContributionsView(viewModel):
                 PayoffContributionsView(vm: viewModel)
+            case .selectCalendarsForSettings:
+                SelectCalendarForSettingsView()
             default:
                 Text("Error navigating to page.")
         }
