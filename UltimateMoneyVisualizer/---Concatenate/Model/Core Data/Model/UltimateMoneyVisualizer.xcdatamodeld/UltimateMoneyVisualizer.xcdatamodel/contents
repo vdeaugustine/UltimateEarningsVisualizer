@@ -111,6 +111,7 @@
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="savedItems" inverseEntity="User"/>
     </entity>
     <entity name="Settings" representedClassName="Settings" syncable="YES" codeGenerationType="class">
+        <attribute name="includeCalendars" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="includedCalendarsStringSeparatedByComma" optional="YES" attributeType="String"/>
         <attribute name="themeColorStr" optional="YES" attributeType="String"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="settings" inverseEntity="User"/>
