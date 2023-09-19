@@ -3,12 +3,27 @@ import SwiftUI
 
 // MARK: - EnterWageView
 
+class EnterWageViewModel: ObservableObject, Hashable {
+    static func == (lhs: EnterWageViewModel, rhs: EnterWageViewModel) -> Bool {
+        lhs.stateTax == rhs.stateTax
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(stateTax)
+        hasher.combine(federalTax)
+    }
+    
+    @Published var stateTax = User.main.getWage().stateTaxPercentage
+    @Published var federalTax = User.main.getWage().federalTaxPercentage
+}
+
 // swiftformat:sort:begin
 
 struct EnterWageView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
     @State private var isSalaried: Bool = User.main.getWage().isSalary
+    @StateObject private var viewModel: EnterWageViewModel = .init()
 
     @State private var showErrorToast: Bool = false
     @State private var errorMessage: String = ""
@@ -39,8 +54,7 @@ struct EnterWageView: View {
     @State private var showSalarySheet = false
 
     @State private var includeTaxes = User.main.getWage().includeTaxes
-    @State private var stateTax = User.main.getWage().stateTaxPercentage
-    @State private var federalTax = User.main.getWage().federalTaxPercentage
+    
 
     @State private var showStateSheet = false
     @State private var showFederalSheet = false
@@ -172,7 +186,7 @@ struct EnterWageView: View {
                 HStack {
                     SystemImageWithFilledBackground(systemName: "percent",
                                                     backgroundColor: user.getSettings().themeColor)
-                    Text(stateTax.simpleStr(3, false))
+                    Text(viewModel.stateTax.simpleStr(3, false))
                         .boldNumber()
                     Spacer()
                     Button("Edit") {
@@ -183,8 +197,10 @@ struct EnterWageView: View {
                 .onTapGesture {
                     showStateSheet = true
                 }
-                NavigationLink {
-                    CalculateTaxView(taxType: .state, bindedRate: $stateTax)
+                Button {
+                    
+                    NavManager.shared.appendCorrectPath(newValue: .calculateTax(.init(taxType: .state, bindedRate: $viewModel.stateTax)))
+                    
                 } label: {
                     Label("Calculate for me", systemImage: "info.circle")
                 }
@@ -194,7 +210,7 @@ struct EnterWageView: View {
                 HStack {
                     SystemImageWithFilledBackground(systemName: "percent",
                                                     backgroundColor: user.getSettings().themeColor)
-                    Text(federalTax.simpleStr(3, false))
+                    Text(viewModel.federalTax.simpleStr(3, false))
                         .boldNumber()
                     Spacer()
                     Button("Edit") {
@@ -206,8 +222,9 @@ struct EnterWageView: View {
                     showFederalSheet = true
                 }
 
-                NavigationLink {
-                    CalculateTaxView(taxType: .federal, bindedRate: $federalTax)
+//                NavigationLink {
+                Button {
+                    NavManager.shared.appendCorrectPath(newValue: .calculateTax(.init(taxType: .federal, bindedRate: $viewModel.federalTax)))
                 } label: {
                     Label("Calculate for me", systemImage: "info.circle")
                 }
@@ -226,8 +243,8 @@ struct EnterWageView: View {
                                 isSalary: isSalaried,
                                 user: user,
                                 includeTaxes: includeTaxes,
-                                stateTax: includeTaxes ? stateTax : nil,
-                                federalTax: includeTaxes ? federalTax : nil,
+                                stateTax: includeTaxes ? viewModel.stateTax : nil,
+                                federalTax: includeTaxes ? viewModel.federalTax : nil,
                                 context: viewContext)
             wage.daysPerWeek = Double(daysPerWeek)
             wage.hoursPerDay = Double(hoursPerDay)
@@ -286,10 +303,10 @@ struct EnterWageView: View {
             EnterDoubleView(dubToEdit: $salaryDouble, format: .dollar)
         }
         .sheet(isPresented: $showStateSheet) {
-            EnterDoubleView(dubToEdit: $stateTax, format: .percent)
+            EnterDoubleView(dubToEdit: $viewModel.stateTax, format: .percent)
         }
         .sheet(isPresented: $showFederalSheet) {
-            EnterDoubleView(dubToEdit: $federalTax, format: .percent)
+            EnterDoubleView(dubToEdit: $viewModel.federalTax, format: .percent)
         }
     }
 }

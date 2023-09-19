@@ -146,6 +146,7 @@ class NavManager: ObservableObject {
         case allocationDetail(Allocation)
         case allTimeBlocks
         case assignAllocationToPayoff(PayoffItemDetailViewModel)
+        case calculateTax(CalculateTaxView.Sender)
         case condensedTimeBlock(CondensedTimeBlock)
         case confirmToday
         case createExpense
@@ -193,6 +194,8 @@ class NavManager: ObservableObject {
                 AllocationDetailView(allocation: alloc)
             case let .assignAllocationToPayoff(viewModel):
                 AssignAllocationToPayoffView(payoffItem: viewModel.payoffItem)
+            case let .calculateTax(sender):
+                CalculateTaxView(taxType: sender.taxType, bindedRate: sender.$bindedRate)
             case let .condensedTimeBlock(block):
                 CondensedTimeBlockView(block: block)
             case .createExpense:
