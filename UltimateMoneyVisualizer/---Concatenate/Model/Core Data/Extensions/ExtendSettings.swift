@@ -6,6 +6,7 @@
 //
 
 import CoreData
+import EventKit
 import Foundation
 import SwiftUI
 import Vin
@@ -39,5 +40,42 @@ extension Settings {
                                      location: 1)],
                        startPoint: .bottom,
                        endPoint: .topLeading)
+    }
+
+    func getIncludedCalendarsIds() -> [String] {
+        return includedCalendarsStringSeparatedByComma?.components(separatedBy: ",") ?? []
+    }
+
+    func convertListToString(_ list: [String]) -> String {
+        return list.joined(separator: ",")
+    }
+
+    func saveCalendars(_ calendars: [EKCalendar]) throws {
+        let stringsList = calendars.map { $0.calendarIdentifier }
+        try saveIncludedCalendars(from: stringsList)
+    }
+
+    func saveIncludedCalendars(from idsList: [String]) throws {
+        let string = convertListToString(idsList)
+        includedCalendarsStringSeparatedByComma = string
+
+        guard let context = managedObjectContext else {
+            throw NSError(domain: "Problem getting context", code: 99)
+        }
+        try context.save()
+    }
+
+    func getCalendars() -> [EKCalendar] {
+        let eventStore = EKEventStore()
+        let identifiers = getIncludedCalendarsIds()
+        var calendars: [EKCalendar] = []
+
+        for identifier in identifiers {
+            if let calendar = eventStore.calendar(withIdentifier: identifier) {
+                calendars.append(calendar)
+            }
+        }
+
+        return calendars
     }
 }

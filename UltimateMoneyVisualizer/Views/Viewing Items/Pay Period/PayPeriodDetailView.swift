@@ -85,8 +85,8 @@ struct PayPeriodDetailView: View {
 
             Section("Shifts") {
                 ForEach(payPeriod.getShifts()) { shift in
-                    NavigationLink {
-                        ShiftDetailView(shift: shift)
+                    Button {
+                        NavManager.shared.appendCorrectPath(newValue: .shift(shift))
                     } label: {
                         ShiftRowView(shift: shift)
                     }

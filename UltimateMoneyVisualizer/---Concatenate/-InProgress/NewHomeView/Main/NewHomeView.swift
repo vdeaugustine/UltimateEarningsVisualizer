@@ -18,6 +18,17 @@ struct NewHomeView: View {
             }
             .padding(.top)
         }
+        .blur(radius: vm.quickMenuOpen ? 3 : 0)
+        .overlay {
+            if vm.quickMenuOpen {
+                Color.black.opacity(0.2)
+                    .ignoresSafeArea()
+                    .onTapGesture {
+                        vm.quickMenuOpen = false
+                    }
+            }
+        }
+        .animation(/*@START_MENU_TOKEN@*/.easeIn/*@END_MENU_TOKEN@*/, value: vm.quickMenuOpen)
         .safeAreaInset(edge: .bottom) {
             HStack {
                 Spacer()

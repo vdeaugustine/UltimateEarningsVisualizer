@@ -46,8 +46,8 @@ struct RegularScheduleView: View {
         .navigationTitle("Regular Schedule")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                NavigationLink {
-                    SelectDaysView()
+                Button {
+                    NavManager.shared.appendCorrectPath(newValue: .selectDaysView)
                 } label: {
                     if hasSchedule {
                         Text("Edit")

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22221.1" systemVersion="23A5337a" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22221.1" systemVersion="23A339" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="Allocation" representedClassName="Allocation" syncable="YES" codeGenerationType="class">
         <attribute name="amount" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="date" attributeType="Date" defaultDateTimeInterval="704182320" usesScalarValueType="NO"/>
@@ -78,6 +78,15 @@
         <relationship name="shifts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Shift" inverseName="percentShiftExpenses" inverseEntity="Shift"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="percentShiftExpenses" inverseEntity="User"/>
     </entity>
+    <entity name="RecurringTimeBlock" representedClassName="RecurringTimeBlock" syncable="YES" codeGenerationType="class">
+        <attribute name="colorHex" optional="YES" attributeType="String"/>
+        <attribute name="dateCreated" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="endTime" optional="YES" attributeType="String"/>
+        <attribute name="recurrenceRule" optional="YES" attributeType="Binary" valueTransformerName="EKRecurrenceRuleValueTransformer" customClassName="EKRecurrenceRule"/>
+        <attribute name="startTime" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="recurringTimeBlocks" inverseEntity="User"/>
+    </entity>
     <entity name="RegularDay" representedClassName="RegularDay" syncable="YES" codeGenerationType="class">
         <attribute name="dayName" optional="YES" attributeType="String"/>
         <attribute name="endTime" optional="YES" attributeType="String"/>
@@ -102,7 +111,10 @@
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="savedItems" inverseEntity="User"/>
     </entity>
     <entity name="Settings" representedClassName="Settings" syncable="YES" codeGenerationType="class">
+        <attribute name="includeCalendars" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="includedCalendarsStringSeparatedByComma" optional="YES" attributeType="String"/>
         <attribute name="themeColorStr" optional="YES" attributeType="String"/>
+        <attribute name="useColoredNavBar" optional="YES" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="settings" inverseEntity="User"/>
     </entity>
     <entity name="Shift" representedClassName="Shift" syncable="YES" codeGenerationType="class">
@@ -181,6 +193,7 @@
         <relationship name="payPeriods" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PayPeriod" inverseName="user" inverseEntity="PayPeriod"/>
         <relationship name="payPeriodSettings" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="PayPeriodSettings" inverseName="user" inverseEntity="PayPeriodSettings"/>
         <relationship name="percentShiftExpenses" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PercentShiftExpense" inverseName="user" inverseEntity="PercentShiftExpense"/>
+        <relationship name="recurringTimeBlocks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RecurringTimeBlock" inverseName="user" inverseEntity="RecurringTimeBlock"/>
         <relationship name="regularSchedule" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RegularSchedule" inverseName="user" inverseEntity="RegularSchedule"/>
         <relationship name="savedItems" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Saved" inverseName="user" inverseEntity="Saved"/>
         <relationship name="settings" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Settings" inverseName="user" inverseEntity="Settings"/>

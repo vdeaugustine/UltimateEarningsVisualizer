@@ -23,7 +23,7 @@ struct OnboardingFirstGoalView: View {
     typealias TempTag = CreateGoalViewModel.TemporaryTag
 
     @FocusState private var focusedField: CreateGoalViewModel.FocusedField?
-
+    
     var body: some View {
         VStack {
             Form {

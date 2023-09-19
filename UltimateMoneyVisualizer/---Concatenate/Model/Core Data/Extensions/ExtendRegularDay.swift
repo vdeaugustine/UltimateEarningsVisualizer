@@ -43,4 +43,12 @@ public extension RegularDay {
     func getEndTime() -> Date? {
         Date.stringToDate(endTime ?? "")
     }
+    
+    func getDuration() -> Double {
+        guard let start = getStartTime(), let end = getEndTime()
+        else { return 0 }
+        return end - start
+    }
+    
+    
 }

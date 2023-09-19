@@ -21,6 +21,7 @@ struct SettingsView: View {
 
     #if DEBUG
         @State private var inMemory = UserDefaults.inMemory
+        @State private var useColorNavBar = User.main.getSettings().useColoredNavBar
     #endif
 
     private var wageStr: String {
@@ -95,6 +96,13 @@ struct SettingsView: View {
                 .buttonStyle(.plain)
             }
 
+            Section {
+                Button("Calendars") {
+                    NavManager.shared.appendCorrectPath(newValue: .selectCalendarsForSettings)
+//                    SelectCalendarForSettingsView()
+                }
+            }
+
             Section("Visuals") {
                 Button {
                     withAnimation {
@@ -157,6 +165,12 @@ struct SettingsView: View {
                     Button("Restore default") {
                         user.instantiateExampleItems(context: viewContext)
                     }
+
+                    Toggle("Use colored nav bar", isOn: $useColorNavBar)
+                        .onChange(of: useColorNavBar) { _ in
+                            settings.useColoredNavBar = useColorNavBar
+                            try! viewContext.save()
+                    }
                 }
 
             #endif
@@ -175,16 +189,12 @@ struct SettingsView: View {
                 }
                 .buttonStyle(.plain)
             }
-            
-            
+
             if let numberOfVisits = User.main.statusTracker?.numberOfTimesOpeningApp {
-                Section {
-                    
-                } header: {
-                    
-                } footer: {
+                Section(footer:
                     Text("You have opened the app \(numberOfVisits) time\(numberOfVisits > 1 ? "s" : "")! Nice Job!")
-                }
+
+                ) {}
             }
         }
         .listStyle(.insetGrouped)
@@ -193,7 +203,6 @@ struct SettingsView: View {
         .navigationDestination(for: NavManager.AllViews.self) { view in
             NavManager.shared.getDestinationViewForStack(destination: view)
         }
-        
     }
 }
 

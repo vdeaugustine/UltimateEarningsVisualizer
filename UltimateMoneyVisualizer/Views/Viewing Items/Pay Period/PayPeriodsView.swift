@@ -15,8 +15,8 @@ struct PayPeriodsView: View {
     var body: some View {
         List {
             Section {
-                NavigationLink {
-                    PayPeriodSettingsView()
+                Button {
+                    NavManager.shared.appendCorrectPath(newValue: .payPeriodSettings)
                 } label: {
                     Text("Pay Period Settings")
                 }
@@ -35,8 +35,8 @@ struct PayPeriodsView: View {
     }
 
     func payPeriodRow(_ period: PayPeriod) -> some View {
-        NavigationLink {
-            PayPeriodDetailView(payPeriod: period)
+        Button {
+            NavManager.shared.appendCorrectPath(newValue: .payPeriodDetail(period))
         } label: {
             VStack(alignment: .leading) {
                 Text(period.title)

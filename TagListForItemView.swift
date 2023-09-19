@@ -31,9 +31,12 @@ struct TagListForItemView: View {
             .putInTemplate(title: "Tags")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink {
-                        CreateTagView(payoff: AnyPayoffItem(item))
-                            .presentationDetents([.large])
+                    Button {
+                        
+                        NavManager.shared.appendCorrectPath(newValue: .createTag(AnyPayoffItem(item)))
+//                        
+//                        CreateTagView(payoff: AnyPayoffItem(item))
+//                            .presentationDetents([.large])
                     } label: {
                         Label("New", systemImage: "plus")
                     }

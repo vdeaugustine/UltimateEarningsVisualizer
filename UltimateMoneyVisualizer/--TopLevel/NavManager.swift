@@ -102,6 +102,8 @@ class NavManager: ObservableObject {
                 break
             case .onboarding:
                 break
+            case .testingCalendar:
+                break
         }
     }
 
@@ -127,6 +129,7 @@ class NavManager: ObservableObject {
         case today
 
         case onboarding
+        case testingCalendar
     }
 
 //    enum TodayViewDestinations: Hashable {
@@ -143,6 +146,7 @@ class NavManager: ObservableObject {
         case allocationDetail(Allocation)
         case allTimeBlocks
         case assignAllocationToPayoff(PayoffItemDetailViewModel)
+        case calculateTax(CalculateTaxView.Sender)
         case condensedTimeBlock(CondensedTimeBlock)
         case confirmToday
         case createExpense
@@ -161,15 +165,21 @@ class NavManager: ObservableObject {
         case multipleNewShiftsView
         case newItemCreation
         case oldPayoffQueue
+        case payoffItemDetailView(AnyPayoffItem)
         case payPeriodDetail(PayPeriod)
         case payPeriods
+        case payPeriodSettings
         case purchasePage
         case regularSchedule
         case saved(Saved)
+        case savedItemAllocationSheet_Expense(AddAllocationForExpenseView.SavedAllocSheet.Sender)
+        case savedItemAllocationSheet_Goal(Saved, Goal)
+        case selectDaysView
         case setHoursForRegularSchedule(RegularDaysContainer)
         case settings
         case shift(Shift)
         case shiftAllocSheet_Expense(Shift, Expense)
+        case shiftAllocSheet_Goal(Shift, Goal)
         case stats
         case tagDetail(Tag)
         case timeBlockDetail(TimeBlock)
@@ -178,6 +188,7 @@ class NavManager: ObservableObject {
         case todayViewPayoffQueue
         case wage
         case payoffContributionsView(PayoffItemDetailViewModel)
+        case selectCalendarsForSettings
         // swiftformat:sort:end
     }
 
@@ -189,6 +200,8 @@ class NavManager: ObservableObject {
                 AllocationDetailView(allocation: alloc)
             case let .assignAllocationToPayoff(viewModel):
                 AssignAllocationToPayoffView(payoffItem: viewModel.payoffItem)
+            case let .calculateTax(sender):
+                CalculateTaxView(taxType: sender.taxType, bindedRate: sender.$bindedRate)
             case let .condensedTimeBlock(block):
                 CondensedTimeBlockView(block: block)
             case .createExpense:
@@ -215,22 +228,34 @@ class NavManager: ObservableObject {
                 NewHomeView()
             case .newItemCreation:
                 NewItemCreationView()
+            case let .payoffItemDetailView(anyPayoff):
+                PayoffItemDetailView(payoffItem: anyPayoff.payoffItem)
             case let .payPeriodDetail(period):
                 PayPeriodDetailView(payPeriod: period)
             case .payPeriods:
                 PayPeriodsView()
+            case .payPeriodSettings:
+                PayPeriodSettingsView()
             case .purchasePage:
                 PurchasePage()
             case .regularSchedule:
                 RegularScheduleView()
+            case .selectDaysView:
+                SelectDaysView()
             case let .saved(saved):
                 SavedDetailView(saved: saved)
+            case let .savedItemAllocationSheet_Expense(sender):
+                AddAllocationForExpenseView.SavedAllocSheet(sender: sender)
             case .settings:
                 SettingsView()
             case let .shift(shift):
                 ShiftDetailView(shift: shift)
+            case let .savedItemAllocationSheet_Goal(saved, goal):
+                AddAllocationForGoalView.SavedAllocSheet(saved: saved, goal: goal)
             case let .shiftAllocSheet_Expense(shift, expense):
                 AddAllocationForExpenseView.ShiftAllocSheet(shift: shift, expense: expense)
+            case let .shiftAllocSheet_Goal(shift, goal):
+                AddAllocationForGoalView.ShiftAllocSheet(shift: shift, goal: goal)
             case .stats:
                 StatsView()
             case let .tagDetail(tag):
@@ -255,6 +280,8 @@ class NavManager: ObservableObject {
                 WageView()
             case let .payoffContributionsView(viewModel):
                 PayoffContributionsView(vm: viewModel)
+            case .selectCalendarsForSettings:
+                SelectCalendarForSettingsView()
             default:
                 Text("Error navigating to page.")
         }

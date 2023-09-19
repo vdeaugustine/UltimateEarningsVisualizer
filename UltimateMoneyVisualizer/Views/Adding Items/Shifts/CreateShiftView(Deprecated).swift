@@ -10,7 +10,7 @@ import SwiftUI
 import Vin
 
 // MARK: - CreateShiftView
-
+// Deprecated
 struct CreateShiftView: View {
     @Environment(\.managedObjectContext) private var viewContext
 

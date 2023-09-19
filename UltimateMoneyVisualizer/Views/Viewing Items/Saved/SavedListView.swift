@@ -40,8 +40,8 @@ struct SavedListView: View {
                     if saved.title != nil,
                        saved.date != nil,
                        saved.amount > 0 {
-                        NavigationLink {
-                            SavedDetailView(saved: saved)
+                        Button {
+                            NavManager.shared.appendCorrectPath(newValue: .saved(saved))
                         } label: {
                             SavedItemRow(saved: saved, user: user)
                         }

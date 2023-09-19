@@ -5,20 +5,19 @@
 //  Created by Vincent DeAugustine on 4/25/23.
 //
 
+import Combine
 import CoreData
 import Foundation
 import SwiftUI
 import Vin
-import Combine
 
 public extension User {
     @discardableResult convenience init(exampleItem: Bool = true,
                                         context: NSManagedObjectContext = PersistenceController.testing) throws {
         self.init(context: context)
-        
+
         try self.statusTracker = .init(user: self, context: context)
-        
-        
+
         self.username = "Testing User"
         self.email = "TestUser@ExampleForTest.com"
 
@@ -33,7 +32,6 @@ public extension User {
         if exampleItem {
             instantiateExampleItems(context: context)
         }
-
 
         try context.save()
     }
@@ -86,8 +84,8 @@ public extension User {
         try User(exampleItem: true)
     }
 
-    
     // MARK: - MAIN USER
+
     static var main: User {
         let userContext = PersistenceController.context
 
@@ -133,9 +131,9 @@ public extension User {
                 return user
             } else {
                 #if DEBUG
-                return try User(exampleItem: false, context: userContext)
+                    return try User(exampleItem: false, context: userContext)
                 #else
-                return User(context: userContext)
+                    return User(context: userContext)
                 #endif
             }
         } catch {
@@ -146,7 +144,6 @@ public extension User {
     func getContext() -> NSManagedObjectContext {
         managedObjectContext ?? PersistenceController.context
     }
-
 
     // MARK: - Money Calculations
 
@@ -293,7 +290,14 @@ public extension User {
         return filteredShifts
     }
 
-    // MARK: Shifts - Time Blocks
+    // MARK: - Recurring Time Blocks
+
+    func getRecurringTimeBlocks() -> [RecurringTimeBlock] {
+        guard let recurringTimeBlocks = Array(recurringTimeBlocks ?? []) as? [RecurringTimeBlock] else { return [] }
+        return recurringTimeBlocks
+    }
+
+    // MARK: - Shifts - Time Blocks
 
     func getTimeBlocksBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [TimeBlock] {
         let shifts = getShiftsBetween(startDate: startDate, endDate: endDate)
@@ -802,19 +806,15 @@ public extension User {
     }
 }
 
-
-
 // MARK: - Status Tracking
 
 public extension User {
-
     func addNewVisit() {
-        self.statusTracker?.numberOfTimesOpeningApp += 1
+        statusTracker?.numberOfTimesOpeningApp += 1
         do {
-            try self.managedObjectContext?.save()
+            try managedObjectContext?.save()
         } catch {
             print("Error saving a new visit", error)
         }
     }
-    
 }
