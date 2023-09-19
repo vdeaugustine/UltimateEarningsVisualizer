@@ -94,7 +94,7 @@ public protocol PayoffItem {
 public struct AnyPayoffItem: PayoffItem, Hashable {
     // MARK: - Properties
 
-    private var payoffItem: PayoffItem
+    var payoffItem: PayoffItem
 
     // MARK: - Object Methods
 

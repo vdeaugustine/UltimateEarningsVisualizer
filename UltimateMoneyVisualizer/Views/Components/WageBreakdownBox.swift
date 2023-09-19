@@ -18,8 +18,8 @@ struct WageBreakdownBox: View {
             Text("Wage")
                 .font(.headline)
                 .spacedOut {
-                    NavigationLink {
-                        EnterWageView()
+                    Button {
+                        NavManager.shared.appendCorrectPath(newValue: .enterWage)
                     } label: {
                         Image(systemName: "ellipsis")
                             .font(.subheadline)

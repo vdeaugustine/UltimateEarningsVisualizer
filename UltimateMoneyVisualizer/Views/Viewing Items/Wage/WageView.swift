@@ -9,10 +9,11 @@ import AlertToast
 import CoreData
 import SwiftUI
 
+// MARK: - WageViewModel
+
 class WageViewModel: ObservableObject {
     public static var shared: WageViewModel = .init()
-    
-    
+
     @ObservedObject var wage: Wage = User.main.getWage()
     @ObservedObject var user: User = .main
     @Published var hourlyWage: String = ""
@@ -30,7 +31,6 @@ class WageViewModel: ObservableObject {
 
     @Published var toggleTaxes = User.main.getWage().includeTaxes
 
-
     func calculateHourlyWage(salary: Double, hoursPerWeek: Double, vacationDays: Double) -> Double? {
         let weeksPerYear = 52.0
         let vacationWeeks = vacationDays / 5.0
@@ -39,7 +39,6 @@ class WageViewModel: ObservableObject {
         return salary / totalWorkingHours
     }
 }
-
 
 // MARK: - WageView
 
@@ -140,8 +139,8 @@ struct WageView: View {
 
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                NavigationLink("Edit") {
-                    EnterWageView()
+                Button("Edit") {
+                    NavManager.shared.appendCorrectPath(newValue: .enterWage)
                 }
                 .tint(Color.white)
             }

@@ -222,7 +222,6 @@ struct EnterWageView: View {
                     showFederalSheet = true
                 }
 
-//                NavigationLink {
                 Button {
                     NavManager.shared.appendCorrectPath(newValue: .calculateTax(.init(taxType: .federal, bindedRate: $viewModel.federalTax)))
                 } label: {

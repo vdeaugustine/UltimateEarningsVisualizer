@@ -14,7 +14,7 @@ enum NewItemSelection: String {
 }
 
 // MARK: - AddNewMoneyFirstView
-
+// Deprecated
 struct AddNewMoneyFirstView: View {
     enum MoneyType { case spent, made }
 
