@@ -114,6 +114,7 @@
         <attribute name="includeCalendars" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="includedCalendarsStringSeparatedByComma" optional="YES" attributeType="String"/>
         <attribute name="themeColorStr" optional="YES" attributeType="String"/>
+        <attribute name="useColoredNavBar" optional="YES" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="settings" inverseEntity="User"/>
     </entity>
     <entity name="Shift" representedClassName="Shift" syncable="YES" codeGenerationType="class">

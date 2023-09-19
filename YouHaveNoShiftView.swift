@@ -9,9 +9,6 @@ import SwiftUI
 
 // MARK: - YouHaveNoShiftView
 
-// Views like TimeMoneyPicker, SelectHours, ProgressSectionView,
-// TodaysSpendingView, StartEndTotalView, YouHaveNoShiftView will remain same as I have mentioned in previous responses.
-
 struct YouHaveNoShiftView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Binding var showHoursSheet: Bool

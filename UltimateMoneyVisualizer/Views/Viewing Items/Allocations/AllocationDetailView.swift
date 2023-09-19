@@ -43,6 +43,11 @@ struct AllocationDetailView: View {
 
     let allocation: Allocation
     @ObservedObject private var user = User.main
+    @State private var showDeleteConfirmation = false
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.managedObjectContext) private var viewContext
+    @State private var showErrorAlert = false
+    @State private var error: Error? = nil
 
     var spentOnHeaderStr: String {
         if allocation.expense != nil {
@@ -150,10 +155,29 @@ struct AllocationDetailView: View {
             }
 
             Button("Delete", role: .destructive) {
+                showDeleteConfirmation.toggle()
             }
         }
         .listStyle(.insetGrouped)
-
+        .confirmationDialog("Delete allocation", isPresented: $showDeleteConfirmation, titleVisibility: .visible, actions: {
+            Button("Delete", role: .destructive) {
+                viewContext.delete(allocation)
+                do {
+                    try viewContext.save()
+                    dismiss()
+                } catch {
+                    showErrorAlert.toggle()
+                }
+            }
+        }, message: {
+            Text("This action cannot be undone.")
+        })
+        .alert("Error deleting.",
+               isPresented: $showErrorAlert,
+               actions: {},
+               message: {
+                   Text("Please try again. If issue persists, try restarting the app.")
+               })
         .putInTemplate(title: "Allocation Details")
     }
 }
