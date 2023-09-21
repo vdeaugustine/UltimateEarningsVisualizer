@@ -20,13 +20,17 @@ struct PayPeriodsView: View {
                 } label: {
                     Text("Pay Period Settings")
                 }
+            } header: {
+                Text("Settings").hidden()
             }
-            Section("Current") {
-                payPeriodRow(viewModel.user.getCurrentPayPeriod())
-            }
+//            Section("Current") {
+//                
+//                PayPeriodRow(payPeriod: viewModel.user.getCurrentPayPeriod(), isCurrent: true)
+//                
+//            }
             Section("All") {
                 ForEach(viewModel.user.getPayPeriods()) { period in
-                    payPeriodRow(period)
+                    PayPeriodRow(payPeriod: period, isCurrent: period == viewModel.user.getCurrentPayPeriod())
                 }
             }
         }

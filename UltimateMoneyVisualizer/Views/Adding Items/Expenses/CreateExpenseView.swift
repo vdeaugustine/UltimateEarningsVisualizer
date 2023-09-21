@@ -126,17 +126,14 @@ struct CreateExpenseView: View {
 //        .modifier(Modifiers(vm: vm))
     }
 
-    
-    
     func nextButtonTapped() {
         if focusedField == .title {
             focusedField = .info
-        }
-        else {
+        } else {
             focusedField = nil
         }
     }
-    
+
     // MARK: - Subviews
 
     var titleRow: some View {
@@ -198,10 +195,12 @@ struct CreateExpenseView: View {
 //    }
 
     @ViewBuilder var recentTags: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack {
-                ForEach(User.main.getTags(), id: \.self) { realTag in
-                    tagPill(TempTag(realTag), includeRemoveButton: false)
+        if !User.main.getTags().isEmpty {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(User.main.getTags(), id: \.self) { realTag in
+                        tagPill(TempTag(realTag), includeRemoveButton: false)
+                    }
                 }
             }
         }

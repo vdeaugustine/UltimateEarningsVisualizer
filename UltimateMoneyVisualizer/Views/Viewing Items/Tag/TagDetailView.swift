@@ -62,6 +62,8 @@ struct TagDetailView: View {
                 ForEach(user.getSavedItemsWith(tag: tag)) { saved in
 
                     Button {
+                        
+                        
                         NavManager.shared.appendCorrectPath(newValue: .saved(saved))
 
                     } label: {
@@ -72,6 +74,26 @@ struct TagDetailView: View {
         }
         .putInTemplate()
         .navigationTitle("Tag Details")
+    }
+}
+
+extension Array where Element: Equatable {
+    enum PopDirection {
+        case fromFront
+        case fromBack
+    }
+    
+    mutating func popUntil(_ element: Element, direction: PopDirection) {
+        switch direction {
+        case .fromBack:
+            while let lastItem = self.last, lastItem != element {
+                self.removeLast()
+            }
+        case .fromFront:
+            while let firstItem = self.first, firstItem != element {
+                self.removeFirst()
+            }
+        }
     }
 }
 

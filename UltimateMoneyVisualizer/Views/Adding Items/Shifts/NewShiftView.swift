@@ -16,7 +16,7 @@ struct NewShiftView: View {
     @State private var selectedDateComponents: Set<DateComponents> = []
     @State private var startTime: Date = .nineAM
     @State private var endTime: Date = .fivePM
-    @State private var chooseByRange = false
+    @State private var chooseByRange = true
     @State private var chooseIndividually = false
     @State private var rangeStartDay = Date.now
     @State private var rangeEndDay = Date.now.addDays(5)
@@ -44,27 +44,27 @@ struct NewShiftView: View {
                 chooseByRangeView
             }
 
-            if chooseIndividually == false {
-                Section(chooseByRange ? "OR" : "") {
-                    Button("Choose individual days") {
-                        withAnimation {
-                            chooseIndividually = true
-                            chooseByRange = false
-                        }
-                    }
-                }
-            }
-
-            if chooseByRange == false {
-                Section("OR") {
-                    Button("Choose by date range") {
-                        withAnimation {
-                            chooseIndividually = false
-                            chooseByRange = true
-                        }
-                    }
-                }
-            }
+//            if chooseIndividually == false {
+//                Section(chooseByRange ? "OR" : "") {
+//                    Button("Choose individual days") {
+//                        withAnimation {
+//                            chooseIndividually = true
+//                            chooseByRange = false
+//                        }
+//                    }
+//                }
+//            }
+//
+//            if chooseByRange == false {
+//                Section("OR") {
+//                    Button("Choose by date range") {
+//                        withAnimation {
+//                            chooseIndividually = false
+//                            chooseByRange = true
+//                        }
+//                    }
+//                }
+//            }
         }
         .onAppear(perform: {
             selectedDateComponents = dates(from: rangeStartDay,

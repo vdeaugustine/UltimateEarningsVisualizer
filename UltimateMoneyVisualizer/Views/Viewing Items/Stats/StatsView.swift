@@ -40,6 +40,9 @@ struct StatsView: View {
         .background(Color.targetGray)
         .putInTemplate()
         .navigationTitle("My Stats")
+        .onAppear {
+            vm.refresh()
+        }
         
     }
 
@@ -61,13 +64,16 @@ struct StatsView: View {
                         .allPartsTappable()
                         .onTapGesture { vm.tapAction(index: itemIndex) }
                     }
+                    if vm.itemsForList.isEmpty {
+                        Text("You have no \(vm.listHeader.capitalized) for this date range")
+                    }
                 } header: {
                     Text(vm.listHeader.capitalized)
                         .format(size: 16, weight: .semibold)
                 }
             }
             .scrollContentBackground(.hidden)
-            .frame(height: CGFloat(vm.itemsForList.count * 60) + 30)
+            .frame(height: vm.itemsForList.isEmpty ? 100 : CGFloat(vm.itemsForList.count * 60) + 30)
         }
     }
 

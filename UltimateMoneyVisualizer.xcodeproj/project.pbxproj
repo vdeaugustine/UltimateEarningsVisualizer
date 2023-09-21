@@ -110,6 +110,7 @@
 		9C74F9FF2A9C1F6700466779 /* OnboardingFirstGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C74F9FE2A9C1F6700466779 /* OnboardingFirstGoalView.swift */; };
 		9C76B2EE2A56819C001E40FC /* NewItemCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C76B2ED2A56819C001E40FC /* NewItemCreationView.swift */; };
 		9C76B2F02A5689B2001E40FC /* NewItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C76B2EF2A5689B2001E40FC /* NewItemViewModel.swift */; };
+		9C793C202ABAAAFB00D9C48E /* PayPeriodRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C793C1F2ABAAAFB00D9C48E /* PayPeriodRow.swift */; };
 		9C7B5D522A1EE82600DBB877 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7B5D512A1EE82600DBB877 /* SubscriptionManager.swift */; };
 		9C7B5D542A201AC600DBB877 /* ExtendPayPeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7B5D532A201AC600DBB877 /* ExtendPayPeriod.swift */; };
 		9C7B5D562A2026D000DBB877 /* PayCycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7B5D552A2026D000DBB877 /* PayCycle.swift */; };
@@ -394,6 +395,7 @@
 		9C74F9FE2A9C1F6700466779 /* OnboardingFirstGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFirstGoalView.swift; sourceTree = "<group>"; };
 		9C76B2ED2A56819C001E40FC /* NewItemCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewItemCreationView.swift; path = "UltimateMoneyVisualizer/Views/Adding Items/New Item Creation/NewItemCreationView.swift"; sourceTree = SOURCE_ROOT; };
 		9C76B2EF2A5689B2001E40FC /* NewItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewItemViewModel.swift; path = "UltimateMoneyVisualizer/Views/Adding Items/New Item Creation/NewItemViewModel.swift"; sourceTree = SOURCE_ROOT; };
+		9C793C1F2ABAAAFB00D9C48E /* PayPeriodRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPeriodRow.swift; sourceTree = SOURCE_ROOT; };
 		9C7B5D512A1EE82600DBB877 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
 		9C7B5D532A201AC600DBB877 /* ExtendPayPeriod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendPayPeriod.swift; sourceTree = "<group>"; };
 		9C7B5D552A2026D000DBB877 /* PayCycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayCycle.swift; sourceTree = "<group>"; };
@@ -666,6 +668,7 @@
 		9C0CFCD72A5A7050005C7C81 /* Pay Period */ = {
 			isa = PBXGroup;
 			children = (
+				9C793C1F2ABAAAFB00D9C48E /* PayPeriodRow.swift */,
 				9C3F80C12A593C6C00FCF040 /* PayPeriodDetailView.swift */,
 				9C9FFB1E2A57C59700565B78 /* PayPeriodsView.swift */,
 				9C9FFB202A57C60900565B78 /* PayPeriodsViewModel.swift */,
@@ -1881,6 +1884,7 @@
 				9CAE0B3E2A9AD509009034EC /* OnboardingRegularDaysView.swift in Sources */,
 				9C7C985A29FCA09C0077EA25 /* TodayView.swift in Sources */,
 				9C4DDCC42A44F73B00560535 /* TodayView+SubViews.swift in Sources */,
+				9C793C202ABAAAFB00D9C48E /* PayPeriodRow.swift in Sources */,
 				9C7F965D29F8F03C00F5035C /* ContentView.swift in Sources */,
 				9CEA17692A05DF2800E8DFD7 /* ExtendDate.swift in Sources */,
 				9CF9CE582A7B06B800164D75 /* TimeBlockStats.swift in Sources */,

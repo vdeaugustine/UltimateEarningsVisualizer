@@ -24,6 +24,21 @@ class NavManager: ObservableObject {
     @Published var todayViewNavPath: NavigationPath = .init()
 
     // MARK: - Methods
+    
+    func getCurrentPath() -> NavigationPath? {
+        switch currentTab {
+            case .allItems:
+                allItemsNavPath
+            case .newHome:
+                homeNavPath
+            case .settings:
+                settingsNavPath
+            case .today:
+                todayViewNavPath
+            default:
+                nil
+        }
+    }
 
     func appendCorrectPath(newValue: AllViews) {
         switch currentTab {

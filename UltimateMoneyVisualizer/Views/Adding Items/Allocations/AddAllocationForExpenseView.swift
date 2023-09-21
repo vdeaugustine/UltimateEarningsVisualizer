@@ -74,7 +74,7 @@ struct AddAllocationForExpenseView: View {
         ForEach(user.getSaved().filter { $0.totalAvailable >= 0.01 }) { saved in
 
             Button {
-                NavManager.shared.appendCorrectPath(newValue: .savedItemAllocationSheet(.init(saved: saved, expense: expense)))
+                NavManager.shared.appendCorrectPath(newValue: .savedItemAllocationSheet_Expense(.init(saved: saved, expense: expense)))
 //                SavedAllocSheet(saved: saved, expense: expense)
             } label: {
                 HStack {
@@ -299,11 +299,18 @@ struct AddAllocationForExpenseView: View {
 // MARK: - AddAllocationForExpenseView_Previews
 
 struct AddAllocationForExpenseView_Previews: PreviewProvider {
+    
+    static let user: User = {
+        let user = User.main
+        user.instantiateExampleItems(context: PersistenceController.context)
+        return user
+    }()
+    
     static var previews: some View {
 //        AddAllocationForExpenseView(expense: User.main.getExpenses().first!)
 //            .putInNavView(.inline)
 
-        AddAllocationForExpenseView.ShiftAllocSheet(shift: User.main.getShifts().first!, expense: User.main.getExpenses().first!)
+        AddAllocationForExpenseView.ShiftAllocSheet(shift: user.getShifts().first!, expense: User.main.getExpenses().first!)
             .putInNavView(.inline)
             .environment(\.managedObjectContext, PersistenceController.context)
     }
