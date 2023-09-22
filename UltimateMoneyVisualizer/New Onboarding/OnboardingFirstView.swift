@@ -32,6 +32,9 @@ struct OnboardingFirstView: View {
 
                 WhatIsASavedItem()
                     .tag(5)
+                
+                GoalsOnboardingView()
+                    .tag(6)
             }
         }
 //        .onChange(of: model.screenNumber) { new in

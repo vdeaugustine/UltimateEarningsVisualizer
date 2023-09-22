@@ -173,7 +173,7 @@ te dictumst mattis egestas laoreet, cubilia habitant magnis lacinia vivamus etia
 //                              date: "02/05/1996",
 //                              title: "Something",
 //                              bodyText: placeholderText,
-//                              headerImageName: "disneyworld",
+//                              headerImageName: "",
 //                              authorImageName: "dollar3d")
     }
 }

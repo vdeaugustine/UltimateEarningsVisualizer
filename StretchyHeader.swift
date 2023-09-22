@@ -141,7 +141,7 @@ struct StretchyHeader: View {
             GeometryReader { geometry in
                 // 3
                 ZStack(alignment: .bottom) {
-                    Image("disneyworld")
+                    Image("")
                         .resizable()
                         .scaledToFill()
                         .frame(width: geometry.size.width, height: self.getHeightForHeaderImage(geometry))

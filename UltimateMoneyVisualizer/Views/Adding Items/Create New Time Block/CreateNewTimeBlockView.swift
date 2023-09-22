@@ -12,11 +12,9 @@ import SwiftUI
 
 struct CreateNewTimeBlockView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @Environment (\.dismiss) private var dismiss
+    @Environment(\.dismiss) private var dismiss
     @StateObject private var viewModel: CreateNewTimeBlockViewModel
     @FocusState private var titleFocused: Bool
-    
-    
 
     init(_ starter: TimeBlockStarter_Shift) {
         _viewModel = StateObject(
@@ -102,9 +100,12 @@ struct CreateNewTimeBlockView: View {
             Section {
                 ForEach(viewModel.pastBlocks, id: \.self) { block in
                     if let recent = block.actualBlocks(viewModel.user).first,
-                       let recentEnd = recent.endTime {
+                       let recentEnd = recent.endTime,
+                       let recentStart = recent.startTime {
                         Button {
                             viewModel.title = block.title
+                            viewModel.start = recentStart
+                            viewModel.end = recentEnd
                         } label: {
                             HStack {
                                 Components.coloredBar(block.color)
@@ -124,14 +125,21 @@ struct CreateNewTimeBlockView: View {
                         .buttonStyle(.plain)
                     }
                 }
+                
+                if viewModel.pastBlocks.isEmpty {
+                    Text("No recent time blocks yet.")
+                }
             } header: {
                 Text("Recent")
             } footer: {
-                Text("Tap to autofill Title field")
+                if !viewModel.pastBlocks.isEmpty {
+                    Text("Tap to autofill Title field")
+                }
+                
             }
         }
         .navigationTitle("Create TimeBlock")
-        
+
         .putInTemplate()
         .alert(isPresented: $viewModel.showErrorAlert, error: viewModel.error) {}
         .toolbar {
@@ -145,7 +153,6 @@ struct CreateNewTimeBlockView: View {
                         } catch {
                             print("error")
                         }
-                        
                     }
                 }
             }
@@ -182,9 +189,19 @@ struct CreateNewTimeBlockView: View {
     }
 }
 
+
+
 // MARK: - CreateNewTimeBlockView_Previews
 
 struct CreateNewTimeBlockView_Previews: PreviewProvider {
+    static let user: User = {
+        let user = User.main
+        user.instantiateExampleItems(context: PersistenceController.context)
+//        user.getTimeBlocksBetween().forEach({ PersistenceController.context.delete($0) })
+//        try! user.getContext().save()
+        return user
+    }()
+
     static var previews: some View {
         CreateNewTimeBlockView(.init(start: nil, end: nil, shift: User.main.getShifts().first!))
             .putInNavView(.inline)
