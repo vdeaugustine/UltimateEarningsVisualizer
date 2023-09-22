@@ -10,14 +10,13 @@ import SwiftUI
 import Vin
 
 extension ScrollView {
-    func readScrollPosition<P: PreferenceKey>(preference: P.Type) -> some View  {
+    func readScrollPosition<P: PreferenceKey>(preference: P.Type) -> some View {
         overlay(
             GeometryReader { geometry in
                 Color.clear
 //                    .onChange(of: geometry.frame(in: .named("scrollView")).minY) { newValue in
 //                        offset.wrappedValue = newValue
 //                    }
-                    
 
                     .preference(key: P.self,
                                 value: geometry.frame(in: .named("scrollView")).minY as! P.Value)
@@ -25,45 +24,36 @@ extension ScrollView {
             .frame(height: 0)
         )
         .coordinateSpace(name: "scrollView")
-        
     }
 }
 
-
-
 extension View {
     // Main function
-    func putInTemplate(displayMode: NavigationBarItem.TitleDisplayMode = .large, settings: Settings = User.main.getSettings()) -> some View {
-        navigationBarTitleDisplayMode(displayMode)
-            .toolbarColorScheme(.dark, for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarBackground(LinearGradient(stops: [.init(color: settings.themeColor,
-                                                            location: 0),
-                                                      .init(color: settings.themeColor.getLighterColorForGradient(90),
-                                                            location: 1)],
-                                              startPoint: .leading,
-                                              endPoint: .trailing),
-                               for: .navigationBar)
-            .toolbarBackground(.visible, for: .tabBar)
-            .accentColor(User.main.getSettings().themeColor)
-            .tint(User.main.getSettings().themeColor)
+    @ViewBuilder func putInTemplate(displayMode: NavigationBarItem.TitleDisplayMode = .large, settings: Settings = User.main.getSettings()) -> some View {
+        if settings.useColoredNavBar {
+            navigationBarTitleDisplayMode(displayMode)
+                .toolbarColorScheme(.dark, for: .navigationBar)
+                .toolbarBackground(.visible, for: .navigationBar)
+                .toolbarBackground(LinearGradient(stops: [.init(color: settings.themeColor,
+                                                                location: 0),
+                                                          .init(color: settings.themeColor.getLighterColorForGradient(90),
+                                                                location: 1)],
+                                                  startPoint: .leading,
+                                                  endPoint: .trailing),
+                                   for: .navigationBar)
+                .toolbarBackground(.visible, for: .tabBar)
+                .accentColor(User.main.getSettings().themeColor)
+                .tint(User.main.getSettings().themeColor)
+        } else {
+            navigationBarTitleDisplayMode(displayMode)
+                .accentColor(User.main.getSettings().themeColor)
+                .tint(User.main.getSettings().themeColor)
+        }
     }
-    
+
     func putInTemplate(title: String, displayMode: NavigationBarItem.TitleDisplayMode = .large, settings: Settings = User.main.getSettings()) -> some View {
-        navigationBarTitleDisplayMode(displayMode)
+        putInTemplate(displayMode: displayMode, settings: settings)
             .navigationTitle(title)
-            .toolbarColorScheme(.dark, for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarBackground(LinearGradient(stops: [.init(color: settings.themeColor,
-                                                            location: 0),
-                                                      .init(color: settings.themeColor.getLighterColorForGradient(90),
-                                                            location: 1)],
-                                              startPoint: .leading,
-                                              endPoint: .trailing),
-                               for: .navigationBar)
-            .toolbarBackground(.visible, for: .tabBar)
-            .accentColor(User.main.getSettings().themeColor)
-            .tint(User.main.getSettings().themeColor)
     }
 
     func templateForPreview() -> some View {
@@ -109,7 +99,6 @@ extension View {
             }
         }
     }
-    
 
     // Home section views
     func homeSection<Content: View>(rectContainer: Bool = true,

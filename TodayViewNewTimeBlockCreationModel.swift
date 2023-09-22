@@ -12,13 +12,11 @@ import SwiftUI
 class TodayViewNewTimeBlockCreationModel: CreateNewTimeBlockViewModel {
     init(todayShift: TodayShift, start: Date? = nil, end: Date? = nil) {
         super.init(shift: todayShift)
-        if let start{
-            self.start = start
-        }
-        if let end {
-            self.end = end
-        }
+        
+        self.start = start ?? todayShift.startTime ?? .nineAM
+        self.end = end ?? todayShift.endTime ?? .fivePM
     }
+
 
     override func saveAction(context: NSManagedObjectContext) throws {
         try saveCheck()

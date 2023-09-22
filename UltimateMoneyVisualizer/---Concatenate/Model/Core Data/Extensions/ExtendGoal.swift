@@ -77,6 +77,10 @@ extension Goal: PayoffItem {
     }
 
     // MARK: Properties
+    
+    public var repeatFrequencyObject: RepeatFrequency {
+        RepeatFrequency(rawValue: self.repeatFrequency ?? RepeatFrequency.never.rawValue) ?? .never
+    }
 
     public func removeTag(tag: Tag) throws {
         removeFromTags(tag)
@@ -206,7 +210,7 @@ extension Goal: PayoffItem {
 // swiftformat:sort:end
 
 // MARK: - Example Items for Testing
-
+#if DEBUG
 public extension Goal {
     static func makeExampleGoals(user: User, context: NSManagedObjectContext) throws {
         //        try Goal(title: "Get a basketball", info: "For playing", amount: 7, dueDate: .now.addDays(7), user: user, context: context)
@@ -276,7 +280,7 @@ public extension Goal {
         return goal
     }()
 }
-
+#endif
 // MARK: - Methods and properties
 
 public extension Goal {

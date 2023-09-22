@@ -15,9 +15,9 @@ struct CreateExpenseView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject private var newItemViewModel: NewItemViewModel
     @StateObject var vm = CreateExpenseViewModel()
-
     @State private var firstTextMax: CGFloat = 0
     @State private var secondTextMax: CGFloat = 0
+    @State private var isRepeatingExpense = false // New toggle for repeating expense
 
     typealias TempTag = CreateExpenseViewModel.TemporaryTag
 
@@ -25,17 +25,10 @@ struct CreateExpenseView: View {
 
     // MARK: Helper functions
 
-    func getMaxX(geo: GeometryProxy) -> CGFloat {
-        let x = geo.frame(in: .local).maxX
-        print(x)
-        return x
-    }
-
     var body: some View {
         Form {
             Section {
                 titleRow
-
             } header: {
                 Text("Title")
             } footer: {
@@ -46,12 +39,13 @@ struct CreateExpenseView: View {
                 infoRow
             } header: {
                 Text("Description")
-            }footer: {
+            } footer: {
                 Text("A short description about the expense (optional)")
             }
 
             Section("Due date") {
                 dateRow
+                repeatRow
             }
 
             Section("Amount") {
@@ -74,16 +68,6 @@ struct CreateExpenseView: View {
             } footer: {
                 Text("Tap on a recent tag to add it to this expense")
             }
-
-//            Section {
-//                showRecentsButtonRow
-//                expandedRecents
-//
-//            } header: {
-//                Text("Recent")
-//            } footer: {
-//                Text("Tap on a recent expense to create a new instance of that same expense")
-//            }
         }
         .putInTemplate()
         .navigationTitle("New Expense")
@@ -108,7 +92,9 @@ struct CreateExpenseView: View {
 //                .bottomButton(label: "Save", action: vm.saveExpense)
         .onAppear {
             vm.amountDouble = newItemViewModel.dubValue
+//            #if !DEBUG
             focusedField = .title
+//            #endif
         }
         .onChange(of: focusedField) { newValue in
             print(newValue ?? "nil")
@@ -124,7 +110,7 @@ struct CreateExpenseView: View {
                     Spacer()
 
                     Button("Next") {
-                        focusedField = .info
+                        nextButtonTapped()
                     }
                 } else {
                     Button("Back") {
@@ -132,7 +118,7 @@ struct CreateExpenseView: View {
                     }
 
                     Button("Done") {
-                        focusedField = nil
+                        nextButtonTapped()
                     }
                 }
             }
@@ -140,19 +126,35 @@ struct CreateExpenseView: View {
 //        .modifier(Modifiers(vm: vm))
     }
 
+    func nextButtonTapped() {
+        if focusedField == .title {
+            focusedField = .info
+        } else {
+            focusedField = nil
+        }
+    }
+
     // MARK: - Subviews
 
-    @ViewBuilder var titleRow: some View {
+    var titleRow: some View {
         TextField("Vacation", text: $vm.title)
+            .submitLabel(.next)
             .focused($focusedField, equals: .title)
+            .onSubmit {
+                nextButtonTapped()
+            }
     }
 
-    @ViewBuilder var infoRow: some View {
+    var infoRow: some View {
         TextField("I want to take the family to Hawaii", text: $vm.info)
+            .submitLabel(.done)
             .focused($focusedField, equals: .info)
+            .onSubmit {
+                nextButtonTapped()
+            }
     }
 
-    @ViewBuilder var dateRow: some View {
+    var dateRow: some View {
         DatePicker("Due Date", selection: $vm.dueDate, displayedComponents: .date)
     }
 
@@ -166,6 +168,16 @@ struct CreateExpenseView: View {
         }
 
 //            .frame(maxWidth: .infinity, alignment: .center)
+    }
+
+    var repeatRow: some View {
+        // New section for repeating expense toggle
+        Picker("Repeat", selection: $vm.repeatFrequency) {
+            ForEach(RepeatFrequency.allCases, id: \.self) { frequency in
+                Text(frequency.rawValue).tag(frequency)
+            }
+        }
+        .pickerStyle(MenuPickerStyle())
     }
 
 //    @ViewBuilder var showRecentsRow: some View {
@@ -183,10 +195,12 @@ struct CreateExpenseView: View {
 //    }
 
     @ViewBuilder var recentTags: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack {
-                ForEach(User.main.getTags(), id: \.self) { realTag in
-                    tagPill(TempTag(realTag), includeRemoveButton: false)
+        if !User.main.getTags().isEmpty {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(User.main.getTags(), id: \.self) { realTag in
+                        tagPill(TempTag(realTag), includeRemoveButton: false)
+                    }
                 }
             }
         }
@@ -404,8 +418,8 @@ struct CreateTagForExpense: View {
             .toolbarSave {
                 vm.tags.insert(
                     CreateExpenseViewModel.TemporaryTag(title: tagTitle,
-                                                     symbolStr: symbolStr,
-                                                     color: colorSelected)
+                                                        symbolStr: symbolStr,
+                                                        color: colorSelected)
                 )
                 dismiss()
             }

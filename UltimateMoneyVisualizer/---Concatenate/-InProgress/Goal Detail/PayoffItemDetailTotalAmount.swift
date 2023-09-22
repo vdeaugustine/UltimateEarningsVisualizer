@@ -11,6 +11,7 @@ import SwiftUI
 
 struct PayoffItemDetailTotalAmount: View {
     @ObservedObject var viewModel: PayoffItemDetailViewModel
+    @State private var showRepeatSheet = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -20,12 +21,14 @@ struct PayoffItemDetailTotalAmount: View {
                     .boldNumber()
 
                 Spacer()
+                
+                Components.nextPageChevron
 //                Image(systemName: "chevron.right")
 //                    .font(.caption2)
             }
             .layoutPriority(0)
             VStack(alignment: .leading, spacing: 7) {
-                Text("Total Amount")
+                Text("Repeats")
                     .fontWeight(.semibold)
                     .font(.title2)
                     .frame(maxHeight: .infinity)
@@ -33,7 +36,7 @@ struct PayoffItemDetailTotalAmount: View {
                     .minimumScaleFactor(0.4)
 
                 HStack {
-                    Text(viewModel.user.convertMoneyToTime(money: viewModel.amountPaidOff).breakDownTime())
+                    Text(viewModel.payoffItem.repeatFrequencyObject.rawValue)
                     Spacer()
 //                    Text("work time")
                 }
@@ -53,13 +56,25 @@ struct PayoffItemDetailTotalAmount: View {
         }
         .frame(minWidth: 175)
         .frame(height: 120)
+        .onTapGesture {
+            showRepeatSheet.toggle()
+        }
+        .sheet(isPresented: $showRepeatSheet, content: {
+            if let expense = viewModel.payoffItem as? Expense {
+                PayoffItemRepeatView(payoffItem: expense)
+            }
+           
+        })
     }
 }
 
 // MARK: - PayoffItemDetailTotalAmount_Previews
 
 struct PayoffItemDetailTotalAmount_Previews: PreviewProvider {
+    
     static var previews: some View {
+        
+        
         ZStack {
             Color.listBackgroundColor
             PayoffItemDetailTotalAmount(viewModel: PayoffItemDetailViewModel(payoffItem: User.main.getGoals()

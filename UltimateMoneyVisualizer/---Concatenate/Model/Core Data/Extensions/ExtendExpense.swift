@@ -15,6 +15,7 @@ public extension Expense {
                                         isRecurring: Bool = false,
                                         recurringDate: Date? = nil,
                                         tagStrings: [String]? = nil,
+                                        repeatFrequency: RepeatFrequency? = nil,
                                         user: User,
                                         context: NSManagedObjectContext = PersistenceController.context) throws {
         self.init(context: context)
@@ -26,7 +27,9 @@ public extension Expense {
         self.recurringDate = recurringDate
         self.user = user
         self.dateCreated = dateCreated ?? .now
-
+        
+        self.repeatFrequency = repeatFrequency?.rawValue
+        
         let currentQueueCount = Int16(user.getQueue().count)
         // Put the item at the back of the queue at first initialization
         self.queueSlotNumber = currentQueueCount
@@ -56,11 +59,35 @@ extension Expense {
         let dayNumber = Calendar.current.component(.day, from: recurringDate)
         return min(dayNumber, 30)
     }
+
+    func getDaysBetweenTodayAndFutureDate(futureDate: Date) -> [Date] {
+        guard let repeatFrequency,
+              let frequencyObject = RepeatFrequency(rawValue: repeatFrequency),
+              let cadenceDays = frequencyObject.cadenceDays
+        else {
+            return []
+        }
+
+        var days: [Date] = []
+        var currentDate = Date()
+
+        while currentDate <= futureDate {
+            days.append(currentDate)
+            currentDate = Calendar.current.date(byAdding: .day, value: cadenceDays, to: currentDate)!
+        }
+
+        return days
+    }
 }
 
 // MARK: - Expense + PayoffItem
 
 extension Expense: PayoffItem {
+    
+    public var repeatFrequencyObject: RepeatFrequency {
+        RepeatFrequency(rawValue: self.repeatFrequency ?? RepeatFrequency.never.rawValue) ?? .never
+    }
+    
     public func addTag(tag: Tag) throws {
         addToTags(tag)
         try managedObjectContext?.save()
@@ -406,4 +433,31 @@ public extension Expense {
                     user: user,
                     context: context)
     }
+}
+
+// MARK: - RepeatFrequency
+
+public enum RepeatFrequency: String, Identifiable, CaseIterable, Hashable {
+    case never = "Never"
+    case daily = "Daily"
+    case weekly = "Weekly"
+    case monthly = "Monthly"
+    case yearly = "Yearly"
+
+    public var cadenceDays: Int? {
+        switch self {
+            case .never:
+                return nil
+            case .daily:
+                return 1
+            case .weekly:
+                return 7
+            case .monthly:
+                return 30
+            case .yearly:
+                return 365
+        }
+    }
+
+    public var id: String { rawValue }
 }

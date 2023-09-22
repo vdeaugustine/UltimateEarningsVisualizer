@@ -22,8 +22,6 @@ struct TagDetailView: View {
         Form {
             Section("Tag Title") {
                 Text(tag.getTitle())
-                
-                
             }
 
             Section("Symbol") {
@@ -40,8 +38,9 @@ struct TagDetailView: View {
             Section("Goals") {
                 ForEach(user.getGoalsWith(tag: tag)) { goal in
 
-                    NavigationLink {
-                        PayoffItemDetailView(payoffItem: goal)
+                    Button {
+                        NavManager.shared.appendCorrectPath(newValue: .payoffItemDetailView(AnyPayoffItem(goal)))
+//                        PayoffItemDetailView(payoffItem: goal)
                     } label: {
                         Text(goal.titleStr)
                     }
@@ -51,8 +50,8 @@ struct TagDetailView: View {
             Section("Expenses") {
                 ForEach(user.getExpensesWith(tag: tag)) { expense in
 
-                    NavigationLink {
-                        ExpenseDetailView(expense: expense)
+                    Button {
+                        NavManager.shared.appendCorrectPath(newValue: .payoffItemDetailView(AnyPayoffItem(expense)))
                     } label: {
                         Text(expense.titleStr)
                     }
@@ -62,10 +61,11 @@ struct TagDetailView: View {
             Section("Saved Items") {
                 ForEach(user.getSavedItemsWith(tag: tag)) { saved in
 
-                    NavigationLink {
-                        SavedDetailView(saved: saved)
+                    Button {
                         
                         
+                        NavManager.shared.appendCorrectPath(newValue: .saved(saved))
+
                     } label: {
                         Text(saved.getTitle())
                     }
@@ -74,6 +74,26 @@ struct TagDetailView: View {
         }
         .putInTemplate()
         .navigationTitle("Tag Details")
+    }
+}
+
+extension Array where Element: Equatable {
+    enum PopDirection {
+        case fromFront
+        case fromBack
+    }
+    
+    mutating func popUntil(_ element: Element, direction: PopDirection) {
+        switch direction {
+        case .fromBack:
+            while let lastItem = self.last, lastItem != element {
+                self.removeLast()
+            }
+        case .fromFront:
+            while let firstItem = self.first, firstItem != element {
+                self.removeFirst()
+            }
+        }
     }
 }
 

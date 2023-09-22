@@ -47,7 +47,9 @@ struct AddAllocationForExpenseView: View {
         ForEach(user.getShifts().filter { $0.totalAvailable >= 0.01 }) { shift in
 
             Button {
-                ShiftAllocSheet(shift: shift, expense: expense)
+                NavManager.shared.appendCorrectPath(newValue: .shiftAllocSheet_Expense(shift, expense))
+                
+//                ShiftAllocSheet(shift: shift, expense: expense)
             } label: {
                 HStack {
                     DateCircle(date: shift.start, height: 35)
@@ -71,8 +73,9 @@ struct AddAllocationForExpenseView: View {
     private var savedSection: some View {
         ForEach(user.getSaved().filter { $0.totalAvailable >= 0.01 }) { saved in
 
-            NavigationLink {
-                SavedAllocSheet(saved: saved, expense: expense)
+            Button {
+                NavManager.shared.appendCorrectPath(newValue: .savedItemAllocationSheet_Expense(.init(saved: saved, expense: expense)))
+//                SavedAllocSheet(saved: saved, expense: expense)
             } label: {
                 HStack {
                     DateCircle(date: saved.getDate(), height: 35)
@@ -102,6 +105,16 @@ struct AddAllocationForExpenseView: View {
 
         var range: ClosedRange<Double> {
             0.01 ... min(shift.totalAvailable, expense.amountRemainingToPayOff)
+        }
+        
+//        init(sender: Sender) {
+//            self.shift = sender.shift
+//            self.expense = sender.expense
+//        }
+        
+        struct Sender: Hashable {
+            let shift: Shift
+            let expense: Expense
         }
 
         @State private var showToast = false
@@ -189,6 +202,21 @@ struct AddAllocationForExpenseView: View {
         @State private var amount: Double = 0
         let saved: Saved
         let expense: Expense
+        
+        struct Sender: Hashable, Equatable {
+            let saved: Saved
+            let expense: Expense
+            
+            func hash(into hasher: inout Hasher) {
+                hasher.combine(saved)
+                hasher.combine(expense)
+            }
+        }
+        
+        init(sender: Sender) {
+            self.saved = sender.saved
+            self.expense = sender.expense
+        }
 
         var range: ClosedRange<Double> {
             0.01 ... min(saved.totalAvailable, expense.amountRemainingToPayOff)
@@ -271,11 +299,18 @@ struct AddAllocationForExpenseView: View {
 // MARK: - AddAllocationForExpenseView_Previews
 
 struct AddAllocationForExpenseView_Previews: PreviewProvider {
+    
+    static let user: User = {
+        let user = User.main
+        user.instantiateExampleItems(context: PersistenceController.context)
+        return user
+    }()
+    
     static var previews: some View {
 //        AddAllocationForExpenseView(expense: User.main.getExpenses().first!)
 //            .putInNavView(.inline)
 
-        AddAllocationForExpenseView.ShiftAllocSheet(shift: User.main.getShifts().first!, expense: User.main.getExpenses().first!)
+        AddAllocationForExpenseView.ShiftAllocSheet(shift: user.getShifts().first!, expense: User.main.getExpenses().first!)
             .putInNavView(.inline)
             .environment(\.managedObjectContext, PersistenceController.context)
     }

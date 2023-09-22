@@ -10,8 +10,14 @@ class StatsViewModel: ObservableObject {
     @Published var firstDate: Date = .now.addDays(-5)
     @Published var secondDate: Date = .endOfDay()
     @ObservedObject var navManager = NavManager.shared
+    @Published var earnedItems: [Shift] = []
+    @Published var savedItems: [Saved] = []
+    @Published var expenseItems: [Expense] = []
+    @Published var goalItems: [Goal] = []
 
     typealias HashableAndIdentifiable = Hashable & Identifiable
+    
+    
 
     func chartFooter(for type: MoneySection) -> String {
         let interjection: String
@@ -68,7 +74,6 @@ class StatsViewModel: ObservableObject {
         return ("", .clear)
     }
 
-
     func tapAction(index: Int) {
         guard let item = itemsForList.safeGet(at: index)
 
@@ -93,27 +98,40 @@ class StatsViewModel: ObservableObject {
     var itemsForList: [any HashableAndIdentifiable] {
         switch selectedSection {
             case .earned:
-                return user.getShiftsBetween(startDate: firstDate, endDate: secondDate)
+                return earnedItems
+//                return user.getShiftsBetween(startDate: firstDate, endDate: secondDate)
             case .spent:
-                return user.getSavedBetween(startDate: firstDate, endDate: secondDate)
+                return expenseItems
+//                return user.getExpensesBetween(startDate: firstDate, endDate: secondDate)
             case .saved:
-                return user.getExpensesBetween(startDate: firstDate, endDate: secondDate)
+                return savedItems
+//                return user.getSavedBetween(startDate: firstDate, endDate: secondDate)
+
             case .goals:
-                return user.getGoalsBetween(startDate: firstDate, endDate: secondDate)
+                return goalItems
+//                return user.getGoalsBetween(startDate: firstDate, endDate: secondDate)
         }
+    }
+    
+    func refresh() {
+        earnedItems = user.getShiftsBetween(startDate: firstDate, endDate: secondDate)
+        expenseItems = user.getExpensesBetween(startDate: firstDate, endDate: secondDate)
+        savedItems = user.getSavedBetween(startDate: firstDate, endDate: secondDate)
+        goalItems = user.getGoalsBetween(startDate: firstDate, endDate: secondDate)
     }
 
-    @ViewBuilder func destinationIfTapped<V: Identifiable>(_ item: V) -> some View {
-        if let shift = item as? Shift {
-            ShiftDetailView(shift: shift)
-        } else if let saved = item as? Saved {
-            SavedDetailView(saved: saved)
-        } else if let goal = item as? Goal {
-            PayoffItemDetailView(payoffItem: goal)
-        } else if let expense = item as? Expense {
-            ExpenseDetailView(expense: expense)
-        }
-    }
+//
+//    @ViewBuilder func destinationIfTapped<V: Identifiable>(_ item: V) -> some View {
+//        if let shift = item as? Shift {
+//            ShiftDetailView(shift: shift)
+//        } else if let saved = item as? Saved {
+//            SavedDetailView(saved: saved)
+//        } else if let goal = item as? Goal {
+//            PayoffItemDetailView(payoffItem: goal)
+//        } else if let expense = item as? Expense {
+//            ExpenseDetailView(expense: expense)
+//        }
+//    }
 
     var dataItems: [HorizontalDataDisplay.DataItem] {
         var retArr = [HorizontalDataDisplay.DataItem]()
@@ -144,14 +162,6 @@ class StatsViewModel: ObservableObject {
 
         return retArr
     }
-    
-    
-    
-   
-    
-    
-    
-    
 }
 
 extension StatsViewModel {

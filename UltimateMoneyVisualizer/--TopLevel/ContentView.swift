@@ -17,7 +17,7 @@ struct ContentView: View {
     @State private var tab: Tabs = .home
     @ObservedObject var settings = User.main.getSettings()
     @Environment(\.sizeCategory) var sizeCategory
-    @State private var lastTab: Tabs = .home
+    @State private var lastTab: Tabs = .testingCalendar
 
     var body: some View {
         TabView(selection: $navManager.currentTab.onUpdate(ifNoChange: navManager.sameTabTapped)) {
@@ -30,7 +30,6 @@ struct ContentView: View {
             NavigationStack(path: $navManager.allItemsNavPath) {
                 AllItemsView()
             }
-            
             .makeTab(tab: Tabs.allItems, systemImage: "dollarsign")
 
             NavigationStack(path: $navManager.todayViewNavPath) {
@@ -38,10 +37,19 @@ struct ContentView: View {
             }
             .makeTab(tab: Tabs.today, systemImage: "bolt.shield")
 
+//            TestingEventKit()
+//                .putInNavView(.large)
+//                .makeTab(tab: Tabs.testingCalendar, systemImage: "calendar")
+
             NavigationStack(path: $navManager.settingsNavPath) {
                 SettingsView()
             }
             .makeTab(tab: Tabs.settings, systemImage: "gear")
+
+            OnboardingFirstView()
+                .makeTab(tab: Tabs.onboarding, systemImage: "play")
+            
+            
         }
         .tint(settings.themeColor)
     }

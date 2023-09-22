@@ -21,6 +21,7 @@ struct SettingsView: View {
 
     #if DEBUG
         @State private var inMemory = UserDefaults.inMemory
+        @State private var useColorNavBar = User.main.getSettings().useColoredNavBar
     #endif
 
     private var wageStr: String {
@@ -37,7 +38,7 @@ struct SettingsView: View {
 
                 Button {
                     if let wage = user.wage {
-                        NavManager.shared.appendCorrectPath(newValue: .wage(wage))
+                        NavManager.shared.appendCorrectPath(newValue: .wage)
                     } else { NavManager.shared.appendCorrectPath(newValue: .enterWage) }
                 } label: {
                     HStack {
@@ -48,7 +49,7 @@ struct SettingsView: View {
                         Components.nextPageChevron
                     }.allPartsTappable()
                 }
-                .buttonStyle(.plain)
+                .foregroundStyle(.black)
 
                 Button {
                     NavManager.shared.appendCorrectPath(newValue: .enterWage)
@@ -93,6 +94,13 @@ struct SettingsView: View {
                     .allPartsTappable()
                 }
                 .buttonStyle(.plain)
+            }
+
+            Section {
+                Button("Calendars") {
+                    NavManager.shared.appendCorrectPath(newValue: .selectCalendarsForSettings)
+//                    SelectCalendarForSettingsView()
+                }
             }
 
             Section("Visuals") {
@@ -152,45 +160,16 @@ struct SettingsView: View {
                         }
 
                     Button("Reset all Core Data") {
-                        do {
-                            let entityDescriptions = viewContext.persistentStoreCoordinator?.managedObjectModel.entities
-
-                            for entityDescription in entityDescriptions ?? [] {
-                                guard let entityName = entityDescription.name,
-                                      entityName != "User",
-                                      entityName != "Wage" else {
-                                    continue // Skip the "User" and "Wage" entities
-                                }
-
-                                // Fetch the instances of the current entity
-                                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
-                                let instances = try viewContext.fetch(fetchRequest) as? [NSManagedObject]
-
-                                // Print and delete instances
-                                if let instances = instances {
-                                    print("Entities fetched for \(entityName):", instances.count)
-                                    instances.forEach {
-                                        print("Deleting", entityName, "with ID:", $0.objectID)
-                                        viewContext.delete($0)
-                                    }
-
-                                    // Save changes after deleting instances
-                                    try viewContext.save()
-
-                                    // Fetch and print the remaining instances
-                                    let remainingInstances = try viewContext.fetch(fetchRequest) as? [NSManagedObject]
-                                    print("Remaining \(entityName)s:")
-                                    remainingInstances?.forEach {
-                                        print("ID:", $0.objectID)
-                                    }
-                                }
-                            }
-                        } catch {
-                            print("ERROR BATCH DELETING: ", error)
-                        }
+                        DebugOperations.deleteAll()
                     }
                     Button("Restore default") {
                         user.instantiateExampleItems(context: viewContext)
+                    }
+
+                    Toggle("Use colored nav bar", isOn: $useColorNavBar)
+                        .onChange(of: useColorNavBar) { _ in
+                            settings.useColoredNavBar = useColorNavBar
+                            try! viewContext.save()
                     }
                 }
 
@@ -209,6 +188,13 @@ struct SettingsView: View {
                     .allPartsTappable()
                 }
                 .buttonStyle(.plain)
+            }
+
+            if let numberOfVisits = User.main.statusTracker?.numberOfTimesOpeningApp {
+                Section(footer:
+                    Text("You have opened the app \(numberOfVisits) time\(numberOfVisits > 1 ? "s" : "")! Nice Job!")
+
+                ) {}
             }
         }
         .listStyle(.insetGrouped)

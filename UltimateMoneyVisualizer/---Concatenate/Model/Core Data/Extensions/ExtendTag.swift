@@ -50,7 +50,6 @@ public extension Tag {
         let colorToUse = color ?? user.getSettings().themeColor
         self.colorHexStr = colorToUse.getHex()
         
-        print("Created and saved tag for goal")
 
         try context.save()
     }

@@ -8,13 +8,17 @@ struct CondensedTimeBlockView: View {
     @ObservedObject private var user = User.main
     var body: some View {
         List {
-            Text(block.title)
-            
-            Text(block.duration.breakDownTime())
-            Text(user.convertTimeToMoney(seconds: block.duration).money())
-            Text("Average").spacedOut(text: (block.duration / Double(block.actualBlocks(user).count)).breakDownTime())
-            Text("Instances").spacedOut(text: block.actualBlocks(user).count.str)
-            Color(hex: block.colorHex).clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+           Section {
+                Text(block.title)
+                
+                Text(block.duration.breakDownTime())
+                Text(user.convertTimeToMoney(seconds: block.duration).money())
+                Text("Average").spacedOut(text: (block.duration / Double(block.actualBlocks(user).count)).breakDownTime())
+                Text("Instances").spacedOut(text: block.actualBlocks(user).count.str)
+                Color(hex: block.colorHex).clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+           } header: {
+               Text("").hidden()
+           }
             
             Section("Instances") {
                 ForEach(block.actualBlocks(user)) { block in

@@ -46,9 +46,7 @@ public struct PersistenceController {
 
         static var shared: PersistenceController = {
             let isInPreview = ProcessInfo.processInfo.environment["_XCODE_RUNNING_FOR_PREVIEWS"] == nil
-            let result = PersistenceController(inMemory: inMemory)
-            let viewContext = result.container.viewContext
-
+            let result = PersistenceController(inMemory: false)
             return result
         }()
     #endif
@@ -74,9 +72,23 @@ public struct PersistenceController {
                  Check the error message to determine what the actual problem was.
                  */
                 print("error", error)
+                // TODO: Get rid of this fatal error when ready to ship
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
         container.viewContext.automaticallyMergesChangesFromParent = true
+        
+        #if DEBUG
+        // Make sure the user is signed into iCloud, otherwise this will fail 
+            if FileManager.default.ubiquityIdentityToken != nil {
+                do {
+                    // Use the container to initialize the development schema.
+                    try container.initializeCloudKitSchema(options: [])
+                } catch {
+                    // Handle any errors.
+                    fatalError(String(describing: error))
+                }
+            }
+        #endif
     }
 }

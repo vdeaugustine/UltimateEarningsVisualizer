@@ -18,7 +18,24 @@ struct NewHomeView: View {
             }
             .padding(.top)
         }
-        .safeAreaInset(edge: .bottom) { QuickAddButton() }
+        .blur(radius: vm.quickMenuOpen ? 3 : 0)
+        .overlay {
+            if vm.quickMenuOpen {
+                Color.black.opacity(0.2)
+                    .ignoresSafeArea()
+                    .onTapGesture {
+                        vm.quickMenuOpen = false
+                    }
+            }
+        }
+        .animation(/*@START_MENU_TOKEN@*/.easeIn/*@END_MENU_TOKEN@*/, value: vm.quickMenuOpen)
+        .safeAreaInset(edge: .bottom) {
+            HStack {
+                Spacer()
+                FloatingPlusButton(isShowing: $vm.quickMenuOpen)
+                    .padding(.bottom)
+            }
+        }
         .environmentObject(vm)
         .putInTemplate(displayMode: .large, settings: settings)
         .navigationTitle(Date.now.getFormattedDate(format: .abbreviatedMonth))
@@ -127,9 +144,11 @@ struct SummaryView_HomeView: View {
 
 struct NewHomeView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationStack {
-            NewHomeView()
-                .environmentObject(NewHomeViewModel.shared)
+        TabView {
+            NavigationStack {
+                NewHomeView()
+                    .environmentObject(NewHomeViewModel.shared)
+            }
         }
     }
 }

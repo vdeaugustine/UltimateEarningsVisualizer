@@ -15,11 +15,16 @@ struct Components {
             .fontWeight(.semibold)
             .foregroundColor(.hexStringToColor(hex: "BFBFBF"))
     }
-    
+
     @ViewBuilder static func coloredBar(_ color: Color) -> some View {
         RoundedRectangle(cornerRadius: 2)
             .fill(color)
             .frame(width: 3)
             .padding(.vertical, 5)
     }
+
+    static var taxesColor = Color.red
+    static var expensesColor = Color(uiColor: .lightGray)
+    static var goalsColor = Color.green
+    static var unspentColor = Color.orange
 }

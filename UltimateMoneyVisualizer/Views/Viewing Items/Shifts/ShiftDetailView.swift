@@ -33,14 +33,13 @@ struct ShiftDetailView: View {
 
     var body: some View {
         List {
-            Section  {
+            Section {
                 HorizontalDataDisplay(data: [.init(label: "Start", value: shift.start.getFormattedDate(format: .minimalTime), view: nil),
                                              .init(label: "End", value: shift.end.getFormattedDate(format: .minimalTime), view: nil),
                                              .init(label: "Duration", value: shift.duration.formatForTime(), view: nil)])
             } header: {
                 Text("Hours")
             }
-            
 
             Section("Earnings") {
                 if showEarningsSection {
@@ -67,24 +66,18 @@ struct ShiftDetailView: View {
                                 Text(shift.totalAvailable.money())
                             }
                     }
-                    
-                    
                 }
             }
             .listRowSeparator(.hidden)
-            
+
             Section {
-                GPTPieChart(pieChartData: [
-                    .init(name: "Taxes", amount: shift.taxesPaid),
-                    .init(name: "Goals", amount: shift.allocatedToGoals),
-                    .init(name: "Expenses", amount: shift.allocatedToExpenses),
-                    .init(color: .green, name: "Available", amount: shift.totalAvailable)
-                
-                ])
-                .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
-                .frame(height: 200)
-                .frame(maxWidth: .infinity, alignment: .center)
-                
+                GPTPieChart(pieChartData: [.init(color: Components.taxesColor, name: "Taxes", amount: shift.taxesPaid),
+                                           .init(color: Components.goalsColor, name: "Goals", amount: shift.allocatedToGoals),
+                                           .init(color: Components.expensesColor, name: "Expenses", amount: shift.allocatedToExpenses),
+                                           .init(color: Components.unspentColor, name: "Available", amount: shift.totalAvailable)])
+                    .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    .frame(height: 200)
+                    .frame(maxWidth: .infinity, alignment: .center)
             }
             .listRowBackground(Color.clear)
             .listRowSeparator(.hidden)
@@ -92,43 +85,42 @@ struct ShiftDetailView: View {
             Section("Time Blocks") {
                 if showTimeBlockSection {
                     ItemizedPartOfShiftView(shift: shift)
-//                    NewTimeBlocksForShiftView(shift: shift)
                         .padding(.vertical)
                 }
             }
-//            .listRowBackground(Color.clear)
-
             Section("Allocations") {
                 ForEach(allocations) { alloc in
 
-                    NavigationLink {
-                        AllocationDetailView(allocation: alloc)
+                    Button {
+                        NavManager.shared.appendCorrectPath(newValue: .allocationDetail(alloc))
 
                     } label: {
                         if let goal = alloc.goal {
                             HStack {
-//                                SystemImageWithFilledBackground(systemName: IconManager.goalsString, backgroundColor: settings.themeColor)
                                 Image(systemName: IconManager.goalsString)
 
                                 Text(goal.titleStr)
                                     .spacedOut(text: alloc.amount.money())
+                                
+                                Components.nextPageChevron
                             }
                         }
 
                         if let expense = alloc.expense {
                             HStack {
-//                                SystemImageWithFilledBackground(systemName: IconManager.expenseString,
-//                                                                backgroundColor: settings.themeColor)
                                 Image(systemName: IconManager.expenseString)
 
                                 Text(expense.titleStr)
                                     .spacedOut(text: alloc.amount.money())
+                                
+                                Components.nextPageChevron
                             }
                         }
                     }
+                    .foregroundStyle(Color.black)
                 }
             }
-            
+
             Button("Delete", role: .destructive) {
                 showDeleteConfirmation = true
             }

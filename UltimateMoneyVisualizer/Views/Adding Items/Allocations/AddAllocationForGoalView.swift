@@ -33,8 +33,9 @@ struct AddAllocationForGoalView: View {
                 if selectedSource == "shifts" {
                     ForEach(user.getShifts().filter { $0.totalAvailable >= 0.01 }) { shift in
 
-                        NavigationLink {
-                            ShiftAllocSheet(shift: shift, goal: goal)
+                        Button {
+                            NavManager.shared.appendCorrectPath(newValue: .shiftAllocSheet_Goal(shift, goal))
+//                            ShiftAllocSheet(shift: shift, goal: goal)
                         } label: {
                             HStack {
                                 DateCircle(date: shift.start, height: 35)
@@ -58,8 +59,9 @@ struct AddAllocationForGoalView: View {
                 if selectedSource == "saved" {
                     ForEach(user.getSaved().filter { $0.totalAvailable >= 0.01 }) { saved in
 
-                        NavigationLink {
-                            SavedAllocSheet(saved: saved, goal: goal)
+                        Button {
+                            NavManager.shared.appendCorrectPath(newValue: .savedItemAllocationSheet_Goal(saved, goal))
+//                            SavedAllocSheet(saved: saved, goal: goal)
                         } label: {
                             HStack {
                                 DateCircle(date: saved.getDate(), height: 35)

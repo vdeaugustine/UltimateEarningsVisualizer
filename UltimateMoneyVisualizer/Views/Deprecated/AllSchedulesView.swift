@@ -9,7 +9,7 @@ import CoreData
 import SwiftUI
 
 // MARK: - AllSchedulesView
-
+// Deprecated
 struct AllSchedulesView: View {
     @Environment(\.managedObjectContext) var context
     @FetchRequest(entity: WorkSchedule.entity(), sortDescriptors: [.init(key: "dateCreated", ascending: false)]) var workSchedules: FetchedResults<WorkSchedule>

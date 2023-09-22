@@ -68,11 +68,19 @@ struct SelectHours: View {
         .safeAreaInset(edge: .bottom) {
             Button {
                 do {
-                    try TodayShift(startTime: viewModel.start,
-                                   endTime: viewModel.end,
-                                   user: viewModel.user,
-                                   context: viewModel.viewContext)
+                    
+                    if let existingShift = viewModel.user.getValidTodayShift() {
+                        existingShift.startTime = viewModel.start
+                        existingShift.endTime = viewModel.end
+                        try viewModel.user.getContext().save()
+                    } else {
+                        try TodayShift(startTime: viewModel.start,
+                                       endTime: viewModel.end,
+                                       user: viewModel.user,
+                                       context: viewModel.viewContext)
 
+                    }
+                    
                     // TODO: See if these are needed
 //                        viewModel.todayShift = ts
 //                        viewModel.user.todayShift = ts

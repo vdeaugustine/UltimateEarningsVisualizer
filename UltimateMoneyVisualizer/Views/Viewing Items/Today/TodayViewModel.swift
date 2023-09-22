@@ -12,10 +12,10 @@ class TodayViewModel: ObservableObject {
     static var main = TodayViewModel()
     let viewContext: NSManagedObjectContext
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    let taxesColor = Color.red // Color(hex: "630E08")
-    let expensesColor = Color.cyan // Color(hex: "669D34")
-    let goalsColor = Color.green // Color(hex: "9D3466")
-    let unspentColor = Color.orange // Color(hex: "34669D")
+    let taxesColor = Components.taxesColor // Color(hex: "630E08")
+    let expensesColor = Components.expensesColor // Color(hex: "669D34")
+    let goalsColor = Components.goalsColor // Color(hex: "9D3466")
+    let unspentColor = Components.unspentColor // Color(hex: "34669D")
 
     // #30FF3BFF
     //    #3B30FFFF
@@ -561,7 +561,7 @@ extension TodayViewModel {
     }
 
     var timeBlocksHeaderButtonName: String {
-        timeBlocksExpanded ? "slider.horizontal.below.square.filled.and.square" : "list.bullet"
+        timeBlocksExpanded ? "slider.horizontal.below.square.filled.and.square" : "calendar.day.timeline.left"
     }
 
     func compareDates(_ date1: Date, _ date2: Date, accuracy: AccuracyLevel) -> Bool {

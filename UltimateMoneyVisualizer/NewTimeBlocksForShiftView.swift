@@ -7,9 +7,38 @@
 
 import SwiftUI
 
-func getHourlyDatesBetweenDates(date1: Date, date2: Date) -> [Date] {
+
+
+/**
+ Generates an array of `Date` objects with an hourly interval between two given dates.
+
+ This function takes two `Date` objects, sorts them in ascending order, and generates an array of `Date` objects representing each hour between the sorted dates. The array starts one hour before the starting hour of the first date and ends one hour after the ending hour of the second date. Each date in the array is set to the beginning of the respective hour (minute and second components set to zero).
+
+ - Parameters:
+   - date1: The first `Date` object.
+   - date2: The second `Date` object.
+
+ - Returns: An array of `Date` objects representing each hour between the two given dates. Starts one hour before the earliest date and ends one hour after the latest date.
+
+ - Note:
+   - If either `Date` object contains a time component with a minute or second value, those are not considered in the array of generated dates.
+   - The generated dates will have their minute and second components set to zero.
+
+ - Example:
+   ```swift
+   let date1 = Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: Date())!
+   let date2 = Calendar.current.date(bySettingHour: 14, minute: 0, second: 0, of: Date())!
+   let dates = getHourlyDatesBetweenDates(date1: date1, date2: date2)
+   // Output will be an array of dates starting from 11:00 to 15:00
+   ```
+
+ - SeeAlso:
+   - `Calendar.date(bySettingHour:minute:second:of:)`
+*/
+
+func generateHourlyDatesWithinRange(from startDate: Date, to endDate: Date) -> [Date] {
     let calendar = Calendar.current
-    let sortedDates = [date1, date2].sorted()
+    let sortedDates = [startDate, endDate].sorted()
     let startHour = calendar.component(.hour, from: sortedDates[0])
     let endHour = calendar.component(.hour, from: sortedDates[1])
     var dates: [Date] = []
@@ -27,10 +56,12 @@ func getHourlyDatesBetweenDates(date1: Date, date2: Date) -> [Date] {
 
 struct NewTimeBlocksForShiftView: View {
     let shift: Shift
+    
+    @Environment (\.dismiss) private var dismiss
 
     var body: some View {
         VStack {
-            ForEach(getHourlyDatesBetweenDates(date1: shift.start, date2: shift.end), id: \.self) { hourDate in
+            ForEach(generateHourlyDatesWithinRange(from: shift.start, to: shift.end), id: \.self) { hourDate in
                 VStack {
                     HStack {
                         Text(hourDate.getFormattedDate(format: "h a")).format(size: 12, color: .textSecondary)

@@ -20,7 +20,7 @@ struct WageBreakdown_HomeView: View {
         }
         .padding()
         .onTapGesture {
-            vm.navManager.appendCorrectPath(newValue: .wage(vm.wage))
+            vm.navManager.appendCorrectPath(newValue: .wage)
         }
     }
 
@@ -30,7 +30,7 @@ struct WageBreakdown_HomeView: View {
             Text("Wage Breakdown")
                 .font(.callout)
                 .fontWeight(.semibold)
-                .foregroundStyle(Color.textPrimary)
+//                .foregroundStyle(Color.textPrimary)
 
             Spacer()
 

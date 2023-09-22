@@ -15,18 +15,22 @@ struct PayPeriodsView: View {
     var body: some View {
         List {
             Section {
-                NavigationLink {
-                    PayPeriodSettingsView()
+                Button {
+                    NavManager.shared.appendCorrectPath(newValue: .payPeriodSettings)
                 } label: {
                     Text("Pay Period Settings")
                 }
+            } header: {
+                Text("Settings").hidden()
             }
-            Section("Current") {
-                payPeriodRow(viewModel.user.getCurrentPayPeriod())
-            }
+//            Section("Current") {
+//                
+//                PayPeriodRow(payPeriod: viewModel.user.getCurrentPayPeriod(), isCurrent: true)
+//                
+//            }
             Section("All") {
                 ForEach(viewModel.user.getPayPeriods()) { period in
-                    payPeriodRow(period)
+                    PayPeriodRow(payPeriod: period, isCurrent: period == viewModel.user.getCurrentPayPeriod())
                 }
             }
         }
@@ -35,8 +39,8 @@ struct PayPeriodsView: View {
     }
 
     func payPeriodRow(_ period: PayPeriod) -> some View {
-        NavigationLink {
-            PayPeriodDetailView(payPeriod: period)
+        Button {
+            NavManager.shared.appendCorrectPath(newValue: .payPeriodDetail(period))
         } label: {
             VStack(alignment: .leading) {
                 Text(period.title)

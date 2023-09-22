@@ -35,7 +35,7 @@ struct PayoffItemDetailView: View {
                         PayoffItemDetailProgressBox(viewModel: viewModel)
                             .onTapGesture {
                                 print("Tapped")
-                                showContributionsSheet.toggle()
+                                NavManager.shared.appendCorrectPath(newValue: .payoffContributionsView(viewModel))
                             }
 
                         VStack {
@@ -77,13 +77,6 @@ struct PayoffItemDetailView: View {
                             viewModel.showSpinner = false
                         }
                 }
-//                .toolbar {
-//                    if viewModel.initialImage != viewModel.shownImage {
-//                        ToolbarItem {
-//                            Button("Save", action: viewModel.saveButtonAction)
-//                        }
-//                    }
-//                }
                 .onAppear(perform: viewModel.onAppearAction)
                 .toast(isPresenting: $viewModel.showAlert,
                        duration: 2,
@@ -105,10 +98,10 @@ struct PayoffItemDetailView: View {
             }
         }
 
-        .sheet(isPresented: $showContributionsSheet) {
-            PayoffContributionsView(payoffItem: viewModel.payoffItem, vm: viewModel)
-                .presentationDragIndicator(.visible)
-        }
+//        .sheet(isPresented: $showContributionsSheet) {
+//            PayoffContributionsView(payoffItem: viewModel.payoffItem, vm: viewModel)
+//                .presentationDragIndicator(.visible)
+//        }
     }
 
     func fullScreenImage() -> some View {
@@ -212,9 +205,30 @@ struct ChooseImageView: View {
 
 // MARK: - GoalDetailView_Previews
 
-struct GoalDetailView_Previews: PreviewProvider {
+struct PayoffItemDetailView_Previews: PreviewProvider {
+    
+    static let expense: Expense = {
+        let expense = try! Expense(title: "Test expense",
+                              info: "For repeat view",
+                              amount: 125,
+                              dueDate: .now.addDays(7),
+                              dateCreated: .now,
+                              isRecurring: true,
+                              recurringDate: .now.addDays(7),
+                              tagStrings: ["Test for repeat", "Repeating"],
+                              repeatFrequency: .weekly,
+                              user: User.main,
+                              context: PersistenceController.context)
+        
+        return expense
+
+    }()
+    
     static var previews: some View {
-        PayoffItemDetailView(payoffItem: User.main.getGoals().first!)
+        
+        DebugOperations.restoreToDefault()
+        
+       return  PayoffItemDetailView(payoffItem: expense)
             .putInNavView(.inline)
             .environment(\.managedObjectContext, PersistenceController.context)
     }

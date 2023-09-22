@@ -40,7 +40,7 @@ struct TotalItem: View {
                         Rectangle()
                             .fill(Color(red: 0.87, green: 0.87, blue: 0.87))
                             .frame(height: 2)
-                            .offset(y: 10)
+                            .offset(y: 6)
                     }
 
 //                GeometryReader { geo in
@@ -90,7 +90,7 @@ struct TotalsToDate_HomeView: View {
     var body: some View {
         VStack(spacing: 40)  {
             TotalsHeader()
-            LazyVGrid(columns: layout, alignment: .center) {
+            LazyVGrid(columns: layout, alignment: .center, spacing: 16) {
                 TotalItem(type: .earned)
                 TotalItem(type: .paidOff)
                 TotalItem(type: .taxes)

@@ -67,7 +67,7 @@ struct EnterDoubleView: View {
     var title: String {
         switch format {
             case .dollar:
-                return "Edit Money"
+                return "Edit Amount"
             case .percent:
                 return "Edit Percent"
             case .plain:
@@ -217,6 +217,6 @@ struct EnterDoubleView: View {
 
 struct EnterDoubleView_Previews: PreviewProvider {
     static var previews: some View {
-        EnterDoubleView(dubToEdit: .constant(0), format: .dollar)
+        EnterDoubleView(dubToEdit: .constant(1000), format: .dollar)
     }
 }

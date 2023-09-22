@@ -10,9 +10,8 @@ import SwiftUI
 // MARK: - PayoffQueueView_HomeView
 
 struct PayoffQueueView_HomeView: View {
-    
     @EnvironmentObject private var vm: NewHomeViewModel
-    
+
     @State private var payoffQueueIndexDisplayed: Int = 0
     @State private var selectedTab: Int = 0
     @ObservedObject private var user = User.main
@@ -30,7 +29,6 @@ struct PayoffQueueView_HomeView: View {
 
     var body: some View {
         VStack {
-            
             HStack {
                 // SectionHeader-HomeView
                 Text("Payoff Queue")
@@ -40,18 +38,21 @@ struct PayoffQueueView_HomeView: View {
 
                 Spacer()
 
-                Image(systemName: "ellipsis")
-                    .font(.callout)
-                    .onTapGesture {
-                        vm.navManager.appendCorrectPath(newValue: .oldPayoffQueue)
-                    }
+                Button {
+                    vm.navManager.appendCorrectPath(newValue: .oldPayoffQueue)
+
+                } label: {
+                    Image(systemName: "ellipsis")
+                        .font(.callout)
+                }
+                .foregroundStyle(.black)
             }
             .padding(.horizontal)
-            
+
             rectWithItems
         }
     }
-    
+
     @ViewBuilder var rectWithItems: some View {
         VStack(spacing: 0) {
             if let item = payoffItemDisplayed {

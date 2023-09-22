@@ -11,7 +11,21 @@ import SwiftUI
 
 struct CalculateTaxView: View {
     
-    enum TaxType: String {
+    struct Sender: Hashable {
+        static func == (lhs: CalculateTaxView.Sender, rhs: CalculateTaxView.Sender) -> Bool {
+            lhs.taxType == rhs.taxType && lhs.bindedRate == rhs.bindedRate
+        }
+        
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(taxType)
+            hasher.combine(bindedRate)
+        }
+        
+        let taxType: TaxType
+        @Binding var bindedRate: Double
+    }
+    
+    enum TaxType: String, Hashable, Equatable {
         case state, federal
     }
     @Environment(\.managedObjectContext) private var viewContext

@@ -18,3 +18,4 @@ class IconManager {
     
     public static let savedIcon = PiggyBankShape()
 }
+

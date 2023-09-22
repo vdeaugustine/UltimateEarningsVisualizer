@@ -112,7 +112,7 @@ struct StretchyHeaderDynamic: View {
 
                     Text(title)
                         .font(.avenirNext(size: 28))
-                        .background(GeometryGetter(rect: self.$titleRect))
+                        .background(GeometryGetter(key: RectanglePreferenceKey.self, value: self.$titleRect))
 
                     Text(bodyText)
                         .lineLimit(nil)
@@ -123,7 +123,7 @@ struct StretchyHeaderDynamic: View {
                 .padding(.top, 16.0)
             }
             .offset(y: imageHeight + 16)
-            .background(GeometryGetter(rect: $articleContent.frame))
+            .background(GeometryGetter(key: RectanglePreferenceKey.self, value: $articleContent.frame))
 
             GeometryReader { geometry in
                 ZStack(alignment: .bottom) {
@@ -133,7 +133,7 @@ struct StretchyHeaderDynamic: View {
                         .frame(width: geometry.size.width, height: self.getHeightForHeaderImage(geometry))
                         .blur(radius: self.getBlurRadiusForImage(geometry))
                         .clipped()
-                        .background(GeometryGetter(rect: self.$headerImageRect))
+                        .background(GeometryGetter(key: RectanglePreferenceKey.self, value: self.$headerImageRect))
 
                     Text(title)
                         .font(.avenirNext(size: 17))
@@ -173,7 +173,7 @@ te dictumst mattis egestas laoreet, cubilia habitant magnis lacinia vivamus etia
 //                              date: "02/05/1996",
 //                              title: "Something",
 //                              bodyText: placeholderText,
-//                              headerImageName: "disneyworld",
+//                              headerImageName: "",
 //                              authorImageName: "dollar3d")
     }
 }
@@ -236,7 +236,7 @@ struct StretchyHeaderModifier: ViewModifier {
             VStack {
                 content
                     .offset(y: imageHeight + 16)
-                    .background(GeometryGetter(rect: $articleContent.frame))
+                    .background(GeometryGetter(key: RectanglePreferenceKey.self, value: $articleContent.frame))
 
                 GeometryReader { geometry in
                     ZStack(alignment: .bottom) {
@@ -246,7 +246,7 @@ struct StretchyHeaderModifier: ViewModifier {
                             .frame(width: geometry.size.width, height: self.getHeightForHeaderImage(geometry))
                             .blur(radius: self.getBlurRadiusForImage(geometry))
                             .clipped()
-                            .background(GeometryGetter(rect: self.$headerImageRect))
+                            .background(GeometryGetter(key: RectanglePreferenceKey.self, value: self.$headerImageRect))
                     }
                     .clipped()
                     .offset(x: 0, y: self.getOffsetForHeaderImage(geometry))

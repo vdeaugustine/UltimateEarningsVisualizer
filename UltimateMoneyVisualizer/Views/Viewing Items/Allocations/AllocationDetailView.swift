@@ -43,6 +43,11 @@ struct AllocationDetailView: View {
 
     let allocation: Allocation
     @ObservedObject private var user = User.main
+    @State private var showDeleteConfirmation = false
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.managedObjectContext) private var viewContext
+    @State private var showErrorAlert = false
+    @State private var error: Error? = nil
 
     var spentOnHeaderStr: String {
         if allocation.expense != nil {
@@ -81,8 +86,8 @@ struct AllocationDetailView: View {
         List {
             Section(sourceTypeString) {
                 if let saved = allocation.savedItem {
-                    NavigationLink {
-                        SavedDetailView(saved: saved)
+                    Button {
+                        NavManager.shared.appendCorrectPath(newValue: .saved(saved))
                     } label: {
                         HStack {
                             Text(saved.getTitle())
@@ -90,13 +95,13 @@ struct AllocationDetailView: View {
 
                             Text(saved.getAmount().money())
                                 .fontWeight(.bold)
-                                .foregroundStyle(user.getSettings().getDefaultGradient())
                         }
+                        .foregroundStyle(.black)
                     }
                 }
                 if let shift = allocation.shift {
-                    NavigationLink {
-                        ShiftDetailView(shift: shift)
+                    Button {
+                        NavManager.shared.appendCorrectPath(newValue: .shift(shift))
                     } label: {
                         HStack {
                             Text("Shift for " + shift.start.getFormattedDate(format: .abbreviatedMonth))
@@ -105,15 +110,14 @@ struct AllocationDetailView: View {
                             Text(shift.totalEarned.money())
                                 .fontWeight(.bold)
                                 .foregroundStyle(user.getSettings().getDefaultGradient())
+                            Components.nextPageChevron
                         }
                     }
+                    .foregroundStyle(.black)
                 }
             }
 
             Section(spentOnHeaderStr) {
-                
-                
-                
                 if let goal = allocation.goal {
                     Button {
                         NavManager.shared.appendCorrectPath(newValue: .goal(goal))
@@ -136,26 +140,45 @@ struct AllocationDetailView: View {
             }
 
             Section("Amount") {
-                Text("Allocation total")
+                Text("Total")
                     .spacedOut {
-                        VStack(alignment: .trailing) {
-                            Text(allocation.amount.money())
-                                .fontWeight(.bold)
-                                .foregroundStyle(user.getSettings().getDefaultGradient())
-
-                            Text(formatDouble(value: amountPercent, decimalPoints: 2, includeLeadingZero: true) + "%")
-                                .font(.caption)
-                                .fontWeight(.medium)
-                                .foregroundStyle(Color.gray.getGradient())
-                        }
+                        Text(allocation.amount.money())
                     }
+
+                Text("Portion of \(spentOnHeaderStr)")
+                    .spacedOut {
+                        Text(formatDouble(value: amountPercent, decimalPoints: 2, includeLeadingZero: true) + "%")
+//                            .font(.caption)
+//                            .fontWeight(.medium)
+                            .foregroundStyle(Color(uiColor: .secondaryLabel))
+                    }
+            }
+
+            Button("Delete", role: .destructive) {
+                showDeleteConfirmation.toggle()
             }
         }
         .listStyle(.insetGrouped)
-        .bottomButton(label: "Delete", gradient: Color.niceRed.getGradient()) {
-        }
-        .putInTemplate()
-        .navigationTitle("Allocation Details")
+        .confirmationDialog("Delete allocation", isPresented: $showDeleteConfirmation, titleVisibility: .visible, actions: {
+            Button("Delete", role: .destructive) {
+                viewContext.delete(allocation)
+                do {
+                    try viewContext.save()
+                    dismiss()
+                } catch {
+                    showErrorAlert.toggle()
+                }
+            }
+        }, message: {
+            Text("This action cannot be undone.")
+        })
+        .alert("Error deleting.",
+               isPresented: $showErrorAlert,
+               actions: {},
+               message: {
+                   Text("Please try again. If issue persists, try restarting the app.")
+               })
+        .putInTemplate(title: "Allocation Details")
     }
 }
 
