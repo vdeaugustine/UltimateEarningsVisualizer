@@ -53,6 +53,7 @@ struct AllocSavedRow: View {
     }
 }
 
+#if DEBUG
 // MARK: - AllocSavedRow_Previews
 
 struct AllocSavedRow_Previews: PreviewProvider {
@@ -65,3 +66,5 @@ struct AllocSavedRow_Previews: PreviewProvider {
                       allocation: alloc)
     }
 }
+
+#endif

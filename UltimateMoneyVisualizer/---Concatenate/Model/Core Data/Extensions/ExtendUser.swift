@@ -36,6 +36,7 @@ public extension User {
         try context.save()
     }
 
+    
     func instantiateExampleItems(context: NSManagedObjectContext) {
         do {
             // Make Pay Period Settings
@@ -44,8 +45,10 @@ public extension User {
                                   user: self,
                                   context: context)
 
+            #if DEBUG
             // Make Goals
             try Goal.makeExampleGoals(user: self, context: context)
+            #endif
 
             // Make Expenses
             try Expense.makeExampleExpenses(user: self, context: context)
