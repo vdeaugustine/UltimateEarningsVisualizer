@@ -15,6 +15,7 @@ struct SettingsView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
     @State private var showColorOptions: Bool = false
+    @State private var showRoadblock = false
 
     @ObservedObject var user = User.main
     @ObservedObject var settings = User.main.getSettings()
@@ -105,8 +106,12 @@ struct SettingsView: View {
 
             Section("Visuals") {
                 Button {
-                    withAnimation {
-                        showColorOptions.toggle()
+                    if SubscriptionManager.shared.canAccessPremiumFeatures() {
+                        withAnimation {
+                            showColorOptions.toggle()
+                        }
+                    } else {
+                        showRoadblock = true
                     }
 
                 } label: {
@@ -170,7 +175,7 @@ struct SettingsView: View {
                         .onChange(of: useColorNavBar) { _ in
                             settings.useColoredNavBar = useColorNavBar
                             try! viewContext.save()
-                    }
+                        }
                 }
 
             #endif
@@ -203,6 +208,9 @@ struct SettingsView: View {
         .navigationDestination(for: NavManager.AllViews.self) { view in
             NavManager.shared.getDestinationViewForStack(destination: view)
         }
+        .sheet(isPresented: $showRoadblock, content: {
+            RoadblockView()
+        })
     }
 }
 

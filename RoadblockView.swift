@@ -33,6 +33,8 @@ struct RoadblockView: View {
     @State private var marker: Double = 0.1
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State private var viewFrame: CGRect = .zero
+    
+    @Environment (\.dismiss) private var dismiss
 
     let headerFeatureRow = FeatureRow(featureName: "Feature", freeFeature: Text("Free").anyView, premiumFeature: .custom(Text("Premium").anyView))
     let features: [FeatureRow] = [FeatureRow(featureName: "Unlimited shifts", freeFeature: Text("50").anyView, premiumFeature: .infinity),
@@ -75,6 +77,8 @@ struct RoadblockView: View {
                     Spacer()
 
                     OnboardingButton(title: "Try one month free") {
+                        NavManager.shared.appendCorrectPath(newValue: .purchasePage)
+                        dismiss()
                     }
                     .padding(.horizontal)
                 }
