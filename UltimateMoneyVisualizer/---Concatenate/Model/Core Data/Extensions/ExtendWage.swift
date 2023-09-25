@@ -41,7 +41,7 @@ public extension Wage {
 
     var hourly: Double {
         if isSalary {
-            let weeks = weeksPerYear
+//            let weeks = weeksPerYear
             let totalHours = weeksPerYear * hoursPerDay * daysPerWeek
             return amount / totalHours
         } else {

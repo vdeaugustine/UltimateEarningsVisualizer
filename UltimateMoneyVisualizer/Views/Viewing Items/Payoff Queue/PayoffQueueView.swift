@@ -5,8 +5,8 @@
 //  Created by Vincent DeAugustine on 5/1/23.
 //
 
-import SwiftUI
 import AlertToast
+import SwiftUI
 
 // MARK: - PayoffQueueView
 
@@ -22,9 +22,9 @@ struct PayoffQueueView: View {
 
     @State private var showGoalDeleteConformation = false
     @State private var showExpenseDeleteConformation = false
-    
-    @State private var showDeleteError = false
 
+    @State private var showDeleteError = false
+    @State private var deleteErrorString = ""
     @State private var queue = User.main.getQueue()
 
     var body: some View {
@@ -71,6 +71,7 @@ struct PayoffQueueView: View {
                     }
                 } catch {
                     showDeleteError.toggle()
+                    deleteErrorString = error.localizedDescription
                 }
             }
         }
@@ -104,6 +105,14 @@ struct PayoffQueueView: View {
         .confirmationDialog("Delete \(expenseToDelete?.titleStr ?? "")?", isPresented: $showExpenseDeleteConformation, titleVisibility: .visible) {
             Button("Delete", role: .destructive) {
                 guard let expenseToDelete else { return }
+                viewContext.delete(expenseToDelete)
+                do {
+                    try viewContext.save()
+                    print("success deleting!")
+                } catch {
+                    deleteErrorString = error.localizedDescription
+                    showDeleteError = true
+                }
             }
             Button("Cancel", role: .cancel) {
                 expenseToDelete = nil
@@ -131,7 +140,7 @@ struct PayoffQueueView: View {
         user.expenses = NSSet(array: expenses)
 
         try! user.managedObjectContext!.save()
-        
+
         TodayViewModel.main.updateInitialPayoffs()
     }
 }

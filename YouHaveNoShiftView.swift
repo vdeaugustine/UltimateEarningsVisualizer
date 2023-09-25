@@ -14,7 +14,6 @@ struct YouHaveNoShiftView: View {
     @Binding var showHoursSheet: Bool
     @ObservedObject var settings = User.main.getSettings()
     @EnvironmentObject private var model: TodayViewModel
-    
 
     var body: some View {
         VStack {
@@ -33,6 +32,7 @@ struct YouHaveNoShiftView: View {
 
                 Text("You do not have a shift scheduled for today.")
                     .fontWeight(.medium)
+                    .foregroundStyle(Color(uiColor: .secondaryLabel))
             }
 
             Spacer()
@@ -60,6 +60,8 @@ struct YouHaveNoShiftView: View {
         .background(Color.clear)
     }
 }
+
+// MARK: - YouHaveNoShiftView_Previews
 
 struct YouHaveNoShiftView_Previews: PreviewProvider {
     static var previews: some View {

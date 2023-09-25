@@ -11,7 +11,7 @@ import SwiftUI
 class IconManager {
     public static let expenseString: String = "cart"
     public static let taxesString: String = "percent"
-    public static let shiftsString: String = "chart.line.uptrend.xyaxis"
+    public static let shiftsString: String = "calendar"
     public static let goalsString: String = "scope"
     
     public static let paidOffString: String = "checklist"
