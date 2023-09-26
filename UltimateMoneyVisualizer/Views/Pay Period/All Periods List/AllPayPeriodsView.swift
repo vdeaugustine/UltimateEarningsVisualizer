@@ -9,7 +9,7 @@ import SwiftUI
 
 // MARK: - PayPeriodsView
 
-struct PayPeriodsView: View {
+struct AllPayPeriodsView: View {
     @StateObject private var viewModel: PayPeriodsViewModel = .init()
 
     var body: some View {
@@ -56,9 +56,9 @@ struct PayPeriodsView: View {
 
 // MARK: - PayPeriodsView_Previews
 
-struct PayPeriodsView_Previews: PreviewProvider {
+struct AllPayPeriodsView_Previews: PreviewProvider {
     static var previews: some View {
-        PayPeriodsView()
+        AllPayPeriodsView()
             .putInNavView(.inline)
             .onAppear(perform: {
             })

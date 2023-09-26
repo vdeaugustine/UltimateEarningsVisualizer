@@ -248,7 +248,7 @@ class NavManager: ObservableObject {
             case let .payPeriodDetail(period):
                 PayPeriodDetailView(payPeriod: period)
             case .payPeriods:
-                PayPeriodsView()
+                AllPayPeriodsView()
             case .payPeriodSettings:
                 PayPeriodSettingsView()
             case .purchasePage:
