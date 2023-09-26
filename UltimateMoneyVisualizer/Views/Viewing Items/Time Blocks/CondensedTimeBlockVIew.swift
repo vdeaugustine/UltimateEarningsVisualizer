@@ -48,8 +48,15 @@ struct CondensedTimeBlockView: View {
 // MARK: - CondensedTimeBlockView_Previews
 
 struct CondensedTimeBlockView_Previews: PreviewProvider {
+    
+    static let user: User = {
+        let user = User.main
+        user.instantiateExampleItems(context: user.getContext())
+        return user
+    }()
+    
     static var previews: some View {
-        CondensedTimeBlockView(block: User.main.getTimeBlocksBetween().consolidate().first!)
+        CondensedTimeBlockView(block: user.getTimeBlocksBetween().consolidate().first!)
             .putInNavView(.large)
     }
 }
