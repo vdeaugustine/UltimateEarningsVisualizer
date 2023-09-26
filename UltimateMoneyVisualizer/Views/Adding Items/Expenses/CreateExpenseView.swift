@@ -19,6 +19,7 @@ struct CreateExpenseView: View {
     @State private var secondTextMax: CGFloat = 0
     @State private var isRepeatingExpense = false // New toggle for repeating expense
 
+    @State private var showRoadblock = false
     typealias TempTag = CreateExpenseViewModel.TemporaryTag
 
     @FocusState private var focusedField: CreateExpenseViewModel.FocusedField?
@@ -86,15 +87,25 @@ struct CreateExpenseView: View {
         })
 
         .toolbarSave {
-            vm.saveExpense(amount: newItemViewModel.enteredStr)
+            if SubscriptionManager.shared.canCreateExpense() {
+                vm.saveExpense(amount: newItemViewModel.enteredStr)
+            } else {
+                showRoadblock = true 
+            }
+            
         }
-
-//                .bottomButton(label: "Save", action: vm.saveExpense)
+        .sheet(isPresented: $showRoadblock, content: {
+            RoadblockView()
+        })
         .onAppear {
-            vm.amountDouble = newItemViewModel.dubValue
-//            #if !DEBUG
-            focusedField = .title
-//            #endif
+           
+            if SubscriptionManager.shared.canCreateExpense() {
+                vm.amountDouble = newItemViewModel.dubValue
+                focusedField = .title
+            } else {
+                showRoadblock = true
+            }
+            
         }
         .onChange(of: focusedField) { newValue in
             print(newValue ?? "nil")
@@ -123,7 +134,6 @@ struct CreateExpenseView: View {
                 }
             }
         }
-//        .modifier(Modifiers(vm: vm))
     }
 
     func nextButtonTapped() {

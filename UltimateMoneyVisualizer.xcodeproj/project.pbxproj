@@ -94,10 +94,6 @@
 		9C602CDF2A9F13D700B42DDF /* NewOnboardingWage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C602CDE2A9F13D700B42DDF /* NewOnboardingWage.swift */; };
 		9C602CE12A9F222E00B42DDF /* OnboardingListOfFirstsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C602CE02A9F222E00B42DDF /* OnboardingListOfFirstsView.swift */; };
 		9C602CE42A9F934D00B42DDF /* ScalingHeaderScrollView in Frameworks */ = {isa = PBXBuildFile; productRef = 9C602CE32A9F934D00B42DDF /* ScalingHeaderScrollView */; };
-		9C602CEA2A9F954700B42DDF /* BankingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C602CE62A9F954700B42DDF /* BankingScreen.swift */; };
-		9C602CEB2A9F954700B42DDF /* TransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C602CE72A9F954700B42DDF /* TransactionView.swift */; };
-		9C602CEC2A9F954700B42DDF /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C602CE82A9F954700B42DDF /* CardView.swift */; };
-		9C602CED2A9F954700B42DDF /* BankingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C602CE92A9F954700B42DDF /* BankingService.swift */; };
 		9C6363A72AA00A88000B25BB /* SVGView in Frameworks */ = {isa = PBXBuildFile; productRef = 9C6363A62AA00A88000B25BB /* SVGView */; };
 		9C65A75F2A00D28E00A5BCF1 /* GoalRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C65A75E2A00D28E00A5BCF1 /* GoalRow.swift */; };
 		9C65A7612A00D4B900A5BCF1 /* ExpenseRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C65A7602A00D4B900A5BCF1 /* ExpenseRow.swift */; };
@@ -382,10 +378,6 @@
 		9C602CD02A9EFD2F00B42DDF /* WhatIsASavedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatIsASavedItem.swift; sourceTree = "<group>"; };
 		9C602CDE2A9F13D700B42DDF /* NewOnboardingWage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewOnboardingWage.swift; sourceTree = "<group>"; };
 		9C602CE02A9F222E00B42DDF /* OnboardingListOfFirstsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingListOfFirstsView.swift; sourceTree = SOURCE_ROOT; };
-		9C602CE62A9F954700B42DDF /* BankingScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankingScreen.swift; sourceTree = "<group>"; };
-		9C602CE72A9F954700B42DDF /* TransactionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionView.swift; sourceTree = "<group>"; };
-		9C602CE82A9F954700B42DDF /* CardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
-		9C602CE92A9F954700B42DDF /* BankingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankingService.swift; sourceTree = "<group>"; };
 		9C65A75E2A00D28E00A5BCF1 /* GoalRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalRow.swift; sourceTree = "<group>"; };
 		9C65A7602A00D4B900A5BCF1 /* ExpenseRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRow.swift; sourceTree = "<group>"; };
 		9C69C5CB2A1832E5006F5C23 /* PayoffWithImageAndGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayoffWithImageAndGradientView.swift; sourceTree = "<group>"; };
@@ -769,17 +761,6 @@
 			path = "New Onboarding";
 			sourceTree = "<group>";
 		};
-		9C602CE52A9F954700B42DDF /* BankingScreen */ = {
-			isa = PBXGroup;
-			children = (
-				9C602CE62A9F954700B42DDF /* BankingScreen.swift */,
-				9C602CE72A9F954700B42DDF /* TransactionView.swift */,
-				9C602CE82A9F954700B42DDF /* CardView.swift */,
-				9C602CE92A9F954700B42DDF /* BankingService.swift */,
-			);
-			path = BankingScreen;
-			sourceTree = "<group>";
-		};
 		9C65A7642A00DA7400A5BCF1 /* Payoff Queue */ = {
 			isa = PBXGroup;
 			children = (
@@ -904,7 +885,6 @@
 				9CF1B3352A957EBC00CB600F /* SavedDetailViewModel.swift */,
 				9CF324E22A9349B8003736F5 /* TagListForItemView.swift */,
 				9CF324E02A934670003736F5 /* TagRow.swift */,
-				9C602CE52A9F954700B42DDF /* BankingScreen */,
 				9C7F965929F8F03C00F5035C /* UltimateMoneyVisualizer */,
 				9C7F965829F8F03C00F5035C /* Products */,
 				9C7F967029F8F03E00F5035C /* UltimateMoneyVisualizerTests */,
@@ -1837,11 +1817,9 @@
 				9C7C985829FB723D0077EA25 /* MoneyPicker.swift in Sources */,
 				9C743AE72A52A873000A7A2B /* CalculateTaxView.swift in Sources */,
 				9C53211C2A456233008D0F92 /* CreateGoalViewModel.swift in Sources */,
-				9C602CED2A9F954700B42DDF /* BankingService.swift in Sources */,
 				9CB418C22A0A0E07006F44AB /* TempTodayPayoff.swift in Sources */,
 				9C514DB02A002266003DC43C /* ExtendPayoffQueue.swift in Sources */,
 				9C7F966429F8F03E00F5035C /* Persistence.swift in Sources */,
-				9C602CEB2A9F954700B42DDF /* TransactionView.swift in Sources */,
 				9CDD4E522A68640200AB8B4F /* TodayViewProgressBarAndLabels.swift in Sources */,
 				9CDBE0E62A2520D200741EEE /* CustomStatsView.swift in Sources */,
 				9C9FFB272A57D8A200565B78 /* ExtendArray.swift in Sources */,
@@ -1860,7 +1838,6 @@
 				9CDD4E4E2A67D0D200AB8B4F /* TodayViewInfoRect.swift in Sources */,
 				9CA37AFD2A6B71D4004F60AC /* TodayViewSegmentPicker.swift in Sources */,
 				9C7B5D582A20271400DBB877 /* PayPeriodSettingsView.swift in Sources */,
-				9C602CEA2A9F954700B42DDF /* BankingScreen.swift in Sources */,
 				9C8C935B2A8AB816000EE612 /* PayoffItemDetailViewStyledButton.swift in Sources */,
 				9C793C222ABC198400D9C48E /* GoalsOnboardingView.swift in Sources */,
 				9C3C58682A0CBF5900169A0F /* AllItemsView.swift in Sources */,
@@ -1871,7 +1848,6 @@
 				9CF411C92A8575BF00A49F08 /* TodayViewItemizedBlock.swift in Sources */,
 				9CAE0B392A99359F009034EC /* OnboardingWageWalkthrough.swift in Sources */,
 				9C9735982A0D9B9000F651A1 /* NetMoneyGraph.swift in Sources */,
-				9C602CEC2A9F954700B42DDF /* CardView.swift in Sources */,
 				9C8C93552A8A2C7C000EE612 /* CreateExpenseViewModel.swift in Sources */,
 				9C7C984129F9F7B20077EA25 /* AllSchedulesView.swift in Sources */,
 				9C793C242ABE7F1F00D9C48E /* RoadblockView.swift in Sources */,

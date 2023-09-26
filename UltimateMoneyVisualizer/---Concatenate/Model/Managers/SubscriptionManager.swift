@@ -26,8 +26,35 @@ class SubscriptionManager: ObservableObject {
         return goalsCount < goalsLimit
     }
     
+    private func hasNotReachedExpenseLimit() -> Bool {
+        let expenseCount = User.main.getExpenses().count
+        return expenseCount < expenseLimit
+    }
+    
+    private func hasNotReachedShiftLimit() -> Bool {
+        let shiftCount = User.main.getShifts().count
+        return shiftCount < shiftLimit
+    }
+    
+    private func hasNotReachedSavedLimit() -> Bool {
+        let savedCount = User.main.getSaved().count
+        return savedCount < savedLimit
+    }
+    
+    func canCreateSaved() -> Bool {
+        isPremiumUser || hasNotReachedSavedLimit()
+    }
+    
+    func canCreateShift() -> Bool {
+        isPremiumUser || hasNotReachedShiftLimit()
+    }
+    
     func canCreateGoal() -> Bool {
         isPremiumUser || hasNotReachedGoalLimit()
+    }
+    
+    func canCreateExpense() -> Bool {
+        isPremiumUser || hasNotReachedExpenseLimit()
     }
 
     // Call this function to check the subscription status
