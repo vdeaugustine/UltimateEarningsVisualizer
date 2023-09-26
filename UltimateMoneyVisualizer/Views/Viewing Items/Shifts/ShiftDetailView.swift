@@ -121,9 +121,9 @@ struct ShiftDetailView: View {
                 }
             }
 
-            Button("Delete", role: .destructive) {
-                showDeleteConfirmation = true
-            }
+//            Button("Delete", role: .destructive) {
+//                showDeleteConfirmation = true
+//            }
         }
         .listStyle(.insetGrouped)
         .padding(.bottom, 15)

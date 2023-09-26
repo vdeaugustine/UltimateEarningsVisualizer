@@ -72,7 +72,7 @@ struct SettingsView: View {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "hourglass",
                                                         backgroundColor: settings.themeColor)
-                        Text("Normal working hours")
+                        Text("Regular Schedule")
                         Spacer()
                         Components.nextPageChevron
                     }.allPartsTappable()
@@ -106,6 +106,13 @@ struct SettingsView: View {
 
             Section("Visuals") {
                 Button {
+                    
+                    #if DEBUG
+                    withAnimation {
+                        showColorOptions.toggle()
+                    }
+                    #else
+                    
                     if SubscriptionManager.shared.canAccessPremiumFeatures() {
                         withAnimation {
                             showColorOptions.toggle()
@@ -113,6 +120,8 @@ struct SettingsView: View {
                     } else {
                         showRoadblock = true
                     }
+                    
+                    #endif
 
                 } label: {
                     Text("Theme color (PREMIUM)")

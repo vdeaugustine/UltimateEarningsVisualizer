@@ -129,13 +129,15 @@ struct PayPeriodDetailView: View {
 
 struct PayPeriodDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            PayPeriodDetailView(payPeriod: User.main.getPayPeriods().first!)
-                .previewDevice("iPhone SE (3rd generation)")
-                .putInNavView(.inline)
-            PayPeriodDetailView(payPeriod: User.main.getPayPeriods().first!)
-                .previewDevice("iPhone 14 Pro Max")
-                .putInNavView(.inline)
+        NavigationView {
+            Group {
+                PayPeriodDetailView(payPeriod: User.main.getPayPeriods().first!)
+                    .previewDevice("iPhone SE (3rd generation)")
+                    .putInNavView(.inline)
+                PayPeriodDetailView(payPeriod: User.main.getPayPeriods().first!)
+                    .previewDevice("iPhone 14 Pro Max")
+                    .putInNavView(.inline)
+            }
         }
     }
 }

@@ -837,6 +837,7 @@
 		9C7C985629FB72320077EA25 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				9CF324DF2A9332A4003736F5 /* Wage Breakdown */,
 				9CA51EDD2A7C802E00FAF848 /* PiggyBankShape.swift */,
 				9CDBE0EB2A26F6C600741EEE /* ExpenseWithImageAndGradientView.swift */,
 				9C4F6F762A528D7C0036F973 /* EnterDoubleView.swift */,
@@ -1056,6 +1057,7 @@
 		9C952B1F2AC2B04200C9BF3A /* Monetization */ = {
 			isa = PBXGroup;
 			children = (
+				9C9735922A0D790000F651A1 /* Store */,
 				9C793C232ABE7F1F00D9C48E /* RoadblockView.swift */,
 			);
 			path = Monetization;
@@ -1459,13 +1461,11 @@
 				9C7C984829FA44CF0077EA25 /* Settings */,
 				9CEEE34A29F90D74001FA4FB /* Shifts */,
 				9C9735912A0D78F700F651A1 /* Stats */,
-				9C9735922A0D790000F651A1 /* Store */,
 				9CDBE0A92A2160C700741EEE /* Tag */,
 				9CF9CE562A7B069E00164D75 /* Time Block Stats */,
 				9C5F0B912A3500C7006AAB46 /* Time Blocks */,
 				9C65A7682A00DAC700A5BCF1 /* Today */,
 				9CEEE35829F9EBCC001FA4FB /* Wage */,
-				9CF324DF2A9332A4003736F5 /* Wage Breakdown */,
 			);
 			path = "Viewing Items";
 			sourceTree = "<group>";

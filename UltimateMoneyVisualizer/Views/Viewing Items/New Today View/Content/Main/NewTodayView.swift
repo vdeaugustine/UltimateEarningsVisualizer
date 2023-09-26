@@ -74,7 +74,7 @@ struct NewTodayView: View {
         .confirmationDialog("Delete shift?",
                             isPresented: $viewModel.showDeleteConfirmation,
                             titleVisibility: .visible) {
-            Button("Confirm", role: .destructive, action: viewModel.deleteShift)
+            Button("Delete", role: .destructive, action: viewModel.deleteShift)
         }
         .onReceive(viewModel.timer) { _ in
             viewModel.addSecond()

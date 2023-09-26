@@ -154,9 +154,9 @@ struct AllocationDetailView: View {
                     }
             }
 
-            Button("Delete", role: .destructive) {
-                showDeleteConfirmation.toggle()
-            }
+//            Button("Delete", role: .destructive) {
+//                showDeleteConfirmation.toggle()
+//            }
         }
         .listStyle(.insetGrouped)
         .confirmationDialog("Delete allocation", isPresented: $showDeleteConfirmation, titleVisibility: .visible, actions: {
@@ -179,6 +179,15 @@ struct AllocationDetailView: View {
                    Text("Please try again. If issue persists, try restarting the app.")
                })
         .putInTemplate(title: "Allocation Details")
+        .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            showDeleteConfirmation.toggle()
+                        } label: {
+                            Label("Delete", systemImage: "trash")
+                        }
+                    }
+                }
     }
 }
 

@@ -147,26 +147,28 @@ struct ShiftListView: View {
                     .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
 
                 ForEach(payPeriods) { period in
-                    Section {
-                        ForEach(period.getShifts()) { shift in
+                    if period.getShifts().isEmpty == false {
+                        Section {
+                            ForEach(period.getShifts()) { shift in
+                                Button {
+                                    navManager.appendCorrectPath(newValue: .shift(shift))
+                                } label: {
+                                    ShiftRowView(shift: shift)
+                                }
+                            }
+                        } header: {
                             Button {
-                                navManager.appendCorrectPath(newValue: .shift(shift))
+                                navManager.appendCorrectPath(newValue: .payPeriodDetail(period))
                             } label: {
-                                ShiftRowView(shift: shift)
+                                HStack {
+                                    Text(period.dateRangeString)
+                                    Spacer()
+                                    Label("More", systemImage: "ellipsis")
+                                        .labelStyle(.iconOnly)
+                                }
                             }
+                            .foregroundStyle(Color.black)
                         }
-                    } header: {
-                        Button {
-                            navManager.appendCorrectPath(newValue: .payPeriodDetail(period))
-                        } label: {
-                            HStack {
-                                Text(period.dateRangeString)
-                                Spacer()
-                                Label("More", systemImage: "ellipsis")
-                                    .labelStyle(.iconOnly)
-                            }
-                        }
-                        .foregroundStyle(Color.black)
                     }
                 }
             }

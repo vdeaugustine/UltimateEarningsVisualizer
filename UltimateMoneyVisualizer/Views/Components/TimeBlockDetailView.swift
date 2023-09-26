@@ -49,11 +49,11 @@ struct TimeBlockDetailView: View {
                     .spacedOut(text: block.amountEarned().money())
             }
 
-            Section {
-                Button("Delete", role: .destructive) {
-                    showDeleteConfirmation.toggle()
-                }
-            }
+//            Section {
+//                Button("Delete", role: .destructive) {
+//                    showDeleteConfirmation.toggle()
+//                }
+//            }
         }
         .navigationTitle("Time Block Details")
         .putInTemplate()
@@ -74,6 +74,15 @@ struct TimeBlockDetailView: View {
         }
         .toast(isPresenting: $showDeleteError) {
             .errorWith(message: "Error saving")
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    showDeleteConfirmation.toggle()
+                } label: {
+                    Label("Delete", systemImage: "trash")
+                }
+            }
         }
     }
 }
