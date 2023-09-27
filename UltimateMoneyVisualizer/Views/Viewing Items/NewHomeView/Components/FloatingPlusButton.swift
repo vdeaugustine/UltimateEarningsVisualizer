@@ -7,6 +7,7 @@
 
 import FloatingButton
 import SwiftUI
+import Vin
 
 // MARK: - FloatingPlusButton
 
@@ -37,6 +38,9 @@ struct FloatingPlusButton: View {
                 .direction(.top)
                 .initialOpacity(0)
                 .alignment(.right)
+                .onChange(of: isShowing) { _ in
+                    Taptic.medium()
+                }
         }
     }
 

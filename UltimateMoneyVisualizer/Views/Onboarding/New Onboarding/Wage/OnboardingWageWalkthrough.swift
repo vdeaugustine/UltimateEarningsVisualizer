@@ -21,15 +21,15 @@ struct OnboardingWageWalkthrough: View {
             headerLabel
                 .padding(vm.padFromTop)
 
-            Image("working")
+            Image("clockWithCoins")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(maxWidth: .infinity, maxHeight: vm.imageHeight)
+//                .frame(maxWidth: .infinity, maxHeight: vm.imageHeight)
 //                .layoutPriority(2)
 
             Spacer()
 
-            Text("Entering your wage allows you to enter your shifts and watch yourself earn money in real time")
+            Text("By entering your wage, you'll gain a deeper understanding of your financial landscape with each passing minute.")
                 .font(.title2)
                 .multilineTextAlignment(vm.textAlignment)
             Spacer()
@@ -50,7 +50,7 @@ struct OnboardingWageWalkthrough: View {
     }
 
     var headerLabel: some View {
-        Text("Enter Your Wage")
+        Text("Time is Money")
             .font(.system(.largeTitle, weight: .bold))
             .frame(maxWidth: vm.headerMaxWidth)
             .multilineTextAlignment(.center)

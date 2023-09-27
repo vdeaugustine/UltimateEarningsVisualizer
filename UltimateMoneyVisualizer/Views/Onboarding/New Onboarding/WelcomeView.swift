@@ -24,7 +24,7 @@ struct WelcomeView: View {
 
                 Spacer()
 
-                Image("welcome")
+                Image("guyOnPhone")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .padding(.horizontal, vm.horizontalPad)

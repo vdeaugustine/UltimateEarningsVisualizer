@@ -8,6 +8,8 @@
 import SwiftUI
 import Vin
 
+
+
 // MARK: - SelectHours
 
 struct SelectHours: View {
@@ -22,10 +24,10 @@ struct SelectHours: View {
 
                 // TODO: - Remove this before finishing
 //                #if DEUBG
-                    Button("Testing") {
-                        viewModel.start = .now.addMinutes(-3)
-                        viewModel.end = .now.addMinutes(2)
-                    }
+                Button("Testing") {
+                    viewModel.start = .now.addMinutes(-3)
+                    viewModel.end = .now.addMinutes(2)
+                }
 //                #endif
 
                 Button("9-5") {
@@ -41,12 +43,22 @@ struct SelectHours: View {
                let forToday = regularSchedule.getRegularDays().first(where: { $0.getDayOfWeek() == DayOfWeek(date: .now) }),
                let start = forToday.getStartTime(),
                let end = forToday.getEndTime(),
-               let dayOfWeek = forToday.getDayOfWeek(){
+               let dayOfWeek = forToday.getDayOfWeek(),
+               let newStart = Date.now.applyingTime(from: start),
+               let newEnd = Date.now.applyingTime(from: end) {
                 Section("Normal \(dayOfWeek.rawValue) hours") {
                     Button {
+                        viewModel.start = newStart
+                        viewModel.end = newEnd
+                        // Taptic Feedback
+                        Taptic.light()
+                        
                     } label: {
-                        Text(start.getFormattedDate(format: .minimalTime) + " + " + end.getFormattedDate(format: .minimalTime))
+                        Text(start.getFormattedDate(format: .minimalTime) + " - " + end.getFormattedDate(format: .minimalTime))
+                            
                     }
+                    
+                    
                 }
             }
 
@@ -68,7 +80,6 @@ struct SelectHours: View {
         .safeAreaInset(edge: .bottom) {
             Button {
                 do {
-                    
                     if let existingShift = viewModel.user.getValidTodayShift() {
                         existingShift.startTime = viewModel.start
                         existingShift.endTime = viewModel.end
@@ -78,13 +89,14 @@ struct SelectHours: View {
                                        endTime: viewModel.end,
                                        user: viewModel.user,
                                        context: viewModel.viewContext)
-
                     }
-                    
+
                     // TODO: See if these are needed
 //                        viewModel.todayShift = ts
 //                        viewModel.user.todayShift = ts
                     viewModel.showHoursSheet = false
+                    
+                    Taptic.medium()
 
                 } catch {
                     fatalError(error.localizedDescription)
@@ -100,12 +112,14 @@ struct SelectHours: View {
                 }
                 .frame(width: 135, height: 50)
             }
+            
+            
         }
         .navigationTitle("Set hours")
         .background(Color.clear)
         .putInTemplate()
         .putInNavView(.inline)
-        .presentationDetents([/*.medium, */.fraction(0.9_999_999_999_999_999)])
+        .presentationDetents([ /* .medium, */ .fraction(0.9_999_999_999_999_999)])
         .presentationDragIndicator(.visible)
         .tint(.white)
         .accentColor(.white)
