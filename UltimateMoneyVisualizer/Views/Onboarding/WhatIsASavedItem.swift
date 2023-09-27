@@ -12,11 +12,10 @@ import SwiftUI
 struct WhatIsASavedItem: View {
     @EnvironmentObject private var vm: OnboardingModel
 
-
     var body: some View {
         GeometryReader { geo in
             VStack(spacing: 40) {
-                Text("Track every saving opportunity")
+                Text("A penny saved is a penny earned")
                     .font(.system(.largeTitle, weight: .bold))
                     .multilineTextAlignment(.center)
                     .padding(.top, 30)
@@ -29,15 +28,52 @@ struct WhatIsASavedItem: View {
                     .layoutPriority(2)
 
                 VStack {
-                    Text("Saving money is just as good as earning it!\n\nDid you make coffee today instead of buying it?\n\nMark that down and watch yourself pay off goals & expenses with that saved money")
-                        .font(.system(.headline, weight: .regular))
-                        .multilineTextAlignment(.leading)
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 20) {
+    //                        VStack(alignment: .leading) {
+    //                            HStack {
+    //                                Circle().frame(width: 5)
+    //                                Text("Make coffee at home instead of buying it?")
+    //                            }
+    //                            HStack {
+    //                                Circle().frame(width: 5)
+    //                                Text("Used a coupon at the grocery store?")
+    //                            }
+    //                            HStack {
+    //                                Circle().frame(width: 5)
+    //                                Text("Resisted a tempting purchase?")
+    //                            }
+    //
+    //
+    //                        }
+                            
+    //                        Text("Record each moment and witness your savings grow steadily.")
+                            
+                            VStack(alignment: .leading) {
+                                Text("Any moment").font(.headline)
+                                
+                                Text("It could be as simple as making coffee at home instead of buying it on the way to work.")
+                            }
+                            
+                            VStack(alignment: .leading) {
+                                Text("Adds up quick").font(.headline)
+                                
+                                Text("While these moments might seem small, their collective impact is profound.")
+                            }
+                            
+                            
+                            VStack(alignment: .leading){
+                                Text("Rewarding").font(.headline)
+                                Text("Recording them not only encourages mindful spending but also offers the satisfaction of directing those saved dollars towards achieving your goals.")
+                            }
+                        }
                         .padding(.horizontal)
-                        .layoutPriority(1.8)
+                    }
+                    .scrollIndicators(.hidden)
 
                     Spacer()
 
-                    OnboardingButton(title: "Let's get started!") {
+                    OnboardingButton(title: "Record first Saved Item") {
                         vm.increaseScreenNumber()
                     }
                     .padding(.horizontal, 30)
@@ -57,4 +93,3 @@ struct WhatIsASavedItem_Previews: PreviewProvider {
             .environmentObject(OnboardingModel())
     }
 }
-

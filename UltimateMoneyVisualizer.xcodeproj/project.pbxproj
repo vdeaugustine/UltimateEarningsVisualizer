@@ -755,8 +755,8 @@
 			isa = PBXGroup;
 			children = (
 				9C602CCE2A9E652D00B42DDF /* WelcomeView.swift */,
-				9C793C212ABC198400D9C48E /* GoalsOnboardingView.swift */,
 				9C74F9F82A9AD77700466779 /* OnboardingFirstView.swift */,
+				9C793C212ABC198400D9C48E /* GoalsOnboardingView.swift */,
 				9C74F9FC2A9AEF0E00466779 /* FeaturesListView.swift */,
 				9CBA6A332AA067A600181D97 /* Wage */,
 				9CBA6A352AA067F200181D97 /* Payoff Item */,

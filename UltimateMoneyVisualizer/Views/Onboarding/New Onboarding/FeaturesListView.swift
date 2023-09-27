@@ -33,15 +33,15 @@ struct FeaturesListView: View {
                                    let image = vm.featuresImageStrings.safeGet(at: num) {
                                     HStack {
                                         Image(systemName: image)
-                                            .foregroundColor(.blue)
+                                            .foregroundStyle(.blue)
                                             .font(.system(.title, weight: .regular))
                                             .frame(width: 60, height: 50)
                                             .clipped()
                                         VStack(alignment: .leading, spacing: 3) {
                                             Text(title)
-                                                .font(.system(.footnote, weight: .semibold))
+                                                .font(.system(.headline, weight: .semibold))
                                             Text(description)
-                                                .font(.footnote)
+                                                .font(.subheadline)
                                                 .foregroundColor(.secondary)
                                         }
                                     }
