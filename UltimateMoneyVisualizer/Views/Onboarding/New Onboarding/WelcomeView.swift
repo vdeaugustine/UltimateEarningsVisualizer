@@ -48,6 +48,7 @@ struct WelcomeView: View {
                 .layoutPriority(4)
             }
         }
+        
     }
 }
 

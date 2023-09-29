@@ -168,7 +168,7 @@ class OnboardingModel: ObservableObject {
     
     // MARK: - Content Data Source
     
-    let featuresHeader = "How You Will Benefit".capitalized
+    let featuresHeader = "Benefits & Features".capitalized
     
     let featuresTitles = ["Real-time Earnings Tracker",
                   "Flexible Shift Management",
