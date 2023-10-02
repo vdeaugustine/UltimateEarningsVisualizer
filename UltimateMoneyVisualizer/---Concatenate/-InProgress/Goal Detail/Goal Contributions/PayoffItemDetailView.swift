@@ -45,6 +45,19 @@ struct PayoffItemDetailView: View {
                     }
 
                     PayoffItemDetailTagsSection(viewModel: viewModel)
+                    
+                    Button("Delete", role: .destructive) {
+                        viewModel.presentConfirmation.toggle()
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical)
+//                    .background {
+//                        RoundedRectangle(cornerRadius: 20)
+//                            .fill(Color.white)
+//                            .shadow(radius: 0.2)
+//                    }
+                    
+                    
                 }
                 .padding()
                 .blur(radius: viewModel.blurRadius)
@@ -89,14 +102,23 @@ struct PayoffItemDetailView: View {
 
         .background(Color.listBackgroundColor)
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    viewModel.presentConfirmation.toggle()
-                } label: {
-                    Label("Delete", systemImage: "trash")
-                }
+//            ToolbarItem(placement: .navigationBarTrailing) {
+//                Button {
+//                    viewModel.presentConfirmation.toggle()
+//                } label: {
+//                    Label("Delete", systemImage: "trash")
+//                }
+//            }
+            
+            Button {
+                NavManager.shared.appendCorrectPath(newValue: .editPayoffItem(AnyPayoffItem(viewModel.payoffItem)))
+            } label: {
+                Label("Edit", systemImage: "square.and.pencil")
+                    .labelStyle(.iconOnly)
             }
         }
+        
+        
 
 //        .sheet(isPresented: $showContributionsSheet) {
 //            PayoffContributionsView(payoffItem: viewModel.payoffItem, vm: viewModel)

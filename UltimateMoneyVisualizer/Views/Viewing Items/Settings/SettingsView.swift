@@ -95,6 +95,20 @@ struct SettingsView: View {
                     .allPartsTappable()
                 }
                 .buttonStyle(.plain)
+                
+                
+                
+                Button {
+                    NavManager.shared.appendCorrectPath(newValue: .enterLumpSum)
+                } label: {
+                    HStack {
+                        SystemImageWithFilledBackground(systemName: "dollarsign")
+                        Text("Enter lump sum")
+                        Spacer()
+                        Components.nextPageChevron
+                    }
+                }
+                .foregroundStyle(.black)
             }
 
             Section {

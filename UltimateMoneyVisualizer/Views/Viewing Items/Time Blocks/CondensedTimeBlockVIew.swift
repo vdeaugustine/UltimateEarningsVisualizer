@@ -16,18 +16,6 @@ struct CondensedTimeBlockView: View {
 
     var body: some View {
         List {
-//            Section {
-//                Text(block.title)
-//
-//                Text(block.duration.breakDownTime())
-//                Text(user.convertTimeToMoney(seconds: block.duration).money())
-//                Text("Average").spacedOut(text: averageTime.breakDownTime())
-//
-////                Color(hex: block.colorHex).clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-//            } header: {
-//                Text("").hidden()
-//            }
-
             Section("Title") {
                 Text(block.title)
             }
