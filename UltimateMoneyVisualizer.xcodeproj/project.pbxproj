@@ -80,7 +80,6 @@
 		9C58DC9F2A8DE85C00499C9E /* PayoffQueueForTodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C58DC9E2A8DE85C00499C9E /* PayoffQueueForTodayView.swift */; };
 		9C58DCA52A8F264100499C9E /* EditShiftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C58DCA42A8F264100499C9E /* EditShiftView.swift */; };
 		9C58DCA72A8F379B00499C9E /* TodayViewTimeBlocksExpanded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C58DCA62A8F379B00499C9E /* TodayViewTimeBlocksExpanded.swift */; };
-		9C5F0B882A3057CD006AAB46 /* SwiftPieChart in Frameworks */ = {isa = PBXBuildFile; productRef = 9C5F0B872A3057CD006AAB46 /* SwiftPieChart */; };
 		9C5F0B8A2A31B419006AAB46 /* TimeBlockDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5F0B892A31B419006AAB46 /* TimeBlockDetailView.swift */; };
 		9C5F0B962A3502E7006AAB46 /* ExtendPercentShiftExpense.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5F0B952A3502E6006AAB46 /* ExtendPercentShiftExpense.swift */; };
 		9C602CCD2A9DB74800B42DDF /* OnboardingFirstExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C602CCC2A9DB74800B42DDF /* OnboardingFirstExpenseView.swift */; };
@@ -229,7 +228,6 @@
 		9CDD4E652A68F33200AB8B4F /* TodayPaidOffStackWithHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD4E642A68F33200AB8B4F /* TodayPaidOffStackWithHeader.swift */; };
 		9CE288DB2A42700B0050A4DC /* CreateNewTimeBlockViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE288DA2A42700B0050A4DC /* CreateNewTimeBlockViewModel.swift */; };
 		9CE288DD2A4270C20050A4DC /* EnterPaycheckViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE288DC2A4270C20050A4DC /* EnterPaycheckViewModel.swift */; };
-		9CE4F66B2A5E60820046183C /* FancyScrollView in Frameworks */ = {isa = PBXBuildFile; productRef = 9CE4F66A2A5E60820046183C /* FancyScrollView */; };
 		9CE4F66D2A5E65D30046183C /* GoalDetailShiftsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE4F66C2A5E65D30046183C /* GoalDetailShiftsSection.swift */; };
 		9CE4F66F2A5F0BD10046183C /* GoalDetailContributionsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE4F66E2A5F0BD10046183C /* GoalDetailContributionsSection.swift */; };
 		9CE4F6712A5F36430046183C /* PayoffItemDetailTotalAmount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE4F6702A5F36430046183C /* PayoffItemDetailTotalAmount.swift */; };
@@ -575,8 +573,6 @@
 				9C602CE42A9F934D00B42DDF /* ScalingHeaderScrollView in Frameworks */,
 				9C602CDA2A9F071900B42DDF /* WelcomeSheet in Frameworks */,
 				9C602CD42A9F056F00B42DDF /* PopupView in Frameworks */,
-				9CE4F66B2A5E60820046183C /* FancyScrollView in Frameworks */,
-				9C5F0B882A3057CD006AAB46 /* SwiftPieChart in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1649,8 +1645,6 @@
 			packageProductDependencies = (
 				9C7F96A129F8FE6700F5035C /* Vin */,
 				9C7F96A829F9004000F5035C /* AlertToast */,
-				9C5F0B872A3057CD006AAB46 /* SwiftPieChart */,
-				9CE4F66A2A5E60820046183C /* FancyScrollView */,
 				9C602CD32A9F056F00B42DDF /* PopupView */,
 				9C602CD62A9F060400B42DDF /* FloatingButton */,
 				9C602CD92A9F071900B42DDF /* WelcomeSheet */,
@@ -1732,8 +1726,6 @@
 			packageReferences = (
 				9C7F96A029F8FE6700F5035C /* XCRemoteSwiftPackageReference "VinPackage" */,
 				9C7F96A729F9004000F5035C /* XCRemoteSwiftPackageReference "AlertToast" */,
-				9C5F0B862A3057CD006AAB46 /* XCRemoteSwiftPackageReference "SwiftPieChart" */,
-				9CE4F6692A5E60820046183C /* XCRemoteSwiftPackageReference "FancyScrollView" */,
 				9C602CD22A9F056F00B42DDF /* XCRemoteSwiftPackageReference "PopupView" */,
 				9C602CD52A9F060400B42DDF /* XCRemoteSwiftPackageReference "FloatingButton" */,
 				9C602CD82A9F071900B42DDF /* XCRemoteSwiftPackageReference "Welcome-Sheet" */,
@@ -2204,7 +2196,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2237,7 +2229,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2371,14 +2363,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		9C5F0B862A3057CD006AAB46 /* XCRemoteSwiftPackageReference "SwiftPieChart" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ilamanov/SwiftPieChart";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.61;
-			};
-		};
 		9C602CD22A9F056F00B42DDF /* XCRemoteSwiftPackageReference "PopupView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/exyte/PopupView.git";
@@ -2435,22 +2419,9 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		9CE4F6692A5E60820046183C /* XCRemoteSwiftPackageReference "FancyScrollView" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/nerdsupremacist/FancyScrollView";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.1.4;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		9C5F0B872A3057CD006AAB46 /* SwiftPieChart */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9C5F0B862A3057CD006AAB46 /* XCRemoteSwiftPackageReference "SwiftPieChart" */;
-			productName = SwiftPieChart;
-		};
 		9C602CD32A9F056F00B42DDF /* PopupView */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 9C602CD22A9F056F00B42DDF /* XCRemoteSwiftPackageReference "PopupView" */;
@@ -2485,11 +2456,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9C7F96A729F9004000F5035C /* XCRemoteSwiftPackageReference "AlertToast" */;
 			productName = AlertToast;
-		};
-		9CE4F66A2A5E60820046183C /* FancyScrollView */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9CE4F6692A5E60820046183C /* XCRemoteSwiftPackageReference "FancyScrollView" */;
-			productName = FancyScrollView;
 		};
 /* End XCSwiftPackageProductDependency section */
 

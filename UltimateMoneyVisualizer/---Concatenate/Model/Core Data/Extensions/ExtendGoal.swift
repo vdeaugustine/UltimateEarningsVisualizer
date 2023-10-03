@@ -208,9 +208,8 @@ extension Goal: PayoffItem {
 }
 
 // swiftformat:sort:end
-
-// MARK: - Example Items for Testing
 #if DEBUG
+// MARK: - Example Items for Testing
 public extension Goal {
     static func makeExampleGoals(user: User, context: NSManagedObjectContext) throws {
         //        try Goal(title: "Get a basketball", info: "For playing", amount: 7, dueDate: .now.addDays(7), user: user, context: context)
@@ -280,7 +279,7 @@ public extension Goal {
         return goal
     }()
 }
-#endif
+#endif 
 // MARK: - Methods and properties
 
 public extension Goal {

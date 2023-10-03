@@ -10,15 +10,6 @@
       }
     },
     {
-      "identity" : "fancyscrollview",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/nerdsupremacist/FancyScrollView",
-      "state" : {
-        "revision" : "7f8194b23dc209cdb5b0ebc9799a8de487166fdf",
-        "version" : "0.1.4"
-      }
-    },
-    {
       "identity" : "floatingbutton",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/exyte/FloatingButton.git",
@@ -52,15 +43,6 @@
       "state" : {
         "revision" : "6465962facdd25cb96eaebc35603afa2f15d2c0d",
         "version" : "1.0.6"
-      }
-    },
-    {
-      "identity" : "swiftpiechart",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ilamanov/SwiftPieChart",
-      "state" : {
-        "revision" : "e6f67120c55e7402f67f3463994105ff6cfbcd10",
-        "version" : "1.0.61"
       }
     },
     {
