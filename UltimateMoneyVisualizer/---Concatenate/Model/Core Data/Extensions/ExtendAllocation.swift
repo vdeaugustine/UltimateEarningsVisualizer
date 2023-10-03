@@ -84,7 +84,7 @@ extension Allocation {
     }
     
     var payoffType: PayoffType {
-        if let goal {
+        if goal != nil {
             return .goal
         }
         return .expense

@@ -11,14 +11,85 @@ import SwiftUI
 // MARK: - TimeBlockDetailView
 
 struct TimeBlockDetailView: View {
-    @Environment(\.dismiss) private var dismiss
-    @Environment(\.managedObjectContext) private var viewContext
-    @State private var showDeleteConfirmation = false
-    @State private var showDeleteError = false
-
+    // swiftformat:sort:begin
     let block: TimeBlock
 
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.editMode) private var editMode
+
+    @State private var endTime: Date = .now
+
+    @State private var showDeleteConfirmation = false
+    @State private var showDeleteError = false
+    @State private var showErrorAlert = false
+
+    @State private var showSavedAlert = false
+
+    @State private var startTime: Date = .now
+    @State private var title: String = ""
+    
+    @FocusState private var editTitleFieldFocused
+
+    @Environment(\.managedObjectContext) private var viewContext
+    // swiftformat:sort:end
+
     var body: some View {
+        VStack {
+            if let editMode,
+               editMode.wrappedValue.isEditing {
+                editingView
+            } else {
+                viewingMode
+            }
+        }
+
+        .navigationTitle("Time Block Details")
+        .putInTemplate()
+        
+        .confirmationDialog("Delete Time Block?",
+                            isPresented: $showDeleteConfirmation,
+                            titleVisibility: .visible) {
+            Button("Delete", role: .destructive) {
+                viewContext.delete(block)
+
+                do {
+                    try viewContext.save()
+                    dismiss()
+                } catch {
+                    showDeleteError.toggle()
+                }
+            }
+        }
+        .toast(isPresenting: $showDeleteError) {
+            .errorWith(message: "Error saving")
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                EditButton()
+                    .foregroundStyle(.white)
+            }
+        }
+        .onChange(of: editMode?.wrappedValue.isEditing, perform: { newValue in
+            if newValue == false {
+                block.startTime = startTime
+                block.endTime = endTime
+                block.title = title
+
+                do {
+                    try viewContext.save()
+                    showSavedAlert = true
+                } catch {
+                    showErrorAlert = true
+                }
+            }
+        })
+        .alert("Error saving changes", isPresented: $showErrorAlert) {} message: {
+            Text("Please try again. If issue persists, try restarting the app.")
+        }
+        .alert("Successfully saved changes", isPresented: $showSavedAlert) {}
+    }
+
+    private var viewingMode: some View {
         List {
             if let title = block.title {
                 Section("Title") {
@@ -55,26 +126,41 @@ struct TimeBlockDetailView: View {
                 }
             }
         }
-        .navigationTitle("Time Block Details")
-        .putInTemplate()
+    }
 
-        .confirmationDialog("Delete Time Block?",
-                            isPresented: $showDeleteConfirmation,
-                            titleVisibility: .visible) {
-            Button("Delete", role: .destructive) {
-                viewContext.delete(block)
+    private var editingView: some View {
+        Form {
+            Section("Title") {
+                TextField("Title", text: $title)
+                    .focused($editTitleFieldFocused)
+            }
 
-                do {
-                    try viewContext.save()
-                    dismiss()
-                } catch {
-                    showDeleteError.toggle()
+            Section("Times") {
+                DatePicker("Start time", selection: $startTime, displayedComponents: .hourAndMinute)
+                DatePicker("End time", selection: $endTime, displayedComponents: .hourAndMinute)
+            }
+        }
+        .onAppear {
+            startTime = block.startTime ?? .now
+            endTime = block.endTime ?? .now
+            title = block.getTitle()
+            editTitleFieldFocused = true
+        }
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("Done") {
+                    editTitleFieldFocused = false
                 }
             }
         }
-        .toast(isPresenting: $showDeleteError) {
-            .errorWith(message: "Error saving")
+        .onTapGesture {
+            if editTitleFieldFocused {
+                editTitleFieldFocused = false 
+            }
         }
+        
+        
     }
 }
 

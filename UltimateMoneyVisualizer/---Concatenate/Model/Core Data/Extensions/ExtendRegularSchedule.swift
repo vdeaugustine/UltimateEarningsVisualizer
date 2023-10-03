@@ -128,7 +128,7 @@ public extension RegularSchedule {
     func willEarn(from firstDate: Date, to secondDate: Date) -> Double {
         guard let user = user else { return 0 }
         var amount: Double = 0
-        let regularDays = getRegularDays()
+//        let regularDays = getRegularDays()
         
         for date in getDays(from: firstDate, to: secondDate) {
             let dayOfWeek = DayOfWeek(date: date)

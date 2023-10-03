@@ -6,14 +6,55 @@
 //
 
 import Foundation
+import SwiftUI
 
 class SubscriptionManager: ObservableObject {
     static let shared = SubscriptionManager()
 
     private var isPremiumUser: Bool = false
+    private let goalsLimit: Int = 2
+    private let expenseLimit: Int = 2
+    private let savedLimit: Int = 2
+    private let shiftLimit: Int = 2
 
     init() {
         self.isPremiumUser = checkPremiumStatus()
+    }
+    
+    private func hasNotReachedGoalLimit() -> Bool {
+        let goalsCount = User.main.getGoals().count
+        return goalsCount < goalsLimit
+    }
+    
+    private func hasNotReachedExpenseLimit() -> Bool {
+        let expenseCount = User.main.getExpenses().count
+        return expenseCount < expenseLimit
+    }
+    
+    private func hasNotReachedShiftLimit() -> Bool {
+        let shiftCount = User.main.getShifts().count
+        return shiftCount < shiftLimit
+    }
+    
+    private func hasNotReachedSavedLimit() -> Bool {
+        let savedCount = User.main.getSaved().count
+        return savedCount < savedLimit
+    }
+    
+    func canCreateSaved() -> Bool {
+        isPremiumUser || hasNotReachedSavedLimit()
+    }
+    
+    func canCreateShift() -> Bool {
+        isPremiumUser || hasNotReachedShiftLimit()
+    }
+    
+    func canCreateGoal() -> Bool {
+        isPremiumUser || hasNotReachedGoalLimit()
+    }
+    
+    func canCreateExpense() -> Bool {
+        isPremiumUser || hasNotReachedExpenseLimit()
     }
 
     // Call this function to check the subscription status
@@ -32,4 +73,15 @@ class SubscriptionManager: ObservableObject {
     func canAccessPremiumFeatures() -> Bool {
         return isPremiumUser
     }
+}
+
+
+// MARK: - Settings Actions
+
+extension SubscriptionManager {
+    
+    
+    
+    
+    
 }

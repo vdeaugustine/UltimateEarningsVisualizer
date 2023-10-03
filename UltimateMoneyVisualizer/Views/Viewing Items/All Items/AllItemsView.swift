@@ -60,7 +60,10 @@ struct AllItemsView: View {
         }
 
         .toolbar {
+            // TODO: Get rid of this
+            #if DEBUG
             ToolbarItem(placement: .navigationBarLeading) {
+                
                 Menu("Debug") {
                     Button("Delete all shifts") {
                         for shift in user.getShifts() {
@@ -77,6 +80,7 @@ struct AllItemsView: View {
                     }
                 }
             }
+            #endif
         }
     }
 

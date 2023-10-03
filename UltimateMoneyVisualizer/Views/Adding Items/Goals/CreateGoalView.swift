@@ -17,6 +17,7 @@ struct CreateGoalView: View {
 
     @State private var firstTextMax: CGFloat = 0
     @State private var secondTextMax: CGFloat = 0
+    @State private var showRoadblock = false
 
     typealias TempTag = CreateGoalViewModel.TemporaryTag
 
@@ -73,16 +74,6 @@ struct CreateGoalView: View {
             } footer: {
                 Text("Tap on a recent tag to add it to this goal")
             }
-
-//            Section {
-//                showRecentsButtonRow
-//                expandedRecents
-//
-//            } header: {
-//                Text("Recent")
-//            } footer: {
-//                Text("Tap on a recent goal to create a new instance of that same goal")
-//            }
         }
         .putInTemplate()
         .navigationTitle("New Goal")
@@ -101,13 +92,23 @@ struct CreateGoalView: View {
         })
 
         .toolbarSave {
-            vm.saveGoal(amount: newItemViewModel.enteredStr)
+            if SubscriptionManager.shared.canCreateGoal() {
+                vm.saveGoal(amount: newItemViewModel.enteredStr)
+            } else {
+                showRoadblock = true
+            }
         }
-
-//                .bottomButton(label: "Save", action: vm.saveGoal)
+        .sheet(isPresented: $showRoadblock, content: {
+            RoadblockView()
+        })
         .onAppear {
-            vm.amountDouble = newItemViewModel.dubValue
-            focusedField = .title
+            
+            if SubscriptionManager.shared.canCreateGoal() == false {
+                showRoadblock = true
+            } else {
+                vm.amountDouble = newItemViewModel.dubValue
+                focusedField = .title
+            }
         }
         .onChange(of: focusedField) { newValue in
             print(newValue ?? "nil")
@@ -138,14 +139,13 @@ struct CreateGoalView: View {
         }
 //        .modifier(Modifiers(vm: vm))
     }
-    
+
     func nextButtonTapped() {
         if focusedField == .title {
             focusedField = .info
         } else {
             focusedField = nil
         }
-        
     }
 
     // MARK: - Subviews
@@ -180,23 +180,7 @@ struct CreateGoalView: View {
             }
             addTag
         }
-
-//            .frame(maxWidth: .infinity, alignment: .center)
     }
-
-//    @ViewBuilder var showRecentsRow: some View {
-//        HStack {
-//            Button("Recents") {
-//                withAnimation {
-//                    vm.showRecentTags.toggle()
-//                }
-//            }
-//
-//            Spacer()
-//            Image(systemName: "chevron.down")
-//                .rotationEffect(vm.showRecentTags ? .degrees(-180) : .degrees(0))
-//        }
-//    }
 
     @ViewBuilder var recentTags: some View {
         ScrollView(.horizontal, showsIndicators: false) {

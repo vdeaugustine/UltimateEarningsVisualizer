@@ -15,6 +15,7 @@ struct ExpenseDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.dismiss) private var dismiss
     @StateObject var viewModel: ExpenseDetailViewModel
+    @State private var showDeleteConfirmation = false
 
     init(expense: Expense) {
         _viewModel = StateObject(wrappedValue: ExpenseDetailViewModel(expense: expense))
@@ -39,12 +40,12 @@ struct ExpenseDetailView: View {
                 ExpenseDetailTagsSection(viewModel: viewModel)
 
                 ExpenseDetailContributionsSection(viewModel: viewModel)
-                
+
                 Spacer()
                     .frame(height: 40)
-                
+
 //                Button("Delete", role: .destructive) {
-//                    
+//
 //                }
 //                .frame(maxWidth: .infinity, alignment: .center)
             }
@@ -97,12 +98,29 @@ struct ExpenseDetailView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
-//                    showDeleteConfirmation.toggle()
+                    showDeleteConfirmation.toggle()
                 } label: {
                     Label("Delete", systemImage: "trash")
                 }
             }
         }
+        .confirmationDialog("Delete Expense", isPresented: $showDeleteConfirmation, titleVisibility: .visible, actions: {
+            Button("Delete", role: .destructive) {
+                viewContext.delete(viewModel.expense)
+                do {
+                    try viewContext.save()
+
+                } catch {
+                    // TODO: Add an alert and show error
+                    print("error deleting")
+//                    showErrorAlert.toggle()
+                }
+
+                dismiss()
+            }
+        }, message: {
+            Text("This action cannot be undone.")
+        })
     }
 
     func fullScreenImage() -> some View {

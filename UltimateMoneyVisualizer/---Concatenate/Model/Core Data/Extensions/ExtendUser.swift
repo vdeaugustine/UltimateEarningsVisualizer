@@ -378,6 +378,16 @@ public extension User {
     func amountAllocatedToExpenses() -> Double {
         getExpenseAllocations().reduce(Double.zero) { $0 + $1.amount }
     }
+    
+    // MARK: - Bank
+    
+//    func getBank() -> Bank {
+//        
+//    }
+//    
+    
+    
+    
 
     // MARK: - Expenses
 

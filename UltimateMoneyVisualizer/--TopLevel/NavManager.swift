@@ -24,7 +24,7 @@ class NavManager: ObservableObject {
     @Published var todayViewNavPath: NavigationPath = .init()
 
     // MARK: - Methods
-    
+
     func getCurrentPath() -> NavigationPath? {
         switch currentTab {
             case .allItems:
@@ -55,8 +55,20 @@ class NavManager: ObservableObject {
         }
         print("Now showing", "\(newValue)")
 
-        let x = 1 < 2
-        if x == true {
+    }
+    
+    func popFromCorrectPath() {
+        switch currentTab {
+            case .allItems:
+                allItemsNavPath.removeLast()
+            case .newHome:
+                homeNavPath.removeLast()
+            case .settings:
+                settingsNavPath.removeLast()
+            case .today:
+                todayViewNavPath.removeLast()
+            default:
+                break
         }
     }
 
@@ -172,6 +184,8 @@ class NavManager: ObservableObject {
         case createTagForSaved(Saved)
         case createTimeBlockForShift(CreateNewTimeBlockView.TimeBlockStarter_Shift)
         case createTimeBlockForToday(CreateNewTimeBlockView.TimeBlockStarter_Today)
+        case editPayoffItem(AnyPayoffItem)
+        case enterLumpSum
         case enterWage
         case expense(Expense)
         case expenseContributions(Expense)
@@ -180,6 +194,7 @@ class NavManager: ObservableObject {
         case multipleNewShiftsView
         case newItemCreation
         case oldPayoffQueue
+        case payoffContributionsView(PayoffItemDetailViewModel)
         case payoffItemDetailView(AnyPayoffItem)
         case payPeriodDetail(PayPeriod)
         case payPeriods
@@ -189,6 +204,7 @@ class NavManager: ObservableObject {
         case saved(Saved)
         case savedItemAllocationSheet_Expense(AddAllocationForExpenseView.SavedAllocSheet.Sender)
         case savedItemAllocationSheet_Goal(Saved, Goal)
+        case selectCalendarsForSettings
         case selectDaysView
         case setHoursForRegularSchedule(RegularDaysContainer)
         case settings
@@ -202,8 +218,6 @@ class NavManager: ObservableObject {
         case todayTimeBlocksExpanded(TodayShift)
         case todayViewPayoffQueue
         case wage
-        case payoffContributionsView(PayoffItemDetailViewModel)
-        case selectCalendarsForSettings
         // swiftformat:sort:end
     }
 
@@ -231,8 +245,12 @@ class NavManager: ObservableObject {
                 CreateNewTimeBlockView(starter)
             case let .createTimeBlockForToday(starter):
                 CreateNewTimeBlockView(starter)
+            case let .editPayoffItem(anyPayoff):
+                EditPayoffItemView(payoffItem: anyPayoff.payoffItem)
             case .enterWage:
                 EnterWageView()
+            case .enterLumpSum:
+                EnterLumpSumView()
             case let .expense(expense):
                 PayoffItemDetailView(payoffItem: expense)
             case let .expenseContributions(expense):
@@ -248,7 +266,7 @@ class NavManager: ObservableObject {
             case let .payPeriodDetail(period):
                 PayPeriodDetailView(payPeriod: period)
             case .payPeriods:
-                PayPeriodsView()
+                AllPayPeriodsView()
             case .payPeriodSettings:
                 PayPeriodSettingsView()
             case .purchasePage:

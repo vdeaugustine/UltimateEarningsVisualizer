@@ -15,6 +15,7 @@ struct SettingsView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
     @State private var showColorOptions: Bool = false
+    @State private var showRoadblock = false
 
     @ObservedObject var user = User.main
     @ObservedObject var settings = User.main.getSettings()
@@ -71,7 +72,7 @@ struct SettingsView: View {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "hourglass",
                                                         backgroundColor: settings.themeColor)
-                        Text("Normal working hours")
+                        Text("Regular Schedule")
                         Spacer()
                         Components.nextPageChevron
                     }.allPartsTappable()
@@ -94,6 +95,20 @@ struct SettingsView: View {
                     .allPartsTappable()
                 }
                 .buttonStyle(.plain)
+                
+                
+                
+                Button {
+                    NavManager.shared.appendCorrectPath(newValue: .enterLumpSum)
+                } label: {
+                    HStack {
+                        SystemImageWithFilledBackground(systemName: "dollarsign")
+                        Text("Enter lump sum")
+                        Spacer()
+                        Components.nextPageChevron
+                    }
+                }
+                .foregroundStyle(.black)
             }
 
             Section {
@@ -105,9 +120,22 @@ struct SettingsView: View {
 
             Section("Visuals") {
                 Button {
+                    
+                    #if DEBUG
                     withAnimation {
                         showColorOptions.toggle()
                     }
+                    #else
+                    
+                    if SubscriptionManager.shared.canAccessPremiumFeatures() {
+                        withAnimation {
+                            showColorOptions.toggle()
+                        }
+                    } else {
+                        showRoadblock = true
+                    }
+                    
+                    #endif
 
                 } label: {
                     Text("Theme color (PREMIUM)")
@@ -170,7 +198,7 @@ struct SettingsView: View {
                         .onChange(of: useColorNavBar) { _ in
                             settings.useColoredNavBar = useColorNavBar
                             try! viewContext.save()
-                    }
+                        }
                 }
 
             #endif
@@ -203,6 +231,9 @@ struct SettingsView: View {
         .navigationDestination(for: NavManager.AllViews.self) { view in
             NavManager.shared.getDestinationViewForStack(destination: view)
         }
+        .sheet(isPresented: $showRoadblock, content: {
+            RoadblockView()
+        })
     }
 }
 
