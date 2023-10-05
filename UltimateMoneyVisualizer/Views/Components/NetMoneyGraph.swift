@@ -5,6 +5,7 @@ import SwiftUI
 
 struct NetMoneyGraph: View {
     @ObservedObject private var user = User.main
+    @ObservedObject var settings = User.main.getSettings()
 
     func getDay(_ int: Int) -> Date {
         Date.now.addDays(-Double(int))
@@ -45,7 +46,7 @@ struct NetMoneyGraph: View {
                                        item.date.getFormattedDate(format: "EEE\nM/d")),
                              y: .value("Earnings",
                                        item.money))
-                        .foregroundStyle(user.getSettings().getDefaultGradient())
+                        .foregroundStyle(settings.getDefaultGradient())
 
                     PointMark(x: .value("Day",
                                         item.date.getFormattedDate(format: "EEE\nM/d")),
@@ -55,9 +56,9 @@ struct NetMoneyGraph: View {
                             Text(Int(item.money).str)
                                 .font(.caption2)
                                 .fontWeight(.semibold)
-                                .foregroundStyle(user.getSettings().getDefaultGradient())
+                                .foregroundStyle(settings.getDefaultGradient())
                         }
-                        .foregroundStyle(user.getSettings().getDefaultGradient())
+                        .foregroundStyle(settings.getDefaultGradient())
 
                     BarMark(x: .value("Day",
                                       item.date.getFormattedDate(format: "EEE\nM/d")),

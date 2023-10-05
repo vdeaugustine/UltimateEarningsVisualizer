@@ -46,7 +46,7 @@ public extension PayPeriod {
     var title: String {
         "Pay period for \(firstDate!.getFormattedDate(format: "MMM d")) - \(payDay!.getFormattedDate(format: .abbreviatedMonth))"
     }
-    
+
     var dateRangeString: String {
         "\(firstDate!.getFormattedDate(format: "MMM d")) - \(payDay!.getFormattedDate(format: .abbreviatedMonth))"
     }
@@ -80,29 +80,44 @@ public extension PayPeriod {
         }
         return shifts.sorted(by: { $0.start > $1.start })
     }
-    
+
+    func thisPeriodCanContain(shift: Shift) -> Bool {
+        guard let firstDate, let payDay else { return false }
+        guard let shiftStart = shift.startDate,
+              let shiftEnd = shift.endDate else {
+            return false
+        }
+
+        return firstDate <= shiftStart && payDay >= shiftEnd
+    }
+
+    func thisPeriodContainsDates(_ date1: Date, and date2: Date) -> Bool {
+        guard let firstDate, let payDay else { return false }
+        return firstDate <= date1 && payDay >= date2
+    }
+
     func totalTimeWorked() -> Double {
-        getShifts().reduce(Double.zero, { $0 + $1.duration })
+        getShifts().reduce(Double.zero) { $0 + $1.duration }
     }
-    
+
     func totalEarned() -> Double {
-        getShifts().reduce(Double.zero, { $0 + $1.totalEarned })
+        getShifts().reduce(Double.zero) { $0 + $1.totalEarned }
     }
-    
+
     func totalEarnedAfterTaxes() -> Double {
         totalEarned() - taxesPaid()
     }
-    
+
     func taxesPaid() -> Double {
-        getShifts().reduce(Double.zero, { $0 + $1.taxesPaid })
+        getShifts().reduce(Double.zero) { $0 + $1.taxesPaid }
     }
-    
+
     func stateTaxesPaid() -> Double {
-        getShifts().reduce(Double.zero, { $0 + $1.stateTaxesPaid })
+        getShifts().reduce(Double.zero) { $0 + $1.stateTaxesPaid }
     }
-    
+
     func federalTaxesPaid() -> Double {
-        getShifts().reduce(Double.zero, { $0 + $1.federalTaxesPaid })
+        getShifts().reduce(Double.zero) { $0 + $1.federalTaxesPaid }
     }
 
     // Function to assign shifts to pay periods
@@ -137,4 +152,14 @@ public extension PayPeriod {
         try context.save()
     }
 
+    static func createPayPeriodsFor(dateRange: Range<Date>, with settings: PayPeriodSettings, user: User, context: NSManagedObjectContext) throws {
+        var startDate = Date.beginningOfDay(dateRange.lowerBound)
+        while true {
+            let payPeriod = try PayPeriod(firstDate: startDate, settings: settings, user: user, context: context)
+            if let payDay = payPeriod.payDay, payDay > Date.endOfDay(dateRange.upperBound) {
+                break
+            }
+            startDate = Calendar.current.startOfDay(for: (payPeriod.payDay?.addDays(1)) ?? startDate) 
+        }
+    }
 }

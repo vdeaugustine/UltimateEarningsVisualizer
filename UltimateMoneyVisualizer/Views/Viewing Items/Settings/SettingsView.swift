@@ -208,7 +208,7 @@ struct SettingsView: View {
                     NavManager.shared.appendCorrectPath(newValue: .purchasePage)
                 } label: {
                     HStack {
-                        SystemImageWithFilledBackground(systemName: "star.fill", backgroundColor: user.getSettings().themeColor)
+                        SystemImageWithFilledBackground(systemName: "star.fill", backgroundColor: settings.themeColor)
                         Text("Manage Plan")
                         Spacer()
                         Components.nextPageChevron

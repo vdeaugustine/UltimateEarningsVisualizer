@@ -40,7 +40,7 @@ public extension User {
     func instantiateExampleItems(context: NSManagedObjectContext) {
         do {
             // Make Pay Period Settings
-            try PayPeriodSettings(cycleCadence: .weekly,
+            try PayPeriodSettings(cycleCadence: .biWeekly,
                                   autoGenerate: true,
                                   user: self,
                                   context: context)
