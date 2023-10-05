@@ -159,7 +159,25 @@ public extension PayPeriod {
             if let payDay = payPeriod.payDay, payDay > Date.endOfDay(dateRange.upperBound) {
                 break
             }
-            startDate = Calendar.current.startOfDay(for: (payPeriod.payDay?.addDays(1)) ?? startDate) 
+            startDate = Calendar.current.startOfDay(for: (payPeriod.payDay?.addDays(1)) ?? startDate)
+        }
+    }
+
+    static func createNewIfCurrentHasPassed() throws {
+        let user = User.main
+        guard let context = user.managedObjectContext,
+              let payPeriodSettings = user.payPeriodSettings
+        else { return }
+        let currentPayPeriod = user.getCurrentPayPeriod()
+        let now = Date()
+        if let payDay = currentPayPeriod.payDay, now > payDay {
+            let firstDate = payDay.addDays(1)
+            let newPayPeriod = try PayPeriod(firstDate: firstDate,
+                                             settings: payPeriodSettings,
+                                             user: user,
+                                             context: context)
+//            user.currentPayPeriod = newPayPeriod
+            try context.save()
         }
     }
 }
