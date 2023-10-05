@@ -72,6 +72,10 @@ public struct TempTodayPayoff: Identifiable, Equatable {
         
         fatalError("Error getting payoff item for temp payoff \(self)")
     }
+    
+    
+    
+    
 }
 
 // Function to pay off given items from a total amount available, returning a modified array of payoff items
@@ -114,3 +118,5 @@ func payOfPayoffItems(with amount: Double, payoffItems: [TempTodayPayoff]) -> [T
     // Return the new array with modified payoff items
     return newTemporaryPayoffItems
 }
+
+

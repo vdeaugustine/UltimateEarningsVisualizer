@@ -23,54 +23,9 @@ struct YouHaveNoShiftView: View {
                                        buttonColor: settings.themeColor) {
             showHoursSheet = true
             model.showHoursSheet = true
-            print(model.spentOnGoals.str)
         }
     }
 
-//    var body: some View {
-//        VStack {
-//            Spacer()
-//
-//            Image(systemName: "calendar.badge.clock")
-//                .resizable()
-//                .aspectRatio(contentMode: .fit)
-//                .frame(width: 85)
-//                .foregroundColor(.gray)
-//
-//            VStack(spacing: 14) {
-//                Text("Today's Shift")
-//                    .font(.largeTitle)
-//                    .fontWeight(.semibold)
-//
-//                Text("You do not have a shift scheduled for today.")
-//                    .fontWeight(.medium)
-//                    .foregroundStyle(Color(uiColor: .secondaryLabel))
-//            }
-//
-//            Spacer()
-//        }
-//        .frame(maxHeight: .infinity)
-//        .safeAreaInset(edge: .bottom, content: {
-//            Button {
-//                showHoursSheet = true
-//                model.showHoursSheet = true
-//                print(model.spentOnGoals.str)
-//            } label: {
-//                ZStack {
-//                    Capsule()
-//                        .fill(settings.getDefaultGradient())
-//                    Text("Add Shift")
-//                        .fontWeight(.medium)
-//                        .foregroundColor(.white)
-//                }
-//                .frame(width: 135, height: 50)
-//            }
-//
-//        })
-//        .padding()
-//        .frame(maxWidth: .infinity, maxHeight: .infinity)
-//        .background(Color.clear)
-//    }
 }
 
 // MARK: - YouHaveNoShiftView_Previews

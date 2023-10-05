@@ -24,7 +24,7 @@ public extension Allocation {
         self.goal = goal
         self.shift = shift
         self.savedItem = saved
-        
+
         if let goal {
             self.user = goal.user
         } else if let expense {
@@ -82,11 +82,40 @@ extension Allocation {
         }
         return ""
     }
-    
+
     var payoffType: PayoffType {
         if goal != nil {
             return .goal
         }
         return .expense
+    }
+}
+
+// MARK: - Equatable
+
+extension Allocation {
+    static func == (lhs: Allocation, rhs: Allocation) -> Bool {
+        let sameTypeAndAmount = lhs.payoffType == rhs.payoffType && lhs.amount == rhs.amount
+
+        let samePayoff = (lhs.expense == rhs.expense) || (lhs.goal == rhs.goal)
+
+        let sameShift = lhs.shift != nil && rhs.shift != nil && lhs.shift == rhs.shift
+
+        let sameSavedItem = lhs.savedItem != nil && rhs.savedItem != nil && lhs.savedItem == rhs.savedItem
+
+        let sameSource = sameShift || sameSavedItem
+
+        return sameTypeAndAmount && samePayoff && sameSource
+    }
+
+    func isEqual(to tempPayoff: TempTodayPayoff, todayShiftStart: Date, todayShiftEnd: Date) -> Bool {
+        guard let shift else { return false }
+        guard tempPayoff.type == payoffType else { return false }
+
+        let sameAmount = tempPayoff.progressAmount == amount
+        let sameShiftStart = shift.start == todayShiftStart
+        let sameShiftEnd = shift.end == todayShiftEnd
+
+        return sameAmount && sameShiftStart && sameShiftEnd
     }
 }
