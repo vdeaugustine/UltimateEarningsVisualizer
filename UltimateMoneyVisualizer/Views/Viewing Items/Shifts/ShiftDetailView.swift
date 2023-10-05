@@ -126,9 +126,6 @@ struct ShiftDetailView: View {
 //            }
         }
         .listStyle(.insetGrouped)
-        .padding(.bottom, 15)
-
-        .padding(.bottom)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
