@@ -20,6 +20,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
         
         User.main.addNewVisit()
+        do {
+            try PayPeriod.createNewIfCurrentHasPassed()
+        } catch {
+            print("Error in app delegate ")
+        }
         
         return true
     }

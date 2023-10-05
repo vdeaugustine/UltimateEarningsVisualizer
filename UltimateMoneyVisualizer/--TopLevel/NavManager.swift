@@ -233,6 +233,8 @@ class NavManager: ObservableObject {
                 CalculateTaxView(taxType: sender.taxType, bindedRate: sender.$bindedRate)
             case let .condensedTimeBlock(block):
                 CondensedTimeBlockView(block: block)
+            case .confirmToday:
+                ConfirmTodayShift_UseThisOne().environmentObject(TodayViewModel.main)
             case .createExpense:
                 CreateExpenseView().environmentObject(NewItemViewModel.shared)
             case .createGoal:

@@ -146,7 +146,7 @@ struct ShiftListView: View {
                     .listRowBackground(Color.clear)
                     .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
 
-                ForEach(payPeriods) { period in
+                ForEach(payPeriods.filter({ $0.getLastDate() <= .now || $0 == user.getCurrentPayPeriod() })) { period in
                     if period.getShifts().isEmpty == false {
                         Section {
                             ForEach(period.getShifts()) { shift in

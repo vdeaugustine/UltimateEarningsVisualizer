@@ -8,8 +8,6 @@
 import SwiftUI
 import Vin
 
-
-
 // MARK: - SelectHours
 
 struct SelectHours: View {
@@ -52,13 +50,10 @@ struct SelectHours: View {
                         viewModel.end = newEnd
                         // Taptic Feedback
                         Taptic.light()
-                        
+
                     } label: {
                         Text(start.getFormattedDate(format: .minimalTime) + " - " + end.getFormattedDate(format: .minimalTime))
-                            
                     }
-                    
-                    
                 }
             }
 
@@ -83,23 +78,26 @@ struct SelectHours: View {
                     if let existingShift = viewModel.user.getValidTodayShift() {
                         existingShift.startTime = viewModel.start
                         existingShift.endTime = viewModel.end
+
                         try viewModel.user.getContext().save()
                     } else {
                         try TodayShift(startTime: viewModel.start,
                                        endTime: viewModel.end,
                                        user: viewModel.user,
                                        context: viewModel.viewContext)
+                        viewModel.updateInitialPayoffs()
                     }
 
                     // TODO: See if these are needed
 //                        viewModel.todayShift = ts
 //                        viewModel.user.todayShift = ts
                     viewModel.showHoursSheet = false
-                    
+
                     Taptic.medium()
 
                 } catch {
-                    fatalError(error.localizedDescription)
+                    // TODO: Handle error
+                    print("Error: \(error.localizedDescription)")
                 }
 
             } label: {
@@ -112,8 +110,6 @@ struct SelectHours: View {
                 }
                 .frame(width: 135, height: 50)
             }
-            
-            
         }
         .navigationTitle("Set hours")
         .background(Color.clear)

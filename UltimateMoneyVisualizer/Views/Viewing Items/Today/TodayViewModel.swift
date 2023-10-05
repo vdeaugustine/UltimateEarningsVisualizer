@@ -64,6 +64,7 @@ class TodayViewModel: ObservableObject {
 
         self.initialPayoffs = allQueue.map { TempTodayPayoff(payoff: $0) }
     }
+    
 
     func updateInitialPayoffs() {
         let allQueue = user.getQueue().filter { !$0.isPaidOff }
@@ -189,7 +190,7 @@ class TodayViewModel: ObservableObject {
     var taxesPaidSoFar: Double {
         tempPayoffs.lazy.filter { $0.type == .tax }.reduce(Double.zero) { $0 + $1.progressAmount }
     }
-    
+
     var taxesRemainingToPay: Double {
         willPayInTaxes - taxesPaidSoFar
     }
@@ -303,6 +304,7 @@ class TodayViewModel: ObservableObject {
             viewContext.delete(userShift)
         }
         showBanner = false
+        
         do {
             try user.getContext().save()
         } catch {
@@ -360,7 +362,8 @@ class TodayViewModel: ObservableObject {
     }
 
     func saveShift() {
-        completedShiftTempPayoffs = tempPayoffs.filter { $0.progressAmount >= 0.01 }
+        completedShiftTempPayoffs = tempPayoffs.filter { $0.progressAmount > 0.01 }
+        
         navManager.appendCorrectPath(newValue: .confirmToday)
     }
 
@@ -555,7 +558,7 @@ extension TodayViewModel {
 
         return retArr
     }
-    
+
     var timeBlockCount: Int {
         user.todayShift?.getTimeBlocks().count ?? 0
     }
@@ -620,5 +623,28 @@ extension TodayViewModel {
         static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
             value = nextValue()
         }
+    }
+}
+
+// MARK: - Confirm Today Shift
+
+extension TodayViewModel {
+    func tappedSaveOnConfirmShiftView(goals: [TempTodayPayoff], expenses: [TempTodayPayoff]) throws -> (shift: Shift, allocations: [Allocation]) {
+        guard let todayShift = user.todayShift else {
+            throw (NSError(domain: "No today shift", code: 1))
+        }
+        let shift = try Shift(fromTodayShift: todayShift, context: viewContext)
+
+        var newAllocations = [Allocation]()
+        
+        for goal in goals {
+            newAllocations.append(try Allocation(tempPayoff: goal, shift: shift, user: user, context: viewContext))
+        }
+
+        for expense in expenses {
+            newAllocations.append(try Allocation(tempPayoff: expense, shift: shift, user: user, context: viewContext))
+        }
+        
+        return (shift, newAllocations)
     }
 }
