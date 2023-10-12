@@ -380,10 +380,10 @@ public extension User {
 
     // MARK: - Bank
 
-//    func getBank() -> Bank {
-//
-//    }
-//
+    func getBankItems() -> [Bank] {
+        guard let banks else { return [] }
+        return Array(banks) as? [Bank] ?? []
+    }
 
     // MARK: - Expenses
 

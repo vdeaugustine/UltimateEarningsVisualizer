@@ -17,5 +17,13 @@ class IconManager {
     public static let paidOffString: String = "checklist"
     
     public static let savedIcon = PiggyBankShape()
+    
+    public static let startShift: String = "play"
+    public static let endShift: String = "xmark.octagon"
+    
+    public static let earningsIncreased: String = "chart.line.uptrend.xyaxis"
+    public static let earningsDecreased: String = "chart.line.downtrend.xyaxis"
+    
+    public static let timeDuration: String = "stopwatch"
 }
 

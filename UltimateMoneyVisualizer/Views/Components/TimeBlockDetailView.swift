@@ -121,8 +121,11 @@ struct TimeBlockDetailView: View {
             }
 
             Section {
-                Button("Delete", role: .destructive) {
+                Button {
                     showDeleteConfirmation.toggle()
+                } label: {
+                    Label("Delete", systemImage: "trash")
+                        .foregroundStyle(.red)
                 }
             }
         }

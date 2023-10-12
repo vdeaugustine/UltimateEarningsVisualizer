@@ -37,12 +37,7 @@ struct CreateNewTimeBlockView: View {
             Section {
                 TextField("Title", text: $viewModel.title)
                     .focused($titleFocused)
-                DatePicker("Start Time", selection: $viewModel.start,
-                           in: viewModel.shift.getStart() ... viewModel.shift.getEnd(),
-                           displayedComponents: .hourAndMinute)
-                DatePicker("End Time", selection: $viewModel.end,
-                           in: viewModel.shift.getStart() ... viewModel.shift.getEnd(),
-                           displayedComponents: .hourAndMinute)
+               
                 VStack {
                     Button {
                         withAnimation {
@@ -96,6 +91,30 @@ struct CreateNewTimeBlockView: View {
             } header: {
                 Text("Info").hidden()
             }
+            
+            Section("Start time") {
+                DatePicker("Start Time", selection: $viewModel.start,
+                           in: viewModel.shift.getStart() ... viewModel.shift.getEnd(),
+                           displayedComponents: .hourAndMinute)
+                
+                Button("Set current time") {
+                    viewModel.start = .now
+                }
+//                .frame(maxWidth: .infinity, alignment: .trailing)
+            }
+//            .listRowSeparator(.hidden)
+            
+            Section("End time") {
+                DatePicker("End Time", selection: $viewModel.end,
+                           in: viewModel.shift.getStart() ... viewModel.shift.getEnd(),
+                           displayedComponents: .hourAndMinute)
+                
+                Button("Set current time") {
+                    viewModel.end = .now
+                }
+//                .frame(maxWidth: .infinity, alignment: .trailing)
+            }
+//            .listRowSeparator(.hidden)
 
             Section {
                 ForEach(viewModel.pastBlocks, id: \.self) { block in

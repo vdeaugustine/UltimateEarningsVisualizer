@@ -34,9 +34,29 @@ struct ShiftDetailView: View {
     var body: some View {
         List {
             Section {
-                HorizontalDataDisplay(data: [.init(label: "Start", value: shift.start.getFormattedDate(format: .minimalTime), view: nil),
-                                             .init(label: "End", value: shift.end.getFormattedDate(format: .minimalTime), view: nil),
-                                             .init(label: "Duration", value: shift.duration.formatForTime(), view: nil)])
+//                HorizontalDataDisplay(data: [.init(label: "Start", value: shift.start.getFormattedDate(format: .minimalTime), view: nil),
+//                                             .init(label: "End", value: shift.end.getFormattedDate(format: .minimalTime), view: nil),
+//                                             .init(label: "Duration", value: shift.duration.formatForTime(), view: nil)])
+                
+                HStack {
+                    SystemImageWithFilledBackground(systemName: IconManager.startShift)
+                    Text("Start")
+                    Spacer()
+                    Text(shift.start.getFormattedDate(format: .minimalTime))
+                }
+                
+                HStack {
+                    SystemImageWithFilledBackground(systemName: IconManager.endShift)
+                    Text("End")
+                        .spacedOut(text: shift.end.getFormattedDate(format: .minimalTime))
+                }
+                
+                HStack {
+                    SystemImageWithFilledBackground(systemName: IconManager.timeDuration)
+                    Text("Duration")
+                        .spacedOut(text: shift.duration.formatForTime())
+                }
+                    
             } header: {
                 Text("Hours")
             }
@@ -44,7 +64,7 @@ struct ShiftDetailView: View {
             Section("Earnings") {
                 if showEarningsSection {
                     HStack {
-                        SystemImageWithFilledBackground(systemName: "chart.line.uptrend.xyaxis", backgroundColor: settings.themeColor)
+                        SystemImageWithFilledBackground(systemName: IconManager.earningsIncreased, backgroundColor: Components.unspentColor)
                         Text("Earnings")
                             .spacedOut {
                                 Text(shift.totalEarned.money())
@@ -52,7 +72,7 @@ struct ShiftDetailView: View {
                     }
 
                     HStack {
-                        SystemImageWithFilledBackground(systemName: "chart.line.downtrend.xyaxis", backgroundColor: .niceRed)
+                        SystemImageWithFilledBackground(systemName: IconManager.earningsDecreased, backgroundColor: .niceRed)
                         Text("Spent")
                             .spacedOut {
                                 Text(shift.totalAllocated.money())
@@ -60,7 +80,7 @@ struct ShiftDetailView: View {
                     }
 
                     HStack {
-                        SystemImageWithFilledBackground(systemName: "dollarsign.arrow.circlepath", backgroundColor: .okGreen)
+                        SystemImageWithFilledBackground(systemName: "dollarsign.arrow.circlepath", backgroundColor: Components.unspentColor)
                         Text("Available")
                             .spacedOut {
                                 Text(shift.totalAvailable.money())
@@ -68,7 +88,7 @@ struct ShiftDetailView: View {
                     }
                 }
             }
-            .listRowSeparator(.hidden)
+//            .listRowSeparator(.hidden)
 
             Section {
                 GPTPieChart(pieChartData: [.init(color: Components.taxesColor, name: "Taxes", amount: shift.taxesPaid),

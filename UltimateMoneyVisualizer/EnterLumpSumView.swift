@@ -73,15 +73,15 @@ struct EnterLumpSumView: View {
 
             Button("Save") {
                 do {
-                    if let bank = user.bank {
-                        bank.amount = amount
-                        bank.isFromWorking = isFromWorking
-                    } else {
+//                    if let bank = user.bank {
+//                        bank.amount = amount
+//                        bank.isFromWorking = isFromWorking
+//                    } else {
                         let bank = Bank(context: viewContext)
                         bank.user = user
                         bank.amount = amount
                         bank.isFromWorking = isFromWorking
-                    }
+//                    }
 
                     try viewContext.save()
                     dismiss()
@@ -95,8 +95,8 @@ struct EnterLumpSumView: View {
             EnterDoubleView(dubToEdit: $amount, format: .dollar)
         })
         .onAppear {
-            guard let existing = user.bank else { return }
-            amount = existing.amount
+//            guard let existing = user.bank else { return }
+//            amount = existing.amount
         }
         .alert("Error saving amount", isPresented: $showErrorAlert) {} message: {
             Text(errorString)

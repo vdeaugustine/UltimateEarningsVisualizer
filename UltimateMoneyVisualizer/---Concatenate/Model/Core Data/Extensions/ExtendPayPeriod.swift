@@ -171,7 +171,7 @@ public extension PayPeriod {
         let currentPayPeriod = user.getCurrentPayPeriod()
         let now = Date()
         if let payDay = currentPayPeriod.payDay, now > payDay {
-            let firstDate = payDay.addDays(1)
+            let firstDate = payDay.addDays(1) 
             let newPayPeriod = try PayPeriod(firstDate: firstDate,
                                              settings: payPeriodSettings,
                                              user: user,

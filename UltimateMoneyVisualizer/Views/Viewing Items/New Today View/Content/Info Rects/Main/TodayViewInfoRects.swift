@@ -15,6 +15,8 @@ struct TodayViewInfoRects: View {
     let titleFont: Font = .headline
     let subtitleFont: Font = .callout
     let imageFont: CGFloat = 20
+    @State private var includingTaxes = User.main.getWage().includeTaxes
+    @State private var showTaxesSheet = false
 
     var body: some View {
         VStack(spacing: 12) {
@@ -35,14 +37,38 @@ struct TodayViewInfoRects: View {
                                       valueString: viewModel.soFarTotalValue,
                                       bottomLabel: viewModel.soFarTotalLabel)
                     TodayViewInfoRect(imageName: "dollarsign.circle",
-                                      valueString: viewModel.afterTaxTotalValue,
-                                      bottomLabel: "After Tax")
+                                      valueString: viewModel.remainingTotalValue,
+                                      bottomLabel: "Remaining")
                 }
 
                 HStack {
                     TodayViewInfoRect(circleColor: viewModel.taxesColor,
                                       valueString: viewModel.taxesTotalValue,
                                       bottomLabel: "Taxes")
+                    .blur(radius: includingTaxes ? 0 : 10)
+                    .overlay {
+                        if !includingTaxes {
+                            Button {
+                                showTaxesSheet = true
+//                                NavManager.shared.appendCorrectPath(newValue: .enterWage)
+                            } label: {
+                                VStack(spacing: 10) {
+                                    Text("Set up taxes")
+                                        .font(.title2)
+                                        .fontWeight(.semibold)
+                                    Image(systemName: "exclamationmark.circle.fill")
+                                        .font(.title2)
+                                        .foregroundStyle(.gray)
+                                }
+                                .frame(height: 124)
+                                .frame(maxWidth: 181)
+                            }
+                            
+//                            .frame(maxWidth: 181, alignment: .leading)
+//                            .cornerRadius(20)
+//                            .modifier(ShadowForRect())
+                        }
+                    }
 
                     TodayViewInfoRect(circleColor: viewModel.expensesColor,
                                       valueString: viewModel.expensesTotalValue,
@@ -59,7 +85,22 @@ struct TodayViewInfoRects: View {
                 }
             }
         }
+        .onChange(of: viewModel.wage.includeTaxes, perform: { value in
+            includingTaxes = viewModel.wage.includeTaxes
+        })
+        .sheet(isPresented: $showTaxesSheet) {
+            includingTaxes = User.main.getWage().includeTaxes
+            print("Called on dismiss")
+        } content: {
+            NavigationView {
+                EnterWageView()
+            }
+        }
     }
+}
+
+#Preview {
+    TodayViewInfoRects().environmentObject(TodayViewModel.main)
 }
 
 // MARK: - NewInfoRects
@@ -243,6 +284,8 @@ struct HeaderModifier: ViewModifier {
             .foregroundStyle(Color(hex: "4E4E4E"))
     }
 }
+
+
 
 // MARK: - TodayViewInfoRects_Previews
 
