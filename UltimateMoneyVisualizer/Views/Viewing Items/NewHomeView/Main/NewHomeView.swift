@@ -6,6 +6,7 @@ struct NewHomeView: View {
     @StateObject private var vm: NewHomeViewModel = .shared
     @ObservedObject private var settings = User.main.getSettings()
 
+    @State private var showWageBreakdownPopover = true
     var body: some View {
         ScrollView {
             VStack(spacing: 40) {
@@ -14,6 +15,7 @@ struct NewHomeView: View {
                 NetMoney_HomeView()
                 PayoffQueueView_HomeView()
                 WageBreakdown_HomeView()
+                   
                 TopTimeBlocks_HomeView()
             }
             .padding(.top)

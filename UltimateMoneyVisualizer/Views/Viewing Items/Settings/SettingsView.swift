@@ -10,6 +10,36 @@ import SwiftUI
 import Vin
 
 // MARK: - SettingsView
+struct TestPopo: View {
+    @State private var showPopover = false
+    @State private var background: Color = .blue
+    var body: some View {
+        VStack {
+            Button("Something") {
+                showPopover.toggle()
+            }
+            .floatingPopover(isPresented: $showPopover, arrowDirection: .down) {
+                VStack(spacing: 12){
+                    Text("Hello, it's me, Popover.")
+                        .foregroundColor(background == .clear ? .primary : .white)
+//                    
+//                    Button("Close Popover"){
+//                        showPopover.toggle()
+//                    }
+//                    .foregroundColor(background == .clear ? .blue : .white.opacity(0.7))
+                }
+                .padding(15)
+                /// - You can also Give Full Popover Color like this
+                .background {
+                    Rectangle()
+                        .fill(User.main.getSettings().themeColor.gradient)
+                        .padding(-20)
+                }
+            }
+//            .padding(.top,25)
+        }
+    }
+}
 
 struct SettingsView: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -19,6 +49,8 @@ struct SettingsView: View {
 
     @ObservedObject var user = User.main
     @ObservedObject var settings = User.main.getSettings()
+    
+    @State private var show = true
 
     #if DEBUG
         @State private var inMemory = UserDefaults.inMemory
@@ -34,6 +66,9 @@ struct SettingsView: View {
 
     var body: some View {
         List {
+            
+            TestPopo()
+            
             Section("Money") {
                 // MARK: - Set Wage
 
