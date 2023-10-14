@@ -331,6 +331,24 @@ public extension User {
         return shifts.reduce(TimeInterval.zero) { $0 + $1.duration }
     }
 
+    // MARK: - Status Tracker
+
+    func getStatusTracker() -> StatusTracker {
+        if let statusTracker {
+            return statusTracker
+        }
+
+        let newStatus = StatusTracker(context: PersistenceController.context)
+
+        do {
+            try PersistenceController.context.save()
+        } catch {
+            print(error)
+        }
+        
+        return newStatus
+    }
+
     // MARK: - Settings
 
     func getSettings() -> Settings {

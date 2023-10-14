@@ -16,6 +16,7 @@ extension ScrollViewProxy {
 struct NewHomeView: View {
     @StateObject private var vm: NewHomeViewModel = .shared
     @ObservedObject private var settings = User.main.getSettings()
+    @ObservedObject private var status = User.main.getStatusTracker()
     @State private var scrollOffset: CGPoint = .zero
 
     @State private var showWageBreakdownPopover = false
@@ -110,8 +111,10 @@ struct NewHomeView: View {
                     .padding(.top)
 
                     .onAppear(perform: {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            totalsPopover = true
+                        if status.hasSeenHomeTutorial == false {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                totalsPopover = true
+                            }
                         }
                     })
                 }
