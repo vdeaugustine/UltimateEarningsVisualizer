@@ -42,13 +42,31 @@ public extension View {
     /// }
     /// ```
     ///
+//    @ViewBuilder
+//    func floatingPopover<Content: View>(isPresented: Binding<Bool>,
+//                                        arrowDirection: UIPopoverArrowDirection,
+//                                        @ViewBuilder content: @escaping () -> Content)
+//        -> some View {
+//        background {
+//            FloatingPopOverController(isPresented: isPresented, arrowDirection: arrowDirection, content: content())
+//        }
+//    }
+    
     @ViewBuilder
-    func floatingPopover<Content: View>(isPresented: Binding<Bool>,
-                                        arrowDirection: UIPopoverArrowDirection,
-                                        @ViewBuilder content: @escaping () -> Content)
-        -> some View {
-        background {
-            FloatingPopOverController(isPresented: isPresented, arrowDirection: arrowDirection, content: content())
+    func defaultPopover(isPresented: Binding<Bool>, text: String, direction: UIPopoverArrowDirection, color: Color? = nil, font: Font = .subheadline) -> some View {
+        floatingPopover(isPresented: isPresented, arrowDirection: direction) {
+            VStack(spacing: 12){
+                Text(text)
+                    .font(font)
+                    .lineLimit(3)
+                    .foregroundColor(color == .clear ? .primary : .white)
+            }
+            .padding(15)
+            .background {
+                Rectangle()
+                    .fill((color ?? User.main.getSettings().themeColor).gradient)
+                    .padding(-20)
+            }
         }
     }
 }

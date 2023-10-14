@@ -18,24 +18,7 @@ struct TestPopo: View {
             Button("Something") {
                 showPopover.toggle()
             }
-            .floatingPopover(isPresented: $showPopover, arrowDirection: .down) {
-                VStack(spacing: 12){
-                    Text("Hello, it's me, Popover.")
-                        .foregroundColor(background == .clear ? .primary : .white)
-//                    
-//                    Button("Close Popover"){
-//                        showPopover.toggle()
-//                    }
-//                    .foregroundColor(background == .clear ? .blue : .white.opacity(0.7))
-                }
-                .padding(15)
-                /// - You can also Give Full Popover Color like this
-                .background {
-                    Rectangle()
-                        .fill(User.main.getSettings().themeColor.gradient)
-                        .padding(-20)
-                }
-            }
+            .defaultPopover(isPresented: $showPopover, text: "Testing default", direction: .up)
 //            .padding(.top,25)
         }
     }
