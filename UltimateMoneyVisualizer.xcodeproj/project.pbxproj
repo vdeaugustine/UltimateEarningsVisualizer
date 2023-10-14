@@ -205,6 +205,9 @@
 		9CD5111D2ADA499100B5584E /* OnboardingSavedItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD5111C2ADA499100B5584E /* OnboardingSavedItemView.swift */; };
 		9CD5111F2ADA537800B5584E /* FirstSavedItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD5111E2ADA537800B5584E /* FirstSavedItemView.swift */; };
 		9CD511212ADA6EBC00B5584E /* FirstPayoffItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD511202ADA6EBC00B5584E /* FirstPayoffItemView.swift */; };
+		9CD511232ADA877C00B5584E /* ReadingGeometries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD511222ADA877C00B5584E /* ReadingGeometries.swift */; };
+		9CD511262ADA8DA800B5584E /* ScrollKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9CD511252ADA8DA800B5584E /* ScrollKit */; };
+		9CD511282ADB182A00B5584E /* PopoverContents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD511272ADB182A00B5584E /* PopoverContents.swift */; };
 		9CDBE0E42A2462A200741EEE /* NewShiftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDBE0E32A2462A200741EEE /* NewShiftView.swift */; };
 		9CDBE0EA2A25CD6300741EEE /* GoalsGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDBE0E92A25CD6300741EEE /* GoalsGridView.swift */; };
 		9CDBE0EC2A26F6C600741EEE /* ExpenseWithImageAndGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDBE0EB2A26F6C600741EEE /* ExpenseWithImageAndGradientView.swift */; };
@@ -494,6 +497,8 @@
 		9CD5111C2ADA499100B5584E /* OnboardingSavedItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSavedItemView.swift; sourceTree = "<group>"; };
 		9CD5111E2ADA537800B5584E /* FirstSavedItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstSavedItemView.swift; sourceTree = "<group>"; };
 		9CD511202ADA6EBC00B5584E /* FirstPayoffItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstPayoffItemView.swift; sourceTree = SOURCE_ROOT; };
+		9CD511222ADA877C00B5584E /* ReadingGeometries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingGeometries.swift; sourceTree = "<group>"; };
+		9CD511272ADB182A00B5584E /* PopoverContents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverContents.swift; sourceTree = "<group>"; };
 		9CDBE0E32A2462A200741EEE /* NewShiftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewShiftView.swift; sourceTree = "<group>"; };
 		9CDBE0E92A25CD6300741EEE /* GoalsGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsGridView.swift; sourceTree = "<group>"; };
 		9CDBE0EB2A26F6C600741EEE /* ExpenseWithImageAndGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseWithImageAndGradientView.swift; sourceTree = "<group>"; };
@@ -574,6 +579,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CD511262ADA8DA800B5584E /* ScrollKit in Frameworks */,
 				9C6363A72AA00A88000B25BB /* SVGView in Frameworks */,
 				9C602CD72A9F060400B42DDF /* FloatingButton in Frameworks */,
 				9C7F96A229F8FE6700F5035C /* Vin in Frameworks */,
@@ -889,6 +895,7 @@
 		9C7F964E29F8F03C00F5035C = {
 			isa = PBXGroup;
 			children = (
+				9CD511222ADA877C00B5584E /* ReadingGeometries.swift */,
 				9C7F965929F8F03C00F5035C /* UltimateMoneyVisualizer */,
 				9C7F965829F8F03C00F5035C /* Products */,
 				9C7F967029F8F03E00F5035C /* UltimateMoneyVisualizerTests */,
@@ -909,6 +916,7 @@
 		9C7F965929F8F03C00F5035C /* UltimateMoneyVisualizer */ = {
 			isa = PBXGroup;
 			children = (
+				9CD511272ADB182A00B5584E /* PopoverContents.swift */,
 				9CC674B22ACA7C7700FB407C /* NoContentPlaceholderCustomView.swift */,
 				9CC674B02ACA6FE300FB407C /* EditPayoffItemView.swift */,
 				9CC674AE2AC67CC800FB407C /* EnterLumpSumView.swift */,
@@ -1662,6 +1670,7 @@
 				9C602CD92A9F071900B42DDF /* WelcomeSheet */,
 				9C602CE32A9F934D00B42DDF /* ScalingHeaderScrollView */,
 				9C6363A62AA00A88000B25BB /* SVGView */,
+				9CD511252ADA8DA800B5584E /* ScrollKit */,
 			);
 			productName = UltimateMoneyVisualizer;
 			productReference = 9C7F965729F8F03C00F5035C /* UltimateMoneyVisualizer.app */;
@@ -1743,6 +1752,7 @@
 				9C602CD82A9F071900B42DDF /* XCRemoteSwiftPackageReference "Welcome-Sheet" */,
 				9C602CE22A9F934D00B42DDF /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView" */,
 				9C6363A52AA00A88000B25BB /* XCRemoteSwiftPackageReference "SVGView" */,
+				9CD511242ADA8DA800B5584E /* XCRemoteSwiftPackageReference "ScrollKit" */,
 			);
 			productRefGroup = 9C7F965829F8F03C00F5035C /* Products */;
 			projectDirPath = "";
@@ -1863,6 +1873,7 @@
 				9CAE0B352A9927D7009034EC /* YouHaveNoShiftView.swift in Sources */,
 				9C514DB52A00A480003DC43C /* PayoffQueueView.swift in Sources */,
 				9C74F9FB2A9ADB5B00466779 /* OnboardingModel.swift in Sources */,
+				9CD511232ADA877C00B5584E /* ReadingGeometries.swift in Sources */,
 				9CDD4E4B2A67CA3700AB8B4F /* TodayProgressBar.swift in Sources */,
 				9CF9CE552A7A121000164D75 /* MainType.swift in Sources */,
 				9C0CFCE42A5CD45A005C7C81 /* PayoffItemDetailViewModel.swift in Sources */,
@@ -1995,6 +2006,7 @@
 				9C602CCF2A9E652D00B42DDF /* WelcomeView.swift in Sources */,
 				9CAFA6DB2AAD29FC009E03BB /* TestingCloudkit.swift in Sources */,
 				9C9FFB252A57CD8700565B78 /* ExtendSection.swift in Sources */,
+				9CD511282ADB182A00B5584E /* PopoverContents.swift in Sources */,
 				9CC674B12ACA6FE300FB407C /* EditPayoffItemView.swift in Sources */,
 				9C3F80C42A5949BE00FCF040 /* GPTPieChart.swift in Sources */,
 				9C860F832A67836300D834C4 /* TodayViewHeaderContent.swift in Sources */,
@@ -2435,6 +2447,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		9CD511242ADA8DA800B5584E /* XCRemoteSwiftPackageReference "ScrollKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielsaidi/ScrollKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.3.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2472,6 +2492,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9C7F96A729F9004000F5035C /* XCRemoteSwiftPackageReference "AlertToast" */;
 			productName = AlertToast;
+		};
+		9CD511252ADA8DA800B5584E /* ScrollKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9CD511242ADA8DA800B5584E /* XCRemoteSwiftPackageReference "ScrollKit" */;
+			productName = ScrollKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 
