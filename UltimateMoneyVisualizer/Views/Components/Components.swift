@@ -24,7 +24,7 @@ struct Components {
     }
 
     static var taxesColor = Color.red
-    static var expensesColor = Color(uiColor: .lightGray)
+    static var expensesColor = Color.blue
     static var goalsColor = Color.green
-    static var unspentColor = Color.orange
+    static var unspentColor = User.main.getSettings().themeColor
 }

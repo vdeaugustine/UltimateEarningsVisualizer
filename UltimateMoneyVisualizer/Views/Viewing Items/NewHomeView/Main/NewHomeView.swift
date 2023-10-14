@@ -1,22 +1,136 @@
+import PopupView
+import ScrollKit
 import SwiftUI
+
+extension ScrollViewProxy {
+    func scrollWithAnimation<ID>(_ id: ID,
+                                 anchor: UnitPoint? = nil) where ID: Hashable {
+        withAnimation {
+            self.scrollTo(id, anchor: anchor)
+        }
+    }
+}
 
 // MARK: - NewHomeView
 
 struct NewHomeView: View {
     @StateObject private var vm: NewHomeViewModel = .shared
     @ObservedObject private var settings = User.main.getSettings()
+    @ObservedObject private var status = User.main.getStatusTracker()
+    @State private var scrollOffset: CGPoint = .zero
+
+    @State private var showWageBreakdownPopover = false
+    @State private var summaryPopover = false
+    @State private var moreStatsPopover = false
+    @State private var totalsPopover = false
+    @State private var netMoneyPopover = false
+    @State private var payoffQueuePopover = false
+    @State private var showFirstPopOverMain = false
+    @State private var wagePopover = false
+    @State private var timeBlockPopover = false
+    @State private var quickAddPopover = false
+
+    @State private var scrollPosition = CGFloat.zero
+
+    enum ViewTags: Hashable {
+        case totals, summary, netMoney, payoffQueue, wageBreakdown, timeBlocks, scrollView
+    }
+
+    func handleOffset(_ scrollOffset: CGPoint) {
+        self.scrollOffset = scrollOffset
+        print("New offset: ", scrollOffset)
+    }
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 40) {
-                TotalsToDate_HomeView()
-                SummaryView_HomeView()
-                NetMoney_HomeView()
-                PayoffQueueView_HomeView()
-                WageBreakdown_HomeView()
-                TopTimeBlocks_HomeView()
+        ScrollViewReader { scrollProxy in
+            GeometryReader { geo in
+                ScrollViewWithOffset(onScroll: handleOffset) {
+                    Color.clear.frame(height: 0)
+                        .id(ViewTags.scrollView)
+                    VStack(spacing: 40) {
+                        TotalsToDate_HomeView()
+                            .id(ViewTags.totals)
+                            .floatingPopover(isPresented: $totalsPopover, arrowDirection: .up) {
+                                Totals_HomeView_Popover {
+                                    totalsPopover = false
+                                    scrollProxy.scrollWithAnimation(ViewTags.netMoney, anchor: .bottom)
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                        netMoneyPopover = true
+                                    }
+                                }
+                            }
+                        SummaryView_HomeView()
+                            .id(ViewTags.summary)
+                        NetMoney_HomeView()
+                            .id(ViewTags.netMoney)
+                            .floatingPopover(isPresented: $netMoneyPopover, arrowDirection: .down) {
+                                NetMoney_HomeView_Popover {
+                                    netMoneyPopover = false
+                                    scrollProxy.scrollWithAnimation(ViewTags.payoffQueue, anchor: .top)
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                        payoffQueuePopover = true
+                                    }
+                                }
+                            }
+                        PayoffQueueView_HomeView()
+                            .id(ViewTags.payoffQueue)
+                            .floatingPopover(isPresented: $payoffQueuePopover,
+                                             arrowDirection: .up) {
+                                PayoffQueue_HomeView_Popup {
+                                    payoffQueuePopover = false
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                        wagePopover = true
+                                    }
+                                }
+                            }
+
+                        WageBreakdown_HomeView()
+                            .id(ViewTags.wageBreakdown)
+                            .floatingPopover(isPresented: $wagePopover, arrowDirection: .down) {
+                                WageBreakdown_HomeView_Popover {
+                                    wagePopover = false
+                                    scrollProxy.scrollWithAnimation(ViewTags.timeBlocks, anchor: .bottom)
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                        timeBlockPopover = true
+                                    }
+                                }
+                            }
+
+                        TopTimeBlocks_HomeView()
+                            .id(ViewTags.timeBlocks)
+                            .floatingPopover(isPresented: $timeBlockPopover, arrowDirection: .down) {
+                                TimeBlock_HomeView_Popover {
+                                    timeBlockPopover = false
+                                    scrollProxy.scrollWithAnimation(ViewTags.scrollView, anchor: .zero)
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                        quickAddPopover = true
+                                    }
+                                }
+                            }
+                    }
+                    .padding(.top)
+
+                    .onAppear(perform: {
+                        if status.hasSeenHomeTutorial == false {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                totalsPopover = true
+                            }
+                        }
+                    })
+                }
+                .popup(isPresented: $showFirstPopOverMain) {
+                    VStack {
+                        Text("Welcome to home view")
+                    }
+                    .frame(maxWidth: geo.size.width - 50, maxHeight: geo.size.height - 140)
+                    .padding()
+                    .background {
+                        Color.white
+                            .clipShape(RoundedRectangle(cornerRadius: 20))
+                            .shadow(radius: 3)
+                    }
+                }
             }
-            .padding(.top)
         }
         .blur(radius: vm.quickMenuOpen ? 3 : 0)
         .overlay {
@@ -28,12 +142,23 @@ struct NewHomeView: View {
                     }
             }
         }
-        .animation(/*@START_MENU_TOKEN@*/.easeIn/*@END_MENU_TOKEN@*/, value: vm.quickMenuOpen)
+        .animation(/*@START_MENU_TOKEN@*/ .easeIn/*@END_MENU_TOKEN@*/, value: vm.quickMenuOpen)
         .safeAreaInset(edge: .bottom) {
-            HStack {
-                Spacer()
-                FloatingPlusButton(isShowing: $vm.quickMenuOpen)
-                    .padding(.bottom)
+            if !totalsPopover,
+               !netMoneyPopover,
+               !payoffQueuePopover,
+               !wagePopover,
+               !timeBlockPopover {
+                HStack {
+                    Spacer()
+                    FloatingPlusButton(isShowing: $vm.quickMenuOpen)
+                        .padding(.bottom)
+                        .floatingPopover(isPresented: $quickAddPopover, arrowDirection: .down) {
+                            QuickAddButton_HomeView_Popover {
+                                quickAddPopover = false
+                            }
+                        }
+                }
             }
         }
         .environmentObject(vm)
@@ -42,7 +167,6 @@ struct NewHomeView: View {
         .navigationDestination(for: NavManager.AllViews.self) { view in
             vm.navManager.getDestinationViewForStack(destination: view)
         }
-        
     }
 }
 
@@ -206,7 +330,7 @@ struct TopTimeBlocks_HomeView: View {
                 .padding()
             }
         }
-        
+
         .background { Color.clear }
     }
 }

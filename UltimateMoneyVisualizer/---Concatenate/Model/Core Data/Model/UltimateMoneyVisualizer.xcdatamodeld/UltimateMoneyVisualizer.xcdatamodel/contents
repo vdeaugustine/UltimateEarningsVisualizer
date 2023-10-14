@@ -12,8 +12,11 @@
     </entity>
     <entity name="Bank" representedClassName="Bank" syncable="YES" codeGenerationType="class">
         <attribute name="amount" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="isFromWorking" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
-        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="bank" inverseEntity="User"/>
+        <attribute name="dateAdded" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="dateSetByUser" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="isFromWorking" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="source" optional="YES" attributeType="String"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="banks" inverseEntity="User"/>
     </entity>
     <entity name="Deduction" representedClassName="Deduction" syncable="YES" codeGenerationType="class">
         <attribute name="amount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
@@ -134,6 +137,7 @@
     </entity>
     <entity name="StatusTracker" representedClassName="StatusTracker" syncable="YES" codeGenerationType="class">
         <attribute name="hasFoundEasterEgg" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="hasSeenFirstGoalPopover" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="hasSeenHomeTutorial" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="hasSeenSettingsTutorial" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="hasSeenShiftsTutorial" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
@@ -191,7 +195,7 @@
         <attribute name="email" optional="YES" attributeType="String"/>
         <attribute name="username" optional="YES" attributeType="String"/>
         <relationship name="allocations" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Allocation" inverseName="user" inverseEntity="Allocation"/>
-        <relationship name="bank" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Bank" inverseName="user" inverseEntity="Bank"/>
+        <relationship name="banks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Bank" inverseName="user" inverseEntity="Bank"/>
         <relationship name="deductions" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Deduction" inverseName="user" inverseEntity="Deduction"/>
         <relationship name="expenses" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Expense" inverseName="user" inverseEntity="Expense"/>
         <relationship name="goals" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Goal" inverseName="user" inverseEntity="Goal"/>

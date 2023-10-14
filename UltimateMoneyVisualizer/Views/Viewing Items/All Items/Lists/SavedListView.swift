@@ -45,6 +45,7 @@ struct SavedListView: View {
                         } label: {
                             SavedItemRow(saved: saved, user: user)
                         }
+                        .foregroundStyle(.black)
                     }
                 }
                 .onDelete(perform: { indexSet in

@@ -38,6 +38,7 @@
 		9C0CFCE62A5D0CAC005C7C81 /* TestingChatGPTUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0CFCE52A5D0CAC005C7C81 /* TestingChatGPTUI.swift */; };
 		9C18C1B42A4A8A7500B74C92 /* ExtendDeduction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C18C1B32A4A8A7500B74C92 /* ExtendDeduction.swift */; };
 		9C1A21C92ACE661400C9A4A8 /* ConfirmTodayShift_UseThisOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1A21C82ACE661400C9A4A8 /* ConfirmTodayShift_UseThisOne.swift */; };
+		9C1A21CB2ACFAF6F00C9A4A8 /* ExtendBank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1A21CA2ACFAF6F00C9A4A8 /* ExtendBank.swift */; };
 		9C2315B62AB2F060008E0FD9 /* CreateTimeBlocksFromCalendarEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2315B52AB2F05F008E0FD9 /* CreateTimeBlocksFromCalendarEventsView.swift */; };
 		9C2315B82AB2F245008E0FD9 /* ExtendRecurringTimeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2315B72AB2F245008E0FD9 /* ExtendRecurringTimeBlock.swift */; };
 		9C2DF8992A6BB06D001B8ED5 /* TodayViewItemizedBlocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2DF8982A6BB06D001B8ED5 /* TodayViewItemizedBlocks.swift */; };
@@ -201,6 +202,12 @@
 		9CC674B12ACA6FE300FB407C /* EditPayoffItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC674B02ACA6FE300FB407C /* EditPayoffItemView.swift */; };
 		9CC674B32ACA7C7700FB407C /* NoContentPlaceholderCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC674B22ACA7C7700FB407C /* NoContentPlaceholderCustomView.swift */; };
 		9CD2F2E72A287E7B00718667 /* EnterPaycheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD2F2E62A287E7B00718667 /* EnterPaycheckView.swift */; };
+		9CD5111D2ADA499100B5584E /* OnboardingSavedItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD5111C2ADA499100B5584E /* OnboardingSavedItemView.swift */; };
+		9CD5111F2ADA537800B5584E /* FirstSavedItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD5111E2ADA537800B5584E /* FirstSavedItemView.swift */; };
+		9CD511212ADA6EBC00B5584E /* FirstPayoffItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD511202ADA6EBC00B5584E /* FirstPayoffItemView.swift */; };
+		9CD511232ADA877C00B5584E /* ReadingGeometries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD511222ADA877C00B5584E /* ReadingGeometries.swift */; };
+		9CD511262ADA8DA800B5584E /* ScrollKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9CD511252ADA8DA800B5584E /* ScrollKit */; };
+		9CD511282ADB182A00B5584E /* PopoverContents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD511272ADB182A00B5584E /* PopoverContents.swift */; };
 		9CDBE0E42A2462A200741EEE /* NewShiftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDBE0E32A2462A200741EEE /* NewShiftView.swift */; };
 		9CDBE0EA2A25CD6300741EEE /* GoalsGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDBE0E92A25CD6300741EEE /* GoalsGridView.swift */; };
 		9CDBE0EC2A26F6C600741EEE /* ExpenseWithImageAndGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDBE0EB2A26F6C600741EEE /* ExpenseWithImageAndGradientView.swift */; };
@@ -325,6 +332,7 @@
 		9C0CFCE52A5D0CAC005C7C81 /* TestingChatGPTUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingChatGPTUI.swift; sourceTree = "<group>"; };
 		9C18C1B32A4A8A7500B74C92 /* ExtendDeduction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendDeduction.swift; sourceTree = "<group>"; };
 		9C1A21C82ACE661400C9A4A8 /* ConfirmTodayShift_UseThisOne.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmTodayShift_UseThisOne.swift; sourceTree = "<group>"; };
+		9C1A21CA2ACFAF6F00C9A4A8 /* ExtendBank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendBank.swift; sourceTree = "<group>"; };
 		9C2315B52AB2F05F008E0FD9 /* CreateTimeBlocksFromCalendarEventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTimeBlocksFromCalendarEventsView.swift; sourceTree = "<group>"; };
 		9C2315B72AB2F245008E0FD9 /* ExtendRecurringTimeBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendRecurringTimeBlock.swift; sourceTree = "<group>"; };
 		9C2DF8982A6BB06D001B8ED5 /* TodayViewItemizedBlocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewItemizedBlocks.swift; sourceTree = "<group>"; };
@@ -486,6 +494,11 @@
 		9CC674B02ACA6FE300FB407C /* EditPayoffItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPayoffItemView.swift; sourceTree = "<group>"; };
 		9CC674B22ACA7C7700FB407C /* NoContentPlaceholderCustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoContentPlaceholderCustomView.swift; sourceTree = "<group>"; };
 		9CD2F2E62A287E7B00718667 /* EnterPaycheckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPaycheckView.swift; sourceTree = "<group>"; };
+		9CD5111C2ADA499100B5584E /* OnboardingSavedItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSavedItemView.swift; sourceTree = "<group>"; };
+		9CD5111E2ADA537800B5584E /* FirstSavedItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstSavedItemView.swift; sourceTree = "<group>"; };
+		9CD511202ADA6EBC00B5584E /* FirstPayoffItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstPayoffItemView.swift; sourceTree = SOURCE_ROOT; };
+		9CD511222ADA877C00B5584E /* ReadingGeometries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingGeometries.swift; sourceTree = "<group>"; };
+		9CD511272ADB182A00B5584E /* PopoverContents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverContents.swift; sourceTree = "<group>"; };
 		9CDBE0E32A2462A200741EEE /* NewShiftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewShiftView.swift; sourceTree = "<group>"; };
 		9CDBE0E92A25CD6300741EEE /* GoalsGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsGridView.swift; sourceTree = "<group>"; };
 		9CDBE0EB2A26F6C600741EEE /* ExpenseWithImageAndGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseWithImageAndGradientView.swift; sourceTree = "<group>"; };
@@ -566,6 +579,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CD511262ADA8DA800B5584E /* ScrollKit in Frameworks */,
 				9C6363A72AA00A88000B25BB /* SVGView in Frameworks */,
 				9C602CD72A9F060400B42DDF /* FloatingButton in Frameworks */,
 				9C7F96A229F8FE6700F5035C /* Vin in Frameworks */,
@@ -881,8 +895,7 @@
 		9C7F964E29F8F03C00F5035C = {
 			isa = PBXGroup;
 			children = (
-				9CC674B22ACA7C7700FB407C /* NoContentPlaceholderCustomView.swift */,
-				9CC674B02ACA6FE300FB407C /* EditPayoffItemView.swift */,
+				9CD511222ADA877C00B5584E /* ReadingGeometries.swift */,
 				9C7F965929F8F03C00F5035C /* UltimateMoneyVisualizer */,
 				9C7F965829F8F03C00F5035C /* Products */,
 				9C7F967029F8F03E00F5035C /* UltimateMoneyVisualizerTests */,
@@ -903,6 +916,9 @@
 		9C7F965929F8F03C00F5035C /* UltimateMoneyVisualizer */ = {
 			isa = PBXGroup;
 			children = (
+				9CD511272ADB182A00B5584E /* PopoverContents.swift */,
+				9CC674B22ACA7C7700FB407C /* NoContentPlaceholderCustomView.swift */,
+				9CC674B02ACA6FE300FB407C /* EditPayoffItemView.swift */,
 				9CC674AE2AC67CC800FB407C /* EnterLumpSumView.swift */,
 				9C4F0A282A14534100C78349 /* UltimateMoneyVisualizer.entitlements */,
 				9C7F966829F8F03E00F5035C /* Info.plist */,
@@ -986,6 +1002,7 @@
 				9C7C984B29FA5C1D0077EA25 /* ExtendWorkSchedule.swift */,
 				9C7B5D552A2026D000DBB877 /* PayCycle.swift */,
 				9C2315B72AB2F245008E0FD9 /* ExtendRecurringTimeBlock.swift */,
+				9C1A21CA2ACFAF6F00C9A4A8 /* ExtendBank.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1162,7 +1179,6 @@
 			children = (
 				9C602CDD2A9F13C400B42DDF /* New Onboarding */,
 				9C602CE02A9F222E00B42DDF /* OnboardingListOfFirstsView.swift */,
-				9C602CD02A9EFD2F00B42DDF /* WhatIsASavedItem.swift */,
 				9CAE0B3D2A9AD509009034EC /* OnboardingRegularDaysView.swift */,
 				9C74F9FE2A9C1F6700466779 /* OnboardingFirstGoalView.swift */,
 				9C602CCC2A9DB74800B42DDF /* OnboardingFirstExpenseView.swift */,
@@ -1208,6 +1224,9 @@
 		9CBA6A342AA067E500181D97 /* Saved */ = {
 			isa = PBXGroup;
 			children = (
+				9C602CD02A9EFD2F00B42DDF /* WhatIsASavedItem.swift */,
+				9CD5111C2ADA499100B5584E /* OnboardingSavedItemView.swift */,
+				9CD5111E2ADA537800B5584E /* FirstSavedItemView.swift */,
 			);
 			path = Saved;
 			sourceTree = "<group>";
@@ -1215,6 +1234,7 @@
 		9CBA6A352AA067F200181D97 /* Payoff Item */ = {
 			isa = PBXGroup;
 			children = (
+				9CD511202ADA6EBC00B5584E /* FirstPayoffItemView.swift */,
 			);
 			path = "Payoff Item";
 			sourceTree = "<group>";
@@ -1650,6 +1670,7 @@
 				9C602CD92A9F071900B42DDF /* WelcomeSheet */,
 				9C602CE32A9F934D00B42DDF /* ScalingHeaderScrollView */,
 				9C6363A62AA00A88000B25BB /* SVGView */,
+				9CD511252ADA8DA800B5584E /* ScrollKit */,
 			);
 			productName = UltimateMoneyVisualizer;
 			productReference = 9C7F965729F8F03C00F5035C /* UltimateMoneyVisualizer.app */;
@@ -1731,6 +1752,7 @@
 				9C602CD82A9F071900B42DDF /* XCRemoteSwiftPackageReference "Welcome-Sheet" */,
 				9C602CE22A9F934D00B42DDF /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView" */,
 				9C6363A52AA00A88000B25BB /* XCRemoteSwiftPackageReference "SVGView" */,
+				9CD511242ADA8DA800B5584E /* XCRemoteSwiftPackageReference "ScrollKit" */,
 			);
 			productRefGroup = 9C7F965829F8F03C00F5035C /* Products */;
 			projectDirPath = "";
@@ -1844,12 +1866,14 @@
 				9CF411C92A8575BF00A49F08 /* TodayViewItemizedBlock.swift in Sources */,
 				9CAE0B392A99359F009034EC /* OnboardingWageWalkthrough.swift in Sources */,
 				9C9735982A0D9B9000F651A1 /* NetMoneyGraph.swift in Sources */,
+				9CD511212ADA6EBC00B5584E /* FirstPayoffItemView.swift in Sources */,
 				9C8C93552A8A2C7C000EE612 /* CreateExpenseViewModel.swift in Sources */,
 				9C7C984129F9F7B20077EA25 /* AllSchedulesView.swift in Sources */,
 				9C793C242ABE7F1F00D9C48E /* RoadblockView.swift in Sources */,
 				9CAE0B352A9927D7009034EC /* YouHaveNoShiftView.swift in Sources */,
 				9C514DB52A00A480003DC43C /* PayoffQueueView.swift in Sources */,
 				9C74F9FB2A9ADB5B00466779 /* OnboardingModel.swift in Sources */,
+				9CD511232ADA877C00B5584E /* ReadingGeometries.swift in Sources */,
 				9CDD4E4B2A67CA3700AB8B4F /* TodayProgressBar.swift in Sources */,
 				9CF9CE552A7A121000164D75 /* MainType.swift in Sources */,
 				9C0CFCE42A5CD45A005C7C81 /* PayoffItemDetailViewModel.swift in Sources */,
@@ -1890,6 +1914,7 @@
 				9C65A75F2A00D28E00A5BCF1 /* GoalRow.swift in Sources */,
 				9CEEE33C29F908E8001FA4FB /* PayoffItemDetailView.swift in Sources */,
 				9C7016A62A6115630038E2A6 /* FigmaDesign.swift in Sources */,
+				9C1A21CB2ACFAF6F00C9A4A8 /* ExtendBank.swift in Sources */,
 				9C7C984E29FB35E10077EA25 /* AssignAllocationView.swift in Sources */,
 				9CF194DD2A1C7B21000F83A9 /* ExtendTag.swift in Sources */,
 				9C9735942A0D795600F651A1 /* AllocationDetailView.swift in Sources */,
@@ -1922,6 +1947,7 @@
 				9C602CCD2A9DB74800B42DDF /* OnboardingFirstExpenseView.swift in Sources */,
 				9C460EE92A049DFA0007EBA9 /* StatsView.swift in Sources */,
 				9C07097A2A77855A00A324BA /* PayoffQueueView_HomeView.swift in Sources */,
+				9CD5111F2ADA537800B5584E /* FirstSavedItemView.swift in Sources */,
 				9C7B5D5A2A202E8D00DBB877 /* CreateTagView.swift in Sources */,
 				9CA51EDE2A7C802E00FAF848 /* PiggyBankShape.swift in Sources */,
 				9CA17D722A91F64D00332C62 /* SearchBarX.swift in Sources */,
@@ -1950,6 +1976,7 @@
 				9C1A21C92ACE661400C9A4A8 /* ConfirmTodayShift_UseThisOne.swift in Sources */,
 				9CDD4E502A68619F00AB8B4F /* TodayViewProgressBarLabels.swift in Sources */,
 				9C952B292AC2B83800C9BF3A /* PayPeriodRow.swift in Sources */,
+				9CD5111D2ADA499100B5584E /* OnboardingSavedItemView.swift in Sources */,
 				9CED534A2A08ADCF002DC183 /* AllocShiftRow.swift in Sources */,
 				9C7C986929FDA7880077EA25 /* ExtendTemporaryAllocation.swift in Sources */,
 				9C0505722A0FF56C00FC6511 /* PayoffItemProgressBar.swift in Sources */,
@@ -1979,6 +2006,7 @@
 				9C602CCF2A9E652D00B42DDF /* WelcomeView.swift in Sources */,
 				9CAFA6DB2AAD29FC009E03BB /* TestingCloudkit.swift in Sources */,
 				9C9FFB252A57CD8700565B78 /* ExtendSection.swift in Sources */,
+				9CD511282ADB182A00B5584E /* PopoverContents.swift in Sources */,
 				9CC674B12ACA6FE300FB407C /* EditPayoffItemView.swift in Sources */,
 				9C3F80C42A5949BE00FCF040 /* GPTPieChart.swift in Sources */,
 				9C860F832A67836300D834C4 /* TodayViewHeaderContent.swift in Sources */,
@@ -2419,6 +2447,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		9CD511242ADA8DA800B5584E /* XCRemoteSwiftPackageReference "ScrollKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielsaidi/ScrollKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.3.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2456,6 +2492,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9C7F96A729F9004000F5035C /* XCRemoteSwiftPackageReference "AlertToast" */;
 			productName = AlertToast;
+		};
+		9CD511252ADA8DA800B5584E /* ScrollKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9CD511242ADA8DA800B5584E /* XCRemoteSwiftPackageReference "ScrollKit" */;
+			productName = ScrollKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 

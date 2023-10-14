@@ -64,7 +64,6 @@ class TodayViewModel: ObservableObject {
 
         self.initialPayoffs = allQueue.map { TempTodayPayoff(payoff: $0) }
     }
-    
 
     func updateInitialPayoffs() {
         let allQueue = user.getQueue().filter { !$0.isPaidOff }
@@ -304,7 +303,7 @@ class TodayViewModel: ObservableObject {
             viewContext.delete(userShift)
         }
         showBanner = false
-        
+
         do {
             try user.getContext().save()
         } catch {
@@ -363,7 +362,7 @@ class TodayViewModel: ObservableObject {
 
     func saveShift() {
         completedShiftTempPayoffs = tempPayoffs.filter { $0.progressAmount > 0.01 }
-        
+
         navManager.appendCorrectPath(newValue: .confirmToday)
     }
 
@@ -458,6 +457,34 @@ extension TodayViewModel {
 // MARK: - Info Rects
 
 extension TodayViewModel {
+    struct InfoRect {
+        var imageName: String? = nil
+        let valueString: String
+        let bottomLabel: String
+        let circleColor: Color
+    }
+
+    var infoRects: [InfoRect] { [InfoRect(imageName: "stopwatch",
+                                          valueString: soFarTotalValue,
+                                          bottomLabel: soFarTotalLabel,
+                                          circleColor: .blue),
+                                 InfoRect(imageName: "dollarsign.circle",
+                                          valueString: afterTaxTotalValue,
+                                          bottomLabel: "After Tax",
+                                          circleColor: .green),
+                                 InfoRect(valueString: taxesTotalValue,
+                                          bottomLabel: "Taxes",
+                                          circleColor: Color.red),
+                                 InfoRect(valueString: expensesTotalValue,
+                                          bottomLabel: "Expenses",
+                                          circleColor: expensesColor),
+                                 InfoRect(valueString: goalsTotalValue,
+                                          bottomLabel: "Goals",
+                                          circleColor: goalsColor),
+                                 InfoRect(valueString: unspentTotalValue,
+                                          bottomLabel: "Unspent",
+                                          circleColor: unspentColor)] }
+
     var soFarTotalValue: String {
         guard let todayShift = user.todayShift else { return "" }
         switch selectedSegment {
@@ -488,7 +515,6 @@ extension TodayViewModel {
     }
 
     var afterTaxTotalValue: String {
-        guard let todayShift = user.todayShift else { return "" }
         switch selectedSegment {
             case .money:
                 return haveEarnedAfterTaxes.money()
@@ -636,7 +662,7 @@ extension TodayViewModel {
         let shift = try Shift(fromTodayShift: todayShift, context: viewContext)
 
         var newAllocations = [Allocation]()
-        
+
         for goal in goals {
             newAllocations.append(try Allocation(tempPayoff: goal, shift: shift, user: user, context: viewContext))
         }
@@ -644,7 +670,7 @@ extension TodayViewModel {
         for expense in expenses {
             newAllocations.append(try Allocation(tempPayoff: expense, shift: shift, user: user, context: viewContext))
         }
-        
+
         return (shift, newAllocations)
     }
 }
