@@ -58,7 +58,7 @@ public extension View {
             VStack(spacing: 12){
                 Text(text)
                     .font(font)
-                    .lineLimit(3)
+                    .lineLimit(5)
                     .foregroundColor(color == .clear ? .primary : .white)
             }
             .padding(15)

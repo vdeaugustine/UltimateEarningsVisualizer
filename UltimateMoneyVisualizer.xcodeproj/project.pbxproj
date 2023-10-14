@@ -204,6 +204,7 @@
 		9CD2F2E72A287E7B00718667 /* EnterPaycheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD2F2E62A287E7B00718667 /* EnterPaycheckView.swift */; };
 		9CD5111D2ADA499100B5584E /* OnboardingSavedItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD5111C2ADA499100B5584E /* OnboardingSavedItemView.swift */; };
 		9CD5111F2ADA537800B5584E /* FirstSavedItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD5111E2ADA537800B5584E /* FirstSavedItemView.swift */; };
+		9CD511212ADA6EBC00B5584E /* FirstPayoffItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD511202ADA6EBC00B5584E /* FirstPayoffItemView.swift */; };
 		9CDBE0E42A2462A200741EEE /* NewShiftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDBE0E32A2462A200741EEE /* NewShiftView.swift */; };
 		9CDBE0EA2A25CD6300741EEE /* GoalsGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDBE0E92A25CD6300741EEE /* GoalsGridView.swift */; };
 		9CDBE0EC2A26F6C600741EEE /* ExpenseWithImageAndGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDBE0EB2A26F6C600741EEE /* ExpenseWithImageAndGradientView.swift */; };
@@ -492,6 +493,7 @@
 		9CD2F2E62A287E7B00718667 /* EnterPaycheckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPaycheckView.swift; sourceTree = "<group>"; };
 		9CD5111C2ADA499100B5584E /* OnboardingSavedItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSavedItemView.swift; sourceTree = "<group>"; };
 		9CD5111E2ADA537800B5584E /* FirstSavedItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstSavedItemView.swift; sourceTree = "<group>"; };
+		9CD511202ADA6EBC00B5584E /* FirstPayoffItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstPayoffItemView.swift; sourceTree = SOURCE_ROOT; };
 		9CDBE0E32A2462A200741EEE /* NewShiftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewShiftView.swift; sourceTree = "<group>"; };
 		9CDBE0E92A25CD6300741EEE /* GoalsGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsGridView.swift; sourceTree = "<group>"; };
 		9CDBE0EB2A26F6C600741EEE /* ExpenseWithImageAndGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseWithImageAndGradientView.swift; sourceTree = "<group>"; };
@@ -1224,6 +1226,7 @@
 		9CBA6A352AA067F200181D97 /* Payoff Item */ = {
 			isa = PBXGroup;
 			children = (
+				9CD511202ADA6EBC00B5584E /* FirstPayoffItemView.swift */,
 			);
 			path = "Payoff Item";
 			sourceTree = "<group>";
@@ -1853,6 +1856,7 @@
 				9CF411C92A8575BF00A49F08 /* TodayViewItemizedBlock.swift in Sources */,
 				9CAE0B392A99359F009034EC /* OnboardingWageWalkthrough.swift in Sources */,
 				9C9735982A0D9B9000F651A1 /* NetMoneyGraph.swift in Sources */,
+				9CD511212ADA6EBC00B5584E /* FirstPayoffItemView.swift in Sources */,
 				9C8C93552A8A2C7C000EE612 /* CreateExpenseViewModel.swift in Sources */,
 				9C7C984129F9F7B20077EA25 /* AllSchedulesView.swift in Sources */,
 				9C793C242ABE7F1F00D9C48E /* RoadblockView.swift in Sources */,

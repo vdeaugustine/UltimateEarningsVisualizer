@@ -1,5 +1,16 @@
 import SwiftUI
 
+extension ScrollViewProxy {
+    func scrollWithAnimation<ID>(
+        _ id: ID,
+        anchor: UnitPoint? = nil
+    ) where ID : Hashable {
+        withAnimation {
+            self.scrollTo(id, anchor: anchor)
+        }
+    }
+}
+
 // MARK: - NewHomeView
 
 struct NewHomeView: View {
@@ -7,19 +18,73 @@ struct NewHomeView: View {
     @ObservedObject private var settings = User.main.getSettings()
 
     @State private var showWageBreakdownPopover = true
+    @State private var moreStatsPopover = false
+    @State private var totalsPopover = false
+    @State private var netMoneyPopover = false
+    @State private var payoffQueuePopover = false
+
+    enum ViewTags: Hashable {
+        case totals, summary, netMoney, payoffQueue, wageBreakdown, timeBlocks
+    }
+
     var body: some View {
-        ScrollView {
-            VStack(spacing: 40) {
-                TotalsToDate_HomeView()
-                SummaryView_HomeView()
-                NetMoney_HomeView()
-                PayoffQueueView_HomeView()
-                WageBreakdown_HomeView()
-                   
-                TopTimeBlocks_HomeView()
+        ScrollViewReader { scrollProxy in
+            ScrollView {
+                VStack(spacing: 40) {
+                    TotalsToDate_HomeView()
+                    SummaryView_HomeView()
+                    NetMoney_HomeView()
+                        .defaultPopover(isPresented: $netMoneyPopover, text: "This graph shows your net money over time.\nIt takes into account your earnings + saved\nitems and your payoff items", direction: .down)
+                    PayoffQueueView_HomeView()
+                        .id(ViewTags.payoffQueue)
+                        .floatingPopover(isPresented: $payoffQueuePopover, arrowDirection: .up) {
+                            
+                            VStack(alignment: .leading, spacing: 20) {
+                                
+                                Group {
+                                    Text("Your Payoff Queue automatically utilizes every penny you earn in real-time to chip away at your expenses and goals!")
+                                    Text("As you earn, watch your queued items get paid off, one by one, keeping your financial journey smoothly on track.")
+                                    Text("Simply prioritize, and your earnings handle the rest!")
+                                }
+                                .font(.subheadline)
+                                    
+                                Button("Next") {
+                                    
+                                }
+                                .frame(maxWidth: .infinity, alignment: .bottomTrailing)
+                                    
+                                
+                            }
+                            .padding()
+                            .foregroundStyle(.white)
+                            .frame(height: 275)
+                            .background {
+                                
+                                settings.themeColor.getGradient()
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    .padding(-20)
+                            }
+                            
+                            
+                            
+                        }
+
+                    WageBreakdown_HomeView()
+
+                    TopTimeBlocks_HomeView()
+                }
+                .padding(.top)
+                .onAppear(perform: {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        scrollProxy.scrollWithAnimation(ViewTags.payoffQueue, anchor: .top)
+                        
+                        payoffQueuePopover = true
+                    }
+                })
+//
             }
-            .padding(.top)
         }
+
         .blur(radius: vm.quickMenuOpen ? 3 : 0)
         .overlay {
             if vm.quickMenuOpen {
@@ -30,7 +95,7 @@ struct NewHomeView: View {
                     }
             }
         }
-        .animation(/*@START_MENU_TOKEN@*/.easeIn/*@END_MENU_TOKEN@*/, value: vm.quickMenuOpen)
+        .animation(/*@START_MENU_TOKEN@*/ .easeIn/*@END_MENU_TOKEN@*/, value: vm.quickMenuOpen)
         .safeAreaInset(edge: .bottom) {
             HStack {
                 Spacer()
@@ -44,7 +109,6 @@ struct NewHomeView: View {
         .navigationDestination(for: NavManager.AllViews.self) { view in
             vm.navManager.getDestinationViewForStack(destination: view)
         }
-        
     }
 }
 
@@ -208,7 +272,7 @@ struct TopTimeBlocks_HomeView: View {
                 .padding()
             }
         }
-        
+
         .background { Color.clear }
     }
 }

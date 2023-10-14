@@ -26,7 +26,11 @@ struct OnboardingSavedItemView: View {
                 featureSection(title: "Visualize your savings",
                                description: "Watch your saved pennies turn into substantial amounts over time!")
                 featureSection(title: "Allocate Smartly",
-                               description: "Use the money you save to contribute towards your expenses or your goals.")
+                               description: Text("Use the money you save to ") + Text("contribute").underline() + Text(" towards your ") +
+                                               Text("expenses").bold() +
+                                               Text(" or your ") +
+                                               Text("goals").bold() +
+                                               Text("."))
                 featureSection(title: "Celebrate Wins",
                                description: "Small savings are victories worth celebrating and they add up to big wins in the long run!")
             }
@@ -52,6 +56,16 @@ struct OnboardingSavedItemView: View {
             Text(title)
                 .font(.headline)
             Text(description)
+                .font(.subheadline)
+                .padding(.leading)
+        }
+    }
+    
+    private func featureSection(title: String, description: Text) -> some View {
+        VStack(alignment: .leading) {
+            Text(title)
+                .font(.headline)
+            description
                 .font(.subheadline)
                 .padding(.leading)
         }

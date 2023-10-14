@@ -128,7 +128,7 @@ struct FirstSavedItemView: View {
         })
         .onChangeProper(of: amountPopover, {
             if amountPopover == false {
-                showEnterAmountSheet = true 
+                showEnterAmountSheet = true
             }
         })
         .dismissKeyboardOnTap(focusStates: [$titleFocused, $infoFocused])
