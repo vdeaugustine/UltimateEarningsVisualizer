@@ -37,7 +37,7 @@ struct PopoverContents: View {
                 Button(buttonTitle, action: buttonAction)
                     .fontWeight(.bold)
                     .frame(maxWidth: .infinity, alignment: .bottomTrailing)
-                    .padding(.top)
+                    .padding([.top, .trailing])
 //                    .border(.green)
             }
         }
@@ -112,7 +112,7 @@ struct TimeBlock_HomeView_Popover: View {
     var buttonAction: (() -> Void)?
     var body: some View {
         PopoverContents(texts: ["Here you will see your most used Time Blocks"],
-                        height: 150,
+                        height: 90,
                         buttonTitle: "Next",
                         buttonAction: buttonAction)
     }
