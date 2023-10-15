@@ -32,13 +32,76 @@ struct NewHomeView: View {
 
     @State private var scrollPosition = CGFloat.zero
 
-    enum ViewTags: Hashable {
+    func setAllPopoversFalseExcept(for popover: ViewTags) {
+        showWageBreakdownPopover = false
+        summaryPopover = false
+        moreStatsPopover = false
+        totalsPopover = false
+        netMoneyPopover = false
+        payoffQueuePopover = false
+        showFirstPopOverMain = false
+        wagePopover = false
+        timeBlockPopover = false
+        quickAddPopover = false
+
+        switch popover {
+            case .wageBreakdown:
+                showWageBreakdownPopover = true
+            case .summary:
+                summaryPopover = true
+            case .netMoney:
+                netMoneyPopover = true
+            case .payoffQueue:
+                payoffQueuePopover = true
+            case .timeBlocks:
+                timeBlockPopover = true
+            case .totals:
+                totalsPopover = true
+            case .scrollView:
+                showFirstPopOverMain = true
+        }
+
+        print("\(popover) is now \(true)")
+    }
+
+    enum ViewTags: String, Hashable {
         case totals, summary, netMoney, payoffQueue, wageBreakdown, timeBlocks, scrollView
     }
 
     func handleOffset(_ scrollOffset: CGPoint) {
         self.scrollOffset = scrollOffset
         print("New offset: ", scrollOffset)
+    }
+
+    static let fullPopoverQueue: [ViewTags] = [.totals, .netMoney, .payoffQueue, .wageBreakdown, .timeBlocks]
+
+    @State private var popoverQueueRemaining: [ViewTags] = NewHomeView.fullPopoverQueue
+    @State private var popoverQueueShown: [ViewTags] = []
+
+    var currentPopover: ViewTags? {
+        popoverQueueRemaining.first
+    }
+
+    func removeFirstFromPopoverQueue(scrollProxy: ScrollViewProxy) {
+        if !popoverQueueRemaining.isEmpty {
+            let first = popoverQueueRemaining.removeFirst()
+            popoverQueueShown.append(first)
+            withAnimation {
+                scrollProxy.scrollWithAnimation(first)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    if let first = popoverQueueRemaining.first {
+                        setAllPopoversFalseExcept(for: first)
+                    }
+                }
+            }
+        }
+    }
+
+    func insertLastIntoPopoverQueue() {
+        if !popoverQueueShown.isEmpty {
+            let last = popoverQueueShown.removeLast()
+            popoverQueueRemaining.insert(last, at: 0)
+        }
     }
 
     var body: some View {
@@ -52,11 +115,7 @@ struct NewHomeView: View {
                             .id(ViewTags.totals)
                             .floatingPopover(isPresented: $totalsPopover, arrowDirection: .up) {
                                 Totals_HomeView_Popover {
-                                    totalsPopover = false
-                                    scrollProxy.scrollWithAnimation(ViewTags.netMoney, anchor: .bottom)
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                        netMoneyPopover = true
-                                    }
+                                    removeFirstFromPopoverQueue(scrollProxy: scrollProxy)
                                 }
                             }
                         SummaryView_HomeView()
@@ -65,11 +124,7 @@ struct NewHomeView: View {
                             .id(ViewTags.netMoney)
                             .floatingPopover(isPresented: $netMoneyPopover, arrowDirection: .down) {
                                 NetMoney_HomeView_Popover {
-                                    netMoneyPopover = false
-                                    scrollProxy.scrollWithAnimation(ViewTags.payoffQueue, anchor: .top)
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                        payoffQueuePopover = true
-                                    }
+                                    removeFirstFromPopoverQueue(scrollProxy: scrollProxy)
                                 }
                             }
                         PayoffQueueView_HomeView()
@@ -77,10 +132,7 @@ struct NewHomeView: View {
                             .floatingPopover(isPresented: $payoffQueuePopover,
                                              arrowDirection: .up) {
                                 PayoffQueue_HomeView_Popup {
-                                    payoffQueuePopover = false
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                        wagePopover = true
-                                    }
+                                    removeFirstFromPopoverQueue(scrollProxy: scrollProxy)
                                 }
                             }
 
@@ -88,11 +140,7 @@ struct NewHomeView: View {
                             .id(ViewTags.wageBreakdown)
                             .floatingPopover(isPresented: $wagePopover, arrowDirection: .down) {
                                 WageBreakdown_HomeView_Popover {
-                                    wagePopover = false
-                                    scrollProxy.scrollWithAnimation(ViewTags.timeBlocks, anchor: .bottom)
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                        timeBlockPopover = true
-                                    }
+                                    removeFirstFromPopoverQueue(scrollProxy: scrollProxy)
                                 }
                             }
 
@@ -100,11 +148,7 @@ struct NewHomeView: View {
                             .id(ViewTags.timeBlocks)
                             .floatingPopover(isPresented: $timeBlockPopover, arrowDirection: .down) {
                                 TimeBlock_HomeView_Popover {
-                                    timeBlockPopover = false
-                                    scrollProxy.scrollWithAnimation(ViewTags.scrollView, anchor: .zero)
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                        quickAddPopover = true
-                                    }
+                                    removeFirstFromPopoverQueue(scrollProxy: scrollProxy)
                                 }
                             }
                     }
