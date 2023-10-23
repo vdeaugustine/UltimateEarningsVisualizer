@@ -42,13 +42,14 @@ struct UltimateMoneyVisualizerApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, context)
-                .environment(\.sizeCategory, .large) // Set a fixed size category for the entire app
-                .environmentObject(navManager)
-                .onAppear() {
-                    NotificationManager.scheduleDailyNotification()
-                }
+            PopUpTester()
+//            ContentView()
+//                .environment(\.managedObjectContext, context)
+//                .environment(\.sizeCategory, .large) // Set a fixed size category for the entire app
+//                .environmentObject(navManager)
+//                .onAppear() {
+//                    NotificationManager.scheduleDailyNotification()
+//                }
                 
         }
     }

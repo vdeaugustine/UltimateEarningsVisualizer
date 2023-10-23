@@ -9,21 +9,6 @@ import CoreData
 import SwiftUI
 import Vin
 
-// MARK: - SettingsView
-struct TestPopo: View {
-    @State private var showPopover = false
-    @State private var background: Color = .blue
-    var body: some View {
-        VStack {
-            Button("Something") {
-                showPopover.toggle()
-            }
-            .defaultPopover(isPresented: $showPopover, text: "Testing default", direction: .up)
-//            .padding(.top,25)
-        }
-    }
-}
-
 struct SettingsView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
@@ -49,8 +34,6 @@ struct SettingsView: View {
 
     var body: some View {
         List {
-            
-            TestPopo()
             
             Section("Money") {
                 // MARK: - Set Wage
