@@ -81,6 +81,10 @@ struct PopupInfoContent: View {
 // MARK: - TimeBlockPopup
 
 struct TimeBlockPopup: View {
+    enum Options {
+        case whyUse, howUse
+    }
+    @State private var optionSelected: Options = .whyUse
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack {
@@ -89,7 +93,7 @@ struct TimeBlockPopup: View {
                     .font(.title).fontWeight(.bold)
                 GroupBox("What are they?") {
                     VStack(alignment: .leading, spacing: 10) {
-                        bulletContent("Time Blocks are unique segments within your work shift that you can create to categorize different tasks or activities.")
+                        bulletContent("Unique time segments within your work shift for you to categorize different tasks or activities.")
                         bulletContent("Each block represents a specific period you've spent doing a particular task during your shift.")
                     }
                     .font(.subheadline)
@@ -103,9 +107,17 @@ struct TimeBlockPopup: View {
 
                 Text("Why use them?")
                     .font(.title).bold()
+                
+                Picker("Option", selection: $optionSelected) {
+                    Text("Why use them").tag(Options.whyUse)
+                    Text("How to use them").tag(Options.howUse)
+                    Text("What are they").tag(3)
+                }
+                .pickerStyle(.segmented)
 
 //                VStack(alignment: .leading, spacing: 10) {
 //                    GroupBox("Why use Time Blocks?") {
+                if optionSelected == .whyUse {
                     TabView {
                         reasonsRow(title: "Task Management:", texts: ["Break your shift into manageable chunks, each dedicated to a specific task.", "It helps you organize your day and ensures you're covering all necessary work!"])
 
@@ -115,7 +127,8 @@ struct TimeBlockPopup: View {
                     }
                     .tabViewStyle(.page)
                     .frame(height: 200)
-                    
+                }
+
 //                    }
 //                }
             }
@@ -196,12 +209,14 @@ struct BlueBorderGroupBoxStyle: GroupBoxStyle {
     }
 }
 
+
+
 // MARK: - PopupContentOne_Previews
 
 struct PopupContentOne_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
-            Color.red.ignoresSafeArea()
+//            Color.red.ignoresSafeArea()
             TimeBlockPopup()
         }
     }
