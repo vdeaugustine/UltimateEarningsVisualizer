@@ -60,7 +60,7 @@ struct NoContentPlaceholderCustomView: View {
         })
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.clear)
+//        .background (Color(.secondarySystemBackground))
     }
 }
 
@@ -77,4 +77,5 @@ struct NoContentPlaceholderCustomView: View {
     NoContentPlaceholderCustomView(title: "Today's Shift",
                                    subTitle: "You do not have a shift scheduled for today.",
                                    imageSystemName: "calendar.badge.clock")
+    .preferredColorScheme(.dark)
 }

@@ -24,8 +24,8 @@ struct YouHaveNoShiftView: View {
             showHoursSheet = true
             model.showHoursSheet = true
         }
+        .background(Color(.secondarySystemBackground))
     }
-
 }
 
 // MARK: - YouHaveNoShiftView_Previews

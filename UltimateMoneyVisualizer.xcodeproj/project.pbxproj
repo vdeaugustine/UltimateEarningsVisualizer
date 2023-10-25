@@ -59,6 +59,7 @@
 		9C4213D92AE99739007FDB97 /* SummaryView_HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4213D82AE99739007FDB97 /* SummaryView_HomeView.swift */; };
 		9C4213DB2AE99751007FDB97 /* NetMoney_HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4213DA2AE99751007FDB97 /* NetMoney_HomeView.swift */; };
 		9C4213DD2AE99769007FDB97 /* TopTimeBlocks_HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4213DC2AE99769007FDB97 /* TopTimeBlocks_HomeView.swift */; };
+		9C4213E22AE9C09B007FDB97 /* TimeBlockLeaderboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4213E12AE9C09B007FDB97 /* TimeBlockLeaderboard.swift */; };
 		9C442A372A03792800D61C3E /* WageBreakdownBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C442A362A03792800D61C3E /* WageBreakdownBox.swift */; };
 		9C442A392A03798C00D61C3E /* WageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C442A382A03798C00D61C3E /* WageTests.swift */; };
 		9C460EE02A038B9F0007EBA9 /* MultipleNewShiftsView(Deprecated).swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C460EDF2A038B9F0007EBA9 /* MultipleNewShiftsView(Deprecated).swift */; };
@@ -360,6 +361,7 @@
 		9C4213D82AE99739007FDB97 /* SummaryView_HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView_HomeView.swift; sourceTree = "<group>"; };
 		9C4213DA2AE99751007FDB97 /* NetMoney_HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetMoney_HomeView.swift; sourceTree = "<group>"; };
 		9C4213DC2AE99769007FDB97 /* TopTimeBlocks_HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopTimeBlocks_HomeView.swift; sourceTree = "<group>"; };
+		9C4213E12AE9C09B007FDB97 /* TimeBlockLeaderboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeBlockLeaderboard.swift; sourceTree = "<group>"; };
 		9C442A362A03792800D61C3E /* WageBreakdownBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WageBreakdownBox.swift; sourceTree = "<group>"; };
 		9C442A382A03798C00D61C3E /* WageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WageTests.swift; sourceTree = "<group>"; };
 		9C460EDF2A038B9F0007EBA9 /* MultipleNewShiftsView(Deprecated).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MultipleNewShiftsView(Deprecated).swift"; sourceTree = "<group>"; };
@@ -714,6 +716,23 @@
 			path = Modifiers;
 			sourceTree = "<group>";
 		};
+		9C4213DF2AE9C080007FDB97 /* Main Page */ = {
+			isa = PBXGroup;
+			children = (
+				9C4213E02AE9C089007FDB97 /* Sub Views */,
+				9C4213D32AE9877A007FDB97 /* MainTimeBlockView.swift */,
+			);
+			path = "Main Page";
+			sourceTree = "<group>";
+		};
+		9C4213E02AE9C089007FDB97 /* Sub Views */ = {
+			isa = PBXGroup;
+			children = (
+				9C4213E12AE9C09B007FDB97 /* TimeBlockLeaderboard.swift */,
+			);
+			path = "Sub Views";
+			sourceTree = "<group>";
+		};
 		9C460EE72A049DC30007EBA9 /* New Money Items */ = {
 			isa = PBXGroup;
 			children = (
@@ -769,6 +788,7 @@
 		9C5F0B912A3500C7006AAB46 /* Time Blocks */ = {
 			isa = PBXGroup;
 			children = (
+				9C4213DF2AE9C080007FDB97 /* Main Page */,
 				9C3CE9FD2A7F27160014B5EC /* CondensedTimeBlockVIew.swift */,
 				9CF411C62A85746E00A49F08 /* NewTimeBlocksForShiftView.swift */,
 				9C3A7B312A2BD80300F2AC88 /* AllTimeBlocksView.swift */,
@@ -943,7 +963,6 @@
 			children = (
 				9CD1FF2C2AE06C5300AF156A /* FontTester.swift */,
 				9CD1FF2E2AE71C5100AF156A /* TimeBlockExplainView.swift */,
-				9C4213D32AE9877A007FDB97 /* MainTimeBlockView.swift */,
 				9CD511272ADB182A00B5584E /* PopoverContents.swift */,
 				9C5CFD212ADF60E700943A70 /* PopUpTester.swift */,
 				9CC674B22ACA7C7700FB407C /* NoContentPlaceholderCustomView.swift */,
@@ -1994,6 +2013,7 @@
 				9C7F965B29F8F03C00F5035C /* UltimateMoneyVisualizerApp.swift in Sources */,
 				9C7F969929F8FE3500F5035C /* ExtendShift.swift in Sources */,
 				9C98C2702A777783005CE028 /* TotalItem.swift in Sources */,
+				9C4213E22AE9C09B007FDB97 /* TimeBlockLeaderboard.swift in Sources */,
 				9CDBE0E42A2462A200741EEE /* NewShiftView.swift in Sources */,
 				9C76B2EE2A56819C001E40FC /* NewItemCreationView.swift in Sources */,
 				9C514DAC29FF7359003DC43C /* HomePageSectionContainerModifier.swift in Sources */,

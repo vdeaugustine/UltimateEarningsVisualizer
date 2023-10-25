@@ -83,6 +83,7 @@ struct NewHomeView: View {
                                 }
                             }
                     }
+                    .background (Color(.secondarySystemBackground))
                     .padding(.top)
                     .onAppear(perform: {
                         if status.hasSeenHomeTutorial == false {
@@ -104,6 +105,7 @@ struct NewHomeView: View {
                             .shadow(radius: 3)
                     }
                 }
+                .background (Color(.secondarySystemBackground))
             }
         }
         .modifier(Modifiers(vm: vm,

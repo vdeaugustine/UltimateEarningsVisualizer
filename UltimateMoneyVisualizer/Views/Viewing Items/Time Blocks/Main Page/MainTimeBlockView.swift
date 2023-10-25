@@ -7,6 +7,14 @@
 
 import SwiftUI
 
+/*
+ Things to include:
+ - All time blocks
+- Top time blocks
+ - Ability to sort them
+ - A button that explains what time blocks are 
+ */
+
 struct MainTimeBlockView: View {
     var body: some View {
         ScrollView {
@@ -34,6 +42,5 @@ struct MainTimeBlockView: View {
 
 #Preview {
     MainTimeBlockView()
-//        .preferredColorScheme(.dark)
         .putInNavView(.large)
 }
