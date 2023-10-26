@@ -60,6 +60,7 @@
 		9C4213DB2AE99751007FDB97 /* NetMoney_HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4213DA2AE99751007FDB97 /* NetMoney_HomeView.swift */; };
 		9C4213DD2AE99769007FDB97 /* TopTimeBlocks_HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4213DC2AE99769007FDB97 /* TopTimeBlocks_HomeView.swift */; };
 		9C4213E22AE9C09B007FDB97 /* TimeBlockLeaderboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4213E12AE9C09B007FDB97 /* TimeBlockLeaderboard.swift */; };
+		9C4213E42AE9C624007FDB97 /* TimeBlocksStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4213E32AE9C624007FDB97 /* TimeBlocksStatsView.swift */; };
 		9C442A372A03792800D61C3E /* WageBreakdownBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C442A362A03792800D61C3E /* WageBreakdownBox.swift */; };
 		9C442A392A03798C00D61C3E /* WageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C442A382A03798C00D61C3E /* WageTests.swift */; };
 		9C460EE02A038B9F0007EBA9 /* MultipleNewShiftsView(Deprecated).swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C460EDF2A038B9F0007EBA9 /* MultipleNewShiftsView(Deprecated).swift */; };
@@ -362,6 +363,7 @@
 		9C4213DA2AE99751007FDB97 /* NetMoney_HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetMoney_HomeView.swift; sourceTree = "<group>"; };
 		9C4213DC2AE99769007FDB97 /* TopTimeBlocks_HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopTimeBlocks_HomeView.swift; sourceTree = "<group>"; };
 		9C4213E12AE9C09B007FDB97 /* TimeBlockLeaderboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeBlockLeaderboard.swift; sourceTree = "<group>"; };
+		9C4213E32AE9C624007FDB97 /* TimeBlocksStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeBlocksStatsView.swift; sourceTree = "<group>"; };
 		9C442A362A03792800D61C3E /* WageBreakdownBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WageBreakdownBox.swift; sourceTree = "<group>"; };
 		9C442A382A03798C00D61C3E /* WageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WageTests.swift; sourceTree = "<group>"; };
 		9C460EDF2A038B9F0007EBA9 /* MultipleNewShiftsView(Deprecated).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MultipleNewShiftsView(Deprecated).swift"; sourceTree = "<group>"; };
@@ -729,8 +731,16 @@
 			isa = PBXGroup;
 			children = (
 				9C4213E12AE9C09B007FDB97 /* TimeBlockLeaderboard.swift */,
+				9C4213E32AE9C624007FDB97 /* TimeBlocksStatsView.swift */,
 			);
 			path = "Sub Views";
+			sourceTree = "<group>";
+		};
+		9C4213E52AEAB740007FDB97 /* Old */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Old;
 			sourceTree = "<group>";
 		};
 		9C460EE72A049DC30007EBA9 /* New Money Items */ = {
@@ -972,6 +982,7 @@
 				9C7F966829F8F03E00F5035C /* Info.plist */,
 				9C7F965E29F8F03E00F5035C /* Assets.xcassets */,
 				9C7F96A329F8FEB000F5035C /* --TopLevel */,
+				9CAE0B3C2A9AD4F8009034EC /* Onboarding */,
 				9CEEE33D29F9099D001FA4FB /* Model */,
 				9CEEE32C29F904A0001FA4FB /* Views */,
 				9CDD4E2A2A67C10D00AB8B4F /* Fonts */,
@@ -1225,13 +1236,15 @@
 		9CAE0B3C2A9AD4F8009034EC /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				9C4213E52AEAB740007FDB97 /* Old */,
 				9C602CDD2A9F13C400B42DDF /* New Onboarding */,
 				9C602CE02A9F222E00B42DDF /* OnboardingListOfFirstsView.swift */,
 				9CAE0B3D2A9AD509009034EC /* OnboardingRegularDaysView.swift */,
 				9C74F9FE2A9C1F6700466779 /* OnboardingFirstGoalView.swift */,
 				9C602CCC2A9DB74800B42DDF /* OnboardingFirstExpenseView.swift */,
 			);
-			path = Onboarding;
+			name = Onboarding;
+			path = Views/Onboarding;
 			sourceTree = "<group>";
 		};
 		9CB660782A57722D002ED262 /* New Item Creation */ = {
@@ -1480,7 +1493,6 @@
 				9CEEE32F29F904BB001FA4FB /* Viewing Items */,
 				9CEEE32D29F904A3001FA4FB /* Adding Items */,
 				9CF324DE2A933288003736F5 /* Editing Items */,
-				9CAE0B3C2A9AD4F8009034EC /* Onboarding */,
 				9C952B1F2AC2B04200C9BF3A /* Monetization */,
 				9C952B202AC2B05300C9BF3A /* Calendars */,
 				9C7C985629FB72320077EA25 /* Components */,
@@ -2096,6 +2108,7 @@
 				9CED53442A089C77002DC183 /* StatsViewChart.swift in Sources */,
 				9C7F969B29F8FE3500F5035C /* ExtendGoal.swift in Sources */,
 				9CB418C62A0B616A006F44AB /* ExtendAlertToast.swift in Sources */,
+				9C4213E42AE9C624007FDB97 /* TimeBlocksStatsView.swift in Sources */,
 				9C05059E2A10B0B500FC6511 /* SetHoursForRegularDaysView.swift in Sources */,
 				9C7C985029FB606E0077EA25 /* ExtendUserDefaults.swift in Sources */,
 				9CEEE34D29F90DD4001FA4FB /* CreateSavedView.swift in Sources */,

@@ -46,7 +46,7 @@ struct OnboardingListOfFirstsView: View {
                     }
                 }
                 Spacer()
-                OnboardingButton(title: "") {
+                OnboardingButton(title: "Continue") {
                     
                 }
                 Text("Skip tutorial")

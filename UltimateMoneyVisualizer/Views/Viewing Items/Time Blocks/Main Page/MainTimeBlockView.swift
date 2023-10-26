@@ -10,9 +10,11 @@ import SwiftUI
 /*
  Things to include:
  - All time blocks
-- Top time blocks
+ - Top time blocks leaderboard - done 
  - Ability to sort them
  - A button that explains what time blocks are 
+ - Total time blocked
+ - Total time blocked compared to total time worked
  */
 
 struct MainTimeBlockView: View {
