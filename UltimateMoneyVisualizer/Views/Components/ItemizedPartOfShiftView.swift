@@ -13,7 +13,6 @@ extension Color {
               green: components.green + (num / 255),
               blue: components.blue + (num / 255),
               opacity: components.opacity)
-//        return Color( red: rgb, green: <#T##Double#>, blue: <#T##Double#>)
     }
 }
 
@@ -99,9 +98,6 @@ struct ItemizedPartOfShiftView: View {
 
             divider(time: shift.end)
         }
-//        .navigationDestination(for: TimeBlock.self) { block in
-//            TimeBlockDetailView(block: block)
-//        }
     }
 
     func timeBlockSection(timeBlock: TimeBlock) -> some View {

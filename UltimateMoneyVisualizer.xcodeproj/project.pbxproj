@@ -61,6 +61,8 @@
 		9C4213DD2AE99769007FDB97 /* TopTimeBlocks_HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4213DC2AE99769007FDB97 /* TopTimeBlocks_HomeView.swift */; };
 		9C4213E22AE9C09B007FDB97 /* TimeBlockLeaderboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4213E12AE9C09B007FDB97 /* TimeBlockLeaderboard.swift */; };
 		9C4213E42AE9C624007FDB97 /* TimeBlocksStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4213E32AE9C624007FDB97 /* TimeBlocksStatsView.swift */; };
+		9C4213F42AEAC188007FDB97 /* TimeBlockInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4213F32AEAC188007FDB97 /* TimeBlockInfoView.swift */; };
+		9C4213F62AEB4E21007FDB97 /* TimeBlockExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4213F52AEB4E21007FDB97 /* TimeBlockExampleView.swift */; };
 		9C442A372A03792800D61C3E /* WageBreakdownBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C442A362A03792800D61C3E /* WageBreakdownBox.swift */; };
 		9C442A392A03798C00D61C3E /* WageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C442A382A03798C00D61C3E /* WageTests.swift */; };
 		9C460EE02A038B9F0007EBA9 /* MultipleNewShiftsView(Deprecated).swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C460EDF2A038B9F0007EBA9 /* MultipleNewShiftsView(Deprecated).swift */; };
@@ -364,6 +366,8 @@
 		9C4213DC2AE99769007FDB97 /* TopTimeBlocks_HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopTimeBlocks_HomeView.swift; sourceTree = "<group>"; };
 		9C4213E12AE9C09B007FDB97 /* TimeBlockLeaderboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeBlockLeaderboard.swift; sourceTree = "<group>"; };
 		9C4213E32AE9C624007FDB97 /* TimeBlocksStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeBlocksStatsView.swift; sourceTree = "<group>"; };
+		9C4213F32AEAC188007FDB97 /* TimeBlockInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeBlockInfoView.swift; sourceTree = "<group>"; };
+		9C4213F52AEB4E21007FDB97 /* TimeBlockExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeBlockExampleView.swift; sourceTree = "<group>"; };
 		9C442A362A03792800D61C3E /* WageBreakdownBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WageBreakdownBox.swift; sourceTree = "<group>"; };
 		9C442A382A03798C00D61C3E /* WageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WageTests.swift; sourceTree = "<group>"; };
 		9C460EDF2A038B9F0007EBA9 /* MultipleNewShiftsView(Deprecated).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MultipleNewShiftsView(Deprecated).swift"; sourceTree = "<group>"; };
@@ -399,7 +403,7 @@
 		9C602CCE2A9E652D00B42DDF /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		9C602CD02A9EFD2F00B42DDF /* WhatIsASavedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatIsASavedItem.swift; sourceTree = "<group>"; };
 		9C602CDE2A9F13D700B42DDF /* NewOnboardingWage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewOnboardingWage.swift; sourceTree = "<group>"; };
-		9C602CE02A9F222E00B42DDF /* OnboardingListOfFirstsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingListOfFirstsView.swift; sourceTree = SOURCE_ROOT; };
+		9C602CE02A9F222E00B42DDF /* OnboardingListOfFirstsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OnboardingListOfFirstsView.swift; path = UltimateMoneyVisualizer/Views/Onboarding/Old/OnboardingListOfFirstsView.swift; sourceTree = SOURCE_ROOT; };
 		9C65A75E2A00D28E00A5BCF1 /* GoalRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalRow.swift; sourceTree = "<group>"; };
 		9C65A7602A00D4B900A5BCF1 /* ExpenseRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRow.swift; sourceTree = "<group>"; };
 		9C69C5CB2A1832E5006F5C23 /* PayoffWithImageAndGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayoffWithImageAndGradientView.swift; sourceTree = "<group>"; };
@@ -739,8 +743,106 @@
 		9C4213E52AEAB740007FDB97 /* Old */ = {
 			isa = PBXGroup;
 			children = (
+				9C602CE02A9F222E00B42DDF /* OnboardingListOfFirstsView.swift */,
 			);
 			path = Old;
+			sourceTree = "<group>";
+		};
+		9C4213E62AEABFA7007FDB97 /* More Info */ = {
+			isa = PBXGroup;
+			children = (
+				9C4213ED2AEABFD5007FDB97 /* Allocation  */,
+				9C4213E92AEABFBB007FDB97 /* Expense */,
+				9C4213F22AEAC17C007FDB97 /* Generic */,
+				9C4213E72AEABFB4007FDB97 /* Goal */,
+				9C4213EC2AEABFC7007FDB97 /* Regular Shift */,
+				9C4213EB2AEABFC3007FDB97 /* Saved Item */,
+				9C4213EA2AEABFBF007FDB97 /* Shift */,
+				9C4213EE2AEAC06D007FDB97 /* Tags */,
+				9C4213EF2AEAC075007FDB97 /* TimeBlocks */,
+				9C4213F02AEAC080007FDB97 /* Today Shift */,
+				9C4213F12AEAC08A007FDB97 /* Wage */,
+			);
+			path = "More Info";
+			sourceTree = "<group>";
+		};
+		9C4213E72AEABFB4007FDB97 /* Goal */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Goal;
+			sourceTree = "<group>";
+		};
+		9C4213E92AEABFBB007FDB97 /* Expense */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Expense;
+			sourceTree = "<group>";
+		};
+		9C4213EA2AEABFBF007FDB97 /* Shift */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Shift;
+			sourceTree = "<group>";
+		};
+		9C4213EB2AEABFC3007FDB97 /* Saved Item */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Saved Item";
+			sourceTree = "<group>";
+		};
+		9C4213EC2AEABFC7007FDB97 /* Regular Shift */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Regular Shift";
+			sourceTree = "<group>";
+		};
+		9C4213ED2AEABFD5007FDB97 /* Allocation  */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Allocation ";
+			sourceTree = "<group>";
+		};
+		9C4213EE2AEAC06D007FDB97 /* Tags */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Tags;
+			sourceTree = "<group>";
+		};
+		9C4213EF2AEAC075007FDB97 /* TimeBlocks */ = {
+			isa = PBXGroup;
+			children = (
+				9C4213F32AEAC188007FDB97 /* TimeBlockInfoView.swift */,
+				9C4213F52AEB4E21007FDB97 /* TimeBlockExampleView.swift */,
+			);
+			path = TimeBlocks;
+			sourceTree = "<group>";
+		};
+		9C4213F02AEAC080007FDB97 /* Today Shift */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Today Shift";
+			sourceTree = "<group>";
+		};
+		9C4213F12AEAC08A007FDB97 /* Wage */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Wage;
+			sourceTree = "<group>";
+		};
+		9C4213F22AEAC17C007FDB97 /* Generic */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Generic;
 			sourceTree = "<group>";
 		};
 		9C460EE72A049DC30007EBA9 /* New Money Items */ = {
@@ -1238,7 +1340,6 @@
 			children = (
 				9C4213E52AEAB740007FDB97 /* Old */,
 				9C602CDD2A9F13C400B42DDF /* New Onboarding */,
-				9C602CE02A9F222E00B42DDF /* OnboardingListOfFirstsView.swift */,
 				9CAE0B3D2A9AD509009034EC /* OnboardingRegularDaysView.swift */,
 				9C74F9FE2A9C1F6700466779 /* OnboardingFirstGoalView.swift */,
 				9C602CCC2A9DB74800B42DDF /* OnboardingFirstExpenseView.swift */,
@@ -1489,6 +1590,7 @@
 		9CEEE32C29F904A0001FA4FB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9C4213E62AEABFA7007FDB97 /* More Info */,
 				9C0CFCD72A5A7050005C7C81 /* Pay Period */,
 				9CEEE32F29F904BB001FA4FB /* Viewing Items */,
 				9CEEE32D29F904A3001FA4FB /* Adding Items */,
@@ -1908,6 +2010,7 @@
 				9C7C986329FCEB3E0077EA25 /* ProgressCircle.swift in Sources */,
 				9CD2F2E72A287E7B00718667 /* EnterPaycheckView.swift in Sources */,
 				9C18C1B42A4A8A7500B74C92 /* ExtendDeduction.swift in Sources */,
+				9C4213F42AEAC188007FDB97 /* TimeBlockInfoView.swift in Sources */,
 				9C7C986729FD7A390077EA25 /* TodayLiveCompletedBanner.swift in Sources */,
 				9C7F96A629F8FF0100F5035C /* CreateExpenseView.swift in Sources */,
 				9C7F968D29F8FD2D00F5035C /* ExtendExpense.swift in Sources */,
@@ -2049,6 +2152,7 @@
 				9C7F969E29F8FE3500F5035C /* ExtendAllocation.swift in Sources */,
 				9C460EE02A038B9F0007EBA9 /* MultipleNewShiftsView(Deprecated).swift in Sources */,
 				9C0CFCE02A5C5989005C7C81 /* ShiftHasntStartedView.swift in Sources */,
+				9C4213F62AEB4E21007FDB97 /* TimeBlockExampleView.swift in Sources */,
 				9C952B2D2AC2B85E00C9BF3A /* PayPeriodDetailView.swift in Sources */,
 				9CEEE35129F90E37001FA4FB /* SavedDetailView.swift in Sources */,
 				9CDD4E612A68E56800AB8B4F /* TodayPaidOffRectContainer.swift in Sources */,
