@@ -53,6 +53,8 @@
 		9C3C58682A0CBF5900169A0F /* AllItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3C58672A0CBF5900169A0F /* AllItemsView.swift */; };
 		9C3CE9FE2A7F27160014B5EC /* CondensedTimeBlockVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3CE9FD2A7F27160014B5EC /* CondensedTimeBlockVIew.swift */; };
 		9C3F80C42A5949BE00FCF040 /* GPTPieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3F80C32A5949BE00FCF040 /* GPTPieChart.swift */; };
+		9C3FA3012AECDEC5000DCC4C /* GoalsInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3FA3002AECDEC5000DCC4C /* GoalsInfoView.swift */; };
+		9C3FA3032AECDEEA000DCC4C /* MoreInfoRectTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3FA3022AECDEEA000DCC4C /* MoreInfoRectTemplate.swift */; };
 		9C3FE5402AA704D1008A1A24 /* FloatingPlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3FE53F2AA704D1008A1A24 /* FloatingPlusButton.swift */; };
 		9C4213D42AE9877A007FDB97 /* MainTimeBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4213D32AE9877A007FDB97 /* MainTimeBlockView.swift */; };
 		9C4213D72AE9970F007FDB97 /* ShadowForRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4213D62AE9970F007FDB97 /* ShadowForRect.swift */; };
@@ -358,6 +360,8 @@
 		9C3C58672A0CBF5900169A0F /* AllItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllItemsView.swift; sourceTree = "<group>"; };
 		9C3CE9FD2A7F27160014B5EC /* CondensedTimeBlockVIew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CondensedTimeBlockVIew.swift; sourceTree = "<group>"; };
 		9C3F80C32A5949BE00FCF040 /* GPTPieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTPieChart.swift; sourceTree = "<group>"; };
+		9C3FA3002AECDEC5000DCC4C /* GoalsInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsInfoView.swift; sourceTree = "<group>"; };
+		9C3FA3022AECDEEA000DCC4C /* MoreInfoRectTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInfoRectTemplate.swift; sourceTree = "<group>"; };
 		9C3FE53F2AA704D1008A1A24 /* FloatingPlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingPlusButton.swift; sourceTree = "<group>"; };
 		9C4213D32AE9877A007FDB97 /* MainTimeBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTimeBlockView.swift; sourceTree = "<group>"; };
 		9C4213D62AE9970F007FDB97 /* ShadowForRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowForRect.swift; sourceTree = SOURCE_ROOT; };
@@ -1053,6 +1057,8 @@
 		9C7F964E29F8F03C00F5035C = {
 			isa = PBXGroup;
 			children = (
+				9C3FA3022AECDEEA000DCC4C /* MoreInfoRectTemplate.swift */,
+				9C3FA3002AECDEC5000DCC4C /* GoalsInfoView.swift */,
 				9C7F965929F8F03C00F5035C /* UltimateMoneyVisualizer */,
 				9C7F965829F8F03C00F5035C /* Products */,
 				9C7F967029F8F03E00F5035C /* UltimateMoneyVisualizerTests */,
@@ -2042,6 +2048,7 @@
 				9C0CFCE42A5CD45A005C7C81 /* PayoffItemDetailViewModel.swift in Sources */,
 				9C7B5D542A201AC600DBB877 /* ExtendPayPeriod.swift in Sources */,
 				9CEEE34329F90A7D001FA4FB /* CreateShiftView(Deprecated).swift in Sources */,
+				9C3FA3012AECDEC5000DCC4C /* GoalsInfoView.swift in Sources */,
 				9CE4F66F2A5F0BD10046183C /* GoalDetailContributionsSection.swift in Sources */,
 				9C7B5D562A2026D000DBB877 /* PayCycle.swift in Sources */,
 				9C4DDCC62A44F96900560535 /* TodayViewModel.swift in Sources */,
@@ -2130,6 +2137,7 @@
 				9C98C2702A777783005CE028 /* TotalItem.swift in Sources */,
 				9C4213E22AE9C09B007FDB97 /* TimeBlockLeaderboard.swift in Sources */,
 				9CDBE0E42A2462A200741EEE /* NewShiftView.swift in Sources */,
+				9C3FA3032AECDEEA000DCC4C /* MoreInfoRectTemplate.swift in Sources */,
 				9C76B2EE2A56819C001E40FC /* NewItemCreationView.swift in Sources */,
 				9C514DAC29FF7359003DC43C /* HomePageSectionContainerModifier.swift in Sources */,
 				9CC5BE632A09C08C006A2262 /* TodayPayoffGrid.swift in Sources */,
