@@ -253,8 +253,24 @@ extension SettingsView {
                         Spacer()
                         Components.nextPageChevron
                     }
+                    .allPartsTappable()
                 }
                 .buttonStyle(.plain)
+                
+                Button {
+                    NavManager.shared.appendCorrectPath(newValue: .goalsInfoView)
+                } label: {
+                    HStack {
+                        Label("Goals", systemImage: "star.fill")
+                        Spacer()
+                        Components.nextPageChevron
+                    }
+                    .allPartsTappable()
+                }
+                .buttonStyle(.plain)
+                
+                
+                
             } header: {
                 Text("Tutorials and More Info")
             }

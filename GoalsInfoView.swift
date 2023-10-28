@@ -53,11 +53,18 @@ struct GoalsInfoView: View {
                     }
                 }
                 
-                Text("The S.T.A.R. goal method is a structured approach to setting meaningful and attainable objectives.")
-                    .font(.subheadline)
-                    .padding()
-                    .foregroundStyle(Color(.secondaryLabel))
-                
+                VStack(alignment: .leading, spacing: 20) {
+                    Text("The S.T.A.R. goal method is a structured approach to setting meaningful and attainable objectives.")
+                        .font(.subheadline)
+//                        .padding()
+                        .foregroundStyle(Color(.secondaryLabel))
+                    
+                    Text("Here is how the Goals feature utilizes this method to your benefit")
+                        .font(.subheadline)
+//                        .padding()
+                        .foregroundStyle(Color(.secondaryLabel))
+                }
+                .padding(.horizontal)
                 
                 
                 
@@ -94,7 +101,7 @@ struct GoalsInfoView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding()
         }
-        .navigationTitle("S.T.A.R. Goals")
+//        .navigationTitle("S.T.A.R. Goals")
         .background {
             Color(.secondarySystemBackground)
                 .ignoresSafeArea()

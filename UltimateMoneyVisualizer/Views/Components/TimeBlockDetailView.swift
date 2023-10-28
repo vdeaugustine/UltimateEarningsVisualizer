@@ -11,53 +11,27 @@ import SwiftUI
 // MARK: - TimeBlockDetailView
 
 struct TimeBlockDetailView: View {
-    // swiftformat:sort:begin
     let block: TimeBlock
 
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.editMode) private var editMode
-
-    @State private var endTime: Date = .now
+    @Environment(\.managedObjectContext) private var viewContext
 
     @State private var showDeleteConfirmation = false
     @State private var showDeleteError = false
     @State private var showErrorAlert = false
-
-    @State private var showSavedAlert = false
-
-    @State private var startTime: Date = .now
-    @State private var title: String = ""
-    
-    @FocusState private var editTitleFieldFocused
-
-    @Environment(\.managedObjectContext) private var viewContext
-    // swiftformat:sort:end
+    @State private var isEditSheetPresented = false
 
     var body: some View {
         VStack {
-            if let editMode,
-               editMode.wrappedValue.isEditing {
-                editingView
-            } else {
-                viewingMode
-            }
+            viewingMode
         }
-
         .navigationTitle("Time Block Details")
         .putInTemplate()
-        
         .confirmationDialog("Delete Time Block?",
                             isPresented: $showDeleteConfirmation,
                             titleVisibility: .visible) {
             Button("Delete", role: .destructive) {
-                viewContext.delete(block)
-
-                do {
-                    try viewContext.save()
-                    dismiss()
-                } catch {
-                    showDeleteError.toggle()
-                }
+                deleteBlock()
             }
         }
         .toast(isPresenting: $showDeleteError) {
@@ -65,28 +39,20 @@ struct TimeBlockDetailView: View {
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                EditButton()
-                    .foregroundStyle(.white)
+                Button(action: {
+                    isEditSheetPresented.toggle()
+                }) {
+                    Text("Edit")
+                }
+                .foregroundStyle(.white)
             }
         }
-        .onChange(of: editMode?.wrappedValue.isEditing, perform: { newValue in
-            if newValue == false {
-                block.startTime = startTime
-                block.endTime = endTime
-                block.title = title
-
-                do {
-                    try viewContext.save()
-                    showSavedAlert = true
-                } catch {
-                    showErrorAlert = true
-                }
-            }
-        })
+        .sheet(isPresented: $isEditSheetPresented) {
+            EditTimeBlockView(block: block, isPresented: $isEditSheetPresented)
+        }
         .alert("Error saving changes", isPresented: $showErrorAlert) {} message: {
             Text("Please try again. If issue persists, try restarting the app.")
         }
-        .alert("Successfully saved changes", isPresented: $showSavedAlert) {}
     }
 
     private var viewingMode: some View {
@@ -131,47 +97,124 @@ struct TimeBlockDetailView: View {
         }
     }
 
-    private var editingView: some View {
-        Form {
-            Section("Title") {
-                TextField("Title", text: $title)
-                    .focused($editTitleFieldFocused)
-            }
+    private func deleteBlock() {
+        viewContext.delete(block)
 
-            Section("Times") {
-                DatePicker("Start time", selection: $startTime, displayedComponents: .hourAndMinute)
-                DatePicker("End time", selection: $endTime, displayedComponents: .hourAndMinute)
+        do {
+            try viewContext.save()
+            dismiss()
+        } catch {
+            showDeleteError.toggle()
+        }
+    }
+}
+
+
+// MARK: - EditTimeBlockView
+
+struct EditTimeBlockView: View {
+    let block: TimeBlock
+
+    @Binding var isPresented: Bool
+
+    @State private var endTime: Date = .now
+    @State private var startTime: Date = .now
+    @State private var title: String = ""
+    @State private var color: Color
+
+    init(block: TimeBlock, isPresented: Binding<Bool>) {
+        self.block = block
+        self._isPresented = isPresented
+        self._endTime = State(initialValue: block.endTime ?? .now)
+        self._startTime = State(initialValue: block.startTime ?? .now)
+        self._title = State(initialValue: block.getTitle())
+        self._color = State(initialValue: block.getColor())
+    }
+    
+    @FocusState private var editTitleFieldFocused
+
+    @Environment(\.managedObjectContext) private var viewContext
+
+    var body: some View {
+        NavigationView {
+            Form {
+                Section("Title") {
+                    TextField("Title", text: $title)
+                        .focused($editTitleFieldFocused)
+                }
+
+                Section("Times") {
+                    DatePicker("Start time", selection: $startTime, displayedComponents: .hourAndMinute)
+                    DatePicker("End time", selection: $endTime, displayedComponents: .hourAndMinute)
+                }
+
+                Section("Color") {
+                    ColorPicker("Block Color", selection: $color)
+                }
             }
-        }
-        .onAppear {
-            startTime = block.startTime ?? .now
-            endTime = block.endTime ?? .now
-            title = block.getTitle()
-            editTitleFieldFocused = true
-        }
-        .toolbar {
-            ToolbarItemGroup(placement: .keyboard) {
-                Spacer()
-                Button("Done") {
+            .onAppear {
+                startTime = block.startTime ?? .now
+                endTime = block.endTime ?? .now
+                title = block.getTitle()
+                editTitleFieldFocused = true
+            }
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Done") {
+                        editTitleFieldFocused = false 
+                    }
+                }
+
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Save") {
+                        saveChanges()
+                    }
+                    .foregroundStyle(.white)
+                }
+
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancel") {
+                        isPresented = false 
+                    }
+                    .foregroundStyle(.white)
+                }
+            }
+            .onTapGesture {
+                if editTitleFieldFocused {
                     editTitleFieldFocused = false
                 }
             }
-        }
-        .onTapGesture {
-            if editTitleFieldFocused {
-                editTitleFieldFocused = false 
-            }
+            .putInTemplate(title: "Edit Time Block", displayMode: .large)
         }
         
-        
+    }
+
+    func saveChanges() {
+        block.startTime = startTime
+        block.endTime = endTime
+        block.title = title
+
+        do {
+            try viewContext.save()
+        } catch {
+            // Handle save error, maybe show an alert
+        }
     }
 }
 
 // MARK: - TimeBlockDetailView_Previews
 
 struct TimeBlockDetailView_Previews: PreviewProvider {
+    static let block: TimeBlock = {
+        let user = User.testing
+
+        return try! TimeBlock(title: "Testing this time block", start: .now.addHours(-2), end: .now.addHours(3), colorHex: Color.green.getHex(), user: user, context: user.managedObjectContext!)
+
+    }()
+
     static var previews: some View {
-        TimeBlockDetailView(block: User.main.getTimeBlocksBetween().first!)
+        TimeBlockDetailView(block: block)
             .putInNavView(.inline)
             .environment(\.managedObjectContext, PersistenceController.context)
     }

@@ -190,6 +190,7 @@ class NavManager: ObservableObject {
         case expense(Expense)
         case expenseContributions(Expense)
         case goal(Goal)
+        case goalsInfoView
         case home
         case multipleNewShiftsView
         case newItemCreation
@@ -261,6 +262,8 @@ class NavManager: ObservableObject {
                 ContributionsForExpenseView(expense: expense)
             case let .goal(goal):
                 PayoffItemDetailView(payoffItem: goal)
+            case .goalsInfoView:
+                GoalsInfoView()
             case .home:
                 NewHomeView()
             case .newItemCreation:
