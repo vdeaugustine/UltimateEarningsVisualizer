@@ -8,7 +8,13 @@
 import SwiftUI
 import Vin
 
+@available(iOS 17, *)
 struct TimeBlockExampleView: View {
+    @State private var rowPopup = false
+    @State private var titlePopup = false
+    @State private var timePopup = false
+    @State private var earningsPopup = false
+
     @State private var timesToShow: [Date] = []
 
     struct PseudoBlock {
@@ -26,7 +32,6 @@ struct TimeBlockExampleView: View {
 
     func plusNavigation() -> some View {
         Image(systemName: "plus.circle")
-//            .padding(.top, -12)
             .foregroundStyle(.tint)
     }
 
@@ -34,6 +39,8 @@ struct TimeBlockExampleView: View {
         let perMinute: Double = 20 / 60
         return (perMinute * minutes).money()
     }
+    
+    
 
     var body: some View {
         // ScrollView {
@@ -52,7 +59,7 @@ struct TimeBlockExampleView: View {
                 divider(time: "10:00 AM")
 
                 row(
-                    .init(title: "Checked email",
+                    .init(title: "Focused work session",
                           start: "10:00 AM",
                           end: "11:30 AM",
                           color: Color(uiColor: .magenta),
@@ -61,13 +68,115 @@ struct TimeBlockExampleView: View {
 
                 divider(time: "11:30 AM")
 
-                row(
-                    .init(title: "Focused work session",
-                          start: "11:30 AM",
-                          end: "12:07 PM",
-                          color: .green,
-                          earned: money(forTime: 37))
-                )
+                // MARK: - Item for popovers
+
+                HStack {
+                    RoundedRectangle(cornerRadius: 2)
+                        .fill(.green)
+                        .frame(width: 3)
+                        .padding(.vertical, 1)
+
+                    VStack(alignment: .leading) {
+                        Text("Checked email")
+                            .format(size: 14, weight: .bold)
+                            .lineLimit(1)
+                            .floatingPopover(isPresented: $titlePopup, arrowDirection: .up) {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                    timePopup = true
+                                }
+                                
+                            } content: {
+                                VStack {
+                                    Text("It shows what you did")
+                                        .fontWeight(.semibold)
+                                        .foregroundStyle(.white)
+                                }
+                                .padding(20, 5)
+                                .frame(height: 45)
+                                .background {
+                                    Color(UIColor.darkGray)
+                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                        .padding(-20)
+                                }
+                            }
+
+
+                        Text("\("11:30 AM") - \("12:07 PM")")
+                            .font(.caption)
+                            .lineLimit(1)
+                        
+                            .floatingPopover(isPresented: $timePopup, arrowDirection: .left) {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                    earningsPopup = true
+                                }
+                                
+                            } content: {
+                                VStack {
+                                    Text("How long you did it for")
+                                        .fontWeight(.semibold)
+                                        .foregroundStyle(.white)
+                                }
+                                .padding(20, 5)
+                                .frame(height: 45)
+                                .background {
+                                    Color(UIColor.darkGray)
+                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                        .padding(-20)
+                                }
+                            }
+                    }
+                    .lineLimit(1)
+                    Spacer()
+
+                    Text(money(forTime: 37))
+                        .font(.caption)
+                        .lineLimit(1)
+                        .floatingPopover(isPresented: $earningsPopup, arrowDirection: .up) {
+                            VStack {
+                                Text("And how much you earned while doing it")
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(.white)
+                            }
+                            .padding(10, 5)
+                            .frame(height: 60)
+                            .background {
+                                Color(UIColor.darkGray)
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    .padding(-40)
+                            }
+                        }
+                }
+                .frame(maxWidth: .infinity)
+                .padding(10)
+                .background {
+                    Color(.secondarySystemBackground)
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                }
+
+                .frame(height: 50)
+
+                .floatingPopover(isPresented: $rowPopup, arrowDirection: .down) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        titlePopup = true
+                    }
+                } content:  {
+                    VStack {
+                        Text("This is a time block")
+                            .fontWeight(.semibold)
+                            .foregroundStyle(.white)
+                    }
+                    .padding(20, 5)
+                    .frame(height: 45)
+                    .background {
+                        Color(UIColor.darkGray)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .padding(-20)
+                    }
+                }
+                
+                
+
+                // MARK: -
 
                 divider(time: "12:07 PM")
 
@@ -82,53 +191,30 @@ struct TimeBlockExampleView: View {
                           color: .indigo,
                           earned: money(forTime: 60))
                 )
-                
+
                 divider(time: "1:30 PM")
             }
-            
+
             row(
                 .init(title: "Meetings",
                       start: "1:30 PM",
                       end: "2:50 PM",
-                      color: .indigo,
+                      color: .green,
                       earned: money(forTime: 30 + 50))
             )
-            
+
             divider(time: "2:50")
-            
+
             plusNavigation()
-            
-
-//            if let first = shift.getTimeBlocks().first,
-//               let startOfFirst = first.startTime,
-//               let shiftStart = shift.startDate,
-//               startOfFirst > shiftStart {
-//                plusNavigation(start: shiftStart, end: startOfFirst)
-//                    .offset(y: 4)
-//            }
-
-//            ForEach(shift.getTimeBlocks()) { timeBlock in
-//                timeBlockSection(timeBlock: timeBlock)
-//                    .onTapGesture {
-//                        navManager.appendCorrectPath(newValue: .timeBlockDetail(timeBlock))
-//                    }
-//            }
-
-//            if let last = shift.getTimeBlocks().last,
-//               let endOfLast = last.endTime,
-//               let shiftEnd = shift.endDate,
-//               endOfLast < shiftEnd {
-//                plusNavigation(start: endOfLast, end: shiftEnd)
-//                    .offset(y: 4)
-//            }
-
-//            if shift.getTimeBlocks().isEmpty {
-//                plusNavigation(start: shift.start, end: shift.end)
-//                    .offset(y: 4)
-//            }
 
             divider(time: "5:00 PM")
         }
+        .onAppear(perform: {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                rowPopup = true
+                print("yyyy")
+            }
+        })
     }
 
     func timeBlockSection(timeBlock: PseudoBlock, topDiv: Bool = true, bottomDiv: Bool = true) -> some View {
@@ -209,6 +295,7 @@ struct TimeBlockExampleView: View {
     }
 }
 
+@available(iOS 17, *)
 #Preview {
     TimeBlockExampleView()
 }

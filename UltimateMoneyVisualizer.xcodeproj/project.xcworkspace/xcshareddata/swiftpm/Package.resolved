@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/exyte/PopupView.git",
       "state" : {
-        "revision" : "7cfd26db6cc8a4aedb1a80a5df669019a417bfd2",
-        "version" : "2.7.0"
+        "revision" : "bb18c1652f6b60741f9ff6ba4fb8569460a7ffaa",
+        "version" : "2.8.1"
       }
     },
     {
@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/exyte/ScalingHeaderScrollView.git",
       "state" : {
-        "revision" : "09bf8ca700ede22bffa883cdc11e6db0b13f04db",
-        "version" : "1.0.3"
+        "revision" : "90bf312ce437bca1adfc4163618c14da93fc2835",
+        "version" : "1.0.4"
       }
     },
     {
@@ -59,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/siteline/swiftui-introspect",
       "state" : {
-        "revision" : "3ced72fccb284235c266c1e8a32f1bf93129fc74",
-        "version" : "1.1.0"
+        "revision" : "9e1cc02a65b22e09a8251261cccbccce02731fc5",
+        "version" : "1.1.1"
       }
     },
     {
@@ -68,8 +68,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/vdeaugustine/VinPackage",
       "state" : {
-        "revision" : "f0cfa04bb7676587e4feae208889dd0f2387c4df",
-        "version" : "1.2.2"
+        "revision" : "845da6c2ca25a1686aeb34da62d84e259b937e5a",
+        "version" : "1.2.4"
       }
     },
     {
