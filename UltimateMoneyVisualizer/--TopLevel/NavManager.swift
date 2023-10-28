@@ -214,6 +214,8 @@ class NavManager: ObservableObject {
         case stats
         case tagDetail(Tag)
         case timeBlockDetail(TimeBlock)
+        case timeBlockExampleForTutorial
+        case timeBlockMoreInfoAndTutorial
         case today
         case todayTimeBlocksExpanded(TodayShift)
         case todayViewPayoffQueue
@@ -295,6 +297,10 @@ class NavManager: ObservableObject {
                 StatsView()
             case let .tagDetail(tag):
                 TagDetailView(tag: tag)
+            case .timeBlockExampleForTutorial:
+                TimeBlockExampleView()
+            case .timeBlockMoreInfoAndTutorial:
+                TimeBlockInfoView()
             case let .timeBlockDetail(block):
                 TimeBlockDetailView(block: block)
             case .todayViewPayoffQueue:

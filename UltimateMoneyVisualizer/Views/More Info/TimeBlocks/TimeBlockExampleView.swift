@@ -8,7 +8,6 @@
 import SwiftUI
 import Vin
 
-@available(iOS 17, *)
 struct TimeBlockExampleView: View {
     @State private var rowPopup = false
     @State private var titlePopup = false
@@ -16,6 +15,8 @@ struct TimeBlockExampleView: View {
     @State private var earningsPopup = false
 
     @State private var timesToShow: [Date] = []
+    
+    let dispatchPause: CGFloat = 0.7
 
     struct PseudoBlock {
         let title: String
@@ -81,7 +82,7 @@ struct TimeBlockExampleView: View {
                             .format(size: 14, weight: .bold)
                             .lineLimit(1)
                             .floatingPopover(isPresented: $titlePopup, arrowDirection: .up) {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + dispatchPause) {
                                     timePopup = true
                                 }
                                 
@@ -106,7 +107,7 @@ struct TimeBlockExampleView: View {
                             .lineLimit(1)
                         
                             .floatingPopover(isPresented: $timePopup, arrowDirection: .left) {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + dispatchPause) {
                                     earningsPopup = true
                                 }
                                 
@@ -156,7 +157,7 @@ struct TimeBlockExampleView: View {
                 .frame(height: 50)
 
                 .floatingPopover(isPresented: $rowPopup, arrowDirection: .down) {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + dispatchPause) {
                         titlePopup = true
                     }
                 } content:  {
@@ -210,7 +211,7 @@ struct TimeBlockExampleView: View {
             divider(time: "5:00 PM")
         }
         .onAppear(perform: {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + dispatchPause) {
                 rowPopup = true
                 print("yyyy")
             }
@@ -295,7 +296,6 @@ struct TimeBlockExampleView: View {
     }
 }
 
-@available(iOS 17, *)
 #Preview {
     TimeBlockExampleView()
 }

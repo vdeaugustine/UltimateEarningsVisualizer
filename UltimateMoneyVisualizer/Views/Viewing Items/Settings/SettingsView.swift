@@ -218,6 +218,8 @@ struct SettingsView: View {
                 }
                 .buttonStyle(.plain)
             }
+            
+            TutorialsSection()
 
             if let numberOfVisits = User.main.statusTracker?.numberOfTimesOpeningApp {
                 Section(footer:
@@ -235,6 +237,28 @@ struct SettingsView: View {
         .sheet(isPresented: $showRoadblock, content: {
             RoadblockView()
         })
+    }
+}
+
+
+extension SettingsView {
+    struct TutorialsSection: View {
+        var body: some View {
+            Section {
+                Button {
+                    NavManager.shared.appendCorrectPath(newValue: .timeBlockMoreInfoAndTutorial)
+                } label: {
+                    HStack {
+                        Label("Time Blocks", systemImage: "clock.fill")
+                        Spacer()
+                        Components.nextPageChevron
+                    }
+                }
+                .buttonStyle(.plain)
+            } header: {
+                Text("Tutorials and More Info")
+            }
+        }
     }
 }
 

@@ -33,23 +33,7 @@ struct TimeBlockInfoView: View {
                 
                 
                 
-                HStack(spacing: 20) {
-                    Image(systemName: "rectangle.stack.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(height: 40)
-                        .fixedSize()
-                        .foregroundStyle(.tint)
-                    VStack {
-                        Text("Examples")
-                            .font(.headline)
-                    }
-                    Spacer()
-                    Components.nextPageChevron
-                }
-                .padding()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color(.tertiarySystemBackground).clipShape(RoundedRectangle(cornerRadius: 10))/*.shadow(radius: 4)*/)
+                ExamplesButton()
                 
                 HStack(spacing: 20) {
                     Image(systemName: "book.fill")
@@ -89,7 +73,6 @@ struct WhatIsInfoRect: View {
 
     let contentHPadding: CGFloat = 10
     let contentVPadding: CGFloat = 20
-
 
     var body: some View {
         VStack {
@@ -165,5 +148,33 @@ extension TimeBlockInfoView {
 #Preview {
     NavigationView {
         TimeBlockInfoView()
+    }
+}
+
+extension TimeBlockInfoView {
+    struct ExamplesButton: View {
+        var body: some View {
+            Button {
+                NavManager.shared.appendCorrectPath(newValue: .timeBlockExampleForTutorial)
+            } label: {
+                HStack(spacing: 20) {
+                    Image(systemName: "rectangle.stack.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: 40)
+                        .fixedSize()
+                        .foregroundStyle(.tint)
+                    VStack {
+                        Text("Examples")
+                            .font(.headline)
+                    }
+                    Spacer()
+                    Components.nextPageChevron
+                }
+                .padding()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color(.tertiarySystemBackground).clipShape(RoundedRectangle(cornerRadius: 10)))
+            }
+        }
     }
 }
