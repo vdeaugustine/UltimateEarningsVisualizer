@@ -32,17 +32,19 @@ struct CreateExpenseView: View {
                 titleRow
             } header: {
                 Text("Title")
-            } footer: {
-                Text("A title that helps you identify the expense")
-            }
+            } 
+//        footer: {
+//                Text("A title that helps you identify the expense")
+//            }
 
             Section {
                 infoRow
             } header: {
                 Text("Description")
-            } footer: {
-                Text("A short description about the expense (optional)")
-            }
+            } 
+//        footer: {
+//                Text("A short description about the expense (optional)")
+//            }
 
             Section("Due date") {
                 dateRow
@@ -87,25 +89,23 @@ struct CreateExpenseView: View {
         })
 
         .toolbarSave {
-            if SubscriptionManager.shared.canCreateExpense() {
+//            if SubscriptionManager.shared.canCreateExpense() {
                 vm.saveExpense(amount: newItemViewModel.enteredStr)
-            } else {
-                showRoadblock = true 
-            }
-            
+//            } else {
+//                
+////                showRoadblock = true
+//            }
         }
         .sheet(isPresented: $showRoadblock, content: {
             RoadblockView()
         })
         .onAppear {
-           
-            if SubscriptionManager.shared.canCreateExpense() {
+//            if SubscriptionManager.shared.canCreateExpense() {
                 vm.amountDouble = newItemViewModel.dubValue
                 focusedField = .title
-            } else {
-                showRoadblock = true
-            }
-            
+//            } else {
+////                showRoadblock = true
+//            }
         }
         .onChange(of: focusedField) { newValue in
             print(newValue ?? "nil")
@@ -147,7 +147,7 @@ struct CreateExpenseView: View {
     // MARK: - Subviews
 
     var titleRow: some View {
-        TextField("Vacation", text: $vm.title)
+        TextField("ex: Vacation", text: $vm.title)
             .submitLabel(.next)
             .focused($focusedField, equals: .title)
             .onSubmit {
@@ -156,7 +156,7 @@ struct CreateExpenseView: View {
     }
 
     var infoRow: some View {
-        TextField("I want to take the family to Hawaii", text: $vm.info)
+        TextField("ex: I want to take the family to Hawaii", text: $vm.info)
             .submitLabel(.done)
             .focused($focusedField, equals: .info)
             .onSubmit {
@@ -453,6 +453,13 @@ struct CreateTagForExpense: View {
 // MARK: - CreateExpenseView_Previews
 
 struct CreateExpenseView_Previews: PreviewProvider {
+    static let tag: Tag = {
+        let user = User.testing
+        user.instantiateExampleItems(context: user.getContext())
+        return user.getTags().first!
+
+    }()
+
     static var previews: some View {
         CreateExpenseView()
             .environment(\.managedObjectContext, PersistenceController.context)
