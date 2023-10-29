@@ -11,6 +11,8 @@ import SwiftUI
 
 struct TodayViewHeaderContent: View {
     @EnvironmentObject private var viewModel: TodayViewModel
+    @State private var showTotalTimePopover = false
+    @State private var showTotalEarningsPopover = false
     var body: some View {
         VStack {
             HStack(spacing: 84) {
@@ -26,8 +28,42 @@ struct TodayViewHeaderContent: View {
                             .kerning(-0.02 * 20)
                         HStack {
                             Text(viewModel.user.todayShift?.totalShiftDuration.breakDownTime() ?? "")
+                                .onTapGesture {
+                                    showTotalTimePopover = true
+                                }
+                                .floatingPopover(isPresented: $showTotalTimePopover, arrowDirection: .up) {
+                                    VStack {
+                                        Text("Workday duration")
+                                            .fontWeight(.semibold)
+                                            .foregroundStyle(.white)
+                                    }
+                                    .padding(10, 5)
+                                    .frame(height: 45)
+                                    .background {
+                                        Color(UIColor.darkGray)
+                                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                                            .padding(-20)
+                                    }
+                                }
                             Text("•")
                             Text(viewModel.willEarn.money())
+                                .onTapGesture {
+                                    showTotalEarningsPopover = true
+                                }
+                                .floatingPopover(isPresented: $showTotalEarningsPopover, arrowDirection: .up) {
+                                    VStack {
+                                        Text("Expected daily earnings")
+                                            .fontWeight(.semibold)
+                                            .foregroundStyle(.white)
+                                    }
+                                    .padding(10, 5)
+                                    .frame(height: 45)
+                                    .background {
+                                        Color(UIColor.darkGray)
+                                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                                            .padding(-20)
+                                    }
+                                }
                         }
                         .font(.system(size: 20))
                     }
@@ -46,15 +82,15 @@ struct TodayViewHeaderContent: View {
                     }
 
                     #if DEBUG
-                    HeaderButton(imageName: "checkmark") {
-                        viewModel.saveShift()
-                    }
-                    #else
-                    if viewModel.shiftIsOver {
                         HeaderButton(imageName: "checkmark") {
                             viewModel.saveShift()
                         }
-                    }
+                    #else
+                        if viewModel.shiftIsOver {
+                            HeaderButton(imageName: "checkmark") {
+                                viewModel.saveShift()
+                            }
+                        }
                     #endif
                 }
             }

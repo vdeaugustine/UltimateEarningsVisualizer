@@ -39,9 +39,7 @@ struct SettingsView: View {
                 // MARK: - Set Wage
 
                 Button {
-                    if let wage = user.wage {
-                        NavManager.shared.appendCorrectPath(newValue: .wage)
-                    } else { NavManager.shared.appendCorrectPath(newValue: .enterWage) }
+                        NavManager.shared.appendCorrectPath(newValue: user.wage != nil ? .wage : .enterWage)
                 } label: {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "calendar",
@@ -53,17 +51,17 @@ struct SettingsView: View {
                 }
                 .foregroundStyle(.black)
 
-                Button {
-                    NavManager.shared.appendCorrectPath(newValue: .enterWage)
-                } label: {
-                    HStack {
-                        SystemImageWithFilledBackground(systemName: "percent")
-                        Text("Taxes")
-                        Spacer()
-                        Components.nextPageChevron
-                    }.allPartsTappable()
-                }
-                .buttonStyle(.plain)
+//                Button {
+//                    NavManager.shared.appendCorrectPath(newValue: .enterWage)
+//                } label: {
+//                    HStack {
+//                        SystemImageWithFilledBackground(systemName: "percent")
+//                        Text("Taxes")
+//                        Spacer()
+//                        Components.nextPageChevron
+//                    }.allPartsTappable()
+//                }
+//                .buttonStyle(.plain)
 
                 // MARK: - Set Hours
 

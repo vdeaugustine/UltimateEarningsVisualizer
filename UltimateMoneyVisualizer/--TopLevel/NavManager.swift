@@ -147,7 +147,7 @@ class NavManager: ObservableObject {
         var description: String { rawValue.capitalized }
 
         case addShifts
-        case allItems
+        case allItems = "All"
         case expenses
         case home
         case newHome = "Home" // testing

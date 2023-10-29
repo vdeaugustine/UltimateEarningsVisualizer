@@ -88,12 +88,22 @@ struct TimeBlockDetailView: View {
 
             Section {
                 Button {
+                    
+                } label: {
+                    Label("What are time blocks?", systemImage: "questionmark.circle")
+                }
+            }
+
+            Section {
+                Button {
                     showDeleteConfirmation.toggle()
                 } label: {
                     Label("Delete", systemImage: "trash")
                         .foregroundStyle(.red)
                 }
             }
+
+
         }
     }
 

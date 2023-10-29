@@ -370,7 +370,7 @@ struct CreateTagForGoal: View {
                                     Image(systemName: "chevron.right")
                                         .font(.system(size: 14))
                                         .fontWeight(.semibold)
-                                        .foregroundColor(.hexStringToColor(hex: "BFBFBF"))
+                                        .foregroundColor(Color(hex: "BFBFBF"))
                                         .rotationEffect(showColorOptions ? .degrees(90) : .degrees(0))
                                 }
                             }

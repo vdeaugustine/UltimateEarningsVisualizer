@@ -23,6 +23,8 @@ struct PayPeriodSettingsView: View {
                             .tag(cycle)
                     }
                 }
+            } header: {
+                Text("Length").hidden()
             }
 
             Section {

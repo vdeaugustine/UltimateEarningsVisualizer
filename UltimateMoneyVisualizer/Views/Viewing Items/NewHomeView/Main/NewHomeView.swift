@@ -34,6 +34,14 @@ struct NewHomeView: View {
 
     @State private var popoverQueueRemaining: [ViewTags] = NewHomeView.fullPopoverQueue
     @State private var popoverQueueShown: [ViewTags] = []
+    
+    let dispatchPause: CGFloat = 0.7
+    
+    func afterPause(closure: @escaping () -> Void) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + Double(dispatchPause)) {
+            closure()
+        }
+    }
 
     var body: some View {
         ScrollViewReader { scrollProxy in
@@ -85,13 +93,13 @@ struct NewHomeView: View {
                     }
                     .background (Color(.secondarySystemBackground))
                     .padding(.top)
-                    .onAppear(perform: {
-                        if status.hasSeenHomeTutorial == false {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                totalsPopover = true
-                            }
-                        }
-                    })
+//                    .onAppear(perform: {
+//                        if status.hasSeenHomeTutorial == false {
+//                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                                totalsPopover = true
+//                            }
+//                        }
+//                    })
                 }
                 .popup(isPresented: $showFirstPopOverMain) {
                     VStack {
