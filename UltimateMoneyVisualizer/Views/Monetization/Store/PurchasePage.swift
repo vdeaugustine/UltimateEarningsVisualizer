@@ -201,7 +201,7 @@ struct PurchasePage: View {
             } label: {
                 Text("Restore Premium")
                     .font(.headline)
-                    .foregroundColor(.hexStringToColor(hex: "#5c5c5c"))
+                    .foregroundColor(Color(hex: "#5c5c5c"))
             }
         }
     }

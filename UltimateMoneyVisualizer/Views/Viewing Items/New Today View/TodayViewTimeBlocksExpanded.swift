@@ -248,6 +248,7 @@ struct TodayViewTimeBlocksExpanded_Previews: PreviewProvider {
                                   endTime: .now.addHours(1),
                                   user: User.testing,
                                   context: PersistenceController.testing)
+        
         return new
     }()
 

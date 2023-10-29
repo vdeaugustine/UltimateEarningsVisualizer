@@ -71,7 +71,7 @@ struct GoalRow: View {
                         if let dueDate = goal.dueDate {
                             Text(dueDate.getFormattedDate(format: .abbreviatedMonth))
                                 .font(.caption)
-                                .foregroundColor(Color.hexStringToColor(hex: "8E8E93"))
+                                .foregroundColor(Color(hex: "8E8E93"))
                         }
                     }
                 }

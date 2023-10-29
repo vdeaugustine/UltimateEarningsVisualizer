@@ -49,7 +49,7 @@ struct CreateNewTimeBlockView: View {
                             .spacedOut {
                                 HStack {
                                     Circle()
-                                        .fill(Color.hexStringToColor(hex: viewModel.selectedColorHex))
+                                        .fill(Color(hex: viewModel.selectedColorHex))
                                         .frame(height: 20)
                                         .overlay(content: {
                                             Circle()
@@ -60,7 +60,7 @@ struct CreateNewTimeBlockView: View {
                                     Image(systemName: "chevron.right")
                                         .font(.system(size: 14))
                                         .fontWeight(.semibold)
-                                        .foregroundColor(.hexStringToColor(hex: "BFBFBF"))
+                                        .foregroundColor(Color(hex: "BFBFBF"))
                                         .rotationEffect(viewModel.showColorOptions ? .degrees(90) : .degrees(0))
                                 }
                             }
@@ -76,7 +76,7 @@ struct CreateNewTimeBlockView: View {
                                     } label: {
                                         Circle()
                                             .frame(height: 20)
-                                            .foregroundColor(.hexStringToColor(hex: colorHex))
+                                            .foregroundColor(Color(hex: colorHex))
                                             .overlay {
                                                 Circle()
                                                     .stroke(lineWidth: 1)

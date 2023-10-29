@@ -55,7 +55,7 @@ extension TimeBlock {
 
     func getColor() -> Color {
         guard let colorHex else { return Color(hex: "#003649") }
-        return Color.hexStringToColor(hex: colorHex)
+        return Color(hex: colorHex)
     }
 
     func getTitle() -> String {
@@ -103,7 +103,7 @@ extension TimeBlock {
 
 // MARK: - CondensedTimeBlock
 
-struct CondensedTimeBlock: Hashable, Identifiable {
+struct CondensedTimeBlock: Hashable, Identifiable, Comparable {
     let title: String
     let duration: TimeInterval
     let colorHex: String
@@ -116,6 +116,19 @@ struct CondensedTimeBlock: Hashable, Identifiable {
     
     func actualBlocks(_ user: User, start: Date, end: Date) -> [TimeBlock] {
         user.getTimeBlocks(withTitle: title, startDate: start, endDate: end)
+    }
+    
+    static func > (lhs: Self, rhs: Self) -> Bool {
+        return lhs.duration > rhs.duration
+    }
+    static func >= (lhs: Self, rhs: Self) -> Bool {
+        return lhs.duration >= rhs.duration
+    }
+    static func < (lhs: Self, rhs: Self) -> Bool {
+        return lhs.duration < rhs.duration
+    }
+    static func <= (lhs: Self, rhs: Self) -> Bool {
+        return lhs.duration <= rhs.duration
     }
     
     

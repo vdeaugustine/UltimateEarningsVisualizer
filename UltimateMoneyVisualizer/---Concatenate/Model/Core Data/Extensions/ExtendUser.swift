@@ -331,6 +331,21 @@ public extension User {
         return shifts.reduce(TimeInterval.zero) { $0 + $1.duration }
     }
 
+    func totalTimeBlockedBetween(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> TimeInterval {
+        let blocks = getTimeBlocksBetween(startDate: startDate, endDate: endDate)
+        return blocks.reduce(Double.zero) { $0 + $1.duration }
+    }
+
+    func timeBlockColorsDict(startDate: Date = .distantPast, endDate: Date = .distantFuture) -> [Color: Int] {
+        let blocks = getTimeBlocksBetween(startDate: startDate, endDate: endDate)
+        var dict = [Color: Int]()
+        for block in blocks {
+            let currentCount = dict[block.getColor()] ?? 0
+            dict[block.getColor()] = currentCount + 1
+        }
+        return dict
+    }
+
     // MARK: - Status Tracker
 
     func getStatusTracker() -> StatusTracker {
@@ -345,7 +360,7 @@ public extension User {
         } catch {
             print(error)
         }
-        
+
         return newStatus
     }
 

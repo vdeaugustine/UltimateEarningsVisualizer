@@ -9,21 +9,6 @@ import CoreData
 import SwiftUI
 import Vin
 
-// MARK: - SettingsView
-struct TestPopo: View {
-    @State private var showPopover = false
-    @State private var background: Color = .blue
-    var body: some View {
-        VStack {
-            Button("Something") {
-                showPopover.toggle()
-            }
-            .defaultPopover(isPresented: $showPopover, text: "Testing default", direction: .up)
-//            .padding(.top,25)
-        }
-    }
-}
-
 struct SettingsView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
@@ -50,15 +35,11 @@ struct SettingsView: View {
     var body: some View {
         List {
             
-            TestPopo()
-            
             Section("Money") {
                 // MARK: - Set Wage
 
                 Button {
-                    if let wage = user.wage {
-                        NavManager.shared.appendCorrectPath(newValue: .wage)
-                    } else { NavManager.shared.appendCorrectPath(newValue: .enterWage) }
+                        NavManager.shared.appendCorrectPath(newValue: user.wage != nil ? .wage : .enterWage)
                 } label: {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "calendar",
@@ -70,17 +51,17 @@ struct SettingsView: View {
                 }
                 .foregroundStyle(.black)
 
-                Button {
-                    NavManager.shared.appendCorrectPath(newValue: .enterWage)
-                } label: {
-                    HStack {
-                        SystemImageWithFilledBackground(systemName: "percent")
-                        Text("Taxes")
-                        Spacer()
-                        Components.nextPageChevron
-                    }.allPartsTappable()
-                }
-                .buttonStyle(.plain)
+//                Button {
+//                    NavManager.shared.appendCorrectPath(newValue: .enterWage)
+//                } label: {
+//                    HStack {
+//                        SystemImageWithFilledBackground(systemName: "percent")
+//                        Text("Taxes")
+//                        Spacer()
+//                        Components.nextPageChevron
+//                    }.allPartsTappable()
+//                }
+//                .buttonStyle(.plain)
 
                 // MARK: - Set Hours
 
@@ -235,6 +216,8 @@ struct SettingsView: View {
                 }
                 .buttonStyle(.plain)
             }
+            
+            TutorialsSection()
 
             if let numberOfVisits = User.main.statusTracker?.numberOfTimesOpeningApp {
                 Section(footer:
@@ -252,6 +235,44 @@ struct SettingsView: View {
         .sheet(isPresented: $showRoadblock, content: {
             RoadblockView()
         })
+    }
+}
+
+
+extension SettingsView {
+    struct TutorialsSection: View {
+        var body: some View {
+            Section {
+                Button {
+                    NavManager.shared.appendCorrectPath(newValue: .timeBlockMoreInfoAndTutorial)
+                } label: {
+                    HStack {
+                        Label("Time Blocks", systemImage: "clock.fill")
+                        Spacer()
+                        Components.nextPageChevron
+                    }
+                    .allPartsTappable()
+                }
+                .buttonStyle(.plain)
+                
+                Button {
+                    NavManager.shared.appendCorrectPath(newValue: .goalsInfoView)
+                } label: {
+                    HStack {
+                        Label("Goals", systemImage: "star.fill")
+                        Spacer()
+                        Components.nextPageChevron
+                    }
+                    .allPartsTappable()
+                }
+                .buttonStyle(.plain)
+                
+                
+                
+            } header: {
+                Text("Tutorials and More Info")
+            }
+        }
     }
 }
 

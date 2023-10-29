@@ -13,7 +13,7 @@ struct Components {
         Image(systemName: "chevron.right")
             .font(.system(size: 14))
             .fontWeight(.semibold)
-            .foregroundColor(.hexStringToColor(hex: "BFBFBF"))
+            .foregroundColor(Color(hex: "BFBFBF"))
     }
 
     @ViewBuilder static func coloredBar(_ color: Color) -> some View {

@@ -38,17 +38,19 @@ struct CreateGoalView: View {
 
             } header: {
                 Text("Title")
-            } footer: {
-                Text("A title that helps you identify the goal")
-            }
+            } 
+//        footer: {
+//                Text("A title that helps you identify the goal")
+//            }
 
             Section {
                 infoRow
             } header: {
                 Text("Description")
-            }footer: {
-                Text("A short description about the goal (optional)")
             }
+//        footer: {
+//                Text("A short description about the goal (optional)")
+//            }
 
             Section("Due date") {
                 dateRow
@@ -92,23 +94,23 @@ struct CreateGoalView: View {
         })
 
         .toolbarSave {
-            if SubscriptionManager.shared.canCreateGoal() {
+//            if SubscriptionManager.shared.canCreateGoal() {
                 vm.saveGoal(amount: newItemViewModel.enteredStr)
-            } else {
-                showRoadblock = true
-            }
+//            } else {
+//                showRoadblock = true
+//            }
         }
         .sheet(isPresented: $showRoadblock, content: {
             RoadblockView()
         })
         .onAppear {
             
-            if SubscriptionManager.shared.canCreateGoal() == false {
-                showRoadblock = true
-            } else {
+//            if SubscriptionManager.shared.canCreateGoal() == false {
+//                showRoadblock = true
+//            } else {
                 vm.amountDouble = newItemViewModel.dubValue
                 focusedField = .title
-            }
+//            }
         }
         .onChange(of: focusedField) { newValue in
             print(newValue ?? "nil")
@@ -368,7 +370,7 @@ struct CreateTagForGoal: View {
                                     Image(systemName: "chevron.right")
                                         .font(.system(size: 14))
                                         .fontWeight(.semibold)
-                                        .foregroundColor(.hexStringToColor(hex: "BFBFBF"))
+                                        .foregroundColor(Color(hex: "BFBFBF"))
                                         .rotationEffect(showColorOptions ? .degrees(90) : .degrees(0))
                                 }
                             }

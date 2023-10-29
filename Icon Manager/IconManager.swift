@@ -25,5 +25,8 @@ class IconManager {
     public static let earningsDecreased: String = "chart.line.downtrend.xyaxis"
     
     public static let timeDuration: String = "stopwatch"
+    
+    public static let timeBlockCompact: String = "slider.horizontal.below.square.filled.and.square"
+    public static let timeBlockExpanded: String = "calendar.day.timeline.left"
 }
 

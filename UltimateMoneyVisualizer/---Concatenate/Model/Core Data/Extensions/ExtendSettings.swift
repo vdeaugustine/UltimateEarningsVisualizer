@@ -15,7 +15,7 @@ extension Settings {
     var themeColor: Color {
         get {
             if let str = themeColorStr {
-                return .hexStringToColor(hex: str)
+                return Color(hex: str)
             }
 
             return .defaultColorOptions.first!

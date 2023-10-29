@@ -33,7 +33,7 @@ extension UserDefaults {
 
     static var themeColor: Color {
         get {
-            Color.hexStringToColor(hex: themeColorStr)
+            Color(hex: themeColorStr)
         }
 
         set {

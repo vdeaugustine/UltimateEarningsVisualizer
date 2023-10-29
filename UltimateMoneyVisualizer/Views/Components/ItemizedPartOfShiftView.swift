@@ -7,12 +7,21 @@
 
 import SwiftUI
 
+extension Color {
+    func addWhiteness(_ num: CGFloat) -> Color {
+        Color(red: components.red + (num / 255),
+              green: components.green + (num / 255),
+              blue: components.blue + (num / 255),
+              opacity: components.opacity)
+    }
+}
+
 // MARK: - ItemizedPartOfShiftView
 
 struct ItemizedPartOfShiftView: View {
     @EnvironmentObject private var navManager: NavManager
     @ObservedObject private var settings = User.main.getSettings()
-
+    @Environment(\.colorScheme) var colorScheme
     let shift: Shift
 
     @State private var timesToShow: [Date] = []
@@ -43,7 +52,7 @@ struct ItemizedPartOfShiftView: View {
     func plusNavigation(start: Date, end: Date) -> some View {
         Image(systemName: "plus.circle")
             .padding(.top, -12)
-            .foregroundStyle(settings.getDefaultGradient())
+            .foregroundStyle(settings.themeColor.addWhiteness(30 * (colorScheme == .dark ? 1 : 0)))
             .onTapGesture {
                 // TODO: Figure this out
                 navManager.appendCorrectPath(
@@ -89,9 +98,6 @@ struct ItemizedPartOfShiftView: View {
 
             divider(time: shift.end)
         }
-//        .navigationDestination(for: TimeBlock.self) { block in
-//            TimeBlockDetailView(block: block)
-//        }
     }
 
     func timeBlockSection(timeBlock: TimeBlock) -> some View {

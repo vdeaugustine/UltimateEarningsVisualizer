@@ -33,7 +33,6 @@ struct NewTodayView: View {
 
 
 struct MainView_TodayView : View {
-    // swiftformat:stort:begin
     @EnvironmentObject var viewModel: TodayViewModel
     
     // MARK: - Properties
@@ -51,9 +50,9 @@ struct MainView_TodayView : View {
                     Spacer()
                         .frame(height: 24)
                     // Payoff queue
-                    if !viewModel.nonZeroPayoffItems.isEmpty {
+//                    if !viewModel.nonZeroPayoffItems.isEmpty {
                         TodayPaidOffStackWithHeader()
-                    }
+//                    }
                     Spacer()
                         .frame(height: 24)
                     TodayViewItemizedBlocks()
@@ -128,16 +127,6 @@ struct MainView_TodayView : View {
         }
     }
     
-    // MARK: - Computed properties
-    
-    
-    // MARK: - Helper functions
-    
-    
-    
-    
-    
-    // swiftformat:stort:end
     
 }
 

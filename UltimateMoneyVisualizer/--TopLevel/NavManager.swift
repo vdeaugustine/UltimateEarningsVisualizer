@@ -147,7 +147,7 @@ class NavManager: ObservableObject {
         var description: String { rawValue.capitalized }
 
         case addShifts
-        case allItems
+        case allItems = "All"
         case expenses
         case home
         case newHome = "Home" // testing
@@ -190,6 +190,7 @@ class NavManager: ObservableObject {
         case expense(Expense)
         case expenseContributions(Expense)
         case goal(Goal)
+        case goalsInfoView
         case home
         case multipleNewShiftsView
         case newItemCreation
@@ -214,6 +215,8 @@ class NavManager: ObservableObject {
         case stats
         case tagDetail(Tag)
         case timeBlockDetail(TimeBlock)
+        case timeBlockExampleForTutorial
+        case timeBlockMoreInfoAndTutorial
         case today
         case todayTimeBlocksExpanded(TodayShift)
         case todayViewPayoffQueue
@@ -259,6 +262,8 @@ class NavManager: ObservableObject {
                 ContributionsForExpenseView(expense: expense)
             case let .goal(goal):
                 PayoffItemDetailView(payoffItem: goal)
+            case .goalsInfoView:
+                GoalsInfoView()
             case .home:
                 NewHomeView()
             case .newItemCreation:
@@ -295,6 +300,10 @@ class NavManager: ObservableObject {
                 StatsView()
             case let .tagDetail(tag):
                 TagDetailView(tag: tag)
+            case .timeBlockExampleForTutorial:
+                TimeBlockExampleView()
+            case .timeBlockMoreInfoAndTutorial:
+                TimeBlockInfoView()
             case let .timeBlockDetail(block):
                 TimeBlockDetailView(block: block)
             case .todayViewPayoffQueue:
