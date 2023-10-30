@@ -9,6 +9,7 @@ import CoreData
 import SwiftUI
 import Vin
 
+
 struct SettingsView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
@@ -39,6 +40,7 @@ struct SettingsView: View {
                 // MARK: - Set Wage
 
                 Button {
+
                         NavManager.shared.appendCorrectPath(newValue: user.wage != nil ? .wage : .enterWage)
                 } label: {
                     HStack {
@@ -110,12 +112,12 @@ struct SettingsView: View {
                 .foregroundStyle(.black)
             }
 
-            Section {
-                Button("Calendars") {
-                    NavManager.shared.appendCorrectPath(newValue: .selectCalendarsForSettings)
-//                    SelectCalendarForSettingsView()
-                }
-            }
+//            Section {
+//                Button("Calendars") {
+//                    NavManager.shared.appendCorrectPath(newValue: .selectCalendarsForSettings)
+////                    SelectCalendarForSettingsView()
+//                }
+//            }
 
             Section("Visuals") {
                 Button {
@@ -137,7 +139,7 @@ struct SettingsView: View {
                     #endif
 
                 } label: {
-                    Text("Theme color (PREMIUM)")
+                    Text("Theme color")
                         .foregroundColor(.black)
                         .spacedOut {
                             HStack {

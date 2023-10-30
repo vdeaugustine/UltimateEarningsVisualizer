@@ -22,13 +22,13 @@ struct SelectHours: View {
 
                 // TODO: - Remove this before finishing
 //                #if DEUBG
-                Button("Testing") {
-                    viewModel.start = .now.addMinutes(-3)
-                    viewModel.end = .now.addMinutes(2)
-                }
+//                Button("Testing") {
+//                    viewModel.start = .now.addMinutes(-3)
+//                    viewModel.end = .now.addMinutes(2)
+//                }
 //                #endif
 
-                Button("9-5") {
+                Button("9 AM to 5 PM") {
                     viewModel.start = Date.getThisTime(hour: 9, minute: 0)!
                     viewModel.end = Date.getThisTime(hour: 17, minute: 0)!
                 }
@@ -52,7 +52,7 @@ struct SelectHours: View {
                         Taptic.light()
 
                     } label: {
-                        Text(start.getFormattedDate(format: .minimalTime) + " - " + end.getFormattedDate(format: .minimalTime))
+                        Label("\(start.getFormattedDate(format: .minimalTime)) - \(end.getFormattedDate(format: .minimalTime))", systemImage: "calendar")
                     }
                 }
             }
@@ -69,7 +69,7 @@ struct SelectHours: View {
                 }
 
             } header: {
-                Text("Reent Shifts")
+                Text("Recent Shifts")
             }
         }
         .safeAreaInset(edge: .bottom) {
@@ -120,6 +120,9 @@ struct SelectHours: View {
         .tint(.white)
         .accentColor(.white)
     }
+    
+    
+    
 }
 
 // MARK: - SelectHours_Previews
