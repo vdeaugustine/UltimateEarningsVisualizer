@@ -15,14 +15,21 @@ struct MainFeaturesListView: View {
         ScrollView {
             VStack {
                 
-                Text("Entities")
+                Text("Features")
                     .font(.system(.largeTitle, weight: .bold))
                     .frame(maxWidth: 350)
                     .multilineTextAlignment(.center)
                 
+                Row(imageString: "calendar", headline: "Shifts", subheadline: "Calculates your earnings as they happen to show your wages and track your cash inflow")
                 Row(imageString: "target", headline: "Goals", subheadline: "Set financial goals with descriptions and due dates")
+                Row(imageString: IconManager.expenseString, headline: "Expenses", subheadline: "Record any purchase or payment you make to keep an accurate detailed record of your cash outflow ")
+                SavedItemRow()
+                Row(imageString: "hourglass", headline: "Time & Money", subheadline: "See exactly how much money your time is worth")
+                
+                
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding(.horizontal)
             
         }
         .background {
@@ -39,11 +46,12 @@ struct MainFeaturesListView: View {
         let subheadline: String
         
         var body: some View {
-            HStack {
-                Image(systemName: "target")
+            HStack(spacing: 20) {
+                Image(systemName: imageString)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 40)
+                    .frame(width: 40, height: 40)
+                    .foregroundStyle(.tint)
                 
                 VStack(alignment: .leading) {
                     Text(headline)
@@ -54,6 +62,7 @@ struct MainFeaturesListView: View {
                         .foregroundStyle(UIColor.secondaryLabel.color)
                 }
                 
+                Spacer()
                 
             }
             .padding()
@@ -62,6 +71,38 @@ struct MainFeaturesListView: View {
             }
         }
     }
+    
+    struct SavedItemRow: View {
+        
+        var body: some View {
+            HStack(spacing: 20) {
+                IconManager.savedIcon
+                    .stroke(lineWidth: 2.5)
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 40)
+                    .foregroundStyle(.tint)
+                
+                VStack(alignment: .leading) {
+                    Text("Saved Items")
+                        .font(.headline)
+                    
+                    Text("Record any time you save money and treat it the same as earnings to pay off items")
+                        .multilineTextAlignment(.leading)
+                        .foregroundStyle(UIColor.secondaryLabel.color)
+                }
+                
+                Spacer()
+                
+            }
+            .padding()
+            .background {
+                UIColor.systemBackground.color.clipShape(RoundedRectangle(cornerRadius: 10))
+            }
+        }
+    }
+    
+    
+    
 }
 
 #Preview {
