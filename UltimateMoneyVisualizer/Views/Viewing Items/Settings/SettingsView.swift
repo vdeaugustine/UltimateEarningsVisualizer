@@ -192,7 +192,7 @@ struct SettingsView: View {
                         DebugOperations.deleteAll()
                     }
                     Button("Restore default") {
-                        user.instantiateExampleItems(context: viewContext)
+                        user.instantiateExampleItems(context: user.getContext())
                     }
 
                     Toggle("Use colored nav bar", isOn: $useColorNavBar)

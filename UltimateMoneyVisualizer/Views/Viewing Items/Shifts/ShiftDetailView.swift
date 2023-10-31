@@ -200,9 +200,22 @@ struct ShiftDetailView: View {
 // MARK: - ShiftDetailView_Previews
 
 struct ShiftDetailView_Previews: PreviewProvider {
+    
+    static let shift: Shift = {
+        let shift = Shift(context: PersistenceController.testing)
+        shift.startDate = .now.addHours(-2)
+        shift.endDate = .now.addHours(1)
+        return shift
+        
+//        let user = User(context: PersistenceController.testing)
+//        user.instantiateExampleItems(context: PersistenceController.testing)
+//        
+//        return user.getShifts().first!
+    }()
+    
     static var previews: some View {
-        ShiftDetailView(shift: User.main.getShifts().first!)
+        ShiftDetailView(shift: shift)
             .putInNavView(.large)
-            .environment(\.managedObjectContext, PersistenceController.context)
+            .environment(\.managedObjectContext, PersistenceController.testing)
     }
 }

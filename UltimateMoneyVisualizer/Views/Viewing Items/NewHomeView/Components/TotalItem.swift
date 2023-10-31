@@ -50,6 +50,7 @@ struct TotalItem: View {
             }
         }
         .frame(maxWidth: .infinity)
+        .allPartsTappable()
 //        .pushLeft()
         .onTapGesture {
             vm.selectedTotalItem = type

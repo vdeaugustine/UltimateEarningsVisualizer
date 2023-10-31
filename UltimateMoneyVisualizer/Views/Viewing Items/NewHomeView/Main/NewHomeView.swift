@@ -57,7 +57,11 @@ struct NewHomeView: View {
                                     removeFirstFromPopoverQueue(scrollProxy: scrollProxy)
                                 }
                             }
-                        SummaryView_HomeView()
+                        Button {
+                            vm.navManager.appendCorrectPath(newValue: .stats)
+                        } label: {
+                            SummaryView_HomeView()
+                        }
                             .id(ViewTags.summary)
                         NetMoney_HomeView()
                             .id(ViewTags.netMoney)

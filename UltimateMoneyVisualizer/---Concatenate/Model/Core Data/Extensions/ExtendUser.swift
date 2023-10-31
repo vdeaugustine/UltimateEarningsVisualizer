@@ -79,7 +79,10 @@ public extension User {
     }
 
     static var testing: User {
-        User(context: PersistenceController.testing)
+        let context = PersistenceController.testing
+        let user = User(context: PersistenceController.testing)
+        user.instantiateExampleItems(context: context)
+        return user
     }
 
     static func getTestingUserWithExamples() throws -> User {
@@ -206,23 +209,23 @@ public extension User {
     ///
     /// - Returns: An array of the user's shifts.
     func getShifts() -> [Shift] {
-        let fetchRequest: NSFetchRequest<Shift> = Shift.fetchRequest()
-        // Sort Descriptors
-        let sortDescriptor = NSSortDescriptor(key: "startDate", ascending: false)
-        fetchRequest.sortDescriptors = [sortDescriptor]
-
-        do {
-            let shifts = try getContext().fetch(fetchRequest)
-            return shifts
-        } catch {
-            print(error)
-            return []
-        }
+//        let fetchRequest: NSFetchRequest<Shift> = Shift.fetchRequest()
+//        // Sort Descriptors
+//        let sortDescriptor = NSSortDescriptor(key: "startDate", ascending: false)
+//        fetchRequest.sortDescriptors = [sortDescriptor]
+//
+//        do {
+//            let shifts = try getContext().fetch(fetchRequest)
+//            return shifts
+//        } catch {
+//            print(error)
+//            return []
+//        }
 
         /// This is the old way I was doing it. I tried the fetch request approach to make sure it is updating properly when deleted and what not. It didn't work but going to keep it this way for now
         /// if there are any problems, go back to this way
-//        guard let shifts, let array = Array(shifts) as? [Shift] else { return [] }
-//        return array.sorted(by: { $0.start > $1.start })
+        guard let shifts, let array = Array(shifts) as? [Shift] else { return [] }
+        return array.sorted(by: { $0.start > $1.start })
     }
 
     /// Retrieves the shift happening today from a collection of shifts.
@@ -371,7 +374,7 @@ public extension User {
             return settings
         }
 
-        let newSettings = Settings(context: PersistenceController.context)
+        let newSettings = Settings(context: self.getContext())
         newSettings.themeColorStr = Color.defaultColorHexes.first
         newSettings.user = self
         settings = newSettings

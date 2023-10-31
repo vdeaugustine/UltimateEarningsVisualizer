@@ -7,9 +7,8 @@
 
 import SwiftUI
 
+
 struct MainFeaturesListView: View {
-    
-    
     
     var body: some View {
         ScrollView {

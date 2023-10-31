@@ -22,8 +22,14 @@ struct PayoffItemDetailTagsSection: View {
                 header
                     .padding([.vertical, .leading], 17)
                 Spacer()
-                largePriceTag
-                    .padding([.trailing, .top], 10)
+                Image(systemName: "tag.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .foregroundStyle(.tint)
+                    .frame(width: 50)
+//                largePriceTag
+                    .padding(.trailing, 20)
+                
             }
             .padding(.top)
 
@@ -144,7 +150,14 @@ struct PayoffItemDetailTagsSection: View {
 // MARK: - PayoffItemDetailTagsSection_Previews
 
 struct PayoffItemDetailTagsSection_Previews: PreviewProvider {
-    static var model = PayoffItemDetailViewModel(payoffItem: User.main.getGoals()
+    
+    static let user: User = {
+        let user = User.testing
+//        user.instantiateExampleItems(context: user.getContext())
+        return user
+    }()
+    
+    static var model = PayoffItemDetailViewModel(payoffItem: user.getGoals()
         .sorted(by: { $0.timeRemaining > $1.timeRemaining })
         .last!)
     static var previews: some View {

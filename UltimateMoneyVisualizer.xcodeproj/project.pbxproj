@@ -74,6 +74,7 @@
 		9C460EE92A049DFA0007EBA9 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C460EE82A049DFA0007EBA9 /* StatsView.swift */; };
 		9C460EEB2A04D3060007EBA9 /* UserFunctionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C460EEA2A04D3060007EBA9 /* UserFunctionsTests.swift */; };
 		9C4CD8962AF0927B00063942 /* MainFeaturesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4CD8952AF0927B00063942 /* MainFeaturesListView.swift */; };
+		9C4CD8982AF0C07000063942 /* ShiftInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4CD8972AF0C07000063942 /* ShiftInfoView.swift */; };
 		9C4DDCC42A44F73B00560535 /* TodayView+SubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4DDCC32A44F73B00560535 /* TodayView+SubViews.swift */; };
 		9C4DDCC62A44F96900560535 /* TodayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4DDCC52A44F96900560535 /* TodayViewModel.swift */; };
 		9C4F0A232A13483D00C78349 /* ShiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4F0A222A13483D00C78349 /* ShiftTests.swift */; };
@@ -382,6 +383,7 @@
 		9C460EE82A049DFA0007EBA9 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		9C460EEA2A04D3060007EBA9 /* UserFunctionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFunctionsTests.swift; sourceTree = "<group>"; };
 		9C4CD8952AF0927B00063942 /* MainFeaturesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFeaturesListView.swift; sourceTree = "<group>"; };
+		9C4CD8972AF0C07000063942 /* ShiftInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftInfoView.swift; sourceTree = "<group>"; };
 		9C4DDCC32A44F73B00560535 /* TodayView+SubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodayView+SubViews.swift"; sourceTree = SOURCE_ROOT; };
 		9C4DDCC52A44F96900560535 /* TodayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewModel.swift; sourceTree = "<group>"; };
 		9C4F0A222A13483D00C78349 /* ShiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftTests.swift; sourceTree = "<group>"; };
@@ -1059,6 +1061,7 @@
 		9C7F964E29F8F03C00F5035C = {
 			isa = PBXGroup;
 			children = (
+				9C4CD8972AF0C07000063942 /* ShiftInfoView.swift */,
 				9C4CD8952AF0927B00063942 /* MainFeaturesListView.swift */,
 				9C3FA3022AECDEEA000DCC4C /* MoreInfoRectTemplate.swift */,
 				9C3FA3002AECDEC5000DCC4C /* GoalsInfoView.swift */,
@@ -2094,6 +2097,7 @@
 				9CF194DD2A1C7B21000F83A9 /* ExtendTag.swift in Sources */,
 				9C9735942A0D795600F651A1 /* AllocationDetailView.swift in Sources */,
 				9CE288DB2A42700B0050A4DC /* CreateNewTimeBlockViewModel.swift in Sources */,
+				9C4CD8982AF0C07000063942 /* ShiftInfoView.swift in Sources */,
 				9CDD4E632A68E65D00AB8B4F /* TodayPaidOffStack.swift in Sources */,
 				9C76B2F02A5689B2001E40FC /* NewItemViewModel.swift in Sources */,
 				9C74F9FF2A9C1F6700466779 /* OnboardingFirstGoalView.swift in Sources */,
