@@ -4,6 +4,7 @@
 //
 //  Created by Vincent DeAugustine on 10/18/23.
 //
+import SwiftUI
 
 extension Font {
     static let builtInOrder: [Font] = [.largeTitle,
@@ -40,7 +41,7 @@ extension Font {
 
 #if DEBUG
 
-    import SwiftUI
+   
 
     struct FontTester: View {
         var body: some View {

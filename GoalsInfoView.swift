@@ -70,11 +70,6 @@ struct GoalsInfoView: View {
                 
             }
 
-            
-            
-            
-            
-            
             VStack(spacing: 30) {
 //
 
@@ -106,6 +101,7 @@ struct GoalsInfoView: View {
             Color(.secondarySystemBackground)
                 .ignoresSafeArea()
         }
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

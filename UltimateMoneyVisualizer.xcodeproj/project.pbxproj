@@ -73,6 +73,7 @@
 		9C460EE62A047D900007EBA9 /* AddNewItemFirstView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C460EE52A047D900007EBA9 /* AddNewItemFirstView.swift */; };
 		9C460EE92A049DFA0007EBA9 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C460EE82A049DFA0007EBA9 /* StatsView.swift */; };
 		9C460EEB2A04D3060007EBA9 /* UserFunctionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C460EEA2A04D3060007EBA9 /* UserFunctionsTests.swift */; };
+		9C4CD8962AF0927B00063942 /* MainFeaturesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4CD8952AF0927B00063942 /* MainFeaturesListView.swift */; };
 		9C4DDCC42A44F73B00560535 /* TodayView+SubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4DDCC32A44F73B00560535 /* TodayView+SubViews.swift */; };
 		9C4DDCC62A44F96900560535 /* TodayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4DDCC52A44F96900560535 /* TodayViewModel.swift */; };
 		9C4F0A232A13483D00C78349 /* ShiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4F0A222A13483D00C78349 /* ShiftTests.swift */; };
@@ -380,6 +381,7 @@
 		9C460EE52A047D900007EBA9 /* AddNewItemFirstView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewItemFirstView.swift; sourceTree = "<group>"; };
 		9C460EE82A049DFA0007EBA9 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		9C460EEA2A04D3060007EBA9 /* UserFunctionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFunctionsTests.swift; sourceTree = "<group>"; };
+		9C4CD8952AF0927B00063942 /* MainFeaturesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFeaturesListView.swift; sourceTree = "<group>"; };
 		9C4DDCC32A44F73B00560535 /* TodayView+SubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodayView+SubViews.swift"; sourceTree = SOURCE_ROOT; };
 		9C4DDCC52A44F96900560535 /* TodayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewModel.swift; sourceTree = "<group>"; };
 		9C4F0A222A13483D00C78349 /* ShiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftTests.swift; sourceTree = "<group>"; };
@@ -1057,6 +1059,7 @@
 		9C7F964E29F8F03C00F5035C = {
 			isa = PBXGroup;
 			children = (
+				9C4CD8952AF0927B00063942 /* MainFeaturesListView.swift */,
 				9C3FA3022AECDEEA000DCC4C /* MoreInfoRectTemplate.swift */,
 				9C3FA3002AECDEC5000DCC4C /* GoalsInfoView.swift */,
 				9C7F965929F8F03C00F5035C /* UltimateMoneyVisualizer */,
@@ -2103,6 +2106,7 @@
 				9C0CFCE22A5CAE42005C7C81 /* PayoffItemDetailHeaderView.swift in Sources */,
 				9C3A7B372A2C44F300F2AC88 /* ItemizedPartOfShiftView.swift in Sources */,
 				9CB418C42A0B2C81006F44AB /* EditSavedItemView.swift in Sources */,
+				9C4CD8962AF0927B00063942 /* MainFeaturesListView.swift in Sources */,
 				9CF9CE522A7A0F8700164D75 /* StatsViewModel.swift in Sources */,
 				9CA37AFF2A6BA623004F60AC /* TodayViewItemizedPart.swift in Sources */,
 				9CF194D72A1B241D000F83A9 /* SFSymbolsPicker.swift in Sources */,
