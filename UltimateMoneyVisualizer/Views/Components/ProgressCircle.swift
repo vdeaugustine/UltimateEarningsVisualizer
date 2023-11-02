@@ -14,25 +14,26 @@ struct ProgressCircle<Content: View>: View {
     var widthHeight: CGFloat = 33
     let gradient: LinearGradient
     var lineWidth: CGFloat = 2
+    let incompleteColor: Color
     let showCheckWhenComplete: Bool
     /// The text that goes in the middle of the circle 
     @ViewBuilder let content: () -> Content
-    @ObservedObject var settings = User.main.getSettings()
+    
 
     internal init(percent: Double,
                   widthHeight: CGFloat = 33,
                   gradient: LinearGradient,
                   lineWidth: CGFloat = 2,
+                  incompleteColor: Color = Color(UIColor.systemFill),
                   showCheckWhenComplete: Bool = false,
-                  @ViewBuilder content: @escaping () -> Content,
-                  settings: Settings = User.main.getSettings()) {
+                  @ViewBuilder content: @escaping () -> Content) {
         self.percent = percent
         self.widthHeight = widthHeight
         self.gradient = gradient
         self.lineWidth = lineWidth
         self.showCheckWhenComplete = showCheckWhenComplete
         self.content = content
-        self.settings = settings
+        self.incompleteColor = incompleteColor
     }
 
     var body: some View {
@@ -48,7 +49,7 @@ struct ProgressCircle<Content: View>: View {
                 ZStack {
                     Circle()
                         .stroke(lineWidth: lineWidth)
-                        .foregroundColor(.gray)
+                        .foregroundStyle(incompleteColor)
                     Circle()
                         .trim(from: .leastNonzeroMagnitude, to: percent > 0.05 ? percent : 0.05)
                         .stroke(lineWidth: lineWidth)

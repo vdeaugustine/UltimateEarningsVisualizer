@@ -11,6 +11,7 @@ import SwiftUI
 
 struct OnboardingFirstView: View {
     @StateObject private var model = OnboardingModel.shared
+    @StateObject private var manager = OnboardingManager.shared
     @Environment(\.dismiss) private var dismiss
     @State private var tab: Int = 1
     @State private var wageIsGood = false
@@ -47,6 +48,7 @@ struct OnboardingFirstView: View {
         .indexViewStyle(.page(backgroundDisplayMode: .always))
         .background(model.backgroundColor.ignoresSafeArea())
         .environmentObject(model)
+        .environmentObject(manager)
     }
 
     @ViewBuilder var first: some View {
