@@ -68,8 +68,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/vdeaugustine/VinPackage",
       "state" : {
-        "revision" : "f01807337cb7c8422e424197ff5cbea677d86fa1",
-        "version" : "1.2.14"
+        "revision" : "a8324f57752aae80c568cc3b0172cee1da050a13",
+        "version" : "1.2.16"
       }
     },
     {

@@ -48,9 +48,6 @@ struct OnboardingProgressManagerView: View {
 
                 Spending()
 
-                Spacer()
-                    .frame(idealHeight: 120, maxHeight: .infinity)
-
                 totalProgressPills
             }
             .padding(.bottom)
@@ -63,16 +60,21 @@ struct OnboardingProgressManagerView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .ignoresSafeArea()
         }
-        .fullScreenCover(item: $viewModel.pageToShow, content: { page in
-            switch page {
-                case .wage:
-                    EnterWageFirstTimeView()
-                default:
-                    Text("Default")
-            }
+        .sheet(item: $viewModel.pageToShow, content: { page in
+            
+                switch page {
+                    case .wage:
+                        EnterWageFirstTimeView()
+                    default:
+                        Text("Default")
+                }
+            
+            
         })
         .environmentObject(viewModel)
     }
+
+    @State private var offset = CGSize.zero
 
     var totalProgressPills: some View {
         HStack {
@@ -244,7 +246,7 @@ extension OnboardingProgressManagerView {
     struct EnterWageFirstTimeView: View {
         // MARK: - Body
 
-        @EnvironmentObject private var vm: OnboardingProgressManagerViewModel
+        @EnvironmentObject private var viewModel: OnboardingProgressManagerViewModel
 
         enum WageTypeChoice {
             case hourly, salary, none
@@ -252,7 +254,7 @@ extension OnboardingProgressManagerView {
 
         @State private var wageType: WageTypeChoice = {
             #if DEBUG
-                return .hourly
+                return .salary
             #else
                 return .none
             #endif
@@ -279,6 +281,8 @@ extension OnboardingProgressManagerView {
         @State private var hourlyWageString = ""
         @State private var yearlySalaryString = ""
 
+        @State private var errorMessage: String? = nil
+
         @Environment(\.dismiss) private var dismiss
 
         let hoursOptions = stride(from: 1.0, to: 24.25, by: 0.5).map { $0 }
@@ -288,114 +292,95 @@ extension OnboardingProgressManagerView {
         }
 
         var body: some View {
-            VStack {
-                Form {
-                    Section("Wage Type") {
-                        typePicker
-                    }
+            NavigationView {
+                VStack {
+                    Form {
+                        Section("Pick a Wage Type") {
+                            typePicker
+                        }
 
-                    if wageType == .hourly {
-                        hourlyWageRow
-                    }
+                        if wageType == .hourly {
+                            hourlyWageRow
+                        }
 
-                    if wageType == .salary {
-                        salaryWageRow
-                        detailsSection
-                    }
+                        if wageType == .salary {
+                            salaryWageRow
+                            detailsSection
+                        }
 
-                    if wageType != .none {
-                        Section("Include taxes in earnings calculations") {
-                            taxesToggle
+                        if wageType != .none {
+                            Section("Include taxes in earnings calculations") {
+                                taxesToggle
+                            }
+                        }
+
+                        if includeStateTaxes && wageType != .none {
+                            stateTaxRow
+                        }
+
+                        if includeFederalTaxes && wageType != .none {
+                            federalTaxRow
                         }
                     }
 
-                    if includeStateTaxes && wageType != .none {
-                        stateTaxRow
+                    HStack(spacing: 10) {
+                        cancelButton
+                        if minimalRequiredDataEntered {
+                            saveButton
+                        }
                     }
-
-                    if includeFederalTaxes && wageType != .none {
-                        federalTaxRow
-                    }
+                    .padding(.horizontal)
                 }
-
-                HStack(spacing: 10) {
-                    cancelButton
-                    if minimalRequiredDataEntered {
-                        saveButton
-                    }
+                .background {
+                    UIColor.systemGroupedBackground.color.ignoresSafeArea()
                 }
-                .padding(.horizontal)
+                .alert(errorMessage ?? "Error saving.", isPresented: $showErrorAlert) {
+                } message: {
+                    Text("Please try again.")
+                }
+                .navigationTitle("Tracking your earnings")
             }
-            .background {
-                UIColor.systemGroupedBackground.color.ignoresSafeArea()
-            }
-            .alert("Error saving.", isPresented: $showErrorAlert) {
-            } message: {
-                Text("Please try again.")
-            }
-//            .popup(isPresented: $showSheetToEnterWage) {
-//                if wageType == .hourly {
-//                    EnterDouble(doubleToEdit: $hourlyWage, maxHeight: 550)
-//                        .padding(.horizontal)
-//                } else {
-//                    EnterDouble(doubleToEdit: $salaryWage, maxHeight: 550)
-//                        .padding(.horizontal)
-//                }
-//
-//            } customize: { view in
-//                view
-//                    .type(.floater(verticalPadding: 110, horizontalPadding: 25, useSafeAreaInset: true))
-//                    //                .backgroundColor(.green)
-//                    .position(.center)
-//                    .closeOnTap(false)
-//                    .closeOnTapOutside(true)
-//            }
         }
 
         var typePicker: some View {
-            Picker("Pick one", selection: $wageType) {
-                Text("None").tag(WageTypeChoice.none)
-                Divider()
+            Picker("Wage type", selection: $wageType) {
                 Text("Hourly").tag(WageTypeChoice.hourly)
                 Text("Salary").tag(WageTypeChoice.salary)
+                Divider()
+                Text("None").tag(WageTypeChoice.none)
             }
         }
 
         var hourlyWageRow: some View {
             Section("Wage") {
-                Button {
-                    print("Tapped")
-                    showSheetToEnterWage = true
-                } label: {
-                    HStack {
-                        TransformingTextField("ex: $20.00", text: $hourlyWageString, characterLimit: 10, TransformingTextField.transformForMoney)
-                        
-                        Spacer()
-                        
-                        Text("per hour")
-//                        Text(hourlyWage.money())
-//                        Components.nextPageChevron
-                    }
+//                Button {
+//                    print("Tapped")
+//                    showSheetToEnterWage = true
+//                } label: {
+                HStack {
+                    TransformingTextField("ex: $20.00",
+                                          text: $hourlyWageString,
+                                          characterLimit: 10,
+                                          TransformingTextField.transformForMoney)
+
+                    Spacer()
+
+                    Text("per hour")
                 }
-                .foregroundStyle(.black)
             }
         }
 
         var salaryWageRow: some View {
             Section("Salary") {
-                Button {
-                    print("Tapped")
-                    showSheetToEnterWage = true
-                } label: {
-                    HStack {
-                        Text("Per year")
+                HStack {
+                    TransformingTextField("ex: $45,000",
+                                          text: $yearlySalaryString,
+                                          characterLimit: 14,
+                                          TransformingTextField.transformForMoney)
 
-                        Spacer()
-                        Text(salaryWage.money())
-                        Components.nextPageChevron
-                    }
+                    Spacer()
+                    Text(yearlySalaryString)
                 }
-                .foregroundStyle(.black)
             }
         }
 
@@ -473,6 +458,44 @@ extension OnboardingProgressManagerView {
 
         var saveButton: some View {
             Button {
+                var wage: Double?
+                if wageType == .hourly {
+                    let number = hourlyWageString.filter{ "0123456789.".contains($0) }
+                    guard let hourly = Double(number) else {
+                        errorMessage = "Could not convert \(number) to a number."
+                        showErrorAlert = true
+                        return
+                    }
+                    wage = hourly
+                } else if wageType == .salary {
+                    let number = yearlySalaryString.filter{ "0123456789.".contains($0) }
+                    guard let salary = Double(number) else {
+                        errorMessage = "Could not convert \(number) to a number."
+                        showErrorAlert = true
+                        return
+                    }
+                    wage = salary
+                }
+
+                guard let wage else {
+                    errorMessage = "Could not convert entered wage to a number."
+                    showErrorAlert = true
+                    return
+                }
+
+                do {
+                    try Wage(amount: wage,
+                             isSalary: wageType == .salary,
+                             user: User.main,
+                             includeTaxes: includeStateTaxes || includeFederalTaxes,
+                             stateTax: stateTaxPercentage,
+                             federalTax: federalTaxPercentage,
+                             context: User.main.getContext())
+                    viewModel.pageToShow = nil
+                } catch {
+                    showErrorAlert = true
+                }
+
             } label: {
                 Text("Save")
                     .frame(maxWidth: .infinity)
@@ -484,29 +507,11 @@ extension OnboardingProgressManagerView {
                     }
             }
             .buttonStyle(.plain)
-
-//            OnboardingButton(title: "Save") {
-//                do {
-//                    try Wage(amount: wageType == .hourly ? hourlyWage : salaryWage,
-//                             isSalary: wageType == .salary,
-//                             user: vm.user,
-//                             includeTaxes: includeStateTaxes || includeFederalTaxes,
-//                             stateTax: stateTaxPercentage,
-//                             federalTax: federalTaxPercentage,
-//                             context: vm.user.getContext())
-//                    vm.wageWasSet = true
-//                    vm.increaseScreenNumber()
-//                    dismiss()
-//                } catch {
-//                    showErrorAlert.toggle()
-//                }
-//            }
-//            .padding(.horizontal, vm.horizontalPad)
         }
 
         var cancelButton: some View {
             Button {
-                vm.pageToShow = nil
+                viewModel.pageToShow = nil
             } label: {
                 Text("Cancel")
                     .frame(maxWidth: .infinity)
@@ -519,95 +524,8 @@ extension OnboardingProgressManagerView {
             }
             .buttonStyle(.plain)
         }
-
-        
     }
 }
-
-// MARK: - CurrencyTextField
-
-// struct CurrencyTextField: UIViewRepresentable {
-//    @Binding var value: String
-//    var characterLimit: Int = 12
-//    var customizer: ((UITextField) -> Void)? // Optional closure for customization
-//
-//    static func formatAsCurrency(string: String) -> String {
-//        let intValue = Int(string) ?? 0
-//        let dollars = Double(intValue) / 100.0
-//
-//        let formatter = NumberFormatter()
-//        formatter.numberStyle = .currency
-//        formatter.currencyCode = "USD"
-//
-//        if let x = formatter.string(from: NSNumber(value: dollars)) {
-//            return x
-//        } else {
-//            print("problem")
-//            return "$0.00"
-//        }
-//    }
-//
-//    func makeUIView(context: Context) -> UITextField {
-//        let textField = UITextField(frame: .zero)
-//        textField.keyboardType = .numberPad
-//        textField.delegate = context.coordinator
-//        textField.minimumContentSizeCategory = .extraSmall
-//        // Apply default customizations
-////            textField.font = UIFont.systemFont(ofSize: UIFont.labelFontSize)
-////            textField.backgroundColor = .white
-////            textField.textColor = .black
-////            textField.textAlignment = .left
-////            textField.borderStyle = .roundedRect
-//        // Apply additional customizations from the caller
-//        customizer?(textField)
-//
-//        return textField
-//    }
-//
-//    func updateUIView(_ uiView: UITextField, context: Context) {
-//        uiView.text = CurrencyTextField.formatAsCurrency(string: value)
-//
-//        customizer?(uiView)
-//    }
-//
-//    func makeCoordinator() -> Coordinator {
-//        Coordinator(self, characterLimit: characterLimit)
-//    }
-//
-//    class Coordinator: NSObject, UITextFieldDelegate {
-//        var parent: CurrencyTextField
-//        var characterLimit: Int
-//
-//        init(_ textField: CurrencyTextField, characterLimit: Int) {
-//            self.parent = textField
-//            self.characterLimit = characterLimit
-//        }
-//
-//        func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//            // Combine the current text with the replacement string
-//            let currentText = textField.text ?? ""
-//            guard let stringRange = Range(range, in: currentText) else { return false }
-//            let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
-//
-//            print("Text count", updatedText.count)
-//
-//            // Filter out non-numeric characters
-//            let numericString = updatedText.filter("0123456789".contains)
-//            print("only numbers string count", numericString.count, numericString)
-//            guard numericString.count <= characterLimit else {
-//                return false
-//            }
-//
-//            // Update the binding value
-//            parent.value = numericString
-//
-//            // Format and set the text field's text
-//            textField.text = CurrencyTextField.formatAsCurrency(string: numericString)
-//
-//            return false // We've manually updated the text field, so return false
-//        }
-//    }
-// }
 
 extension View {
     func getFrame(in scope: CoordinateSpace = .global,
@@ -624,224 +542,7 @@ extension View {
     }
 }
 
-// MARK: - TestMoneyTextField
-
-// struct TestMoneyTextField: View {
-//    @State private var amount: String = ""
-//    @State private var amount2: String = ""
-//    var body: some View {
-//        TransformingTextField("Wage amount", text: $amount) { input in
-//            var result = ""
-//            let filtered = input.filter { "0123456789".contains($0) }
-//            guard let dub = Double(filtered) else { return result }
-//            let divided = dub / 100
-//            // Assuming 'money' function is defined elsewhere to format the string as money
-//            let str = divided.money()
-//            for character in str {
-//                result.append(character)
-//            }
-//            return result
-//        }
-//
-////        List {
-////        GeometryReader { _ in
-////            CurrencyTextField(value: $amount, characterLimit: 50) { _ in
-//        ////                field.font = UIFont.systemFont(ofSize: 54, weight: .bold)
-////            }
-////
-////            TextField("Other", text: $amount2)
-////        }
-//
-////        }
-////        VStack {
-////            CurrencyTextField(value: $amount, characterLimit: 12) { textField in
-////                textField.font = UIFont.systemFont(ofSize: 55, weight: .bold)
-////                textField.minimumFontSize = 24
-////                textField.adjustsFontSizeToFitWidth = true
-////            } getSize: { size in
-////                print("Updated size of text field from closure", size)
-////            }
-////            .background {
-////               GeometryReader { geoProxy in
-////                    Color.blue
-////                       .preference(key: SizePreferenceKey.self, value: geoProxy.frame(in: .global).size)
-////                       .onChange(of: geoProxy.size, perform: { value in
-////                           print("Onchagne: ", geoProxy.frame(in: .global).size)
-////                       })
-////                }
-////            }
-////            .background(Color.gray)
-////            .frame(height: 100)
-////            .frame(maxWidth: 200)
-////            .fixedSize()
-////            .onPreferenceChange(SizePreferenceKey.self, perform: { value in
-////                print("New size: \(value)")
-////            })
-////            .getFrame { frame in
-////                print("other frame:", frame)
-////            }
-////
-////            Text("Formatted amount: \(amount)")
-////        }
-////        .padding()
-////        .onPreferenceChange(SizePreferenceKey.self, perform: { value in
-////            print("Reading on Vstack size: \(value)")
-////        })
-//    }
-////
-////    struct SizePreferenceKey: PreferenceKey {
-////        static var defaultValue: CGSize = .zero
-////
-////        static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
-////            value = nextValue()
-////        }
-////    }
-// }
-
-// MARK: - CurrencyParseStrategy
-
-// struct DollarParseStrategy: ParseStrategy {
-//    func parse(_ value: Double) throws -> String {
-//        let newValue = value / 100
-//        let formatter = NumberFormatter()
-//        formatter.numberStyle = .currency
-//        formatter.currencyCode = "USD"
-//        if let formattedString = formatter.string(from: NSNumber(value: newValue)) {
-//            return formattedString
-//        } else {
-//            throw NSError(domain: "Error parsing. Could not make it a formatted string", code: 1)
-//        }
-//    }
-// }
-
-// struct DollarParseStyle: ParseableFormatStyle {
-//    var parseStrategy: DollarParseStrategy {
-//        DollarParseStrategy()
-//    }
-//
-//    func format(_ value: Double) -> String {
-//        <#code#>
-//    }
-//
-//    typealias Strategy = DollarParseStrategy
-//
-//    typealias FormatInput = Double
-//
-//    typealias FormatOutput = String
-//
-//
-// }
-
-// public struct CurrencyParseStrategy: ParseStrategy {
-//    public func parse(_ value: String) throws -> Double {
-//        guard let doubleValue = Double(value) else {
-//            throw NSError(domain: "Could not convert string to double", code: 99) // Define SomeError as needed
-//        }
-//        return doubleValue / 100
-//    }
-// }
-//
-//// MARK: - CurrencyFormatStyle
-//
-// public struct CurrencyFormatStyle: ParseableFormatStyle {
-//    public var parseStrategy: CurrencyParseStrategy {
-//        return CurrencyParseStrategy()
-//    }
-//
-//    public func format(_ value: Double) -> String {
-//        let formatter = NumberFormatter()
-//        formatter.numberStyle = .currency
-//        formatter.currencyCode = "USD"
-//        return formatter.string(from: NSNumber(value: value)) ?? ""
-//    }
-// }
-//
-// public extension FormatStyle where Self == CurrencyFormatStyle {
-//    static var currency: CurrencyFormatStyle {
-//        CurrencyFormatStyle()
-//    }
-// }
-//
-// extension String {
-//    static func - (lhs: String, rhs: String) -> String {
-//        let minLength = Swift.min(lhs.count, rhs.count)
-//        var result = ""
-//
-//        for i in 0 ..< minLength {
-//            let indexLHS = lhs.index(lhs.startIndex, offsetBy: i)
-//            let indexRHS = rhs.index(rhs.startIndex, offsetBy: i)
-//
-//            if lhs[indexLHS] != rhs[indexRHS] {
-//                result.append(lhs[indexLHS])
-//            }
-//        }
-//
-//        // If lhs is longer, append the remaining characters
-//        if lhs.count > minLength {
-//            let indexLHS = lhs.index(lhs.startIndex, offsetBy: minLength)
-//            let remaining = lhs[indexLHS ..< lhs.endIndex]
-//            result.append(contentsOf: remaining)
-//        }
-//
-//        return result
-//    }
-// }
-//
-//// MARK: - MoneyInputView
-//
-// @available(iOS 17.0, *)
-// struct MoneyInputView: View {
-//    @State var amount: Double = 0
-//    @State private var amts = ""
-//    @State private var checkValue: String? = nil
-//    @State private var numericsEntered: String = ""
-//
-//    var body: some View {
-//        VStack {
-//            TextField("Amount", value: $amount, format: .currency)
-//                .textFieldStyle(RoundedBorderTextFieldStyle())
-//                .padding()
-//
-//            TextField("Amount", text: $amts, onEditingChanged: { _ in
-////                if isEditing {
-////                    amts = "0"
-////                }
-//            })
-//            .onChange(of: amts) { oldValue, newValue in
-//                if let checkValue,
-//                   checkValue == newValue {
-//                    return
-//                }
-//                let diff = newValue - oldValue
-//                print(diff)
-//                if newValue.count > oldValue.count {
-//                    numericsEntered.append(diff.filter("0123456789".contains))
-//                } else {
-//                    numericsEntered = newValue.filter("0123456789".contains)
-//                }
-//
-//                guard let dubEntered = Double(numericsEntered) else {
-//                    return
-//                }
-//                amts = dubEntered.formatted(.currency)
-////                if newValue.filter("0123456789".contains) {
-////                    numericsEntered.append()
-////                }
-////                amts = double.formatted(.currency)
-////                checkValue = amts
-//            }
-////                .onChangeProper(of: amts) {
-////                    if amts.contains("$") {
-////                        return
-////                    }
-////
-////                    amts = Double(amts)!.formatted(.currency)
-////                }
-//        }
-//    }
-// }
-
 #Preview {
-//    OnboardingProgressManagerView()
-    OnboardingProgressManagerView.EnterWageFirstTimeView()
+    OnboardingProgressManagerView()
+//    OnboardingProgressManagerView.EnterWageFirstTimeView()
 }
