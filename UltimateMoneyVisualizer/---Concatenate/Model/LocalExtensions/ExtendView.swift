@@ -44,10 +44,12 @@ extension View {
                 .toolbarBackground(.visible, for: .tabBar)
                 .accentColor(User.main.getSettings().themeColor)
                 .tint(User.main.getSettings().themeColor)
+                .preferredColorScheme(.light)
         } else {
             navigationBarTitleDisplayMode(displayMode)
                 .accentColor(User.main.getSettings().themeColor)
                 .tint(User.main.getSettings().themeColor)
+                .preferredColorScheme(.light)
         }
     }
 

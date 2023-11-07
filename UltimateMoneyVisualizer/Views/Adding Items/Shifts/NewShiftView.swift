@@ -29,8 +29,12 @@ struct NewShiftView: View {
     @State private var overlappingShiftsAlert: Error? = nil
     @State private var showErrorAlert = false
 
-//    @State private var rangeStartTime: Date = .nineAM
-//    @State private var rangeEndTime: Date = .fivePM
+    @State private var chosenType: EnterType = .single
+    @State private var errorMessage: String? = nil
+
+    enum EnterType: Hashable {
+        case single, multiple
+    }
 
     @State private var daysOfTheWeek: [DayOfWeek] = [.monday, .tuesday, .wednesday, .thursday, .friday]
 
@@ -38,33 +42,32 @@ struct NewShiftView: View {
 
     var body: some View {
         Form {
-            if chooseIndividually {
-                chooseIndividuallyView
-            } else if chooseByRange {
+            Section {
+                Picker("Single or Multiple", selection: $chosenType) {
+                    Text("Single").tag(EnterType.single)
+                    Text("Multiple").tag(EnterType.multiple)
+                }
+                .pickerStyle(.segmented)
+                .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+            }
+            .listRowBackground(Color.clear)
+
+            if chosenType == .single {
+                Section("Date") {
+                    DatePicker("Start", selection: $startTime)
+                    DatePicker("End", selection: $endTime)
+                }
+
+                Section("Info") {
+                    Text("Duration")
+                        .spacedOut(text: (endTime - startTime).formatForTime())
+                    Text("Will earn")
+                        .spacedOut(text: user.convertTimeToMoney(seconds: endTime - startTime).money())
+                }
+
+            } else {
                 chooseByRangeView
             }
-
-//            if chooseIndividually == false {
-//                Section(chooseByRange ? "OR" : "") {
-//                    Button("Choose individual days") {
-//                        withAnimation {
-//                            chooseIndividually = true
-//                            chooseByRange = false
-//                        }
-//                    }
-//                }
-//            }
-//
-//            if chooseByRange == false {
-//                Section("OR") {
-//                    Button("Choose by date range") {
-//                        withAnimation {
-//                            chooseIndividually = false
-//                            chooseByRange = true
-//                        }
-//                    }
-//                }
-//            }
         }
         .onAppear(perform: {
             selectedDateComponents = dates(from: rangeStartDay,
@@ -73,7 +76,30 @@ struct NewShiftView: View {
         })
         .navigationTitle("New Shifts")
         .putInTemplate()
-        .bottomButton(label: "Save") {
+        .bottomButton(label: "Save") { saveAction() }
+        .alert("Error attempting to save", isPresented: $showErrorAlert) {
+        } message: {
+            
+            Text(errorMessage ?? "Try again")
+        }
+    }
+
+    private func saveAction() {
+        if chosenType == .single {
+            do {
+                try Shift(day: .init(date: startTime),
+                          start: startTime,
+                          end: endTime,
+                          user: user,
+                          context: viewContext)
+                errorMessage = nil
+            } catch {
+                showErrorAlert = true
+                errorMessage = error.localizedDescription
+                print(error)
+                
+            }
+        } else {
             let selectedStartComponent = Calendar.current.dateComponents([.hour, .minute], from: startTime)
             let selectedEndComponent = Calendar.current.dateComponents([.hour, .minute],
                                                                        from: endTime)
@@ -101,6 +127,7 @@ struct NewShiftView: View {
                 }
 
                 try viewContext.save()
+                errorMessage = nil 
                 dismiss()
             } catch {
                 overlappingShiftsAlert = error
@@ -131,28 +158,6 @@ struct NewShiftView: View {
     }
 
     @ViewBuilder private var chooseByRangeView: some View {
-        Section("Days to Include") {
-            ForEach(DayOfWeek.orderedCases) { day in
-                Text(day.rawValue.capitalized)
-                    .spacedOut(otherView: {
-                        if daysOfTheWeek.contains(day) {
-                            Image(systemName: "checkmark")
-                        }
-                    })
-                    .allPartsTappable(alignment: .leading)
-                    .onTapGesture {
-                        daysOfTheWeek.insertOrRemove(element: day)
-                        daysOfTheWeek.sort(by: { $0.dayNum < $1.dayNum })
-                        selectedDateComponents = dates(from: rangeStartDay, to: rangeEndDay, matching: daysOfTheWeek)
-                    }
-            }
-        }
-
-        Section("Times for Each Day") {
-            DatePicker("Start", selection: $startTime, displayedComponents: .hourAndMinute)
-            DatePicker("End", selection: $endTime, displayedComponents: .hourAndMinute)
-        }
-
         Section("Date Range") {
             DatePicker("From", selection: $rangeStartDay, displayedComponents: .date)
                 .onChange(of: rangeStartDay) { newValue in
@@ -167,39 +172,59 @@ struct NewShiftView: View {
                 }
         }
 
+        Section("Times for Each Day") {
+            DatePicker("Start", selection: $startTime, displayedComponents: .hourAndMinute)
+            DatePicker("End", selection: $endTime, displayedComponents: .hourAndMinute)
+        }
+
+        Section("Days to Include") {
+            DisclosureGroup("\(daysOfTheWeek.count) days selected", content: {
+                ForEach(DayOfWeek.orderedCases) { day in
+                    Text(day.rawValue.capitalized)
+                        .spacedOut(otherView: {
+                            if daysOfTheWeek.contains(day) {
+                                Image(systemName: "checkmark")
+                                    .foregroundStyle(.tint)
+                            }
+                        })
+                        .allPartsTappable(alignment: .leading)
+                        .onTapGesture {
+                            withAnimation {
+                                daysOfTheWeek.insertOrRemove(element: day)
+                                daysOfTheWeek.sort(by: { $0.dayNum < $1.dayNum })
+                                selectedDateComponents = dates(from: rangeStartDay, to: rangeEndDay, matching: daysOfTheWeek)
+                            }
+                        }
+                }
+            })
+        }
+
         if selectedDateComponents.count > 0 {
             Section {
-                HStack {
-                    Text("\(selectedDateComponents.count) dates selected")
-                    Spacer()
-                    Button {
-                        withAnimation {
-                            expandShiftCircles.toggle()
-                        }
-                    } label: {
-                        Components.nextPageChevron.rotationEffect(.degrees(expandShiftCircles ? 90 : -90))
-                    }
-                }
-
-                if expandShiftCircles {
+                
+                DisclosureGroup("\(selectedDateComponents.count) shifts created") {
                     VStack(alignment: .leading) {
                         ShiftGrid(dateComponents: selectedDateComponents)
                     }
                 }
+//                HStack {
+//                    Text("\(selectedDateComponents.count) dates selected")
+//                    Spacer()
+//                    Button {
+//                        withAnimation {
+//                            expandShiftCircles.toggle()
+//                        }
+//                    } label: {
+//                        Components.nextPageChevron.rotationEffect(.degrees(expandShiftCircles ? -90 : 90))
+//                    }
+//                }
+//
+//                if expandShiftCircles {
+//                    
+//                }
             } header: {
                 Text("Shifts")
             }
-//            VStack {
-
-//            }
-            // Adjust the multiplier as needed
-
-//            .frame(height: (CGFloat(max(1, selectedDateComponents.count / 5)) * 50) + 12)
-
-//            .onPreferenceChange(GridHeightPreferenceKey.self, perform: { value in
-//                scrollHeightForRange = value.height
-//                print("Changed scrollheightz", value)
-//            })
         }
     }
 
@@ -275,4 +300,3 @@ struct NewShiftView_Previews: PreviewProvider {
             .putInNavView(.inline)
     }
 }
-

@@ -42,8 +42,14 @@ struct ShiftListView: View {
     @State private var mostRecentSelected = false
 
     @State private var payPeriods: [PayPeriod] = User.main.getPayPeriods().filter{ $0.getShifts().isEmpty == false }
-    
+
     @State private var showResetUpcomingShiftsAlert = false
+
+    @State private var choseDeleteAllUpcoming = false
+
+    @State private var choseDeleteAllPast = false
+
+    @State private var showLastAlertForAllPastShifts = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -57,17 +63,27 @@ struct ShiftListView: View {
             update()
         }
         .toolbar {
-            if shifts.isEmpty == false {
-                EditButton()
-                    .onChange(of: editMode.isEditing) { isEditing in
-                        if !isEditing {
-                            upcomingToDelete.removeAll()
-                        }
+            Menu("More", systemImage: "ellipsis") {
+                Menu("Delete All") {
+                    Button("Upcoming shifts") {
+                        choseDeleteAllUpcoming = true
                     }
+                    Button("Past shifts") {
+                        choseDeleteAllPast = true
+                    }
+                }
+                if shifts.isEmpty == false {
+                    EditButton()
+                        .onChange(of: editMode.isEditing) { isEditing in
+                            if !isEditing {
+                                upcomingToDelete.removeAll()
+                            }
+                        }
+                }
             }
+            .preferredColorScheme(.light)
         }
-        .alert("Error deleting shift", isPresented: $showErrorDeletingShift, actions: {
-        }, message: {
+        .alert("Error deleting shift", isPresented: $showErrorDeletingShift, actions: { }, message: {
             if let shift = shiftThatCouldntBeDeleted {
                 Text("Could not delete shift for \(shift.start)")
             } else {
@@ -102,7 +118,7 @@ struct ShiftListView: View {
         })
 
         .navigationTitle("Shifts")
-        .putInTemplate()
+
         .confirmationDialog("Confirm deletion of all selected shifts", isPresented: $showDeleteConfirmation, titleVisibility: .visible, actions: {
             Button("Delete", role: .destructive) {
                 for shift in self.upcomingToDelete {
@@ -123,7 +139,33 @@ struct ShiftListView: View {
         } message: {
             Text("This will delete all upcoming shifts but not previously completed shifts.")
         }
-
+        .confirmationDialog("Delete all upcoming shifts", isPresented: $choseDeleteAllUpcoming, titleVisibility: .visible) {
+            Button("Delete", role: .destructive) {
+            }
+        } message: {
+            Text("This action cannot be undone")
+        }
+        .confirmationDialog("Delete all past shifts", isPresented: $choseDeleteAllPast, titleVisibility: .visible) {
+            Button("Delete", role: .destructive) {
+                showLastAlertForAllPastShifts = true
+            }
+        } message: {
+            Text("This action cannot be undone")
+        }
+        .alert("Confirm one more time, just to be sure", isPresented: $showLastAlertForAllPastShifts) {
+            Button("Delete", role: .destructive) {
+                shifts.filter{ $0.getStart() < Date.now }.forEach { shift in
+                    viewContext.delete(shift)
+                }
+                do {
+                    try viewContext.save()
+                } catch {
+//                    let nsError = error as NSError
+                    showErrorDeletingShift = true
+                }
+            }
+        }
+        .putInTemplate()
     }
 
     // swiftformat:sort:begin
@@ -146,7 +188,7 @@ struct ShiftListView: View {
                     .listRowBackground(Color.clear)
                     .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
 
-                ForEach(payPeriods.filter({ $0.getLastDate() <= .now || $0 == user.getCurrentPayPeriod() })) { period in
+                ForEach(payPeriods.filter { $0.getLastDate() <= .now || $0 == user.getCurrentPayPeriod() }) { period in
                     if period.getShifts().isEmpty == false {
                         Section {
                             ForEach(period.getShifts()) { shift in
@@ -173,6 +215,15 @@ struct ShiftListView: View {
                 }
             }
             .listStyle(.insetGrouped)
+        }
+    }
+
+    private func resetUpcoming() {
+        for shift in upcomingShifts {
+            user.removeFromShifts(shift)
+            viewContext.delete(shift)
+
+            try? viewContext.save()
         }
     }
 
@@ -233,10 +284,10 @@ struct ShiftListView: View {
                         .buttonStyle(.plain)
                     }
                 }
-                
+
                 Divider()
                     .padding()
-                
+
                 if upcomingShifts.isEmpty == false {
                     Button {
                         showResetUpcomingShiftsAlert = true
@@ -248,22 +299,12 @@ struct ShiftListView: View {
             .frame(height: 80)
 //            .padding(.horizontal)
         }
-        
     }
 
     private func update() {
         print("Called")
         shifts = user.getShifts()
         payPeriods = user.getPayPeriods().filter { $0.getShifts().isEmpty == false }
-    }
-    
-    private func resetUpcoming() {
-        for shift in upcomingShifts {
-            user.removeFromShifts(shift)
-            viewContext.delete(shift)
-            
-            try? viewContext.save()
-        }
     }
 
     // swiftformat:sort:end
@@ -313,7 +354,6 @@ struct ShiftListView_Previews: PreviewProvider {
     }
 }
 
-
 // MARK: - ResetUpcoming
 
 struct ResetUpcoming: View {
@@ -342,4 +382,3 @@ struct ResetUpcoming_Previews: PreviewProvider {
         ResetUpcoming()
     }
 }
-

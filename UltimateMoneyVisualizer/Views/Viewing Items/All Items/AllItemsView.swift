@@ -39,8 +39,8 @@ struct AllItemsView: View {
             }
         }
         .background(Color.listBackgroundColor)
-        .tint(settings.themeColor)
-        .putInTemplate()
+//        .tint(settings.themeColor)
+        
         .environment(\.editMode, $editMode)
 
 //        .gesture(
@@ -82,6 +82,8 @@ struct AllItemsView: View {
             }
             #endif
         }
+        
+        .putInTemplate()
     }
 
     private func changeSelectionType(forward: Bool) {

@@ -46,10 +46,11 @@ struct ContentView: View {
             }
             .makeTab(tab: Tabs.settings, systemImage: "gear")
 
-//            OnboardingFirstView()
-//                .makeTab(tab: Tabs.onboarding, systemImage: "play")
-//            
             
+
+            OnboardingProgressManagerView()
+                .makeTab(tab: Tabs.onboarding, systemImage: "play")
+//
         }
         .tint(settings.themeColor)
     }

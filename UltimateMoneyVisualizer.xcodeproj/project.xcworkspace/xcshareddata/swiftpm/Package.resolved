@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/exyte/FloatingButton.git",
       "state" : {
-        "revision" : "88963d159b80f4993fc71b42100a08c10849c68e",
-        "version" : "1.2.0"
+        "revision" : "301fba68ed56c68c04af0b40a4eb422518c8eaf8",
+        "version" : "1.2.2"
       }
     },
     {
@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/exyte/PopupView.git",
       "state" : {
-        "revision" : "bb18c1652f6b60741f9ff6ba4fb8569460a7ffaa",
-        "version" : "2.8.1"
+        "revision" : "0e771e413cc4727dbdad9ed81f0d4713f271fc43",
+        "version" : "2.8.2"
       }
     },
     {
@@ -68,8 +68,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/vdeaugustine/VinPackage",
       "state" : {
-        "revision" : "fcf8bc0be2ba553cc5ed9aa3485e20b1e7f77a8d",
-        "version" : "1.2.9"
+        "revision" : "a8324f57752aae80c568cc3b0172cee1da050a13",
+        "version" : "1.2.16"
       }
     },
     {
