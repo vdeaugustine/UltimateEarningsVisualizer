@@ -79,7 +79,8 @@ struct NewShiftView: View {
         .bottomButton(label: "Save") { saveAction() }
         .alert("Error attempting to save", isPresented: $showErrorAlert) {
         } message: {
-            Text("Try again")
+            
+            Text(errorMessage ?? "Try again")
         }
     }
 
@@ -91,8 +92,12 @@ struct NewShiftView: View {
                           end: endTime,
                           user: user,
                           context: viewContext)
+                errorMessage = nil
             } catch {
                 showErrorAlert = true
+                errorMessage = error.localizedDescription
+                print(error)
+                
             }
         } else {
             let selectedStartComponent = Calendar.current.dateComponents([.hour, .minute], from: startTime)
@@ -122,6 +127,7 @@ struct NewShiftView: View {
                 }
 
                 try viewContext.save()
+                errorMessage = nil 
                 dismiss()
             } catch {
                 overlappingShiftsAlert = error
