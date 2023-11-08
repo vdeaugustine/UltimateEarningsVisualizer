@@ -7,10 +7,12 @@
 
 import SwiftUI
 
+// MARK: - ShiftInfoView
+
 struct ShiftInfoView: View {
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 20) {
                 VStack(spacing: 20) {
                     Image(systemName: "calendar" /* IconManager.timeBlockExpanded */ )
                         .resizable()
@@ -25,44 +27,95 @@ struct ShiftInfoView: View {
                         .multilineTextAlignment(.center)
 
                     VStack(alignment: .leading, spacing: 20) {
-                        Text("Allows you to predict where you will be in the future if you have a regular work schedule")
-                            .font(.subheadline)
-                            .foregroundStyle(Color(.secondaryLabel))
-
-                        Text("Can be broken down into time blocks to see how your earnings are allocated")
-                            .font(.subheadline)
-                            .foregroundStyle(Color(.secondaryLabel))
+                        Text("Shifts are the building blocks of your financial tracking.")
                     }
+
+                    .font(.subheadline)
+                    .foregroundStyle(Color(.secondaryLabel))
+                    .padding(.horizontal)
+                }
+
+                VStack(alignment: .leading, spacing: 20) {
+                    Text("Enter your hours for the workday to get your earnings for that shift")
+                        .fontWeight(.medium)
+                    VStack(alignment: .leading, spacing: 10) {
+                        DatePicker("Start time", selection: .constant(Date.getThisTime(hour: 9, minute: 0) ?? .now))
+                            .allowsHitTesting(false)
+                        Divider().padding(.leading)
+                        DatePicker("End time", selection: .constant(Date.getThisTime(hour: 17, minute: 0) ?? .now))
+                            .allowsHitTesting(false)
+                        Divider().padding(.leading)
+                        Text("Duration")
+                            .spacedOut(text: "8h")
+                        Divider().padding(.leading)
+                        Text("Earnings")
+                            .spacedOut(text: "$160.00")
+                    }
+                    .padding(.vertical)
+//                    .padding()
+//                    .modifier(ShadowForRect())
+                }
+                .padding()
+                .background {
+                    UIColor.systemBackground.color.clipShape(RoundedRectangle(cornerRadius: 10))
                 }
                 .padding(.horizontal)
 
-                VStack(alignment: .leading, spacing: 5) {
-                    Text("How it works")
-                        .font(.title3)
-                        .bold()
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Itemize your shift by creating time blocks")
+                        .fontWeight(.medium)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            if let firstStart = Date.getThisTime(hour: 9, minute: 0),
+                               let firstEnd = Date.getThisTime(hour: 9, minute: 45) {
+                                ExampleTimeBlockCompact(title: "Checked email",
+                                                        start: firstStart,
+                                                        end: firstEnd)
+                            }
 
-                    VStack(alignment: .leading, spacing: 12) {
-                        Group {
-                            Text("• Enter your start and end times for the shift")
-                            Text("• Uses your wage settings to determine how much you earned for that shift")
+                            if let firstStart = Date.getThisTime(hour: 10, minute: 0),
+                               let firstEnd = Date.getThisTime(hour: 11, minute: 30) {
+                                ExampleTimeBlockCompact(title: "Meetings",
+                                                        start: firstStart,
+                                                        end: firstEnd,
+                                                        color: .red)
+                            }
 
-                            Text("• Adds the total money you earned for that shift to your earnings amount")
-
-                            Text("• Your earnings can be used to pay off your expenses and goals")
+                            if let firstStart = Date.getThisTime(hour: 12, minute: 30),
+                               let firstEnd = Date.getThisTime(hour: 14, minute: 0) {
+                                ExampleTimeBlockCompact(title: "Focused work",
+                                                        start: firstStart,
+                                                        end: firstEnd,
+                                                        color: .yellow)
+                            }
                         }
-
-//                                .foregroundStyle(Color(.secondaryLabel))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    }
-                    .padding()
-
-                    .background {
-                        Color(.tertiarySystemBackground).clipShape(RoundedRectangle(cornerRadius: 10))
+                        .padding()
                     }
                 }
                 .padding()
+                .background {
+                    UIColor.systemBackground.color.clipShape(RoundedRectangle(cornerRadius: 10))
+                }
+                .padding(.horizontal)
+
+                VStack(alignment: .leading, spacing: 20) {
+                    Text("Use your earnings to payoff ") + Text("Goals").bold() + Text(" and ") + Text("Expenses").bold()
+                    PseudoAllocationSummaryView(amount: 150, sourceTitle: "Shift for 11/7/23", expenseTitle: "Car payment")
+                        .modifier(ShadowForRect())
+//                        .overlay {
+//                            RoundedRectangle(cornerRadius: 10)
+//                                .stroke(UIColor.systemFill.color, lineWidth: 1)
+//                        }
+                }
+                .padding()
+                .background {
+                    UIColor.systemBackground.color.clipShape(RoundedRectangle(cornerRadius: 10))
+                }
+                .padding(.horizontal)
             }
+            .frame(maxWidth: .infinity)
         }
+
         .background {
             Color(.secondarySystemBackground)
                 .ignoresSafeArea()
@@ -70,51 +123,49 @@ struct ShiftInfoView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
 
-    struct Rect: View {
-        let title: String
-        let imageName: String
-        let headline: String
+    struct RectSection: View {
+        let title: String?
+        let imageName: String?
+        let headline: String?
         let bodyTexts: [String]
 
         var body: some View {
             VStack(alignment: .leading, spacing: 5) {
-                Text(title)
-                    .font(.title3)
-                    .bold()
+                if let title {
+                    Text(title)
+                        .font(.title3)
+                        .bold()
+                }
 
                 content
             }
+            .padding(.horizontal)
         }
 
         @ViewBuilder var content: some View {
             VStack(alignment: .leading, spacing: 12) {
                 HStack {
-                    Text(headline)
-                        .font(.headline)
-                        .fontWeight(.medium)
+                    if let headline {
+                        Text(headline)
+                            .font(.headline)
+                            .fontWeight(.medium)
+                        Spacer()
+                    }
 
-                    Spacer()
-
-                    Image(systemName: imageName)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(height: 25)
-                        .foregroundStyle(.tint)
+                    if let imageName {
+                        Image(systemName: imageName)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: 25)
+                            .foregroundStyle(.tint)
+                    }
                 }
 
                 HStack(spacing: 16) {
-//                        Image(systemName: imageName)
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fit)
-//                            .frame(width: 35)
-//                            .foregroundStyle(Color.blue)
-
                     VStack(alignment: .leading, spacing: 5) {
                         VStack(spacing: 12) {
                             ForEach(bodyTexts, id: \.self) { text in
-                                //                                HStack {
                                 Text(text)
-                                    //                                }
                                     .foregroundStyle(Color(.secondaryLabel))
                                     .frame(maxWidth: .infinity, alignment: .leading)
                             }
@@ -129,6 +180,60 @@ struct ShiftInfoView: View {
             }
         }
     }
+}
+
+// MARK: - PseudoAllocationSummaryView
+
+struct PseudoAllocationSummaryView: View {
+    // MARK: - Body
+
+    let amount: Double
+    let sourceTitle: String
+    let expenseTitle: String
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            HStack {
+                Text("Allocation")
+                Spacer()
+                Text(amount.money())
+            }
+            .fontWeight(.semibold)
+            .kerning(0.7)
+
+            HStack {
+                HStack(alignment: .top) {
+                    ConnectedCirclesView(lineWidth: 2)
+                        .frame(width: 12)
+                        .padding(.vertical, 4)
+                        .frame(maxHeight: .infinity)
+
+                    VStack(alignment: .leading) {
+                        Text(sourceTitle)
+                        Spacer()
+
+                        Text(expenseTitle)
+                    }
+                }
+                .frame(height: 60)
+
+                Spacer()
+
+//                Text(allocation.amount.money())
+            }
+        }
+        .modifier(Modifiers())
+    }
+
+    // MARK: - Modifiers
+
+    struct Modifiers: ViewModifier {
+        func body(content: Content) -> some View {
+            content
+                .padding()
+        }
+    }
+
 }
 
 #Preview {

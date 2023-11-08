@@ -336,22 +336,29 @@ struct ShiftRowView: View {
             }
             Spacer()
 
-            Text("\(shift.totalEarned.money())")
-                .font(.subheadline)
-                .foregroundColor(.primary)
-                .multilineTextAlignment(.trailing)
+            VStack {
+                Text("\(shift.totalEarned.money())")
+                    .font(.subheadline)
+                    .foregroundColor(.primary)
+                    .multilineTextAlignment(.trailing)
+                
+                Text("earned")
+                    .font(.caption2)
+                    .foregroundStyle(UIColor.secondaryLabel.color)
+                    .multilineTextAlignment(.trailing)
+            }
         }
     }
 }
 
 // MARK: - ShiftListView_Previews
 
-struct ShiftListView_Previews: PreviewProvider {
-    static var previews: some View {
-        ShiftListView()
-            .environment(\.managedObjectContext, PersistenceController.context)
-            .putInNavView(.inline)
-    }
+
+#Preview {
+    //        ShiftListView()
+    //            .environment(\.managedObjectContext, PersistenceController.context)
+    //            .putInNavView(.inline)
+            ShiftWelcomeView()
 }
 
 // MARK: - ResetUpcoming
@@ -375,10 +382,23 @@ struct ResetUpcoming: View {
     }
 }
 
-// MARK: - ResetUpcoming_Previews
+// MARK: - ShiftWelcomeView
 
-struct ResetUpcoming_Previews: PreviewProvider {
-    static var previews: some View {
-        ResetUpcoming()
+struct ShiftWelcomeView: View {
+    // MARK: - Body
+
+    var body: some View {
+        ScrollView {
+            VStack {
+                
+            }
+        }
+        .background {
+            UIColor.secondarySystemBackground.color
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .ignoresSafeArea()
+        }
     }
 }
+
+
