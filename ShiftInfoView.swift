@@ -12,7 +12,7 @@ import SwiftUI
 struct ShiftInfoView: View {
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
+            VStack(spacing: 20) {
                 VStack(spacing: 20) {
                     Image(systemName: "calendar" /* IconManager.timeBlockExpanded */ )
                         .resizable()

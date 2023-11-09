@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "vinnied4_png_white_background_hour_glass_a_small_stack_of_dolla_ad7a3c3c-aa27-49de-a57f-8bf3cb4093b4 1.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
