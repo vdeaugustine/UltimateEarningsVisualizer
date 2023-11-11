@@ -15,8 +15,6 @@ extension ScrollViewProxy {
 
 struct NewHomeView: View {
     @StateObject private var vm: NewHomeViewModel = .shared
-    @ObservedObject private var settings = User.main.getSettings()
-    @ObservedObject private var status = User.main.getStatusTracker()
     @State private var scrollOffset: CGPoint = .zero
 
     @State private var showWageBreakdownPopover = false
@@ -121,7 +119,6 @@ struct NewHomeView: View {
             }
         }
         .modifier(Modifiers(vm: vm,
-                            settings: settings,
                             floatingButton: { floatingButton }))
     }
 
@@ -130,14 +127,12 @@ struct NewHomeView: View {
     struct Modifiers<FB: View>: ViewModifier {
         let floatingButton: FB
 
-        init(vm: NewHomeViewModel, settings: Settings, @ViewBuilder floatingButton: @escaping () -> FB) {
+        init(vm: NewHomeViewModel, @ViewBuilder floatingButton: @escaping () -> FB) {
             self.floatingButton = floatingButton()
             self.vm = vm
-            self.settings = settings
         }
 
         @ObservedObject var vm: NewHomeViewModel
-        @ObservedObject var settings: Settings
 
         func body(content: Content) -> some View {
             content
@@ -156,7 +151,7 @@ struct NewHomeView: View {
                     floatingButton
                 }
                 .environmentObject(vm)
-                .putInTemplate(displayMode: .large, settings: settings)
+                .putInTemplate(displayMode: .large, settings: vm.settings)
                 .navigationTitle(Date.now.getFormattedDate(format: .abbreviatedMonth))
                 .navigationDestination(for: NavManager.AllViews.self) { view in
                     vm.navManager.getDestinationViewForStack(destination: view)
@@ -262,12 +257,12 @@ extension NewHomeView {
 struct NewHomeView_Previews: PreviewProvider {
     static var previews: some View {
         TabView {
-            NavigationStack {
+//            NavigationStack {
                 NewHomeView()
-                    .environmentObject(NewHomeViewModel.shared)
+                    .environmentObject(NewHomeViewModel(user: .testing))
                     .frame(maxHeight: .infinity)
-            }
-            .frame(maxHeight: .infinity)
+//            }
+//            .frame(maxHeight: .infinity)
         }
         .frame(maxHeight: .infinity)
     }

@@ -122,11 +122,11 @@ struct PayoffTodaySquare: View {
 
 struct PayoffTodaySquare_Previews: PreviewProvider {
     static var item: PayoffItem {
-        User.main.getQueue().first!
+        User.testing.getQueue().first!
     }
 
     static var previews: some View {
-        PayoffTodaySquare(item: .init(payoff: item))
+        PayoffTodaySquare(item: .init(payoff: item)!)
             .frame(width: UIScreen.main.bounds.width / 2 - 10)
             .previewLayout(.sizeThatFits)
     }

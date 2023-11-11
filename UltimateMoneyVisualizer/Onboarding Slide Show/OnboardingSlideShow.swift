@@ -27,10 +27,10 @@ struct OnboardingSlideShow: View {
                                  header: "Track your earnings",
                                  bodyTexts: ["Watch your money grow in real-time as you earn it",
                                              "Look back on previous shifts to see how much you made each day"]),
-                           
+
                            Slide(title: "Goals", imageString: "goalJar", header: "Something to work toward", bodyTexts: ["Set an amount and a date, and watch yourself progress towards it.", "Motivate yourself by seeing the goal get closer."]),
-                           
-                           Slide(title: "Expenses", imageString: "expense", header: "Cross it off the list", bodyTexts: ["Track recurring or one-time expenses." ,"Work down your list until you see your earnings going right into your pocket"]),
+
+                           Slide(title: "Expenses", imageString: "expense", header: "Cross it off the list", bodyTexts: ["Track recurring or one-time expenses.", "Work down your list until you see your earnings going right into your pocket"]),
 
                            Slide(title: "Allocations", imageString: "timeToExpense", header: "Visual cash flow", bodyTexts: ["Use the money you earn or save to payoff expenses and goals!", "Every time an item is paid off, you can see exactly where that money came from."])]
 
@@ -49,6 +49,16 @@ struct OnboardingSlideShow: View {
             .padding(.vertical)
 
             .frame(height: 500)
+
+//            Button(action: {
+//                goToNextSlide()
+//            }) {
+//                Text("Next")
+//                    .padding()
+//                    .background(Color.blue)
+//                    .foregroundColor(.white)
+//                    .cornerRadius(8)
+//            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background {
@@ -58,6 +68,30 @@ struct OnboardingSlideShow: View {
             print("height is :", height)
         }
     }
+    
+//    private func goToNextSlide() {
+//        withAnimation {
+//            
+//            let nextIndex = currentIndex + 1
+//                        if nextIndex < slides.count {
+//                            currentIndex = nextIndex
+//                        } else {
+//                            // Optional: Reset to the first item if it's the last slide
+//                            currentIndex = 0
+//                        }
+//
+//                        // Update the offset to move to the next slide
+//                        let cardWidth = // calculate cardWidth (like in your existing code)
+//                        let extraSpace = (cardPadding / 2) - spacing
+//                        offset = (cardWidth * CGFloat(index)) + extraSpace
+//                        lastStoredOffset = offset
+//            
+//            
+//            currentIndex += 1
+//        }
+//        
+//        
+//    }
 }
 
 // MARK: - CustomCarousel

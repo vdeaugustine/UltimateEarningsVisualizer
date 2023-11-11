@@ -11,15 +11,24 @@ import SwiftUI
 
 struct TodayPaidOffStack: View {
     @EnvironmentObject private var viewModel: TodayViewModel
+    
+    var items: [TempTodayPayoff] {
+        let goals = viewModel.user.getGoals()
+            .compactMap({TempTodayPayoff(payoff: $0)})
+        let expenses = viewModel.user.getExpenses()
+            .compactMap({TempTodayPayoff(payoff: $0)})
+        let union: [TempTodayPayoff] = (goals + expenses).filter({ $0.progressAmount > 0.01 })
+        return union.sorted(by: {$0.queueSpot < $1.queueSpot })
+    }
 
     var body: some View {
         LazyVStack {
             if viewModel.paidOffStackIsExpanded {
-                ForEach(viewModel.nonZeroPayoffItems) { item in
+                ForEach(items) { item in
                     TodayViewPaidOffRect(item: item)
                 }
             } else {
-                if let firstItem = viewModel.nonZeroPayoffItems.first {
+                if let firstItem = items.first {
                     TodayViewPaidOffRect(item: firstItem)
                 }
             }
@@ -35,6 +44,6 @@ struct TodayPaidOffStack_Previews: PreviewProvider {
             Color.targetGray
             TodayPaidOffStack()
         }
-        .environmentObject(TodayViewModel.main)
+        .environmentObject(TodayViewModel(user: .testing))
     }
 }

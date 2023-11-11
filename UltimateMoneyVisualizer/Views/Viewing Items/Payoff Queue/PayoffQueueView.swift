@@ -141,7 +141,7 @@ struct PayoffQueueView: View {
 
         try! user.managedObjectContext!.save()
 
-        TodayViewModel.main.updateInitialPayoffs()
+        TodayViewModel.main.updateTempPayoffsMainStore()
     }
 }
 

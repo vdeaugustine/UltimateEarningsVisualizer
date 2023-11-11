@@ -71,6 +71,16 @@ public extension Goal {
 // MARK: - Goal + PayoffItem
 
 extension Goal: PayoffItem {
+    
+    public var tempPaidOffAmount: Double? {
+        get {
+            amountTempPaidOff
+        }
+        set {
+            self.amountTempPaidOff = newValue ?? 0
+        }
+    }
+    
     public func addTag(tag: Tag) throws {
         addToTags(tag)
         try managedObjectContext?.save()

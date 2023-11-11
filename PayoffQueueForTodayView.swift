@@ -18,15 +18,38 @@ struct PayoffQueueForTodayView: View {
 
     @State private var showSelectionView = false // Add this state variable
 
+    var sortedItems: [TempTodayPayoff] {
+        let expenses = vm.user.getExpenses()
+            .filter {
+                $0.optionalTempQNum != nil
+            }
+        let goals = vm.user.getGoals()
+            .filter {
+                $0.optionalTempQNum != nil
+            }
+        let union: [PayoffItem] = goals + expenses
+        return union
+            .sorted(by: {
+                $0.optionalQSlotNumber ?? -7_777 > $1.optionalQSlotNumber ?? -7_777
+            })
+            .compactMap { payoffItem in
+                TempTodayPayoff(payoff: payoffItem)
+            }
+    }
+
     var body: some View {
         List {
-            ForEach(vm.tempPayoffs) { item in
+            ForEach(sortedItems) { item in
                 TodayViewPaidOffRect(item: item)
                     .environmentObject(vm)
             }
+            .onDelete(perform: deleteItem)
+            .onMove(perform: move)
             .listRowSeparator(.hidden)
+            .listRowBackground(Color.clear)
         }
         .listStyle(.grouped)
+        .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
         .background {
             Color.listBackgroundColor
         }
@@ -53,6 +76,14 @@ struct PayoffQueueForTodayView: View {
         .sheet(isPresented: $showSelectionView) { // Add this sheet
             SelectionView()
         }
+    }
+
+    func deleteItem(at offsets: IndexSet) {
+        vm.tempPayoffsMainStore.remove(atOffsets: offsets)
+    }
+
+    func move(_ indices: IndexSet, newOffset: Int) {
+        vm.tempPayoffsMainStore.move(fromOffsets: indices, toOffset: newOffset)
     }
 }
 
@@ -142,8 +173,8 @@ struct SelectionView: View {
 
 struct PayoffQueueForTodayView_Previews: PreviewProvider {
     static var previews: some View {
-        PayoffQueueForTodayView(vm: TodayViewModel.main)
+        PayoffQueueForTodayView(vm: TodayViewModel(user: .testing))
             .templateForPreview()
-            .environmentObject(TodayViewModel.main)
+            .environmentObject(TodayViewModel(user: .testing))
     }
 }

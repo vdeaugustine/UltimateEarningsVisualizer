@@ -12,7 +12,9 @@ class NewHomeViewModel: ObservableObject {
 
     @ObservedObject var user = User.main
     @ObservedObject var wage = User.main.getWage()
+    @ObservedObject var settings: Settings = User.main.getSettings()
     @ObservedObject var navManager = NavManager.shared
+    @ObservedObject var status = User.main.getStatusTracker()
 
     @Published var selectedTotalItem: TotalTypes = .earned
 
@@ -27,6 +29,20 @@ class NewHomeViewModel: ObservableObject {
             navManager.appendCorrectPath(newValue: .expense(expense))
         }
     }
+    
+    
+    
+    init(user: User) {
+        
+        self.user = user
+        self.wage = user.getWage()
+        self.taxesToggleOn = user.getWage().includeTaxes
+        self.settings = user.getSettings()
+        self.status = user.getStatusTracker()
+    }
+    
+    
+    init() { }
 
     enum TotalTypes: String, CaseIterable, Identifiable, Hashable, CustomStringConvertible {
         case earned, taxes, expenses, goals, saved

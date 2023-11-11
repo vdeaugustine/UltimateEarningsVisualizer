@@ -88,7 +88,8 @@ public extension User {
     static func getTestingUserWithExamples() throws -> User {
         try User(exampleItem: true)
     }
-
+    
+   
     // MARK: - MAIN USER
 
     static var main: User {

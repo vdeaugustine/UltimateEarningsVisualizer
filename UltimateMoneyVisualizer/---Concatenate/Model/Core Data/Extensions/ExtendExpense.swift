@@ -83,6 +83,17 @@ extension Expense {
 // MARK: - Expense + PayoffItem
 
 extension Expense: PayoffItem {
+    public var tempPaidOffAmount: Double? {
+        get {
+            amountTempPaidOff
+        }
+        set {
+            self.amountTempPaidOff = newValue ?? 0
+        }
+    }
+    
+    
+    
     
     public var repeatFrequencyObject: RepeatFrequency {
         RepeatFrequency(rawValue: self.repeatFrequency ?? RepeatFrequency.never.rawValue) ?? .never

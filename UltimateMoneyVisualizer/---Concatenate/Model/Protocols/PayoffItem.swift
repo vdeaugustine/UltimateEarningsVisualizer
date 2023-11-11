@@ -66,6 +66,7 @@ public protocol PayoffItem {
     var timeRemaining: Double { get }
     var titleStr: String { get }
     var type: PayoffType { get }
+    var tempPaidOffAmount: Double? { get set }
     // swiftformat:sort:end
 
     // MARK: - Protocol Methods:
@@ -153,6 +154,14 @@ public struct AnyPayoffItem: PayoffItem, Hashable {
     public var timeRemaining: Double { payoffItem.timeRemaining }
     public var titleStr: String { payoffItem.titleStr }
     public var type: PayoffType { payoffItem.type }
+    public var tempPaidOffAmount: Double? {
+        get {
+            payoffItem.tempPaidOffAmount
+        }
+        set {
+            payoffItem.tempPaidOffAmount = newValue
+        }
+    }
 
     // swiftformat:sort:end
 

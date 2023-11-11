@@ -26,7 +26,7 @@ struct TodayPaidOffRectContainer<Content: View>: View {
                 .fill(Color.white)
                 /*shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 2)*/
                 .frame(height: 100)
-                .modifier(ShadowForRect())
+//                .modifier(ShadowForRect())
             
             content
         }
@@ -45,6 +45,6 @@ struct TodayPaidOffRectContainer_Previews: PreviewProvider {
                 Text("HI")
             }
         }
-        .environmentObject(TodayViewModel.main)
+        .environmentObject(TodayViewModel(user: .testing))
     }
 }

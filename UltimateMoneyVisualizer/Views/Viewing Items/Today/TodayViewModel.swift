@@ -4,6 +4,19 @@ import Foundation
 import SwiftUI
 import Vin
 
+extension Array where Element: Hashable {
+    /// Not efficient but it works
+    func removingDuplicates() -> [Element] {
+        let original = self
+        let set = Set(self)
+        return set.sorted { first, second in
+            let firstIndex = original.firstIndex(of: first) ?? .max
+            let secondIndex = original.firstIndex(of: second) ?? .max
+            return firstIndex < secondIndex
+        }
+    }
+}
+
 // MARK: - TodayViewModel
 
 class TodayViewModel: ObservableObject {
@@ -27,11 +40,6 @@ class TodayViewModel: ObservableObject {
     @Published var completedShiftTempPayoffs: [TempTodayPayoff] = []
     @Published var end: Date = User.main.regularSchedule?.getEndTime(for: .now) ?? .fivePM
     @Published var hasShownBanner = false
-    /// Main Payoff Queue that has been filtered out for only items that haven't been paid off
-    ///
-    /// If the user modifies the queue at any point during a TodayShift, this value will need to be set again because the tempPayoffs calculated property grabs from here each time
-    /// So, since this var initially grabs from the MainQueue, we need to know if the temp queue has been modified since that time
-    @Published var initialPayoffs: [TempTodayPayoff]
     @Published var nowTime: Date = .now
     @Published var paidOffStackIsExpanded = false
     @Published var saveBannerWasDismissed = false
@@ -42,6 +50,11 @@ class TodayViewModel: ObservableObject {
     @Published var showHoursSheet = false
 
     @Published var start: Date = User.main.regularSchedule?.getStartTime(for: .now) ?? Date.getThisTime(hour: 9, minute: 0)!
+    /// Main Payoff Queue that has been filtered out for only items that haven't been paid off
+    ///
+    /// If the user modifies the queue at any point during a TodayShift, this value will need to be set again because the tempPayoffs calculated property grabs from here each time
+    /// So, since this var initially grabs from the MainQueue, we need to know if the temp queue has been modified since that time
+    @Published var tempPayoffsMainStore: [TempTodayPayoff]
     @Published var timeBlocksExpanded: Bool = true
     @Published var todayViewCurrentScrollOffset: CGFloat = 0
     // swiftformat:sort:end
@@ -62,13 +75,73 @@ class TodayViewModel: ObservableObject {
         self.viewContext = context
         let allQueue = User.main.getQueue().filter { !$0.isPaidOff }
 
-        self.initialPayoffs = allQueue.map { TempTodayPayoff(payoff: $0) }
+        self.tempPayoffsMainStore = allQueue.compactMap { TempTodayPayoff(payoff: $0) }
     }
 
-    func updateInitialPayoffs() {
+    /// For testing and previews
+    init(user: User) {
+        self.viewContext = user.getContext()
         let allQueue = user.getQueue().filter { !$0.isPaidOff }
+        self.user = user
+        self.wage = user.getWage()
+        self.settings = user.getSettings()
+        self.tempPayoffsMainStore = allQueue.compactMap { TempTodayPayoff(payoff: $0) }
+    }
 
-        initialPayoffs = allQueue.map { TempTodayPayoff(payoff: $0) }
+    func updateTempPayoffsMainStore() {
+        var allQueue = user.getQueue().filter { !$0.isPaidOff }
+
+        var newArray = [TempTodayPayoff]()
+        var counter: Int16 = 0
+        for (index, item) in allQueue.enumerated() {
+            if let expense = item as? Expense {
+                expense.optionalTempQNum = counter
+                // TODO: Change this to be safe later
+                try! user.getContext().save()
+            }
+
+            if let goal = item as? Goal {
+                goal.optionalTempQNum = counter
+                // TODO: Change this to be safe later
+                try! user.getContext().save()
+            }
+
+            let temp = TempTodayPayoff(payoff: item)!
+            temp.queueSpot = counter
+            newArray.append(temp)
+            allQueue[index].optionalTempQNum = counter
+            counter += 1
+        }
+
+        tempPayoffsMainStore = newArray
+
+//        setPayoffMainStore(newArray: allQueue.map { TempTodayPayoff(payoff: $0) })
+    }
+
+    func getExpenseByID(id: UUID) -> Expense? {
+        let fetchRequest: NSFetchRequest<Expense> = Expense.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+
+        do {
+            let expenses = try viewContext.fetch(fetchRequest)
+            return expenses.first
+        } catch {
+            print("Error fetching expense: \(error)")
+            return nil
+        }
+    }
+
+    func getGoalByID(id: UUID) -> Goal? {
+        let fetchRequest: NSFetchRequest<Goal> = Goal.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+
+        do {
+            let goals = try viewContext.fetch(fetchRequest)
+            return goals.first
+        } catch {
+            print("Error fetching goal: \(error)")
+            return nil
+        }
     }
 
     // MARK: - Computed Properties
@@ -122,7 +195,7 @@ class TodayViewModel: ObservableObject {
     }
 
     var nonZeroPayoffItems: [TempTodayPayoff] {
-        tempPayoffs.filter { $0.progressAmount > 0.01 }
+        tempPayoffs.lazy.filter { $0.progressAmount > 0.01 }
     }
 
     var remainingTime: Double {
@@ -195,33 +268,37 @@ class TodayViewModel: ObservableObject {
     }
 
     var taxesTempPayoffs: [TempTodayPayoff] {
-        var expenses: [TempTodayPayoff] = []
+        var taxExpenses: [TempTodayPayoff] = []
         if user.getWage().includeTaxes {
             if user.getWage().stateTaxPercentage > 0 {
-                expenses.append(
+                taxExpenses.append(
                     .init(amount: willEarn * user.getWage().stateTaxMultiplier,
                           amountPaidOff: 0,
                           title: "State Tax",
                           type: .tax,
-                          id: .init())
+                          id: .init(),
+                          queueSpot: -1)
                 )
             }
             if user.getWage().federalTaxPercentage > 0 {
-                expenses.append(
+                taxExpenses.append(
                     .init(amount: willEarn * user.getWage().federalTaxMultiplier,
                           amountPaidOff: 0,
                           title: "Federal Tax",
                           type: .tax,
-                          id: .init())
+                          id: .init(),
+                          queueSpot: -1)
                 )
             }
         }
-        return expenses
+        return taxExpenses
     }
 
     var tempPayoffs: [TempTodayPayoff] {
-        let payoffsToPay = taxesTempPayoffs + initialPayoffs
-        return payOfPayoffItems(with: haveEarned, payoffItems: payoffsToPay).reversed()
+        let payoffsToPay = taxesTempPayoffs + tempPayoffsMainStore
+        return payOffPayoffItems(with: haveEarned,
+                                 payoffItems: payoffsToPay)
+            .reversed()
     }
 
     var unspent: Double {
@@ -295,6 +372,8 @@ class TodayViewModel: ObservableObject {
         if !saveBannerWasDismissed {
             showBanner = shiftIsOver
         }
+//        updateTempPayoffsMainStore()
+        distributeMoney()
     }
 
     func deleteShift() {
@@ -364,6 +443,14 @@ class TodayViewModel: ObservableObject {
         completedShiftTempPayoffs = tempPayoffs.filter { $0.progressAmount > 0.01 }
 
         navManager.appendCorrectPath(newValue: .confirmToday)
+    }
+
+    func setPayoffMainStore(newArray: [TempTodayPayoff]) {
+        tempPayoffsMainStore = newArray
+            .filter{ $0.type != .tax }
+            .removingDuplicates()
+
+//        _ = payOffPayoffItems(with: haveEarned, payoffItems: tempPayoffs).removingDuplicates()
     }
 
     var shiftIsOver: Bool {
@@ -650,6 +737,48 @@ extension TodayViewModel {
             value = nextValue()
         }
     }
+    
+    
+    func distributeMoney() {
+        
+        let goals = user.getGoals().filter({ $0.optionalTempQNum != nil && $0.isPaidOff == false })
+        let expenses = user.getExpenses().filter({ $0.optionalTempQNum != nil && $0.isPaidOff == false })
+        
+        let unifiedItems: [PayoffItem] = (goals + expenses).sorted {
+            guard let firstQ = $0.optionalTempQNum else { return false }
+            guard let secondQ = $1.optionalQSlotNumber else { return true }
+
+            return firstQ < secondQ
+        }
+        
+        // Store the remaining amount available for payment
+        var remainingAmountAvailableToUseForPayment = haveEarned
+
+        // Iterate through each item in the given payoff items
+        for itemIndex in unifiedItems.indices {
+            // Make a mutable copy of the current item to work with
+            guard var thisItem = unifiedItems.safeGet(at: itemIndex) else { continue }
+            thisItem.tempPaidOffAmount = thisItem.amountPaidOff
+            // Calculate the amount to be paid off for this item, which is the lesser of the remaining amount or the amount remaining in the item
+            let amountToPayOff = min(remainingAmountAvailableToUseForPayment, thisItem.amountRemainingToPayOff)
+
+            // Increment the amount paid off for this item by the calculated amount
+            thisItem.tempPaidOffAmount = amountToPayOff + (thisItem.tempPaidOffAmount ?? 0)
+
+            // Decrease the remaining amount available to use for payment by the amount paid off
+            remainingAmountAvailableToUseForPayment -= amountToPayOff
+
+            // Check if there's no remaining amount available for payment, then exit the loop if so
+            if remainingAmountAvailableToUseForPayment <= 0 {
+                break
+            }
+        }
+        
+        try! viewContext.save()
+
+    }
+
+
 }
 
 // MARK: - Confirm Today Shift
@@ -674,3 +803,5 @@ extension TodayViewModel {
         return (shift, newAllocations)
     }
 }
+
+

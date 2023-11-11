@@ -61,7 +61,7 @@ struct MainView_TodayView : View {
                 .padding(.horizontal)
                 Spacer()
             }
-            .background(Color.white)
+            .background(UIColor.secondarySystemBackground.color)
             .frame(maxHeight: .infinity)
 
             Spacer()
@@ -78,7 +78,7 @@ struct MainView_TodayView : View {
                 .background {
                     VStack(spacing: 0) {
                         viewModel.settings.themeColor.frame(height: 500)
-                        Color.white.frame(maxHeight: .infinity)
+                        UIColor.secondarySystemBackground.color.frame(maxHeight: .infinity)
                     }
                     .ignoresSafeArea()
                 }
@@ -131,108 +131,22 @@ struct MainView_TodayView : View {
 }
 
 
-
-
-
-
-
-//// MARK: - MainView_TodayView
-//
-//struct MainView_TodayView: View {
-//    @EnvironmentObject var viewModel: TodayViewModel
-//
-//    var body: some View {
-//        ScrollView {
-//            VStack {
-//                headerAndBar
-//                Group {
-//                    Spacer()
-//                        .frame(height: 24)
-//                    // The totals section. The ones that tell progress by the second
-//                    TodayViewInfoRects()
-//                    Spacer()
-//                        .frame(height: 24)
-//                    // Payoff queue
-//                    if !viewModel.nonZeroPayoffItems.isEmpty {
-//                        TodayPaidOffStackWithHeader()
-//                    }
-//                    Spacer()
-//                        .frame(height: 24)
-//                    TodayViewItemizedBlocks()
-//                    Spacer()
-//                }
-//                .padding(.horizontal)
-//                Spacer()
-//            }
-//            .background(Color.white)
-//            .frame(maxHeight: .infinity)
-//
-//            Spacer()
-//        }
-//        .background {
-//            VStack(spacing: 0) {
-//                viewModel.settings.themeColor.frame(height: 500)
-//                Color.white.frame(maxHeight: .infinity)
-//            }
-//            .ignoresSafeArea()
-//        }
-//        .putInTemplate(displayMode: .inline)
-//        .safeAreaInset(edge: .top) {
-//            viewModel.settings.themeColor
-//                .ignoresSafeArea(edges: .top)
-//                .frame(height: 0)
-//        }
-//        .confirmationDialog("Delete shift?",
-//                            isPresented: $viewModel.showDeleteConfirmation,
-//                            titleVisibility: .visible) {
-//            Button("Delete", role: .destructive, action: viewModel.deleteShift)
-//        }
-//        .onReceive(viewModel.timer) { _ in
-//            viewModel.addSecond()
-//        }
-//        .onAppear(perform: viewModel.user.updateTempQueue)
-//        .bottomBanner(isVisible: $viewModel.showBanner,
-//                      mainText: "Shift Complete!",
-//                      buttonText: "Save",
-//                      buttonAction: {
-//                          viewModel.navManager.appendCorrectPath(newValue: NavManager.AllViews.confirmToday)
-//                      }, onDismiss: {
-//                          viewModel.saveBannerWasDismissed = true
-//                      })
-//    }
-//
-//    @ViewBuilder var headerAndBar: some View {
-//        VStack {
-//            VStack(spacing: -20) {
-//                TodayViewHeader()
-//
-//                TodayViewProgressBarAndLabels()
-//                    .padding(.horizontal)
-//            }
-//
-//            TodayViewSegmentPicker()
-//                .padding(.top)
-//        }
-//    }
-//}
-//
 // MARK: - NewTodayView_Previews
    
 struct NewTodayView_Previews: PreviewProvider {
+    
+    static let model: TodayViewModel = {
+        let model = TodayViewModel(user: User.testing)
+        return model
+    }()
+    
     static var previews: some View {
-        NavigationStack(path: .constant(NavManager.shared.todayViewNavPath)) {
-            NewTodayView()
-                .environmentObject(TodayViewModel.main)
-        }
+        MainView_TodayView()
+            .environmentObject(model)
+//        NavigationStack(path: .constant(NavManager.shared.todayViewNavPath)) {
+//            NewTodayView()
+//                .environmentObject(TodayViewModel.main)
+//        }
     }
 }
 
-// MARK: - TodayViewPreferenceKey
-
-struct TodayViewPreferenceKey: PreferenceKey {
-    static var defaultValue: CGRect = .zero
-
-    static func reduce(value: inout CGRect, nextValue: () -> CGRect) {
-        value = nextValue()
-    }
-}

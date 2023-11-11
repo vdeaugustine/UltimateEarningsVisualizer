@@ -9,80 +9,108 @@ import Foundation
 
 // MARK: - TempTodayPayoff
 
-public struct TempTodayPayoff: Identifiable, Equatable {
+public class TempTodayPayoff: Identifiable, Equatable, Hashable {
     var amount: Double
     let initialAmountPaidOff: Double
     var amountPaidOff: Double
     var amountRemaining: Double { amount - amountPaidOff }
     var progressAmount: Double { amountPaidOff - initialAmountPaidOff }
     var title: String
+    var queueSpot: Int16
     public let id: UUID
     let type: PayoffType
 
-    public static func == (lhs: Self, rhs: Self) -> Bool {
-        return lhs.amount == rhs.amount &&
-            lhs.amountPaidOff == rhs.amountPaidOff
+    public static func == (lhs: TempTodayPayoff, rhs: TempTodayPayoff) -> Bool {
+        lhs.amount == rhs.amount &&
+            lhs.amountPaidOff == rhs.amountPaidOff &&
+            lhs.title == rhs.title &&
+            lhs.id == rhs.id
     }
 
-    init(expense: Expense) {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(amount)
+        hasher.combine(amountPaidOff)
+        hasher.combine(title)
+        hasher.combine(id)
+    }
+
+    init?(expense: Expense) {
+        guard let qSpot = expense.optionalQSlotNumber else { return nil }
         self.amount = expense.amount
         self.amountPaidOff = expense.amountPaidOff
         self.initialAmountPaidOff = expense.amountPaidOff
         self.title = expense.titleStr
         self.id = expense.getID()
         self.type = .expense
+        self.queueSpot = qSpot
     }
 
-    init(goal: Goal) {
+    init?(goal: Goal) {
+        guard let qSpot = goal.optionalQSlotNumber else { return nil }
         self.amount = goal.amount
         self.amountPaidOff = goal.amountPaidOff
         self.initialAmountPaidOff = goal.amountPaidOff
         self.title = goal.titleStr
         self.id = goal.getID()
         self.type = .goal
+        self.queueSpot = qSpot
     }
 
-    init(amount: Double, amountPaidOff: Double, title: String, type: PayoffType, id: UUID) {
+    init(amount: Double,
+         amountPaidOff: Double,
+         title: String,
+         type: PayoffType,
+         id: UUID,
+         queueSpot: Int16) {
         self.amount = amount
         self.amountPaidOff = amountPaidOff
         self.initialAmountPaidOff = amountPaidOff
         self.id = id
         self.title = title
         self.type = type
+        self.queueSpot = queueSpot
     }
 
-    init(payoff: PayoffItem) {
+//    init(payoff: PayoffItem) {
+//        self.amount = payoff.amount
+//        self.amountPaidOff = payoff.amountPaidOff
+//        self.initialAmountPaidOff = payoff.amountPaidOff
+//        self.title = payoff.titleStr
+//        self.id = payoff.getID()
+//        self.type = .init(payoff)
+//        self.queueSpot = payoff.optionalTempQNum
+//    }
+    
+    init?(payoff: PayoffItem) {
+        guard let tempQSpot = payoff.optionalTempQNum else { return nil }
+        
         self.amount = payoff.amount
         self.amountPaidOff = payoff.amountPaidOff
         self.initialAmountPaidOff = payoff.amountPaidOff
         self.title = payoff.titleStr
         self.id = payoff.getID()
         self.type = .init(payoff)
+        self.queueSpot = tempQSpot
     }
-    
-    
+
     func getPayoffItem(user: User) -> PayoffItem {
         if let goal = user.getGoals().first(where: { $0.id == self.id }) {
             return goal
         }
-        
+
         if let expense = user.getExpenses().first(where: { $0.id == self.id }) {
             return expense
         }
-        
+
         fatalError("Error getting payoff item for temp payoff \(self)")
     }
-    
-    
-    
-    
 }
 
 // Function to pay off given items from a total amount available, returning a modified array of payoff items
-func payOfPayoffItems(with amount: Double, payoffItems: [TempTodayPayoff]) -> [TempTodayPayoff] {
+func payOffPayoffItems(with amount: Double, payoffItems: [TempTodayPayoff]) -> [TempTodayPayoff] {
     // Initialize an empty array to store the modified payoff items
     var newTemporaryPayoffItems: [TempTodayPayoff] = []
-    
+
     // Store the remaining amount available for payment
     var remainingAmountAvailableToUseForPayment = amount
 
@@ -93,13 +121,13 @@ func payOfPayoffItems(with amount: Double, payoffItems: [TempTodayPayoff]) -> [T
 
         // Calculate the amount to be paid off for this item, which is the lesser of the remaining amount or the amount remaining in the item
         let amountToPayOff = min(remainingAmountAvailableToUseForPayment, item.amountRemaining)
-        
+
         // Increment the amount paid off for this item by the calculated amount
         thisItem.amountPaidOff += amountToPayOff
-        
+
         // Decrease the remaining amount available to use for payment by the amount paid off
         remainingAmountAvailableToUseForPayment -= amountToPayOff
-        
+
         // Append the modified item to the new array
         newTemporaryPayoffItems.append(thisItem)
 

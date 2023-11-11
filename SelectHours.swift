@@ -85,7 +85,7 @@ struct SelectHours: View {
                                        endTime: viewModel.end,
                                        user: viewModel.user,
                                        context: viewModel.viewContext)
-                        viewModel.updateInitialPayoffs()
+                        viewModel.updateTempPayoffsMainStore()
                     }
 
                     // TODO: See if these are needed

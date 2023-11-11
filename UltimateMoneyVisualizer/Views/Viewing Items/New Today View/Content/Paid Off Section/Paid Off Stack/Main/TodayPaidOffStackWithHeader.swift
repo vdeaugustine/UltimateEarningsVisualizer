@@ -52,6 +52,6 @@ struct TodayPaidOffStackWithHeader: View {
 struct TodayPaidOffStackWithHeader_Previews: PreviewProvider {
     static var previews: some View {
         TodayPaidOffStackWithHeader()
-            .environmentObject(TodayViewModel.main)
+            .environmentObject(TodayViewModel(user: User.testing))
     }
 }

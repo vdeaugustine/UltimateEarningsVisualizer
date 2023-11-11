@@ -98,20 +98,20 @@ struct TodayViewPaidOffRect: View {
 
 // MARK: - TodayViewPaidOffRect_Previews
 
-struct TodayViewPaidOffRect_Previews: PreviewProvider {
-    static let tempPayoff: TempTodayPayoff = {
-        TempTodayPayoff(amount: 119.21,
-                        amountPaidOff: 117.77,
-                        title: "Testing this item",
-                        type: .expense,
-                        id: .init())
-    }()
-
-    static var previews: some View {
-        ZStack {
-            Color.targetGray
-            TodayViewPaidOffRect(item: .init(payoff: User.main.getQueue().first!))
-                .environmentObject(TodayViewModel.main)
-        }
-    }
-}
+//struct TodayViewPaidOffRect_Previews: PreviewProvider {
+//    static let tempPayoff: TempTodayPayoff = {
+//        TempTodayPayoff(amount: 119.21,
+//                        amountPaidOff: 117.77,
+//                        title: "Testing this item",
+//                        type: .expense,
+//                        id: .init())
+//    }()
+//
+//    static var previews: some View {
+//        ZStack {
+//            Color.targetGray
+//            TodayViewPaidOffRect(item: .init(payoff: User.main.getQueue().first!))
+//                .environmentObject(TodayViewModel.main)
+//        }
+//    }
+//}

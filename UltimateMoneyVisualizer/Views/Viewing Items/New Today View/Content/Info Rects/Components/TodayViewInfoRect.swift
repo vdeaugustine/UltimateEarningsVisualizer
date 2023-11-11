@@ -94,8 +94,11 @@ struct TodayViewInfoRect: View {
         }
         .frame(height: height ?? 124)
         .frame(maxWidth: 181, alignment: .leading)
+        .background {
+            UIColor.systemBackground.color
+        }
         .cornerRadius(20)
-        .modifier(ShadowForRect())
+//        .modifier(ShadowForRect())
     }
 }
 
