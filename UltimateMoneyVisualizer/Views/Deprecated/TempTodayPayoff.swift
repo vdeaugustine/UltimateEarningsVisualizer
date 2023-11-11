@@ -18,46 +18,51 @@ public struct TempTodayPayoff: Identifiable, Equatable {
     var title: String
     public let id: UUID
     let type: PayoffType
+    var queueSlotNumber: Int
 
     public static func == (lhs: Self, rhs: Self) -> Bool {
         return lhs.amount == rhs.amount &&
             lhs.amountPaidOff == rhs.amountPaidOff
     }
 
-    init(expense: Expense) {
+    init(expense: Expense, queueSlotNumber: Int) {
         self.amount = expense.amount
         self.amountPaidOff = expense.amountPaidOff
         self.initialAmountPaidOff = expense.amountPaidOff
         self.title = expense.titleStr
         self.id = expense.getID()
         self.type = .expense
+        self.queueSlotNumber = queueSlotNumber
     }
 
-    init(goal: Goal) {
+    init(goal: Goal, queueSlotNumber: Int) {
         self.amount = goal.amount
         self.amountPaidOff = goal.amountPaidOff
         self.initialAmountPaidOff = goal.amountPaidOff
         self.title = goal.titleStr
         self.id = goal.getID()
         self.type = .goal
+        self.queueSlotNumber = queueSlotNumber
     }
 
-    init(amount: Double, amountPaidOff: Double, title: String, type: PayoffType, id: UUID) {
+    init(amount: Double, amountPaidOff: Double, title: String, type: PayoffType, id: UUID, queueSlotNumber: Int) {
         self.amount = amount
         self.amountPaidOff = amountPaidOff
         self.initialAmountPaidOff = amountPaidOff
         self.id = id
         self.title = title
         self.type = type
+        self.queueSlotNumber = queueSlotNumber
     }
 
-    init(payoff: PayoffItem) {
+    init(payoff: PayoffItem, queueSlotNumber: Int) {
         self.amount = payoff.amount
         self.amountPaidOff = payoff.amountPaidOff
         self.initialAmountPaidOff = payoff.amountPaidOff
         self.title = payoff.titleStr
         self.id = payoff.getID()
         self.type = .init(payoff)
+        self.queueSlotNumber = queueSlotNumber
     }
     
     

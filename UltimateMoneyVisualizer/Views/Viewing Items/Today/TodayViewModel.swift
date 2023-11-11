@@ -60,15 +60,15 @@ class TodayViewModel: ObservableObject {
 
     init(context: NSManagedObjectContext = PersistenceController.context) {
         self.viewContext = context
-        let allQueue = User.main.getQueue().filter { !$0.isPaidOff }
-
-        self.initialPayoffs = allQueue.map { TempTodayPayoff(payoff: $0) }
+        self.initialPayoffs = []
+        updateInitialPayoffs()
     }
 
     func updateInitialPayoffs() {
         let allQueue = user.getQueue().filter { !$0.isPaidOff }
-
-        initialPayoffs = allQueue.map { TempTodayPayoff(payoff: $0) }
+        initialPayoffs = allQueue.enumerated().map { index, element in
+            TempTodayPayoff(payoff: element, queueSlotNumber: index)
+        }
     }
 
     // MARK: - Computed Properties
@@ -203,7 +203,8 @@ class TodayViewModel: ObservableObject {
                           amountPaidOff: 0,
                           title: "State Tax",
                           type: .tax,
-                          id: .init())
+                          id: .init(),
+                          queueSlotNumber: 0)
                 )
             }
             if user.getWage().federalTaxPercentage > 0 {
@@ -212,7 +213,8 @@ class TodayViewModel: ObservableObject {
                           amountPaidOff: 0,
                           title: "Federal Tax",
                           type: .tax,
-                          id: .init())
+                          id: .init(),
+                          queueSlotNumber: 0)
                 )
             }
         }
@@ -221,7 +223,14 @@ class TodayViewModel: ObservableObject {
 
     var tempPayoffs: [TempTodayPayoff] {
         let payoffsToPay = taxesTempPayoffs + initialPayoffs
-        return payOfPayoffItems(with: haveEarned, payoffItems: payoffsToPay).reversed()
+        return payOfPayoffItems(with: haveEarned, payoffItems: payoffsToPay)
+            .sorted(by: {
+                if $0.type == .tax { return true }
+                if $1.type == .tax { return false }
+
+                return $0.queueSlotNumber < $1.queueSlotNumber
+            }
+            )
     }
 
     var unspent: Double {

@@ -96,7 +96,9 @@ public extension TodayShift {
     func finalizeAndSave(user: User, context: NSManagedObjectContext) throws {
         guard let startTime, let endTime else { throw NSError(domain: "Could not get start time and end time for TodayShift", code: 123) }
 
-        let initialPayoffs = user.getQueue().map { TempTodayPayoff(payoff: $0) }
+        let initialPayoffs = user.getQueue().enumerated().map { index, element in
+            TempTodayPayoff(payoff: element, queueSlotNumber: index)
+        }
 
         let haveEarned = totalWillEarn
 
