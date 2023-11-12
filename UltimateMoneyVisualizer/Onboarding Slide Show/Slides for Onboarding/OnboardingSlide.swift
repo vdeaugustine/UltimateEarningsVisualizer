@@ -15,25 +15,24 @@ struct OnboardingSlide: View {
     let imageString: String
     let header: String
     let bodyTexts: [String]
+    let action: () -> Void
     
-    init(title: String, imageString: String, header: String, bodyTexts: [String]) {
+    init(title: String, imageString: String, header: String, bodyTexts: [String], _ action: @escaping () -> Void) {
         self.title = title
         self.imageString = imageString
         self.header = header
         self.bodyTexts = bodyTexts
+        self.action = action
     }
     
-    init(slide: OnboardingSlideShow.Slide) {
+    init(slide: OnboardingSlideShow.Slide, _ action: @escaping () -> Void) {
         self.title = slide.title
         self.imageString = slide.imageString
         self.header = slide.header
         self.bodyTexts = slide.bodyTexts
+        self.action = action
     }
     
-//    Text("Watch your money grow in real-time as you earn it")
-//        .layoutPriority(2)
-//    Text("Look back on previous shifts to see how much you made each day")
-//        .layoutPriority(2)
     var body: some View {
         VStack {
             Text(title)
@@ -73,7 +72,15 @@ struct OnboardingSlide: View {
                 .kerning(0.5)
             }
             .layoutPriority(1)
+            
+            
+//            Button("Learn More") {
+//                action()
+//            }
+//            .padding(.top, 30)
+            
         }
+        .frame(maxWidth: .infinity)
         .padding()
         .background {
             GeometryReader { geo in
@@ -84,7 +91,8 @@ struct OnboardingSlide: View {
             }
                 
         }
-        
+        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .modifier(ShadowForRect())
         
     }
 }
@@ -94,5 +102,9 @@ struct OnboardingSlide: View {
 //    Text("Look back on previous shifts to see how much you made each day")
 //        .layoutPriority(2)
 #Preview {
-    OnboardingSlide(title: "Shifts", imageString: "timeToMoney", header: "Track your earnings", bodyTexts: ["Watch your money grow in real-time as you earn it", "Look back on previous shifts to see how much you made each day"])
+    ZStack {
+        UIColor.secondarySystemBackground.color
+        OnboardingSlide(title: "Shifts", imageString: "timeToMoney", header: "Track your earnings", bodyTexts: ["Watch your money grow in real-time as you earn it", "Look back on previous shifts to see how much you made each day"]) {}
+            .padding(20)
+    }
 }

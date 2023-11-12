@@ -12,50 +12,138 @@ import SwiftUI
 struct OnboardingSlideShow: View {
     @State private var currentIndex: Int = 0
 
-    @State private var height: CGFloat = 300
-
     struct Slide: Identifiable, Equatable, Hashable {
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(id)
+        }
+
+        static func == (lhs: Slide, rhs: Slide) -> Bool {
+            return lhs.id == rhs.id
+        }
+
+        let topic: Topic
         let title: String
         let imageString: String
         let header: String
         let bodyTexts: [String]
         let id = UUID()
+
+        init(topic: Topic, imageString: String, header: String, bodyTexts: [String]) {
+            self.title = topic.rawValue
+            self.imageString = imageString
+            self.header = header
+            self.bodyTexts = bodyTexts
+            self.topic = topic
+        }
     }
 
-    let slides: [Slide] = [Slide(title: "Shifts",
+    enum Topic: String, CaseIterable, Identifiable {
+        var id: Self { self }
+
+        case shifts = "Shifts"
+        case goals = "Goals"
+        case expenses = "Expenses"
+        case allocations = "Allocations"
+        case iCloud
+    }
+
+    @State private var learnMoreTopic: Topic? = nil
+
+    let slides: [Slide] = [Slide(topic: .shifts,
                                  imageString: "timeToMoney",
                                  header: "Track your earnings",
                                  bodyTexts: ["Watch your money grow in real-time as you earn it",
                                              "Look back on previous shifts to see how much you made each day"]),
 
-                           Slide(title: "Goals", imageString: "goalJar", header: "Something to work toward", bodyTexts: ["Set an amount and a date, and watch yourself progress towards it.", "Motivate yourself by seeing the goal get closer."]),
+                           Slide(topic: .goals, imageString: "goalJar", header: "Something to work toward", bodyTexts: ["Set an amount and a date, and watch yourself progress towards it.", "Motivate yourself by seeing the goal get closer."]),
 
-                           Slide(title: "Expenses", imageString: "expense", header: "Cross it off the list", bodyTexts: ["Track recurring or one-time expenses.", "Work down your list until you see your earnings going right into your pocket"]),
+                           Slide(topic: .expenses, imageString: "expense", header: "Cross it off the list", bodyTexts: ["Track recurring or one-time expenses.", "Work down your list until you see your earnings going right into your pocket"]),
 
-                           Slide(title: "Allocations", imageString: "timeToExpense", header: "Visual cash flow", bodyTexts: ["Use the money you earn or save to payoff expenses and goals!", "Every time an item is paid off, you can see exactly where that money came from."])]
+                           Slide(topic: .allocations, imageString: "timeToExpense", header: "Visual cash flow", bodyTexts: ["Use the money you earn or save to payoff expenses and goals!", "Every time an item is paid off, you can see exactly where that money came from."]),
+
+                           Slide(topic: .iCloud,
+                                 imageString: "cloudLock",
+                                 header: "Secure Backup Assurance",
+                                 bodyTexts: ["Your data is securely stored in iCloud with Apple's advanced backup system",
+                                             "Sync and restore your data seamlessly, even after deleting and reinstalling the app"])]
 
     var body: some View {
         VStack {
-            Text("Get to know the features")
-
-            CustomCarousel(index: $currentIndex, items: slides, spacing: 10, cardPadding: 80, id: \.self) { slide, _ in
+            CustomCarousel(index: $currentIndex,
+                           items: slides,
+                           spacing: 10,
+                           cardPadding: 60,
+                           id: \.self) { slide, _ in
 
                 // MARK: YOUR CUSTOM CELL VIEW
 
-                OnboardingSlide(slide: slide)
-                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                    .modifier(ShadowForRect())
+                Button {
+                    learnMoreTopic = slide.topic
+                } label: {
+                    OnboardingSlide(slide: slide) {}
+                }
+                .buttonStyle(.plain)
             }
 //            .padding(.horizontal, -15)
 //            .padding(.vertical)
 
 //            .frame(height: 500)
 
-            Button("Tap") {
-                withAnimation {
-                    currentIndex += 1
+            HStack(spacing: 40) {
+                if currentIndex > 0 {
+                    Button {
+                        withAnimation {
+                            currentIndex -= 1
+                        }
+                    } label: {
+                        Image(systemName: "arrow.left")
+                            .font(.title)
+                            .foregroundStyle(.white)
+                            .padding()
+                            .padding(.horizontal)
+                            .padding(.horizontal, 15)
+                            .frame(maxHeight: .infinity)
+                            .background(.blue)
+                            
+                            .clipShape(RoundedRectangle(cornerRadius: 20))
+                    }
+                }
+
+                if currentIndex < (slides.count - 1) {
+                    Button {
+                        withAnimation {
+                            currentIndex += 1
+                        }
+                    } label: {
+                        Image(systemName: "arrow.right")
+                            .font(.title)
+                            .foregroundStyle(.white)
+                            .padding()
+                            .padding(.horizontal)
+                            .padding(.horizontal, 15)
+                            .frame(maxHeight: .infinity)
+                            .background(.blue)
+                            .clipShape(RoundedRectangle(cornerRadius: 20))
+                    }
+                }
+                else {
+                    Button {
+                       
+                    } label: {
+                        Image(systemName: "checkmark")
+                            .font(.title)
+                            .foregroundStyle(.white)
+                            .padding()
+                            .padding(.horizontal)
+                            .padding(.horizontal, 15)
+                            .frame(maxHeight: .infinity)
+                            .background(.green)
+                            .clipShape(RoundedRectangle(cornerRadius: 20))
+                    }
                 }
             }
+            .frame(maxHeight: 40)
+            .padding(.bottom)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background {
@@ -66,11 +154,22 @@ struct OnboardingSlideShow: View {
             }
             .ignoresSafeArea()
         }
-        .onChangeProper(of: height) {
-            print("height is :", height)
-        }
         .putInTemplate(title: "Features")
         .putInNavView(.large)
+        .sheet(item: $learnMoreTopic) { topic in
+            switch topic {
+                case .shifts:
+                    ShiftInfoView()
+                case .goals:
+                    GoalsInfoView()
+                case .expenses:
+                    ShiftInfoView()
+                case .allocations:
+                    ShiftInfoView()
+                case .iCloud:
+                    ShiftInfoView()
+            }
+        }
     }
 }
 
@@ -129,32 +228,30 @@ struct CustomCarousel<Content: View, Item, ID>: View where Item: RandomAccessCol
             .onChangeProper(of: index) {
                 if index >= items.count {
                     index = 0
-                    return 
+                    return
                 }
-                    withAnimation(.easeInOut(duration: 0.25)) {
-                        // MARK: Removing Extra Space
+                withAnimation(.easeInOut(duration: 0.25)) {
+                    // MARK: Removing Extra Space
 
-                        // Why /2 -> Because We Need Both Sides Need to Be Visible
-                        let extraSpace = (cardPadding / 2) - spacing
-                        offset = -((cardWidth * CGFloat(index))) + extraSpace
+                    // Why /2 -> Because We Need Both Sides Need to Be Visible
+                    let extraSpace = (cardPadding / 2) - spacing
+                    offset = -(cardWidth * CGFloat(index)) + extraSpace
 
-                        // MARK: Calculating Rotation
+                    // MARK: Calculating Rotation
 
-                        let progress = offset / cardWidth
-                        // Since Index Starts With Zero
-                    }
-                    lastStoredOffset = offset
-                
+                    let progress = offset / cardWidth
+                    // Since Index Starts With Zero
+                }
+                lastStoredOffset = offset
             }
         }
-        .padding(.top, 60)
+//        .padding(.top, 60)
         .onAppear {
             let extraSpace = (cardPadding / 2) - spacing
             offset = extraSpace
             lastStoredOffset = extraSpace
         }
         .animation(.easeInOut, value: translation == 0)
-        
     }
 
     // MARK: Moving Current Item Up

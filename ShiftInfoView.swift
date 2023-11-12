@@ -115,7 +115,8 @@ struct ShiftInfoView: View {
             }
             .frame(maxWidth: .infinity)
         }
-
+        .padding(.vertical)
+        .presentationDetents([.fraction(0.999)])
         .background {
             Color(.secondarySystemBackground)
                 .ignoresSafeArea()
