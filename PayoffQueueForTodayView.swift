@@ -58,13 +58,11 @@ struct PayoffQueueForTodayView: View {
                                     newArr.remove(at: index)
                                 }
                             }
-                            
+
                             var finalArr: [TempTodayPayoff] = []
                             for (index, element) in newArr.enumerated() {
                                 var newElement = element
-                                print("old queue number for", newElement.title, newElement.queueSlotNumber!)
                                 newElement.queueSlotNumber = index
-                                print("new queue number for", newElement.title, newElement.queueSlotNumber!)
                                 finalArr.append(newElement)
                             }
 
@@ -72,6 +70,22 @@ struct PayoffQueueForTodayView: View {
                         }
                     }
 
+                })
+                .onMove(perform: { indices, newOffset in
+                    var newArr = vm.initialPayoffs
+                    
+                    newArr.move(fromOffsets: indices, toOffset: newOffset)
+                    
+                    var finalArr: [TempTodayPayoff] = []
+                    for (index, element) in newArr.enumerated() {
+                        var newElement = element
+                        print("old queue number for", newElement.title, newElement.queueSlotNumber!)
+                        newElement.queueSlotNumber = index
+                        print("new queue number for", newElement.title, newElement.queueSlotNumber!)
+                        finalArr.append(newElement)
+                    }
+
+                    vm.initialPayoffs = finalArr
                 })
                 .listRowSeparator(.hidden)
             }
