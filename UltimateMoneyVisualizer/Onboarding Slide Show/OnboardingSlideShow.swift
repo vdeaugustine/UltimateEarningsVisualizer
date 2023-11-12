@@ -68,7 +68,7 @@ struct OnboardingSlideShow: View {
                                              "Sync and restore your data seamlessly, even after deleting and reinstalling the app"])]
 
     var body: some View {
-        VStack {
+        VStack(spacing: 40) {
             CustomCarousel(index: $currentIndex,
                            items: slides,
                            spacing: 10,
@@ -77,13 +77,18 @@ struct OnboardingSlideShow: View {
 
                 // MARK: YOUR CUSTOM CELL VIEW
 
-                Button {
-                    learnMoreTopic = slide.topic
-                } label: {
+//                Button {
+//                    learnMoreTopic = slide.topic
+//                } label: {
+                VStack {
                     OnboardingSlide(slide: slide) {}
+                    Text("Tap to learn more")
+                    Spacer()
                 }
-                .buttonStyle(.plain)
+//                }
+//                .buttonStyle(.plain)
             }
+            .padding(.top)
 //            .padding(.horizontal, -15)
 //            .padding(.vertical)
 
@@ -104,7 +109,7 @@ struct OnboardingSlideShow: View {
                             .padding(.horizontal, 15)
                             .frame(maxHeight: .infinity)
                             .background(.blue)
-                            
+
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                     }
                 }
@@ -125,10 +130,8 @@ struct OnboardingSlideShow: View {
                             .background(.blue)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                     }
-                }
-                else {
+                } else {
                     Button {
-                       
                     } label: {
                         Image(systemName: "checkmark")
                             .font(.title)
@@ -154,7 +157,7 @@ struct OnboardingSlideShow: View {
             }
             .ignoresSafeArea()
         }
-        .putInTemplate(title: "Features")
+        .putInTemplate(title: "Features", displayMode: .inline)
         .putInNavView(.large)
         .sheet(item: $learnMoreTopic) { topic in
             switch topic {
@@ -185,7 +188,16 @@ struct CustomCarousel<Content: View, Item, ID>: View where Item: RandomAccessCol
     var items: Item
     @Binding var index: Int
 
-    init(index: Binding<Int>, items: Item, spacing: CGFloat = 30, cardPadding: CGFloat = 80, id: KeyPath<Item.Element, ID>, @ViewBuilder content: @escaping (Item.Element, CGSize) -> Content) {
+    @State private var maxHeight: CGFloat = 0
+
+    init(index: Binding<Int>,
+         items: Item,
+         spacing: CGFloat = 30,
+         cardPadding: CGFloat = 80,
+         id: KeyPath<Item.Element,
+             ID>,
+         @ViewBuilder content: @escaping (Item.Element,
+                                          CGSize) -> Content) {
         self.content = content
         self.id = id
         self._index = index
@@ -208,10 +220,22 @@ struct CustomCarousel<Content: View, Item, ID>: View where Item: RandomAccessCol
             LazyHStack(spacing: spacing) {
                 ForEach(items, id: id) { item in
                     let index = indexOf(item: item)
-                    content(item, CGSize(width: size.width - cardPadding, height: size.height))
+                    content(item,
+                            CGSize(width: size.width - cardPadding,
+                                   height: size.height))
                         .offset(y: offsetY(index: index, cardWidth: cardWidth))
                         .frame(width: size.width - cardPadding, height: size.height)
                         .contentShape(Rectangle())
+                        .background {
+                            GeometryReader { secondGeo in
+                                Color.clear.onAppear {
+                                    let height = secondGeo.size.height
+                                    maxHeight = max(height, maxHeight)
+                                    print("max height", maxHeight)
+                                }
+                            }
+                        }
+                        
                 }
             }
             .padding(.horizontal, spacing)
@@ -239,7 +263,6 @@ struct CustomCarousel<Content: View, Item, ID>: View where Item: RandomAccessCol
 
                     // MARK: Calculating Rotation
 
-                    let progress = offset / cardWidth
                     // Since Index Starts With Zero
                 }
                 lastStoredOffset = offset
@@ -252,25 +275,79 @@ struct CustomCarousel<Content: View, Item, ID>: View where Item: RandomAccessCol
             lastStoredOffset = extraSpace
         }
         .animation(.easeInOut, value: translation == 0)
+        .offset(y: 60)
     }
 
     // MARK: Moving Current Item Up
 
-    func offsetY(index: Int, cardWidth: CGFloat) -> CGFloat{
-        // MARK: We're Converting The Current Translation, Not Whole Offset
+//    func offsetY(index: Int, cardWidth: CGFloat) -> CGFloat{
+//        // MARK: We're Converting The Current Translation, Not Whole Offset
+//
+//        // That's Why Created @GestureState to Hold the Current Translation Data
+//
+//        // Converting Translation to -60...60
+//        let progress = ((translation < 0 ? translation : -translation) / cardWidth) * 60
+//        let yOffset = -progress < 60 ? progress : -(progress + 120)
+//
+//        // MARK: Checking Previous, Next And In-Between Offsets
+//
+//        let previous = (index - 1) == self.index ? (translation < 0 ? yOffset : -yOffset) : 0
+//        let next = (index + 1) == self.index ? (translation < 0 ? -yOffset : yOffset) : 0
+//        let In_Between = (index - 1) == self.index ? previous : next
+//
+//        return index == self.index ? -60 - yOffset : In_Between
+//    }
 
-        // That's Why Created @GestureState to Hold the Current Translation Data
+    func offsetY(index: Int, cardWidth: CGFloat) -> CGFloat {
+        // MARK: Handling the Current Translation
 
-        // Converting Translation to -60...60
-        let progress = ((translation < 0 ? translation : -translation) / cardWidth) * 60
-        let yOffset = -progress < 60 ? progress : -(progress + 120)
+        // This is where the current drag translation is converted into a vertical offset.
+        // The translation value is stored in a @GestureState property which updates during the drag gesture.
+        // The aim is to convert the drag translation to a vertical offset within a range of -60 to 60.
 
-        // MARK: Checking Previous, Next And In-Between Offsets
+        // Calculate 'progress' as a proportion of the translation to the card width, then scale it to -60 to 60.
+        // If the translation is negative (dragging left), it keeps the negative sign, otherwise, it becomes negative.
 
+        // Determine if the translation is negative, and if so, maintain its sign; otherwise, make it negative.
+        let adjustedTranslation = translation < 0 ? translation : -translation
+
+        // Calculate the progress as a proportion of the translation relative to the card width.
+        let proportionOfTranslation = adjustedTranslation / cardWidth
+
+        // Scale the progress to a range of -60 to 60.
+        let progress = proportionOfTranslation * 60
+
+        // 'yOffset' determines the vertical offset of the current card.
+        // If 'progress' is less than 60, 'yOffset' is equal to 'progress'.
+        // Otherwise, it's the negative of 'progress' plus 120, effectively inverting the direction.
+        // Check if the negative value of 'progress' is less than 60.
+        let isNegativeProgressLessThan60 = -progress < 60
+
+        // If 'isNegativeProgressLessThan60' is true, then 'yOffset' is equal to 'progress'.
+        // Otherwise, it's the negative of 'progress' plus 120.
+        let yOffset = isNegativeProgressLessThan60 ? progress : -(progress + 120)
+
+        // MARK: Calculating Offsets for Adjacent Cards
+
+        // The function calculates different offsets for the previous, next, and in-between cards.
+
+        // 'previous' calculates the offset for the card just before the current one.
+        // If the previous card is the current one, it uses 'yOffset' or '-yOffset' based on the translation direction.
+        // If not, it's set to 0, meaning no vertical offset for non-adjacent cards.
         let previous = (index - 1) == self.index ? (translation < 0 ? yOffset : -yOffset) : 0
+
+        // 'next' calculates the offset for the card just after the current one.
+        // The logic is similar to 'previous', but the offset is applied to the next card instead.
         let next = (index + 1) == self.index ? (translation < 0 ? -yOffset : yOffset) : 0
+
+        // 'In_Between' determines the offset for the card that is either immediately before or after the current card.
+        // If the card is just before the current one, 'In_Between' is equal to 'previous'.
+        // If not, it takes the value of 'next'.
         let In_Between = (index - 1) == self.index ? previous : next
 
+        // The function returns the calculated vertical offset for the current card.
+        // If the card at the given index is the current one, it applies a fixed -60 offset and adjusts it with 'yOffset'.
+        // For other cards, it uses the 'In_Between' value calculated above.
         return index == self.index ? -60 - yOffset : In_Between
     }
 

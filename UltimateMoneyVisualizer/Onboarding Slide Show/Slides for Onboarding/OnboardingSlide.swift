@@ -39,6 +39,7 @@ struct OnboardingSlide: View {
                 .font(.title)
                 .fontWeight(.bold)
                 .kerning(1)
+//                .padding(.top)
             
             Image(imageString)
                 .resizable()
@@ -80,7 +81,7 @@ struct OnboardingSlide: View {
 //            .padding(.top, 30)
             
         }
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding()
         .background {
             GeometryReader { geo in
