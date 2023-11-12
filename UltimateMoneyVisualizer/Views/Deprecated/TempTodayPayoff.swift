@@ -18,7 +18,7 @@ public struct TempTodayPayoff: Identifiable, Equatable {
     var title: String
     public let id: UUID
     let type: PayoffType
-    var queueSlotNumber: Int
+    var queueSlotNumber: Int?
 
     public static func == (lhs: Self, rhs: Self) -> Bool {
         return lhs.amount == rhs.amount &&

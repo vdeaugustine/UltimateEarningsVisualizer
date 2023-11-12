@@ -17,8 +17,9 @@ struct TodayViewPaidOffRect: View {
     var body: some View {
         TodayPaidOffRectContainer {
             HStack {
-                if item.type != .tax {
-                    Text("\((item.queueSlotNumber + 1)).")
+                if item.type != .tax,
+                   let slotNumber = item.queueSlotNumber {
+                    Text("\((slotNumber + 1)).")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }

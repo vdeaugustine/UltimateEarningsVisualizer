@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Vin
 
 // MARK: - PayoffQueueForTodayView
 
@@ -18,13 +19,62 @@ struct PayoffQueueForTodayView: View {
 
     @State private var showSelectionView = false // Add this state variable
 
+    var taxes: [TempTodayPayoff] {
+        vm.tempPayoffs.filter { $0.type == .tax }
+    }
+
+    var nonTaxes: [TempTodayPayoff] {
+        vm.tempPayoffs.filter {
+            $0.queueSlotNumber != nil &&
+                $0.type != .tax
+        }
+    }
+
     var body: some View {
         List {
-            ForEach(vm.tempPayoffs) { item in
-                TodayViewPaidOffRect(item: item)
-                    .environmentObject(vm)
+//            Section("Taxes") {
+//                ForEach(taxes) { item in
+//                    TodayViewPaidOffRect(item: item)
+//                        .environmentObject(vm)
+//                }
+//
+//                .listRowSeparator(.hidden)
+//            }
+//
+
+            Section {
+                ForEach(nonTaxes, id: \.queueSlotNumber) { item in
+                    TodayViewPaidOffRect(item: item)
+                        .environmentObject(vm)
+                }
+                .onDelete(perform: { indexSet in
+
+                    for index in indexSet {
+                        if let itemID = nonTaxes.safeGet(at: index)?.id {
+                            var newArr = vm.initialPayoffs
+
+                            for (index, element) in newArr.enumerated() {
+                                if element.id == itemID {
+                                    newArr.remove(at: index)
+                                }
+                            }
+                            
+                            var finalArr: [TempTodayPayoff] = []
+                            for (index, element) in newArr.enumerated() {
+                                var newElement = element
+                                print("old queue number for", newElement.title, newElement.queueSlotNumber!)
+                                newElement.queueSlotNumber = index
+                                print("new queue number for", newElement.title, newElement.queueSlotNumber!)
+                                finalArr.append(newElement)
+                            }
+
+                            vm.initialPayoffs = finalArr
+                        }
+                    }
+
+                })
+                .listRowSeparator(.hidden)
             }
-            .listRowSeparator(.hidden)
         }
         .listStyle(.grouped)
         .background {
