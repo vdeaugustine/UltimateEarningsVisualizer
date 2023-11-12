@@ -80,11 +80,7 @@ struct OnboardingSlideShow: View {
 //                Button {
 //                    learnMoreTopic = slide.topic
 //                } label: {
-                VStack {
-                    OnboardingSlide(slide: slide) {}
-                    Text("Tap to learn more")
-                    Spacer()
-                }
+                OnboardingSlide(slide: slide) {}
 //                }
 //                .buttonStyle(.plain)
             }
@@ -157,7 +153,7 @@ struct OnboardingSlideShow: View {
             }
             .ignoresSafeArea()
         }
-        .putInTemplate(title: "Features", displayMode: .inline)
+        .putInTemplate(title: "Features", displayMode: .large)
         .putInNavView(.large)
         .sheet(item: $learnMoreTopic) { topic in
             switch topic {
@@ -189,6 +185,8 @@ struct CustomCarousel<Content: View, Item, ID>: View where Item: RandomAccessCol
     @Binding var index: Int
 
     @State private var maxHeight: CGFloat = 0
+
+    let mainYOffset: CGFloat = 40
 
     init(index: Binding<Int>,
          items: Item,
@@ -235,7 +233,6 @@ struct CustomCarousel<Content: View, Item, ID>: View where Item: RandomAccessCol
                                 }
                             }
                         }
-                        
                 }
             }
             .padding(.horizontal, spacing)
@@ -268,14 +265,13 @@ struct CustomCarousel<Content: View, Item, ID>: View where Item: RandomAccessCol
                 lastStoredOffset = offset
             }
         }
-//        .padding(.top, 60)
         .onAppear {
             let extraSpace = (cardPadding / 2) - spacing
             offset = extraSpace
             lastStoredOffset = extraSpace
         }
         .animation(.easeInOut, value: translation == 0)
-        .offset(y: 60)
+        .offset(y: mainYOffset)
     }
 
     // MARK: Moving Current Item Up
@@ -285,9 +281,9 @@ struct CustomCarousel<Content: View, Item, ID>: View where Item: RandomAccessCol
 //
 //        // That's Why Created @GestureState to Hold the Current Translation Data
 //
-//        // Converting Translation to -60...60
-//        let progress = ((translation < 0 ? translation : -translation) / cardWidth) * 60
-//        let yOffset = -progress < 60 ? progress : -(progress + 120)
+//        // Converting Translation to -mainYOffset...mainYOffset
+//        let progress = ((translation < 0 ? translation : -translation) / cardWidth) * mainYOffset
+//        let yOffset = -progress < mainYOffset ? progress : -(progress + mainYOffset * 2)
 //
 //        // MARK: Checking Previous, Next And In-Between Offsets
 //
@@ -295,7 +291,7 @@ struct CustomCarousel<Content: View, Item, ID>: View where Item: RandomAccessCol
 //        let next = (index + 1) == self.index ? (translation < 0 ? -yOffset : yOffset) : 0
 //        let In_Between = (index - 1) == self.index ? previous : next
 //
-//        return index == self.index ? -60 - yOffset : In_Between
+//        return index == self.index ? -mainYOffset - yOffset : In_Between
 //    }
 
     func offsetY(index: Int, cardWidth: CGFloat) -> CGFloat {
@@ -303,9 +299,9 @@ struct CustomCarousel<Content: View, Item, ID>: View where Item: RandomAccessCol
 
         // This is where the current drag translation is converted into a vertical offset.
         // The translation value is stored in a @GestureState property which updates during the drag gesture.
-        // The aim is to convert the drag translation to a vertical offset within a range of -60 to 60.
+        // The aim is to convert the drag translation to a vertical offset within a range of -mainYOffset to mainYOffset.
 
-        // Calculate 'progress' as a proportion of the translation to the card width, then scale it to -60 to 60.
+        // Calculate 'progress' as a proportion of the translation to the card width, then scale it to -mainYOffset to mainYOffset.
         // If the translation is negative (dragging left), it keeps the negative sign, otherwise, it becomes negative.
 
         // Determine if the translation is negative, and if so, maintain its sign; otherwise, make it negative.
@@ -314,18 +310,18 @@ struct CustomCarousel<Content: View, Item, ID>: View where Item: RandomAccessCol
         // Calculate the progress as a proportion of the translation relative to the card width.
         let proportionOfTranslation = adjustedTranslation / cardWidth
 
-        // Scale the progress to a range of -60 to 60.
-        let progress = proportionOfTranslation * 60
+        // Scale the progress to a range of -mainYOffset to mainYOffset.
+        let progress = proportionOfTranslation * mainYOffset
 
         // 'yOffset' determines the vertical offset of the current card.
-        // If 'progress' is less than 60, 'yOffset' is equal to 'progress'.
-        // Otherwise, it's the negative of 'progress' plus 120, effectively inverting the direction.
-        // Check if the negative value of 'progress' is less than 60.
-        let isNegativeProgressLessThan60 = -progress < 60
+        // If 'progress' is less than mainYOffset, 'yOffset' is equal to 'progress'.
+        // Otherwise, it's the negative of 'progress' plus mainYOffset * 2, effectively inverting the direction.
+        // Check if the negative value of 'progress' is less than mainYOffset.
+        let isNegativeProgressLessThanMainYOffset = -progress < mainYOffset
 
-        // If 'isNegativeProgressLessThan60' is true, then 'yOffset' is equal to 'progress'.
-        // Otherwise, it's the negative of 'progress' plus 120.
-        let yOffset = isNegativeProgressLessThan60 ? progress : -(progress + 120)
+        // If 'isNegativeProgressLessThanmainYOffset' is true, then 'yOffset' is equal to 'progress'.
+        // Otherwise, it's the negative of 'progress' plus mainYOffset * 2.
+        let yOffset = isNegativeProgressLessThanMainYOffset ? progress : -(progress + (mainYOffset * 2))
 
         // MARK: Calculating Offsets for Adjacent Cards
 
@@ -346,9 +342,9 @@ struct CustomCarousel<Content: View, Item, ID>: View where Item: RandomAccessCol
         let In_Between = (index - 1) == self.index ? previous : next
 
         // The function returns the calculated vertical offset for the current card.
-        // If the card at the given index is the current one, it applies a fixed -60 offset and adjusts it with 'yOffset'.
+        // If the card at the given index is the current one, it applies a fixed -mainYOffset offset and adjusts it with 'yOffset'.
         // For other cards, it uses the 'In_Between' value calculated above.
-        return index == self.index ? -60 - yOffset : In_Between
+        return index == self.index ? -mainYOffset - yOffset : In_Between
     }
 
     // MARK: Item Index
