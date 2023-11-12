@@ -77,5 +77,5 @@ struct NoContentPlaceholderCustomView: View {
     NoContentPlaceholderCustomView(title: "Today's Shift",
                                    subTitle: "You do not have a shift scheduled for today.",
                                    imageSystemName: "calendar.badge.clock")
-    .preferredColorScheme(.dark)
+    
 }

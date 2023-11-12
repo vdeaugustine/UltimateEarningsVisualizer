@@ -152,7 +152,12 @@ struct ConfirmTodayShift_UseThisOne: View {
                 viewModel.user.todayShift = nil
                 try? viewModel.viewContext.save()
                 NavManager.shared.todayViewNavPath = .init()
-                NavManager.shared.todayViewNavPath.append(NavManager.AllViews.shift(newShift))
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                    NavManager.shared.todayViewNavPath.append(NavManager.AllViews.shift(newShift))
+//                }
+                NavManager.shared.currentTab = .allItems
+                NavManager.shared.appendCorrectPath(newValue: .shift(newShift))
+                
             }
         } message: {
             Text("\(newAllocations.count) were created for a total of \(newAllocationAmount.money())")
