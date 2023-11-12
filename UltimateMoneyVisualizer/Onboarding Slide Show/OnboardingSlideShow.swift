@@ -402,7 +402,6 @@ struct CustomCarousel<Content: View, Item, ID>: View where Item: RandomAccessCol
 
             // MARK: Calculating Rotation
 
-            let progress = offset / cardWidth
             // Since Index Starts With Zero
         }
         lastStoredOffset = offset

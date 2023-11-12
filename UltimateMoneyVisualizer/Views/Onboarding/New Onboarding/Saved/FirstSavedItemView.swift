@@ -41,7 +41,7 @@ struct FirstSavedItemView: View {
     @State private var title = ""
     @State private var info = ""
     @State private var date: Date = .now
-    @State private var amount: Double = 5
+    @State private var amount: Double = 0
 
     @State private var titlePopover = false
     @State private var infoPopover = false
@@ -50,31 +50,45 @@ struct FirstSavedItemView: View {
     
     @FocusState var titleFocused: Bool
     @FocusState var infoFocused: Bool
-
+    
+    @State private var showSaveButton = false
+    @State private var savePopover = false
+    
     @ObservedObject private var settings = User.main.getSettings()
 
     @State private var showEnterAmountSheet = false
 
+    static let defaultTitle = "Made coffee at home"
+    static let defaultInfo = "Instead of going to cafe before work"
+    static let defaultAmount = Double(5)
+    
+    
+    
+    
     var body: some View {
         Form {
             Section("Title") {
-                TextField("Bought money visualizer premium", text: $title)
+                TextField(FirstSavedItemView.defaultTitle, text: $title)
                     .focused($titleFocused)
-                    .defaultPopover(isPresented: $titlePopover, text: "How did you save money?", direction: .up)
+                    .defaultPopover(isPresented: $titlePopover, text: "Start by entering the title", direction: .up)
+                    .allowsHitTesting(false)
             }
+            
 
             Section("Info") {
                 TextEditor(text: $info)
-                    .placeholder("This will save me a bunch of money in the future!",
+                    .placeholder(FirstSavedItemView.defaultInfo,
                                  text: $info)
                     .focused($infoFocused)
                     .offset(x: -4)
                     .defaultPopover(isPresented: $infoPopover, text: "Now put a little more information\nor a note to yourself about this occurrence.", direction: .up)
+                    .allowsHitTesting(false)
             }
 
             Section("Date") {
                 DatePicker("Saved on", selection: $date)
                     .defaultPopover(isPresented: $datePopover, text: "Set a date to keep track of when you save", direction: .up)
+                    .allowsHitTesting(false)
             }
 
             Section("Amount") {
@@ -95,6 +109,7 @@ struct FirstSavedItemView: View {
                 .defaultPopover(isPresented: $amountPopover, text: "Finally, enter the amount you saved!", direction: .up)
             }
         }
+        .putInTemplate(title: "Create Saved Item")
         .onAppear(perform: {
             // This is necessary to give the view loading in time to get ready to show the popover
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -103,7 +118,10 @@ struct FirstSavedItemView: View {
         })
         .onChangeProper(of: titlePopover) {
             if titlePopover == false {
-                titleFocused = true
+                // titleFocused = true
+                simulateTypeText(FirstSavedItemView.defaultTitle, into: $title) {
+                    infoPopover = true
+                }
             }
         }
         .onChangeProper(of: titleFocused) {
@@ -113,7 +131,10 @@ struct FirstSavedItemView: View {
         }
         .onChangeProper(of: infoPopover) {
             if infoPopover == false {
-                infoFocused = true
+//                infoFocused = true
+                simulateTypeText(FirstSavedItemView.defaultInfo, into: $info, delay: 0.05) {
+                    datePopover = true
+                }
             }
         }
         .onChangeProper(of: infoFocused) {
@@ -128,16 +149,49 @@ struct FirstSavedItemView: View {
         })
         .onChangeProper(of: amountPopover, {
             if amountPopover == false {
-                showEnterAmountSheet = true
+//                showEnterAmountSheet = true
+                amount = FirstSavedItemView.defaultAmount
+                showSaveButton = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    savePopover = true
+                }
             }
         })
+        .toolbar {
+            if showSaveButton {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Save") {
+                        
+                    }
+                    .foregroundStyle(.white)
+                    .defaultPopover(isPresented: $savePopover, text: "Now you can hit save", direction: .right)
+                }
+                
+            }
+        }
         .dismissKeyboardOnTap(focusStates: [$titleFocused, $infoFocused])
         .sheet(isPresented: $showEnterAmountSheet, content: {
             EnterDoubleView(dubToEdit: $amount, format: .dollar)
         })
+        
     }
+    
+    func simulateTypeText(_ text: String, into state: Binding<String>, delay: Double = 0.05, _ completion: (() -> Void)? = nil) {
+        for i in text.indices {
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay * Double(text.distance(from: text.startIndex, to: i))) {
+                state.wrappedValue = String(text[...i])
+                if i == text.index(before: text.endIndex) {
+                    completion?()
+                }
+            }
+        }
+    }
+    
 }
 
 #Preview {
-    FirstSavedItemView()
+    NavigationView {
+        FirstSavedItemView()
+    }
+        
 }

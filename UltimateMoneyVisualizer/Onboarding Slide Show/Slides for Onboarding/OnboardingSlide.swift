@@ -8,15 +8,14 @@
 import SwiftUI
 
 struct OnboardingSlide: View {
-    
 //    @Binding var height: CGFloat
-    
+
     let title: String
     let imageString: String
     let header: String
     let bodyTexts: [String]
     let action: () -> Void
-    
+
     init(title: String, imageString: String, header: String, bodyTexts: [String], _ action: @escaping () -> Void) {
         self.title = title
         self.imageString = imageString
@@ -24,7 +23,7 @@ struct OnboardingSlide: View {
         self.bodyTexts = bodyTexts
         self.action = action
     }
-    
+
     init(slide: OnboardingSlideShow.Slide, _ action: @escaping () -> Void) {
         self.title = slide.title
         self.imageString = slide.imageString
@@ -32,7 +31,7 @@ struct OnboardingSlide: View {
         self.bodyTexts = slide.bodyTexts
         self.action = action
     }
-    
+
     var body: some View {
         VStack {
             Text(title)
@@ -40,7 +39,7 @@ struct OnboardingSlide: View {
                 .fontWeight(.bold)
                 .kerning(1)
 //                .padding(.top)
-            
+
             Image(imageString)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
@@ -53,33 +52,28 @@ struct OnboardingSlide: View {
                         })
                     }
                 }
-            
+
             VStack(spacing: 20) {
                 Text(header)
                     .font(.system(.title3, weight: .semibold))
                     .kerning(1)
-                
+
                 VStack(alignment: .leading, spacing: 15) {
-                    
                     ForEach(bodyTexts, id: \.self) { text in
-                            Text(text)
+                        Text(text)
                             .layoutPriority(2)
                     }
-                    
-                    
                 }
                 .font(.system(.subheadline, weight: .medium))
                 .foregroundStyle(.secondary)
                 .kerning(0.5)
             }
             .layoutPriority(1)
-            
-            
+
 //            Button("Learn More") {
 //                action()
 //            }
 //            .padding(.top, 30)
-            
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding()
@@ -90,15 +84,13 @@ struct OnboardingSlide: View {
                         print("Height of card is: ", geo.size.height)
                     }
             }
-                
         }
         .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
         .modifier(ShadowForRect())
-        
     }
 }
 
-//Text("Watch your money grow in real-time as you earn it")
+// Text("Watch your money grow in real-time as you earn it")
 //        .layoutPriority(2)
 //    Text("Look back on previous shifts to see how much you made each day")
 //        .layoutPriority(2)

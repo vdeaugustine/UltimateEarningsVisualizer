@@ -1030,6 +1030,25 @@
 			path = "Slides for Onboarding";
 			sourceTree = "<group>";
 		};
+		9C7A16422B018FCA004EC33B /* Info Views */ = {
+			isa = PBXGroup;
+			children = (
+				9CD1FF2E2AE71C5100AF156A /* TimeBlockExplainView.swift */,
+				9C3FA3022AECDEEA000DCC4C /* MoreInfoRectTemplate.swift */,
+				9C3FA3002AECDEC5000DCC4C /* GoalsInfoView.swift */,
+				9C4CD8972AF0C07000063942 /* ShiftInfoView.swift */,
+			);
+			path = "Info Views";
+			sourceTree = "<group>";
+		};
+		9C7A16432B018FDA004EC33B /* Tutorials */ = {
+			isa = PBXGroup;
+			children = (
+				9CF1A45C2AF9EEE7004C89F3 /* EnterFirstShiftView.swift */,
+			);
+			path = Tutorials;
+			sourceTree = "<group>";
+		};
 		9C7C984229FA0D7F0077EA25 /* Schedule */ = {
 			isa = PBXGroup;
 			children = (
@@ -1100,12 +1119,6 @@
 		9C7F964E29F8F03C00F5035C = {
 			isa = PBXGroup;
 			children = (
-				9C7A163E2B005D2B004EC33B /* YouHaveCompletedYourShiftView.swift */,
-				9CF1A45C2AF9EEE7004C89F3 /* EnterFirstShiftView.swift */,
-				9C4CD8972AF0C07000063942 /* ShiftInfoView.swift */,
-				9C13D1A72AFAE2DE00730A5F /* AllocationSummaryView.swift */,
-				9C3FA3022AECDEEA000DCC4C /* MoreInfoRectTemplate.swift */,
-				9C3FA3002AECDEC5000DCC4C /* GoalsInfoView.swift */,
 				9C7F965929F8F03C00F5035C /* UltimateMoneyVisualizer */,
 				9C7F965829F8F03C00F5035C /* Products */,
 				9C7F967029F8F03E00F5035C /* UltimateMoneyVisualizerTests */,
@@ -1126,9 +1139,12 @@
 		9C7F965929F8F03C00F5035C /* UltimateMoneyVisualizer */ = {
 			isa = PBXGroup;
 			children = (
+				9C13D1A72AFAE2DE00730A5F /* AllocationSummaryView.swift */,
+				9C7A163E2B005D2B004EC33B /* YouHaveCompletedYourShiftView.swift */,
+				9C7A16432B018FDA004EC33B /* Tutorials */,
+				9C7A16422B018FCA004EC33B /* Info Views */,
 				9C7A163A2AFCA55F004EC33B /* Onboarding Slide Show */,
 				9CD1FF2C2AE06C5300AF156A /* FontTester.swift */,
-				9CD1FF2E2AE71C5100AF156A /* TimeBlockExplainView.swift */,
 				9CD511272ADB182A00B5584E /* PopoverContents.swift */,
 				9C5CFD212ADF60E700943A70 /* PopUpTester.swift */,
 				9CC674B22ACA7C7700FB407C /* NoContentPlaceholderCustomView.swift */,
