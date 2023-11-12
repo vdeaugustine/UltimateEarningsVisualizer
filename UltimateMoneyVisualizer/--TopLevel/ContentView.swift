@@ -47,9 +47,12 @@ struct ContentView: View {
             .makeTab(tab: Tabs.settings, systemImage: "gear")
 
             
+            #if DEBUG
 
             OnboardingProgressManagerView()
                 .makeTab(tab: Tabs.onboarding, systemImage: "play")
+            
+            #endif 
 //
         }
         .tint(settings.themeColor)

@@ -45,32 +45,37 @@ extension Font {
 
     struct FontTester: View {
         var body: some View {
-            ScrollView {
-                VStack(spacing: 10) {
-                    ForEach(Font.builtInOrder, id: \.self) { font in
+//            ScrollView {
+                VStack {
+                    VStack(spacing: 10) {
+                        ForEach(Font.builtInOrder, id: \.self) { font in
 
-                        Text(font.description).font(font)
+                            Text(font.description).font(font)
+                        }
+                    }
+                    .padding()
+
+                    HStack(spacing: 0) {
+                        Text("The difference between")
+                            .font(.callout)
+                        Text(" callout(first) and body")
+                    }
+                    .padding()
+
+    //            ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 0) {
+                        Text("Difference between")
+                            .font(.subheadline)
+                        Text(" subheadline and callout")
+                            .font(.callout)
+
+    //                }
                     }
                 }
-                .padding()
-
-                HStack(spacing: 0) {
-                    Text("The difference between")
-                        .font(.callout)
-                    Text(" callout(first) and body")
-                }
-                .padding()
-
-//            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 0) {
-                    Text("Difference between")
-                        .font(.subheadline)
-                    Text(" subheadline and callout")
-                        .font(.callout)
-
-//                }
-                }
-            }
+                .background(.red)
+                .navigationTitle("Font Tester")
+                .putInNavView(.large)
+//            }
         }
     }
 

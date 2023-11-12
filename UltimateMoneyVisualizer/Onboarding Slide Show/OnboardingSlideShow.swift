@@ -27,10 +27,10 @@ struct OnboardingSlideShow: View {
                                  header: "Track your earnings",
                                  bodyTexts: ["Watch your money grow in real-time as you earn it",
                                              "Look back on previous shifts to see how much you made each day"]),
-                           
+
                            Slide(title: "Goals", imageString: "goalJar", header: "Something to work toward", bodyTexts: ["Set an amount and a date, and watch yourself progress towards it.", "Motivate yourself by seeing the goal get closer."]),
-                           
-                           Slide(title: "Expenses", imageString: "expense", header: "Cross it off the list", bodyTexts: ["Track recurring or one-time expenses." ,"Work down your list until you see your earnings going right into your pocket"]),
+
+                           Slide(title: "Expenses", imageString: "expense", header: "Cross it off the list", bodyTexts: ["Track recurring or one-time expenses.", "Work down your list until you see your earnings going right into your pocket"]),
 
                            Slide(title: "Allocations", imageString: "timeToExpense", header: "Visual cash flow", bodyTexts: ["Use the money you earn or save to payoff expenses and goals!", "Every time an item is paid off, you can see exactly where that money came from."])]
 
@@ -38,25 +38,39 @@ struct OnboardingSlideShow: View {
         VStack {
             Text("Get to know the features")
 
-            CustomCarousel(index: $currentIndex, items: slides, spacing: 20, cardPadding: 140, id: \.self) { slide, _ in
+            CustomCarousel(index: $currentIndex, items: slides, spacing: 10, cardPadding: 80, id: \.self) { slide, _ in
 
                 // MARK: YOUR CUSTOM CELL VIEW
 
                 OnboardingSlide(slide: slide)
                     .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                    .modifier(ShadowForRect())
             }
-            .padding(.horizontal, -15)
-            .padding(.vertical)
+//            .padding(.horizontal, -15)
+//            .padding(.vertical)
 
-            .frame(height: 500)
+//            .frame(height: 500)
+
+            Button("Tap") {
+                withAnimation {
+                    currentIndex += 1
+                }
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background {
-            UIColor.secondarySystemBackground.color.ignoresSafeArea()
+            ZStack {
+                UIColor.secondarySystemBackground.color
+                Rectangle()
+                    .fill(Material.regular)
+            }
+            .ignoresSafeArea()
         }
         .onChangeProper(of: height) {
             print("height is :", height)
         }
+        .putInTemplate(title: "Features")
+        .putInNavView(.large)
     }
 }
 
@@ -112,6 +126,26 @@ struct CustomCarousel<Content: View, Item, ID>: View where Item: RandomAccessCol
                     .onChanged { onChanged(value: $0, cardWidth: cardWidth) }
                     .onEnded { onEnd(value: $0, cardWidth: cardWidth) }
             )
+            .onChangeProper(of: index) {
+                if index >= items.count {
+                    index = 0
+                    return 
+                }
+                    withAnimation(.easeInOut(duration: 0.25)) {
+                        // MARK: Removing Extra Space
+
+                        // Why /2 -> Because We Need Both Sides Need to Be Visible
+                        let extraSpace = (cardPadding / 2) - spacing
+                        offset = -((cardWidth * CGFloat(index))) + extraSpace
+
+                        // MARK: Calculating Rotation
+
+                        let progress = offset / cardWidth
+                        // Since Index Starts With Zero
+                    }
+                    lastStoredOffset = offset
+                
+            }
         }
         .padding(.top, 60)
         .onAppear {
@@ -120,6 +154,7 @@ struct CustomCarousel<Content: View, Item, ID>: View where Item: RandomAccessCol
             lastStoredOffset = extraSpace
         }
         .animation(.easeInOut, value: translation == 0)
+        
     }
 
     // MARK: Moving Current Item Up
@@ -171,7 +206,7 @@ struct CustomCarousel<Content: View, Item, ID>: View where Item: RandomAccessCol
 
         // MARK: Calculating Rotation
 
-        let progress = offset / cardWidth
+//        let progress = offset / cardWidth
     }
 
     func onEnd(value: DragGesture.Value, cardWidth: CGFloat) {
