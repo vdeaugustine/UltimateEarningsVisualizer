@@ -18,6 +18,8 @@ class OnboardingProgressManagerViewModel: ObservableObject {
     @Published var isGoalsComplete: Bool = false
 
     @Published var pageToShow: Page? = nil
+    
+    @ObservedObject var user: User = .main
 
     enum Page: Identifiable {
         case wage, shift, schedule, expenses, goals
@@ -195,7 +197,7 @@ struct OnboardingProgressManagerView: View {
             } label: {
                 HStack(spacing: 10) {
                     Image(systemName: isComplete ? "checkmark" : "circle")
-                        .foregroundStyle(isComplete ? .blue : .secondary)
+                        .foregroundStyle(isComplete ? viewModel.user.getSettings().themeColor : .secondary)
 
                     VStack(alignment: .leading) {
                         Text(headText).font(.headline)
@@ -217,27 +219,29 @@ struct OnboardingProgressManagerView: View {
     }
 
     struct ProgressPill: View {
+        @EnvironmentObject private var viewModel: OnboardingProgressManagerViewModel
         let isFilled: Bool
         var width: CGFloat = 20
         var height: CGFloat = 7
 
         var body: some View {
             RoundedRectangle(cornerRadius: 4)
-                .stroke(isFilled ? Color.blue : Color.secondary, lineWidth: 2)
+                .stroke(isFilled ?  viewModel.user.getSettings().themeColor: Color.secondary, lineWidth: 2)
                 .frame(width: width, height: height)
-                .background(isFilled ? .blue : .clear)
+                .background(isFilled ? viewModel.user.getSettings().themeColor : .clear)
         }
     }
 
     struct MainProgressPill: View {
+        @EnvironmentObject private var viewModel: OnboardingProgressManagerViewModel
         let isFilled: Bool
         var height: CGFloat = 7
         var body: some View {
             RoundedRectangle(cornerRadius: 4)
-                .stroke(isFilled ? Color.blue : Color.secondary, lineWidth: 2)
+                .stroke(isFilled ? viewModel.user.getSettings().themeColor : Color.secondary, lineWidth: 2)
                 .frame(maxWidth: .infinity)
                 .frame(height: height)
-                .background(isFilled ? .blue : .clear)
+                .background(isFilled ? viewModel.user.getSettings().themeColor : .clear)
         }
     }
 }
@@ -502,7 +506,7 @@ extension OnboardingProgressManagerView {
                     .frame(height: 50)
                     .foregroundStyle(.white)
                     .background {
-                        Color.blue
+                        viewModel.user.getSettings().themeColor
                             .clipShape(RoundedRectangle(cornerRadius: 16))
                     }
             }
