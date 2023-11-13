@@ -51,21 +51,33 @@ struct OnboardingSlideShow: View {
 
     let slides: [Slide] = [Slide(topic: .shifts,
                                  imageString: "timeToMoney",
-                                 header: "Track your earnings",
-                                 bodyTexts: ["Watch your money grow in real-time as you earn it",
-                                             "Look back on previous shifts to see how much you made each day"]),
+                                 header: "Earnings in Real-Time",
+                                 bodyTexts: ["Watch your earnings increase as you work, visualizing your financial growth",
+                                             "Review your shift history to track daily earnings and understand your income patterns"]),
 
-                           Slide(topic: .goals, imageString: "goalJar", header: "Something to work toward", bodyTexts: ["Set an amount and a date, and watch yourself progress towards it.", "Motivate yourself by seeing the goal get closer."]),
+                           Slide(topic: .goals,
+                                 imageString: "goalJar",
+                                 header: "Your Goals, Visualized",
+                                 bodyTexts: ["Define your financial targets with set amounts and dates, and enjoy the journey towards achieving them",
+                                             "Stay inspired as you visually track your progress and see your goals coming within reach"]),
 
-                           Slide(topic: .expenses, imageString: "expense", header: "Cross it off the list", bodyTexts: ["Track recurring or one-time expenses.", "Work down your list until you see your earnings going right into your pocket"]),
+                           Slide(topic: .expenses,
+                                 imageString: "expense",
+                                 header: "Streamline Your Expenses",
+                                 bodyTexts: ["Effortlessly monitor both recurring and one-time expenses",
+                                             "Prioritize your financial obligations and celebrate as you direct your earnings towards personal gains"]),
 
-                           Slide(topic: .allocations, imageString: "timeToExpense", header: "Visual cash flow", bodyTexts: ["Use the money you earn or save to payoff expenses and goals!", "Every time an item is paid off, you can see exactly where that money came from."]),
+                           Slide(topic: .allocations,
+                                 imageString: "timeToExpense",
+                                 header: "Smart Money Allocation",
+                                 bodyTexts: ["Allocate your earnings and savings to efficiently manage expenses and goals",
+                                             "Gain clarity on your finances with a visual representation of each paid item and its source"]),
 
                            Slide(topic: .iCloud,
-                                 imageString: "cloudLock",
-                                 header: "Secure Backup Assurance",
-                                 bodyTexts: ["Your data is securely stored in iCloud with Apple's advanced backup system",
-                                             "Sync and restore your data seamlessly, even after deleting and reinstalling the app"])]
+                                 imageString: "cloud",
+                                 header: "iCloud Integration: Safe & Synced",
+                                 bodyTexts: ["Experience the peace of mind with your data securely stored and backed up in iCloud",
+                                             "Effortlessly sync and restore your financial data, worry-free, even if you switch devices or reinstall the app"])]
 
     var body: some View {
         VStack(spacing: 40) {
@@ -94,18 +106,17 @@ struct OnboardingSlideShow: View {
                 if currentIndex > 0 {
                     Button {
                         withAnimation {
-                            currentIndex -= 1
+                            currentIndex = max(currentIndex - 1, 0)
                         }
                     } label: {
                         Image(systemName: "arrow.left")
                             .font(.title)
                             .foregroundStyle(.white)
-                            .padding()
+                            .padding(.vertical, 10)
                             .padding(.horizontal)
                             .padding(.horizontal, 15)
                             .frame(maxHeight: .infinity)
-                            .background(.blue)
-
+                            .background(User.main.getSettings().themeColor)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                     }
                 }
@@ -119,24 +130,35 @@ struct OnboardingSlideShow: View {
                         Image(systemName: "arrow.right")
                             .font(.title)
                             .foregroundStyle(.white)
-                            .padding()
+                            .padding(.vertical, 10)
                             .padding(.horizontal)
                             .padding(.horizontal, 15)
                             .frame(maxHeight: .infinity)
-                            .background(.blue)
+                            .background(LinearGradient(stops: [.init(color: User.main.getSettings().themeColor,
+                                                                     location: -0.5),
+                                                               .init(color: User.main.getSettings().themeColor.getLighterColorForGradient(90),
+                                                                     location: 3)],
+                                                       startPoint: .leading,
+                                                       endPoint: .trailing))
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                     }
+                    
                 } else {
                     Button {
                     } label: {
                         Image(systemName: "checkmark")
                             .font(.title)
                             .foregroundStyle(.white)
-                            .padding()
+                            .padding(.vertical, 10)
                             .padding(.horizontal)
                             .padding(.horizontal, 15)
                             .frame(maxHeight: .infinity)
-                            .background(.green)
+                            .background(LinearGradient(stops: [.init(color: User.main.getSettings().themeColor,
+                                                                     location: -0.5),
+                                                               .init(color: .green,
+                                                                     location: 3)],
+                                                       startPoint: .leading,
+                                                       endPoint: .trailing))
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                     }
                 }
@@ -145,15 +167,16 @@ struct OnboardingSlideShow: View {
             .padding(.bottom)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background {
-            ZStack {
-                UIColor.secondarySystemBackground.color
-                Rectangle()
-                    .fill(Material.regular)
-            }
-            .ignoresSafeArea()
-        }
+//        .background {
+//            ZStack {
+//                UIColor.secondarySystemBackground.color
+//                Rectangle()
+//                    .fill(Material.regular)
+//            }
+//            .ignoresSafeArea()
+//        }
         .putInTemplate(title: "Features", displayMode: .large)
+//        .navigationTitle("Features")
         .putInNavView(.large)
         .sheet(item: $learnMoreTopic) { topic in
             switch topic {
@@ -410,4 +433,7 @@ struct CustomCarousel<Content: View, Item, ID>: View where Item: RandomAccessCol
 
 #Preview {
     OnboardingSlideShow()
+        .onAppear() {
+            UserDefaults.themeColor = .defaultColorOptions.first!
+        }
 }

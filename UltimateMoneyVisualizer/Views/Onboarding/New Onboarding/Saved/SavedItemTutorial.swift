@@ -37,7 +37,7 @@ extension View {
 
 // MARK: - FirstSavedItemView
 
-struct FirstSavedItemView: View {
+struct SavedItemTutorial: View {
     @State private var title = ""
     @State private var info = ""
     @State private var date: Date = .now
@@ -64,11 +64,10 @@ struct FirstSavedItemView: View {
     
     
     
-    
     var body: some View {
         Form {
             Section("Title") {
-                TextField(FirstSavedItemView.defaultTitle, text: $title)
+                TextField(SavedItemTutorial.defaultTitle, text: $title)
                     .focused($titleFocused)
                     .defaultPopover(isPresented: $titlePopover, text: "Start by entering the title", direction: .up)
                     .allowsHitTesting(false)
@@ -77,7 +76,7 @@ struct FirstSavedItemView: View {
 
             Section("Info") {
                 TextEditor(text: $info)
-                    .placeholder(FirstSavedItemView.defaultInfo,
+                    .placeholder(SavedItemTutorial.defaultInfo,
                                  text: $info)
                     .focused($infoFocused)
                     .offset(x: -4)
@@ -119,7 +118,7 @@ struct FirstSavedItemView: View {
         .onChangeProper(of: titlePopover) {
             if titlePopover == false {
                 // titleFocused = true
-                simulateTypeText(FirstSavedItemView.defaultTitle, into: $title) {
+                simulateTypeText(SavedItemTutorial.defaultTitle, into: $title) {
                     infoPopover = true
                 }
             }
@@ -132,7 +131,7 @@ struct FirstSavedItemView: View {
         .onChangeProper(of: infoPopover) {
             if infoPopover == false {
 //                infoFocused = true
-                simulateTypeText(FirstSavedItemView.defaultInfo, into: $info, delay: 0.05) {
+                simulateTypeText(SavedItemTutorial.defaultInfo, into: $info, delay: 0.05) {
                     datePopover = true
                 }
             }
@@ -150,7 +149,7 @@ struct FirstSavedItemView: View {
         .onChangeProper(of: amountPopover, {
             if amountPopover == false {
 //                showEnterAmountSheet = true
-                amount = FirstSavedItemView.defaultAmount
+                amount = SavedItemTutorial.defaultAmount
                 showSaveButton = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     savePopover = true
@@ -191,7 +190,7 @@ struct FirstSavedItemView: View {
 
 #Preview {
     NavigationView {
-        FirstSavedItemView()
+        SavedItemTutorial()
     }
         
 }

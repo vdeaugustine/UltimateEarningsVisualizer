@@ -45,13 +45,14 @@ struct OnboardingSlide: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(maxHeight: 200)
                 .layoutPriority(0)
-                .background {
-                    GeometryReader { geo in
-                        Color.clear.onAppear(perform: {
-                            print("Image height: ", geo.size.height)
-                        })
-                    }
-                }
+            
+//                .background {
+//                    GeometryReader { geo in
+//                        Color.clear.onAppear(perform: {
+//                            print("Image height: ", geo.size.height)
+//                        })
+//                    }
+//                }
 
             VStack(spacing: 20) {
                 Text(header)
@@ -68,8 +69,9 @@ struct OnboardingSlide: View {
                 .foregroundStyle(.secondary)
                 .kerning(0.5)
             }
+            .padding(.top)
             .layoutPriority(1)
-
+            .foregroundStyle(.tint)
 //            Button("Learn More") {
 //                action()
 //            }

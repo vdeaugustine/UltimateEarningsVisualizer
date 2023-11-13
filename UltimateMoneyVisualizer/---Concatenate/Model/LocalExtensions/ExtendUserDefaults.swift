@@ -24,7 +24,7 @@ extension UserDefaults {
     
     static var themeColorStr: String {
         get {
-            UserDefaults.standard.string(forKey: "themeColorStr") ?? Color.defaultColorHexes.first!
+            UserDefaults.standard.string(forKey: "themeColorStr") ?? Color("AccentColor").hex
         }
         set {
             UserDefaults.standard.set(newValue, forKey: "themeColorStr")
