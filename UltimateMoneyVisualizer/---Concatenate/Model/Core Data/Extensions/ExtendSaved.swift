@@ -138,37 +138,50 @@ public extension Saved {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
 
-        try Saved(amount: 5.0,
-                  title: "Lunch at Home",
-                  info: "Didn't go out for lunch today, ate at home instead.",
-                  date: Date.now.addDays(Double.random(in: -3 ... 0)),
-                  tagStrings: Tag.getSomeTitles(),
-                  user: user,
-                  context: context)
+        let one = try Saved(amount: 5.0,
+                            title: "Lunch at Home",
+                            info: "Didn't go out for lunch today, ate at home instead.",
+                            date: Date.now.addDays(Double.random(in: -3 ... 0)),
+                            tagStrings: Tag.getSomeTitles(),
+                            user: user,
+                            context: context)
 
-        try Saved(amount: 12.5,
-                  title: "Movie Night",
-                  info: "Watched a movie at home with friends instead of going to the theater.",
-                  date: Date.now.addDays(Double.random(in: -3 ... 0)),
-                  tagStrings: Tag.getSomeTitles(),
-                  user: user,
-                  context: context)
+        let two = try Saved(amount: 12.5,
+                            title: "Movie Night",
+                            info: "Watched a movie at home with friends instead of going to the theater.",
+                            date: Date.now.addDays(Double.random(in: -3 ... 0)),
+                            tagStrings: Tag.getSomeTitles(),
+                            user: user,
+                            context: context)
 
-        try Saved(amount: 30.0,
-                  title: "Cancelled Gym Membership",
-                  info: "Decided to cancel gym membership and do workouts at home.",
-                  date: Date.now.addDays(Double.random(in: -3 ... 0)),
-                  tagStrings: Tag.getSomeTitles(),
-                  user: user,
-                  context: context)
+        let three = try Saved(amount: 30.0,
+                              title: "Cancelled Gym Membership",
+                              info: "Decided to cancel gym membership and do workouts at home.",
+                              date: Date.now.addDays(Double.random(in: -3 ... 0)),
+                              tagStrings: Tag.getSomeTitles(),
+                              user: user,
+                              context: context)
 
-        try Saved(amount: 5.0,
-                  title: "Lunch at Home",
-                  info: "Didn't go out for lunch today, ate at home instead.",
-                  date: Date.now.addDays(-5),
-                  tagStrings: Tag.getSomeTitles(),
-                  user: user,
-                  context: context)
+        let four = try Saved(amount: 5.0,
+                             title: "Lunch at Home",
+                             info: "Didn't go out for lunch today, ate at home instead.",
+                             date: Date.now.addDays(-5),
+                             tagStrings: Tag.getSomeTitles(),
+                             user: user,
+                             context: context)
+
+        for savedItem in [one, two, three, four] {
+            if let payoffItem = user.getQueue().first,
+               payoffItem.amountRemainingToPayOff > 1 {
+                try Allocation(amount: min(savedItem.totalAvailable, payoffItem.amountRemainingToPayOff),
+                               expense: payoffItem as? Expense,
+                               goal: payoffItem as? Goal,
+                               shift: nil,
+                               saved: savedItem,
+                               date: savedItem.getDate(),
+                               context: context)
+            }
+        }
 
         try context.save()
     }

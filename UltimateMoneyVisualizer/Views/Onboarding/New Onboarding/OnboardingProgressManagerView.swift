@@ -43,9 +43,9 @@ struct OnboardingProgressManagerView: View {
     var body: some View {
         ScrollView {
             VStack {
-                Text("Getting Started")
-                    .font(.largeTitle)
-                    .fontWeight(.semibold)
+//                Text("Getting Started")
+//                    .font(.largeTitle)
+//                    .fontWeight(.semibold)
                 Earnings()
 
                 Spending()
@@ -74,6 +74,8 @@ struct OnboardingProgressManagerView: View {
             
         })
         .environmentObject(viewModel)
+        .putInTemplate(title: "Getting Started")
+        
     }
 
     @State private var offset = CGSize.zero
@@ -547,6 +549,8 @@ extension View {
 }
 
 #Preview {
-    OnboardingProgressManagerView()
+    NavigationView {
+        OnboardingProgressManagerView()
+    }
 //    OnboardingProgressManagerView.EnterWageFirstTimeView()
 }

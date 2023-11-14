@@ -9,6 +9,7 @@ import SwiftUI
 import Vin
 
 struct TimeBlockExampleView: View {
+    var showPopovers: Bool = true
     @State private var rowPopup = false
     @State private var titlePopup = false
     @State private var timePopup = false
@@ -211,9 +212,11 @@ struct TimeBlockExampleView: View {
             divider(time: "5:00 PM")
         }
         .onAppear(perform: {
-            DispatchQueue.main.asyncAfter(deadline: .now() + dispatchPause) {
-                rowPopup = true
-                print("yyyy")
+            if showPopovers {
+                DispatchQueue.main.asyncAfter(deadline: .now() + dispatchPause) {
+                    rowPopup = true
+                    print("yyyy")
+                }
             }
         })
     }

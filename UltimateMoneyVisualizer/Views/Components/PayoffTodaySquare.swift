@@ -126,7 +126,7 @@ struct PayoffTodaySquare_Previews: PreviewProvider {
     }
 
     static var previews: some View {
-        PayoffTodaySquare(item: .init(payoff: item))
+        PayoffTodaySquare(item: .init(payoff: item, queueSlotNumber: 0))
             .frame(width: UIScreen.main.bounds.width / 2 - 10)
             .previewLayout(.sizeThatFits)
     }

@@ -18,7 +18,7 @@ extension Settings {
                 return Color(hex: str)
             }
 
-            return .defaultColorOptions.first!
+            return Color("AccentColor")
         }
 
         set {

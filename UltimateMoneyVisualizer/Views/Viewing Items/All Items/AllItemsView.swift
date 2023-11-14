@@ -39,7 +39,6 @@ struct AllItemsView: View {
             }
         }
         .background(Color.listBackgroundColor)
-//        .tint(settings.themeColor)
         
         .environment(\.editMode, $editMode)
 

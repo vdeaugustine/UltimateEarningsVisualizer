@@ -113,13 +113,13 @@ public extension Shift {
         } else {
             let currentPayPeriod = existingPayPeriods.first
             let firstDate = currentPayPeriod?.payDay?.addDays(1) ?? start
-            let newPayPeriod = try PayPeriod(firstDate: firstDate,
-                                             settings: user.payPeriodSettings ?? PayPeriodSettings(cycleCadence: .biWeekly,
-                                                                                                   autoGenerate: true,
-                                                                                                   user: user,
-                                                                                                   context: context),
-                                             user: user,
-                                             context: context)
+            try PayPeriod(firstDate: firstDate,
+                          settings: user.payPeriodSettings ?? PayPeriodSettings(cycleCadence: .biWeekly,
+                                                                                autoGenerate: true,
+                                                                                user: user,
+                                                                                context: context),
+                          user: user,
+                          context: context)
         }
 
         try context.save()
@@ -272,6 +272,16 @@ public extension Shift {
             shift.startDate = Date.getThisTime(hour: 9, minute: 0, second: 0, from: weekday)
             shift.endDate = Date.getThisTime(hour: 17, minute: 0, second: 0, from: weekday)
             shift.user = user
+
+            if let payoffItem = user.getQueue().first {
+                try Allocation(amount: min(shift.totalEarned, payoffItem.amountRemainingToPayOff),
+                               expense: payoffItem as? Expense,
+                               goal: payoffItem as? Goal,
+                               shift: shift,
+                               saved: nil,
+                               date: shift.start,
+                               context: viewContext)
+            }
 
             if let payPeriod = currentPayPeriod,
                let shiftStart = shift.startDate,

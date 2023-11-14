@@ -13,7 +13,7 @@ import SwiftUI
 struct ShadowForRect: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .background(.white)
+            .background(UIColor.systemBackground.color)
             .clipShape(RoundedRectangle(cornerRadius: 12)
                 .inset(by: 0.5))
             .overlay {

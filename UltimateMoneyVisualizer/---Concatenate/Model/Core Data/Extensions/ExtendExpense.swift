@@ -264,6 +264,13 @@ public extension Expense {
         }
         return nil
     }
+    
+    func loadImageOrDefaultImage() -> Image {
+        if let image = loadImageIfPresent() {
+            return Image(uiImage: image).resizable()
+        }
+        return Image("dollar3d").resizable()
+    }
 
     func saveImage(image: UIImage) throws {
         if let imageData = image.jpegData(compressionQuality: 1.0) {

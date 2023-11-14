@@ -9,6 +9,7 @@ import SwiftUI
 
 // MARK: - TodayViewPaidOffRect
 
+/// The row that displays the temporary paid off item in today view and payoff queue for today view
 struct TodayViewPaidOffRect: View {
     let item: TempTodayPayoff
     @EnvironmentObject private var viewModel: TodayViewModel
@@ -16,6 +17,12 @@ struct TodayViewPaidOffRect: View {
     var body: some View {
         TodayPaidOffRectContainer {
             HStack {
+                if item.type != .tax,
+                   let slotNumber = item.queueSlotNumber {
+                    Text("\((slotNumber + 1)).")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                }
                 progressCircle
                 titleAndTotalPaidOff
                 Spacer()
@@ -104,13 +111,14 @@ struct TodayViewPaidOffRect_Previews: PreviewProvider {
                         amountPaidOff: 117.77,
                         title: "Testing this item",
                         type: .expense,
-                        id: .init())
+                        id: .init(),
+                        queueSlotNumber: 0)
     }()
 
     static var previews: some View {
         ZStack {
             Color.targetGray
-            TodayViewPaidOffRect(item: .init(payoff: User.main.getQueue().first!))
+            TodayViewPaidOffRect(item: .init(payoff: User.main.getQueue().first!, queueSlotNumber: 0))
                 .environmentObject(TodayViewModel.main)
         }
     }

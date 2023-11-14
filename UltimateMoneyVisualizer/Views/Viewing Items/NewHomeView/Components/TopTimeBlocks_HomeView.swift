@@ -11,6 +11,9 @@ import SwiftUI
 
 struct TopTimeBlocks_HomeView: View {
     @EnvironmentObject private var vm: NewHomeViewModel
+    var consolidatedBlocks: [CondensedTimeBlock] {
+        vm.user.getTimeBlocksBetween().consolidate()
+    }
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -30,15 +33,19 @@ struct TopTimeBlocks_HomeView: View {
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(vm.user.getTimeBlocksBetween().consolidate()) { block in
+                    if consolidatedBlocks.isEmpty {
+                        TodayViewExampleItemizedBlock()
+                    } else {
+                        ForEach(consolidatedBlocks) { block in
 
-                        TimeBlockRect(title: block.title,
-                                      subtitle: block.duration.breakDownTime(),
-                                      thirdTitle: "",
-                                      color: block.color)
-                            .onTapGesture {
-                                vm.navManager.appendCorrectPath(newValue: .condensedTimeBlock(block))
-                            }
+                            TimeBlockRect(title: block.title,
+                                          subtitle: block.duration.breakDownTime(),
+                                          thirdTitle: "",
+                                          color: block.color)
+                                .onTapGesture {
+                                    vm.navManager.appendCorrectPath(newValue: .condensedTimeBlock(block))
+                                }
+                        }
                     }
                 }
                 .padding()

@@ -29,8 +29,6 @@ struct GoalsInfoView: View {
     
     var body: some View {
         ScrollView {
-            
-            
             VStack(spacing: 20) {
                 Image(systemName: "star.fill" /* IconManager.timeBlockExpanded */ )
                     .resizable()
@@ -97,6 +95,7 @@ struct GoalsInfoView: View {
             .padding()
         }
 //        .navigationTitle("S.T.A.R. Goals")
+        .padding(.vertical)
         .background {
             Color(.secondarySystemBackground)
                 .ignoresSafeArea()

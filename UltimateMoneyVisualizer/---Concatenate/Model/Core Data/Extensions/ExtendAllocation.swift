@@ -82,6 +82,16 @@ extension Allocation {
         }
         return ""
     }
+    
+    func getSourceTitle() -> String {
+        if let savedItem {
+            return savedItem.getTitle()
+        }
+        if let shift {
+            return "Shift for \(shift.start.getFormattedDate(format: .slashDate))"
+        }
+        return ""
+    }
 
     var payoffType: PayoffType {
         if goal != nil {
@@ -89,6 +99,8 @@ extension Allocation {
         }
         return .expense
     }
+    
+    
 }
 
 // MARK: - Equatable

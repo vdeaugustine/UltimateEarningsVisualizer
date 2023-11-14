@@ -30,7 +30,8 @@ extension Color {
     static let niceRed: Color = Color(hex: "B04632")
     static let okGreen: Color = Color(hex: "519839")
 
-    static let overcastColors: [String] = ["003649",
+    static let overcastColors: [String] = ["0A5F54",
+                                           "003649",
                                            "EA445A",
                                            "EA4E3D",
                                            "F09A37",
