@@ -72,7 +72,6 @@ extension Font {
     //                }
                     }
                 }
-                .background(.red)
                 .navigationTitle("Font Tester")
                 .putInNavView(.large)
 //            }
