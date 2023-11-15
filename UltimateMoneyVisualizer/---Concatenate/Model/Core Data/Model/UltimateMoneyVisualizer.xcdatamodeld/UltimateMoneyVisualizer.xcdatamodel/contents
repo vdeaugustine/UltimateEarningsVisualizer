@@ -139,6 +139,7 @@
         <attribute name="hasFoundEasterEgg" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="hasSeenFirstGoalPopover" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="hasSeenHomeTutorial" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="hasSeenOnboardingFlow" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="hasSeenSettingsTutorial" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="hasSeenShiftsTutorial" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="hasSeenTodayViewTutorial" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>

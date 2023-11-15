@@ -203,6 +203,14 @@ struct SettingsView: View {
                 }
 
             #endif
+            
+            //TODO: Remove
+            Section {
+                Button("Reset onboarding flag") {
+                    User.main.statusTracker?.hasSeenOnboardingFlow = false
+                    try! User.main.getContext().save()
+                }
+            }
 
             Section("Plan") {
                 Button {
