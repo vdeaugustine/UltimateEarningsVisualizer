@@ -18,44 +18,49 @@ struct ContentView: View {
     @ObservedObject var settings = User.main.getSettings()
     @Environment(\.sizeCategory) var sizeCategory
     @State private var lastTab: Tabs = .testingCalendar
+    @ObservedObject private var status = User.main.getStatusTracker()
 
     var body: some View {
-        TabView(selection: $navManager.currentTab.onUpdate(ifNoChange: navManager.sameTabTapped)) {
-            NavigationStack(path: $navManager.homeNavPath) {
-                NewHomeView()
-                    .id(navManager.scrollViewID)
+        if let status = User.main.statusTracker,
+           status.hasSeenOnboardingFlow == false {
+            Swiping()
+        } else {
+            TabView(selection: $navManager.currentTab.onUpdate(ifNoChange: navManager.sameTabTapped)) {
+                NavigationStack(path: $navManager.homeNavPath) {
+                    NewHomeView()
+                        .id(navManager.scrollViewID)
+                }
+                .makeTab(tab: Tabs.newHome, systemImage: "house")
+
+                NavigationStack(path: $navManager.allItemsNavPath) {
+                    AllItemsView()
+                }
+                .makeTab(tab: Tabs.allItems, systemImage: "dollarsign")
+
+                NavigationStack(path: $navManager.todayViewNavPath) {
+                    NewTodayView()
+                }
+                .makeTab(tab: Tabs.today, systemImage: "bolt.shield")
+
+                //            TestingEventKit()
+                //                .putInNavView(.large)
+                //                .makeTab(tab: Tabs.testingCalendar, systemImage: "calendar")
+
+                NavigationStack(path: $navManager.settingsNavPath) {
+                    SettingsView()
+                }
+                .makeTab(tab: Tabs.settings, systemImage: "gear")
+
+                //            #if DEBUG
+
+                OnboardingSlideShow()
+                    .makeTab(tab: Tabs.onboarding, systemImage: "play")
+
+                //            #endif
+                //
             }
-            .makeTab(tab: Tabs.newHome, systemImage: "house")
-
-            NavigationStack(path: $navManager.allItemsNavPath) {
-                AllItemsView()
-            }
-            .makeTab(tab: Tabs.allItems, systemImage: "dollarsign")
-
-            NavigationStack(path: $navManager.todayViewNavPath) {
-                NewTodayView()
-            }
-            .makeTab(tab: Tabs.today, systemImage: "bolt.shield")
-
-//            TestingEventKit()
-//                .putInNavView(.large)
-//                .makeTab(tab: Tabs.testingCalendar, systemImage: "calendar")
-
-            NavigationStack(path: $navManager.settingsNavPath) {
-                SettingsView()
-            }
-            .makeTab(tab: Tabs.settings, systemImage: "gear")
-
-            
-//            #if DEBUG
-
-            OnboardingSlideShow()
-                .makeTab(tab: Tabs.onboarding, systemImage: "play")
-            
-//            #endif 
-//
+            .tint(settings.themeColor)
         }
-        .tint(settings.themeColor)
     }
 }
 
