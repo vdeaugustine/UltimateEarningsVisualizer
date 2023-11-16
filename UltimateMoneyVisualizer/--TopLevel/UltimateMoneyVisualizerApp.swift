@@ -26,6 +26,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             print("Error in app delegate ")
         }
         
+        // TODO: Get rid of this 
+        DebugOperations.deleteAll()
+        
         return true
     }
 }
@@ -39,6 +42,7 @@ struct UltimateMoneyVisualizerApp: App {
     let context = PersistenceController.context
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject private var navManager = NavManager.shared
+    @StateObject private var user = User.main
 
     var body: some Scene {
         WindowGroup {
@@ -49,6 +53,7 @@ struct UltimateMoneyVisualizerApp: App {
                 .onAppear() {
                     NotificationManager.scheduleDailyNotification()
                 }
+                .environmentObject(user)
                 
         }
     }

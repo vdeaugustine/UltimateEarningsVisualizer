@@ -14,6 +14,7 @@ class DebugOperations {
     
     static func restoreToDefault() {
         User.main.instantiateExampleItems(context: PersistenceController.context)
+        User.main.statusTracker = User.main.getStatusTracker()
     }
     
     
