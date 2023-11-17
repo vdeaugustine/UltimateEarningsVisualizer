@@ -251,6 +251,9 @@ struct EnterWageView: View {
 
             try viewContext.save()
             showSuccessfulSaveToast = true
+            user.wage = wage
+            WageViewModel.shared.wageChangesPublisher.send(wage)
+            
         } catch {
             fatalError(String(describing: error))
         }

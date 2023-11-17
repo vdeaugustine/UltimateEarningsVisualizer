@@ -20,16 +20,24 @@ class TodayViewNewTimeBlockCreationModel: CreateNewTimeBlockViewModel {
 
     override func saveAction(context: NSManagedObjectContext) throws {
         try saveCheck()
+        
+        guard let todayShift = shift as? TodayShift else {
+            throw SavingError.couldNotGetTodayShift
+        }
 
         do {
             try TimeBlock(title: title,
                           start: start,
                           end: end,
                           colorHex: selectedColorHex,
-                          todayShift: shift as? TodayShift,
+                          todayShift: todayShift,
                           user: user,
                           context: context)
             print("Successful")
+            print("printing")
+            for timeBlock in todayShift.getTimeBlocks() {
+                print(timeBlock)
+            }
         } catch {
             throw SavingError.couldNotSaveContext
         }

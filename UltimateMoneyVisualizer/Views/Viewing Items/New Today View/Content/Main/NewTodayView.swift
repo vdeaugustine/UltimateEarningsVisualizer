@@ -67,6 +67,18 @@ struct MainView_TodayView : View {
             Spacer()
         }
         .modifier(Modifiers())
+        .onAppear(perform: {
+            let timeblocks = viewModel.user.todayShift!.getTimeBlocks()
+            let userBlocks = viewModel.user.getTimeBlocksBetween()
+            print("time blocks count = \(timeblocks.count)")
+            print("user blocks", userBlocks.count)
+            for block in timeblocks{
+                print(block)
+            }
+            for block in userBlocks {
+                print(block)
+            }
+        })
     }
     
     

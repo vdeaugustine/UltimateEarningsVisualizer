@@ -15,9 +15,13 @@ struct SettingsView: View {
 
     @State private var showColorOptions: Bool = false
     @State private var showRoadblock = false
+    
+    @State private var errorSaving: Error? = nil
+    @State private var showError = false
 
-    @ObservedObject var user = User.main
+    @EnvironmentObject private var user: User
     @ObservedObject var settings = User.main.getSettings()
+    @ObservedObject var statusTracker = User.main.getStatusTracker()
     
     @State private var show = true
 
@@ -207,8 +211,15 @@ struct SettingsView: View {
             //TODO: Remove
             Section {
                 Button("Reset onboarding flag") {
-                    User.main.statusTracker?.hasSeenOnboardingFlow = false
-                    try! User.main.getContext().save()
+                    
+                    user.getStatusTracker().hasSeenOnboardingFlow = false
+                    do {
+                        try user.getContext().save()
+                        print("Saved! NEw value: ", statusTracker.hasSeenOnboardingFlow )
+                    } catch {
+                        errorSaving = error
+                        showError = true
+                    }
                 }
             }
 
@@ -245,6 +256,10 @@ struct SettingsView: View {
         .sheet(isPresented: $showRoadblock, content: {
             RoadblockView()
         })
+        .alert(errorSaving?.localizedDescription ?? "Error saving", isPresented: $showError) {
+            
+        }
+        
     }
 }
 
@@ -294,5 +309,6 @@ struct SettingsView_Previews: PreviewProvider {
             .environment(\.managedObjectContext, PersistenceController.testing)
             .putInTemplate()
             .putInNavView(.inline)
+            .environmentObject(User.main)
     }
 }

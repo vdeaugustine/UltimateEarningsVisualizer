@@ -13,25 +13,35 @@ import Vin
 
 public extension User {
     @discardableResult convenience init(exampleItem: Bool = true,
-                                        context: NSManagedObjectContext = PersistenceController.testing) throws {
+                                        context: NSManagedObjectContext = PersistenceController.context) throws {
         self.init(context: context)
 
-        try self.statusTracker = .init(user: self, context: context)
-
-        self.username = "Testing User"
-        self.email = "TestUser@ExampleForTest.com"
-
-        try Wage(amount: 35,
-                 isSalary: false,
-                 user: self,
-                 includeTaxes: true,
-                 stateTax: 7,
-                 federalTax: 19,
-                 context: context)
+//        try self.statusTracker = .init(user: self, context: context)
+        
+        let status = StatusTracker(context: context)
+        self.statusTracker = status
+        status.user = self
 
         if exampleItem {
+            self.username = "Testing User"
+            self.email = "TestUser@ExampleForTest.com"
+
+            try Wage(amount: 35,
+                     isSalary: false,
+                     user: self,
+                     includeTaxes: true,
+                     stateTax: 7,
+                     federalTax: 19,
+                     context: context)
+            
             instantiateExampleItems(context: context)
+            
+            
         }
+        
+        
+        let settings = Settings(context: context)
+        settings.themeColor = Color.accentColor
 
         try context.save()
     }
@@ -355,13 +365,15 @@ public extension User {
         if let statusTracker {
             return statusTracker
         }
+        
+        let context = User.main.getContext()
 
-        let newStatus = StatusTracker(context: PersistenceController.context)
+        let newStatus = StatusTracker(context: context)
 
         do {
-            try PersistenceController.context.save()
+            try context.save()
         } catch {
-            print(error)
+            fatalError("\(error)")
         }
 
         return newStatus
@@ -375,7 +387,7 @@ public extension User {
         }
 
         let newSettings = Settings(context: self.getContext())
-        newSettings.themeColorStr = Color.defaultColorHexes.first
+        newSettings.themeColor = Color(hex: "0A5F54")
         newSettings.user = self
         settings = newSettings
         do {

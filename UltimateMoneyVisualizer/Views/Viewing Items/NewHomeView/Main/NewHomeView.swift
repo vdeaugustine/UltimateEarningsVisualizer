@@ -43,6 +43,7 @@ struct NewHomeView: View {
         }
     }
 
+    // MARK: - Main Body
     var body: some View {
         ScrollViewReader { scrollProxy in
             GeometryReader { geo in
