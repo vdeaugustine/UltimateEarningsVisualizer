@@ -20,6 +20,12 @@ struct NetMoney_HomeView: View {
         .padding()
         .modifier(ShadowForRect())
         .padding(.horizontal)
+        .onAppear(perform: {
+            print("Color is :\(Color.accentColor) and hex:", Color.accentColor.getHex())
+            print("High level accent color: \(Color("AccentColor").getHex())")
+            print("\(Mirror(reflecting: Color.accentColor))")
+            print("\(Mirror(reflecting: Color("AccentColor")))")
+        })
     }
 }
 

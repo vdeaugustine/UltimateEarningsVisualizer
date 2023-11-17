@@ -20,12 +20,12 @@ struct ContentView: View {
     @ObservedObject private var user: User = .main
     
     @State private var showOnboarding: Bool = !User.main.getStatusTracker().hasSeenOnboardingFlow
-    @State private var status: StatusTracker = User.main.statusTracker!
+    @ObservedObject private var status: StatusTracker = User.main.statusTracker!
     
     
     var body: some View {
         Group {
-            if showOnboarding {
+            if status.hasSeenOnboardingFlow == false {
                 FinalOnboarding(user: user, showOnboarding: $showOnboarding)
             } else {
                 TabView(selection: $navManager.currentTab.onUpdate(ifNoChange: navManager.sameTabTapped)) {
@@ -61,7 +61,14 @@ struct ContentView: View {
                     //            #endif
                     //
                 }
-                .tint(Color.accentColor)
+                .tint(Color("AccentColor"))
+                
+                .onAppear(perform: {
+                    print("Color is :\(Color.accentColor) and hex:", Color.accentColor.getHex())
+                    print("High level accent color: \(Color("AccentColor").getHex())")
+                    print("\(Mirror(reflecting: Color.accentColor))")
+                    print("\(Mirror(reflecting: Color("AccentColor")))")
+                })
             }
         }
 //        .onAppear {

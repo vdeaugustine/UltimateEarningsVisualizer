@@ -26,8 +26,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             print("Error in app delegate ")
         }
         
-        // TODO: Get rid of this 
-        DebugOperations.deleteAll()
+        User.main.instantiateExampleItems(context: User.main.getContext())
+        // TODO: Get rid of this
+//        DebugOperations.deleteAll()
         
         return true
     }

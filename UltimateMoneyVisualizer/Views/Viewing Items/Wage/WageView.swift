@@ -6,6 +6,7 @@
 //
 
 import AlertToast
+import Combine
 import CoreData
 import SwiftUI
 
@@ -31,6 +32,23 @@ class WageViewModel: ObservableObject {
 
     @Published var toggleTaxes = User.main.getWage().includeTaxes
 
+    init() {
+        setupWageListener()
+    }
+
+    
+    private func setupWageListener() {
+        wageChangesPublisher.sink { [weak self] newWage in
+            self?.wage = newWage
+            self?.objectWillChange.send()
+        }.store(in: &cancellables)
+    }
+
+    // MARK: - publishers
+
+    var wageChangesPublisher = PassthroughSubject<Wage, Never>()
+    private var cancellables = Set<AnyCancellable>()
+
     func calculateHourlyWage(salary: Double, hoursPerWeek: Double, vacationDays: Double) -> Double? {
         let weeksPerYear = 52.0
         let vacationWeeks = vacationDays / 5.0
@@ -46,6 +64,9 @@ struct WageView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
     @ObservedObject private var vm = WageViewModel.shared
+
+    @FetchRequest(entity: Wage.entity(),
+                  sortDescriptors: []) private var wages: FetchedResults<Wage>
 
     private func calculateHourlyWage() {
         guard let salaryValue = Double(vm.salary),
@@ -68,10 +89,14 @@ struct WageView: View {
     }
 
     private var wageToShow: Double {
-        if vm.wage.isSalary {
-            return vm.wage.perYear
+        guard let wage = wages.first(where: { $0.user == vm.user }) else {
+            // TODO: Fix this
+            fatalError("Could not find wage?!")
+        }
+        if wage.isSalary {
+            return wage.perYear
         } else {
-            return vm.wage.hourly
+            return wage.hourly
         }
     }
 
@@ -133,7 +158,9 @@ struct WageView: View {
                 Text("These values are based on your wage settings and can be edited by tapping the **Edit** button.")
             }
         }
-
+        .onAppear(perform: {
+            print("appearing WageView")
+        })
         .putInTemplate()
         .navigationTitle("My Wage")
 
