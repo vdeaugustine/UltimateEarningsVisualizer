@@ -114,26 +114,31 @@ class CreateNewTimeBlockViewModel: ObservableObject {
         case couldNotSaveContext
         case overlapping(String)
         case unknown
+        case couldNotGetTodayShift
 
         var description: String {
             switch self {
-            case .couldNotSaveContext:
-                return "Error saving. Please try again. If issue persists, try restarting the app"
-            case let .overlapping(message):
-                return message
-            case .unknown:
-                return "Unknown error. Please try again. If issue persists, try restarting the app"
+                case .couldNotSaveContext:
+                    return "Error saving. Please try again. If issue persists, try restarting the app"
+                case let .overlapping(message):
+                    return message
+                case .unknown:
+                    return "Unknown error. Please try again. If issue persists, try restarting the app"
+                case .couldNotGetTodayShift:
+                    return "There was an issue getting the Today Shift while saving"
             }
         }
 
         var errorDescription: String? {
             switch self {
-            case .couldNotSaveContext:
-                return "Error saving. Please try again. If issue persists, try restarting the app"
-            case let .overlapping(message):
-                return message
-            case .unknown:
-                return "Unknown error. Please try again. If issue persists, try restarting the app"
+                case .couldNotSaveContext:
+                    return "Error saving. Please try again. If issue persists, try restarting the app"
+                case let .overlapping(message):
+                    return message
+                case .unknown:
+                    return "Unknown error. Please try again. If issue persists, try restarting the app"
+                case .couldNotGetTodayShift:
+                    return "There was an issue getting the Today Shift while saving"
             }
         }
     }

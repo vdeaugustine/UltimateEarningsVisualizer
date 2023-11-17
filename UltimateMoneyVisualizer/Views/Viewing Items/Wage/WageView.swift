@@ -36,12 +36,12 @@ class WageViewModel: ObservableObject {
         setupWageListener()
     }
 
-    
     private func setupWageListener() {
         wageChangesPublisher.sink { [weak self] newWage in
             self?.wage = newWage
             self?.objectWillChange.send()
-        }.store(in: &cancellables)
+        }
+        .store(in: &cancellables)
     }
 
     // MARK: - publishers
@@ -89,14 +89,10 @@ struct WageView: View {
     }
 
     private var wageToShow: Double {
-        guard let wage = wages.first(where: { $0.user == vm.user }) else {
-            // TODO: Fix this
-            fatalError("Could not find wage?!")
-        }
-        if wage.isSalary {
-            return wage.perYear
+        if vm.wage.isSalary {
+            return vm.wage.perYear
         } else {
-            return wage.hourly
+            return vm.wage.hourly
         }
     }
 
