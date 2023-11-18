@@ -26,7 +26,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             print("Error in app delegate ")
         }
         
-//        User.main.instantiateExampleItems(context: User.main.getContext())
+        User.main.instantiateExampleItems(context: User.main.getContext())
         // TODO: Get rid of this
 //        DebugOperations.deleteAll()
         

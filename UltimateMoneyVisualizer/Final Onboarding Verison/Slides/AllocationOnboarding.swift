@@ -12,7 +12,7 @@ struct AllocationOnboarding: View {
     @State private var showError = false
     @State private var errorMessage: String = ""
     @Binding var showOnboarding: Bool
-    
+    let totalSlides: Int
     
     @Binding var tab: Int
     var body: some View {
@@ -92,10 +92,9 @@ struct AllocationOnboarding: View {
                             }
 
                             HStack {
-                                OnboardingPill(isFilled: true)
-                                OnboardingPill(isFilled: true)
-                                OnboardingPill(isFilled: true)
-                                OnboardingPill(isFilled: false)
+                                ForEach(0 ..< totalSlides, id: \.self) { num in
+                                    OnboardingPill(isFilled: num <= tab)
+                                }
                             }
                             .frame(maxWidth: geo.size.width * 0.45)
                             .minimumScaleFactor(0.5)
@@ -124,5 +123,5 @@ struct AllocationOnboarding: View {
 }
 
 #Preview {
-    AllocationOnboarding(showOnboarding: .constant(true), tab: .constant(0))
+    AllocationOnboarding(showOnboarding: .constant(true), totalSlides: 5, tab: .constant(0))
 }

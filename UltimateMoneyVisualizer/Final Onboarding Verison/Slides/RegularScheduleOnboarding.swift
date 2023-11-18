@@ -1,13 +1,13 @@
 //
-//  GoalOnboarding.swift
+//  RegularScheduleOnboarding.swift
 //  UltimateMoneyVisualizer
 //
-//  Created by Vincent DeAugustine on 11/15/23.
+//  Created by Vincent DeAugustine on 11/17/23.
 //
 
 import SwiftUI
 
-struct GoalOnboarding: View {
+struct RegularScheduleOnboarding: View {
     // MARK: - SwipingGoalSection
 
     // MARK: - Body
@@ -114,5 +114,5 @@ struct GoalOnboarding: View {
 }
 
 #Preview {
-    GoalOnboarding(tab: .constant(3), totalSlides: 5)
+    RegularScheduleOnboarding(tab: .constant(0), totalSlides: 4)
 }

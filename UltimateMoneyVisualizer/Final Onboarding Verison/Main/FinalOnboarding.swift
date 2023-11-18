@@ -8,19 +8,20 @@
 import SwiftUI
 import Vin
 
-
-
 struct FinalOnboarding: View {
     @State private var tab: Int = 0
     @ObservedObject var user: User = .main
     @Binding var showOnboarding: Bool
-    
+    let totalSlides = 5
+
     var body: some View {
         TabView(selection: $tab) {
-            WageOnboarding(tab: $tab).tag(0)
-            ExpenseOnboarding(tab: $tab).tag(1)
-            GoalOnboarding(tab: $tab).tag(2)
-            AllocationOnboarding(showOnboarding: $showOnboarding, tab: $tab).tag(3)
+            WelcomeOnboarding(tab: $tab, totalSlides: totalSlides).tag(0)
+            WageOnboarding(tab: $tab, totalSlides: totalSlides).tag(1)
+            ExpenseOnboarding(tab: $tab, totalSlides: totalSlides).tag(2)
+            GoalOnboarding(tab: $tab, totalSlides: totalSlides).tag(3)
+            AllocationOnboarding(showOnboarding: $showOnboarding,
+                                 totalSlides: totalSlides, tab: $tab).tag(4)
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         .ignoresSafeArea(.container, edges: .top)
@@ -34,10 +35,6 @@ struct FinalOnboarding: View {
         .environmentObject(user)
     }
 }
-
-
-
-
 
 #Preview {
     FinalOnboarding(user: .testing, showOnboarding: .constant(true))

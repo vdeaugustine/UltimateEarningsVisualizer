@@ -19,7 +19,7 @@ struct WageOnboarding: View {
 
     @Binding var tab: Int
 
-    // MARK: Observed
+    let totalSlides: Int
 
     // MARK: - Body
 
@@ -86,10 +86,9 @@ struct WageOnboarding: View {
                             }
 
                             HStack {
-                                OnboardingPill(isFilled: true)
-                                OnboardingPill(isFilled: false)
-                                OnboardingPill(isFilled: false)
-                                OnboardingPill(isFilled: false)
+                                ForEach(0 ..< totalSlides, id: \.self) { num in
+                                    OnboardingPill(isFilled: num <= tab)
+                                }
                             }
                             .frame(maxWidth: geo.size.width * 0.45)
                             .minimumScaleFactor(0.5)
@@ -217,16 +216,17 @@ struct FinalOnboardingEnteringWageFirstTime: View {
             } message: {
                 Text("Please try again.")
             }
-        }
-        .toolbar {
-            ToolbarItemGroup(placement: .keyboard) {
-                Spacer()
-                Button("Done") {
-                    hourlyFocused = false
-                    salaryFocused = false
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Done") {
+                        hourlyFocused = false
+                        salaryFocused = false
+                    }
                 }
             }
         }
+        
     }
 
     var typePicker: some View {
@@ -430,5 +430,5 @@ struct FinalOnboardingEnteringWageFirstTime: View {
 }
 
 #Preview {
-    WageOnboarding(tab: .constant(0))
+    WageOnboarding(tab: .constant(0), totalSlides: 5)
 }
