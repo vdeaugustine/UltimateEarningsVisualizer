@@ -58,13 +58,14 @@ struct EditTimeBlockView: View {
                 editTitleFieldFocused = true
             }
             .toolbar {
+                
                 ToolbarItemGroup(placement: .keyboard) {
                     Spacer()
                     Button("Done") {
                         editTitleFieldFocused = false
                     }
                 }
-
+                
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Save") {
                         saveChanges()
@@ -79,11 +80,16 @@ struct EditTimeBlockView: View {
                     .foregroundStyle(.white)
                 }
             }
-            .onTapGesture {
-                if editTitleFieldFocused {
-                    editTitleFieldFocused = false
-                }
-            }
+            
+//            .conditionalModifier(editTitleFieldFocused) { view in
+//
+//                view.overlay {
+//                    Color.clear.frame(maxWidth: .infinity, maxHeight: .infinity)
+//                }.onTapGesture {
+//                    print("title focused but tapped and will change false")
+//                    editTitleFieldFocused = false
+//                }
+//            }
             .putInTemplate(title: "Edit Time Block", displayMode: .large)
         }
     }

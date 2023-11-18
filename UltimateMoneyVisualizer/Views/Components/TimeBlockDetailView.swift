@@ -88,7 +88,7 @@ struct TimeBlockDetailView: View {
 
             Section {
                 Button {
-                    
+                    NavManager.shared.appendCorrectPath(newValue: .timeBlockMoreInfoAndTutorial)
                 } label: {
                     Label("What are time blocks?", systemImage: "questionmark.circle")
                 }

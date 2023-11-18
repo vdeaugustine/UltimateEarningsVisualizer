@@ -130,6 +130,7 @@
 		9C76B2EE2A56819C001E40FC /* NewItemCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C76B2ED2A56819C001E40FC /* NewItemCreationView.swift */; };
 		9C76B2F02A5689B2001E40FC /* NewItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C76B2EF2A5689B2001E40FC /* NewItemViewModel.swift */; };
 		9C778A482B08489A001C02DF /* EditTimeBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C778A472B08489A001C02DF /* EditTimeBlockView.swift */; };
+		9C778A4A2B087468001C02DF /* SlideShowWelcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C778A492B087468001C02DF /* SlideShowWelcome.swift */; };
 		9C793C222ABC198400D9C48E /* GoalsOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C793C212ABC198400D9C48E /* GoalsOnboardingView.swift */; };
 		9C793C242ABE7F1F00D9C48E /* RoadblockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C793C232ABE7F1F00D9C48E /* RoadblockView.swift */; };
 		9C7A16392AFCA55B004EC33B /* OnboardingSlideShow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7A16382AFCA55B004EC33B /* OnboardingSlideShow.swift */; };
@@ -454,6 +455,7 @@
 		9C76B2ED2A56819C001E40FC /* NewItemCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewItemCreationView.swift; path = "UltimateMoneyVisualizer/Views/Adding Items/New Item Creation/NewItemCreationView.swift"; sourceTree = SOURCE_ROOT; };
 		9C76B2EF2A5689B2001E40FC /* NewItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewItemViewModel.swift; path = "UltimateMoneyVisualizer/Views/Adding Items/New Item Creation/NewItemViewModel.swift"; sourceTree = SOURCE_ROOT; };
 		9C778A472B08489A001C02DF /* EditTimeBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTimeBlockView.swift; sourceTree = "<group>"; };
+		9C778A492B087468001C02DF /* SlideShowWelcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SlideShowWelcome.swift; path = UltimateMoneyVisualizer/AllTesting/SlideShowWelcome.swift; sourceTree = SOURCE_ROOT; };
 		9C793C212ABC198400D9C48E /* GoalsOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsOnboardingView.swift; sourceTree = "<group>"; };
 		9C793C232ABE7F1F00D9C48E /* RoadblockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoadblockView.swift; sourceTree = "<group>"; };
 		9C7A16382AFCA55B004EC33B /* OnboardingSlideShow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSlideShow.swift; sourceTree = "<group>"; };
@@ -1075,6 +1077,7 @@
 		9C7A163A2AFCA55F004EC33B /* Onboarding Slide Show */ = {
 			isa = PBXGroup;
 			children = (
+				9C778A492B087468001C02DF /* SlideShowWelcome.swift */,
 				9C7A163B2AFCA5B6004EC33B /* Slides for Onboarding */,
 				9C7A16382AFCA55B004EC33B /* OnboardingSlideShow.swift */,
 			);
@@ -2298,6 +2301,7 @@
 				9CED534A2A08ADCF002DC183 /* AllocShiftRow.swift in Sources */,
 				9C7C986929FDA7880077EA25 /* ExtendTemporaryAllocation.swift in Sources */,
 				9C0505722A0FF56C00FC6511 /* PayoffItemProgressBar.swift in Sources */,
+				9C778A4A2B087468001C02DF /* SlideShowWelcome.swift in Sources */,
 				9C3C58642A0C9ED500169A0F /* AddAllocationForExpenseView.swift in Sources */,
 				9CF194DF2A1E03E7000F83A9 /* PriceTagShape.swift in Sources */,
 				9C460EE22A038D420007EBA9 /* ShiftCircle.swift in Sources */,
