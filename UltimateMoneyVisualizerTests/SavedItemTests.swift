@@ -32,7 +32,13 @@ final class SavedItemTests: XCTestCase {
         try Saved(amount: 7, title: "Rode bike", date: .init(fromString: "02/1/2023", format: "MM/dd/yyyy")!, user: user, context: context)
         try Saved(amount: 9, title: "Friend bought dinner", date: .init(fromString: "02/27/2023", format: "MM/dd/yyyy")!, user: user, context: context)
 
-        try Wage(amount: 20, user: user, context: context)
+        try Wage(amount: 60,
+                      isSalary: false,
+                      user: user,
+                      includeTaxes: false,
+                      stateTax: nil,
+                      federalTax: nil,
+                      context: PersistenceController.testing)
 
         let timeSaved = user.totalTimeSaved()
 

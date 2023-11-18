@@ -13,9 +13,19 @@ final class ExpenseTests: XCTestCase {
     let user = User.testing
     let context = PersistenceController.testing
     func testTemporarilyPaidOff() throws {
-        
+        let expense = try Expense(title: "Groceries",
+                              info: "For the week",
+                              amount: 50,
+                              dueDate: .now.addDays(25),
+                              dateCreated: .now,
+                              isRecurring: false,
+                              recurringDate: nil,
+                              tagStrings: nil,
+                              repeatFrequency: nil,
+                              user: user,
+                              context: context)
 
-        let expense = Expense(title: "Groceries", info: "For the week", amount: 50, dueDate: .now.addDays(25), user: user, context: context)
+        /* Expense(title: "Groceries", info: "For the week", amount: 50, dueDate: .now.addDays(25), user: user, context: context) */
 
         try TodayShift(startTime: .nineAM, endTime: .fivePM, user: user, context: context)
         let shiftForAllocation = try Shift(day: .monday, start: .nineAM, end: .fivePM, user: user, context: context)
@@ -30,7 +40,17 @@ final class ExpenseTests: XCTestCase {
     }
 
     func testTemporaryRemainingToPayOff() throws {
-        let expense = Expense(title: "Groceries", info: "For the week", amount: 93, dueDate: .now.addDays(25), user: user, context: context)
+        let expense = try Expense(title: "Groceries",
+                                  info: "For the week",
+                                  amount: 50,
+                                  dueDate: .now.addDays(25),
+                                  dateCreated: .now,
+                                  isRecurring: false,
+                                  recurringDate: nil,
+                                  tagStrings: nil,
+                                  repeatFrequency: nil,
+                                  user: user,
+                                  context: context)
 
         try TodayShift(startTime: .nineAM, endTime: .fivePM, user: user, context: context)
         let shiftForAllocation = try Shift(day: .monday, start: .nineAM, end: .fivePM, user: user, context: context)

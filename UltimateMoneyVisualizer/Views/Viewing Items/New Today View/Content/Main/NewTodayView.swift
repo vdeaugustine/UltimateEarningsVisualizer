@@ -30,14 +30,13 @@ struct NewTodayView: View {
     }
 }
 
+// MARK: - MainView_TodayView
 
-
-struct MainView_TodayView : View {
+struct MainView_TodayView: View {
     @EnvironmentObject var viewModel: TodayViewModel
-    
+
     // MARK: - Properties
-    
-    
+
     var body: some View {
         ScrollView {
             VStack {
@@ -50,9 +49,7 @@ struct MainView_TodayView : View {
                     Spacer()
                         .frame(height: 24)
                     // Payoff queue
-//                    if !viewModel.nonZeroPayoffItems.isEmpty {
-                        TodayPaidOffStackWithHeader()
-//                    }
+                    TodayPaidOffStackWithHeader()
                     Spacer()
                         .frame(height: 24)
                     TodayViewItemizedBlocks()
@@ -68,11 +65,11 @@ struct MainView_TodayView : View {
         }
         .modifier(Modifiers())
         .onAppear(perform: {
-            let timeblocks = viewModel.user.todayShift!.getTimeBlocks()
+            let timeBlocks = viewModel.user.todayShift!.getTimeBlocks()
             let userBlocks = viewModel.user.getTimeBlocksBetween()
-            print("time blocks count = \(timeblocks.count)")
+            print("time blocks count = \(timeBlocks.count)")
             print("user blocks", userBlocks.count)
-            for block in timeblocks{
+            for block in timeBlocks {
                 print(block)
             }
             for block in userBlocks {
@@ -80,11 +77,11 @@ struct MainView_TodayView : View {
             }
         })
     }
-    
-    
+
     // MARK: - Modifiers
+
     struct Modifiers: ViewModifier {
-        @EnvironmentObject private var viewModel : TodayViewModel
+        @EnvironmentObject private var viewModel: TodayViewModel
         func body(content: Content) -> some View {
             content
                 .background {
@@ -117,14 +114,11 @@ struct MainView_TodayView : View {
                               }, onDismiss: {
                                   viewModel.saveBannerWasDismissed = true
                               })
-            
         }
-        
     }
-    
-    
-    
+
     // MARK: - Sub Views
+
     @ViewBuilder var headerAndBar: some View {
         VStack {
             VStack(spacing: -20) {
@@ -138,19 +132,13 @@ struct MainView_TodayView : View {
                 .padding(.top)
         }
     }
-    
-    
 }
 
-
-
-
-
-
+// MARK: - NewTodayView_Previews
 
 //// MARK: - MainView_TodayView
 //
-//struct MainView_TodayView: View {
+// struct MainView_TodayView: View {
 //    @EnvironmentObject var viewModel: TodayViewModel
 //
 //    var body: some View {
@@ -226,10 +214,9 @@ struct MainView_TodayView : View {
 //                .padding(.top)
 //        }
 //    }
-//}
+// }
 //
-// MARK: - NewTodayView_Previews
-   
+
 struct NewTodayView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack(path: .constant(NavManager.shared.todayViewNavPath)) {
