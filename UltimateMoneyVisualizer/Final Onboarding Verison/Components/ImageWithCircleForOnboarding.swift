@@ -12,9 +12,10 @@ import SwiftUI
 struct ImageWithCircleForOnboarding: View {
     let image: String
     let size: CGSize
+    @ObservedObject private var settings = User.main.getSettings()
     var body: some View {
         ZStack {
-            Color.accentColor.brightness(0.20)
+            settings.themeColor.brightness(0.20)
             Image(image)
                 .resizable()
                 .aspectRatio(contentMode: .fit)

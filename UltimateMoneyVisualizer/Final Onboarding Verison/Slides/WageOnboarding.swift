@@ -19,7 +19,7 @@ struct WageOnboarding: View {
 
     @Binding var tab: Int
 
-    // MARK: Observed
+    let totalSlides: Int
 
     // MARK: - Body
 
@@ -86,10 +86,9 @@ struct WageOnboarding: View {
                             }
 
                             HStack {
-                                OnboardingPill(isFilled: true)
-                                OnboardingPill(isFilled: false)
-                                OnboardingPill(isFilled: false)
-                                OnboardingPill(isFilled: false)
+                                ForEach(0 ..< totalSlides, id: \.self) { num in
+                                    OnboardingPill(isFilled: num <= tab)
+                                }
                             }
                             .frame(maxWidth: geo.size.width * 0.45)
                             .minimumScaleFactor(0.5)
@@ -165,6 +164,8 @@ struct FinalOnboardingEnteringWageFirstTime: View {
 
     @FocusState private var salaryFocused: Bool
     @FocusState private var hourlyFocused: Bool
+    
+    @ObservedObject private var settings = User.main.getSettings()
 
     var body: some View {
         NavigationView {
@@ -215,16 +216,17 @@ struct FinalOnboardingEnteringWageFirstTime: View {
             } message: {
                 Text("Please try again.")
             }
-        }
-        .toolbar {
-            ToolbarItemGroup(placement: .keyboard) {
-                Spacer()
-                Button("Done") {
-                    hourlyFocused = false
-                    salaryFocused = false
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Done") {
+                        hourlyFocused = false
+                        salaryFocused = false
+                    }
                 }
             }
         }
+        
     }
 
     var typePicker: some View {
@@ -297,7 +299,7 @@ struct FinalOnboardingEnteringWageFirstTime: View {
             Toggle("State", isOn: $includeStateTaxes)
             Toggle("Federal", isOn: $includeFederalTaxes)
         }
-        .tint(Color.accentColor)
+        .tint(settings.themeColor)
     }
 
     var stateTaxRow: some View {
@@ -403,7 +405,7 @@ struct FinalOnboardingEnteringWageFirstTime: View {
                 .frame(height: 50)
                 .foregroundStyle(.white)
                 .background {
-                    Color.accentColor
+                    settings.themeColor
                         .clipShape(RoundedRectangle(cornerRadius: 16))
                 }
         }
@@ -428,5 +430,5 @@ struct FinalOnboardingEnteringWageFirstTime: View {
 }
 
 #Preview {
-    WageOnboarding(tab: .constant(0))
+    WageOnboarding(tab: .constant(0), totalSlides: 5)
 }

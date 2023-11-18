@@ -42,8 +42,8 @@ extension View {
                                                   endPoint: .trailing),
                                    for: .navigationBar)
                 .toolbarBackground(.visible, for: .tabBar)
-                .accentColor(Color("AccentColor"))
-                .tint(Color("AccentColor"))
+                .accentColor(settings.themeColor)
+                .tint(settings.themeColor)
                 .preferredColorScheme(.light)
         } else {
             navigationBarTitleDisplayMode(displayMode)

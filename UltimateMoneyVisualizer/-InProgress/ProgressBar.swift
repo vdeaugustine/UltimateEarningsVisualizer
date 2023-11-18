@@ -19,6 +19,22 @@ struct ProgressBar: View {
     var barBackgroundColor: Color = Color(uiColor: .lightGray)
     var showBackgroundBar = true
 
+    @ObservedObject private var settings = User.main.getSettings()
+
+    init(percentage: Double,
+         height: CGFloat = 8,
+         color: Color? = nil,
+         barBackgroundColor: Color = Color(uiColor: .lightGray),
+         showBackgroundBar: Bool = true,
+         settings: Settings = User.main.getSettings()) {
+        self.percentage = percentage
+        self.height = height
+        self.color = color ?? settings.themeColor
+        self.barBackgroundColor = barBackgroundColor
+        self.showBackgroundBar = showBackgroundBar
+        self.settings = settings
+    }
+
     var body: some View {
         GeometryReader { geo in
             barPart(width: geo.size.width)

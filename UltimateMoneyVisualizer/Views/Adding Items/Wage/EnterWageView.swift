@@ -1,21 +1,23 @@
 import AlertToast
 import SwiftUI
 
-// MARK: - EnterWageView
+// MARK: - EnterWageViewModel
 
 class EnterWageViewModel: ObservableObject, Hashable {
     static func == (lhs: EnterWageViewModel, rhs: EnterWageViewModel) -> Bool {
         lhs.stateTax == rhs.stateTax
     }
-    
+
     func hash(into hasher: inout Hasher) {
         hasher.combine(stateTax)
         hasher.combine(federalTax)
     }
-    
+
     @Published var stateTax = User.main.getWage().stateTaxPercentage
     @Published var federalTax = User.main.getWage().federalTaxPercentage
 }
+
+// MARK: - EnterWageView
 
 // swiftformat:sort:begin
 
@@ -54,7 +56,6 @@ struct EnterWageView: View {
     @State private var showSalarySheet = false
 
     @State private var includeTaxes = User.main.getWage().includeTaxes
-    
 
     @State private var showStateSheet = false
     @State private var showFederalSheet = false
@@ -128,7 +129,7 @@ struct EnterWageView: View {
 
     @ViewBuilder var assumptionsSection: some View {
         Section {
-            if showAssumptions {
+            DisclosureGroup("Calculation Assumptions", isExpanded: $showAssumptions) {
                 Picker("Hours Per Day", selection: $hoursPerDay) {
                     ForEach(hoursOptions, id: \.self) { num in
                         Text(num.simpleStr())
@@ -167,17 +168,11 @@ struct EnterWageView: View {
                 Button("Hide") {
                     showAssumptions.toggle()
                 }
-            } else {
-                Button("Show") {
-                    showAssumptions.toggle()
-                }
             }
-
-        } header: {
-            Text("Calculation Assumptions")
         } footer: {
             Text("When calculating daily, weekly, monthly, and yearly, these values will be used respectively")
         }
+//        .tint(showAssumptions ? settings.themeColor : .primary)
     }
 
     @ViewBuilder var taxesSection: some View {
@@ -198,9 +193,8 @@ struct EnterWageView: View {
                     showStateSheet = true
                 }
                 Button {
-                    
                     NavManager.shared.appendCorrectPath(newValue: .calculateTax(.init(taxType: .state, bindedRate: $viewModel.stateTax)))
-                    
+
                 } label: {
                     Label("Calculate for me", systemImage: "info.circle")
                 }
@@ -253,7 +247,7 @@ struct EnterWageView: View {
             showSuccessfulSaveToast = true
             user.wage = wage
             WageViewModel.shared.wageChangesPublisher.send(wage)
-            
+
         } catch {
             fatalError(String(describing: error))
         }
@@ -265,6 +259,12 @@ struct EnterWageView: View {
 
             Toggle("Salary", isOn: $isSalaried)
 
+//
+//            Circle()
+//                .fill(Color.accentColor)
+//                .frame(width: 20)
+//
+//
             salarySection
 
             assumptionsSection
