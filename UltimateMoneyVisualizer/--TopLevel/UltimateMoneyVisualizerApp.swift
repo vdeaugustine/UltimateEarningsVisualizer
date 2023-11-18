@@ -55,6 +55,7 @@ struct UltimateMoneyVisualizerApp: App {
                     NotificationManager.scheduleDailyNotification()
                 }
                 .environmentObject(user)
+                .tint(user.getSettings().themeColor)
                 
         }
     }

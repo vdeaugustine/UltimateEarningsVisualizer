@@ -171,6 +171,7 @@ struct EnterWageView: View {
                 Button("Show") {
                     showAssumptions.toggle()
                 }
+                .tint(settings.themeColor)
             }
 
         } header: {
@@ -264,7 +265,13 @@ struct EnterWageView: View {
             hourlyWageSection
 
             Toggle("Salary", isOn: $isSalaried)
-
+                
+//            
+//            Circle()
+//                .fill(Color.accentColor)
+//                .frame(width: 20)
+//                
+//            
             salarySection
 
             assumptionsSection

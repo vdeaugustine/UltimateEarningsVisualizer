@@ -165,6 +165,8 @@ struct FinalOnboardingEnteringWageFirstTime: View {
 
     @FocusState private var salaryFocused: Bool
     @FocusState private var hourlyFocused: Bool
+    
+    @ObservedObject private var settings = User.main.getSettings()
 
     var body: some View {
         NavigationView {
@@ -297,7 +299,7 @@ struct FinalOnboardingEnteringWageFirstTime: View {
             Toggle("State", isOn: $includeStateTaxes)
             Toggle("Federal", isOn: $includeFederalTaxes)
         }
-        .tint(Color.accentColor)
+        .tint(settings.themeColor)
     }
 
     var stateTaxRow: some View {
@@ -403,7 +405,7 @@ struct FinalOnboardingEnteringWageFirstTime: View {
                 .frame(height: 50)
                 .foregroundStyle(.white)
                 .background {
-                    Color.accentColor
+                    settings.themeColor
                         .clipShape(RoundedRectangle(cornerRadius: 16))
                 }
         }
