@@ -8,6 +8,8 @@
 import SwiftUI
 import Vin
 
+// MARK: - WageOnboarding
+
 struct WageOnboarding: View {
     // MARK: - SwipingWageSection
 
@@ -52,7 +54,7 @@ struct WageOnboarding: View {
                             //                            Circle().frame(width: 10).position(controlPoint)
                         #endif
 
-                        ImageWithCircleForOnboarding(image: "moneyCalendar", size: geo.size)
+                        ImageWithCircleForOnboarding(image: "chartUp2", size: geo.size)
                             .position(x: geo.frame(in: .global).midX, y: endY)
                     }
                     .frame(height: 350 * (geo.size.height / 759))
@@ -114,7 +116,7 @@ struct WageOnboarding: View {
     }
 }
 
-// MARK: - SwipingEnterWageFirstTimeView
+// MARK: - FinalOnboardingEnteringWageFirstTime
 
 struct FinalOnboardingEnteringWageFirstTime: View {
     @Binding var tab: Int
@@ -150,8 +152,15 @@ struct FinalOnboardingEnteringWageFirstTime: View {
     @State private var showSheetToEnterWage = false
     @State private var showSheetToEnterSalaryWage = false
 
-    @State private var hourlyWageString = ""
-    @State private var yearlySalaryString = ""
+    @State private var hourlyWageString: String = ""
+
+    @State private var yearlySalaryString: String = {
+        #if DEBUG
+            "11000000"
+        #else
+            ""
+        #endif
+    }()
 
     @State private var errorMessage: String? = nil
 

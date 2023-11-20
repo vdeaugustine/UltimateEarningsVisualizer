@@ -58,6 +58,8 @@ struct OnboardingButton: View {
     let title: String
     let action: () -> Void
     let height: CGFloat
+    
+    @ObservedObject private var settings = User.main.getSettings()
 
     init(title: String, height: CGFloat = 50, _ action: @escaping () -> Void) {
         self.title = title
@@ -76,7 +78,7 @@ struct OnboardingButton: View {
                 .foregroundColor(.white)
                 .frame(height: height)
                 .background {
-                    Color.blue.clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                    settings.themeColor.clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                 }
                 
         }

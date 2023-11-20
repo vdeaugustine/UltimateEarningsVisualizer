@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "DALL_E_2023-11-18_20.56.17_-_A_flat_illustration_of_a_one-month_calendar_with_4_rows_of_7_squares__some_filled_in_and_some_left_blank__designed_in_a_very_simple__minimalistic_styl-removebg-preview.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

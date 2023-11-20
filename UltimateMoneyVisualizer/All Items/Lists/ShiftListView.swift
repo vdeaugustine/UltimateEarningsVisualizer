@@ -28,7 +28,8 @@ struct ShiftListView: View {
     @State private var upcomingToDelete: [Shift] = []
 
     var upcomingShifts: [Shift] {
-        user.getShiftsBetween(startDate: .now.addHours(1), endDate: .distantFuture).reversed()
+        user.getShiftsBetween(startDate: .now.addHours(1),
+                              endDate: .distantFuture).reversed()
     }
 
     func isSelected(_ shift: Shift) -> Bool {
@@ -41,7 +42,8 @@ struct ShiftListView: View {
 
     @State private var mostRecentSelected = false
 
-    @State private var payPeriods: [PayPeriod] = User.main.getPayPeriods().filter{ $0.getShifts().isEmpty == false }
+    @State private var payPeriods: [PayPeriod] = User.main.getPayPeriods().filter { $0.getShifts().isEmpty == false
+    }
 
     @State private var showResetUpcomingShiftsAlert = false
 
@@ -51,11 +53,14 @@ struct ShiftListView: View {
 
     @State private var showLastAlertForAllPastShifts = false
 
+    @State private var selectedShiftsToDelete: Set<Shift> = []
+
     var body: some View {
         VStack(spacing: 0) {
 //            upcomingPart
             listPart
         }
+        .putInTemplate()
         .onChange(of: wage, perform: { _ in
             shifts = user.getShifts()
         })
@@ -63,25 +68,30 @@ struct ShiftListView: View {
             update()
         }
         .toolbar {
-            Menu("More", systemImage: "ellipsis") {
-                Menu("Delete All") {
-                    Button("Upcoming shifts") {
-                        choseDeleteAllUpcoming = true
+            ToolbarItem(placement: .topBarTrailing) {
+                Menu("More", systemImage: "ellipsis") {
+                    Menu("Delete All") {
+                        Button("Upcoming shifts") {
+                            choseDeleteAllUpcoming = true
+                        }.foregroundStyle(.white)
+                        Button("Past shifts") {
+                            choseDeleteAllPast = true
+                        }.foregroundStyle(.white)
                     }
-                    Button("Past shifts") {
-                        choseDeleteAllPast = true
-                    }
-                }
-                if shifts.isEmpty == false {
-                    EditButton()
-                        .onChange(of: editMode.isEditing) { isEditing in
-                            if !isEditing {
-                                upcomingToDelete.removeAll()
+                    
+                    if shifts.isEmpty == false {
+                        EditButton()
+                            .foregroundStyle(.white)
+                            .onChange(of: editMode.isEditing) { isEditing in
+                                if !isEditing {
+                                    upcomingToDelete.removeAll()
+                                    selectedShiftsToDelete.removeAll()
+                                }
                             }
-                        }
+                    }
                 }
+                .foregroundStyle(.white)
             }
-            .preferredColorScheme(.light)
         }
         .alert("Error deleting shift", isPresented: $showErrorDeletingShift, actions: { }, message: {
             if let shift = shiftThatCouldntBeDeleted {
@@ -160,12 +170,10 @@ struct ShiftListView: View {
                 do {
                     try viewContext.save()
                 } catch {
-//                    let nsError = error as NSError
                     showErrorDeletingShift = true
                 }
             }
         }
-        .putInTemplate()
     }
 
     // swiftformat:sort:begin
@@ -181,41 +189,57 @@ struct ShiftListView: View {
         }
     }
 
-    var listPart: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            List {
-                upcomingScroll
-                    .listRowBackground(Color.clear)
-                    .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
-
-                ForEach(payPeriods.filter { $0.getLastDate() <= .now || $0 == user.getCurrentPayPeriod() }) { period in
-                    if period.getShifts().isEmpty == false {
-                        Section {
-                            ForEach(period.getShifts()) { shift in
-                                Button {
-                                    navManager.appendCorrectPath(newValue: .shift(shift))
-                                } label: {
-                                    ShiftRowView(shift: shift)
-                                }
-                            }
-                        } header: {
-                            Button {
-                                navManager.appendCorrectPath(newValue: .payPeriodDetail(period))
-                            } label: {
-                                HStack {
-                                    Text(period.dateRangeString)
-                                    Spacer()
-                                    Label("More", systemImage: "ellipsis")
-                                        .labelStyle(.iconOnly)
-                                }
-                            }
-                            .foregroundStyle(Color.black)
-                        }
-                    }
+    private var justShiftsNoPeriods: some View {
+        Section {
+            ForEach(user.getShifts()) { shift in
+                Button {
+                    navManager.appendCorrectPath(newValue: .shift(shift))
+                } label: {
+                    ShiftRowView(shift: shift)
                 }
             }
-            .listStyle(.insetGrouped)
+            .onDelete(perform: deleteShifts)
+        } header: {
+            Text("Past shifts")
         }
+    }
+
+    var listPart: some View {
+        List {
+            upcomingScroll
+                .listRowBackground(Color.clear)
+                .listRowInsets(.init(top: 0, leading: 0, bottom: 20, trailing: 0))
+
+            if user.getPayPeriods().isEmpty {
+                justShiftsNoPeriods
+            } else {
+                payPeriodSections
+            }
+        }
+        .listStyle(.insetGrouped)
+    }
+
+    private var payPeriodSections: some View {
+        ForEach(user.getPreviousPayPeriods()) { period in
+            if period.getShifts().isEmpty == false {
+                Section {
+                    shiftRows(for: period)
+                } header: {
+                    Button {
+                        navManager.appendCorrectPath(newValue: .payPeriodDetail(period))
+                    } label: {
+                        HStack {
+                            Text(period.dateRangeString)
+                            Spacer()
+                            Label("More", systemImage: "ellipsis")
+                                .labelStyle(.iconOnly)
+                        }
+                    }
+                    .foregroundStyle(Color.black)
+                }
+            }
+        }
+        .onDelete(perform: deleteShifts)
     }
 
     private func resetUpcoming() {
@@ -224,6 +248,16 @@ struct ShiftListView: View {
             viewContext.delete(shift)
 
             try? viewContext.save()
+        }
+    }
+
+    private func shiftRows(for period: PayPeriod) -> some View {
+        ForEach(period.getShifts()) { shift in
+            Button {
+                navManager.appendCorrectPath(newValue: .shift(shift))
+            } label: {
+                ShiftRowView(shift: shift)
+            }
         }
     }
 
@@ -341,7 +375,7 @@ struct ShiftRowView: View {
                     .font(.subheadline)
                     .foregroundColor(.primary)
                     .multilineTextAlignment(.trailing)
-                
+
                 Text("earned")
                     .font(.caption2)
                     .foregroundStyle(UIColor.secondaryLabel.color)
@@ -353,12 +387,11 @@ struct ShiftRowView: View {
 
 // MARK: - ShiftListView_Previews
 
-
 #Preview {
     //        ShiftListView()
     //            .environment(\.managedObjectContext, PersistenceController.context)
     //            .putInNavView(.inline)
-            ShiftWelcomeView()
+    ShiftWelcomeView()
 }
 
 // MARK: - ResetUpcoming
@@ -390,7 +423,6 @@ struct ShiftWelcomeView: View {
     var body: some View {
         ScrollView {
             VStack {
-                
             }
         }
         .background {
@@ -400,5 +432,3 @@ struct ShiftWelcomeView: View {
         }
     }
 }
-
-

@@ -13,7 +13,7 @@ struct AllItemsView: View {
     @EnvironmentObject private var navManager: NavManager
     @ObservedObject private var user = User.main
     @ObservedObject private var settings = User.main.getSettings()
-    @State private var selectionType: SelectionType = .shifts
+    @State private var selectionType: SelectionType = .saved
     @State private var editMode: EditMode = .inactive
 
     var body: some View {
@@ -39,7 +39,7 @@ struct AllItemsView: View {
             }
         }
         .background(Color.listBackgroundColor)
-        
+
         .environment(\.editMode, $editMode)
 
 //        .gesture(
@@ -61,28 +61,34 @@ struct AllItemsView: View {
         .toolbar {
             // TODO: Get rid of this
             #if DEBUG
-            ToolbarItem(placement: .navigationBarLeading) {
-                
-                Menu("Debug") {
-                    Button("Delete all shifts") {
-                        for shift in user.getShifts() {
-                            do {
-                                let context = user.getContext()
-                                user.removeFromShifts(shift)
-                                context.delete(shift)
-                                try context.save()
-                                print("Deleted shift")
-                            } catch {
-                                fatalError(String(describing: error))
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Menu("Debug") {
+                        Button("Delete all shifts") {
+                            for shift in user.getShifts() {
+                                do {
+                                    let context = user.getContext()
+                                    user.removeFromShifts(shift)
+                                    context.delete(shift)
+                                    try context.save()
+                                    print("Deleted shift")
+                                } catch {
+                                    fatalError(String(describing: error))
+                                }
                             }
                         }
                     }
+                    .foregroundStyle(.white)
                 }
-            }
             #endif
         }
-        
+
         .putInTemplate()
+        .onAppear(perform: {
+            // For some reason this is needed to make the top bar buttons be white instead of blending into background 
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+                selectionType = .shifts
+            }
+        })
     }
 
     private func changeSelectionType(forward: Bool) {
