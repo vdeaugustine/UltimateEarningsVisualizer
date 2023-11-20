@@ -50,38 +50,38 @@ struct PseudoShift: Hashable {
 struct FinalOnboardingShiftShowcase: View {
     @ObservedObject private var user = User.main
 
-    let shifts = PseudoShift.generatePseudoShifts(hourlyWage: 20, numberOfShifts: 4)
-    
+    let shifts = PseudoShift.generatePseudoShifts(hourlyWage: 20, numberOfShifts: 3)
+
     var body: some View {
         ScrollView {
             VStack {
-                VStack(spacing: 20){
-                    titleAndSubtitle
-                        .padding([.horizontal])
+                titleAndSubtitle
+                    .padding([.horizontal])
+                
+                bonus
+                    .padding(.horizontal)
 
-                    
-                    
-                    recentShifts
-                }
-                
-                Spacer(minLength: 30)
-                VStack(spacing: 12) {
-                    bonus
-                    
-                    Spacer()
-                    
-                    OnboardingButton(title: "Great!", height: 50) {
-                        
-                    }
-                    .padding(.horizontal, 30)
-                }
-                
+                Spacer(minLength: 40)
+
+                recentShifts
+
+                Spacer(minLength: 70)
                 
             }
+            .frame(maxHeight: .infinity)
             .padding()
         }
+        .safeAreaInset(edge: .bottom) {
+            VStack(spacing: 20) {
+                
+                OnboardingButton(title: "Great!", height: 50) {
+                }
+                .padding(.horizontal, 30)
+            }
+            .padding(.bottom)
+        }
     }
-    
+
     var bonus: some View {
         GroupBox {
             Text("You can simulate shifts you haven't worked yet to project your finances in the future")
@@ -99,7 +99,7 @@ struct FinalOnboardingShiftShowcase: View {
         }
 //        .padding()
     }
-    
+
     var titleAndSubtitle: some View {
         VStack(spacing: 20) {
             Text("Creating Shifts to Track Your Work Days")
@@ -116,7 +116,7 @@ struct FinalOnboardingShiftShowcase: View {
         }
 //        .padding(.horizontal, 20)
     }
-    
+
     var recentShifts: some View {
         VStack(spacing: 20) {
             VStack(alignment: .leading, spacing: 5) {
@@ -124,8 +124,6 @@ struct FinalOnboardingShiftShowcase: View {
                     .font(.title3).fontWeight(.semibold)
                 ShiftSummaryBox(shift: PseudoShift.generatePseudoShifts(hourlyWage: 20, numberOfShifts: 1).first!)
             }
-
-                
 
             VStack {
                 ForEach(shifts.dropFirst(), id: \.self) { shift in
@@ -137,6 +135,8 @@ struct FinalOnboardingShiftShowcase: View {
         .fadeEffect(startPoint: .center)
     }
 }
+
+// MARK: - PseudoShiftRowView
 
 struct PseudoShiftRowView: View {
     let shift: PseudoShift
