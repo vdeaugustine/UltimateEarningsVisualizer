@@ -54,25 +54,41 @@ struct FinalOnboardingShiftShowcase: View {
 
     var body: some View {
         ScrollView {
+            
             VStack {
+                Spacer()
                 titleAndSubtitle
                     .padding([.horizontal])
-                
-                bonus
-                    .padding(.horizontal)
+
+//                bonus
+//                    .padding(.horizontal)
 
                 Spacer(minLength: 40)
 
                 recentShifts
 
                 Spacer(minLength: 70)
-                
             }
             .frame(maxHeight: .infinity)
             .padding()
         }
         .safeAreaInset(edge: .bottom) {
-            VStack(spacing: 20) {
+            VStack(spacing: 24) {
+                
+                VStack(alignment: .leading, spacing: 7) {
+                    HStack {
+                        Image(systemName: "lightbulb")
+                            .foregroundStyle(.yellow)
+                        Text("Bonus:")
+                            .font(.subheadline)
+                            .fontWeight(.medium)
+                    }
+                    
+                    Text("You can simulate shifts you haven't worked yet to project your finances in the future")
+                        .font(.footnote)
+                        .layoutPriority(1)
+                }
+                .padding(.horizontal)
                 
                 OnboardingButton(title: "Great!", height: 50) {
                 }
@@ -97,11 +113,16 @@ struct FinalOnboardingShiftShowcase: View {
                     .fontWeight(.medium)
             }
         }
+        .groupBoxStyle(
+            ShadowBoxGroupBoxStyle(headerContentSpacing: 5,
+                                   paddingInsets: nil)
+        )
+//        .padding(.horizontal)
 //        .padding()
     }
 
     var titleAndSubtitle: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 30) {
             Text("Creating Shifts to Track Your Work Days")
                 .font(.title)
                 .bold()
@@ -119,10 +140,11 @@ struct FinalOnboardingShiftShowcase: View {
 
     var recentShifts: some View {
         VStack(spacing: 20) {
-            VStack(alignment: .leading, spacing: 5) {
+            VStack(alignment: .leading, spacing: 7) {
                 Text("Recent Shifts")
                     .font(.title3).fontWeight(.semibold)
                 ShiftSummaryBox(shift: PseudoShift.generatePseudoShifts(hourlyWage: 20, numberOfShifts: 1).first!)
+                    .padding(.horizontal, 3)
             }
 
             VStack {
@@ -191,6 +213,7 @@ struct ShiftSummaryBox: View {
             }
             .font(.callout)
         }
+        .groupBoxStyle(ShadowBoxGroupBoxStyle(radius: 3, x: 0, y: 2))
     }
 
     var startTimeView: some View {
@@ -291,6 +314,55 @@ struct FadeEffectModifier: ViewModifier {
                 startPoint: startPoint,
                 endPoint: endPoint)
             )
+    }
+}
+
+// MARK: - ShadowBoxGroupBoxStyle
+
+struct ShadowBoxGroupBoxStyle: GroupBoxStyle {
+    var radius: CGFloat = 5
+    var x: CGFloat = 0
+    var y: CGFloat = 2
+    var headerContentSpacing: CGFloat = 15
+    var paddingInsets: EdgeInsets? = nil
+    func makeBody(configuration: Configuration) -> some View {
+        VStack(alignment: .leading, spacing: headerContentSpacing) {
+            configuration.label
+                .fontWeight(.semibold)
+            configuration.content
+        }
+        .frame(maxWidth: .infinity)
+        .conditionalModifier(paddingInsets == nil) { view in
+            view.padding()
+        }
+        .conditionalModifier(paddingInsets != nil) { view in
+            view.padding(paddingInsets!)
+        }
+        // Add padding around the content
+        .background(Color.white) // Set the background color to white
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .shadow(radius: radius, x: x, y: y) // Adds shadow
+    }
+}
+
+// MARK: - OutlineBoxGroupBoxStyle
+
+struct OutlineBoxGroupBoxStyle: GroupBoxStyle {
+    var color: Color = .secondary
+    var lineWidth: CGFloat = 1
+    func makeBody(configuration: Configuration) -> some View {
+        VStack(alignment: .leading, spacing: 15) {
+            configuration.label
+                .fontWeight(.semibold)
+            configuration.content
+        }
+        .frame(maxWidth: .infinity)
+        .padding() // Add padding around the content
+        .background(Color.white) // Set the background color to white
+        .overlay {
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(color, lineWidth: lineWidth)
+        }
     }
 }
 
