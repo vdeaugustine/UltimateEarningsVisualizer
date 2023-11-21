@@ -13,31 +13,61 @@ struct WhereToFindTutorialsView: View {
     @ObservedObject private var settings = User.main.getSettings()
 
     var body: some View {
-        VStack {
+        ScrollView {
+            VStack {
+                Spacer()
+                titleAndSubtitle
+
+                Spacer(minLength: 30)
+
+                VStack(spacing: 30){
+                    mockSettings
+                    
+                    Text("You can always access informational content in the \"Tutorials and More Info\" section of the settings tab")
+//                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .padding(.horizontal)
+                        .multilineTextAlignment(.center)
+                }
+
+                Spacer()
+            }
+            .padding()
+        }
+        .scrollIndicators(.hidden)
+        .safeAreaInset(edge: .bottom) {
+            OnboardingButton(title: "Let's Go", height: 50) {
+            }
+            .padding(.horizontal, 30)
+            .padding(.bottom)
+        }
+        
+    }
+
+    var titleAndSubtitle: some View {
+        VStack(spacing: 30) {
             Text("That's ok!")
                 .font(.title)
                 .bold()
                 .multilineTextAlignment(.center)
                 .lineSpacing(3)
 
-            VStack {
+            VStack(alignment: .leading, spacing: 20) {
                 Text("You want to get started managing your money right away. We get it.")
-
-                Text("You can always access informational content in the \"Tutorials and More Info\" section of the settings tab")
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+                
             }
             .foregroundStyle(.secondary)
             .lineSpacing(3)
-
-            mockSettings
         }
-        .padding()
     }
 
     var mockSettings: some View {
         VStack(spacing: 0) {
             VStack {
                 VStack(spacing: 42) {
-//                    blankContentMockSettings
+                    blankContentMockSettings
 
                     VStack(spacing: 7) {
                         Text("TUTORIALS AND MORE INFO")
@@ -122,7 +152,7 @@ struct WhereToFindTutorialsView: View {
 //        .background {
 //            UIColor.secondarySystemBackground.color
 //                .frame(maxWidth: .infinity, maxHeight: .infinity)
-////                .clipShape(RoundedRectangle(cornerRadius: 10))
+        ////                .clipShape(RoundedRectangle(cornerRadius: 10))
 //                .shadow(radius: 1.5, x: 0, y: 1)
 //        }
 
@@ -134,7 +164,7 @@ struct WhereToFindTutorialsView: View {
     }
 
     private var settingsTab: some View {
-        VStack(spacing: 7){
+        VStack(spacing: 7) {
             Rectangle()
                 .fill(.black.opacity(0.3))
                 .frame(height: 0.33)
