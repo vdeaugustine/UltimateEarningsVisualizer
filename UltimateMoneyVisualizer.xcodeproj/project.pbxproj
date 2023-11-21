@@ -49,6 +49,7 @@
 		9C1FF9DD2B0C1EB300830C91 /* PseudoShift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1FF9DC2B0C1EB300830C91 /* PseudoShift.swift */; };
 		9C1FF9DF2B0C1F4400830C91 /* ExtendGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1FF9DE2B0C1F4400830C91 /* ExtendGroupBox.swift */; };
 		9C1FF9E32B0C211B00830C91 /* FinalOnboardingTutorialOffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1FF9E22B0C211B00830C91 /* FinalOnboardingTutorialOffer.swift */; };
+		9C1FF9E52B0C4B2500830C91 /* WhereToFindTutorialsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1FF9E42B0C4B2500830C91 /* WhereToFindTutorialsView.swift */; };
 		9C2315B62AB2F060008E0FD9 /* CreateTimeBlocksFromCalendarEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2315B52AB2F05F008E0FD9 /* CreateTimeBlocksFromCalendarEventsView.swift */; };
 		9C2315B82AB2F245008E0FD9 /* ExtendRecurringTimeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2315B72AB2F245008E0FD9 /* ExtendRecurringTimeBlock.swift */; };
 		9C2597552AF362F400E5A2AB /* OnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2597542AF362F400E5A2AB /* OnboardingManager.swift */; };
@@ -382,6 +383,7 @@
 		9C1FF9DC2B0C1EB300830C91 /* PseudoShift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PseudoShift.swift; sourceTree = "<group>"; };
 		9C1FF9DE2B0C1F4400830C91 /* ExtendGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendGroupBox.swift; sourceTree = "<group>"; };
 		9C1FF9E22B0C211B00830C91 /* FinalOnboardingTutorialOffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalOnboardingTutorialOffer.swift; sourceTree = "<group>"; };
+		9C1FF9E42B0C4B2500830C91 /* WhereToFindTutorialsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhereToFindTutorialsView.swift; sourceTree = SOURCE_ROOT; };
 		9C2315B52AB2F05F008E0FD9 /* CreateTimeBlocksFromCalendarEventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTimeBlocksFromCalendarEventsView.swift; sourceTree = "<group>"; };
 		9C2315B72AB2F245008E0FD9 /* ExtendRecurringTimeBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendRecurringTimeBlock.swift; sourceTree = "<group>"; };
 		9C2597542AF362F400E5A2AB /* OnboardingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingManager.swift; sourceTree = "<group>"; };
@@ -842,6 +844,7 @@
 		9C1FF9E12B0C210D00830C91 /* Tutorial Offer */ = {
 			isa = PBXGroup;
 			children = (
+				9C1FF9E42B0C4B2500830C91 /* WhereToFindTutorialsView.swift */,
 				9C1FF9E22B0C211B00830C91 /* FinalOnboardingTutorialOffer.swift */,
 			);
 			path = "Tutorial Offer";
@@ -2336,6 +2339,7 @@
 				9CC2BA9B2A86C68D0075CA2D /* IconManager.swift in Sources */,
 				9C3574652B094CD4000AED9D /* PayoffContributionsView.swift in Sources */,
 				9CEEE33129F904CC001FA4FB /* ExpenseListView.swift in Sources */,
+				9C1FF9E52B0C4B2500830C91 /* WhereToFindTutorialsView.swift in Sources */,
 				9CEEE33429F90651001FA4FB /* ExpenseDetailView.swift in Sources */,
 				9C74F9F92A9AD77700466779 /* OnboardingFirstView.swift in Sources */,
 				9CC65D942A20867800D81712 /* TagDetailView.swift in Sources */,

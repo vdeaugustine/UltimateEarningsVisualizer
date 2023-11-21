@@ -28,6 +28,7 @@ struct FinalOnboardingTutorialOffer: View {
                 Spacer(minLength: 20)
 
                 middleContent
+                
 
                 Spacer(minLength: 70)
             }
@@ -110,6 +111,7 @@ struct FinalOnboardingTutorialOffer: View {
             let offsetAmount = geo.size.width * 0.05
             VStack(spacing: -30) {
                 ShiftSummaryBox(shift: .oneExample)
+                    
                     .frame(maxWidth: width - offsetAmount)
                 VStack(spacing: -20) {
                     makePayoffRect()
@@ -122,9 +124,9 @@ struct FinalOnboardingTutorialOffer: View {
 //                        .offset(x: -offsetAmount).frame(maxWidth: width - offsetAmount)
                 }
             }
+            .padding([.top, .horizontal])
             .frame(maxWidth: .infinity)
             .offset(x: -(offsetAmount / 2))
-            .padding()
             .fadeEffect()
         }
     }
