@@ -18,11 +18,10 @@ struct ContentView: View {
     @Environment(\.sizeCategory) var sizeCategory
     @State private var lastTab: Tabs = .testingCalendar
     @ObservedObject private var user: User = .main
-    
+
     @State private var showOnboarding: Bool = !User.main.getStatusTracker().hasSeenOnboardingFlow
     @ObservedObject private var status: StatusTracker = User.main.statusTracker!
-    
-    
+
     var body: some View {
         Group {
             if status.hasSeenOnboardingFlow == false {
@@ -45,24 +44,20 @@ struct ContentView: View {
                     }
                     .makeTab(tab: Tabs.today, systemImage: "bolt.shield")
 
-                    //            TestingEventKit()
-                    //                .putInNavView(.large)
-                    //                .makeTab(tab: Tabs.testingCalendar, systemImage: "calendar")
-
                     NavigationStack(path: $navManager.settingsNavPath) {
                         SettingsView()
                     }
                     .makeTab(tab: Tabs.settings, systemImage: "gear")
 
-                    //            #if DEBUG
+                    #if DEBUG
 
-                   
+                        FinalOnboardingShiftShowcase()
+                            .makeTab(tab: Tabs.onboarding, systemImage: "airplane.departure")
 
-                    //            #endif
-                    //
+                    #endif
                 }
                 .tint(Color("AccentColor"))
-                
+
                 .onAppear(perform: {
                     print("Color is :\(Color.accentColor) and hex:", Color.accentColor.getHex())
                     print("High level accent color: \(Color("AccentColor").getHex())")
@@ -71,16 +66,6 @@ struct ContentView: View {
                 })
             }
         }
-//        .onAppear {
-//            print("show onboarding is right now", showOnboarding)
-//            let status = user.getStatusTracker()
-//            showOnboarding = status.hasSeenOnboardingFlow
-//            print("NOw it is \(showOnboarding)")
-//        }
-//        .onChangeProper(of: user.statusTracker?.hasSeenOnboardingFlow) {
-//            print("NEW SHOW ONBOARDING", showOnboarding)
-//        }
-        
     }
 }
 

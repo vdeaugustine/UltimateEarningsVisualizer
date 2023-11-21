@@ -45,6 +45,10 @@
 		9C18C1B42A4A8A7500B74C92 /* ExtendDeduction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C18C1B32A4A8A7500B74C92 /* ExtendDeduction.swift */; };
 		9C1A21C92ACE661400C9A4A8 /* ConfirmTodayShift_UseThisOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1A21C82ACE661400C9A4A8 /* ConfirmTodayShift_UseThisOne.swift */; };
 		9C1A21CB2ACFAF6F00C9A4A8 /* ExtendBank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1A21CA2ACFAF6F00C9A4A8 /* ExtendBank.swift */; };
+		9C1FF9DB2B0C1E8200830C91 /* ShiftSummaryBox+PseudoShiftRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1FF9DA2B0C1E8200830C91 /* ShiftSummaryBox+PseudoShiftRow.swift */; };
+		9C1FF9DD2B0C1EB300830C91 /* PseudoShift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1FF9DC2B0C1EB300830C91 /* PseudoShift.swift */; };
+		9C1FF9DF2B0C1F4400830C91 /* ExtendGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1FF9DE2B0C1F4400830C91 /* ExtendGroupBox.swift */; };
+		9C1FF9E32B0C211B00830C91 /* FinalOnboardingTutorialOffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1FF9E22B0C211B00830C91 /* FinalOnboardingTutorialOffer.swift */; };
 		9C2315B62AB2F060008E0FD9 /* CreateTimeBlocksFromCalendarEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2315B52AB2F05F008E0FD9 /* CreateTimeBlocksFromCalendarEventsView.swift */; };
 		9C2315B82AB2F245008E0FD9 /* ExtendRecurringTimeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2315B72AB2F245008E0FD9 /* ExtendRecurringTimeBlock.swift */; };
 		9C2597552AF362F400E5A2AB /* OnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2597542AF362F400E5A2AB /* OnboardingManager.swift */; };
@@ -374,6 +378,10 @@
 		9C18C1B32A4A8A7500B74C92 /* ExtendDeduction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendDeduction.swift; sourceTree = "<group>"; };
 		9C1A21C82ACE661400C9A4A8 /* ConfirmTodayShift_UseThisOne.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmTodayShift_UseThisOne.swift; sourceTree = "<group>"; };
 		9C1A21CA2ACFAF6F00C9A4A8 /* ExtendBank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendBank.swift; sourceTree = "<group>"; };
+		9C1FF9DA2B0C1E8200830C91 /* ShiftSummaryBox+PseudoShiftRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShiftSummaryBox+PseudoShiftRow.swift"; sourceTree = "<group>"; };
+		9C1FF9DC2B0C1EB300830C91 /* PseudoShift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PseudoShift.swift; sourceTree = "<group>"; };
+		9C1FF9DE2B0C1F4400830C91 /* ExtendGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendGroupBox.swift; sourceTree = "<group>"; };
+		9C1FF9E22B0C211B00830C91 /* FinalOnboardingTutorialOffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalOnboardingTutorialOffer.swift; sourceTree = "<group>"; };
 		9C2315B52AB2F05F008E0FD9 /* CreateTimeBlocksFromCalendarEventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTimeBlocksFromCalendarEventsView.swift; sourceTree = "<group>"; };
 		9C2315B72AB2F245008E0FD9 /* ExtendRecurringTimeBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendRecurringTimeBlock.swift; sourceTree = "<group>"; };
 		9C2597542AF362F400E5A2AB /* OnboardingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingManager.swift; sourceTree = "<group>"; };
@@ -768,6 +776,7 @@
 		9C1754B42B05A9A000022938 /* Final Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				9C1FF9E12B0C210D00830C91 /* Tutorial Offer */,
 				9C35748D2B0AFDB6000AED9D /* Showcases */,
 				9C1754B72B05AA0000022938 /* Components */,
 				9C1754B62B05A9AC00022938 /* Main */,
@@ -803,6 +812,39 @@
 				9C1754C52B05ACA400022938 /* ImageWithCircleForOnboarding.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		9C1FF9D82B0C1E6500830C91 /* Shift */ = {
+			isa = PBXGroup;
+			children = (
+				9C35748B2B0AFDB0000AED9D /* FinalOnboardingShiftShowcase.swift */,
+				9C1FF9D92B0C1E6700830C91 /* Components */,
+			);
+			path = Shift;
+			sourceTree = "<group>";
+		};
+		9C1FF9D92B0C1E6700830C91 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				9C1FF9DC2B0C1EB300830C91 /* PseudoShift.swift */,
+				9C1FF9DA2B0C1E8200830C91 /* ShiftSummaryBox+PseudoShiftRow.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		9C1FF9E02B0C200500830C91 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
+		9C1FF9E12B0C210D00830C91 /* Tutorial Offer */ = {
+			isa = PBXGroup;
+			children = (
+				9C1FF9E22B0C211B00830C91 /* FinalOnboardingTutorialOffer.swift */,
+			);
+			path = "Tutorial Offer";
 			sourceTree = "<group>";
 		};
 		9C3574612B094C6C000AED9D /* Goals */ = {
@@ -849,7 +891,8 @@
 		9C35748D2B0AFDB6000AED9D /* Showcases */ = {
 			isa = PBXGroup;
 			children = (
-				9C35748B2B0AFDB0000AED9D /* FinalOnboardingShiftShowcase.swift */,
+				9C1FF9E02B0C200500830C91 /* New Group */,
+				9C1FF9D82B0C1E6500830C91 /* Shift */,
 			);
 			path = Showcases;
 			sourceTree = "<group>";
@@ -1257,6 +1300,7 @@
 		9C7F965929F8F03C00F5035C /* UltimateMoneyVisualizer */ = {
 			isa = PBXGroup;
 			children = (
+				9C1754B42B05A9A000022938 /* Final Onboarding */,
 				9C7F96A329F8FEB000F5035C /* --TopLevel */,
 				9C9735902A0D78BC00F651A1 /* All Items */,
 				9C0505942A1085C500FC6511 /* Allocations */,
@@ -1265,13 +1309,13 @@
 				9C3574832B099E5D000AED9D /* CalculateTaxView.swift */,
 				9CC674AE2AC67CC800FB407C /* EnterLumpSumView.swift */,
 				9CEEE33729F90890001FA4FB /* Expenses */,
-				9C1754B42B05A9A000022938 /* Final Onboarding */,
 				9CDD4E2A2A67C10D00AB8B4F /* Fonts */,
 				9CD1FF2C2AE06C5300AF156A /* FontTester.swift */,
 				9C35746E2B094E09000AED9D /* General Components */,
 				9C3574612B094C6C000AED9D /* Goals */,
 				9C7A16422B018FCA004EC33B /* Info Views */,
 				9C7F966829F8F03E00F5035C /* Info.plist */,
+				9CEEE32929F90432001FA4FB /* LocalExtensions */,
 				9CEEE33D29F9099D001FA4FB /* Model */,
 				9C4213E62AEABFA7007FDB97 /* More Info */,
 				9C860F7E2A667A6800D834C4 /* New Today View */,
@@ -1755,14 +1799,15 @@
 		9CEEE32929F90432001FA4FB /* LocalExtensions */ = {
 			isa = PBXGroup;
 			children = (
-				9CEEE32A29F9044F001FA4FB /* ExtendView.swift */,
-				9C7C984F29FB606E0077EA25 /* ExtendUserDefaults.swift */,
+				9CB418C52A0B616A006F44AB /* ExtendAlertToast.swift */,
+				9C9FFB262A57D8A200565B78 /* ExtendArray.swift */,
 				9C7C985129FB613E0077EA25 /* ExtendColor.swift */,
 				9CEA17682A05DF2800E8DFD7 /* ExtendDate.swift */,
-				9CB418C52A0B616A006F44AB /* ExtendAlertToast.swift */,
-				9C9735952A0D84D500F651A1 /* ExtendText.swift */,
+				9C1FF9DE2B0C1F4400830C91 /* ExtendGroupBox.swift */,
 				9C9FFB242A57CD8700565B78 /* ExtendSection.swift */,
-				9C9FFB262A57D8A200565B78 /* ExtendArray.swift */,
+				9C9735952A0D84D500F651A1 /* ExtendText.swift */,
+				9C7C984F29FB606E0077EA25 /* ExtendUserDefaults.swift */,
+				9CEEE32A29F9044F001FA4FB /* ExtendView.swift */,
 			);
 			path = LocalExtensions;
 			sourceTree = "<group>";
@@ -1820,7 +1865,6 @@
 		9CEEE33D29F9099D001FA4FB /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				9CEEE32929F90432001FA4FB /* LocalExtensions */,
 				9CF9CE532A7A120800164D75 /* Objects */,
 				9C4F0A2B2A14614500C78349 /* Managers */,
 				9C514DB12A0024D6003DC43C /* Protocols */,
@@ -2127,6 +2171,7 @@
 				9C0505982A108A1400FC6511 /* ExtendRegularSchedule.swift in Sources */,
 				9C3574862B099E6D000AED9D /* NewItemCreationView.swift in Sources */,
 				9CF1B3362A957EBC00CB600F /* SavedDetailViewModel.swift in Sources */,
+				9C1FF9E32B0C211B00830C91 /* FinalOnboardingTutorialOffer.swift in Sources */,
 				9C8C935D2A8ABA0B000EE612 /* WageBreakdown.swift in Sources */,
 				9C2315B82AB2F245008E0FD9 /* ExtendRecurringTimeBlock.swift in Sources */,
 				9C4213DD2AE99769007FDB97 /* TopTimeBlocks_HomeView.swift in Sources */,
@@ -2147,6 +2192,7 @@
 				9CD2F2E72A287E7B00718667 /* EnterPaycheckView.swift in Sources */,
 				9C18C1B42A4A8A7500B74C92 /* ExtendDeduction.swift in Sources */,
 				9C4213F42AEAC188007FDB97 /* TimeBlockInfoView.swift in Sources */,
+				9C1FF9DB2B0C1E8200830C91 /* ShiftSummaryBox+PseudoShiftRow.swift in Sources */,
 				9C1754BE2B05AA7A00022938 /* ExpenseOnboarding.swift in Sources */,
 				9C7C986729FD7A390077EA25 /* TodayLiveCompletedBanner.swift in Sources */,
 				9C7F96A629F8FF0100F5035C /* CreateExpenseView.swift in Sources */,
@@ -2170,6 +2216,7 @@
 				9C9735962A0D84D500F651A1 /* ExtendText.swift in Sources */,
 				9CF1B3382A97335000CB600F /* SelectATagView.swift in Sources */,
 				9C2597592AF3677500E5A2AB /* OnboardingProgressManagerView.swift in Sources */,
+				9C1FF9DF2B0C1F4400830C91 /* ExtendGroupBox.swift in Sources */,
 				9CF411C92A8575BF00A49F08 /* TodayViewItemizedBlock.swift in Sources */,
 				9C1754C02B05AAFE00022938 /* GoalOnboarding.swift in Sources */,
 				9CAE0B392A99359F009034EC /* OnboardingWageWalkthrough.swift in Sources */,
@@ -2218,6 +2265,7 @@
 				9C514DB32A0024E9003DC43C /* PayoffItem.swift in Sources */,
 				9C0505962A10892800FC6511 /* SelectDaysView.swift in Sources */,
 				9C58DCA72A8F379B00499C9E /* TodayViewTimeBlocksExpanded.swift in Sources */,
+				9C1FF9DD2B0C1EB300830C91 /* PseudoShift.swift in Sources */,
 				9CDD4E462A67C93500AB8B4F /* TodayViewHeader.swift in Sources */,
 				9C65A75F2A00D28E00A5BCF1 /* GoalRow.swift in Sources */,
 				9C7016A62A6115630038E2A6 /* FigmaDesign.swift in Sources */,
