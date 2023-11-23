@@ -24,7 +24,7 @@ struct OnboardingSlide: View {
         self.action = action
     }
 
-    init(slide: OnboardingSlideShow.Slide, _ action: @escaping () -> Void) {
+    init(slide: OnboardingSlideShow_Deprecated.Slide, _ action: @escaping () -> Void) {
         self.title = slide.title
         self.imageString = slide.imageString
         self.header = slide.header

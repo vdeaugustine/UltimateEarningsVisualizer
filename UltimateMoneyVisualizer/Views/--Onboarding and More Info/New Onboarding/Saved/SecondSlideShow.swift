@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Vin
 
 struct SecondSlideShow: View {
     @State private var tab: Int = 0

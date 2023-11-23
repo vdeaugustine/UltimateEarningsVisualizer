@@ -11,18 +11,37 @@ import Vin
 // MARK: - OnboardingProgressManagerViewModel
 
 class OnboardingProgressManagerViewModel: ObservableObject {
-    @Published var isWageComplete: Bool = true
+    @Published var isWageComplete: Bool = false
     @Published var isShiftComplete: Bool = false
     @Published var isScheduleComplete: Bool = false
     @Published var isExpensesComplete: Bool = false
     @Published var isGoalsComplete: Bool = false
+    @Published var isSavedItemComplete: Bool = false
 
     @Published var pageToShow: Page? = nil
-    
+
     @ObservedObject var user: User = .main
 
     enum Page: Identifiable {
-        case wage, shift, schedule, expenses, goals
+        case wage, shift, schedule, expenses, goals, savedItem
+
+        var subheading: String {
+            switch self {
+                case .wage:
+                    "How much you earn"
+                case .shift:
+                    "How to enter your earnings"
+                case .schedule:
+                    "The hours you normally work for each day"
+                case .expenses:
+                    "Tracking when you spend money"
+                case .goals:
+                    "Working towards something"
+                case .savedItem:
+                    "A penny saved is a penny earned"
+            }
+        }
+
         var id: Page { self }
     }
 
@@ -43,9 +62,6 @@ struct OnboardingProgressManagerView: View {
     var body: some View {
         ScrollView {
             VStack {
-//                Text("Getting Started")
-//                    .font(.largeTitle)
-//                    .fontWeight(.semibold)
                 Earnings()
 
                 Spending()
@@ -63,19 +79,17 @@ struct OnboardingProgressManagerView: View {
                 .ignoresSafeArea()
         }
         .sheet(item: $viewModel.pageToShow, content: { page in
-            
-                switch page {
-                    case .wage:
-                        EnterWageFirstTimeView()
-                    default:
-                        Text("Default")
-                }
-            
-            
+
+            switch page {
+                case .wage:
+                    EnterWageFirstTimeView()
+                default:
+                    Text("Error loading view")
+            }
+
         })
         .environmentObject(viewModel)
         .putInTemplate(title: "Getting Started")
-        
     }
 
     @State private var offset = CGSize.zero
@@ -130,6 +144,11 @@ struct OnboardingProgressManagerView: View {
                     headText: "Work Schedule",
                     subText: "Enter if you have a regular schedule",
                     page: .schedule)
+
+                Row(isComplete: viewModel.isSavedItemComplete,
+                    headText: "Saved Item",
+                    subText: nil,
+                    page: .savedItem)
             }
         }
 
@@ -190,7 +209,7 @@ struct OnboardingProgressManagerView: View {
         @EnvironmentObject private var viewModel: OnboardingProgressManagerViewModel
         let isComplete: Bool
         let headText: String
-        let subText: String
+        let subText: String?
         let page: OnboardingProgressManagerViewModel.Page
 
         var body: some View {
@@ -203,7 +222,7 @@ struct OnboardingProgressManagerView: View {
 
                     VStack(alignment: .leading) {
                         Text(headText).font(.headline)
-                        Text(subText)
+                        Text(subText ?? page.subheading)
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                     }
@@ -228,7 +247,7 @@ struct OnboardingProgressManagerView: View {
 
         var body: some View {
             RoundedRectangle(cornerRadius: 4)
-                .stroke(isFilled ?  viewModel.user.getSettings().themeColor: Color.secondary, lineWidth: 2)
+                .stroke(isFilled ? viewModel.user.getSettings().themeColor : Color.secondary, lineWidth: 2)
                 .frame(width: width, height: height)
                 .background(isFilled ? viewModel.user.getSettings().themeColor : .clear)
         }
@@ -359,10 +378,6 @@ extension OnboardingProgressManagerView {
 
         var hourlyWageRow: some View {
             Section("Wage") {
-//                Button {
-//                    print("Tapped")
-//                    showSheetToEnterWage = true
-//                } label: {
                 HStack {
                     TransformingTextField("ex: $20.00",
                                           text: $hourlyWageString,
@@ -530,21 +545,6 @@ extension OnboardingProgressManagerView {
             }
             .buttonStyle(.plain)
         }
-    }
-}
-
-extension View {
-    func getFrame(in scope: CoordinateSpace = .global,
-                  _ callback: @escaping (CGRect) -> Void)
-        -> some View {
-        background(
-            GeometryReader { geometry in
-                Color.clear
-                    .onAppear {
-                        callback(geometry.frame(in: scope))
-                    }
-            }
-        )
     }
 }
 

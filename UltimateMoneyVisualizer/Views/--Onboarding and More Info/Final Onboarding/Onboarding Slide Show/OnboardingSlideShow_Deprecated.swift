@@ -9,7 +9,7 @@ import SwiftUI
 
 // MARK: - OnboardingSlideShow
 
-struct OnboardingSlideShow: View {
+struct OnboardingSlideShow_Deprecated: View {
     @State private var currentIndex: Int = 0
 
     struct Slide: Identifiable, Equatable, Hashable {
@@ -432,7 +432,7 @@ struct CustomCarousel<Content: View, Item, ID>: View where Item: RandomAccessCol
 }
 
 #Preview {
-    OnboardingSlideShow()
+    OnboardingSlideShow_Deprecated()
         .onAppear() {
             UserDefaults.themeColor = .defaultColorOptions.first!
         }

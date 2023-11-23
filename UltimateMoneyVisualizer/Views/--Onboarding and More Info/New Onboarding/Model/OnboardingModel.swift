@@ -11,7 +11,7 @@ import SwiftUI
 class OnboardingModel: ObservableObject {
     public static var shared: OnboardingModel = OnboardingModel()
     let backgroundColor: Color = .clear
-    @Published var screenNumber: Int = 1
+    @Published var screenNumber: Int = 0
     @Published var daysSelected: [DayOfWeek] = [.monday, .tuesday, .wednesday, .thursday, .friday]
     @Published var mondayStartTime: Date = Date.getThisTime(hour: 9, minute: 0) ?? Date()
     @Published var mondayEndTime: Date = Date.getThisTime(hour: 17, minute: 0) ?? Date()

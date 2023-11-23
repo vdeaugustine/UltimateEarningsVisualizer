@@ -28,7 +28,6 @@ struct FinalOnboardingTutorialOffer: View {
                 Spacer(minLength: 20)
 
                 middleContent
-                
 
                 Spacer(minLength: 70)
             }
@@ -62,6 +61,9 @@ struct FinalOnboardingTutorialOffer: View {
                 }
             }
             .padding(.bottom)
+        }
+        .background {
+            OnboardingBackground()
         }
     }
 
@@ -102,32 +104,27 @@ struct FinalOnboardingTutorialOffer: View {
         }
     }
 
-//    ShiftSummaryBox(shift: PseudoShift.generatePseudoShifts(hourlyWage: 20, numberOfShifts: 1).first!)
-//        .padding(.horizontal, 3)
-
     var middleContent: some View {
         GeometryReader { geo in
             let width = geo.size.width
             let offsetAmount = geo.size.width * 0.05
             VStack(spacing: -30) {
                 ShiftSummaryBox(shift: .oneExample)
-                    
+
                     .frame(maxWidth: width - offsetAmount)
                 VStack(spacing: -20) {
                     makePayoffRect()
                         .frame(maxWidth: width - offsetAmount)
                         .offset(x: offsetAmount)
                     makeSavedRect()
-//
                         .frame(maxWidth: width - (offsetAmount * 2))
                         .offset(x: offsetAmount * 2)
-//                        .offset(x: -offsetAmount).frame(maxWidth: width - offsetAmount)
                 }
             }
             .padding([.top, .horizontal])
             .frame(maxWidth: .infinity)
             .offset(x: -(offsetAmount / 2))
-            .fadeEffect()
+            .fadeEffect(endOpacity: 0.3)
         }
     }
 

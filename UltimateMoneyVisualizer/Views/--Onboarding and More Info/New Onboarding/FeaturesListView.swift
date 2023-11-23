@@ -1,5 +1,4 @@
 //
-//  WelcomeView.swift
 //  UltimateMoneyVisualizer
 //
 //  Created by Vincent DeAugustine on 8/26/23.

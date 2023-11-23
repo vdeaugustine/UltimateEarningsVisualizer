@@ -9,7 +9,7 @@ import SwiftUI
 
 // MARK: - OnboardingListOfFirstsView
 
-struct OnboardingListOfFirstsView: View {
+struct Deprecated_OnboardingListOfFirstsView: View {
     @State private var goalCompleted = false
     @State private var expenseCompleted = false
     @State private var shiftCompleted = false
@@ -134,6 +134,6 @@ struct OnboardingListOfFirstsView: View {
 
 struct OnboardingListOfFirstsView_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardingListOfFirstsView()
+        Deprecated_OnboardingListOfFirstsView()
     }
 }

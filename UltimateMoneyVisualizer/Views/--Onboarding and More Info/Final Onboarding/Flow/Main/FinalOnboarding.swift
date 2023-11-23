@@ -8,16 +8,18 @@
 import SwiftUI
 import Vin
 
-
-
 struct FinalOnboarding: View {
     @State private var tab: Int = 0
     @ObservedObject var user: User = .main
     @Binding var showOnboarding: Bool
-    
+    @StateObject private var vm: OnboardingModel = .shared
+
     var body: some View {
-        TabView(selection: $tab) {
+        TabView(selection: $vm.screenNumber) {
             WageOnboarding(tab: $tab).tag(0)
+            
+            
+            
             ExpenseOnboarding(tab: $tab).tag(1)
             GoalOnboarding(tab: $tab).tag(2)
             AllocationOnboarding(showOnboarding: $showOnboarding, tab: $tab).tag(3)
@@ -34,10 +36,6 @@ struct FinalOnboarding: View {
         .environmentObject(user)
     }
 }
-
-
-
-
 
 #Preview {
     FinalOnboarding(user: .testing, showOnboarding: .constant(true))
