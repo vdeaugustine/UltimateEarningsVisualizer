@@ -12,17 +12,17 @@ struct FinalOnboarding: View {
     @State private var tab: Int = 0
     @ObservedObject var user: User = .main
     @Binding var showOnboarding: Bool
-    @StateObject private var vm: OnboardingModel = .shared
+    @StateObject private var vm: FinalOnboardingModel = .shared
 
+    typealias Page = FinalOnboardingModel.Page
+    
     var body: some View {
-        TabView(selection: $vm.screenNumber) {
-            WageOnboarding(tab: $tab).tag(0)
+        TabView(selection: $vm.currentPage) {
+            FinalOnboardingWelcome().tag(Page.welcome)
+            WageOnboarding(tab: $tab).tag(Page.wage)
             
             
-            
-            ExpenseOnboarding(tab: $tab).tag(1)
-            GoalOnboarding(tab: $tab).tag(2)
-            AllocationOnboarding(showOnboarding: $showOnboarding, tab: $tab).tag(3)
+  
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         .ignoresSafeArea(.container, edges: .top)
@@ -34,6 +34,7 @@ struct FinalOnboarding: View {
             #endif
         }
         .environmentObject(user)
+        .environmentObject(vm)
     }
 }
 

@@ -11,20 +11,12 @@ import Vin
 // MARK: - WageOnboarding
 
 struct WageOnboarding: View {
-    // MARK: - SwipingWageSection
-
-    // MARK: State
 
     @State private var showSheet = false
 
-    // MARK: Binding
-
     @Binding var tab: Int
 
-    // MARK: Observed
-
     // MARK: - Body
-
     var body: some View {
         GeometryReader { geo in
             ZStack {
@@ -113,6 +105,9 @@ struct WageOnboarding: View {
         .sheet(isPresented: $showSheet, content: {
             FinalOnboardingEnteringWageFirstTime(tab: $tab)
         })
+        .background {
+            OnboardingBackground()
+        }
     }
 }
 

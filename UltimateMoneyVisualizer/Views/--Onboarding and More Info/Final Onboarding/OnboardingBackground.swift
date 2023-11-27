@@ -8,26 +8,34 @@
 import SwiftUI
 
 struct OnboardingBackground: View {
-    var body: some View {
-        GeometryReader { _ in
+    static let baseColor = /*Color(hex: "#006154")*/ Color.white
+    static let secondary = Color(hex: "#3DB6A6")
+    static let tertiary = Color(hex: "#E0C970")
 
-            VStack {
-                Image("snow")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    
+    static let colors = [baseColor, secondary, tertiary]
+
+    let lGradient = LinearGradient(gradient: Gradient(colors: colors
+    ), startPoint: .topLeading, endPoint: .bottomTrailing)
+
+    let rGradient = RadialGradient(gradient: Gradient(colors: colors.reversed()),
+                                   center: .trailing,
+                                   startRadius: 100,
+                                   endRadius: 200)
+
+    var body: some View {
+        GeometryReader { geo in
+
+//            VStack {
 //                Spacer()
-            }
-            .ignoresSafeArea()
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .overlay {
-                Color.clear
-                    .overlay(.ultraThinMaterial)
-                    .opacity(0.5)
-                    .blur(radius: 2)
-            }
-            
-            
+                Rectangle()
+                    .fill(rGradient)
+                    .overlay(.regularMaterial)
+                    .frame(height: geo.size.height * 0.7)
+                    .fadeEffect()
+                    .ignoresSafeArea(edges: .top)
+//            }
+//                .edgesIgnoringSafeArea(.all) // Extend to the entire screen
+
 //            .overlay {
 //                Color.white
 //                    .opacity(0.5)
@@ -70,6 +78,25 @@ struct OnboardingBackground: View {
 //                .padding(.leading)
 //                .overlay(.ultraThinMaterial)
 //            }
+        }
+//        .ignoresSafeArea()
+    }
+
+    func snow(geo: GeometryProxy) -> some View {
+        VStack {
+            Image("snow")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+
+//                Spacer()
+        }
+        .ignoresSafeArea()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .overlay {
+            Color.clear
+                .overlay(.ultraThinMaterial)
+                .opacity(0.5)
+                .blur(radius: 2)
         }
     }
 }

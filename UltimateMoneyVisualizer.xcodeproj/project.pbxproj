@@ -80,6 +80,8 @@
 		9C35748C2B0AFDB0000AED9D /* FinalOnboardingShiftShowcase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C35748B2B0AFDB0000AED9D /* FinalOnboardingShiftShowcase.swift */; };
 		9C3808442B0F1ECB00BF45DD /* FinalOnboardingWelcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3808432B0F1ECB00BF45DD /* FinalOnboardingWelcome.swift */; };
 		9C3808462B0F1F5C00BF45DD /* FinalOnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3808452B0F1F5C00BF45DD /* FinalOnboardingModel.swift */; };
+		9C38084A2B13180400BF45DD /* GradCap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3808492B13180400BF45DD /* GradCap.swift */; };
+		9C38084C2B14002E00BF45DD /* MasterTheAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C38084B2B14002E00BF45DD /* MasterTheAppView.swift */; };
 		9C3A7B302A2BD63300F2AC88 /* ExtendTimeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3A7B2F2A2BD63300F2AC88 /* ExtendTimeBlock.swift */; };
 		9C3A7B322A2BD80300F2AC88 /* AllTimeBlocksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3A7B312A2BD80300F2AC88 /* AllTimeBlocksView.swift */; };
 		9C3A7B342A2C3A4400F2AC88 /* CreateNewTimeBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3A7B332A2C3A4400F2AC88 /* CreateNewTimeBlockView.swift */; };
@@ -416,6 +418,8 @@
 		9C35748B2B0AFDB0000AED9D /* FinalOnboardingShiftShowcase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalOnboardingShiftShowcase.swift; sourceTree = "<group>"; };
 		9C3808432B0F1ECB00BF45DD /* FinalOnboardingWelcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FinalOnboardingWelcome.swift; path = Main/FinalOnboardingWelcome.swift; sourceTree = "<group>"; };
 		9C3808452B0F1F5C00BF45DD /* FinalOnboardingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalOnboardingModel.swift; sourceTree = "<group>"; };
+		9C3808492B13180400BF45DD /* GradCap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradCap.swift; sourceTree = "<group>"; };
+		9C38084B2B14002E00BF45DD /* MasterTheAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterTheAppView.swift; sourceTree = "<group>"; };
 		9C3A7B2F2A2BD63300F2AC88 /* ExtendTimeBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendTimeBlock.swift; sourceTree = "<group>"; };
 		9C3A7B312A2BD80300F2AC88 /* AllTimeBlocksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTimeBlocksView.swift; sourceTree = "<group>"; };
 		9C3A7B332A2C3A4400F2AC88 /* CreateNewTimeBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewTimeBlockView.swift; sourceTree = "<group>"; };
@@ -783,6 +787,7 @@
 		9C1754B42B05A9A000022938 /* Final Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				9C38084B2B14002E00BF45DD /* MasterTheAppView.swift */,
 				9C3808422B0F1DD000BF45DD /* Flow */,
 				9C7A163A2AFCA55F004EC33B /* Onboarding Slide Show */,
 				9C1FF9E12B0C210D00830C91 /* Tutorials */,
@@ -1314,6 +1319,7 @@
 				9C0505942A1085C500FC6511 /* Allocations */,
 				9C4FA1F32AB18743001F29DA /* AllTesting */,
 				9C7F965E29F8F03E00F5035C /* Assets.xcassets */,
+				9C3808492B13180400BF45DD /* GradCap.swift */,
 				9C3574832B099E5D000AED9D /* CalculateTaxView.swift */,
 				9C1FF9E62B0C81F300830C91 /* Components */,
 				9CC674AE2AC67CC800FB407C /* EnterLumpSumView.swift */,
@@ -2334,6 +2340,7 @@
 				9CDBE0E42A2462A200741EEE /* NewShiftView.swift in Sources */,
 				9C3FA3032AECDEEA000DCC4C /* MoreInfoRectTemplate.swift in Sources */,
 				9C514DAC29FF7359003DC43C /* HomePageSectionContainerModifier.swift in Sources */,
+				9C38084A2B13180400BF45DD /* GradCap.swift in Sources */,
 				9CC5BE632A09C08C006A2262 /* TodayPayoffGrid.swift in Sources */,
 				9CEEE34529F90ABA001FA4FB /* ShiftListView.swift in Sources */,
 				9CC2BA9B2A86C68D0075CA2D /* IconManager.swift in Sources */,
@@ -2348,6 +2355,7 @@
 				9C1A21C92ACE661400C9A4A8 /* ConfirmTodayShift_UseThisOne.swift in Sources */,
 				9CDD4E502A68619F00AB8B4F /* TodayViewProgressBarLabels.swift in Sources */,
 				9C952B292AC2B83800C9BF3A /* PayPeriodRow.swift in Sources */,
+				9C38084C2B14002E00BF45DD /* MasterTheAppView.swift in Sources */,
 				9CD5111D2ADA499100B5584E /* OnboardingSavedItemView.swift in Sources */,
 				9CED534A2A08ADCF002DC183 /* AllocShiftRow.swift in Sources */,
 				9C7C986929FDA7880077EA25 /* ExtendTemporaryAllocation.swift in Sources */,

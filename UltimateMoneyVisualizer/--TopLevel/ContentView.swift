@@ -23,50 +23,59 @@ struct ContentView: View {
     @ObservedObject private var status: StatusTracker = User.main.statusTracker!
 
     var body: some View {
-        Group {
-            if status.hasSeenOnboardingFlow == false {
-                FinalOnboarding(user: user, showOnboarding: $showOnboarding)
-            } else {
-                TabView(selection: $navManager.currentTab.onUpdate(ifNoChange: navManager.sameTabTapped)) {
-                    NavigationStack(path: $navManager.homeNavPath) {
-                        NewHomeView()
-                            .id(navManager.scrollViewID)
-                    }
-                    .makeTab(tab: Tabs.newHome, systemImage: "house")
-
-                    NavigationStack(path: $navManager.allItemsNavPath) {
-                        AllItemsView()
-                    }
-                    .makeTab(tab: Tabs.allItems, systemImage: "dollarsign")
-
-                    NavigationStack(path: $navManager.todayViewNavPath) {
-                        NewTodayView()
-                    }
-                    .makeTab(tab: Tabs.today, systemImage: "bolt.shield")
-
-                    NavigationStack(path: $navManager.settingsNavPath) {
-                        SettingsView()
-                    }
-                    .makeTab(tab: Tabs.settings, systemImage: "gear")
-
-                    #if DEBUG
-
-                        FinalOnboardingShiftShowcase()
-                            .makeTab(tab: Tabs.onboarding, systemImage: "airplane.departure")
-
-                    #endif
-                }
-                .tint(Color("AccentColor"))
-
-                .onAppear(perform: {
-                    print("Color is :\(Color.accentColor) and hex:", Color.accentColor.getHex())
-                    print("High level accent color: \(Color("AccentColor").getHex())")
-                    print("\(Mirror(reflecting: Color.accentColor))")
-                    print("\(Mirror(reflecting: Color("AccentColor")))")
-                })
-            }
-        }
+        OnboardingBackground()
     }
+//    var body: some View {
+//        Group {
+//            if status.hasSeenOnboardingFlow == false {
+//                FinalOnboarding(user: user,
+//                                showOnboarding: $showOnboarding)
+//            } else {
+//                TabView(selection: $navManager.currentTab.onUpdate(ifNoChange: navManager.sameTabTapped)) {
+//                    NavigationStack(path: $navManager.homeNavPath) {
+//                        NewHomeView()
+//                            .id(navManager.scrollViewID)
+//                    }
+//                    .makeTab(tab: Tabs.newHome,
+//                             systemImage: "house")
+//
+//                    NavigationStack(path: $navManager.allItemsNavPath) {
+//                        AllItemsView()
+//                    }
+//                    .makeTab(tab: Tabs.allItems,
+//                             systemImage: "dollarsign")
+//
+//                    NavigationStack(path: $navManager.todayViewNavPath) {
+//                        NewTodayView()
+//                    }
+//                    .makeTab(tab: Tabs.today,
+//                             systemImage: "bolt.shield")
+//
+//                    NavigationStack(path: $navManager.settingsNavPath) {
+//                        SettingsView()
+//                    }
+//                    .makeTab(tab: Tabs.settings,
+//                             systemImage: "gear")
+//
+//                    #if DEBUG
+//
+//                        FinalOnboardingShiftShowcase()
+//                            .makeTab(tab: Tabs.onboarding,
+//                                     systemImage: "airplane.departure")
+//
+//                    #endif
+//                }
+//                .tint(Color("AccentColor"))
+//
+//                .onAppear(perform: {
+//                    print("Color is :\(Color.accentColor) and hex:", Color.accentColor.getHex())
+//                    print("High level accent color: \(Color("AccentColor").getHex())")
+//                    print("\(Mirror(reflecting: Color.accentColor))")
+//                    print("\(Mirror(reflecting: Color("AccentColor")))")
+//                })
+//            }
+//        }
+//    }
 }
 
 // MARK: - ContentView_Previews

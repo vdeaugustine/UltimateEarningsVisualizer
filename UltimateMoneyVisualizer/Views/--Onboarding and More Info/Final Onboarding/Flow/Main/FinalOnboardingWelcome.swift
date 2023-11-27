@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FinalOnboardingWelcome: View {
-    @EnvironmentObject private var vm: OnboardingModel
+    @EnvironmentObject private var vm: FinalOnboardingModel
 
     var body: some View {
         GeometryReader { geo in
@@ -16,7 +16,7 @@ struct FinalOnboardingWelcome: View {
                 Text("Welcome to your\nUltimate Money\nVisualizer")
                     .font(.system(.largeTitle, weight: .bold))
                     .multilineTextAlignment(.center)
-                    .minimumScaleFactor(vm.minScaleFactorForHeader)
+                    .minimumScaleFactor(0.9)
                     .padding(.top, vm.topPadding(geo))
                     .layoutPriority(3)
 
@@ -39,7 +39,7 @@ struct FinalOnboardingWelcome: View {
                 Spacer()
 
                 OnboardingButton(title: "Let's get started!") {
-                    vm.increaseScreenNumber()
+                    vm.advanceToNextPage()
                 }
                 .padding(.horizontal, vm.horizontalPad)
                 .padding(.bottom, vm.padFromBottom)
@@ -54,5 +54,5 @@ struct FinalOnboardingWelcome: View {
 
 #Preview {
     FinalOnboardingWelcome()
-        .environmentObject(OnboardingModel.shared)
+        .environmentObject(FinalOnboardingModel.shared)
 }
