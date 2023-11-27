@@ -28,7 +28,9 @@ struct MasterTheAppView: View {
             Spacer()
 
             OnboardingButton(title: "Continue") {
-                level += 1
+                withAnimation {
+                    level += 1
+                }
             }
         }
         .padding()
