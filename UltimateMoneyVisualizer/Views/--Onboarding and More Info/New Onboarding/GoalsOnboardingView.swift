@@ -15,7 +15,7 @@ struct GoalsOnboardingView: View {
         GeometryReader { geo in
             VStack {
                 Text("Goals")
-                    .font(.system(.largeTitle, weight: .bold))
+                    .font(.system(.largeTitle, design: .rounded, weight: .bold))
                     .multilineTextAlignment(.center)
                     .minimumScaleFactor(vm.minScaleFactorForHeader)
                     .padding(.top, vm.topPadding(geo))

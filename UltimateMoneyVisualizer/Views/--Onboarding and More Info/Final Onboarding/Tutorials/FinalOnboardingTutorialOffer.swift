@@ -41,12 +41,12 @@ struct FinalOnboardingTutorialOffer: View {
                         Image(systemName: "bookmark.fill")
                             .foregroundStyle(user.getSettings().themeColor)
                         Text("Or come back later:")
-                            .font(.subheadline)
+                            .font(.subheadline, design: .rounded)
                             .fontWeight(.medium)
                     }
 
                     Text("If you want to get started right away, you can skip this part for now.")
-                        .font(.footnote)
+                        .font(.footnote, design: .rounded)
                         .layoutPriority(1)
                 }
                 .padding(.horizontal)
@@ -70,7 +70,7 @@ struct FinalOnboardingTutorialOffer: View {
     var bonus: some View {
         GroupBox {
             Text("You can simulate shifts you haven't worked yet to project your finances in the future")
-                .font(.footnote)
+                .font(.footnote, design: .rounded)
                 .layoutPriority(1)
 
         } label: {
@@ -78,7 +78,7 @@ struct FinalOnboardingTutorialOffer: View {
                 Image(systemName: "lightbulb")
                     .foregroundStyle(.yellow)
                 Text("Bonus:")
-                    .font(.subheadline)
+                    .font(.subheadline, design: .rounded)
                     .fontWeight(.medium)
             }
         }
@@ -91,13 +91,14 @@ struct FinalOnboardingTutorialOffer: View {
     var titleAndSubtitle: some View {
         VStack(spacing: 30) {
             Text(title)
-                .font(.title)
+                .font(.title, design: .rounded)
                 .bold()
                 .multilineTextAlignment(.center)
                 .lineSpacing(3)
 
             VStack(spacing: 10) {
                 Text(subtitle)
+                    .font(.body, design: .rounded)
             }
             .foregroundStyle(.secondary)
             .lineSpacing(3)
@@ -134,12 +135,12 @@ struct FinalOnboardingTutorialOffer: View {
 
             VStack(alignment: .leading) {
                 Text("Family Vacation")
-                    .font(.callout)
+                    .font(.callout, design: .rounded)
             }
 
             Spacer()
             Text(2_000.money())
-                .font(.subheadline)
+                .font(.subheadline, design: .rounded)
         }
         .padding()
         .background {

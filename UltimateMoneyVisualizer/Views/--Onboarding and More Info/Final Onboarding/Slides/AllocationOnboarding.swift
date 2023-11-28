@@ -53,7 +53,7 @@ struct AllocationOnboarding: View {
 
                     VStack(spacing: 20) {
                         Text("Smart Money Allocation")
-                            .font(.title)
+                            .font(.title, design: .rounded)
                             .fontWeight(.bold)
                             .pushLeft()
                             .padding(.leading)
@@ -67,6 +67,7 @@ struct AllocationOnboarding: View {
                                 .frame(maxWidth: .infinity, alignment: .leading)
                             //                                .foregroundStyle(UIColor.secondaryLabel.color)
                         }
+                        .font(.body, design: .rounded)
                         .padding(.horizontal, 10)
                         .layoutPriority(1)
 
@@ -104,7 +105,6 @@ struct AllocationOnboarding: View {
                         .layoutPriority(0)
                     }
 
-                    .kerning(1)
 
                     Spacer()
                 }

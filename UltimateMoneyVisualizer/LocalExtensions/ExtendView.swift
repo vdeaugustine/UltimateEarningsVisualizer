@@ -45,11 +45,13 @@ extension View {
                 .accentColor(Color("AccentColor"))
                 .tint(Color("AccentColor"))
                 .preferredColorScheme(.light)
+                .fontDesign(.rounded)
         } else {
             navigationBarTitleDisplayMode(displayMode)
                 .accentColor(User.main.getSettings().themeColor)
                 .tint(User.main.getSettings().themeColor)
                 .preferredColorScheme(.light)
+                .fontDesign(.rounded)
         }
     }
 
@@ -145,6 +147,12 @@ extension View {
             .background(RoundedRectangle(cornerRadius: cornerRadius)
                 .foregroundColor(color)
                 .shadow(radius: shadow))
+    }
+}
+
+extension View {
+    func font(_ style: Font.TextStyle, design: Font.Design? = .rounded, weight: Font.Weight? = nil) -> some View {
+        self.font(.system(style, design: design, weight: weight))
     }
 }
 

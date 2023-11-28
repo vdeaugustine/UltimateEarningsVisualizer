@@ -63,10 +63,11 @@ struct OnboardingFirstView: View {
 
             VStack(spacing: 14) {
                 Text("Welcome!")
-                    .font(.largeTitle)
+                    .font(.largeTitle, design: .rounded)
                     .fontWeight(.semibold)
 
                 Text("We will walk you through the steps of getting set up.")
+                    .fontDesign(.rounded)
                     .fontWeight(.medium)
             }
 
@@ -94,6 +95,7 @@ struct OnboardingFirstView: View {
                     HStack {
                         Text("Previous")
                             .fontWeight(.medium)
+                            .fontDesign(.rounded)
                         Image(systemName: "arrow.left")
                     }
                     .padding()
@@ -108,7 +110,7 @@ struct OnboardingFirstView: View {
             }) {
                 HStack {
                     Text("Next")
-                        .fontWeight(.medium)
+                        .fontWeight(.medium).fontDesign(.rounded)
                     Image(systemName: "arrow.right")
                 }
                 .padding()

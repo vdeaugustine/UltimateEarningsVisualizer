@@ -70,7 +70,7 @@ extension TimeBlockInfoView {
                         .foregroundStyle(.tint)
                     VStack {
                         Text("Examples")
-                            .font(.headline)
+                            .font(.headline, design: .rounded)
                     }
                     Spacer()
                     Components.nextPageChevron
@@ -96,7 +96,7 @@ extension TimeBlockInfoView {
                     .foregroundStyle(.tint)
                 VStack {
                     Text("Tutorial")
-                        .font(.headline)
+                        .font(.headline, design: .rounded)
                 }
                 Spacer()
                 Components.nextPageChevron

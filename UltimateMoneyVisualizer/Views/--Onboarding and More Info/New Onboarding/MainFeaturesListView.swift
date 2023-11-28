@@ -15,7 +15,7 @@ struct MainFeaturesListView: View {
             VStack {
                 
                 Text("Features")
-                    .font(.system(.largeTitle, weight: .bold))
+                    .font(.system(.largeTitle, design: .rounded, weight: .bold))
                     .frame(maxWidth: 350)
                     .multilineTextAlignment(.center)
                 
@@ -54,9 +54,10 @@ struct MainFeaturesListView: View {
                 
                 VStack(alignment: .leading) {
                     Text(headline)
-                        .font(.headline)
+                        .font(.headline, design: .rounded)
                     
                     Text(subheadline)
+                        .font(.body, design: .rounded)
                         .multilineTextAlignment(.leading)
                         .foregroundStyle(UIColor.secondaryLabel.color)
                 }
@@ -83,9 +84,10 @@ struct MainFeaturesListView: View {
                 
                 VStack(alignment: .leading) {
                     Text("Saved Items")
-                        .font(.headline)
+                        .font(.headline, design: .rounded)
                     
                     Text("Record any time you save money and treat it the same as earnings to pay off items")
+                        .font(.body, design: .rounded)
                         .multilineTextAlignment(.leading)
                         .foregroundStyle(UIColor.secondaryLabel.color)
                 }

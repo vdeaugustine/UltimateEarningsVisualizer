@@ -20,7 +20,7 @@ struct ShiftSummaryBox: View {
                 timeAndMoneyWithDotsView
                 endTimeView
             }
-            .font(.callout)
+            .font(.callout, design: .rounded)
         }
         .groupBoxStyle(ShadowBoxGroupBoxStyle(radius: 3, x: 0, y: 2))
     }
@@ -37,7 +37,6 @@ struct ShiftSummaryBox: View {
             VStack {
                 Text(shift.startTime.getFormattedDate(format: "EEE MMM d"))
                     .foregroundStyle(.secondary)
-                    .fontWeight(.medium)
                 Text(shift.startTime, style: .time)
             }.fontWeight(.medium)
         }
@@ -59,7 +58,7 @@ struct ShiftSummaryBox: View {
                     .frame(width: 5)
                 Text(shift.totalAmountEarned.money())
             }
-            .font(.subheadline)
+            .font(.subheadline, design: .rounded)
             .foregroundStyle(.secondary)
         }
         .padding(.leading, 7)
@@ -99,6 +98,7 @@ struct PseudoShiftRowView: View {
     var body: some View {
         HStack {
             Text(shift.startTime.firstLetterOrTwoOfWeekday())
+                .font(.body, design: .rounded)
                 .foregroundColor(.white)
                 .frame(width: 35, height: 35)
                 .background(settings.getDefaultGradient())
@@ -106,23 +106,23 @@ struct PseudoShiftRowView: View {
 
             VStack(alignment: .leading) {
                 Text(shift.startTime.getFormattedDate(format: .abbreviatedMonth))
-                    .font(.subheadline)
+                    .font(.subheadline, design: .rounded)
                     .foregroundColor(.primary)
 
                 Text("Duration: \(shift.duration.formatForTime())")
-                    .font(.caption2)
+                    .font(.caption2, design: .rounded)
                     .foregroundColor(.secondary)
             }
             Spacer()
 
             VStack {
                 Text("\(shift.totalAmountEarned.money())")
-                    .font(.subheadline)
+                    .font(.subheadline, design: .rounded)
                     .foregroundColor(.primary)
                     .multilineTextAlignment(.trailing)
 
                 Text("earned")
-                    .font(.caption2)
+                    .font(.caption2, design: .rounded)
                     .foregroundStyle(UIColor.secondaryLabel.color)
                     .multilineTextAlignment(.trailing)
             }

@@ -40,12 +40,12 @@ struct FinalOnboardingShiftShowcase: View {
                         Image(systemName: "lightbulb")
                             .foregroundStyle(.yellow)
                         Text("Bonus:")
-                            .font(.subheadline)
+                            .font(.subheadline, design: .rounded)
                             .fontWeight(.medium)
                     }
                     
                     Text("You can simulate shifts you haven't worked yet to project your finances in the future")
-                        .font(.footnote)
+                        .font(.footnote, design: .rounded)
                         .layoutPriority(1)
                 }
                 .padding(.horizontal)
@@ -61,7 +61,7 @@ struct FinalOnboardingShiftShowcase: View {
     var bonus: some View {
         GroupBox {
             Text("You can simulate shifts you haven't worked yet to project your finances in the future")
-                .font(.footnote)
+                .font(.footnote, design: .rounded)
                 .layoutPriority(1)
 
         } label: {
@@ -69,7 +69,7 @@ struct FinalOnboardingShiftShowcase: View {
                 Image(systemName: "lightbulb")
                     .foregroundStyle(.yellow)
                 Text("Bonus:")
-                    .font(.subheadline)
+                    .font(.subheadline, design: .rounded)
                     .fontWeight(.medium)
             }
         }
@@ -82,13 +82,14 @@ struct FinalOnboardingShiftShowcase: View {
     var titleAndSubtitle: some View {
         VStack(spacing: 30) {
             Text("Creating Shifts to Track Your Work Days")
-                .font(.title)
+                .font(.title, design: .rounded)
                 .bold()
                 .multilineTextAlignment(.center)
                 .lineSpacing(3)
 
             VStack(spacing: 10) {
                 Text("Keeping track of every day you work allows you to see your money earned in real time, instead of waiting for your next paycheck")
+                    .font(.body, design: .rounded)
             }
             .foregroundStyle(.secondary)
             .lineSpacing(3)
@@ -99,7 +100,7 @@ struct FinalOnboardingShiftShowcase: View {
         VStack(spacing: 20) {
             VStack(alignment: .leading, spacing: 7) {
                 Text("Recent Shifts")
-                    .font(.title3).fontWeight(.semibold)
+                    .font(.title3, design: .rounded, weight: .semibold)
                 ShiftSummaryBox(shift: PseudoShift.generatePseudoShifts(hourlyWage: 20, numberOfShifts: 1).first!)
                     .padding(.horizontal, 3)
             }

@@ -24,6 +24,7 @@ struct WhereToFindTutorialsView: View {
                     mockSettings
 
                     Text("You can always access informational content in the \"Tutorials and More Info\" section of the settings tab")
+                        .font(.body, design: .rounded)
                         .foregroundStyle(.secondary)
                         .padding(.horizontal)
                         .multilineTextAlignment(.center)
@@ -40,18 +41,22 @@ struct WhereToFindTutorialsView: View {
             .padding(.horizontal, 30)
             .padding(.bottom)
         }
+        .background {
+            OnboardingBackground().ignoresSafeArea()
+        }
     }
 
     var titleAndSubtitle: some View {
         VStack(spacing: 30) {
             Text("That's ok!")
-                .font(.title)
+                .font(.title, design: .rounded)
                 .bold()
                 .multilineTextAlignment(.center)
                 .lineSpacing(3)
 
             VStack(alignment: .leading, spacing: 20) {
                 Text("You want to get started managing your money right away. We get it.")
+                    .font(.body, design: .rounded)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
             }

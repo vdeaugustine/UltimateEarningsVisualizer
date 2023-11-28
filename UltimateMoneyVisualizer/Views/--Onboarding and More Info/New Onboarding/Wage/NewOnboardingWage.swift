@@ -87,6 +87,7 @@ struct NewOnboardingWage: View {
                     .padding(.bottom)
             }
         }
+        .fontDesign(.rounded)
         .background {
             Color.listBackgroundColor.ignoresSafeArea()
         }

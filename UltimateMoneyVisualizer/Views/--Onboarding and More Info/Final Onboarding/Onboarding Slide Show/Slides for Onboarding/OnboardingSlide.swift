@@ -35,7 +35,7 @@ struct OnboardingSlide: View {
     var body: some View {
         VStack {
             Text(title)
-                .font(.title)
+                .font(.title, design: .rounded)
                 .fontWeight(.bold)
                 .kerning(1)
 //                .padding(.top)
@@ -56,7 +56,7 @@ struct OnboardingSlide: View {
 
             VStack(spacing: 20) {
                 Text(header)
-                    .font(.system(.title3, weight: .semibold))
+                    .font(.system(.title3, design: .rounded, weight: .semibold))
                     .kerning(1)
 
                 VStack(alignment: .leading, spacing: 15) {
@@ -65,7 +65,7 @@ struct OnboardingSlide: View {
                             .layoutPriority(2)
                     }
                 }
-                .font(.system(.subheadline, weight: .medium))
+                .font(.system(.subheadline, design: .rounded, weight: .medium))
                 .foregroundStyle(.secondary)
                 .kerning(0.5)
             }

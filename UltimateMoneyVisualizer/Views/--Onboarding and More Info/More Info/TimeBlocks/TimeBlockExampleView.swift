@@ -80,7 +80,7 @@ struct TimeBlockExampleView: View {
 
                     VStack(alignment: .leading) {
                         Text("Checked email")
-                            .format(size: 14, weight: .bold)
+                            .font(.system(size: 14, weight: .bold, design: .rounded))
                             .lineLimit(1)
                             .floatingPopover(isPresented: $titlePopup, arrowDirection: .up) {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + dispatchPause) {
@@ -104,7 +104,7 @@ struct TimeBlockExampleView: View {
 
 
                         Text("\("11:30 AM") - \("12:07 PM")")
-                            .font(.caption)
+                            .font(.caption, design: .rounded)
                             .lineLimit(1)
                         
                             .floatingPopover(isPresented: $timePopup, arrowDirection: .left) {
@@ -238,13 +238,13 @@ struct TimeBlockExampleView: View {
         HStack {
             if let title = timeBlock.title {
                 Text(title)
-                    .font(.caption)
+                    .font(.caption, design: .rounded)
                     .foregroundColor(.white)
 
                 Spacer()
 
                 Text(timeBlock.amountEarned().money())
-                    .font(.caption)
+                    .font(.caption, design: .rounded)
                     .fontWeight(.semibold)
                     .foregroundColor(.white)
             }
@@ -266,7 +266,7 @@ struct TimeBlockExampleView: View {
 
             VStack(alignment: .leading) {
                 Text(block.title)
-                    .format(size: 14, weight: .bold)
+                    .font(.system(size: 14, weight: .bold, design: .rounded))
                     .lineLimit(1)
 
                 Text("\(block.start) - \(block.end)")
@@ -277,7 +277,7 @@ struct TimeBlockExampleView: View {
             Spacer()
 
             Text(block.earned)
-                .font(.caption)
+                .font(.caption, design: .rounded)
                 .lineLimit(1)
         }
         .frame(maxWidth: .infinity)
@@ -293,7 +293,7 @@ struct TimeBlockExampleView: View {
     func divider(time: String) -> some View {
         HStack(spacing: 9) {
             Text(time)
-                .font(.footnote)
+                .font(.footnote, design: .rounded)
             VStack { Divider() }
         }
     }

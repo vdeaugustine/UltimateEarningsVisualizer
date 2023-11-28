@@ -18,7 +18,7 @@ struct SwipingButton: View {
             action()
         } label: {
             Text(label)
-                .fontWeight(.medium)
+                .font(.headline, design: .rounded, weight: .medium)
                 .foregroundStyle(.white)
                 .padding()
                 .padding(.horizontal)

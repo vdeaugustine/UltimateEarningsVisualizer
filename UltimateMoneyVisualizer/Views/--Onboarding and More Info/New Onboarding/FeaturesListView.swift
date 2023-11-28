@@ -17,7 +17,7 @@ struct FeaturesListView: View {
             VStack {
                 VStack (spacing: vm.spacingBetweenHeaderAndContent(geo)){
                     Text(vm.featuresHeader)
-                        .font(.system(.largeTitle, weight: .bold))
+                        .font(.system(.largeTitle, design: .rounded, weight: .bold))
                         .frame(maxWidth: 350)
                         .multilineTextAlignment(.center)
                         .padding(.top, vm.topPadding(geo))
@@ -38,9 +38,9 @@ struct FeaturesListView: View {
                                             .clipped()
                                         VStack(alignment: .leading, spacing: 3) {
                                             Text(title)
-                                                .font(.system(.headline, weight: .semibold))
+                                                .font(.system(.headline, design: .rounded, weight: .semibold))
                                             Text(description)
-                                                .font(.subheadline)
+                                                .font(.subheadline, design: .rounded)
                                                 .foregroundColor(.secondary)
                                         }
                                     }

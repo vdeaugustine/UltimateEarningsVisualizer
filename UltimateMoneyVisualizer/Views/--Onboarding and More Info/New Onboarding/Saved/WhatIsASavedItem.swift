@@ -80,6 +80,7 @@ struct WhatIsASavedItem: View {
                 }
             }
         }
+        .fontDesign(.rounded)
     }
 }
 

@@ -55,7 +55,7 @@ struct TutorialsCompletedView: View {
 
                     VStack(spacing: 20) {
                         Text("Great Job!")
-                            .font(.title)
+                            .font(.title, design: .rounded)
                             .fontWeight(.bold)
                             .pushLeft()
                             .padding(.leading)
@@ -65,17 +65,17 @@ struct TutorialsCompletedView: View {
                             VStack(alignment: .leading, spacing: 30 * (geo.size.height / 759)) {
                                 Text("You have finished all of the tutorials and onboarding!")
                                     .frame(maxWidth: .infinity, alignment: .leading)
-
+                                    .font(.body, design: .rounded)
                                 GroupBox {
                                     Text("You can always revisit the tutorials and learn more about how to use the app by visiting the 'Tutorials and More Info' section in the Settings tab")
                                         .frame(maxWidth: .infinity, alignment: .leading)
-                                        .font(.footnote)
+                                        .font(.footnote, design: .rounded)
                                 } label: {
                                     HStack {
                                         Image(systemName: "lightbulb")
                                             .foregroundStyle(.yellow)
                                         Text("Don't forget:")
-                                            .font(.subheadline)
+                                            .font(.subheadline, design: .rounded)
                                             .fontWeight(.medium)
                                     }
                                 }
@@ -111,7 +111,7 @@ struct TutorialsCompletedView: View {
                         .layoutPriority(0)
                     }
 
-                    .kerning(1)
+//                    .kerning(1)
 
                     Spacer()
                 }

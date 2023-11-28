@@ -30,7 +30,7 @@ struct OnboardingWageWalkthrough: View {
             Spacer()
 
             Text("By entering your wage, you'll gain a deeper understanding of your financial landscape with each passing minute.")
-                .font(.title2)
+                .font(.title2, design: .rounded)
                 .multilineTextAlignment(vm.textAlignment)
             Spacer()
 

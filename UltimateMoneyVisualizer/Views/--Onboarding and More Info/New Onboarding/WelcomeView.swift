@@ -16,7 +16,7 @@ struct WelcomeView: View {
         GeometryReader { geo in
             VStack {
                 Text("Welcome to your\nUltimate Money\nVisualizer")
-                    .font(.system(.largeTitle, weight: .bold))
+                    .font(.system(.largeTitle, design: .rounded, weight: .bold))
                     .multilineTextAlignment(.center)
                     .minimumScaleFactor(vm.minScaleFactorForHeader)
                     .padding(.top, vm.topPadding(geo))
@@ -33,7 +33,7 @@ struct WelcomeView: View {
                 Spacer()
 
                 Text("Empower your financial journey by visualizing earnings, managing goals, and celebrating every saving.")
-                    .font(.system(.title2, weight: .regular))
+                    .font(.system(.title2, design: .rounded, weight: .regular))
                     .multilineTextAlignment(.leading)
                     .padding(.horizontal, vm.horizontalPad)
                     .layoutPriority(1)
@@ -72,7 +72,7 @@ struct OnboardingButton: View {
             action()
         } label: {
             Text(title)
-                .font(.headline)
+                .font(.headline, design: .rounded)
                 .padding()
                 .frame(maxWidth: .infinity)
                 .foregroundColor(.white)
