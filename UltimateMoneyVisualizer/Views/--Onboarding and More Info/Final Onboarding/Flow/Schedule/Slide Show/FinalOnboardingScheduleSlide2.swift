@@ -11,7 +11,7 @@ import SwiftUI
 
 struct FinalOnboardingScheduleSlide2: View {
     @State private var daysSelected: [DayOfWeek] = [.monday, .tuesday, .wednesday, .thursday, .friday]
-    
+
     @State private var sameHoursDays: [DayOfWeek] = []
 
     @State private var mondayStart: Date = .nineAM
@@ -75,24 +75,37 @@ struct FinalOnboardingScheduleSlide2: View {
         }
     }
 
-    @ViewBuilder func TitleAndContent(geo: GeometryProxy) -> some View {
-        VStack(alignment: .leading, spacing: heightScaler(40, geo: geo)) {
-            Text("What hours do you work on \((daysSelected.first ?? .monday).description)s?")
-                .font(.system(size: 30, weight: .bold, design: .rounded))
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.trailing, widthScaler(96, geo: geo))
+    func TitleText(geo: GeometryProxy) -> some View {
+        let dayName = (daysSelected.first ?? .monday).description + "s"
 
-            VStack(alignment: .leading) {
+        var attributedText = AttributedString("What hours do you work on \(dayName)?")
+
+        if let range = attributedText.range(of: dayName) {
+            attributedText[range].foregroundColor = .accentColor
+        }
+
+        return Text(attributedText)
+            .font(.system(size: 30, weight: .bold, design: .rounded))
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.trailing, widthScaler(96, geo: geo))
+    }
+
+    @ViewBuilder func TitleAndContent(geo: GeometryProxy) -> some View {
+        VStack(alignment: .leading, spacing: 40) {
+            TitleText(geo: geo)
+
+            VStack(alignment: .leading, spacing: 35) {
                 DatePicker(selection: $mondayStart, displayedComponents: .hourAndMinute) {
                     Text("Start Time")
                         .font(.system(.title2, design: .rounded, weight: .semibold))
-                        .padding()
+//                        .padding()
                 }
                 .controlSize(.large)
+                
                 DatePicker(selection: $mondayEnd, displayedComponents: .hourAndMinute) {
                     Text("End Time")
                         .font(.system(.title2, design: .rounded, weight: .semibold))
-                        .padding()
+//                        .padding()
                 }
                 .controlSize(.large)
 
@@ -144,8 +157,7 @@ struct FinalOnboardingScheduleSlide2: View {
                     }
                 }
                 .padding()
-            }
-                            label: {
+            } label: {
                 Text("Apply these hours to multiple days")
             }
         }
