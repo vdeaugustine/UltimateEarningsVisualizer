@@ -105,6 +105,7 @@
 		9C4213E42AE9C624007FDB97 /* TimeBlocksStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4213E32AE9C624007FDB97 /* TimeBlocksStatsView.swift */; };
 		9C4213F42AEAC188007FDB97 /* TimeBlockInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4213F32AEAC188007FDB97 /* TimeBlockInfoView.swift */; };
 		9C4213F62AEB4E21007FDB97 /* TimeBlockExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4213F52AEB4E21007FDB97 /* TimeBlockExampleView.swift */; };
+		9C432B9D2B15CB3400216AAC /* FinalOnboardingScheduleSlide1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C432B9C2B15CB3400216AAC /* FinalOnboardingScheduleSlide1.swift */; };
 		9C442A372A03792800D61C3E /* WageBreakdownBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C442A362A03792800D61C3E /* WageBreakdownBox.swift */; };
 		9C442A392A03798C00D61C3E /* WageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C442A382A03798C00D61C3E /* WageTests.swift */; };
 		9C460EE02A038B9F0007EBA9 /* MultipleNewShiftsView(Deprecated).swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C460EDF2A038B9F0007EBA9 /* MultipleNewShiftsView(Deprecated).swift */; };
@@ -445,6 +446,7 @@
 		9C4213E32AE9C624007FDB97 /* TimeBlocksStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeBlocksStatsView.swift; sourceTree = "<group>"; };
 		9C4213F32AEAC188007FDB97 /* TimeBlockInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeBlockInfoView.swift; sourceTree = "<group>"; };
 		9C4213F52AEB4E21007FDB97 /* TimeBlockExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeBlockExampleView.swift; sourceTree = "<group>"; };
+		9C432B9C2B15CB3400216AAC /* FinalOnboardingScheduleSlide1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalOnboardingScheduleSlide1.swift; sourceTree = "<group>"; };
 		9C442A362A03792800D61C3E /* WageBreakdownBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WageBreakdownBox.swift; sourceTree = "<group>"; };
 		9C442A382A03798C00D61C3E /* WageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WageTests.swift; sourceTree = "<group>"; };
 		9C460EDF2A038B9F0007EBA9 /* MultipleNewShiftsView(Deprecated).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MultipleNewShiftsView(Deprecated).swift"; sourceTree = "<group>"; };
@@ -906,10 +908,10 @@
 		9C3808422B0F1DD000BF45DD /* Flow */ = {
 			isa = PBXGroup;
 			children = (
+				9C432B992B15CAF200216AAC /* Schedule */,
 				9C38084F2B14447600BF45DD /* Files */,
 				9C3808432B0F1ECB00BF45DD /* FinalOnboardingWelcome.swift */,
 				9C38084D2B14446B00BF45DD /* FinalOnboardingWage.swift */,
-				9C3808502B144D4900BF45DD /* FinalOnboardingSchedule.swift */,
 				9C1754B62B05A9AC00022938 /* Main */,
 			);
 			path = Flow;
@@ -1051,6 +1053,23 @@
 			children = (
 			);
 			path = Generic;
+			sourceTree = "<group>";
+		};
+		9C432B992B15CAF200216AAC /* Schedule */ = {
+			isa = PBXGroup;
+			children = (
+				9C432B9A2B15CB1B00216AAC /* Slide Show */,
+				9C3808502B144D4900BF45DD /* FinalOnboardingSchedule.swift */,
+			);
+			path = Schedule;
+			sourceTree = "<group>";
+		};
+		9C432B9A2B15CB1B00216AAC /* Slide Show */ = {
+			isa = PBXGroup;
+			children = (
+				9C432B9C2B15CB3400216AAC /* FinalOnboardingScheduleSlide1.swift */,
+			);
+			path = "Slide Show";
 			sourceTree = "<group>";
 		};
 		9C460EE72A049DC30007EBA9 /* New Money Items */ = {
@@ -2441,6 +2460,7 @@
 				9C7F969A29F8FE3500F5035C /* ExtendWage.swift in Sources */,
 				9C860F802A667AA100D834C4 /* TodayViewHeaderBackground.swift in Sources */,
 				9C74F9FD2A9AEF0E00466779 /* FeaturesListView.swift in Sources */,
+				9C432B9D2B15CB3400216AAC /* FinalOnboardingScheduleSlide1.swift in Sources */,
 				9CA319FD2AB3C2B900426660 /* SelectCalendarForSettingsView.swift in Sources */,
 				9C3808462B0F1F5C00BF45DD /* FinalOnboardingModel.swift in Sources */,
 				9C7C983A29F9EC410077EA25 /* EnterWageView.swift in Sources */,

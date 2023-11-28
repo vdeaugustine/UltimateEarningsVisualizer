@@ -31,10 +31,10 @@ struct FinalOnboardingSchedule: View {
         return coefficient * height
     }
 
-    func titleText(geo: GeometryProxy) -> some View {
+    @ViewBuilder func titleText(geo: GeometryProxy) -> some View {
         let attributedText = AttributedString(title)
 
-        return Text(attributedText)
+        Text(attributedText)
             .font(.system(size: 30, weight: .bold, design: .rounded))
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.trailing, widthScaler(96, geo: geo))
