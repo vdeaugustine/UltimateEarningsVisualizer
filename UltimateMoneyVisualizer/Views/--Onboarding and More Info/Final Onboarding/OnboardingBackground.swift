@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct OnboardingBackground: View {
-    static let baseColor = /*Color(hex: "#006154")*/ Color.white
+    static let baseColor = /* Color(hex: "#006154") */ Color.white
     static let secondary = Color(hex: "#3DB6A6")
     static let tertiary = Color(hex: "#E0C970")
 
@@ -27,12 +27,15 @@ struct OnboardingBackground: View {
 
 //            VStack {
 //                Spacer()
-                Rectangle()
-                    .fill(rGradient)
-                    .overlay(.regularMaterial)
-                    .frame(height: geo.size.height * 0.7)
-                    .fadeEffect()
-                    .ignoresSafeArea(edges: .top)
+//                Rectangle()
+//                    .fill(rGradient)
+            Image("waveBackground")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .overlay(.regularMaterial)
+//                .frame(height: geo.size.height * 0.7)
+//                .fadeEffect()
+                .ignoresSafeArea(edges: .top)
 //            }
 //                .edgesIgnoringSafeArea(.all) // Extend to the entire screen
 
