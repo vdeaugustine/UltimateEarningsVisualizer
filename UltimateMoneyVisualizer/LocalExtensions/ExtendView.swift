@@ -42,8 +42,8 @@ extension View {
                                                   endPoint: .trailing),
                                    for: .navigationBar)
                 .toolbarBackground(.visible, for: .tabBar)
-                .accentColor(Color("AccentColor"))
-                .tint(Color("AccentColor"))
+                .accentColor(Color.accentColor)
+                .tint(Color.accentColor)
                 .preferredColorScheme(.light)
                 .fontDesign(.rounded)
         } else {

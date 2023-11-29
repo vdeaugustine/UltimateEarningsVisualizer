@@ -19,13 +19,13 @@ struct FinalOnboarding: View {
     var body: some View {
         TabView(selection: $vm.currentPage) {
             FinalOnboardingWelcome().tag(Page.welcome)
-            WageOnboarding(tab: $tab).tag(Page.wage)
+            FinalOnboardingWage().tag(Page.wage)
             
             
   
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-        .ignoresSafeArea(.container, edges: .top)
+        .ignoresSafeArea(.all, edges: .vertical)
         .onChangeProper(of: tab) {
             #if !DEBUG
                 if user.wage == nil {

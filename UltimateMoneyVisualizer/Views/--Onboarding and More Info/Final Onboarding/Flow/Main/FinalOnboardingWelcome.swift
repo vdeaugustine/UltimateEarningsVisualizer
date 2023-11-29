@@ -47,7 +47,7 @@ struct FinalOnboardingWelcome: View {
             }
         }
         .background {
-            OnboardingBackground()
+            OnboardingBackground().ignoresSafeArea()
         }
     }
 }
