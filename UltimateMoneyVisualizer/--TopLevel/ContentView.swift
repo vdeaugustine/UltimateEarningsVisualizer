@@ -34,7 +34,7 @@ struct ContentView: View {
     }
     #if DEBUG
     @ViewBuilder var testingContent: some View {
-        FinalOnboardingWageWalkThroughSlide2()
+        OnboardingBackground().ignoresSafeArea()
     }
     #endif
     

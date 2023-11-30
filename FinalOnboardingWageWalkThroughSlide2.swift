@@ -25,6 +25,7 @@ extension CGPoint {
 // MARK: - FinalOnboardingWageWalkThroughSlide2
 
 struct FinalOnboardingWageWalkThroughSlide2: View {
+    
     @State private var amount: String = ""
     @State private var textFieldIsFocused = true
     @State private var textFieldFrame: CGRect = .zero
@@ -178,25 +179,6 @@ struct Key: Identifiable {
     let isNumber: Bool
 }
 
-// MARK: - KeyPadKey
-
-// protocol KeyViewProtocol: View {
-//    var key: Key { get }
-//    func content() -> AnyView
-// }
-//
-// extension KeyViewProtocol {
-//    var body: some View {
-//        Button(action: key.action) {
-//            content()
-//                .font(.title, design: .rounded, weight: .heavy)
-//                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50)
-//                .background(key.isNumber ? Color.gray : Color.blue)
-//                .foregroundColor(.white)
-//        }
-//    }
-// }
-
 struct KeyPadKey: ViewModifier {
     var key: Key
     let height: CGFloat
@@ -234,40 +216,6 @@ struct NumberKeyView: View {
             .modifier(KeyPadKey(key: key, height: height))
     }
 }
-
-// MARK: - KeypadView
-
-// struct NumberKeyView: View {
-//    let key: Key
-//
-//    var body: some View {
-//        Button(action: key.action) {
-//            Text(key.label)
-//                .font(.title)
-//                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50)
-//                .background(Color.gray)
-//                .foregroundColor(.white)
-////                .cornerRadius(10)
-//        }
-//    }
-// }
-//
-//// MARK: - SymbolKeyView
-//
-// struct SymbolKeyView: View {
-//    let key: Key
-//
-//    var body: some View {
-//        Button(action: key.action) {
-//            Image(systemName: key.label)
-//                .font(.title)
-//                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50)
-//                .background(Color.blue)
-//                .foregroundColor(.white)
-////                .cornerRadius(10)
-//        }
-//    }
-// }
 
 struct KeypadView: View {
     // Define your keys and actions here
