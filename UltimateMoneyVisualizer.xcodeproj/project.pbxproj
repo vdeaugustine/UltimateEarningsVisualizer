@@ -58,6 +58,7 @@
 		9C2597552AF362F400E5A2AB /* OnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2597542AF362F400E5A2AB /* OnboardingManager.swift */; };
 		9C2597592AF3677500E5A2AB /* OnboardingProgressManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2597582AF3677500E5A2AB /* OnboardingProgressManagerView.swift */; };
 		9C2B747E2B181EAE00F9B7F1 /* FinalOnboardingWalkthroughSlide3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2B747D2B181EAE00F9B7F1 /* FinalOnboardingWalkthroughSlide3.swift */; };
+		9C2B74802B18729700F9B7F1 /* FinalOnboardingWageWalkthroughSlide4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2B747F2B18729700F9B7F1 /* FinalOnboardingWageWalkthroughSlide4.swift */; };
 		9C2DF8992A6BB06D001B8ED5 /* TodayViewItemizedBlocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2DF8982A6BB06D001B8ED5 /* TodayViewItemizedBlocks.swift */; };
 		9C2DF89B2A6BBE62001B8ED5 /* TodayViewNewTimeBlockCreationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2DF89A2A6BBE62001B8ED5 /* TodayViewNewTimeBlockCreationModel.swift */; };
 		9C35745A2B0941AD000AED9D /* TodayShiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3574592B0941AD000AED9D /* TodayShiftTests.swift */; };
@@ -403,6 +404,7 @@
 		9C2597542AF362F400E5A2AB /* OnboardingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingManager.swift; sourceTree = "<group>"; };
 		9C2597582AF3677500E5A2AB /* OnboardingProgressManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingProgressManagerView.swift; sourceTree = "<group>"; };
 		9C2B747D2B181EAE00F9B7F1 /* FinalOnboardingWalkthroughSlide3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalOnboardingWalkthroughSlide3.swift; sourceTree = "<group>"; };
+		9C2B747F2B18729700F9B7F1 /* FinalOnboardingWageWalkthroughSlide4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalOnboardingWageWalkthroughSlide4.swift; sourceTree = "<group>"; };
 		9C2DF8982A6BB06D001B8ED5 /* TodayViewItemizedBlocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewItemizedBlocks.swift; sourceTree = "<group>"; };
 		9C2DF89A2A6BBE62001B8ED5 /* TodayViewNewTimeBlockCreationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewNewTimeBlockCreationModel.swift; sourceTree = SOURCE_ROOT; };
 		9C3574592B0941AD000AED9D /* TodayShiftTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TodayShiftTests.swift; path = "UltimateMoneyVisualizer/---Concatenate/Model/Core Data/Extensions/TodayShiftTests.swift"; sourceTree = SOURCE_ROOT; };
@@ -1337,6 +1339,7 @@
 			children = (
 				9C432BA42B16E6E100216AAC /* FinalOnboardingWageWalkThroughSlide2.swift */,
 				9C2B747D2B181EAE00F9B7F1 /* FinalOnboardingWalkthroughSlide3.swift */,
+				9C2B747F2B18729700F9B7F1 /* FinalOnboardingWageWalkthroughSlide4.swift */,
 				9C432BA22B16E3E300216AAC /* FinalOnboardingWageEnterWalkthrough.swift */,
 				9C7F965829F8F03C00F5035C /* Products */,
 				9C7F965929F8F03C00F5035C /* UltimateMoneyVisualizer */,
@@ -2313,6 +2316,7 @@
 				9C58DC9F2A8DE85C00499C9E /* PayoffQueueForTodayView.swift in Sources */,
 				9CEEE34F29F90E09001FA4FB /* SavedListView.swift in Sources */,
 				9CED53482A08ACC7002DC183 /* AllocSavedRow.swift in Sources */,
+				9C2B74802B18729700F9B7F1 /* FinalOnboardingWageWalkthroughSlide4.swift in Sources */,
 				9C3574802B099DDC000AED9D /* AddAllocationForGoalView.swift in Sources */,
 				9CED534C2A09BAD5002DC183 /* PayoffTodaySquare.swift in Sources */,
 				9C2315B62AB2F060008E0FD9 /* CreateTimeBlocksFromCalendarEventsView.swift in Sources */,
