@@ -180,6 +180,7 @@
 		9C7C60252B1BB16C004374A3 /* FinalOnboardingCalculateFedTax.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C60242B1BB16C004374A3 /* FinalOnboardingCalculateFedTax.swift */; };
 		9C7C60272B1BB92E004374A3 /* FinalOnboardingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C60262B1BB92E004374A3 /* FinalOnboardingButton.swift */; };
 		9C7C602A2B1BC43A004374A3 /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9C7C60292B1BC43A004374A3 /* ConfettiSwiftUI */; };
+		9C7C602D2B1BD3A3004374A3 /* FinalOnboardingScheduleFullSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C602C2B1BD3A3004374A3 /* FinalOnboardingScheduleFullSheet.swift */; };
 		9C7C983A29F9EC410077EA25 /* EnterWageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C983929F9EC410077EA25 /* EnterWageView.swift */; };
 		9C7C983C29F9EDDF0077EA25 /* SelectRegularDaysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C983B29F9EDDF0077EA25 /* SelectRegularDaysView.swift */; };
 		9C7C983F29F9F68B0077EA25 /* RegularScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C983E29F9F68B0077EA25 /* RegularScheduleView.swift */; };
@@ -529,6 +530,7 @@
 		9C7B5D592A202E8D00DBB877 /* CreateTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTagView.swift; sourceTree = "<group>"; };
 		9C7C60242B1BB16C004374A3 /* FinalOnboardingCalculateFedTax.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalOnboardingCalculateFedTax.swift; sourceTree = "<group>"; };
 		9C7C60262B1BB92E004374A3 /* FinalOnboardingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalOnboardingButton.swift; sourceTree = "<group>"; };
+		9C7C602C2B1BD3A3004374A3 /* FinalOnboardingScheduleFullSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalOnboardingScheduleFullSheet.swift; sourceTree = "<group>"; };
 		9C7C983929F9EC410077EA25 /* EnterWageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterWageView.swift; sourceTree = "<group>"; };
 		9C7C983B29F9EDDF0077EA25 /* SelectRegularDaysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectRegularDaysView.swift; sourceTree = "<group>"; };
 		9C7C983E29F9F68B0077EA25 /* RegularScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegularScheduleView.swift; sourceTree = "<group>"; };
@@ -1119,6 +1121,7 @@
 		9C432B992B15CAF200216AAC /* Schedule */ = {
 			isa = PBXGroup;
 			children = (
+				9C7C602B2B1BD393004374A3 /* Full Sheet */,
 				9C432B9A2B15CB1B00216AAC /* Slide Show */,
 				9C3808502B144D4900BF45DD /* FinalOnboardingSchedule.swift */,
 			);
@@ -1332,6 +1335,14 @@
 				9C7C60242B1BB16C004374A3 /* FinalOnboardingCalculateFedTax.swift */,
 			);
 			path = "Calculate Tax";
+			sourceTree = "<group>";
+		};
+		9C7C602B2B1BD393004374A3 /* Full Sheet */ = {
+			isa = PBXGroup;
+			children = (
+				9C7C602C2B1BD3A3004374A3 /* FinalOnboardingScheduleFullSheet.swift */,
+			);
+			path = "Full Sheet";
 			sourceTree = "<group>";
 		};
 		9C7C984229FA0D7F0077EA25 /* Schedule */ = {
@@ -2449,6 +2460,7 @@
 				9CF194DB2A1C7980000F83A9 /* AddTagToGoalView.swift in Sources */,
 				9C35748C2B0AFDB0000AED9D /* FinalOnboardingShiftShowcase.swift in Sources */,
 				9C7A16452B01BCCA004EC33B /* SecondSlideShow.swift in Sources */,
+				9C7C602D2B1BD3A3004374A3 /* FinalOnboardingScheduleFullSheet.swift in Sources */,
 				9CEEE34929F90BCF001FA4FB /* DayOfWeek.swift in Sources */,
 				9CED53462A08AA77002DC183 /* PurchasePage.swift in Sources */,
 				9CE288DD2A4270C20050A4DC /* EnterPaycheckViewModel.swift in Sources */,

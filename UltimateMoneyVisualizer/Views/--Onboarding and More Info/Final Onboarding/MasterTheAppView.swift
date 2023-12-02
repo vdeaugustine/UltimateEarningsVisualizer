@@ -21,7 +21,7 @@ extension View {
 
 class MasterTheAppViewModel: ObservableObject {
     @Published var viewStack: NavigationPath = .init()
-    @Published var level: Int = 0
+    @Published var level: Int = 1
     
     static var shared: MasterTheAppViewModel = .init()
 
@@ -29,6 +29,8 @@ class MasterTheAppViewModel: ObservableObject {
         switch level {
             case 0:
                 navigateToSetup()
+            case 1:
+                navigateToSchedule()
             default:
                 return
         }
@@ -37,15 +39,22 @@ class MasterTheAppViewModel: ObservableObject {
     func navigateToSetup() {
         viewStack.append(Views.wageWalkthrough)
     }
+    
+    func navigateToSchedule() {
+        viewStack.append(Views.scheduleWalkthrough)
+    }
 
     enum Views: Hashable {
         case wageWalkthrough
+        case scheduleWalkthrough
     }
 
     @ViewBuilder func getDestination(for view: Views) -> some View {
         switch view {
             case .wageWalkthrough:
                 FinalOnboardingWageWalkThrough()
+            case .scheduleWalkthrough:
+                FinalOnboardingSchedule()
         }
     }
 }
@@ -118,8 +127,8 @@ extension MasterTheAppView {
                         lineUp: nil,
                         lineDown: viewModel.level >= 0 ? circlesGreenColor : grayColor)
 
-            TimelineRow(title: "Learn to track your spending",
-                        subtitle: "Learn to create expenses and goals to track money as it goes out.",
+            TimelineRow(title: "Set up your schedule",
+                        subtitle: "Set your work schedule so the app can automatically generate your shifts, allowing you to track your earnings easier.",
                         isDone: viewModel.level > 1,
                         isActive: viewModel.level == 1,
                         iconName: "book",

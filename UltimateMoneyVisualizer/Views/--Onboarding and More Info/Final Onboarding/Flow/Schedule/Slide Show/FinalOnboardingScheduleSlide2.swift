@@ -20,22 +20,16 @@ struct FinalOnboardingScheduleSlide2: View {
     var body: some View {
         GeometryReader { geo in
             VStack(spacing: 30) {
-                Progress
 
                 TitleAndContent(geo: geo)
 
                 Spacer()
 
                 IncludedDays
-                ContinueButton
             }
             .padding(.horizontal, widthScaler(24, geo: geo))
         }
 
-        .background {
-            OnboardingBackground()
-                .ignoresSafeArea()
-        }
     }
 
     @ViewBuilder func dayRow(_ day: DayOfWeek) -> some View {

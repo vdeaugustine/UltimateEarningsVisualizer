@@ -8,28 +8,15 @@
 import SwiftUI
 
 struct FinalOnboardingSchedule: View {
+    @ObservedObject private var masterAppViewModel = MasterTheAppViewModel.shared
     //    @ObservedObject private var settings = User.main.getSettings()
     let image: Image = Image("moneyCalendar")
     let title: String = "Set your schedule and let the app do the rest"
     let subtitle1: String = "Shifts will be generated for you automatically, instead of requiring you to create them manually. "
     let subtitle2: String = "You can use this feature to generate future shifts to project where your money will be at any time in the future "
     let buttonTitle: String = "Enter Schedule"
-    let buttonAction: () -> Void = {
-    }
 
     private let subtitleGray = Color(hex: "3C3C3C")
-
-    func widthScaler(_ width: CGFloat, geo: GeometryProxy) -> CGFloat {
-        let frameWidth = geo.size.width
-        let coefficient = frameWidth / 430
-        return coefficient * width
-    }
-
-    func heightScaler(_ height: CGFloat, geo: GeometryProxy) -> CGFloat {
-        let frameHeight = geo.size.height
-        let coefficient = frameHeight / 932
-        return coefficient * height
-    }
 
     @ViewBuilder func titleText(geo: GeometryProxy) -> some View {
         let attributedText = AttributedString(title)
@@ -39,6 +26,8 @@ struct FinalOnboardingSchedule: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.trailing, widthScaler(96, geo: geo))
     }
+
+    @State private var showFullSheet = false
 
     var body: some View {
         GeometryReader { geo in
@@ -51,8 +40,10 @@ struct FinalOnboardingSchedule: View {
 
                 Spacer()
 
-                OnboardingButton(title: buttonTitle, buttonAction)
-                    .frame(width: widthScaler(274, geo: geo))
+                FinalOnboardingButton(title: buttonTitle) {
+                    showFullSheet = true
+                }
+                .frame(width: widthScaler(274, geo: geo))
             }
 
             .frame(maxWidth: .infinity)
