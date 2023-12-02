@@ -1,5 +1,5 @@
 //
-//  FinalOnboardingWageWalkThroughSlide2.swift
+//  FinalOnboardingEnterWageAmountSheet.swift
 //  UltimateMoneyVisualizer
 //
 //  Created by Vincent DeAugustine on 11/28/23.
@@ -8,28 +8,14 @@
 import SwiftUI
 import Vin
 
-extension CGPoint {
-    func isInside(rect: CGRect) -> Bool {
-        return rect.contains(self)
-    }
-}
+// MARK: - FinalOnboardingEnterWageAmountSheet
 
-#if canImport(UIKit)
-    extension View {
-        func hideKeyboard() {
-            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-        }
-    }
-#endif
-
-// MARK: - FinalOnboardingWageWalkThroughSlide2
-
-struct FinalOnboardingWageWalkThroughSlide2: View {
+struct FinalOnboardingEnterWageAmountSheet: View {
     
+    @EnvironmentObject private var viewModel: FinalWageViewModel
+    
+    @Environment (\.dismiss) private var dismiss
     @State private var amount: String = ""
-    @State private var textFieldIsFocused = true
-    @State private var textFieldFrame: CGRect = .zero
-    @State private var tapLocation: CGPoint = .zero
 
     func formatAsCurrency(string: String) -> String {
         let numericString = string.filter("0123456789".contains)
@@ -80,8 +66,9 @@ struct FinalOnboardingWageWalkThroughSlide2: View {
         GeometryReader { geo in
             VStack(spacing: 30) {
                 VStack(spacing: 30) {
-                    Progress
 
+                    Spacer()
+                        .frame(height: 30)
                     TitleAndContent(geo: geo)
                 }
                 .padding(.horizontal, widthScaler(24, geo: geo))
@@ -119,12 +106,12 @@ struct FinalOnboardingWageWalkThroughSlide2: View {
 
     @ViewBuilder var Progress: some View {
         VStack(alignment: .leading, spacing: 20) {
-            ProgressBar(percentage: 0.33,
+            ProgressBar(percentage: viewModel.stepPercentage,
                         height: 8,
                         color: Color.accentColor,
                         barBackgroundColor: UIColor.systemGray4.color,
                         showBackgroundBar: true)
-            Text("STEP 1 OF 3")
+            Text("STEP \(viewModel.stepNumber) OF \(viewModel.totalStepCount)")
                 .font(.system(.title3, design: .rounded))
         }
     }
@@ -135,27 +122,16 @@ struct FinalOnboardingWageWalkThroughSlide2: View {
                 .font(.system(size: 30, weight: .bold, design: .rounded))
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.trailing, widthScaler(96, geo: geo))
-
-//            VStack {
-//                CurrencyTextField(value: $amount, isFocused: $textFieldIsFocused, characterLimit: 12) { field in
-//                    field.font = .systemFont(ofSize: 40, weight: .bold)
-//
-//                }
-//                .frame(height: 100)
-//                .border(Color.black)
-//                .getFrame(in: .global) { frame in
-//                    textFieldFrame = frame
-//                    print("Text field frame: \(textFieldFrame)")
-//                }
-
-//                Spacer()
-
-//            }
         }
     }
 
     @ViewBuilder var ContinueButton: some View {
         Button {
+            guard let double = Double(amount) else {
+                return
+            }
+            viewModel.wageAmount = double / 100
+            dismiss()
         } label: {
             Text("Continue")
                 .font(.system(.headline, design: .rounded, weight: .regular))
@@ -245,5 +221,6 @@ struct KeypadView: View {
 }
 
 #Preview {
-    FinalOnboardingWageWalkThroughSlide2()
+    FinalOnboardingEnterWageAmountSheet()
+        .environmentObject(FinalWageViewModel())
 }

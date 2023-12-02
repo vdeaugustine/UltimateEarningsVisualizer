@@ -78,7 +78,7 @@ struct OnboardingButton: View {
                 .foregroundColor(.white)
                 .frame(height: height)
                 .background {
-                    settings.themeColor.clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                    Color.accentColor.clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                 }
                 
         }

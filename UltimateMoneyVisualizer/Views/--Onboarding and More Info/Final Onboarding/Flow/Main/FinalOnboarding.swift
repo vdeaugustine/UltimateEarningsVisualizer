@@ -19,7 +19,7 @@ struct FinalOnboarding: View {
     var body: some View {
         TabView(selection: $vm.currentPage) {
             FinalOnboardingWelcome().tag(Page.welcome)
-            FinalOnboardingWage().tag(Page.wage)
+            FinalOnboardingWage_Deprecated().tag(Page.wage)
             
             
   

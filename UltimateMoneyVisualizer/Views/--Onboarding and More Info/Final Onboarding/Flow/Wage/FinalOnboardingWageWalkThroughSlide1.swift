@@ -7,41 +7,54 @@
 
 import SwiftUI
 
-struct FinalOnboardingWageEnterWalkthrough: View {
-    @State private var wageType: WageType? = nil
+struct FinalOnboardingWageWalkThroughSlide1: View {
+    @EnvironmentObject private var viewModel: FinalWageViewModel
 
-    func widthScaler(_ width: CGFloat, geo: GeometryProxy) -> CGFloat {
-        let frameWidth = geo.size.width
-        let coefficient = frameWidth / 430
-        return coefficient * width
-    }
+    
 
-    func heightScaler(_ height: CGFloat, geo: GeometryProxy) -> CGFloat {
-        let frameHeight = geo.size.height
-        let coefficient = frameHeight / 932
-        return coefficient * height
+    var bottomButtonLabel: String {
+        if viewModel.wageAmount == nil {
+            return "Enter Amount"
+        }
+        return "Continue"
     }
 
     var body: some View {
         GeometryReader { geo in
             VStack(spacing: 30) {
-                Progress
+                
 
                 TitleAndContent(geo: geo)
 
+                if let amount = viewModel.wageAmount {
+                    VStack(spacing: 10) {
+                        Text("Amount")
+                            .font(.system(size: 24, weight: .medium, design: .rounded))
+                            .pushLeft()
+                        Text(amount.money())
+                            .font(.system(size: 30, weight: .bold, design: .rounded))
+                            .pushLeft()
+                    }
+                    .padding()
+                    .background {
+                        UIColor.systemBackground.color
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .opacity(0.35)
+                    }
+                }
+
                 Spacer()
 
-                if wageType != nil {
+                if viewModel.wageType != nil {
                     ContinueButton
                 }
-                
             }
             .padding(.horizontal, widthScaler(24, geo: geo))
         }
 
-        .background {
-            OnboardingBackground()
-                .ignoresSafeArea()
+
+        .sheet(isPresented: $viewModel.showWageAmountSheet) {
+            FinalOnboardingEnterWageAmountSheet()
         }
     }
 
@@ -53,7 +66,8 @@ struct FinalOnboardingWageEnterWalkthrough: View {
             .background {
                 UIColor.systemBackground.color
                     .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .conditionalModifier(wageType == type) { thisView in
+                    .opacity(0.35)
+                    .conditionalModifier(viewModel.wageType == type) { thisView in
                         thisView
                             .overlay {
                                 RoundedRectangle(cornerRadius: 10)
@@ -63,22 +77,12 @@ struct FinalOnboardingWageEnterWalkthrough: View {
             }
             .onTapGesture {
                 withAnimation {
-                    wageType = type
+                    viewModel.wageType = type
                 }
             }
     }
 
-    @ViewBuilder var Progress: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            ProgressBar(percentage: 0.33,
-                        height: 8,
-                        color: Color.accentColor,
-                        barBackgroundColor: UIColor.systemGray4.color,
-                        showBackgroundBar: true)
-            Text("STEP 1 OF 3")
-                .font(.system(.title3, design: .rounded))
-        }
-    }
+    
 
     @ViewBuilder func TitleAndContent(geo: GeometryProxy) -> some View {
         VStack(alignment: .leading, spacing: heightScaler(40, geo: geo)) {
@@ -96,21 +100,19 @@ struct FinalOnboardingWageEnterWalkthrough: View {
     }
 
     @ViewBuilder var ContinueButton: some View {
-        Button {
-        } label: {
-            Text("Continue")
-                .font(.system(.headline, design: .rounded, weight: .regular))
-                .foregroundStyle(.white)
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background {
-                    Color.accentColor
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
+        FinalOnboardingButton(title: bottomButtonLabel) {
+            if viewModel.wageAmount == nil {
+                viewModel.showWageAmountSheet = true
+            } else {
+                withAnimation {
+                    viewModel.stepNumber = 2
                 }
+            }
         }
     }
 }
 
 #Preview {
-    FinalOnboardingWageEnterWalkthrough()
+    FinalOnboardingWageWalkThroughSlide1()
+        .environmentObject(FinalWageViewModel())
 }

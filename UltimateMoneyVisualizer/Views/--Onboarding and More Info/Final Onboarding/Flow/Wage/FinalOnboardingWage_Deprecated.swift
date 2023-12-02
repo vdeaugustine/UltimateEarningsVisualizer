@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct FinalOnboardingWage: View {
+struct FinalOnboardingWage_Deprecated: View {
 //    @ObservedObject private var settings = User.main.getSettings()
     let image: Image = Image("dollarNoBack")
     let title: String = "Set your wage and see earnings in real time"
@@ -96,5 +96,5 @@ struct FinalOnboardingWage: View {
 }
 
 #Preview {
-    FinalOnboardingWage()
+    FinalOnboardingWage_Deprecated()
 }

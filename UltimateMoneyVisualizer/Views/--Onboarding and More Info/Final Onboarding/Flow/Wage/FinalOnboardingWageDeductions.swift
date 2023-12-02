@@ -1,5 +1,5 @@
 //
-//  FinalOnboardingWageWalkthroughSlide4.swift
+//  FinalOnboardingWalkthroughSlide3.swift
 //  UltimateMoneyVisualizer
 //
 //  Created by Vincent DeAugustine on 11/29/23.
@@ -7,15 +7,12 @@
 
 import SwiftUI
 
-struct FinalOnboardingWageWalkthroughSlide4: View {
+struct FinalOnboardingWageDeductions: View {
+    @EnvironmentObject private var viewModel: FinalWageViewModel
+
     @State private var amount: String = ""
-    @State private var textFieldIsFocused = true
-    @State private var textFieldFrame: CGRect = .zero
-    @State private var tapLocation: CGPoint = .zero
-
-    let stepNumber: Double = 2
-    let totalSteps: Double = 3
-
+    
+    
     func formatAsCurrency(string: String) -> String {
         let numericString = string.filter("0123456789".contains)
         let intValue = Int(numericString) ?? 0
@@ -30,18 +27,6 @@ struct FinalOnboardingWageWalkthroughSlide4: View {
 
     var showingAmount: String {
         formatAsCurrency(string: amount)
-    }
-
-    func widthScaler(_ width: CGFloat, geo: GeometryProxy) -> CGFloat {
-        let frameWidth = geo.size.width
-        let coefficient = frameWidth / 393
-        return coefficient * width
-    }
-
-    func heightScaler(_ height: CGFloat, geo: GeometryProxy) -> CGFloat {
-        let frameHeight = geo.size.height
-        let coefficient = frameHeight / 852
-        return coefficient * height
     }
 
     var keys: [Key] {
@@ -76,10 +61,6 @@ struct FinalOnboardingWageWalkthroughSlide4: View {
                 VStack(spacing: heightScaler(65, geo: geo)) {
                     VStack(spacing: heightScaler(20, geo: geo)) {
                         
-                        Button("Reset to default") {
-                            
-                        }
-                        
                         ContinueButton
                             .padding(.horizontal, widthScaler(24, geo: geo))
                     }
@@ -87,127 +68,123 @@ struct FinalOnboardingWageWalkthroughSlide4: View {
             }
         }
 
-        .background {
-            OnboardingBackground()
-                .ignoresSafeArea()
-        }
     }
 
     @ViewBuilder var Progress: some View {
         VStack(alignment: .leading, spacing: 20) {
-            ProgressBar(percentage: stepNumber / totalSteps,
+            ProgressBar(percentage: viewModel.stepPercentage,
                         height: 8,
                         color: Color.accentColor,
                         barBackgroundColor: UIColor.systemGray4.color,
                         showBackgroundBar: true)
-            Text("STEP \(Int(stepNumber)) OF 3")
+            Text("STEP \(Int(viewModel.stepNumber)) OF \(viewModel.totalStepCount)")
                 .font(.system(.title3, design: .rounded))
         }
     }
 
     @ViewBuilder func TitleAndContent(geo: GeometryProxy) -> some View {
         VStack(alignment: .leading, spacing: heightScaler(30, geo: geo)) {
-            Text("Salary Calculation Assumptions")
+            Text("Taxes and Deductions")
                 .font(.system(size: 30, weight: .bold, design: .rounded))
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.trailing, widthScaler(96, geo: geo))
 
-            Text("This allows you to see your earnings breakdown by hour, minute, second, etc.")
+            Text("By entering your tax details, the app can precisely calculate and incorporate your taxes. This ensures that the displayed take-home pay accurately reflects your real earnings for each paycheck.")
                 .font(.system(size: 14, design: .rounded))
                 .foregroundStyle(.secondary)
 
-            ScrollView {
-                VStack {
-                    hoursPerDayRow
-                    daysPerWeekRow
-                    weeksPerYearRow
+            VStack {
+                stateTaxRow
+                VStack(spacing: 3){
+                    federalTaxRow
                 }
-            }
-        }
-    }
-
-    @State private var includeStateTaxes = false
-    @State private var stateTaxAmount: Double = 7
-    @State private var hoursPerDay: Double = 7
-    @State private var daysPerWeek: Int = 5
-    @State private var weeksPerYear: Int = 50
-
-    var hoursPerDayRow: some View {
-        VStack {
-            HStack {
-                Text("Hours per day")
-                    .font(.title3, design: .rounded)
-                Spacer()
-                Picker(selection: $hoursPerDay) {
-                    ForEach(Array(stride(from: 0.5, to: 24, by: 0.5)), id: \.self) { num in
-                        
-                        Text(num.simpleStr(1)).tag(num)
-                        
-                    }
-                } label: {
-                    Text("Hours per day")
-                        .font(.title3, design: .rounded)
-                }
-                .pickerStyle(.menu)
             }
             
+            
+            
+        }
+    }
 
+    var stateTaxRow: some View {
+        VStack {
+            Toggle(isOn: $viewModel.includeStateTaxes) {
+                Text("State Tax")
+                    .font(.title3, design: .rounded)
+            }
+            .tint(Color.accentColor)
+
+            if viewModel.includeStateTaxes {
+                Text("\(viewModel.stateTaxAmount.simpleStr())%")
+                    .font(.title, design: .rounded, weight: .semibold)
+
+                Divider()
+
+                Menu("Edit") {
+                    
+                    Button("Enter manually", systemImage: "square.and.pencil") {
+                        
+                        
+                    }
+                    
+                    
+                    
+                    Button("Calculate for me", systemImage: "percent") {
+                        
+                    }
+                    
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.top, 7)
+            }
         }
         .padding()
-//        .background {
-//            Color.white
-//                .clipShape(RoundedRectangle(cornerRadius: 10))
-//                .opacity(0.35)
-//        }
+        .background {
+            Color.white
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .opacity(0.35)
+        }
     }
+
     
-    
-    var daysPerWeekRow: some View {
+    var federalTaxRow: some View {
         VStack {
-            HStack {
-                Text("Days per week")
+            Toggle(isOn: $viewModel.includeFederalTaxes) {
+                Text("Federal Tax")
                     .font(.title3, design: .rounded)
-                Spacer()
-                Picker(selection: $daysPerWeek) {
-                    ForEach(stride(from: 1, to: 8, by: 1).map({ Int($0) }), id: \.self) { num in
+            }
+            .tint(Color.accentColor)
+
+            if viewModel.includeFederalTaxes {
+                Text("\(viewModel.federalTaxAmount.simpleStr())%")
+                    .font(.title, design: .rounded, weight: .semibold)
+
+                Divider()
+
+                Menu("Edit") {
+                    
+                    Button("Enter manually", systemImage: "square.and.pencil") {
                         
-                        Text(num.str).tag(num)
                         
                     }
-                } label: {
-                    Text("Days per week")
-                        .font(.title3, design: .rounded)
-                }
-                .pickerStyle(.menu)
-            }
-            
-
-        }
-        .padding()
-    }
-
-    var weeksPerYearRow: some View {
-        VStack {
-            HStack {
-                Text("Weeks per year")
-                    .font(.title3, design: .rounded)
-                Spacer()
-                Picker(selection: $weeksPerYear) {
-                    ForEach(stride(from: 1, to: 52, by: 1).map({ Int($0) }), id: \.self) { num in
-                        
-                        Text(num.str).tag(num)
+                    
+                    
+                    
+                    Button("Calculate for me", systemImage: "percent") {
                         
                     }
-                } label: {
-                    Text("Weeks per year")
-                        .font(.title3, design: .rounded)
+                    
                 }
-                .pickerStyle(.menu)
+                .frame(maxWidth: .infinity)
+                .padding(.top, 7)
             }
-            
-
         }
         .padding()
+        .background {
+            Color.white
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .opacity(0.35)
+//                .shadow(radius: 10)
+        }
     }
 
     var ContinueButton: some View {
@@ -227,5 +204,6 @@ struct FinalOnboardingWageWalkthroughSlide4: View {
 }
 
 #Preview {
-    FinalOnboardingWageWalkthroughSlide4()
+    FinalOnboardingWageDeductions()
+        .environmentObject(FinalWageViewModel())
 }
