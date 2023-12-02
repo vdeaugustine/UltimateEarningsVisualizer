@@ -29,8 +29,6 @@ struct FinalOnboardingWageAssumptions: View {
         GeometryReader { geo in
             VStack(spacing: 30) {
                 VStack(spacing: 30) {
-                    Progress
-
                     TitleAndContent(geo: geo)
                 }
                 .padding(.horizontal, widthScaler(24, geo: geo))
@@ -51,7 +49,6 @@ struct FinalOnboardingWageAssumptions: View {
                 .padding(.bottom)
             }
         }
-
     }
 
     @ViewBuilder var Progress: some View {
@@ -151,17 +148,8 @@ struct FinalOnboardingWageAssumptions: View {
     }
 
     var ContinueButton: some View {
-        Button {
-        } label: {
-            Text("Continue")
-                .font(.system(.headline, design: .rounded, weight: .regular))
-                .foregroundStyle(.white)
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background {
-                    Color.accentColor
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                }
+        FinalOnboardingButton(title: "Finish") {
+            viewModel.increaseStepNumberWithAnimation()
         }
     }
 }

@@ -5,6 +5,7 @@
 //  Created by Vincent DeAugustine on 11/26/23.
 //
 
+import ConfettiSwiftUI
 import SwiftUI
 
 extension View {
@@ -16,6 +17,39 @@ extension View {
     }
 }
 
+// MARK: - MasterTheAppViewModel
+
+class MasterTheAppViewModel: ObservableObject {
+    @Published var viewStack: NavigationPath = .init()
+    @Published var level: Int = 0
+    
+    static var shared: MasterTheAppViewModel = .init()
+
+    func continueTapped() {
+        switch level {
+            case 0:
+                navigateToSetup()
+            default:
+                return
+        }
+    }
+
+    func navigateToSetup() {
+        viewStack.append(Views.wageWalkthrough)
+    }
+
+    enum Views: Hashable {
+        case wageWalkthrough
+    }
+
+    @ViewBuilder func getDestination(for view: Views) -> some View {
+        switch view {
+            case .wageWalkthrough:
+                FinalOnboardingWageWalkThrough()
+        }
+    }
+}
+
 // MARK: - MasterTheAppView
 
 struct MasterTheAppView: View {
@@ -24,74 +58,50 @@ struct MasterTheAppView: View {
     let finishedTitleColor = Color(hex: "3BDA92")
     let unfinishedTitleColor = Color(hex: "233D5F")
     let finishedIconGreen = Color(hex: "2D9350")
-    @State private var viewHeight: CGFloat = 932 // height of 15 pro
-    @State private var viewWidth: CGFloat = 430
-    @State private var level: Int = 1
-    
-    func widthScaler(_ width: CGFloat, geo: GeometryProxy) -> CGFloat {
-        let frameWidth = geo.size.width
-        let coefficient = frameWidth / 430
-        return coefficient * width
-    }
 
-    func heightScaler(_ height: CGFloat) -> CGFloat {
-        let coefficient = viewHeight / 932
-        return coefficient * height
-    }
-    
+    @State private var showConfetti: Int = 0
+
+    @StateObject var viewModel = MasterTheAppViewModel.shared
 
     var body: some View {
         GeometryReader { geo in
-            VStack {
-                Text("Master the app")
-                    .font(.system(size: 30, weight: .bold, design: .rounded))
+            NavigationStack(path: $viewModel.viewStack) {
+                VStack {
+                    Text("Master the app")
+                        .font(.system(size: 30, weight: .bold, design: .rounded))
 
-                timelineRows
-                    .conditionalModifier(geo.frame(in: .global).size.height < 750) { view in
-                        view
-                            .putInScrollView(indicatorVisibility: .hidden)
-                    }
+                    timelineRows
+                        .conditionalModifier(geo.frame(in: .global).size.height < 750) { view in
+                            view
+                                .putInScrollView(indicatorVisibility: .hidden)
+                        }
 
-                Spacer()
+                    Spacer()
 
-                OnboardingButton(title: "Continue") {
-                    withAnimation {
-                        level += 1
+                    FinalOnboardingButton(title: "Continue") {
+                        viewModel.continueTapped()
                     }
                 }
+                .padding()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background {
+                    OnboardingBackground()
+                }
+                .onAppear(perform: {
+                    print(geo.frame(in: .global).size.height)
+                })
+                .onChangeProper(of: viewModel.level) {
+                    if viewModel.level > 2 {
+                        showConfetti += 1
+                    }
+                }
+                .navigationDestination(for: MasterTheAppViewModel.Views.self) { view in
+                    viewModel.getDestination(for: view).toolbar(.hidden, for: .navigationBar)
+                }
             }
-            .padding()
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background {
-                OnboardingBackground()
-            }
-            .onAppear(perform: {
-                print(geo.frame(in: .global).size.height)
-            })
-            .preference(key: HeightKey.self, value: geo.size.height)
-            .preference(key: WidthKey.self, value: geo.size.width)
-            .onPreferenceChange(HeightKey.self, perform: { value in
-                viewHeight = value
-                print("view height", viewHeight)
-            })
-            .onPreferenceChange(WidthKey.self, perform: { value in
-                viewWidth = value
-                print("view width:", viewWidth)
-            })
+            .toolbar(.hidden, for: .navigationBar)
         }
-    }
-    
-    struct HeightKey: PreferenceKey {
-        static var defaultValue: CGFloat { 0 }
-        static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-            value = max(value, nextValue())
-        }
-    }
-    struct WidthKey: PreferenceKey {
-        static var defaultValue: CGFloat { 0 }
-        static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-            value = max(value, nextValue())
-        }
+        .environmentObject(viewModel)
     }
 }
 
@@ -99,55 +109,54 @@ struct MasterTheAppView: View {
 
 extension MasterTheAppView {
     var timelineRows: some View {
-            VStack(spacing: -1) {
-                TimelineRow(title: "Set up for you",
-                            subtitle: "You successfully set up your earnings info to let the app work for you.",
-                            isDone: level > 0,
-                            iconName: "checkmark",
-                            lineUp: nil,
-                            lineDown: circlesGreenColor)
+        VStack(spacing: -1) {
+            TimelineRow(title: "Set up for you",
+                        subtitle: "Set up your earnings info to let the app work for you.",
+                        isDone: viewModel.level > 0,
+                        isActive: viewModel.level == 0,
+                        iconName: "dollarsign",
+                        lineUp: nil,
+                        lineDown: viewModel.level >= 0 ? circlesGreenColor : grayColor)
 
-                TimelineRow(title: "Learn to track your spending",
-                            subtitle: "Learn to create expenses and goals to track money as it goes out.",
-                            isDone: level > 1,
-                            isActive: level == 1,
-                            iconName: "book",
-                            lineUp: circlesGreenColor,
-                            lineDown: level > 0 ? circlesGreenColor : grayColor)
+            TimelineRow(title: "Learn to track your spending",
+                        subtitle: "Learn to create expenses and goals to track money as it goes out.",
+                        isDone: viewModel.level > 1,
+                        isActive: viewModel.level == 1,
+                        iconName: "book",
+                        lineUp: viewModel.level > 0 ? circlesGreenColor : grayColor,
+                        lineDown: viewModel.level > 0 ? circlesGreenColor : grayColor)
 
-                TimelineRow(title: "Use earnings to payoff items",
-                            subtitle: "Learn how to use the Allocation feature to assign specific money you earn towards specific expenses or goals.",
-                            isDone: level > 2,
-                            isActive: level == 2,
-                            iconName: "arrow.left.arrow.right",
-                            lineUp: level > 1 ? circlesGreenColor : grayColor,
-                            lineDown: level > 1 ? circlesGreenColor : grayColor)
+            TimelineRow(title: "Use earnings to payoff items",
+                        subtitle: "Learn how to use the Allocation feature to assign specific money you earn towards specific expenses or goals.",
+                        isDone: viewModel.level > 2,
+                        isActive: viewModel.level == 2,
+                        iconName: "arrow.left.arrow.right",
+                        lineUp: viewModel.level > 1 ? circlesGreenColor : grayColor,
+                        lineDown: viewModel.level > 1 ? circlesGreenColor : grayColor)
 
-                TimelineRow(title: "Itemize your shifts",
-                            subtitle: "Learn to use the Time Blocks feature to break your shifts into different tasks and see how much you’re getting paid to email.",
-                            isDone: level > 3,
-                            isActive: level == 3,
-                            iconName: "slider.horizontal.below.square.filled.and.square",
-                            lineUp: level > 2 ? circlesGreenColor : grayColor,
-                            lineDown: level > 2 ? circlesGreenColor : grayColor)
-                TimelineRow(title: "Complete",
-                            subtitle: "You're all set! Time to master your money!",
-                            isDone: level > 4,
-                            isActive: level == 4,
-                            iconName: "trophy",
-                            isSystemIcon: true,
-                            lineUp: level > 3 ? circlesGreenColor : grayColor,
-                            lineDown: nil)
-            }
-            .scrollIndicators(.hidden)
-        
+            TimelineRow(title: "Itemize your shifts",
+                        subtitle: "Learn to use the Time Blocks feature to break your shifts into different tasks and see how much you’re getting paid to email.",
+                        isDone: viewModel.level > 3,
+                        isActive: viewModel.level == 3,
+                        iconName: "slider.horizontal.below.square.filled.and.square",
+                        lineUp: viewModel.level > 2 ? circlesGreenColor : grayColor,
+                        lineDown: viewModel.level > 2 ? circlesGreenColor : grayColor)
+            TimelineRow(title: "Complete",
+                        subtitle: "You're all set! Time to master your money!",
+                        isDone: viewModel.level > 4,
+                        isActive: viewModel.level == 4,
+                        iconName: "trophy",
+                        isSystemIcon: true,
+                        lineUp: viewModel.level > 3 ? circlesGreenColor : grayColor,
+                        lineDown: nil)
+        }
+        .scrollIndicators(.hidden)
+
 //        }
     }
 }
 
 extension MasterTheAppView {
-    
-
     var checkmarkIcon: some View {
         VStack {
             ZStack {
@@ -163,12 +172,12 @@ extension MasterTheAppView {
     }
 
     @ViewBuilder func Icon(name: String,
-              isSystemIcon: Bool = true,
-              isDone: Bool,
-              isActive: Bool,
-              lineUp: Color?,
-              lineDown: Color?,
-              rectangleHeight: CGFloat = 40)
+                           isSystemIcon: Bool = true,
+                           isDone: Bool,
+                           isActive: Bool,
+                           lineUp: Color?,
+                           lineDown: Color?,
+                           rectangleHeight: CGFloat = 40)
         -> some View {
         let mainCircleColor: Color = isDone || isActive ? circlesGreenColor : grayColor
         let iconForegroundColor: Color = isDone ? finishedIconGreen : unfinishedTitleColor
@@ -245,9 +254,7 @@ extension MasterTheAppView {
                  isDone: isDone,
                  isActive: isActive,
                  lineUp: lineUp,
-                 lineDown: lineDown
-            )
-            
+                 lineDown: lineDown)
 
             // Text
             VStack(alignment: .leading) {
@@ -261,6 +268,8 @@ extension MasterTheAppView {
                     .foregroundStyle(isDone ? finishedTitleColor : unfinishedTitleColor)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .strikethrough(isDone)
+                    .animation(.smooth, value: isDone)
+
                 Text(subtitle)
                     .font(
                         .system(size: 16,
@@ -272,7 +281,6 @@ extension MasterTheAppView {
             }
 //            .shadow(radius: 14)
         }
-            
     }
 }
 

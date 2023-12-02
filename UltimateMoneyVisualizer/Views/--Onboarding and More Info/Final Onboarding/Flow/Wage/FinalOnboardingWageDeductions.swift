@@ -11,8 +11,7 @@ struct FinalOnboardingWageDeductions: View {
     @EnvironmentObject private var viewModel: FinalWageViewModel
 
     @State private var amount: String = ""
-    
-    
+
     func formatAsCurrency(string: String) -> String {
         let numericString = string.filter("0123456789".contains)
         let intValue = Int(numericString) ?? 0
@@ -46,12 +45,11 @@ struct FinalOnboardingWageDeductions: View {
              }, isNumber: false)]
     }
 
+    // MARK: - 
     var body: some View {
         GeometryReader { geo in
             VStack(spacing: 30) {
                 VStack(spacing: 30) {
-                    Progress
-
                     TitleAndContent(geo: geo)
                 }
                 .padding(.horizontal, widthScaler(24, geo: geo))
@@ -60,14 +58,12 @@ struct FinalOnboardingWageDeductions: View {
 
                 VStack(spacing: heightScaler(65, geo: geo)) {
                     VStack(spacing: heightScaler(20, geo: geo)) {
-                        
                         ContinueButton
                             .padding(.horizontal, widthScaler(24, geo: geo))
                     }
                 }
             }
         }
-
     }
 
     @ViewBuilder var Progress: some View {
@@ -95,13 +91,10 @@ struct FinalOnboardingWageDeductions: View {
 
             VStack {
                 stateTaxRow
-                VStack(spacing: 3){
+                VStack(spacing: 3) {
                     federalTaxRow
                 }
             }
-            
-            
-            
         }
     }
 
@@ -120,18 +113,11 @@ struct FinalOnboardingWageDeductions: View {
                 Divider()
 
                 Menu("Edit") {
-                    
                     Button("Enter manually", systemImage: "square.and.pencil") {
-                        
-                        
                     }
-                    
-                    
-                    
+
                     Button("Calculate for me", systemImage: "percent") {
-                        
                     }
-                    
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.top, 7)
@@ -145,7 +131,6 @@ struct FinalOnboardingWageDeductions: View {
         }
     }
 
-    
     var federalTaxRow: some View {
         VStack {
             Toggle(isOn: $viewModel.includeFederalTaxes) {
@@ -161,18 +146,11 @@ struct FinalOnboardingWageDeductions: View {
                 Divider()
 
                 Menu("Edit") {
-                    
                     Button("Enter manually", systemImage: "square.and.pencil") {
-                        
-                        
                     }
-                    
-                    
-                    
+
                     Button("Calculate for me", systemImage: "percent") {
-                        
                     }
-                    
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.top, 7)
@@ -188,17 +166,8 @@ struct FinalOnboardingWageDeductions: View {
     }
 
     var ContinueButton: some View {
-        Button {
-        } label: {
-            Text("Continue")
-                .font(.system(.headline, design: .rounded, weight: .regular))
-                .foregroundStyle(.white)
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background {
-                    Color.accentColor
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                }
+        FinalOnboardingButton(title: "Continue") {
+            viewModel.increaseStepNumberWithAnimation()
         }
     }
 }

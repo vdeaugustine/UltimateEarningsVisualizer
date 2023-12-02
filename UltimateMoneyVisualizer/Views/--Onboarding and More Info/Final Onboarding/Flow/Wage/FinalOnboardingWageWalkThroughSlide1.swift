@@ -104,9 +104,7 @@ struct FinalOnboardingWageWalkThroughSlide1: View {
             if viewModel.wageAmount == nil {
                 viewModel.showWageAmountSheet = true
             } else {
-                withAnimation {
-                    viewModel.stepNumber = 2
-                }
+                viewModel.increaseStepNumberWithAnimation()
             }
         }
     }

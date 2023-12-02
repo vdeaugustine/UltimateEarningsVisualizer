@@ -179,6 +179,7 @@
 		9C7B5D5A2A202E8D00DBB877 /* CreateTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7B5D592A202E8D00DBB877 /* CreateTagView.swift */; };
 		9C7C60252B1BB16C004374A3 /* FinalOnboardingCalculateFedTax.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C60242B1BB16C004374A3 /* FinalOnboardingCalculateFedTax.swift */; };
 		9C7C60272B1BB92E004374A3 /* FinalOnboardingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C60262B1BB92E004374A3 /* FinalOnboardingButton.swift */; };
+		9C7C602A2B1BC43A004374A3 /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9C7C60292B1BC43A004374A3 /* ConfettiSwiftUI */; };
 		9C7C983A29F9EC410077EA25 /* EnterWageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C983929F9EC410077EA25 /* EnterWageView.swift */; };
 		9C7C983C29F9EDDF0077EA25 /* SelectRegularDaysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C983B29F9EDDF0077EA25 /* SelectRegularDaysView.swift */; };
 		9C7C983F29F9F68B0077EA25 /* RegularScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7C983E29F9F68B0077EA25 /* RegularScheduleView.swift */; };
@@ -697,6 +698,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C7C602A2B1BC43A004374A3 /* ConfettiSwiftUI in Frameworks */,
 				9CD511262ADA8DA800B5584E /* ScrollKit in Frameworks */,
 				9C6363A72AA00A88000B25BB /* SVGView in Frameworks */,
 				9C602CD72A9F060400B42DDF /* FloatingButton in Frameworks */,
@@ -2128,6 +2130,7 @@
 				9C602CE32A9F934D00B42DDF /* ScalingHeaderScrollView */,
 				9C6363A62AA00A88000B25BB /* SVGView */,
 				9CD511252ADA8DA800B5584E /* ScrollKit */,
+				9C7C60292B1BC43A004374A3 /* ConfettiSwiftUI */,
 			);
 			productName = UltimateMoneyVisualizer;
 			productReference = 9C7F965729F8F03C00F5035C /* UltimateMoneyVisualizer.app */;
@@ -2210,6 +2213,7 @@
 				9C602CE22A9F934D00B42DDF /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView" */,
 				9C6363A52AA00A88000B25BB /* XCRemoteSwiftPackageReference "SVGView" */,
 				9CD511242ADA8DA800B5584E /* XCRemoteSwiftPackageReference "ScrollKit" */,
+				9C7C60282B1BC43A004374A3 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */,
 			);
 			productRefGroup = 9C7F965829F8F03C00F5035C /* Products */;
 			projectDirPath = "";
@@ -2947,6 +2951,14 @@
 				minimumVersion = 1.0.6;
 			};
 		};
+		9C7C60282B1BC43A004374A3 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/simibac/ConfettiSwiftUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
+			};
+		};
 		9C7F96A029F8FE6700F5035C /* XCRemoteSwiftPackageReference "VinPackage" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/vdeaugustine/VinPackage";
@@ -2998,6 +3010,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9C6363A52AA00A88000B25BB /* XCRemoteSwiftPackageReference "SVGView" */;
 			productName = SVGView;
+		};
+		9C7C60292B1BC43A004374A3 /* ConfettiSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9C7C60282B1BC43A004374A3 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */;
+			productName = ConfettiSwiftUI;
 		};
 		9C7F96A129F8FE6700F5035C /* Vin */ = {
 			isa = XCSwiftPackageProductDependency;

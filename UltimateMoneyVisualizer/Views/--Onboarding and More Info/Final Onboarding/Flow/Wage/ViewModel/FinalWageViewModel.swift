@@ -12,11 +12,12 @@ class FinalWageViewModel: ObservableObject {
     // MARK: - General
 
     @ObservedObject var user = User.main
+    @ObservedObject var masterAppViewModel = MasterTheAppViewModel.shared
 
     @Published var slideNumber: Int = 1
     @Published var stepNumber: Int = 1
 
-    let totalStepCount: Int = 5
+    let totalStepCount: Int = 3
     var stepPercentage: Double {
         Double(stepNumber) / Double(totalStepCount)
     }
@@ -32,21 +33,29 @@ class FinalWageViewModel: ObservableObject {
 
     // MARK: - CalculationAssumptions
 
-    
-    @Published var hoursPerDay: Double = 8
-    @Published var daysPerWeek: Int = 5
-    @Published var weeksPerYear: Int = 50
-    
-    
-    // MARK: - Taxes
     @Published var includeStateTaxes = false
     @Published var stateTaxAmount: Double = 7
     @Published var federalTaxAmount: Double = 19
     @Published var includeFederalTaxes = true
-    
-    @Published var showCalculateStateTaxes = false
-    @Published var showCalculateFedTaxes = false 
-    
+    @Published var hoursPerDay: Double = 8
+    @Published var daysPerWeek: Int = 5
+    @Published var weeksPerYear: Int = 50
+
+
+
+    func increaseStepNumberWithAnimation() {
+        if stepNumber >= totalStepCount {
+            print("step number", stepNumber)
+            masterAppViewModel.viewStack = .init()
+            masterAppViewModel.level += 1
+            return
+        }
+        withAnimation {
+            stepNumber += 1
+        }
+        
+        
+    }
 
     // MARK: - Fourth Slide
 
