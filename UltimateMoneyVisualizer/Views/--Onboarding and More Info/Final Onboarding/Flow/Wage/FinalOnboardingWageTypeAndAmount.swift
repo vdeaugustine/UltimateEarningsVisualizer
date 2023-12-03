@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct FinalOnboardingWageWalkThroughSlide1: View {
+struct FinalOnboardingWageTypeAndAmount: View {
     @EnvironmentObject private var viewModel: FinalWageViewModel
 
     
@@ -111,6 +111,6 @@ struct FinalOnboardingWageWalkThroughSlide1: View {
 }
 
 #Preview {
-    FinalOnboardingWageWalkThroughSlide1()
+    FinalOnboardingWageTypeAndAmount()
         .environmentObject(FinalWageViewModel())
 }

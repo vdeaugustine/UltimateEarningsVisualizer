@@ -35,12 +35,14 @@ class FinalOnboardingScheduleViewModel: ObservableObject {
     @Published var slideNumber: Int = 1
     
     var totalSlideCount: Int {
-        2
+        userHasRegularSchedule ? 3 : 2
     }
     
     var slidePercentage: Double {
         Double(slideNumber) / Double(totalSlideCount)
     }
+    
+    @Published var userHasRegularSchedule: Bool = false 
     
     @Published var daysSelected: [DayOfWeek] = [.monday, .tuesday, .wednesday, .thursday, .friday]
 
@@ -60,6 +62,10 @@ class FinalOnboardingScheduleViewModel: ObservableObject {
     @Published var fridayEndTime: Date = .fivePM
 
     @Published var highlightedDay: DayOfWeek? = nil
+    
+    var buttonTitle: String {
+        slideNumber < totalSlideCount ? "Continue" : "Confirm"
+    }
 
     func toggleDaySelection(_ day: DayOfWeek) {
         daysSelected.insertOrRemove(element: day)

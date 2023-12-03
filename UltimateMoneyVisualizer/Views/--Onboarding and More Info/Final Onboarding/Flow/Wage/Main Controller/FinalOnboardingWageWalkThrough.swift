@@ -37,7 +37,7 @@ struct FinalOnboardingWageWalkThrough: View {
                     .padding(.horizontal, widthScaler(24, geo: geo))
 
                 TabView(selection: $viewModel.stepNumber) {
-                    FinalOnboardingWageWalkThroughSlide1()
+                    FinalOnboardingWageTypeAndAmount()
                         .tag(1)
                     FinalOnboardingWageDeductions()
                         .tag(2)

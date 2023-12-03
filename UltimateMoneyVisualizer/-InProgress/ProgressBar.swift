@@ -16,6 +16,7 @@ struct ProgressBar: View {
     let cornerRadius: CGFloat = 25
     var height: CGFloat = 8
     var color: Color = .accentColor
+    var completeColor: Color = Color.okGreen
     var barBackgroundColor: Color = Color(uiColor: .lightGray)
     var showBackgroundBar = true
 
@@ -47,7 +48,7 @@ struct ProgressBar: View {
                     .frame(width: width)
             }
             RoundedRectangle(cornerRadius: cornerRadius)
-                .foregroundStyle(isComplete ? Color.okGreen.getGradient() : color.getGradient(brightnessConstant: 20))
+                .foregroundStyle(isComplete ?  completeColor.getGradient() : color.getGradient(brightnessConstant: 20))
                 .frame(width: max(0, percentageToUse * width))
         }
         .frame(height: height)

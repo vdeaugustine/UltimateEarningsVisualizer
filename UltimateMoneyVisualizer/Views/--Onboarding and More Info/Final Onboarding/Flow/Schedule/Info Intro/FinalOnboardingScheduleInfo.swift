@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct FinalOnboardingSchedule: View {
+struct FinalOnboardingScheduleInfo: View {
     @ObservedObject private var masterAppViewModel = MasterTheAppViewModel.shared
     //    @ObservedObject private var settings = User.main.getSettings()
     let image: Image = Image("moneyCalendar")
@@ -85,5 +85,5 @@ struct FinalOnboardingSchedule: View {
 }
 
 #Preview {
-    FinalOnboardingSchedule()
+    FinalOnboardingScheduleInfo()
 }

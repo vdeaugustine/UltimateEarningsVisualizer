@@ -11,9 +11,6 @@ struct FinalOnboardingScheduleFullSheet: View {
     @StateObject private var viewModel: FinalOnboardingScheduleViewModel = .init()
     @State private var showSheet = true
 
-
-    
-
     var body: some View {
         GeometryReader { geo in
 
@@ -22,15 +19,20 @@ struct FinalOnboardingScheduleFullSheet: View {
                     .padding(.horizontal, widthScaler(24, geo: geo))
 
                 TabView(selection: $viewModel.slideNumber) {
-                    FinalOnboardingScheduleSlide1()
+                    FinalOnboardingScheduleAskView()
                         .tag(1)
+                    if viewModel.userHasRegularSchedule {
+                        FinalOnboardingScheduleSlide1()
+                            .tag(2)
+                    }
+                    
                     FinalOnboardingScheduleConfirm()
-                        .tag(2)
+                        .tag(viewModel.userHasRegularSchedule ? 3 : 2)
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 .frame(maxHeight: .infinity)
 
-                ContinueButton
+                NavButtons
                     .padding(.horizontal, widthScaler(20, geo: geo))
                     .padding(.bottom, 5)
             }
@@ -43,8 +45,8 @@ struct FinalOnboardingScheduleFullSheet: View {
         .onChangeProper(of: viewModel.daysSelected) {
         }
         .sheet(isPresented: $showSheet, content: {
-            FinalOnboardingSchedule()
-                
+            FinalOnboardingScheduleInfo()
+
         })
     }
 
@@ -53,6 +55,7 @@ struct FinalOnboardingScheduleFullSheet: View {
             ProgressBar(percentage: viewModel.slidePercentage,
                         height: 8,
                         color: Color.accentColor,
+                        completeColor: Color.accentColor,
                         barBackgroundColor: UIColor.systemGray4.color,
                         showBackgroundBar: true)
             Text("STEP \(viewModel.slideNumber) OF \(viewModel.totalSlideCount)")
@@ -60,14 +63,14 @@ struct FinalOnboardingScheduleFullSheet: View {
         }
     }
 
-    @ViewBuilder var ContinueButton: some View {
-        FinalOnboardingButton(title: "Continue") {
+    @ViewBuilder var NavButtons: some View {
+        FinalOnboardingButton(title: viewModel.buttonTitle) {
             withAnimation {
                 if viewModel.slideNumber < viewModel.totalSlideCount {
                     viewModel.slideNumber += 1
                 }
-//                if slideNumber <
-//                slideNumber += 1
+                //                if slideNumber <
+                //                slideNumber += 1
             }
         }
     }
