@@ -54,7 +54,7 @@ class MasterTheAppViewModel: ObservableObject {
             case .wageWalkthrough:
                 FinalOnboardingWageWalkThrough()
             case .scheduleWalkthrough:
-                FinalOnboardingSchedule()
+                FinalOnboardingScheduleFullSheet()
         }
     }
 }

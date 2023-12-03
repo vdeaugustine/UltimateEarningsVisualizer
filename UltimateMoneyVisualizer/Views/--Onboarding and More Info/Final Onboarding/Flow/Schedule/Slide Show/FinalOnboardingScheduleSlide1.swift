@@ -9,7 +9,9 @@ import SwiftUI
 import Vin
 
 struct FinalOnboardingScheduleSlide1: View {
-    @State private var daysSelected: [DayOfWeek] = [.monday, .tuesday, .wednesday, .thursday, .friday]
+    
+    @EnvironmentObject private var viewModel: FinalOnboardingScheduleViewModel
+    
 
     var body: some View {
         GeometryReader { geo in
@@ -33,7 +35,7 @@ struct FinalOnboardingScheduleSlide1: View {
                 UIColor.systemBackground.color
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .opacity(0.35)
-                    .conditionalModifier(daysSelected.contains(day)) { thisView in
+                    .conditionalModifier(viewModel.daysSelected.contains(day)) { thisView in
                         thisView
                             .overlay {
                                 RoundedRectangle(cornerRadius: 10)
@@ -44,7 +46,7 @@ struct FinalOnboardingScheduleSlide1: View {
             .padding(.horizontal, 2)
             .onTapGesture {
                 withAnimation {
-                    daysSelected.insertOrRemove(element: day)
+                    viewModel.toggleDaySelection(day)
                 }
             }
     }
@@ -68,4 +70,5 @@ struct FinalOnboardingScheduleSlide1: View {
 
 #Preview {
     FinalOnboardingScheduleSlide1()
+        .environmentObject(FinalOnboardingScheduleViewModel())
 }

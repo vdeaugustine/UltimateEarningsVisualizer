@@ -28,6 +28,7 @@ struct FinalOnboardingSchedule: View {
     }
 
     @State private var showFullSheet = false
+    @Environment (\.dismiss) private var dismiss
 
     var body: some View {
         GeometryReader { geo in
@@ -41,7 +42,7 @@ struct FinalOnboardingSchedule: View {
                 Spacer()
 
                 FinalOnboardingButton(title: buttonTitle) {
-                    showFullSheet = true
+                    dismiss()
                 }
                 .frame(width: widthScaler(274, geo: geo))
             }

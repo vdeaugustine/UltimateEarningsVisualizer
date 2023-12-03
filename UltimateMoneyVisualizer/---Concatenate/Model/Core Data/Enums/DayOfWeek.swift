@@ -37,8 +37,8 @@ public enum DayOfWeek: String, CaseIterable, Identifiable, Hashable, CustomStrin
         }
     }
     
-    static var orderedCases: [DayOfWeek] = [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday]
-    
+    static let orderedCases: [DayOfWeek] = [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday]
+    static let weekdays: [DayOfWeek] = [.monday, .tuesday, .wednesday, .thursday, .friday]
 
     public var id: DayOfWeek { self }
 
