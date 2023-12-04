@@ -11,7 +11,7 @@ import SwiftUI
 
 struct ExpenseOnboarding: View {
     @Binding var tab: Int
-    let totalSlides: Int
+
     var body: some View {
         GeometryReader { geo in
             ZStack {
@@ -77,9 +77,10 @@ struct ExpenseOnboarding: View {
                             }
 
                             HStack {
-                                ForEach(0 ..< totalSlides, id: \.self) { num in
-                                    OnboardingPill(isFilled: num <= tab)
-                                }
+                                OnboardingPill(isFilled: true)
+                                OnboardingPill(isFilled: true)
+                                OnboardingPill(isFilled: false)
+                                OnboardingPill(isFilled: false)
                             }
                             .frame(maxWidth: geo.size.width * 0.45)
                             .minimumScaleFactor(0.5)
@@ -102,5 +103,5 @@ struct ExpenseOnboarding: View {
 }
 
 #Preview {
-    ExpenseOnboarding(tab: .constant(1), totalSlides: 5)
+    ExpenseOnboarding(tab: .constant(1))
 }

@@ -26,7 +26,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             print("Error in app delegate ")
         }
         
-        User.main.instantiateExampleItems(context: User.main.getContext())
+//        User.main.instantiateExampleItems(context: User.main.getContext())
         // TODO: Get rid of this
 //        DebugOperations.deleteAll()
         
@@ -55,7 +55,6 @@ struct UltimateMoneyVisualizerApp: App {
                     NotificationManager.scheduleDailyNotification()
                 }
                 .environmentObject(user)
-                .tint(user.getSettings().themeColor)
                 
         }
     }

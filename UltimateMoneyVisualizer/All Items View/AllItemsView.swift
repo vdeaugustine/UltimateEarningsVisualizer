@@ -41,6 +41,19 @@ struct AllItemsView: View {
         .background(Color.listBackgroundColor)
 
         .environment(\.editMode, $editMode)
+
+//        .gesture(
+//            DragGesture()
+//                .onEnded { value in
+//                    if value.translation.width < 0 {
+//                        // Swiped to the left
+//                        changeSelectionType(forward: true)
+//                    } else if value.translation.width > 0 {
+//                        // Swiped to the right
+//                        changeSelectionType(forward: false)
+//                    }
+//                }
+//        )
         .navigationDestination(for: NavManager.AllViews.self) { view in
             navManager.getDestinationViewForStack(destination: view)
         }

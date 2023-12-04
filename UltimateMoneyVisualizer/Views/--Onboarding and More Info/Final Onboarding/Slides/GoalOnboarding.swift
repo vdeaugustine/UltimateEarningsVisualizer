@@ -14,7 +14,7 @@ struct GoalOnboarding: View {
 
     @Binding var tab: Int
     @State private var showInfoSheet = false
-    let totalSlides: Int
+
     var body: some View {
         GeometryReader { geo in
             ZStack {
@@ -85,9 +85,10 @@ struct GoalOnboarding: View {
                                 }
 
                                 HStack {
-                                    ForEach(0 ..< totalSlides, id: \.self) { num in
-                                        OnboardingPill(isFilled: num <= tab)
-                                    }
+                                    OnboardingPill(isFilled: true)
+                                    OnboardingPill(isFilled: true)
+                                    OnboardingPill(isFilled: false)
+                                    OnboardingPill(isFilled: false)
                                 }
                                 .frame(maxWidth: geo.size.width * 0.45)
                                 .minimumScaleFactor(0.5)
@@ -114,5 +115,5 @@ struct GoalOnboarding: View {
 }
 
 #Preview {
-    GoalOnboarding(tab: .constant(3), totalSlides: 5)
+    GoalOnboarding(tab: .constant(3))
 }

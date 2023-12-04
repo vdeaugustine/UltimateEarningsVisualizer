@@ -12,7 +12,6 @@ import SwiftUI
 struct SwipingButton: View {
     let label: String
     let action: () -> Void
-    @ObservedObject private var settings = User.main.getSettings()
 
     var body: some View {
         Button {
@@ -24,7 +23,7 @@ struct SwipingButton: View {
                 .padding()
                 .padding(.horizontal)
                 .background {
-                    settings.themeColor
+                    Color.accentColor
                 }
                 .clipShape(Capsule(style: .circular))
         }

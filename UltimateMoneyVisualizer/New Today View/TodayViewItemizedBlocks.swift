@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-// MARK: - TodayViewTimeBlocks
+// MARK: - TodayViewItemizedBlocks
 
-struct TodayViewTimeBlocks: View {
+struct TodayViewItemizedBlocks: View {
     @EnvironmentObject private var model: TodayViewModel
     @EnvironmentObject private var navManager: NavManager
 
@@ -28,6 +28,8 @@ struct TodayViewTimeBlocks: View {
                     TodayViewTimeBlocksExpanded(shift: shift)
                 }
             }
+
+//            .frame(height: 115)
         }
     }
 
@@ -52,13 +54,7 @@ struct TodayViewTimeBlocks: View {
             if let todayShift = model.user.todayShift {
                 HStack {
                     ForEach(todayShift.getTimeBlocks()) { block in
-                        Button {
-                            model.navManager.appendCorrectPath(newValue: .timeBlockDetail(block))
-                        } label: {
-                            TodayViewCondensedTimeBlock(block: block)
-                        }
-                        .buttonStyle(.plain)
-                        
+                        TodayViewItemizedBlock(block: block)
                     }
 
                     if todayShift.getTimeBlocks().isEmpty {
@@ -101,7 +97,7 @@ struct TodayViewItemizedBlocks_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             Color.targetGray
-            TodayViewTimeBlocks()
+            TodayViewItemizedBlocks()
                 .environmentObject(TodayViewModel.main)
                 .environmentObject(NavManager.shared)
         }

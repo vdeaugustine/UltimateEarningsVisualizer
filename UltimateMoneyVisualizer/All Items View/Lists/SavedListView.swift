@@ -22,8 +22,6 @@ struct SavedListView: View {
     @FocusState var searchFocused
     @State private var showSearch = false
     
-    @ObservedObject private var settings = User.main.getSettings()
-    
     var filteredItems: [Saved] {
         if searchText.isEmpty {
             return savedItems
@@ -33,6 +31,8 @@ struct SavedListView: View {
         }
     }
     
+   
+
     var body: some View {
         List {
             Section {
@@ -48,14 +48,22 @@ struct SavedListView: View {
                         .foregroundStyle(.black)
                     }
                 }
-                .onDelete(perform: deleteSavedItem)
+                .onDelete(perform: { indexSet in
+                    for index in indexSet {
+                        if let item = savedItems.safeGet(at: index) {
+                            viewContext.delete(item)
+                            savedItems.removeAll(where: { $0 == item })
+                        }
+                    }
+                })
             } header: {
                 Text("Items").hidden()
             }
         }
         
 //        .scrollContentBackground(.hidden)
-        .putInTemplate(settings: settings)
+        .scrollDismissesKeyboard(.immediately)
+        .putInTemplate()
         .navigationTitle("Saved Items")
         .toolbar {
             
@@ -80,21 +88,6 @@ struct SavedListView: View {
 //            view
 //                .searchable(text: $searchText)
 //        }
-    }
-    
-    
-    private func deleteSavedItem(at offsets: IndexSet) {
-        for offset in offsets {
-            guard let itemToDelete = savedItems.safeGet(at: offset)
-            else { continue }
-            viewContext.delete(itemToDelete)
-        }
-        do {
-            try viewContext.save()
-            savedItems = User.main.getSaved() // Refresh the savedItems array after deletion
-        } catch {
-            // Handle the error
-        }
     }
 
     private func addSavedItem() {

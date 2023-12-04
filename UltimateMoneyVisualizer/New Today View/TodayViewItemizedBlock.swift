@@ -10,7 +10,7 @@ import Vin
 
 // MARK: - TodayViewItemizedBlock
 
-struct TodayViewCondensedTimeBlock: View {
+struct TodayViewItemizedBlock: View {
     let block: TimeBlock
     var body: some View {
         HStack {
@@ -151,7 +151,7 @@ struct TodayViewItemizedBlock_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             ExampleTimeBlockCompact(title: "Testing ex")
-            TodayViewCondensedTimeBlock(block: try! TimeBlock(title: "This is a test time block",
+            TodayViewItemizedBlock(block: try! TimeBlock(title: "This is a test time block",
                                                          start: .now.addHours(-1),
                                                          end: .now.addHours(0.4),
                                                          colorHex: Color.yellow.hex,
