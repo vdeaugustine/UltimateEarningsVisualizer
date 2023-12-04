@@ -17,7 +17,7 @@ class FinalWageViewModel: ObservableObject {
     @Published var slideNumber: Int = 1
     @Published var stepNumber: Int = 1
 
-    let totalStepCount: Int = 3
+    var totalStepCount: Int { wageType ?? .hourly == .salary ? 3 : 2 }
     var stepPercentage: Double {
         Double(stepNumber) / Double(totalStepCount)
     }

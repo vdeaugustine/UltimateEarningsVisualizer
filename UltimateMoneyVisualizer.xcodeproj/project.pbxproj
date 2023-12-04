@@ -827,8 +827,8 @@
 		9C1754B42B05A9A000022938 /* Final Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				9C7C60362B1D715F004374A3 /* Step Timeline */,
 				9C57498F2B1ADDD900362B75 /* FinalOnboardingEnterAmount.swift */,
-				9C38084B2B14002E00BF45DD /* MasterTheAppView.swift */,
 				9C3808422B0F1DD000BF45DD /* Flow */,
 				9C7A163A2AFCA55F004EC33B /* Onboarding Slide Show */,
 				9C1FF9E12B0C210D00830C91 /* Tutorials */,
@@ -911,9 +911,7 @@
 		9C2B74812B1935E600F9B7F1 /* Wage */ = {
 			isa = PBXGroup;
 			children = (
-				9C38084D2B14446B00BF45DD /* FinalOnboardingWage_Deprecated.swift */,
 				9C7C60232B1BB13F004374A3 /* Calculate Tax */,
-				9C57498E2B1ADD8200362B75 /* Components */,
 				9C2B74852B19371300F9B7F1 /* Main Controller */,
 				9C2B74822B19362A00F9B7F1 /* ViewModel */,
 				9C432BA22B16E3E300216AAC /* FinalOnboardingWageTypeAndAmount.swift */,
@@ -977,8 +975,6 @@
 		9C3808422B0F1DD000BF45DD /* Flow */ = {
 			isa = PBXGroup;
 			children = (
-				9C2B74812B1935E600F9B7F1 /* Wage */,
-				9C432B992B15CAF200216AAC /* Schedule */,
 				9C38084F2B14447600BF45DD /* Files */,
 				9C3808432B0F1ECB00BF45DD /* FinalOnboardingWelcome.swift */,
 				9C1754B62B05A9AC00022938 /* Main */,
@@ -1192,13 +1188,6 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
-		9C57498E2B1ADD8200362B75 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
 		9C5F0B8F2A35007C006AAB46 /* Create New Time Block */ = {
 			isa = PBXGroup;
 			children = (
@@ -1368,6 +1357,49 @@
 				9C3808502B144D4900BF45DD /* FinalOnboardingScheduleInfo.swift */,
 			);
 			path = "Info Intro";
+			sourceTree = "<group>";
+		};
+		9C7C60362B1D715F004374A3 /* Step Timeline */ = {
+			isa = PBXGroup;
+			children = (
+				9C7C60372B1D716C004374A3 /* Master */,
+				9C7C60392B1D717B004374A3 /* Schedule */,
+				9C7C60382B1D7171004374A3 /* Wage */,
+			);
+			path = "Step Timeline";
+			sourceTree = "<group>";
+		};
+		9C7C60372B1D716C004374A3 /* Master */ = {
+			isa = PBXGroup;
+			children = (
+				9C38084B2B14002E00BF45DD /* MasterTheAppView.swift */,
+			);
+			path = Master;
+			sourceTree = "<group>";
+		};
+		9C7C60382B1D7171004374A3 /* Wage */ = {
+			isa = PBXGroup;
+			children = (
+				9C7C603A2B1D7211004374A3 /* Deprecated */,
+				9C2B74812B1935E600F9B7F1 /* Wage */,
+			);
+			path = Wage;
+			sourceTree = "<group>";
+		};
+		9C7C60392B1D717B004374A3 /* Schedule */ = {
+			isa = PBXGroup;
+			children = (
+				9C432B992B15CAF200216AAC /* Schedule */,
+			);
+			path = Schedule;
+			sourceTree = "<group>";
+		};
+		9C7C603A2B1D7211004374A3 /* Deprecated */ = {
+			isa = PBXGroup;
+			children = (
+				9C38084D2B14446B00BF45DD /* FinalOnboardingWage_Deprecated.swift */,
+			);
+			path = Deprecated;
 			sourceTree = "<group>";
 		};
 		9C7C984229FA0D7F0077EA25 /* Schedule */ = {

@@ -151,6 +151,15 @@ extension View {
 }
 
 extension View {
+    func putInScrollView(indicatorVisibility: ScrollIndicatorVisibility = .automatic) -> some View {
+        ScrollView {
+            self
+        }
+        .scrollIndicators(indicatorVisibility)
+    }
+}
+
+extension View {
     func font(_ style: Font.TextStyle, design: Font.Design? = .rounded, weight: Font.Weight? = nil) -> some View {
         self.font(.system(style, design: design, weight: weight))
     }

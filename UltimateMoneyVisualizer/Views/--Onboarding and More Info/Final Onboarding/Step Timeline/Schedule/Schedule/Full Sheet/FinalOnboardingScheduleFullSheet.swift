@@ -10,6 +10,7 @@ import SwiftUI
 struct FinalOnboardingScheduleFullSheet: View {
     @StateObject private var viewModel: FinalOnboardingScheduleViewModel = .init()
     @State private var showSheet = true
+    @Environment (\.dismiss) private var dismiss
 
     var body: some View {
         GeometryReader { geo in
@@ -65,12 +66,8 @@ struct FinalOnboardingScheduleFullSheet: View {
 
     @ViewBuilder var NavButtons: some View {
         FinalOnboardingButton(title: viewModel.buttonTitle) {
-            withAnimation {
-                if viewModel.slideNumber < viewModel.totalSlideCount {
-                    viewModel.slideNumber += 1
-                }
-                //                if slideNumber <
-                //                slideNumber += 1
+            viewModel.buttonAction() {
+                dismiss()
             }
         }
     }

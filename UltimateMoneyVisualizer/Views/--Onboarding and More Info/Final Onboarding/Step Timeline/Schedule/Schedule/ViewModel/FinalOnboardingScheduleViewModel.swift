@@ -34,6 +34,8 @@ class FinalOnboardingScheduleViewModel: ObservableObject {
     
     @Published var slideNumber: Int = 1
     
+    @ObservedObject private var masterModel: MasterTheAppViewModel = .shared
+    
     var totalSlideCount: Int {
         userHasRegularSchedule ? 3 : 2
     }
@@ -65,6 +67,21 @@ class FinalOnboardingScheduleViewModel: ObservableObject {
     
     var buttonTitle: String {
         slideNumber < totalSlideCount ? "Continue" : "Confirm"
+    }
+    
+    func buttonAction(_ action: (()->Void)? = nil) {
+        withAnimation {
+            if slideNumber < totalSlideCount {
+               slideNumber += 1
+                
+            }
+            else {
+                masterModel.level += 1
+                action?()
+            }
+            
+            
+        }
     }
 
     func toggleDaySelection(_ day: DayOfWeek) {

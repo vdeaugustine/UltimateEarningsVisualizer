@@ -8,20 +8,14 @@
 import ConfettiSwiftUI
 import SwiftUI
 
-extension View {
-    func putInScrollView(indicatorVisibility: ScrollIndicatorVisibility = .automatic) -> some View {
-        ScrollView {
-            self
-        }
-        .scrollIndicators(indicatorVisibility)
-    }
-}
+
 
 // MARK: - MasterTheAppViewModel
 
 class MasterTheAppViewModel: ObservableObject {
+    
     @Published var viewStack: NavigationPath = .init()
-    @Published var level: Int = 1
+    @Published var level: Int = 0
     
     static var shared: MasterTheAppViewModel = .init()
 
@@ -31,9 +25,17 @@ class MasterTheAppViewModel: ObservableObject {
                 navigateToSetup()
             case 1:
                 navigateToSchedule()
+            case 2:
+                finish()
             default:
                 return
         }
+    }
+    
+    func finish() {
+        print("Finished")
+        level = 2
+//        level =
     }
 
     func navigateToSetup() {
@@ -76,7 +78,7 @@ struct MasterTheAppView: View {
         GeometryReader { geo in
             NavigationStack(path: $viewModel.viewStack) {
                 VStack {
-                    Text("Master the app")
+                    Text("Setting Things Up")
                         .font(.system(size: 30, weight: .bold, design: .rounded))
 
                     timelineRows
@@ -99,11 +101,7 @@ struct MasterTheAppView: View {
                 .onAppear(perform: {
                     print(geo.frame(in: .global).size.height)
                 })
-                .onChangeProper(of: viewModel.level) {
-                    if viewModel.level > 2 {
-                        showConfetti += 1
-                    }
-                }
+                
                 .navigationDestination(for: MasterTheAppViewModel.Views.self) { view in
                     viewModel.getDestination(for: view).toolbar(.hidden, for: .navigationBar)
                 }
@@ -119,7 +117,7 @@ struct MasterTheAppView: View {
 extension MasterTheAppView {
     var timelineRows: some View {
         VStack(spacing: -1) {
-            TimelineRow(title: "Set up for you",
+            TimelineRow(title: "Earnings",
                         subtitle: "Set up your earnings info to let the app work for you.",
                         isDone: viewModel.level > 0,
                         isActive: viewModel.level == 0,
@@ -127,7 +125,7 @@ extension MasterTheAppView {
                         lineUp: nil,
                         lineDown: viewModel.level >= 0 ? circlesGreenColor : grayColor)
 
-            TimelineRow(title: "Set up your schedule",
+            TimelineRow(title: "Schedule",
                         subtitle: "Set your work schedule so the app can automatically generate your shifts, allowing you to track your earnings easier.",
                         isDone: viewModel.level > 1,
                         isActive: viewModel.level == 1,
@@ -135,28 +133,28 @@ extension MasterTheAppView {
                         lineUp: viewModel.level > 0 ? circlesGreenColor : grayColor,
                         lineDown: viewModel.level > 0 ? circlesGreenColor : grayColor)
 
-            TimelineRow(title: "Use earnings to payoff items",
-                        subtitle: "Learn how to use the Allocation feature to assign specific money you earn towards specific expenses or goals.",
-                        isDone: viewModel.level > 2,
-                        isActive: viewModel.level == 2,
-                        iconName: "arrow.left.arrow.right",
-                        lineUp: viewModel.level > 1 ? circlesGreenColor : grayColor,
-                        lineDown: viewModel.level > 1 ? circlesGreenColor : grayColor)
-
-            TimelineRow(title: "Itemize your shifts",
-                        subtitle: "Learn to use the Time Blocks feature to break your shifts into different tasks and see how much you’re getting paid to email.",
-                        isDone: viewModel.level > 3,
-                        isActive: viewModel.level == 3,
-                        iconName: "slider.horizontal.below.square.filled.and.square",
-                        lineUp: viewModel.level > 2 ? circlesGreenColor : grayColor,
-                        lineDown: viewModel.level > 2 ? circlesGreenColor : grayColor)
+//            TimelineRow(title: "Use earnings to payoff items",
+//                        subtitle: "Learn how to use the Allocation feature to assign specific money you earn towards specific expenses or goals.",
+//                        isDone: viewModel.level > 2,
+//                        isActive: viewModel.level == 2,
+//                        iconName: "arrow.left.arrow.right",
+//                        lineUp: viewModel.level > 1 ? circlesGreenColor : grayColor,
+//                        lineDown: viewModel.level > 1 ? circlesGreenColor : grayColor)
+//
+//            TimelineRow(title: "Itemize your shifts",
+//                        subtitle: "Learn to use the Time Blocks feature to break your shifts into different tasks and see how much you’re getting paid to email.",
+//                        isDone: viewModel.level > 3,
+//                        isActive: viewModel.level == 3,
+//                        iconName: "slider.horizontal.below.square.filled.and.square",
+//                        lineUp: viewModel.level > 2 ? circlesGreenColor : grayColor,
+//                        lineDown: viewModel.level > 2 ? circlesGreenColor : grayColor)
             TimelineRow(title: "Complete",
                         subtitle: "You're all set! Time to master your money!",
-                        isDone: viewModel.level > 4,
-                        isActive: viewModel.level == 4,
+                        isDone: viewModel.level > 3,
+                        isActive: viewModel.level == 2,
                         iconName: "trophy",
                         isSystemIcon: true,
-                        lineUp: viewModel.level > 3 ? circlesGreenColor : grayColor,
+                        lineUp: viewModel.level > 1 ? circlesGreenColor : grayColor,
                         lineDown: nil)
         }
         .scrollIndicators(.hidden)

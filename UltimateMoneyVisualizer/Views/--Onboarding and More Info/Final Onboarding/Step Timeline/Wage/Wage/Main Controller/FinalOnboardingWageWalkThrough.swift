@@ -64,6 +64,7 @@ struct FinalOnboardingWageWalkThrough: View {
             ProgressBar(percentage: viewModel.stepPercentage,
                         height: 8,
                         color: Color.accentColor,
+                        completeColor: Color.accentColor,
                         barBackgroundColor: UIColor.systemGray4.color,
                         showBackgroundBar: true)
             Text("STEP \(viewModel.stepNumber) OF \(viewModel.totalStepCount)")

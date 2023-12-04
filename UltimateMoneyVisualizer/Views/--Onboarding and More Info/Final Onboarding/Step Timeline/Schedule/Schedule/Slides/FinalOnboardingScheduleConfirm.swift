@@ -193,9 +193,6 @@ struct FinalOnboardingScheduleConfirm: View {
             
             Spacer()
             
-            FinalOnboardingButton(title: "Finish") {
-                
-            }
             
         }
         .padding()
