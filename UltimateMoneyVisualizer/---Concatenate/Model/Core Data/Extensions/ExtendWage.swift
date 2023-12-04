@@ -35,6 +35,24 @@ public extension Wage {
         try context.save()
     }
 
+    override var description: String {
+        var str = """
+        wageType: \(wageType.rawValue)
+        amount: \(amount)
+        includeTaxes: \(includeTaxes)
+        """
+        
+        if stateTaxPercentage != 0 {
+            str += "\nState Tax: \(stateTaxPercentage.simpleStr())%"
+        }
+        
+        if federalTaxPercentage != 0 {
+            str += "\nFed Tax: \(federalTaxPercentage.simpleStr())%"
+        }
+        
+        return str
+    }
+
     var federalTaxMultiplier: Double {
         federalTaxPercentage / 100
     }
@@ -83,6 +101,10 @@ public extension Wage {
 
     var totalTaxMultiplier: Double {
         stateTaxMultiplier + federalTaxMultiplier
+    }
+
+    var wageType: WageType {
+        isSalary ? .salary : .hourly
     }
 
     // swiftformat:sort:end

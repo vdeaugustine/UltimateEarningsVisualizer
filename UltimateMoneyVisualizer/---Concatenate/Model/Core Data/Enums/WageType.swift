@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum WageType: String, CaseIterable, Hashable, Identifiable {
+public enum WageType: String, CaseIterable, Hashable, Identifiable {
     case hourly, salary
-    var id: WageType { self }
+    public var id: WageType { self }
 }

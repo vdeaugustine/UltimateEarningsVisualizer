@@ -41,20 +41,34 @@ class FinalWageViewModel: ObservableObject {
     @Published var daysPerWeek: Int = 5
     @Published var weeksPerYear: Int = 50
 
-
-
     func increaseStepNumberWithAnimation() {
         if stepNumber >= totalStepCount {
-            print("step number", stepNumber)
-            masterAppViewModel.viewStack = .init()
-            masterAppViewModel.level += 1
-            return
+            finish()
         }
         withAnimation {
             stepNumber += 1
         }
-        
-        
+    }
+
+    func finish() {
+        guard let wageAmount else { return }
+        do {
+            try Wage(amount: wageAmount,
+                            isSalary: wageType == .salary,
+                            user: user,
+                            includeTaxes: includeStateTaxes || includeFederalTaxes,
+                            stateTax: includeStateTaxes ? stateTaxAmount : nil,
+                            federalTax: includeFederalTaxes ? federalTaxAmount : nil,
+                            context: user.getContext())
+            
+            print("Saved wage: ", user.getWage())
+            
+        } catch {
+            fatalError("couldn't save")
+        }
+
+        masterAppViewModel.viewStack = .init()
+        masterAppViewModel.level += 1
     }
 
     // MARK: - Fourth Slide

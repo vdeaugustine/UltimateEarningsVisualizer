@@ -141,7 +141,7 @@ class FinalOnboardingScheduleViewModel: ObservableObject {
                                context: user.getContext())
                 }
 
-                let regularSchedule = try RegularSchedule(days: days,
+                try RegularSchedule(days: days,
                                                           user: user,
                                                           context: user.getContext())
 
