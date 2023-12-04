@@ -18,6 +18,9 @@ class MasterTheAppViewModel: ObservableObject {
     @Published var level: Int = 0
     
     static var shared: MasterTheAppViewModel = .init()
+    
+    @ObservedObject private var statusTracker = User.main.getStatusTracker()
+    @ObservedObject private var user = User.main
 
     func continueTapped() {
         switch level {
@@ -35,7 +38,20 @@ class MasterTheAppViewModel: ObservableObject {
     func finish() {
         print("Finished")
         level = 2
-//        level =
+        
+        handleCoreDataLogic()
+    }
+    
+   
+    
+    func handleCoreDataLogic() {
+        statusTracker.hasSeenOnboardingFlow = true
+        do {
+            try user.getContext().save()
+        }
+        catch {
+            print("error. could not save the onboarding flow change ")
+        }
     }
 
     func navigateToSetup() {

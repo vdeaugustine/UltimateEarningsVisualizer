@@ -28,8 +28,8 @@ struct ContentView: View {
     #endif
     
     var body: some View {
-//        mainContent
-        testingContent
+        mainContent
+//        testingContent
         
     }
     #if DEBUG
@@ -41,8 +41,7 @@ struct ContentView: View {
     var mainContent: some View {
         Group {
             if status.hasSeenOnboardingFlow == false {
-                FinalOnboarding(user: user,
-                                showOnboarding: $showOnboarding)
+                MasterTheAppView()
             } else {
                 TabView(selection: $navManager.currentTab.onUpdate(ifNoChange: navManager.sameTabTapped)) {
                     NavigationStack(path: $navManager.homeNavPath) {

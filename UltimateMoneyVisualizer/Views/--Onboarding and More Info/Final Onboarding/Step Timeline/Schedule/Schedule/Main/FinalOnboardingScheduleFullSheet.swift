@@ -23,7 +23,7 @@ struct FinalOnboardingScheduleFullSheet: View {
                     FinalOnboardingScheduleAskView()
                         .tag(1)
                     if viewModel.userHasRegularSchedule {
-                        FinalOnboardingScheduleSlide1()
+                        FinalOnboardingScheduleSelectDays()
                             .tag(2)
                     }
                     

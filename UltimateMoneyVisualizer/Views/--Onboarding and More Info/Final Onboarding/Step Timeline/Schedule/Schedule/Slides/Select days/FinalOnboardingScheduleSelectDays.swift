@@ -8,7 +8,7 @@
 import SwiftUI
 import Vin
 
-struct FinalOnboardingScheduleSlide1: View {
+struct FinalOnboardingScheduleSelectDays: View {
     
     @EnvironmentObject private var viewModel: FinalOnboardingScheduleViewModel
     
@@ -69,6 +69,6 @@ struct FinalOnboardingScheduleSlide1: View {
 }
 
 #Preview {
-    FinalOnboardingScheduleSlide1()
+    FinalOnboardingScheduleSelectDays()
         .environmentObject(FinalOnboardingScheduleViewModel())
 }

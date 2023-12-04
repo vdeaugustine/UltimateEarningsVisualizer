@@ -27,25 +27,26 @@ struct Day {
 // MARK: - FinalOnboardingScheduleViewModel
 
 class FinalOnboardingScheduleViewModel: ObservableObject {
-    
     #if DEBUG
-    static var testing: FinalOnboardingScheduleViewModel = .init()
-    #endif 
-    
+        static var testing: FinalOnboardingScheduleViewModel = .init()
+    #endif
+
     @Published var slideNumber: Int = 1
-    
+
+    @ObservedObject private var user = User.main
+
     @ObservedObject private var masterModel: MasterTheAppViewModel = .shared
-    
+
     var totalSlideCount: Int {
         userHasRegularSchedule ? 3 : 2
     }
-    
+
     var slidePercentage: Double {
         Double(slideNumber) / Double(totalSlideCount)
     }
-    
-    @Published var userHasRegularSchedule: Bool = false 
-    
+
+    @Published var userHasRegularSchedule: Bool = false
+
     @Published var daysSelected: [DayOfWeek] = [.monday, .tuesday, .wednesday, .thursday, .friday]
 
     @Published var daysToBeSet: [DayOfWeek] = []
@@ -64,23 +65,91 @@ class FinalOnboardingScheduleViewModel: ObservableObject {
     @Published var fridayEndTime: Date = .fivePM
 
     @Published var highlightedDay: DayOfWeek? = nil
-    
+
     var buttonTitle: String {
         slideNumber < totalSlideCount ? "Continue" : "Confirm"
     }
-    
-    func buttonAction(_ action: (()->Void)? = nil) {
+
+    // TODO: The logic for this is all messed up. Come back to it eventually (TECH DEBT)
+    func buttonAction(_ action: (() -> Void)? = nil) {
+        switch slideNumber {
+            case 1:
+                tappedContinueOnAskView()
+            case 2:
+                if userHasRegularSchedule {
+                    tappedContinueOnSelectDaysView()
+                } else {
+                    tappedContinueOnConfirmView(action)
+                }
+
+            case 3:
+                tappedContinueOnConfirmView(action)
+            default:
+                break
+        }
+//        withAnimation {
+//            if slideNumber < totalSlideCount {
+//               slideNumber += 1
+//
+//            }
+//            else {
+//                masterModel.level += 1
+//                action?()
+//            }
+//
+//
+//        }
+    }
+
+    func tappedContinueOnSelectDaysView() {
+        guard slideNumber < totalSlideCount else { return }
         withAnimation {
-            if slideNumber < totalSlideCount {
-               slideNumber += 1
-                
+            slideNumber += 1
+        }
+    }
+
+    func tappedContinueOnAskView() {
+        guard slideNumber < totalSlideCount else { return }
+        if userHasRegularSchedule {
+            withAnimation {
+                slideNumber += 1
             }
-            else {
-                masterModel.level += 1
-                action?()
+        } else {
+            withAnimation {
+                slideNumber = totalSlideCount
             }
-            
-            
+        }
+    }
+
+    func tappedContinueOnConfirmView(_ action: (() -> Void)? = nil) {
+        withAnimation {
+            masterModel.level += 1
+            action?()
+        }
+
+        if userHasRegularSchedule {
+            makeRegularSchedule()
+        }
+
+        func makeRegularSchedule() {
+            do {
+                let days: [RegularDay] = daysSelected.map { dayOfWeek in
+                    RegularDay(dayOfWeek: dayOfWeek,
+                               startTime: getStartTime(for: dayOfWeek),
+                               endTime: getEndTime(for: dayOfWeek),
+                               user: user,
+                               context: user.getContext())
+                }
+
+                let regularSchedule = try RegularSchedule(days: days,
+                                                          user: user,
+                                                          context: user.getContext())
+
+                print(user.regularSchedule ?? "no Regular schedule for some reason")
+
+            } catch {
+                fatalError("Fatal error saving regular schedule")
+            }
         }
     }
 
