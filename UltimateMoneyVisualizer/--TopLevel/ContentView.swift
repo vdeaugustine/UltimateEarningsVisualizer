@@ -21,6 +21,8 @@ struct ContentView: View {
 
     @State private var showOnboarding: Bool = !User.main.getStatusTracker().hasSeenOnboardingFlow
     @ObservedObject private var status: StatusTracker = User.main.statusTracker!
+    
+    @ObservedObject private var settings = User.main.getSettings()
 
     #if DEBUG
     @State private var testCurr = ""
@@ -77,7 +79,7 @@ struct ContentView: View {
 
                     #endif
                 }
-                .tint(Color("AccentColor"))
+                .tint(settings.themeColor)
 
                 .onAppear(perform: {
                     print("Color is :\(Color.accentColor) and hex:", Color.accentColor.getHex())
