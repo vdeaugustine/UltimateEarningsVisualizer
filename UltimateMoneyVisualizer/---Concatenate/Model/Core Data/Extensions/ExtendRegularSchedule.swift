@@ -73,8 +73,6 @@ public extension RegularSchedule {
             return day1Val < day2Val
         }
     }
-    
-    
 
     /// Checks regular schedule to see if today is one of the days of thew week in which the user has work
     func todayIsWorkday() -> Bool {
@@ -129,15 +127,33 @@ public extension RegularSchedule {
         guard let user = user else { return 0 }
         var amount: Double = 0
 //        let regularDays = getRegularDays()
-        
+
         for date in getDays(from: firstDate, to: secondDate) {
             let dayOfWeek = DayOfWeek(date: date)
-            guard let regularDayForThisDayOfWeek = self.getRegularDays().first(where: { $0.getDayOfWeek() == dayOfWeek })
+            guard let regularDayForThisDayOfWeek = getRegularDays().first(where: { $0.getDayOfWeek() == dayOfWeek })
             else { continue }
             let duration = regularDayForThisDayOfWeek.getDuration()
             amount += user.convertTimeToMoney(seconds: duration)
         }
 
         return amount
+    }
+}
+
+extension RegularSchedule {
+    override public var description: String {
+        var strs: [String] = []
+
+        for day in getRegularDays() {
+            guard let dayOfWeek = day.getDayOfWeek(),
+                  let startTime = day.startTime,
+                  let endTime = day.endTime
+            else { continue }
+            strs.append("\(dayOfWeek.description): \(startTime) - \(endTime)")
+        }
+
+        return strs.reduce("Regular Schedule\n") {
+            $0 + $1 + "\n"
+        }
     }
 }

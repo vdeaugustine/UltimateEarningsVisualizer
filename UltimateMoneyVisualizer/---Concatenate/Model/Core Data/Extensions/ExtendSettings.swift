@@ -18,7 +18,7 @@ extension Settings {
                 return Color(hex: str)
             }
 
-            return Color("AccentColor")
+            return Color.accentColor
         }
 
         set {

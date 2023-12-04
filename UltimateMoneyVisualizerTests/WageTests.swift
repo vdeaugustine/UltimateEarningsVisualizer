@@ -14,15 +14,22 @@ final class WageTests: XCTestCase {
     let user: User = {
         let ux = User(context: PersistenceController.testing)
         let wage = try! Wage(amount: 60,
-                             user: ux, context: PersistenceController.testing)
+                             isSalary: false,
+                             user: ux,
+                             includeTaxes: false,
+                             stateTax: nil,
+                             federalTax: nil,
+                             context: PersistenceController.testing)
+
+//        Wage(amount: 60,
+//                             user: ux,
+//                             context: PersistenceController.testing)
         ux.wage = wage
         try! PersistenceController.testing.save()
         return ux
     }()
 
     let wageValues: [(hourlyWage: Double, expectedSecondly: Double, expectedMinutely: Double, expectedDaily: Double, expectedWeekly: Double, expectedMonthly: Double, expectedYearly: Double)] = [(60, 0.0166666666666667, 1, 480, 2_400, 9_600, 124_800), (10, 0.00277777777777778, 0.166666666666667, 80, 400, 1_600, 20_800), (29, 0.00805555555555555, 0.483333333333333, 232, 1_160, 4_640, 60_320), (10, 0.00277777777777778, 0.166666666666667, 80, 400, 1_600, 20_800), (90, 0.025, 1.5, 720, 3_600, 14_400, 187_200), (44, 0.0122222222222222, 0.733333333333333, 352, 1_760, 7_040, 91_520), (46, 0.0127777777777778, 0.766666666666667, 368, 1_840, 7_360, 95_680)]
-
-
 
     func testSecondly() throws {
         XCTAssertEqual(user.getWage().secondly, user.getWage().perSecond, accuracy: 0.0001)
@@ -55,7 +62,7 @@ final class WageTests: XCTestCase {
 
     // Tests for `wagePerYear` extension
     func testWagePerYear() {
-        XCTAssertEqual(user.getWage().perYear, 124800, accuracy: 0.0001)
+        XCTAssertEqual(user.getWage().perYear, 124_800, accuracy: 0.0001)
     }
 
     func testWageValues() {
@@ -72,8 +79,13 @@ final class WageTests: XCTestCase {
 
     func createUser(with hourlyWage: Double) -> User {
         let user = User(context: PersistenceController.testing)
-        let wage = try! Wage(amount: hourlyWage,
-                             user: user, context: PersistenceController.testing)
+        let wage = try! Wage(amount: 60,
+                             isSalary: false,
+                             user: user,
+                             includeTaxes: false,
+                             stateTax: nil,
+                             federalTax: nil,
+                             context: PersistenceController.testing)
         user.wage = wage
         try! PersistenceController.testing.save()
         return user

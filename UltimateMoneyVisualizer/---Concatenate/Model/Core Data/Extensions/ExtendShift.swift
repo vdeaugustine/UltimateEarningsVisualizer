@@ -10,7 +10,11 @@ import Foundation
 import SwiftUI
 import Vin
 
-func doDateRangesOverlap(startTime1: Date, endTime1: Date, startTime2: Date, endTime2: Date) -> Bool {
+func doDateRangesOverlap(startTime1: Date,
+                         endTime1: Date,
+                         startTime2: Date,
+                         endTime2: Date)
+    -> Bool {
     let sortedDates1 = [startTime1, endTime1].sorted()
     let sortedDates2 = [startTime2, endTime2].sorted()
 
@@ -30,11 +34,16 @@ public extension Shift {
                                         context: NSManagedObjectContext) throws {
         let conflictingShifts = user.getShifts().filter { existingShift in
 
-            doDateRangesOverlap(startTime1: start, endTime1: end, startTime2: existingShift.start, endTime2: existingShift.end)
+            doDateRangesOverlap(startTime1: start,
+                                endTime1: end,
+                                startTime2: existingShift.start,
+                                endTime2: existingShift.end)
         }
 
         if !conflictingShifts.isEmpty {
-            throw NSError(domain: "Shift Conflict", code: 0, userInfo: [NSLocalizedDescriptionKey: "There are existing shifts with the same start or end time within the same hour."])
+            throw NSError(domain: "Shift Conflict",
+                          code: 0,
+                          userInfo: [NSLocalizedDescriptionKey: "There are existing shifts with the same start or end time within the same hour."])
         }
 
         self.init(context: context)
@@ -85,7 +94,9 @@ public extension Shift {
     }
 
     /// Creates a new shift given a ``TodayShift``
-    convenience init(fromTodayShift todayShift: TodayShift, payPeriod: PayPeriod? = nil, context: NSManagedObjectContext) throws {
+    convenience init(fromTodayShift todayShift: TodayShift,
+                     payPeriod: PayPeriod? = nil,
+                     context: NSManagedObjectContext) throws {
         self.init(context: context)
 
         self.startDate = todayShift.startTime
@@ -100,7 +111,8 @@ public extension Shift {
             throw NSError(domain: "Was unable to get the user. This should not happen", code: 99)
         }
         // Giving it a pay period
-        let existingPayPeriods = user.getPayPeriods().sorted(by: { $0.getLastDate() > $1.getLastDate() })
+        let existingPayPeriods = user.getPayPeriods()
+            .sorted(by: { $0.getLastDate() > $1.getLastDate() })
 
         // Check if one exists that this shift falls into
         if let payPeriodThisShiftFallsInto = existingPayPeriods.first(where: { period in
@@ -114,10 +126,11 @@ public extension Shift {
             let currentPayPeriod = existingPayPeriods.first
             let firstDate = currentPayPeriod?.payDay?.addDays(1) ?? start
             try PayPeriod(firstDate: firstDate,
-                          settings: user.payPeriodSettings ?? PayPeriodSettings(cycleCadence: .biWeekly,
-                                                                                autoGenerate: true,
-                                                                                user: user,
-                                                                                context: context),
+                          settings: user.payPeriodSettings
+                              ?? PayPeriodSettings(cycleCadence: .biWeekly,
+                                                   autoGenerate: true,
+                                                   user: user,
+                                                   context: context),
                           user: user,
                           context: context)
         }

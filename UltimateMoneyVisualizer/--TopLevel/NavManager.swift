@@ -158,6 +158,15 @@ class NavManager: ObservableObject {
         case onboarding
         case testingCalendar
     }
+    
+//    enum OnboardingViews: Hashable {
+//        case welcome
+//        case setUpWage
+//        case regularSchedule
+//        case payPeriods
+//        case offerTutorial
+//        case 
+//    }
 
 //    enum TodayViewDestinations: Hashable {
 //        case confirmShift

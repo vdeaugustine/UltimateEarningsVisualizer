@@ -657,12 +657,21 @@ public extension User {
 
     // MARK: - Pay Periods
 
+    /// Will return pay periods sorted by most recent first
     func getPayPeriods() -> [PayPeriod] {
         guard let periods = Array(payPeriods ?? []) as? [PayPeriod] else {
             return []
         }
 
         return periods.filter { $0.payDay != nil }.sorted(by: { $0.payDay! > $1.payDay! })
+    }
+    
+    func getPreviousPayPeriods() -> [PayPeriod] {
+        let all = getPayPeriods()
+        let set = Set(all)
+        let filtered = set.filter { $0.getLastDate() <= .endOfDay() }
+        print("** There are \(filtered.count) pay periods returning")
+        return filtered.sorted(by: { $0.getLastDate() > $1.getLastDate() })
     }
 
     func getPeriodFor(date: Date) -> PayPeriod? {

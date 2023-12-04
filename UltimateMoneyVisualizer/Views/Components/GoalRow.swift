@@ -85,8 +85,15 @@ struct GoalRow: View {
 // MARK: - GoalRow_Previews
 
 struct GoalRow_Previews: PreviewProvider {
+    static let user: User = {
+        let user = User(context: PersistenceController.testing)
+        user.instantiateExampleItems(context: PersistenceController.testing)
+        return user
+
+    }()
+
     static var previews: some View {
-        GoalRow(goal: User.main.getGoals().first!)
+        GoalRow(goal: user.getGoals().first!)
             .previewLayout(.sizeThatFits)
     }
 }

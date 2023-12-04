@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "confettiswiftui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/simibac/ConfettiSwiftUI.git",
+      "state" : {
+        "revision" : "f45961f97bbae6fff6e2e64546fea0189425ad92",
+        "version" : "1.1.0"
+      }
+    },
+    {
       "identity" : "floatingbutton",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/exyte/FloatingButton.git",
@@ -23,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/exyte/PopupView.git",
       "state" : {
-        "revision" : "0e771e413cc4727dbdad9ed81f0d4713f271fc43",
-        "version" : "2.8.2"
+        "revision" : "4e64eb67d4510c96f82efd9e34b8fa5b9b397791",
+        "version" : "2.8.3"
       }
     },
     {
@@ -68,8 +77,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/vdeaugustine/VinPackage",
       "state" : {
-        "revision" : "a8324f57752aae80c568cc3b0172cee1da050a13",
-        "version" : "1.2.16"
+        "revision" : "c311ae858a05df37a0337d2bb7029d9be1a8c325",
+        "version" : "1.2.23"
       }
     },
     {
