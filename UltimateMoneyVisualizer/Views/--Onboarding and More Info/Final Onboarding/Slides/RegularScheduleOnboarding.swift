@@ -1,20 +1,20 @@
 //
-//  AllocationOnboarding.swift
+//  RegularScheduleOnboarding.swift
 //  UltimateMoneyVisualizer
 //
-//  Created by Vincent DeAugustine on 11/15/23.
+//  Created by Vincent DeAugustine on 11/17/23.
 //
 
 import SwiftUI
 
-struct AllocationOnboarding: View {
-    @EnvironmentObject private var user: User
-    @State private var showError = false
-    @State private var errorMessage: String = ""
-    @Binding var showOnboarding: Bool
-    let totalSlides: Int
-    
+struct RegularScheduleOnboarding: View {
+    // MARK: - SwipingGoalSection
+
+    // MARK: - Body
+
     @Binding var tab: Int
+    @State private var showInfoSheet = false
+    let totalSlides: Int
     var body: some View {
         GeometryReader { geo in
             ZStack {
@@ -44,7 +44,7 @@ struct AllocationOnboarding: View {
                             //                            Circle().frame(width: 10).position(controlPoint)
                         #endif
 
-                        ImageWithCircleForOnboarding(image: "timeToExpense", size: geo.size)
+                        ImageWithCircleForOnboarding(image: "newGoalJar", size: geo.size)
                             .position(x: geo.frame(in: .global).midX, y: endY)
                     }
                     .frame(height: 350 * (geo.size.height / 759))
@@ -52,58 +52,52 @@ struct AllocationOnboarding: View {
                     .ignoresSafeArea()
 
                     VStack(spacing: 20) {
-                        Text("Smart Money Allocation")
-                            .font(.title, design: .rounded)
+                        Text("Your Goals, Visualized")
+                            .font(.title)
                             .fontWeight(.bold)
                             .pushLeft()
                             .padding(.leading)
                             .layoutPriority(1.1)
 
                         VStack(alignment: .leading, spacing: 30 * (geo.size.height / 759)) {
-                            Text("Allocate your earnings and savings to efficiently manage expenses and goals")
+                            Text("Define your financial targets with set amounts and dates, and enjoy the journey towards achieving them")
                                 .frame(maxWidth: .infinity, alignment: .leading)
 
-                            Text("Gain clarity on your finances with a visual representation of each paid item and its source")
+                            Text("Stay inspired as you visually track your progress and see your goals coming within reach")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                             //                                .foregroundStyle(UIColor.secondaryLabel.color)
                         }
-                        .font(.body, design: .rounded)
                         .padding(.horizontal, 10)
                         .layoutPriority(1)
 
                         Spacer()
 
-                        VStack(spacing: 40) {
-                            SwipingButton(label: "Let's Get Started!") {
-                                
-                                do {
-//                                    guard let status = user.statusTracker else {
-//                                        throw NSError(domain: "Could not get status tracker", code: 0)
-//                                    }
-                                    let status = user.getStatusTracker()
-                                    status.hasSeenOnboardingFlow = true
-                                    showOnboarding = false 
-                                    
-                                    try user.getContext().save()
-                                    print("SAVED SCC", user.getStatusTracker().hasSeenOnboardingFlow)
-                                } catch {
-                                    errorMessage = error.localizedDescription
-                                    fatalError("There was an error: \(error)")
+                        VStack(spacing: 20) {
+                            SwipingButton(label: "Next") {
+                                withAnimation {
+                                    tab += 1
                                 }
                             }
 
-                            HStack {
-                                ForEach(0 ..< totalSlides, id: \.self) { num in
-                                    OnboardingPill(isFilled: num <= tab)
+                            VStack {
+                                Button("Learn more") {
+                                    showInfoSheet = true
                                 }
+
+                                HStack {
+                                    ForEach(0 ..< totalSlides, id: \.self) { num in
+                                        OnboardingPill(isFilled: num <= tab)
+                                    }
+                                }
+                                .frame(maxWidth: geo.size.width * 0.45)
+                                .minimumScaleFactor(0.5)
                             }
-                            .frame(maxWidth: geo.size.width * 0.45)
-                            .minimumScaleFactor(0.5)
                         }
 
                         .layoutPriority(0)
                     }
 
+                    .kerning(1)
 
                     Spacer()
                 }
@@ -112,16 +106,13 @@ struct AllocationOnboarding: View {
             .onAppear(perform: {
                 print(geo.size)
             })
-            .alert("Error setting up user", isPresented: $showError) {
-                
-            } message: {
-                Text(errorMessage)
-            }
-
+            .sheet(isPresented: $showInfoSheet, content: {
+                GoalsInfoView()
+            })
         }
     }
 }
 
 #Preview {
-    AllocationOnboarding(showOnboarding: .constant(true), totalSlides: 5, tab: .constant(0))
+    RegularScheduleOnboarding(tab: .constant(0), totalSlides: 4)
 }

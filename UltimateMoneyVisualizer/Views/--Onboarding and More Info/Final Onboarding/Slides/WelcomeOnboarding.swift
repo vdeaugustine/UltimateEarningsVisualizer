@@ -1,13 +1,13 @@
 //
-//  GoalOnboarding.swift
+//  WelcomeOnboarding.swift
 //  UltimateMoneyVisualizer
 //
-//  Created by Vincent DeAugustine on 11/15/23.
+//  Created by Vincent DeAugustine on 11/17/23.
 //
 
 import SwiftUI
 
-struct GoalOnboarding: View {
+struct WelcomeOnboarding: View {
     // MARK: - SwipingGoalSection
 
     // MARK: - Body
@@ -15,6 +15,8 @@ struct GoalOnboarding: View {
     @Binding var tab: Int
     @State private var showInfoSheet = false
     let totalSlides: Int
+    
+    
     var body: some View {
         GeometryReader { geo in
             ZStack {
@@ -44,7 +46,7 @@ struct GoalOnboarding: View {
                             //                            Circle().frame(width: 10).position(controlPoint)
                         #endif
 
-                        ImageWithCircleForOnboarding(image: "newGoalJar", size: geo.size)
+                        ImageWithCircleForOnboarding(image: "iconNoBackground", size: geo.size)
                             .position(x: geo.frame(in: .global).midX, y: endY)
                     }
                     .frame(height: 350 * (geo.size.height / 759))
@@ -52,27 +54,31 @@ struct GoalOnboarding: View {
                     .ignoresSafeArea()
 
                     VStack(spacing: 20) {
-                        Text("Your Goals, Visualized")
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .pushLeft()
-                            .padding(.leading)
-                            .layoutPriority(1.1)
+                        VStack(spacing: 20) {
+                            Text("Your Earnings, Visualized and Empowered")
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .pushLeft()
+                                .padding(.leading)
+                                .layoutPriority(1.1)
 
-                        VStack(alignment: .leading, spacing: 30 * (geo.size.height / 759)) {
-                            Text("Define your financial targets with set amounts and dates, and enjoy the journey towards achieving them")
-                                .frame(maxWidth: .infinity, alignment: .leading)
+                            VStack(alignment: .leading, spacing: 30 * (geo.size.height / 759)) {
+                                Text("See your money grow in real time, for a transparent view of your financial journey.")
+                                    .frame(maxWidth: .infinity, alignment: .leading)
 
-                            Text("Stay inspired as you visually track your progress and see your goals coming within reach")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            //                                .foregroundStyle(UIColor.secondaryLabel.color)
+                                Text("Stay inspired as you visually track your progress and see your goals coming within reach")
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                //                                .foregroundStyle(UIColor.secondaryLabel.color)
+                            }
+                            .padding(.horizontal, 10)
+                            .layoutPriority(1)
                         }
-                        .padding(.horizontal, 10)
-                        .layoutPriority(1)
+                        .layoutPriority(3)
+                        .offset(y: -30)
 
                         Spacer()
 
-                        VStack(spacing: 20) {
+                        VStack(spacing: 10) {
                             SwipingButton(label: "Next") {
                                 withAnimation {
                                     tab += 1
@@ -114,5 +120,5 @@ struct GoalOnboarding: View {
 }
 
 #Preview {
-    GoalOnboarding(tab: .constant(3), totalSlides: 5)
+    WelcomeOnboarding(tab: .constant(0), totalSlides: 5)
 }

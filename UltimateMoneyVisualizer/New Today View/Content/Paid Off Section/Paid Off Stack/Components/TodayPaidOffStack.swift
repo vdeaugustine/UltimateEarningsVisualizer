@@ -11,15 +11,19 @@ import SwiftUI
 
 struct TodayPaidOffStack: View {
     @EnvironmentObject private var viewModel: TodayViewModel
+    
+    var items: [TempTodayPayoff] {
+        viewModel.nonZeroPayoffItems.reversed()
+    }
 
     var body: some View {
         LazyVStack {
             if viewModel.paidOffStackIsExpanded {
-                ForEach(viewModel.nonZeroPayoffItems) { item in
+                ForEach(items) { item in
                     TodayViewPaidOffRect(item: item)
                 }
             } else {
-                if let firstItem = viewModel.nonZeroPayoffItems.first {
+                if let firstItem = items.first {
                     TodayViewPaidOffRect(item: firstItem)
                 }
             }

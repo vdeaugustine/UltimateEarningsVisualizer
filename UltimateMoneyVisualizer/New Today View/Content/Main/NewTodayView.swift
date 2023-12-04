@@ -52,7 +52,7 @@ struct MainView_TodayView: View {
                     TodayPaidOffStackWithHeader()
                     Spacer()
                         .frame(height: 24)
-                    TodayViewItemizedBlocks()
+                    TodayViewTimeBlocks()
                     Spacer()
                 }
                 .padding(.horizontal)

@@ -13,12 +13,14 @@ import SwiftUI
 struct OnboardingPill: View {
     let isFilled: Bool
     var height: CGFloat = 7
+    
+    @ObservedObject private var settings = User.main.getSettings()
     var body: some View {
         RoundedRectangle(cornerRadius: 4)
-            .stroke(isFilled ? .accentColor : Color.secondary, lineWidth: 2)
+            .stroke(isFilled ? settings.themeColor : Color.secondary, lineWidth: 2)
             .frame(maxWidth: .infinity)
             .frame(height: height)
-            .background(isFilled ? Color.accentColor : Color.clear)
+            .background(isFilled ? settings.themeColor : Color.clear)
     }
 }
 
