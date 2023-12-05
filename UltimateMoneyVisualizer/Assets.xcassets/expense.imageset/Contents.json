@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "vinnied4_png_white_background_a_list_of_bills_and_expenses_in_t_d6cbfeb4-977b-45e1-ae4b-96daa4f535af_1-removebg-preview.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
