@@ -17,7 +17,7 @@ public extension User {
         self.init(context: context)
 
 //        try self.statusTracker = .init(user: self, context: context)
-        
+
         let status = StatusTracker(context: context)
         self.statusTracker = status
         status.user = self
@@ -33,13 +33,10 @@ public extension User {
                      stateTax: 7,
                      federalTax: 19,
                      context: context)
-            
+
             instantiateExampleItems(context: context)
-            
-            
         }
-        
-        
+
         let settings = Settings(context: context)
         settings.themeColor = Color.accentColor
 
@@ -104,47 +101,12 @@ public extension User {
     static var main: User {
         let userContext = PersistenceController.context
 
-        let request: NSFetchRequest<User> = User.fetchRequest()
-        request.fetchLimit = 1
-
         do {
-            let results = try userContext.fetch(request)
-            if results.count > 1 {
-                fatalError("MORE THAN ONE USER")
-            }
-
             // Get the user from the results
-            if let user = results.first {
-                try user.createRecurredExpenses()
-
-                // If the user has a TodayShift
-                if let existingTodayShift = user.todayShift,
-                   let endOfToday = existingTodayShift.endTime {
-                    // If the shift is from a previous day (so it is expired)
-                    if endOfToday < Date.beginningOfDay() {
-                        // We want to set todayShift to nil and not return that user
-                        user.todayShift = nil
-                    } else {
-                        // Nothing else needs to be done so the user can be returned
-                        return user
-                    }
-                }
-
-                // Check if next pay period needs to be made
-                if let payPeriodSettings = user.payPeriodSettings,
-                   payPeriodSettings.autoGeneratePeriods {
-                    if let mostRecent = user.getPayPeriods().first,
-                       let lastDate = mostRecent.payDay,
-                       Date.now >= lastDate {
-                        try PayPeriod(firstDate: Date.endOfDay(lastDate).advanced(by: 1),
-                                      settings: payPeriodSettings,
-                                      user: user,
-                                      context: userContext)
-                    }
-                }
-
-                return user
-            } else {
+            if let existingUser = try User.getExistingUser(userContext: userContext) {
+                return existingUser
+            }
+            else {
                 #if DEBUG
                     return try User(exampleItem: false, context: userContext)
                 #else
@@ -154,6 +116,48 @@ public extension User {
         } catch {
             fatalError("Error retrieving or creating main user: \(error)")
         }
+    }
+
+    private static func getExistingUser(userContext: NSManagedObjectContext) throws -> User? {
+        let request: NSFetchRequest<User> = User.fetchRequest()
+        request.fetchLimit = 1
+        let results = try userContext.fetch(request)
+        if results.count > 1 {
+            fatalError("MORE THAN ONE USER")
+        }
+
+        if let user = results.first {
+            try user.createRecurredExpenses()
+
+            // If the user has a TodayShift
+            if let existingTodayShift = user.todayShift,
+               let endOfToday = existingTodayShift.endTime {
+                // If the shift is from a previous day (so it is expired)
+                if endOfToday < Date.beginningOfDay() {
+                    // We want to set todayShift to nil and not return that user
+                    user.todayShift = nil
+                } else {
+                    // Nothing else needs to be done so the user can be returned
+                    return user
+                }
+            }
+
+            // Check if next pay period needs to be made
+            if let payPeriodSettings = user.payPeriodSettings,
+               payPeriodSettings.autoGeneratePeriods {
+                if let mostRecent = user.getPayPeriods().first,
+                   let lastDate = mostRecent.payDay,
+                   Date.now >= lastDate {
+                    try PayPeriod(firstDate: Date.endOfDay(lastDate).advanced(by: 1),
+                                  settings: payPeriodSettings,
+                                  user: user,
+                                  context: userContext)
+                }
+            }
+
+            return user
+        }
+        return nil 
     }
 
     func getContext() -> NSManagedObjectContext {
@@ -365,7 +369,7 @@ public extension User {
         if let statusTracker {
             return statusTracker
         }
-        
+
         let context = User.main.getContext()
 
         let newStatus = StatusTracker(context: context)
@@ -386,7 +390,7 @@ public extension User {
             return settings
         }
 
-        let newSettings = Settings(context: self.getContext())
+        let newSettings = Settings(context: getContext())
         newSettings.themeColor = Color(hex: "0A5F54")
         newSettings.user = self
         settings = newSettings
@@ -665,7 +669,7 @@ public extension User {
 
         return periods.filter { $0.payDay != nil }.sorted(by: { $0.payDay! > $1.payDay! })
     }
-    
+
     func getPreviousPayPeriods() -> [PayPeriod] {
         let all = getPayPeriods()
         let set = Set(all)
