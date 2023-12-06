@@ -27,9 +27,9 @@ struct Day {
 // MARK: - FinalOnboardingScheduleViewModel
 
 class FinalOnboardingScheduleViewModel: ObservableObject {
-    #if DEBUG
+//    #if DEBUG
         static var testing: FinalOnboardingScheduleViewModel = .init()
-    #endif
+//    #endif
 
     @Published var slideNumber: Int = 1
 
