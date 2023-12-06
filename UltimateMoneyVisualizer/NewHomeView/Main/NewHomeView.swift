@@ -19,106 +19,42 @@ struct NewHomeView: View {
     @ObservedObject private var status = User.main.getStatusTracker()
     @State private var scrollOffset: CGPoint = .zero
 
-    @State private var showWageBreakdownPopover = false
-    @State private var summaryPopover = false
-    @State private var moreStatsPopover = false
-    @State private var totalsPopover = false
-    @State private var netMoneyPopover = false
-    @State private var payoffQueuePopover = false
-    @State private var showFirstPopOverMain = false
-    @State private var wagePopover = false
-    @State private var timeBlockPopover = false
-    @State private var quickAddPopover = false
-
     @State private var scrollPosition = CGFloat.zero
 
-    @State private var popoverQueueRemaining: [ViewTags] = NewHomeView.fullPopoverQueue
-    @State private var popoverQueueShown: [ViewTags] = []
-    
     let dispatchPause: CGFloat = 0.7
-    
-    func afterPause(closure: @escaping () -> Void) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + Double(dispatchPause)) {
-            closure()
-        }
-    }
+
 
     // MARK: - Main Body
+
     var body: some View {
-        ScrollViewReader { scrollProxy in
-            GeometryReader { geo in
+        ScrollViewReader { _ in
+            GeometryReader { _ in
                 ScrollViewWithOffset(onScroll: handleOffset) {
                     Color.clear.frame(height: 0)
                         .id(ViewTags.scrollView)
                     VStack(spacing: 40) {
                         TotalsToDate_HomeView()
                             .id(ViewTags.totals)
-                            .floatingPopover(isPresented: $totalsPopover, arrowDirection: .up) {
-                                Totals_HomeView_Popover {
-                                    removeFirstFromPopoverQueue(scrollProxy: scrollProxy)
-                                }
-                            }
                         Button {
                             vm.navManager.appendCorrectPath(newValue: .stats)
                         } label: {
                             SummaryView_HomeView()
                         }
-                            .id(ViewTags.summary)
+                        .id(ViewTags.summary)
                         NetMoney_HomeView()
                             .id(ViewTags.netMoney)
-                            .floatingPopover(isPresented: $netMoneyPopover, arrowDirection: .down) {
-                                NetMoney_HomeView_Popover {
-                                    removeFirstFromPopoverQueue(scrollProxy: scrollProxy)
-                                }
-                            }
                         PayoffQueueView_HomeView()
                             .id(ViewTags.payoffQueue)
-                            .floatingPopover(isPresented: $payoffQueuePopover,
-                                             arrowDirection: .up) {
-                                PayoffQueue_HomeView_Popup {
-                                    removeFirstFromPopoverQueue(scrollProxy: scrollProxy)
-                                }
-                            }
 
                         WageBreakdown_HomeView()
                             .id(ViewTags.wageBreakdown)
-                            .floatingPopover(isPresented: $wagePopover, arrowDirection: .down) {
-                                WageBreakdown_HomeView_Popover {
-                                    removeFirstFromPopoverQueue(scrollProxy: scrollProxy)
-                                }
-                            }
 
                         TopTimeBlocks_HomeView()
                             .id(ViewTags.timeBlocks)
-                            .floatingPopover(isPresented: $timeBlockPopover, arrowDirection: .down) {
-                                TimeBlock_HomeView_Popover {
-                                    removeFirstFromPopoverQueue(scrollProxy: scrollProxy)
-                                }
-                            }
                     }
-                    .background (Color(.secondarySystemBackground))
+                    .background(Color(.secondarySystemBackground))
                     .padding(.top)
-//                    .onAppear(perform: {
-//                        if status.hasSeenHomeTutorial == false {
-//                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//                                totalsPopover = true
-//                            }
-//                        }
-//                    })
                 }
-                .popup(isPresented: $showFirstPopOverMain) {
-                    VStack {
-                        Text("Welcome to home view")
-                    }
-                    .frame(maxWidth: geo.size.width - 50, maxHeight: geo.size.height - 140)
-                    .padding()
-                    .background {
-                        Color.white
-                            .clipShape(RoundedRectangle(cornerRadius: 20))
-                            .shadow(radius: 3)
-                    }
-                }
-                .background (Color(.secondarySystemBackground))
             }
         }
         .modifier(Modifiers(vm: vm,
@@ -162,95 +98,27 @@ struct NewHomeView: View {
                 .navigationDestination(for: NavManager.AllViews.self) { view in
                     vm.navManager.getDestinationViewForStack(destination: view)
                 }
+                .background(Color(.secondarySystemBackground))
         }
     }
 
     @ViewBuilder private var floatingButton: some View {
-        if !totalsPopover,
-           !netMoneyPopover,
-           !payoffQueuePopover,
-           !wagePopover,
-           !timeBlockPopover {
-            HStack {
-                Spacer()
-                FloatingPlusButton(isShowing: $vm.quickMenuOpen)
-                    .padding(.bottom)
-                    .floatingPopover(isPresented: $quickAddPopover, arrowDirection: .down) {
-                        QuickAddButton_HomeView_Popover {
-                            quickAddPopover = false
-                        }
-                    }
-            }
+        HStack {
+            Spacer()
+            FloatingPlusButton(isShowing: $vm.quickMenuOpen)
+                .padding(.bottom)
         }
     }
 }
 
 extension NewHomeView {
     // swiftformat:sort:begin
-    var currentPopover: ViewTags? {
-        popoverQueueRemaining.first
-    }
-
-    static let fullPopoverQueue: [ViewTags] = [.totals, .netMoney, .payoffQueue, .wageBreakdown, .timeBlocks]
 
     func handleOffset(_ scrollOffset: CGPoint) {
         self.scrollOffset = scrollOffset
         print("New offset: ", scrollOffset)
     }
 
-    func insertLastIntoPopoverQueue() {
-        if !popoverQueueShown.isEmpty {
-            let last = popoverQueueShown.removeLast()
-            popoverQueueRemaining.insert(last, at: 0)
-        }
-    }
-
-    func removeFirstFromPopoverQueue(scrollProxy: ScrollViewProxy) {
-        if !popoverQueueRemaining.isEmpty {
-            let first = popoverQueueRemaining.removeFirst()
-            popoverQueueShown.append(first)
-            withAnimation {
-                scrollProxy.scrollWithAnimation(first)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    if let first = popoverQueueRemaining.first {
-                        setAllPopoversFalseExcept(for: first)
-                    }
-                }
-            }
-        }
-    }
-
-    func setAllPopoversFalseExcept(for popover: ViewTags) {
-        showWageBreakdownPopover = false
-        summaryPopover = false
-        moreStatsPopover = false
-        totalsPopover = false
-        netMoneyPopover = false
-        payoffQueuePopover = false
-        showFirstPopOverMain = false
-        wagePopover = false
-        timeBlockPopover = false
-        quickAddPopover = false
-
-        switch popover {
-            case .wageBreakdown:
-                showWageBreakdownPopover = true
-            case .summary:
-                summaryPopover = true
-            case .netMoney:
-                netMoneyPopover = true
-            case .payoffQueue:
-                payoffQueuePopover = true
-            case .timeBlocks:
-                timeBlockPopover = true
-            case .totals:
-                totalsPopover = true
-            case .scrollView:
-                showFirstPopOverMain = true
-        }
-
-        print("\(popover) is now \(true)")
-    }
 
     enum ViewTags: String, Hashable {
         case totals, summary, netMoney, payoffQueue, wageBreakdown, timeBlocks, scrollView
