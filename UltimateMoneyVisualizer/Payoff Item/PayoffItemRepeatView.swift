@@ -48,6 +48,8 @@ struct PayoffItemRepeatView: View {
             }
         }
         .putInTemplate(title: "Repeat Dates")
+        .putInNavView(.large)
+        
     }
 }
 
