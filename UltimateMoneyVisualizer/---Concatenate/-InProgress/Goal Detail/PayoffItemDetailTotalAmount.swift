@@ -59,6 +59,9 @@ struct PayoffItemDetailTotalAmount: View {
         .sheet(isPresented: $showRepeatSheet, content: {
             if let expense = viewModel.payoffItem as? Expense {
                 PayoffItemRepeatView(payoffItem: expense)
+                    .onAppear {
+                        print("showing view!")
+                    }
             }
            
         })
