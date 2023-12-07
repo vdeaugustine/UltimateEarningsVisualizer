@@ -122,7 +122,7 @@ class NavManager: ObservableObject {
             case .newHome:
                 homeNavPath = .init()
             case .settings:
-                settingsNavPath = .init()
+                break
             case .shifts:
                 break
             case .today:

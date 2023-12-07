@@ -30,7 +30,7 @@
 		<key>UIColorName</key>
 		<string>backgroundLaunch</string>
 		<key>UIImageName</key>
-		<string>bground</string>
+		<string>launchScreen</string>
 	</dict>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>

@@ -70,14 +70,6 @@ struct ContentView: View {
                     }
                     .makeTab(tab: Tabs.settings,
                              systemImage: "gear")
-
-                    #if DEBUG
-
-                        FinalOnboardingShiftShowcase()
-                            .makeTab(tab: Tabs.onboarding,
-                                     systemImage: "airplane.departure")
-
-                    #endif
                 }
                 .tint(settings.themeColor)
 

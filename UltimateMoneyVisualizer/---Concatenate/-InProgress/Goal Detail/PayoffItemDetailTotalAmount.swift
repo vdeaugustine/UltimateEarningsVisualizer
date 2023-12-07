@@ -16,15 +16,13 @@ struct PayoffItemDetailTotalAmount: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Text(viewModel.amountPaidOff.money())
+                Text(viewModel.payoffItem.amount.money())
                     .font(.title)
                     .boldNumber()
 
                 Spacer()
                 
                 Components.nextPageChevron
-//                Image(systemName: "chevron.right")
-//                    .font(.caption2)
             }
             .layoutPriority(0)
             VStack(alignment: .leading, spacing: 7) {
@@ -38,7 +36,6 @@ struct PayoffItemDetailTotalAmount: View {
                 HStack {
                     Text(viewModel.payoffItem.repeatFrequencyObject.rawValue)
                     Spacer()
-//                    Text("work time")
                 }
                 .font(.subheadline)
                 .foregroundStyle(Color.gray)
