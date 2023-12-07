@@ -51,11 +51,6 @@ struct PayoffItemDetailView: View {
                     }
                     .frame(maxWidth: .infinity)
                     .padding(.vertical)
-//                    .background {
-//                        RoundedRectangle(cornerRadius: 20)
-//                            .fill(Color.white)
-//                            .shadow(radius: 0.2)
-//                    }
                     
                     
                 }
