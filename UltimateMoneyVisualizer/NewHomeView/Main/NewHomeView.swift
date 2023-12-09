@@ -33,7 +33,7 @@ struct NewHomeView: View {
                     Color.clear.frame(height: 0)
                         .id(ViewTags.scrollView)
                     VStack(spacing: 40) {
-                        TotalsToDate_HomeView()
+                        HomeViewTotalsContent()
                             .id(ViewTags.totals)
                         Button {
                             vm.navManager.appendCorrectPath(newValue: .stats)
