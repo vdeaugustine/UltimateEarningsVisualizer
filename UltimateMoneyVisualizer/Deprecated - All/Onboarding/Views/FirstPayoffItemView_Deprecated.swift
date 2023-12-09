@@ -10,7 +10,7 @@ import SwiftUI
 // MARK: - GoalOrExpenseView
 
 struct GoalOrExpenseView: View {
-    @Binding var chosenType: FirstPayoffItemView.GoalOrExpense?
+    @Binding var chosenType: FirstPayoffItemView_Deprecated.GoalOrExpense?
 
     var body: some View {
         VStack {
@@ -228,7 +228,7 @@ struct FirstExpenseView: View {
 
 // MARK: - FirstPayoffItemView
 
-struct FirstPayoffItemView: View {
+struct FirstPayoffItemView_Deprecated: View {
     enum GoalOrExpense: String, Identifiable, CaseIterable {
         case goal
         case expense
@@ -253,5 +253,5 @@ struct FirstPayoffItemView: View {
 }
 
 #Preview {
-    FirstPayoffItemView()
+    FirstPayoffItemView_Deprecated()
 }

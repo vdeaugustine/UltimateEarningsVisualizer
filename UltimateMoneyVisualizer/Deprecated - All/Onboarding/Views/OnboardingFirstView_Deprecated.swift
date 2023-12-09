@@ -9,7 +9,7 @@ import SwiftUI
 
 // MARK: - OnboardingFirstView
 
-struct OnboardingFirstView: View {
+struct OnboardingFirstView_Deprecated: View {
     @StateObject private var model = OnboardingModel.shared
     @StateObject private var manager = OnboardingManager.shared
     @Environment(\.dismiss) private var dismiss
@@ -28,7 +28,7 @@ struct OnboardingFirstView: View {
                 .tag(3)
 
             if model.wageWasSet {
-                OnboardingRegularDaysView()
+                OnboardingRegularDaysView_Deprecated()
                     .tag(4)
 
                 WhatIsASavedItem()
@@ -124,6 +124,6 @@ struct OnboardingFirstView: View {
 
 struct OnboardingFirstView_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardingFirstView()
+        OnboardingFirstView_Deprecated()
     }
 }

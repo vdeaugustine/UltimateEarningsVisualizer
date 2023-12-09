@@ -9,7 +9,7 @@ import SwiftUI
 
 // MARK: - OnboardingFirstGoalView
 
-struct OnboardingFirstGoalView: View {
+struct OnboardingFirstGoalView_Deprecated: View {
     @EnvironmentObject private var vm: OnboardingModel
     @State private var title: String = ""
     @State private var description: String = ""
@@ -155,11 +155,11 @@ struct OnboardingFirstGoalView: View {
 struct OnboardingFirstGoalView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            OnboardingFirstGoalView()
+            OnboardingFirstGoalView_Deprecated()
                 .previewDevice("iPhone 14 Pro Max")
                 .putInNavView(.large)
 
-            OnboardingFirstGoalView()
+            OnboardingFirstGoalView_Deprecated()
                 .previewDevice("iPhone SE (3rd generation)")
                 .putInNavView(.large)
         }

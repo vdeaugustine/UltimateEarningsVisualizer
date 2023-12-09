@@ -10,7 +10,7 @@ import SwiftUI
 
 // MARK: - OnboardingRegularDaysView
 
-struct OnboardingRegularDaysView: View {
+struct OnboardingRegularDaysView_Deprecated: View {
     @EnvironmentObject private var model: OnboardingModel
 
     @State private var dayForWhichTimeWasTapped: DayOfWeek = .monday
@@ -164,7 +164,7 @@ struct OnboardingRegularDaysView: View {
 struct OnboardingThirdView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            OnboardingRegularDaysView()
+            OnboardingRegularDaysView_Deprecated()
                 .previewDevice("iPhone 14 Pro Max")
         }
         .environmentObject(OnboardingModel())

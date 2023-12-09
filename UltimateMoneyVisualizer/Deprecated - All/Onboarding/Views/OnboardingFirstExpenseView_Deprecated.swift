@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct OnboardingFirstExpenseView: View {
+struct OnboardingFirstExpenseView_Deprecated: View {
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject private var newItemViewModel: NewItemViewModel
     @StateObject var vm = CreateExpenseViewModel()
@@ -311,6 +311,7 @@ struct OnboardingFirstExpenseView: View {
 
 struct OnboardingFirstExpenseView_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardingFirstExpenseView()
+        OnboardingFirstExpenseView_Deprecated()
+            .environmentObject(NewItemViewModel.shared)
     }
 }
