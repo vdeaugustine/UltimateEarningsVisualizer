@@ -266,7 +266,7 @@ struct AddAllocationForGoalView: View {
 
 struct AddAllocationForSavedView_Previews: PreviewProvider {
     static var previews: some View {
-        AddAllocationForGoalView(goal: User.main.getGoals().first!)
+        AddAllocationForGoalView(goal: User.testing.getGoals().first!)
             .putInNavView(.inline)
             .environment(\.managedObjectContext, PersistenceController.context)
     }

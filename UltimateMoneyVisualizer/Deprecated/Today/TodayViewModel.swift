@@ -223,7 +223,7 @@ class TodayViewModel: ObservableObject {
 
     var tempPayoffs: [TempTodayPayoff] {
         
-        let nonTaxes = initialPayoffs.filter({
+        _ = initialPayoffs.filter({
             $0.queueSlotNumber != nil &&
             $0.type != .tax
         })
@@ -368,7 +368,7 @@ class TodayViewModel: ObservableObject {
 
     func getPayoffListsHeight(forCount itemCount: Int) -> CGFloat? {
         let count = CGFloat(itemCount)
-        let spaces = count - 1
+        _ = count - 1
         let heightOfRect: CGFloat = 110
         let heightOfSpace: CGFloat = 10
         return ((heightOfRect * CGFloat(count)) + CGFloat(count) * heightOfSpace + 70)

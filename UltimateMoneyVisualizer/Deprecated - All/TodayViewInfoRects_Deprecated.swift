@@ -9,7 +9,7 @@ import SwiftUI
 
 // MARK: - TodayViewDetailsSection
 
-struct TodayViewDetailsSection: View {
+struct TodayViewInfoRects_Deprecated: View {
     @EnvironmentObject private var viewModel: TodayViewModel
     var body: some View {
         VStack {
@@ -91,7 +91,7 @@ struct TodayViewLabeledRect: View {
 
 struct TodayViewDetailsSection_Previews: PreviewProvider {
     static var previews: some View {
-        TodayViewDetailsSection()
+        TodayViewInfoRects_Deprecated()
             .environmentObject(TodayViewModel.main)
     }
 }
