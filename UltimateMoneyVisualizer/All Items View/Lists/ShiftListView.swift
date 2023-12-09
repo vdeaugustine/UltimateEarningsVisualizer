@@ -57,7 +57,6 @@ struct ShiftListView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-//            upcomingPart
             listPart
         }
         .putInTemplate()

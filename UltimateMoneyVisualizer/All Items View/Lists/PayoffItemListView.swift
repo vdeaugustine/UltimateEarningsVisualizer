@@ -9,7 +9,7 @@ import SwiftUI
 
 // MARK: - NewPayoffList
 
-struct NewPayoffList: View {
+struct PayoffItemListView: View {
     let payoffType: PayoffType
 
     @Environment(\.managedObjectContext) private var viewContext
@@ -182,7 +182,7 @@ struct NewPayoffList: View {
 
 struct NewPayoffList_Previews: PreviewProvider {
     static var previews: some View {
-        NewPayoffList(payoffType: .goal)
+        PayoffItemListView(payoffType: .goal)
             .putInNavView(.large)
             .templateForPreview()
     }

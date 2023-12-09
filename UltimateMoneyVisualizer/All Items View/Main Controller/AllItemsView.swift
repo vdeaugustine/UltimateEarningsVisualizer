@@ -18,42 +18,23 @@ struct AllItemsView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Picker("Selection", selection: $selectionType) {
-                ForEach(SelectionType.allCases, id: \.self) {
-                    Text($0.rawValue.capitalized).tag($0)
-                }
-            }
-            .pickerStyle(.segmented)
-            .padding([.horizontal, .top])
-            .onChange(of: selectionType) { _ in editMode = .inactive }
+            picker
 
             switch selectionType {
                 case .goals:
-                    NewPayoffList(payoffType: .goal)
+                    PayoffItemListView(payoffType: .goal)
                 case .saved:
                     SavedListView()
                 case .shifts:
                     ShiftListView()
                 case .expenses:
-                    NewPayoffList(payoffType: .expense)
+                    PayoffItemListView(payoffType: .expense)
             }
         }
         .background(Color.listBackgroundColor)
 
         .environment(\.editMode, $editMode)
 
-//        .gesture(
-//            DragGesture()
-//                .onEnded { value in
-//                    if value.translation.width < 0 {
-//                        // Swiped to the left
-//                        changeSelectionType(forward: true)
-//                    } else if value.translation.width > 0 {
-//                        // Swiped to the right
-//                        changeSelectionType(forward: false)
-//                    }
-//                }
-//        )
         .navigationDestination(for: NavManager.AllViews.self) { view in
             navManager.getDestinationViewForStack(destination: view)
         }
@@ -89,6 +70,17 @@ struct AllItemsView: View {
                 selectionType = .shifts
             }
         })
+    }
+    
+    private var picker: some View {
+        Picker("Selection", selection: $selectionType) {
+            ForEach(SelectionType.allCases, id: \.self) {
+                Text($0.rawValue.capitalized).tag($0)
+            }
+        }
+        .pickerStyle(.segmented)
+        .padding([.horizontal, .top])
+        .onChange(of: selectionType) { _ in editMode = .inactive }
     }
 
     private func changeSelectionType(forward: Bool) {
