@@ -23,7 +23,6 @@ struct NewHomeView: View {
 
     let dispatchPause: CGFloat = 0.7
 
-
     // MARK: - Main Body
 
     var body: some View {
@@ -88,7 +87,7 @@ struct NewHomeView: View {
                             }
                     }
                 }
-                .animation(/*@START_MENU_TOKEN@*/ .easeIn/*@END_MENU_TOKEN@*/, value: vm.quickMenuOpen)
+                .animation(.easeIn, value: vm.quickMenuOpen)
                 .safeAreaInset(edge: .bottom) {
                     floatingButton
                 }
@@ -118,7 +117,6 @@ extension NewHomeView {
         self.scrollOffset = scrollOffset
         print("New offset: ", scrollOffset)
     }
-
 
     enum ViewTags: String, Hashable {
         case totals, summary, netMoney, payoffQueue, wageBreakdown, timeBlocks, scrollView

@@ -32,6 +32,7 @@ struct PayoffContributionsView: View {
                     .onDelete(perform: deleteShift)
                 }
             }
+            
 
             if !vm.payoffItem.getSavedItems().isEmpty {
                 Section("Saved Items") {
@@ -45,6 +46,16 @@ struct PayoffContributionsView: View {
                     }
                 }
             }
+            
+            if vm.payoffItem.getSavedItems().isEmpty,
+               vm.payoffItem.getShifts().isEmpty {
+                Section  {
+                    Text("No contributions for this item yet")
+                } header: {
+                    Text("None yet header").hidden()
+                }
+            }
+            
         }
         .navigationTitle("Contributions")
         .toolbar {
@@ -57,11 +68,6 @@ struct PayoffContributionsView: View {
                 }
             }
 
-//            ToolbarItem(placement: .navigationBarLeading) {
-//                Button("Dismiss") {
-//                    dismiss()
-//                }
-//            }
         }
 
         .accentColor(User.main.getSettings().themeColor)
@@ -90,9 +96,10 @@ struct PayoffContributionsView: View {
 // MARK: - GoalContributionsView_Previews
 
 struct GoalContributionsView_Previews: PreviewProvider {
-    static let item = User.main.getGoals().randomElement()!
+    static let item = User.testing.getGoals().randomElement()!
 
     static var previews: some View {
         PayoffContributionsView(vm: .init(payoffItem: item))
+            .templateForPreview()
     }
 }
