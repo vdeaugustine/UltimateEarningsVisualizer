@@ -14,19 +14,6 @@
 		9C05059C2A10A5BF00FC6511 /* ExtendRegularDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C05059B2A10A5BF00FC6511 /* ExtendRegularDay.swift */; };
 		9C05059E2A10B0B500FC6511 /* SetHoursForRegularDaysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C05059D2A10B0B500FC6511 /* SetHoursForRegularDaysView.swift */; };
 		9C0505A32A13043F00FC6511 /* DatesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0505A22A13043F00FC6511 /* DatesTests.swift */; };
-		9C07096C2A7779D500A324BA /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C07095F2A7779D500A324BA /* Roboto-Medium.ttf */; };
-		9C07096D2A7779D500A324BA /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C0709602A7779D500A324BA /* Roboto-Light.ttf */; };
-		9C07096E2A7779D500A324BA /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C0709612A7779D500A324BA /* Roboto-Regular.ttf */; };
-		9C07096F2A7779D500A324BA /* Roboto-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C0709622A7779D500A324BA /* Roboto-MediumItalic.ttf */; };
-		9C0709702A7779D500A324BA /* Roboto-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C0709632A7779D500A324BA /* Roboto-ThinItalic.ttf */; };
-		9C0709712A7779D500A324BA /* Roboto-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C0709642A7779D500A324BA /* Roboto-BoldItalic.ttf */; };
-		9C0709722A7779D500A324BA /* Roboto-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C0709652A7779D500A324BA /* Roboto-LightItalic.ttf */; };
-		9C0709732A7779D500A324BA /* Roboto-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C0709662A7779D500A324BA /* Roboto-Italic.ttf */; };
-		9C0709742A7779D500A324BA /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9C0709672A7779D500A324BA /* LICENSE.txt */; };
-		9C0709752A7779D500A324BA /* Roboto-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C0709682A7779D500A324BA /* Roboto-BlackItalic.ttf */; };
-		9C0709762A7779D500A324BA /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C0709692A7779D500A324BA /* Roboto-Bold.ttf */; };
-		9C0709772A7779D500A324BA /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C07096A2A7779D500A324BA /* Roboto-Thin.ttf */; };
-		9C0709782A7779D500A324BA /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C07096B2A7779D500A324BA /* Roboto-Black.ttf */; };
 		9C07097A2A77855A00A324BA /* PayoffQueueView_HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0709792A77855A00A324BA /* PayoffQueueView_HomeView.swift */; };
 		9C0CCC042A77525300BA855D /* NewHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0CCC032A77525300BA855D /* NewHomeView.swift */; };
 		9C0CFCD92A5A70CC005C7C81 /* ExpenseGridBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0CFCD82A5A70CC005C7C81 /* ExpenseGridBlock.swift */; };
@@ -49,7 +36,6 @@
 		9C1FF9DD2B0C1EB300830C91 /* PseudoShift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1FF9DC2B0C1EB300830C91 /* PseudoShift.swift */; };
 		9C1FF9DF2B0C1F4400830C91 /* ExtendGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1FF9DE2B0C1F4400830C91 /* ExtendGroupBox.swift */; };
 		9C1FF9E32B0C211B00830C91 /* FinalOnboardingTutorialOffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1FF9E22B0C211B00830C91 /* FinalOnboardingTutorialOffer.swift */; };
-		9C1FF9E52B0C4B2500830C91 /* WhereToFindTutorialsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1FF9E42B0C4B2500830C91 /* WhereToFindTutorialsView.swift */; };
 		9C1FF9E82B0C83DA00830C91 /* Deprecated_OnboardingListOfFirstsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1FF9E72B0C83DA00830C91 /* Deprecated_OnboardingListOfFirstsView.swift */; };
 		9C1FF9EA2B0C8A3800830C91 /* TutorialsCompletedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1FF9E92B0C8A3800830C91 /* TutorialsCompletedView.swift */; };
 		9C1FF9EC2B0D6EB200830C91 /* OnboardingBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1FF9EB2B0D6EB200830C91 /* OnboardingBackground.swift */; };
@@ -77,11 +63,7 @@
 		9C3574782B095086000AED9D /* PayoffItemDetailTagsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3574772B095086000AED9D /* PayoffItemDetailTagsSection.swift */; };
 		9C35747A2B09508F000AED9D /* PayoffItemDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3574792B09508F000AED9D /* PayoffItemDetailViewModel.swift */; };
 		9C35747E2B099DBD000AED9D /* ExpenseDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C35747D2B099DBD000AED9D /* ExpenseDetailViewModel.swift */; };
-		9C3574802B099DDC000AED9D /* AddAllocationForGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C35747F2B099DDC000AED9D /* AddAllocationForGoalView.swift */; };
 		9C3574822B099DE5000AED9D /* AllocationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3574812B099DE5000AED9D /* AllocationDetailView.swift */; };
-		9C3574842B099E5D000AED9D /* CalculateTaxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3574832B099E5D000AED9D /* CalculateTaxView.swift */; };
-		9C3574862B099E6D000AED9D /* NewItemCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3574852B099E6D000AED9D /* NewItemCreationView.swift */; };
-		9C3574882B099E7B000AED9D /* NewItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3574872B099E7B000AED9D /* NewItemViewModel.swift */; };
 		9C35748A2B09CDDE000AED9D /* RegularScheduleOnboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3574892B09CDDE000AED9D /* RegularScheduleOnboarding.swift */; };
 		9C35748C2B0AFDB0000AED9D /* FinalOnboardingShiftShowcase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C35748B2B0AFDB0000AED9D /* FinalOnboardingShiftShowcase.swift */; };
 		9C3808442B0F1ECB00BF45DD /* FinalOnboardingWelcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3808432B0F1ECB00BF45DD /* FinalOnboardingWelcome.swift */; };
@@ -161,6 +143,14 @@
 		9C65A7612A00D4B900A5BCF1 /* ExpenseRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C65A7602A00D4B900A5BCF1 /* ExpenseRow.swift */; };
 		9C69C5CC2A1832E5006F5C23 /* PayoffWithImageAndGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C69C5CB2A1832E5006F5C23 /* PayoffWithImageAndGradientView.swift */; };
 		9C7016A62A6115630038E2A6 /* FigmaDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7016A52A6115630038E2A6 /* FigmaDesign.swift */; };
+		9C71745B2B22EFB3006BC392 /* MasterTheAppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C71745A2B22EFB3006BC392 /* MasterTheAppViewModel.swift */; };
+		9C71746A2B2402E0006BC392 /* WhereToFindTutorialsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7174692B2402E0006BC392 /* WhereToFindTutorialsView.swift */; };
+		9C71746D2B240474006BC392 /* UltimateMoneyVisualizerTests.xctest in Resources */ = {isa = PBXBuildFile; fileRef = 9C7F966D29F8F03E00F5035C /* UltimateMoneyVisualizerTests.xctest */; };
+		9C71746E2B24047A006BC392 /* UltimateMoneyVisualizerUITests.xctest in Resources */ = {isa = PBXBuildFile; fileRef = 9C7F967729F8F03E00F5035C /* UltimateMoneyVisualizerUITests.xctest */; };
+		9C7174702B240557006BC392 /* AddAllocationForGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C71746F2B240556006BC392 /* AddAllocationForGoalView.swift */; };
+		9C7174722B24056C006BC392 /* CalculateTaxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7174712B24056C006BC392 /* CalculateTaxView.swift */; };
+		9C7174742B24058E006BC392 /* NewItemCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7174732B24058E006BC392 /* NewItemCreationView.swift */; };
+		9C7174762B24059E006BC392 /* NewItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7174752B24059E006BC392 /* NewItemViewModel.swift */; };
 		9C74F9F92A9AD77700466779 /* OnboardingFirstView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C74F9F82A9AD77700466779 /* OnboardingFirstView.swift */; };
 		9C74F9FB2A9ADB5B00466779 /* OnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C74F9FA2A9ADB5B00466779 /* OnboardingModel.swift */; };
 		9C74F9FD2A9AEF0E00466779 /* FeaturesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C74F9FC2A9AEF0E00466779 /* FeaturesListView.swift */; };
@@ -281,17 +271,6 @@
 		9CDBE0E42A2462A200741EEE /* NewShiftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDBE0E32A2462A200741EEE /* NewShiftView.swift */; };
 		9CDBE0EA2A25CD6300741EEE /* GoalsGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDBE0E92A25CD6300741EEE /* GoalsGridView.swift */; };
 		9CDBE0EC2A26F6C600741EEE /* ExpenseWithImageAndGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDBE0EB2A26F6C600741EEE /* ExpenseWithImageAndGradientView.swift */; };
-		9CDD4E372A67C12500AB8B4F /* Lato-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDD4E2C2A67C12500AB8B4F /* Lato-Italic.ttf */; };
-		9CDD4E382A67C12500AB8B4F /* Lato-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDD4E2D2A67C12500AB8B4F /* Lato-LightItalic.ttf */; };
-		9CDD4E392A67C12500AB8B4F /* Lato-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDD4E2E2A67C12500AB8B4F /* Lato-Thin.ttf */; };
-		9CDD4E3A2A67C12500AB8B4F /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDD4E2F2A67C12500AB8B4F /* Lato-Bold.ttf */; };
-		9CDD4E3B2A67C12500AB8B4F /* Lato-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDD4E302A67C12500AB8B4F /* Lato-Black.ttf */; };
-		9CDD4E3C2A67C12500AB8B4F /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDD4E312A67C12500AB8B4F /* Lato-Regular.ttf */; };
-		9CDD4E3D2A67C12500AB8B4F /* Lato-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDD4E322A67C12500AB8B4F /* Lato-BlackItalic.ttf */; };
-		9CDD4E3E2A67C12500AB8B4F /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9CDD4E332A67C12500AB8B4F /* OFL.txt */; };
-		9CDD4E3F2A67C12500AB8B4F /* Lato-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDD4E342A67C12500AB8B4F /* Lato-BoldItalic.ttf */; };
-		9CDD4E402A67C12500AB8B4F /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDD4E352A67C12500AB8B4F /* Lato-Light.ttf */; };
-		9CDD4E412A67C12500AB8B4F /* Lato-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CDD4E362A67C12500AB8B4F /* Lato-ThinItalic.ttf */; };
 		9CDD4E442A67C8F900AB8B4F /* NewTodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD4E432A67C8F900AB8B4F /* NewTodayView.swift */; };
 		9CDD4E462A67C93500AB8B4F /* TodayViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD4E452A67C93500AB8B4F /* TodayViewHeader.swift */; };
 		9CDD4E4B2A67CA3700AB8B4F /* TodayProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDD4E4A2A67CA3700AB8B4F /* TodayProgressBar.swift */; };
@@ -372,19 +351,6 @@
 		9C05059B2A10A5BF00FC6511 /* ExtendRegularDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendRegularDay.swift; sourceTree = "<group>"; };
 		9C05059D2A10B0B500FC6511 /* SetHoursForRegularDaysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetHoursForRegularDaysView.swift; sourceTree = "<group>"; };
 		9C0505A22A13043F00FC6511 /* DatesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatesTests.swift; sourceTree = "<group>"; };
-		9C07095F2A7779D500A324BA /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
-		9C0709602A7779D500A324BA /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Light.ttf"; sourceTree = "<group>"; };
-		9C0709612A7779D500A324BA /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
-		9C0709622A7779D500A324BA /* Roboto-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-MediumItalic.ttf"; sourceTree = "<group>"; };
-		9C0709632A7779D500A324BA /* Roboto-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-ThinItalic.ttf"; sourceTree = "<group>"; };
-		9C0709642A7779D500A324BA /* Roboto-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-BoldItalic.ttf"; sourceTree = "<group>"; };
-		9C0709652A7779D500A324BA /* Roboto-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-LightItalic.ttf"; sourceTree = "<group>"; };
-		9C0709662A7779D500A324BA /* Roboto-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Italic.ttf"; sourceTree = "<group>"; };
-		9C0709672A7779D500A324BA /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
-		9C0709682A7779D500A324BA /* Roboto-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-BlackItalic.ttf"; sourceTree = "<group>"; };
-		9C0709692A7779D500A324BA /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
-		9C07096A2A7779D500A324BA /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
-		9C07096B2A7779D500A324BA /* Roboto-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Black.ttf"; sourceTree = "<group>"; };
 		9C0709792A77855A00A324BA /* PayoffQueueView_HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayoffQueueView_HomeView.swift; sourceTree = "<group>"; };
 		9C0CCC032A77525300BA855D /* NewHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHomeView.swift; sourceTree = "<group>"; };
 		9C0CFCD82A5A70CC005C7C81 /* ExpenseGridBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseGridBlock.swift; sourceTree = "<group>"; };
@@ -407,7 +373,6 @@
 		9C1FF9DC2B0C1EB300830C91 /* PseudoShift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PseudoShift.swift; sourceTree = "<group>"; };
 		9C1FF9DE2B0C1F4400830C91 /* ExtendGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendGroupBox.swift; sourceTree = "<group>"; };
 		9C1FF9E22B0C211B00830C91 /* FinalOnboardingTutorialOffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalOnboardingTutorialOffer.swift; sourceTree = "<group>"; };
-		9C1FF9E42B0C4B2500830C91 /* WhereToFindTutorialsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhereToFindTutorialsView.swift; sourceTree = SOURCE_ROOT; };
 		9C1FF9E72B0C83DA00830C91 /* Deprecated_OnboardingListOfFirstsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Deprecated_OnboardingListOfFirstsView.swift; sourceTree = "<group>"; };
 		9C1FF9E92B0C8A3800830C91 /* TutorialsCompletedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialsCompletedView.swift; sourceTree = "<group>"; };
 		9C1FF9EB2B0D6EB200830C91 /* OnboardingBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingBackground.swift; sourceTree = "<group>"; };
@@ -420,12 +385,12 @@
 		9C2B74832B19363900F9B7F1 /* FinalWageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalWageViewModel.swift; sourceTree = "<group>"; };
 		9C2B74862B19372300F9B7F1 /* FinalOnboardingWageWalkThrough.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalOnboardingWageWalkThrough.swift; sourceTree = "<group>"; };
 		9C2B74882B1A7CF300F9B7F1 /* FinalOnboardingCalculateStateTax.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalOnboardingCalculateStateTax.swift; sourceTree = "<group>"; };
-		9C2B748A2B1A7E1D00F9B7F1 /* FinalOnboardingTitleAndSubtitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FinalOnboardingTitleAndSubtitle.swift; path = "UltimateMoneyVisualizer/Views/--Onboarding and More Info/Final Onboarding/Components/FinalOnboardingTitleAndSubtitle.swift"; sourceTree = SOURCE_ROOT; };
+		9C2B748A2B1A7E1D00F9B7F1 /* FinalOnboardingTitleAndSubtitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FinalOnboardingTitleAndSubtitle.swift; path = "UltimateMoneyVisualizer/Views/--Onboarding and More Info/Final Onboarding/Step Timeline/Wage/Wage/Components/FinalOnboardingTitleAndSubtitle.swift"; sourceTree = SOURCE_ROOT; };
 		9C2DF8982A6BB06D001B8ED5 /* TodayViewItemizedBlocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewItemizedBlocks.swift; sourceTree = "<group>"; };
 		9C2DF89A2A6BBE62001B8ED5 /* TodayViewNewTimeBlockCreationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewNewTimeBlockCreationModel.swift; sourceTree = SOURCE_ROOT; };
 		9C3574592B0941AD000AED9D /* TodayShiftTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TodayShiftTests.swift; path = "UltimateMoneyVisualizer/---Concatenate/Model/Core Data/Extensions/TodayShiftTests.swift"; sourceTree = SOURCE_ROOT; };
 		9C3574642B094CD4000AED9D /* PayoffContributionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PayoffContributionsView.swift; path = "UltimateMoneyVisualizer/---Concatenate/-InProgress/Goal Detail/Goal Contributions/PayoffContributionsView.swift"; sourceTree = SOURCE_ROOT; };
-		9C3574662B094CE9000AED9D /* GoalDetailContributionsSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GoalDetailContributionsSection.swift; path = "UltimateMoneyVisualizer/---Concatenate/-InProgress/Goal Detail/GoalDetailContributionsSection.swift"; sourceTree = SOURCE_ROOT; };
+		9C3574662B094CE9000AED9D /* GoalDetailContributionsSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GoalDetailContributionsSection.swift; path = "Goal Detail/GoalDetailContributionsSection.swift"; sourceTree = SOURCE_ROOT; };
 		9C3574682B094CF6000AED9D /* PayoffItemDetailDueDateBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PayoffItemDetailDueDateBox.swift; path = "UltimateMoneyVisualizer/---Concatenate/-InProgress/Goal Detail/PayoffItemDetailDueDateBox.swift"; sourceTree = SOURCE_ROOT; };
 		9C35746A2B094D04000AED9D /* GoalDetailShiftsSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GoalDetailShiftsSection.swift; path = "UltimateMoneyVisualizer/---Concatenate/-InProgress/Goal Detail/GoalDetailShiftsSection.swift"; sourceTree = SOURCE_ROOT; };
 		9C35746C2B094D10000AED9D /* PayoffItemDetailTotalAmount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PayoffItemDetailTotalAmount.swift; path = "UltimateMoneyVisualizer/---Concatenate/-InProgress/Goal Detail/PayoffItemDetailTotalAmount.swift"; sourceTree = SOURCE_ROOT; };
@@ -435,14 +400,10 @@
 		9C3574772B095086000AED9D /* PayoffItemDetailTagsSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PayoffItemDetailTagsSection.swift; sourceTree = "<group>"; };
 		9C3574792B09508F000AED9D /* PayoffItemDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PayoffItemDetailViewModel.swift; sourceTree = "<group>"; };
 		9C35747D2B099DBD000AED9D /* ExpenseDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpenseDetailViewModel.swift; sourceTree = "<group>"; };
-		9C35747F2B099DDC000AED9D /* AddAllocationForGoalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddAllocationForGoalView.swift; path = "UltimateMoneyVisualizer/Views/Deprecated/Adding Items/Allocations/AddAllocationForGoalView.swift"; sourceTree = SOURCE_ROOT; };
 		9C3574812B099DE5000AED9D /* AllocationDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllocationDetailView.swift; sourceTree = "<group>"; };
-		9C3574832B099E5D000AED9D /* CalculateTaxView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CalculateTaxView.swift; path = "Views/Deprecated/Adding Items/Calculate Tax/CalculateTaxView.swift"; sourceTree = "<group>"; };
-		9C3574852B099E6D000AED9D /* NewItemCreationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewItemCreationView.swift; path = "Views/Deprecated/Adding Items/New Item Creation/NewItemCreationView.swift"; sourceTree = "<group>"; };
-		9C3574872B099E7B000AED9D /* NewItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewItemViewModel.swift; path = "Views/Deprecated/Adding Items/New Item Creation/NewItemViewModel.swift"; sourceTree = "<group>"; };
 		9C3574892B09CDDE000AED9D /* RegularScheduleOnboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegularScheduleOnboarding.swift; sourceTree = "<group>"; };
 		9C35748B2B0AFDB0000AED9D /* FinalOnboardingShiftShowcase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalOnboardingShiftShowcase.swift; sourceTree = "<group>"; };
-		9C3808432B0F1ECB00BF45DD /* FinalOnboardingWelcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FinalOnboardingWelcome.swift; path = Main/FinalOnboardingWelcome.swift; sourceTree = "<group>"; };
+		9C3808432B0F1ECB00BF45DD /* FinalOnboardingWelcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalOnboardingWelcome.swift; sourceTree = "<group>"; };
 		9C3808452B0F1F5C00BF45DD /* FinalOnboardingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalOnboardingModel.swift; sourceTree = "<group>"; };
 		9C3808492B13180400BF45DD /* GradCap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradCap.swift; sourceTree = "<group>"; };
 		9C38084B2B14002E00BF45DD /* MasterTheAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterTheAppView.swift; sourceTree = "<group>"; };
@@ -461,7 +422,7 @@
 		9C3FA3022AECDEEA000DCC4C /* MoreInfoRectTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInfoRectTemplate.swift; sourceTree = "<group>"; };
 		9C3FE53F2AA704D1008A1A24 /* FloatingPlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingPlusButton.swift; sourceTree = "<group>"; };
 		9C4213D32AE9877A007FDB97 /* MainTimeBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTimeBlockView.swift; sourceTree = "<group>"; };
-		9C4213D62AE9970F007FDB97 /* ShadowForRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowForRect.swift; sourceTree = SOURCE_ROOT; };
+		9C4213D62AE9970F007FDB97 /* ShadowForRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShadowForRect.swift; path = UltimateMoneyVisualizer/NewHomeView/Modifiers/ShadowForRect.swift; sourceTree = SOURCE_ROOT; };
 		9C4213D82AE99739007FDB97 /* SummaryView_HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView_HomeView.swift; sourceTree = "<group>"; };
 		9C4213DA2AE99751007FDB97 /* NetMoney_HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetMoney_HomeView.swift; sourceTree = "<group>"; };
 		9C4213DC2AE99769007FDB97 /* TopTimeBlocks_HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopTimeBlocks_HomeView.swift; sourceTree = "<group>"; };
@@ -515,6 +476,12 @@
 		9C65A7602A00D4B900A5BCF1 /* ExpenseRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRow.swift; sourceTree = "<group>"; };
 		9C69C5CB2A1832E5006F5C23 /* PayoffWithImageAndGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayoffWithImageAndGradientView.swift; sourceTree = "<group>"; };
 		9C7016A52A6115630038E2A6 /* FigmaDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FigmaDesign.swift; sourceTree = "<group>"; };
+		9C71745A2B22EFB3006BC392 /* MasterTheAppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterTheAppViewModel.swift; sourceTree = "<group>"; };
+		9C7174692B2402E0006BC392 /* WhereToFindTutorialsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhereToFindTutorialsView.swift; sourceTree = "<group>"; };
+		9C71746F2B240556006BC392 /* AddAllocationForGoalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddAllocationForGoalView.swift; path = "UltimateMoneyVisualizer/Deprecated/Adding Items/Allocations/AddAllocationForGoalView.swift"; sourceTree = SOURCE_ROOT; };
+		9C7174712B24056C006BC392 /* CalculateTaxView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CalculateTaxView.swift; path = "Deprecated/Adding Items/Calculate Tax/CalculateTaxView.swift"; sourceTree = "<group>"; };
+		9C7174732B24058E006BC392 /* NewItemCreationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewItemCreationView.swift; path = "Deprecated/Adding Items/New Item Creation/NewItemCreationView.swift"; sourceTree = "<group>"; };
+		9C7174752B24059E006BC392 /* NewItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewItemViewModel.swift; path = "Deprecated/Adding Items/New Item Creation/NewItemViewModel.swift"; sourceTree = "<group>"; };
 		9C74F9F82A9AD77700466779 /* OnboardingFirstView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingFirstView.swift; sourceTree = "<group>"; };
 		9C74F9FA2A9ADB5B00466779 /* OnboardingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingModel.swift; sourceTree = "<group>"; };
 		9C74F9FC2A9AEF0E00466779 /* FeaturesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturesListView.swift; sourceTree = "<group>"; };
@@ -635,17 +602,6 @@
 		9CDBE0E32A2462A200741EEE /* NewShiftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewShiftView.swift; sourceTree = "<group>"; };
 		9CDBE0E92A25CD6300741EEE /* GoalsGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsGridView.swift; sourceTree = "<group>"; };
 		9CDBE0EB2A26F6C600741EEE /* ExpenseWithImageAndGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseWithImageAndGradientView.swift; sourceTree = "<group>"; };
-		9CDD4E2C2A67C12500AB8B4F /* Lato-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Italic.ttf"; sourceTree = "<group>"; };
-		9CDD4E2D2A67C12500AB8B4F /* Lato-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-LightItalic.ttf"; sourceTree = "<group>"; };
-		9CDD4E2E2A67C12500AB8B4F /* Lato-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Thin.ttf"; sourceTree = "<group>"; };
-		9CDD4E2F2A67C12500AB8B4F /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Bold.ttf"; sourceTree = "<group>"; };
-		9CDD4E302A67C12500AB8B4F /* Lato-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Black.ttf"; sourceTree = "<group>"; };
-		9CDD4E312A67C12500AB8B4F /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Regular.ttf"; sourceTree = "<group>"; };
-		9CDD4E322A67C12500AB8B4F /* Lato-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-BlackItalic.ttf"; sourceTree = "<group>"; };
-		9CDD4E332A67C12500AB8B4F /* OFL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
-		9CDD4E342A67C12500AB8B4F /* Lato-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-BoldItalic.ttf"; sourceTree = "<group>"; };
-		9CDD4E352A67C12500AB8B4F /* Lato-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Light.ttf"; sourceTree = "<group>"; };
-		9CDD4E362A67C12500AB8B4F /* Lato-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-ThinItalic.ttf"; sourceTree = "<group>"; };
 		9CDD4E432A67C8F900AB8B4F /* NewTodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTodayView.swift; sourceTree = "<group>"; };
 		9CDD4E452A67C93500AB8B4F /* TodayViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewHeader.swift; sourceTree = "<group>"; };
 		9CDD4E4A2A67CA3700AB8B4F /* TodayProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayProgressBar.swift; sourceTree = "<group>"; };
@@ -739,7 +695,7 @@
 			isa = PBXGroup;
 			children = (
 				9C13D1A72AFAE2DE00730A5F /* AllocationSummaryView.swift */,
-				9C35747F2B099DDC000AED9D /* AddAllocationForGoalView.swift */,
+				9C71746F2B240556006BC392 /* AddAllocationForGoalView.swift */,
 				9C3574812B099DE5000AED9D /* AllocationDetailView.swift */,
 			);
 			path = Allocations;
@@ -761,30 +717,10 @@
 			path = Deprecated;
 			sourceTree = "<group>";
 		};
-		9C07095E2A7779D500A324BA /* Roboto */ = {
-			isa = PBXGroup;
-			children = (
-				9C07095F2A7779D500A324BA /* Roboto-Medium.ttf */,
-				9C0709602A7779D500A324BA /* Roboto-Light.ttf */,
-				9C0709612A7779D500A324BA /* Roboto-Regular.ttf */,
-				9C0709622A7779D500A324BA /* Roboto-MediumItalic.ttf */,
-				9C0709632A7779D500A324BA /* Roboto-ThinItalic.ttf */,
-				9C0709642A7779D500A324BA /* Roboto-BoldItalic.ttf */,
-				9C0709652A7779D500A324BA /* Roboto-LightItalic.ttf */,
-				9C0709662A7779D500A324BA /* Roboto-Italic.ttf */,
-				9C0709672A7779D500A324BA /* LICENSE.txt */,
-				9C0709682A7779D500A324BA /* Roboto-BlackItalic.ttf */,
-				9C0709692A7779D500A324BA /* Roboto-Bold.ttf */,
-				9C07096A2A7779D500A324BA /* Roboto-Thin.ttf */,
-				9C07096B2A7779D500A324BA /* Roboto-Black.ttf */,
-			);
-			path = Roboto;
-			sourceTree = "<group>";
-		};
 		9C0CCC052A776D5600BA855D /* NewHomeView */ = {
 			isa = PBXGroup;
 			children = (
-				9C4213D52AE996EC007FDB97 /* Modifiers */,
+				9C71746C2B2403AF006BC392 /* Modifiers */,
 				9C0CCC072A776DA100BA855D /* Components */,
 				9C0CCC062A776D5D00BA855D /* Main */,
 			);
@@ -817,6 +753,7 @@
 		9C0CFCD72A5A7050005C7C81 /* Pay Period */ = {
 			isa = PBXGroup;
 			children = (
+				9CF324DE2A933288003736F5 /* Editing Items */,
 				9C952B252AC2B65200C9BF3A /* Settings */,
 				9C952B242AC2B63300C9BF3A /* Detail View */,
 				9C952B232AC2B61E00C9BF3A /* All Periods List */,
@@ -827,15 +764,12 @@
 		9C1754B42B05A9A000022938 /* Final Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				9C7174642B22F35B006BC392 /* Welcome */,
 				9C7C60362B1D715F004374A3 /* Step Timeline */,
-				9C57498F2B1ADDD900362B75 /* FinalOnboardingEnterAmount.swift */,
-				9C3808422B0F1DD000BF45DD /* Flow */,
-				9C7A163A2AFCA55F004EC33B /* Onboarding Slide Show */,
-				9C1FF9E12B0C210D00830C91 /* Tutorials */,
+				9C1FF9E12B0C210D00830C91 /* Tutorials Related */,
 				9C35748D2B0AFDB6000AED9D /* Showcases */,
 				9C1754B72B05AA0000022938 /* Components */,
 				9C1754B52B05A9A900022938 /* Slides */,
-				9C1FF9EB2B0D6EB200830C91 /* OnboardingBackground.swift */,
 			);
 			path = "Final Onboarding";
 			sourceTree = "<group>";
@@ -851,22 +785,27 @@
 			path = Slides;
 			sourceTree = "<group>";
 		};
-		9C1754B62B05A9AC00022938 /* Main */ = {
+		9C1754B62B05A9AC00022938 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				9C7A16382AFCA55B004EC33B /* OnboardingSlideShow_Deprecated.swift */,
+				9C7A163C2AFCA5D9004EC33B /* OnboardingSlide.swift */,
+				9C38084D2B14446B00BF45DD /* FinalOnboardingWage_Deprecated.swift */,
 				9C94806F2B035FFA007C281C /* FinalOnboarding.swift */,
 				9C3808452B0F1F5C00BF45DD /* FinalOnboardingModel.swift */,
 			);
-			path = Main;
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		9C1754B72B05AA0000022938 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				9C1754B82B05AA0A00022938 /* SwipingButton.swift */,
-				9C1754C32B05AC6000022938 /* OnboardingPill.swift */,
-				9C1754C52B05ACA400022938 /* ImageWithCircleForOnboarding.swift */,
 				9C7C60262B1BB92E004374A3 /* FinalOnboardingButton.swift */,
+				9C57498F2B1ADDD900362B75 /* FinalOnboardingEnterAmount.swift */,
+				9C1754C52B05ACA400022938 /* ImageWithCircleForOnboarding.swift */,
+				9C1FF9EB2B0D6EB200830C91 /* OnboardingBackground.swift */,
+				9C1754C32B05AC6000022938 /* OnboardingPill.swift */,
+				9C1754B82B05AA0A00022938 /* SwipingButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -889,14 +828,14 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-		9C1FF9E12B0C210D00830C91 /* Tutorials */ = {
+		9C1FF9E12B0C210D00830C91 /* Tutorials Related */ = {
 			isa = PBXGroup;
 			children = (
-				9C1FF9E92B0C8A3800830C91 /* TutorialsCompletedView.swift */,
-				9C1FF9E42B0C4B2500830C91 /* WhereToFindTutorialsView.swift */,
-				9C1FF9E22B0C211B00830C91 /* FinalOnboardingTutorialOffer.swift */,
+				9C7174682B22F47F006BC392 /* Where to find */,
+				9C7174672B22F47C006BC392 /* Completed */,
+				9C7174662B22F479006BC392 /* Offer */,
 			);
-			path = Tutorials;
+			path = "Tutorials Related";
 			sourceTree = "<group>";
 		};
 		9C1FF9E62B0C81F300830C91 /* Components */ = {
@@ -911,17 +850,13 @@
 		9C2B74812B1935E600F9B7F1 /* Wage */ = {
 			isa = PBXGroup;
 			children = (
-				9C7C60232B1BB13F004374A3 /* Calculate Tax */,
 				9C2B74852B19371300F9B7F1 /* Main Controller */,
+				9C71745E2B22F11D006BC392 /* Slides */,
 				9C2B74822B19362A00F9B7F1 /* ViewModel */,
-				9C7C603A2B1D7211004374A3 /* Deprecated */,
-				9C432BA22B16E3E300216AAC /* FinalOnboardingWageTypeAndAmount.swift */,
-				9C432BA42B16E6E100216AAC /* FinalOnboardingEnterWageAmountSheet.swift */,
-				9C2B747D2B181EAE00F9B7F1 /* FinalOnboardingWageDeductions.swift */,
-				9C2B747F2B18729700F9B7F1 /* FinalOnboardingWageAssumptions.swift */,
-				9C2B748A2B1A7E1D00F9B7F1 /* FinalOnboardingTitleAndSubtitle.swift */,
+				9C7174622B22F2D9006BC392 /* Components */,
 			);
-			path = Wage;
+			name = Wage;
+			path = Wage/Wage;
 			sourceTree = "<group>";
 		};
 		9C2B74822B19362A00F9B7F1 /* ViewModel */ = {
@@ -952,17 +887,9 @@
 			isa = PBXGroup;
 			children = (
 				9C35746A2B094D04000AED9D /* GoalDetailShiftsSection.swift */,
-				9C3574632B094C9C000AED9D /* Goal Contributions */,
-			);
-			path = "Goal Detail";
-			sourceTree = "<group>";
-		};
-		9C3574632B094C9C000AED9D /* Goal Contributions */ = {
-			isa = PBXGroup;
-			children = (
 				9C3574662B094CE9000AED9D /* GoalDetailContributionsSection.swift */,
 			);
-			path = "Goal Contributions";
+			path = "Goal Detail";
 			sourceTree = "<group>";
 		};
 		9C35748D2B0AFDB6000AED9D /* Showcases */ = {
@@ -971,31 +898,6 @@
 				9C1FF9D82B0C1E6500830C91 /* Shift */,
 			);
 			path = Showcases;
-			sourceTree = "<group>";
-		};
-		9C3808422B0F1DD000BF45DD /* Flow */ = {
-			isa = PBXGroup;
-			children = (
-				9C38084F2B14447600BF45DD /* Files */,
-				9C3808432B0F1ECB00BF45DD /* FinalOnboardingWelcome.swift */,
-				9C1754B62B05A9AC00022938 /* Main */,
-			);
-			path = Flow;
-			sourceTree = "<group>";
-		};
-		9C38084F2B14447600BF45DD /* Files */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Files;
-			sourceTree = "<group>";
-		};
-		9C4213D52AE996EC007FDB97 /* Modifiers */ = {
-			isa = PBXGroup;
-			children = (
-				9C4213D62AE9970F007FDB97 /* ShadowForRect.swift */,
-			);
-			path = Modifiers;
 			sourceTree = "<group>";
 		};
 		9C4213DF2AE9C080007FDB97 /* Main Page */ = {
@@ -1027,68 +929,9 @@
 		9C4213E62AEABFA7007FDB97 /* More Info */ = {
 			isa = PBXGroup;
 			children = (
-				9C4213ED2AEABFD5007FDB97 /* Allocation  */,
-				9C4213E92AEABFBB007FDB97 /* Expense */,
-				9C4213F22AEAC17C007FDB97 /* Generic */,
-				9C4213E72AEABFB4007FDB97 /* Goal */,
-				9C4213EC2AEABFC7007FDB97 /* Regular Shift */,
-				9C4213EB2AEABFC3007FDB97 /* Saved Item */,
-				9C4213EA2AEABFBF007FDB97 /* Shift */,
-				9C4213EE2AEAC06D007FDB97 /* Tags */,
 				9C4213EF2AEAC075007FDB97 /* TimeBlocks */,
-				9C4213F02AEAC080007FDB97 /* Today Shift */,
-				9C4213F12AEAC08A007FDB97 /* Wage */,
 			);
 			path = "More Info";
-			sourceTree = "<group>";
-		};
-		9C4213E72AEABFB4007FDB97 /* Goal */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Goal;
-			sourceTree = "<group>";
-		};
-		9C4213E92AEABFBB007FDB97 /* Expense */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Expense;
-			sourceTree = "<group>";
-		};
-		9C4213EA2AEABFBF007FDB97 /* Shift */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Shift;
-			sourceTree = "<group>";
-		};
-		9C4213EB2AEABFC3007FDB97 /* Saved Item */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Saved Item";
-			sourceTree = "<group>";
-		};
-		9C4213EC2AEABFC7007FDB97 /* Regular Shift */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Regular Shift";
-			sourceTree = "<group>";
-		};
-		9C4213ED2AEABFD5007FDB97 /* Allocation  */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Allocation ";
-			sourceTree = "<group>";
-		};
-		9C4213EE2AEAC06D007FDB97 /* Tags */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Tags;
 			sourceTree = "<group>";
 		};
 		9C4213EF2AEAC075007FDB97 /* TimeBlocks */ = {
@@ -1100,27 +943,6 @@
 			path = TimeBlocks;
 			sourceTree = "<group>";
 		};
-		9C4213F02AEAC080007FDB97 /* Today Shift */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Today Shift";
-			sourceTree = "<group>";
-		};
-		9C4213F12AEAC08A007FDB97 /* Wage */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Wage;
-			sourceTree = "<group>";
-		};
-		9C4213F22AEAC17C007FDB97 /* Generic */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Generic;
-			sourceTree = "<group>";
-		};
 		9C432B992B15CAF200216AAC /* Schedule */ = {
 			isa = PBXGroup;
 			children = (
@@ -1129,7 +951,8 @@
 				9C432B9A2B15CB1B00216AAC /* Slides */,
 				9C7C60302B1C1516004374A3 /* ViewModel */,
 			);
-			path = Schedule;
+			name = Schedule;
+			path = Schedule/Schedule;
 			sourceTree = "<group>";
 		};
 		9C432B9A2B15CB1B00216AAC /* Slides */ = {
@@ -1168,7 +991,6 @@
 			isa = PBXGroup;
 			children = (
 				9C5CFD212ADF60E700943A70 /* PopUpTester.swift */,
-				9CDD4E2A2A67C10D00AB8B4F /* Fonts */,
 				9CD1FF2C2AE06C5300AF156A /* FontTester.swift */,
 				9CF885AF2A5E074C00F63766 /* StretchyHeaderDynamic.swift */,
 				9CF885AD2A5E063900F63766 /* StretchyHeader.swift */,
@@ -1283,29 +1105,129 @@
 			path = Today;
 			sourceTree = "<group>";
 		};
+		9C7174582B22EF93006BC392 /* View Model */ = {
+			isa = PBXGroup;
+			children = (
+				9C71745A2B22EFB3006BC392 /* MasterTheAppViewModel.swift */,
+			);
+			path = "View Model";
+			sourceTree = "<group>";
+		};
+		9C7174592B22EF97006BC392 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9C38084B2B14002E00BF45DD /* MasterTheAppView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		9C71745C2B22F0B0006BC392 /* First Slide - Enter Wage Type and Amount */ = {
+			isa = PBXGroup;
+			children = (
+				9C432BA42B16E6E100216AAC /* FinalOnboardingEnterWageAmountSheet.swift */,
+				9C432BA22B16E3E300216AAC /* FinalOnboardingWageTypeAndAmount.swift */,
+			);
+			path = "First Slide - Enter Wage Type and Amount";
+			sourceTree = "<group>";
+		};
+		9C71745D2B22F0FE006BC392 /* Deprecated - All */ = {
+			isa = PBXGroup;
+			children = (
+				9C5F0B922A3500DD006AAB46 /* Enter Paycheck(Deprecated?) */,
+				9C1754B62B05A9AC00022938 /* Onboarding */,
+			);
+			path = "Deprecated - All";
+			sourceTree = "<group>";
+		};
+		9C71745E2B22F11D006BC392 /* Slides */ = {
+			isa = PBXGroup;
+			children = (
+				9C71745C2B22F0B0006BC392 /* First Slide - Enter Wage Type and Amount */,
+				9C71745F2B22F157006BC392 /* Second Slide - Deductions and Taxes */,
+				9C7174602B22F17C006BC392 /* Third Slide - Assumptions */,
+			);
+			path = Slides;
+			sourceTree = "<group>";
+		};
+		9C71745F2B22F157006BC392 /* Second Slide - Deductions and Taxes */ = {
+			isa = PBXGroup;
+			children = (
+				9C7174612B22F229006BC392 /* Toggle State and Federal Tax */,
+				9C7C60232B1BB13F004374A3 /* Calculate Tax */,
+			);
+			path = "Second Slide - Deductions and Taxes";
+			sourceTree = "<group>";
+		};
+		9C7174602B22F17C006BC392 /* Third Slide - Assumptions */ = {
+			isa = PBXGroup;
+			children = (
+				9C2B747F2B18729700F9B7F1 /* FinalOnboardingWageAssumptions.swift */,
+			);
+			path = "Third Slide - Assumptions";
+			sourceTree = "<group>";
+		};
+		9C7174612B22F229006BC392 /* Toggle State and Federal Tax */ = {
+			isa = PBXGroup;
+			children = (
+				9C2B747D2B181EAE00F9B7F1 /* FinalOnboardingWageDeductions.swift */,
+			);
+			path = "Toggle State and Federal Tax";
+			sourceTree = "<group>";
+		};
+		9C7174622B22F2D9006BC392 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				9C2B748A2B1A7E1D00F9B7F1 /* FinalOnboardingTitleAndSubtitle.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		9C7174642B22F35B006BC392 /* Welcome */ = {
+			isa = PBXGroup;
+			children = (
+				9C3808432B0F1ECB00BF45DD /* FinalOnboardingWelcome.swift */,
+			);
+			path = Welcome;
+			sourceTree = "<group>";
+		};
+		9C7174662B22F479006BC392 /* Offer */ = {
+			isa = PBXGroup;
+			children = (
+				9C1FF9E22B0C211B00830C91 /* FinalOnboardingTutorialOffer.swift */,
+			);
+			path = Offer;
+			sourceTree = "<group>";
+		};
+		9C7174672B22F47C006BC392 /* Completed */ = {
+			isa = PBXGroup;
+			children = (
+				9C1FF9E92B0C8A3800830C91 /* TutorialsCompletedView.swift */,
+			);
+			path = Completed;
+			sourceTree = "<group>";
+		};
+		9C7174682B22F47F006BC392 /* Where to find */ = {
+			isa = PBXGroup;
+			children = (
+				9C7174692B2402E0006BC392 /* WhereToFindTutorialsView.swift */,
+			);
+			path = "Where to find";
+			sourceTree = "<group>";
+		};
+		9C71746C2B2403AF006BC392 /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				9C4213D62AE9970F007FDB97 /* ShadowForRect.swift */,
+			);
+			path = Modifiers;
+			sourceTree = "<group>";
+		};
 		9C778A4F2B093CE3001C02DF /* Payoff Item */ = {
 			isa = PBXGroup;
 			children = (
 				9C778A502B093D3E001C02DF /* FirstPayoffItemView.swift */,
 			);
 			path = "Payoff Item";
-			sourceTree = "<group>";
-		};
-		9C7A163A2AFCA55F004EC33B /* Onboarding Slide Show */ = {
-			isa = PBXGroup;
-			children = (
-				9C7A163B2AFCA5B6004EC33B /* Slides for Onboarding */,
-				9C7A16382AFCA55B004EC33B /* OnboardingSlideShow_Deprecated.swift */,
-			);
-			path = "Onboarding Slide Show";
-			sourceTree = "<group>";
-		};
-		9C7A163B2AFCA5B6004EC33B /* Slides for Onboarding */ = {
-			isa = PBXGroup;
-			children = (
-				9C7A163C2AFCA5D9004EC33B /* OnboardingSlide.swift */,
-			);
-			path = "Slides for Onboarding";
 			sourceTree = "<group>";
 		};
 		9C7A16422B018FCA004EC33B /* Info Views */ = {
@@ -1364,8 +1286,8 @@
 			isa = PBXGroup;
 			children = (
 				9C7C60372B1D716C004374A3 /* Master */,
-				9C7C60392B1D717B004374A3 /* Schedule */,
-				9C7C60382B1D7171004374A3 /* Wage */,
+				9C432B992B15CAF200216AAC /* Schedule */,
+				9C2B74812B1935E600F9B7F1 /* Wage */,
 			);
 			path = "Step Timeline";
 			sourceTree = "<group>";
@@ -1373,33 +1295,10 @@
 		9C7C60372B1D716C004374A3 /* Master */ = {
 			isa = PBXGroup;
 			children = (
-				9C38084B2B14002E00BF45DD /* MasterTheAppView.swift */,
+				9C7174592B22EF97006BC392 /* View */,
+				9C7174582B22EF93006BC392 /* View Model */,
 			);
 			path = Master;
-			sourceTree = "<group>";
-		};
-		9C7C60382B1D7171004374A3 /* Wage */ = {
-			isa = PBXGroup;
-			children = (
-				9C2B74812B1935E600F9B7F1 /* Wage */,
-			);
-			path = Wage;
-			sourceTree = "<group>";
-		};
-		9C7C60392B1D717B004374A3 /* Schedule */ = {
-			isa = PBXGroup;
-			children = (
-				9C432B992B15CAF200216AAC /* Schedule */,
-			);
-			path = Schedule;
-			sourceTree = "<group>";
-		};
-		9C7C603A2B1D7211004374A3 /* Deprecated */ = {
-			isa = PBXGroup;
-			children = (
-				9C38084D2B14446B00BF45DD /* FinalOnboardingWage_Deprecated.swift */,
-			);
-			path = Deprecated;
 			sourceTree = "<group>";
 		};
 		9C7C603B2B1D8C49004374A3 /* Ask if they have regular schedule */ = {
@@ -1498,7 +1397,8 @@
 				9C442A362A03792800D61C3E /* WageBreakdownBox.swift */,
 				9C8C935E2A8AC032000EE612 /* Components.swift */,
 			);
-			path = Components;
+			name = Components;
+			path = Views/Components;
 			sourceTree = "<group>";
 		};
 		9C7F964E29F8F03C00F5035C = {
@@ -1524,6 +1424,7 @@
 		9C7F965929F8F03C00F5035C /* UltimateMoneyVisualizer */ = {
 			isa = PBXGroup;
 			children = (
+				9C71745D2B22F0FE006BC392 /* Deprecated - All */,
 				9CAE0B3C2A9AD4F8009034EC /* --Onboarding and More Info */,
 				9C7F96A329F8FEB000F5035C /* --TopLevel */,
 				9C9735902A0D78BC00F651A1 /* All Items View */,
@@ -1531,7 +1432,7 @@
 				9C4FA1F32AB18743001F29DA /* AllTesting */,
 				9C7F965E29F8F03E00F5035C /* Assets.xcassets */,
 				9C3808492B13180400BF45DD /* GradCap.swift */,
-				9C3574832B099E5D000AED9D /* CalculateTaxView.swift */,
+				9C7174712B24056C006BC392 /* CalculateTaxView.swift */,
 				9C1FF9E62B0C81F300830C91 /* Components */,
 				9CC674AE2AC67CC800FB407C /* EnterLumpSumView.swift */,
 				9CEEE33729F90890001FA4FB /* Expenses */,
@@ -1542,8 +1443,8 @@
 				9CEEE33D29F9099D001FA4FB /* Model */,
 				9C860F7E2A667A6800D834C4 /* New Today View */,
 				9C0CCC052A776D5600BA855D /* NewHomeView */,
-				9C3574852B099E6D000AED9D /* NewItemCreationView.swift */,
-				9C3574872B099E7B000AED9D /* NewItemViewModel.swift */,
+				9C7174732B24058E006BC392 /* NewItemCreationView.swift */,
+				9C7174752B24059E006BC392 /* NewItemViewModel.swift */,
 				9C952B212AC2B07800C9BF3A /* Payoff Item */,
 				9C65A7642A00DA7400A5BCF1 /* Payoff Queue */,
 				9C7F966029F8F03E00F5035C /* Preview Content */,
@@ -1558,7 +1459,11 @@
 				9C5F0B912A3500C7006AAB46 /* Time Blocks */,
 				9C7A16432B018FDA004EC33B /* Tutorials */,
 				9C4F0A282A14534100C78349 /* UltimateMoneyVisualizer.entitlements */,
-				9CEEE32C29F904A0001FA4FB /* Views */,
+				9C0CFCD72A5A7050005C7C81 /* Pay Period */,
+				9C952B1F2AC2B04200C9BF3A /* Monetization */,
+				9C952B202AC2B05300C9BF3A /* Calendars */,
+				9C7C985629FB72320077EA25 /* Components */,
+				9C05059F2A11E7B500FC6511 /* Deprecated */,
 				9CEEE35829F9EBCC001FA4FB /* Wage */,
 			);
 			path = UltimateMoneyVisualizer;
@@ -1793,13 +1698,6 @@
 			path = Store;
 			sourceTree = "<group>";
 		};
-		9C9FFB1B2A57735800565B78 /* Calculate Tax */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Calculate Tax";
-			sourceTree = "<group>";
-		};
 		9CAE0B3C2A9AD4F8009034EC /* --Onboarding and More Info */ = {
 			isa = PBXGroup;
 			children = (
@@ -1814,13 +1712,6 @@
 			);
 			name = "--Onboarding and More Info";
 			path = "Views/--Onboarding and More Info";
-			sourceTree = "<group>";
-		};
-		9CB660782A57722D002ED262 /* New Item Creation */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Item Creation";
 			sourceTree = "<group>";
 		};
 		9CBA6A332AA067A600181D97 /* Wage */ = {
@@ -1862,33 +1753,6 @@
 				9CC65D932A20867800D81712 /* TagDetailView.swift */,
 			);
 			path = Tag;
-			sourceTree = "<group>";
-		};
-		9CDD4E2A2A67C10D00AB8B4F /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-				9C07095E2A7779D500A324BA /* Roboto */,
-				9CDD4E2B2A67C12500AB8B4F /* Lato */,
-			);
-			path = Fonts;
-			sourceTree = "<group>";
-		};
-		9CDD4E2B2A67C12500AB8B4F /* Lato */ = {
-			isa = PBXGroup;
-			children = (
-				9CDD4E2C2A67C12500AB8B4F /* Lato-Italic.ttf */,
-				9CDD4E2D2A67C12500AB8B4F /* Lato-LightItalic.ttf */,
-				9CDD4E2E2A67C12500AB8B4F /* Lato-Thin.ttf */,
-				9CDD4E2F2A67C12500AB8B4F /* Lato-Bold.ttf */,
-				9CDD4E302A67C12500AB8B4F /* Lato-Black.ttf */,
-				9CDD4E312A67C12500AB8B4F /* Lato-Regular.ttf */,
-				9CDD4E322A67C12500AB8B4F /* Lato-BlackItalic.ttf */,
-				9CDD4E332A67C12500AB8B4F /* OFL.txt */,
-				9CDD4E342A67C12500AB8B4F /* Lato-BoldItalic.ttf */,
-				9CDD4E352A67C12500AB8B4F /* Lato-Light.ttf */,
-				9CDD4E362A67C12500AB8B4F /* Lato-ThinItalic.ttf */,
-			);
-			path = Lato;
 			sourceTree = "<group>";
 		};
 		9CDD4E422A67C8E500AB8B4F /* Content */ = {
@@ -2030,25 +1894,9 @@
 			path = LocalExtensions;
 			sourceTree = "<group>";
 		};
-		9CEEE32C29F904A0001FA4FB /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				9C0CFCD72A5A7050005C7C81 /* Pay Period */,
-				9CF324DE2A933288003736F5 /* Editing Items */,
-				9C952B1F2AC2B04200C9BF3A /* Monetization */,
-				9C952B202AC2B05300C9BF3A /* Calendars */,
-				9C7C985629FB72320077EA25 /* Components */,
-				9C05059F2A11E7B500FC6511 /* Deprecated */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		9CEEE32D29F904A3001FA4FB /* Adding Items */ = {
 			isa = PBXGroup;
 			children = (
-				9C9FFB1B2A57735800565B78 /* Calculate Tax */,
-				9CB660782A57722D002ED262 /* New Item Creation */,
-				9C5F0B922A3500DD006AAB46 /* Enter Paycheck(Deprecated?) */,
 				9C5F0B8F2A35007C006AAB46 /* Create New Time Block */,
 				9C65A7672A00DABA00A5BCF1 /* Allocations */,
 				9CEEE32E29F904A8001FA4FB /* Expenses */,
@@ -2331,32 +2179,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9CDD4E3A2A67C12500AB8B4F /* Lato-Bold.ttf in Resources */,
-				9CDD4E412A67C12500AB8B4F /* Lato-ThinItalic.ttf in Resources */,
-				9C0709722A7779D500A324BA /* Roboto-LightItalic.ttf in Resources */,
-				9CDD4E402A67C12500AB8B4F /* Lato-Light.ttf in Resources */,
-				9CDD4E3E2A67C12500AB8B4F /* OFL.txt in Resources */,
-				9C0709782A7779D500A324BA /* Roboto-Black.ttf in Resources */,
 				9C7F966229F8F03E00F5035C /* Preview Assets.xcassets in Resources */,
-				9C07096C2A7779D500A324BA /* Roboto-Medium.ttf in Resources */,
-				9C0709752A7779D500A324BA /* Roboto-BlackItalic.ttf in Resources */,
-				9C07096D2A7779D500A324BA /* Roboto-Light.ttf in Resources */,
-				9CDD4E3F2A67C12500AB8B4F /* Lato-BoldItalic.ttf in Resources */,
-				9C0709732A7779D500A324BA /* Roboto-Italic.ttf in Resources */,
-				9CDD4E3D2A67C12500AB8B4F /* Lato-BlackItalic.ttf in Resources */,
-				9CDD4E392A67C12500AB8B4F /* Lato-Thin.ttf in Resources */,
-				9CDD4E382A67C12500AB8B4F /* Lato-LightItalic.ttf in Resources */,
-				9CDD4E3C2A67C12500AB8B4F /* Lato-Regular.ttf in Resources */,
-				9CDD4E3B2A67C12500AB8B4F /* Lato-Black.ttf in Resources */,
 				9CF194D92A1C524A000F83A9 /* SFSymbolsNames.swift in Resources */,
-				9C0709762A7779D500A324BA /* Roboto-Bold.ttf in Resources */,
-				9C0709742A7779D500A324BA /* LICENSE.txt in Resources */,
-				9C07096E2A7779D500A324BA /* Roboto-Regular.ttf in Resources */,
-				9CDD4E372A67C12500AB8B4F /* Lato-Italic.ttf in Resources */,
-				9C0709702A7779D500A324BA /* Roboto-ThinItalic.ttf in Resources */,
-				9C07096F2A7779D500A324BA /* Roboto-MediumItalic.ttf in Resources */,
-				9C0709712A7779D500A324BA /* Roboto-BoldItalic.ttf in Resources */,
-				9C0709772A7779D500A324BA /* Roboto-Thin.ttf in Resources */,
 				9C7F965F29F8F03E00F5035C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2365,6 +2189,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C71746D2B240474006BC392 /* UltimateMoneyVisualizerTests.xctest in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2372,6 +2197,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C71746E2B24047A006BC392 /* UltimateMoneyVisualizerUITests.xctest in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2389,7 +2215,6 @@
 				9C1754C22B05AB4700022938 /* WageOnboarding.swift in Sources */,
 				9CEEE33629F90873001FA4FB /* CreateGoalView.swift in Sources */,
 				9C0505982A108A1400FC6511 /* ExtendRegularSchedule.swift in Sources */,
-				9C3574862B099E6D000AED9D /* NewItemCreationView.swift in Sources */,
 				9CF1B3362A957EBC00CB600F /* SavedDetailViewModel.swift in Sources */,
 				9C1FF9E32B0C211B00830C91 /* FinalOnboardingTutorialOffer.swift in Sources */,
 				9C8C935D2A8ABA0B000EE612 /* WageBreakdown.swift in Sources */,
@@ -2398,6 +2223,7 @@
 				9C7C985829FB723D0077EA25 /* MoneyPicker.swift in Sources */,
 				9C3574782B095086000AED9D /* PayoffItemDetailTagsSection.swift in Sources */,
 				9C952B2B2AC2B84000C9BF3A /* AllPayPeriodsView.swift in Sources */,
+				9C71745B2B22EFB3006BC392 /* MasterTheAppViewModel.swift in Sources */,
 				9C3574672B094CE9000AED9D /* GoalDetailContributionsSection.swift in Sources */,
 				9C53211C2A456233008D0F92 /* CreateGoalViewModel.swift in Sources */,
 				9CB418C22A0A0E07006F44AB /* TempTodayPayoff.swift in Sources */,
@@ -2455,7 +2281,6 @@
 				9C793C242ABE7F1F00D9C48E /* RoadblockView.swift in Sources */,
 				9CAE0B352A9927D7009034EC /* YouHaveNoShiftView.swift in Sources */,
 				9C514DB52A00A480003DC43C /* PayoffQueueView.swift in Sources */,
-				9C3574882B099E7B000AED9D /* NewItemViewModel.swift in Sources */,
 				9C74F9FB2A9ADB5B00466779 /* OnboardingModel.swift in Sources */,
 				9C2B74892B1A7CF300F9B7F1 /* FinalOnboardingCalculateStateTax.swift in Sources */,
 				9CDD4E4B2A67CA3700AB8B4F /* TodayProgressBar.swift in Sources */,
@@ -2488,7 +2313,6 @@
 				9CEEE34F29F90E09001FA4FB /* SavedListView.swift in Sources */,
 				9CED53482A08ACC7002DC183 /* AllocSavedRow.swift in Sources */,
 				9C2B74802B18729700F9B7F1 /* FinalOnboardingWageAssumptions.swift in Sources */,
-				9C3574802B099DDC000AED9D /* AddAllocationForGoalView.swift in Sources */,
 				9CED534C2A09BAD5002DC183 /* PayoffTodaySquare.swift in Sources */,
 				9C2315B62AB2F060008E0FD9 /* CreateTimeBlocksFromCalendarEventsView.swift in Sources */,
 				9CF324E12A934670003736F5 /* TagRow.swift in Sources */,
@@ -2542,10 +2366,13 @@
 				9C602CCD2A9DB74800B42DDF /* OnboardingFirstExpenseView.swift in Sources */,
 				9C460EE92A049DFA0007EBA9 /* StatsView.swift in Sources */,
 				9C07097A2A77855A00A324BA /* PayoffQueueView_HomeView.swift in Sources */,
+				9C7174722B24056C006BC392 /* CalculateTaxView.swift in Sources */,
 				9CD5111F2ADA537800B5584E /* SavedItemTutorial.swift in Sources */,
 				9C35747A2B09508F000AED9D /* PayoffItemDetailViewModel.swift in Sources */,
+				9C71746A2B2402E0006BC392 /* WhereToFindTutorialsView.swift in Sources */,
 				9C7B5D5A2A202E8D00DBB877 /* CreateTagView.swift in Sources */,
 				9CA51EDE2A7C802E00FAF848 /* PiggyBankShape.swift in Sources */,
+				9C7174762B24059E006BC392 /* NewItemViewModel.swift in Sources */,
 				9CA17D722A91F64D00332C62 /* SearchBarX.swift in Sources */,
 				9C7C985F29FCD5AB0077EA25 /* HorizontalDataDisplay.swift in Sources */,
 				9C3A7B302A2BD63300F2AC88 /* ExtendTimeBlock.swift in Sources */,
@@ -2573,12 +2400,10 @@
 				9CC2BA9B2A86C68D0075CA2D /* IconManager.swift in Sources */,
 				9C3574652B094CD4000AED9D /* PayoffContributionsView.swift in Sources */,
 				9CEEE33129F904CC001FA4FB /* ExpenseListView.swift in Sources */,
-				9C1FF9E52B0C4B2500830C91 /* WhereToFindTutorialsView.swift in Sources */,
 				9CEEE33429F90651001FA4FB /* ExpenseDetailView.swift in Sources */,
 				9C74F9F92A9AD77700466779 /* OnboardingFirstView.swift in Sources */,
 				9CC65D942A20867800D81712 /* TagDetailView.swift in Sources */,
 				9C2597552AF362F400E5A2AB /* OnboardingManager.swift in Sources */,
-				9C3574842B099E5D000AED9D /* CalculateTaxView.swift in Sources */,
 				9C1A21C92ACE661400C9A4A8 /* ConfirmTodayShift_UseThisOne.swift in Sources */,
 				9CDD4E502A68619F00AB8B4F /* TodayViewProgressBarLabels.swift in Sources */,
 				9C952B292AC2B83800C9BF3A /* PayPeriodRow.swift in Sources */,
@@ -2619,6 +2444,7 @@
 				9C2DF89B2A6BBE62001B8ED5 /* TodayViewNewTimeBlockCreationModel.swift in Sources */,
 				9CEEE33A29F908BE001FA4FB /* GoalListView.swift in Sources */,
 				9C58DC9B2A8CB5E600499C9E /* NewPayoffList.swift in Sources */,
+				9C7174702B240557006BC392 /* AddAllocationForGoalView.swift in Sources */,
 				9C602CCF2A9E652D00B42DDF /* WelcomeView.swift in Sources */,
 				9CAFA6DB2AAD29FC009E03BB /* TestingCloudkit.swift in Sources */,
 				9C9FFB252A57CD8700565B78 /* ExtendSection.swift in Sources */,
@@ -2633,6 +2459,7 @@
 				9C4213D72AE9970F007FDB97 /* ShadowForRect.swift in Sources */,
 				9C7C986529FCF3B60077EA25 /* PieChart.swift in Sources */,
 				9CD1FF2D2AE06C5300AF156A /* FontTester.swift in Sources */,
+				9C7174742B24058E006BC392 /* NewItemCreationView.swift in Sources */,
 				9CEEE35729F9E77F001FA4FB /* WageView.swift in Sources */,
 				9CEEE32B29F9044F001FA4FB /* ExtendView.swift in Sources */,
 				9C4F6F772A528D7C0036F973 /* EnterDoubleView.swift in Sources */,
