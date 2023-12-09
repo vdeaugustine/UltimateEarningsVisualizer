@@ -18,7 +18,7 @@ struct OnboardingFirstView: View {
 
     var body: some View {
         TabView(selection: $model.screenNumber) {
-            WelcomeView()
+            WelcomeView_Deprecated()
                 .tag(1)
 
             FeaturesListView()

@@ -9,7 +9,7 @@ import SwiftUI
 
 // MARK: - WelcomeView
 
-struct WelcomeView: View {
+struct WelcomeView_Deprecated: View {
     @EnvironmentObject private var vm: OnboardingModel
 
     var body: some View {
@@ -89,7 +89,7 @@ struct OnboardingButton: View {
 
 struct WelcomeView_Previews: PreviewProvider {
     static var previews: some View {
-        WelcomeView()
+        WelcomeView_Deprecated()
             .environmentObject(OnboardingModel())
     }
 }

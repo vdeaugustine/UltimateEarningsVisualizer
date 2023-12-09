@@ -131,7 +131,7 @@
 		9C5F0B8A2A31B419006AAB46 /* TimeBlockDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5F0B892A31B419006AAB46 /* TimeBlockDetailView.swift */; };
 		9C5F0B962A3502E7006AAB46 /* ExtendPercentShiftExpense.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5F0B952A3502E6006AAB46 /* ExtendPercentShiftExpense.swift */; };
 		9C602CCD2A9DB74800B42DDF /* OnboardingFirstExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C602CCC2A9DB74800B42DDF /* OnboardingFirstExpenseView.swift */; };
-		9C602CCF2A9E652D00B42DDF /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C602CCE2A9E652D00B42DDF /* WelcomeView.swift */; };
+		9C602CCF2A9E652D00B42DDF /* WelcomeView_Deprecated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C602CCE2A9E652D00B42DDF /* WelcomeView_Deprecated.swift */; };
 		9C602CD12A9EFD2F00B42DDF /* WhatIsASavedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C602CD02A9EFD2F00B42DDF /* WhatIsASavedItem.swift */; };
 		9C602CD42A9F056F00B42DDF /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 9C602CD32A9F056F00B42DDF /* PopupView */; };
 		9C602CD72A9F060400B42DDF /* FloatingButton in Frameworks */ = {isa = PBXBuildFile; productRef = 9C602CD62A9F060400B42DDF /* FloatingButton */; };
@@ -469,7 +469,7 @@
 		9C5F0B892A31B419006AAB46 /* TimeBlockDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeBlockDetailView.swift; sourceTree = "<group>"; };
 		9C5F0B952A3502E6006AAB46 /* ExtendPercentShiftExpense.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendPercentShiftExpense.swift; sourceTree = "<group>"; };
 		9C602CCC2A9DB74800B42DDF /* OnboardingFirstExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFirstExpenseView.swift; sourceTree = "<group>"; };
-		9C602CCE2A9E652D00B42DDF /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		9C602CCE2A9E652D00B42DDF /* WelcomeView_Deprecated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView_Deprecated.swift; sourceTree = "<group>"; };
 		9C602CD02A9EFD2F00B42DDF /* WhatIsASavedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatIsASavedItem.swift; sourceTree = "<group>"; };
 		9C602CDE2A9F13D700B42DDF /* NewOnboardingWage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewOnboardingWage.swift; sourceTree = "<group>"; };
 		9C65A75E2A00D28E00A5BCF1 /* GoalRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalRow.swift; sourceTree = "<group>"; };
@@ -764,17 +764,17 @@
 		9C1754B42B05A9A000022938 /* Final Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				9C7174642B22F35B006BC392 /* Welcome */,
+				9C1754B72B05AA0000022938 /* Components */,
+				9C7174772B2407A6006BC392 /* Possibly Deprecated */,
+				9C35748D2B0AFDB6000AED9D /* Showcases */,
 				9C7C60362B1D715F004374A3 /* Step Timeline */,
 				9C1FF9E12B0C210D00830C91 /* Tutorials Related */,
-				9C35748D2B0AFDB6000AED9D /* Showcases */,
-				9C1754B72B05AA0000022938 /* Components */,
-				9C1754B52B05A9A900022938 /* Slides */,
+				9C7174642B22F35B006BC392 /* Welcome */,
 			);
 			path = "Final Onboarding";
 			sourceTree = "<group>";
 		};
-		9C1754B52B05A9A900022938 /* Slides */ = {
+		9C1754B52B05A9A900022938 /* Slides With Big Green Circle */ = {
 			isa = PBXGroup;
 			children = (
 				9C1754BB2B05AA3F00022938 /* AllocationOnboarding.swift */,
@@ -782,17 +782,14 @@
 				9C1754BF2B05AAFE00022938 /* GoalOnboarding.swift */,
 				9C1754C12B05AB4700022938 /* WageOnboarding.swift */,
 			);
-			path = Slides;
+			path = "Slides With Big Green Circle";
 			sourceTree = "<group>";
 		};
 		9C1754B62B05A9AC00022938 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				9C7A16382AFCA55B004EC33B /* OnboardingSlideShow_Deprecated.swift */,
-				9C7A163C2AFCA5D9004EC33B /* OnboardingSlide.swift */,
-				9C38084D2B14446B00BF45DD /* FinalOnboardingWage_Deprecated.swift */,
-				9C94806F2B035FFA007C281C /* FinalOnboarding.swift */,
-				9C3808452B0F1F5C00BF45DD /* FinalOnboardingModel.swift */,
+				9C7174792B240854006BC392 /* Not Views */,
+				9C7174782B24084F006BC392 /* Views */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -926,12 +923,13 @@
 			path = Old;
 			sourceTree = "<group>";
 		};
-		9C4213E62AEABFA7007FDB97 /* More Info */ = {
+		9C4213E62AEABFA7007FDB97 /* More Info Views */ = {
 			isa = PBXGroup;
 			children = (
+				9C4CD8952AF0927B00063942 /* MainFeaturesListView.swift */,
 				9C4213EF2AEAC075007FDB97 /* TimeBlocks */,
 			);
-			path = "More Info";
+			path = "More Info Views";
 			sourceTree = "<group>";
 		};
 		9C4213EF2AEAC075007FDB97 /* TimeBlocks */ = {
@@ -1051,9 +1049,6 @@
 		9C602CDD2A9F13C400B42DDF /* New Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				9C4CD8952AF0927B00063942 /* MainFeaturesListView.swift */,
-				9C602CCE2A9E652D00B42DDF /* WelcomeView.swift */,
-				9C2597542AF362F400E5A2AB /* OnboardingManager.swift */,
 				9C74F9F82A9AD77700466779 /* OnboardingFirstView.swift */,
 				9C793C212ABC198400D9C48E /* GoalsOnboardingView.swift */,
 				9C74F9FC2A9AEF0E00466779 /* FeaturesListView.swift */,
@@ -1124,8 +1119,8 @@
 		9C71745C2B22F0B0006BC392 /* First Slide - Enter Wage Type and Amount */ = {
 			isa = PBXGroup;
 			children = (
-				9C432BA42B16E6E100216AAC /* FinalOnboardingEnterWageAmountSheet.swift */,
 				9C432BA22B16E3E300216AAC /* FinalOnboardingWageTypeAndAmount.swift */,
+				9C432BA42B16E6E100216AAC /* FinalOnboardingEnterWageAmountSheet.swift */,
 			);
 			path = "First Slide - Enter Wage Type and Amount";
 			sourceTree = "<group>";
@@ -1220,6 +1215,35 @@
 				9C4213D62AE9970F007FDB97 /* ShadowForRect.swift */,
 			);
 			path = Modifiers;
+			sourceTree = "<group>";
+		};
+		9C7174772B2407A6006BC392 /* Possibly Deprecated */ = {
+			isa = PBXGroup;
+			children = (
+				9C1754B52B05A9A900022938 /* Slides With Big Green Circle */,
+			);
+			path = "Possibly Deprecated";
+			sourceTree = "<group>";
+		};
+		9C7174782B24084F006BC392 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9C602CCE2A9E652D00B42DDF /* WelcomeView_Deprecated.swift */,
+				9C7A16382AFCA55B004EC33B /* OnboardingSlideShow_Deprecated.swift */,
+				9C7A163C2AFCA5D9004EC33B /* OnboardingSlide.swift */,
+				9C38084D2B14446B00BF45DD /* FinalOnboardingWage_Deprecated.swift */,
+				9C94806F2B035FFA007C281C /* FinalOnboarding.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9C7174792B240854006BC392 /* Not Views */ = {
+			isa = PBXGroup;
+			children = (
+				9C2597542AF362F400E5A2AB /* OnboardingManager.swift */,
+				9C3808452B0F1F5C00BF45DD /* FinalOnboardingModel.swift */,
+			);
+			path = "Not Views";
 			sourceTree = "<group>";
 		};
 		9C778A4F2B093CE3001C02DF /* Payoff Item */ = {
@@ -1702,7 +1726,7 @@
 			isa = PBXGroup;
 			children = (
 				9C1754B42B05A9A000022938 /* Final Onboarding */,
-				9C4213E62AEABFA7007FDB97 /* More Info */,
+				9C4213E62AEABFA7007FDB97 /* More Info Views */,
 				9C602CDD2A9F13C400B42DDF /* New Onboarding */,
 				9C4213E52AEAB740007FDB97 /* Old */,
 				9C602CCC2A9DB74800B42DDF /* OnboardingFirstExpenseView.swift */,
@@ -2445,7 +2469,7 @@
 				9CEEE33A29F908BE001FA4FB /* GoalListView.swift in Sources */,
 				9C58DC9B2A8CB5E600499C9E /* NewPayoffList.swift in Sources */,
 				9C7174702B240557006BC392 /* AddAllocationForGoalView.swift in Sources */,
-				9C602CCF2A9E652D00B42DDF /* WelcomeView.swift in Sources */,
+				9C602CCF2A9E652D00B42DDF /* WelcomeView_Deprecated.swift in Sources */,
 				9CAFA6DB2AAD29FC009E03BB /* TestingCloudkit.swift in Sources */,
 				9C9FFB252A57CD8700565B78 /* ExtendSection.swift in Sources */,
 				9CD511282ADB182A00B5584E /* PopoverContents.swift in Sources */,

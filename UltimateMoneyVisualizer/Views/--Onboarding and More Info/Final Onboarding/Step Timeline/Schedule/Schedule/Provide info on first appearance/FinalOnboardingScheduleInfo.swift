@@ -44,7 +44,7 @@ struct FinalOnboardingScheduleInfo: View {
                 FinalOnboardingButton(title: buttonTitle) {
                     dismiss()
                 }
-                .frame(width: widthScaler(274, geo: geo))
+                .padding(.horizontal, widthScaler(24, geo: geo))
             }
 
             .frame(maxWidth: .infinity)
