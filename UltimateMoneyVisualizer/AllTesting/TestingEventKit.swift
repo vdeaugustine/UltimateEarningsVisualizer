@@ -96,9 +96,9 @@ struct TestingEventKit: View {
                     ForEach(calendars, id: \.self) { calendar in
                         Button(action: {
                             
-                            if let firstIndex = selectedCalendars.firstIndex(where: { thisCal in
+                            if selectedCalendars.firstIndex(where: { thisCal in
                                 thisCal == calendar
-                            }) {
+                            }) != nil {
                                 selectedCalendars.removeAll(where: { $0 == calendar })
                             } else {
                                 selectedCalendars.append(calendar)
@@ -194,9 +194,9 @@ struct TestingEventKit: View {
 //                    }
                 }
                 .onTapGesture {
-                    if let firstIndex = selectedEventItems.firstIndex(where: { thisEvent in
+                    if selectedEventItems.firstIndex(where: { thisEvent in
                         thisEvent == event
-                    }) {
+                    }) != nil {
                         selectedEventItems.removeAll(where: { $0 == event })
                     } else {
                         selectedEventItems.append(event)

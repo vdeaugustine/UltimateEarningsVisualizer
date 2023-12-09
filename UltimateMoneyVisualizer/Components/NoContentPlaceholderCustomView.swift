@@ -60,19 +60,10 @@ struct NoContentPlaceholderCustomView: View {
         })
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-//        .background (Color(.secondarySystemBackground))
     }
 }
 
 #Preview {
-//    NoContentPlaceholderCustomView(title: "Today's Shift",
-//                                   subTitle: "You do not have a shift scheduled for today.",
-//                                   imageSystemName: "calendar.badge.clock",
-//                                   buttonTitle: "Save",
-//                                   buttonColor: Color.green
-//    ) {
-//        print("Was tapped")
-//    }
 
     NoContentPlaceholderCustomView(title: "Today's Shift",
                                    subTitle: "You do not have a shift scheduled for today.",
