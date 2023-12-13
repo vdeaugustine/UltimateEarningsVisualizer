@@ -33,7 +33,6 @@ struct TodayPaidOffStackWithHeader: View {
             }
             .font(.callout)
             .fontWeight(.semibold)
-//            .tracking(1)
             .foregroundStyle(Color(hex: "4E4E4E"))
 
             TodayPaidOffStack()
@@ -43,7 +42,6 @@ struct TodayPaidOffStackWithHeader: View {
             }
             .padding(.top)
         }
-//        .animation(.none, value: viewModel.paidOffStackIsExpanded)
     }
 }
 

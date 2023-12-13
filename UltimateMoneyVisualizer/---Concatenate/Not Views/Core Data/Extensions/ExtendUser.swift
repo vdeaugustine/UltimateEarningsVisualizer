@@ -35,6 +35,7 @@ public extension User {
                      context: context)
 
             instantiateExampleItems(context: context)
+            self.getStatusTracker().hasSeenOnboardingFlow = true 
         }
 
         let settings = Settings(context: context)
@@ -108,7 +109,7 @@ public extension User {
             }
             else {
                 #if DEBUG
-                    return try User(exampleItem: false, context: userContext)
+                    return try User(exampleItem: true, context: userContext)
                 #else
                     return User(context: userContext)
                 #endif

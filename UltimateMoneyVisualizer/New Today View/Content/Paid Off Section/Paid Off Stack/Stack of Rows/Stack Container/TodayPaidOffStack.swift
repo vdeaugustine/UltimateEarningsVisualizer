@@ -15,11 +15,11 @@ struct TodayPaidOffStack: View {
     var body: some View {
         LazyVStack {
             if viewModel.paidOffStackIsExpanded {
-                ForEach(viewModel.nonZeroPayoffItems) { item in
+                ForEach(viewModel.nonZeroPayoffItems.reversed()) { item in
                     TodayViewPaidOffRect(item: item)
                 }
             } else {
-                if let firstItem = viewModel.nonZeroPayoffItems.first {
+                if let firstItem = viewModel.nonZeroPayoffItems.last {
                     TodayViewPaidOffRect(item: firstItem)
                 }
             }
