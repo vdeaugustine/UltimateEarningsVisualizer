@@ -1,0 +1,110 @@
+[
+  {
+    "title": "Groceries",
+    "info": "This expense is for groceries",
+    "amount": 50.00,
+    "dueDate": "2022-12-31T00:00:00Z",
+    "dateCreated": "2022-12-01T00:00:00Z",
+    "isRecurring": false,
+    "recurringDate": null,
+    "tagStrings": ["food", "groceries"],
+    "repeatFrequency": null,
+    "id": "00000000-0000-0000-0000-000000000001"
+  },
+  {
+    "title": "Gas",
+    "info": "This expense is for gas",
+    "amount": 30.00,
+    "dueDate": "2022-12-15T00:00:00Z",
+    "dateCreated": "2022-11-30T00:00:00Z",
+    "isRecurring": false,
+    "recurringDate": null,
+    "tagStrings": ["transportation", "car"],
+    "repeatFrequency": null,
+    "id": "00000000-0000-0000-0000-000000000002"
+  },
+  {
+    "title": "Internet Bill",
+    "info": "Monthly internet bill",
+    "amount": 80.00,
+    "dueDate": "2022-12-10T00:00:00Z",
+    "dateCreated": "2022-11-10T00:00:00Z",
+    "isRecurring": true,
+    "recurringDate": "2022-12-10T00:00:00Z",
+    "tagStrings": ["bills", "internet"],
+    "repeatFrequency": "monthly",
+    "id": "00000000-0000-0000-0000-000000000003"
+  },
+  {
+    "title": "Dinner",
+    "info": "Dinner with friends",
+    "amount": 100.00,
+    "dueDate": "2022-12-20T00:00:00Z",
+    "dateCreated": "2022-12-01T00:00:00Z",
+    "isRecurring": false,
+    "recurringDate": null,
+    "tagStrings": ["food", "dining"],
+    "repeatFrequency": null,
+    "id": "00000000-0000-0000-0000-000000000004"
+  },
+  {
+    "title": "Gym Membership",
+    "info": "Monthly gym membership",
+    "amount": 60.00,
+    "dueDate": "2022-12-05T00:00:00Z",
+    "dateCreated": "2022-11-05T00:00:00Z",
+    "isRecurring": true,
+    "recurringDate": "2022-12-05T00:00:00Z",
+    "tagStrings": ["health", "fitness"],
+    "repeatFrequency": "monthly",
+    "id": "00000000-0000-0000-0000-000000000005"
+  },
+  {
+    "title": "Movie Tickets",
+    "info": "Tickets for movie night",
+    "amount": 40.00,
+    "dueDate": "2022-12-25T00:00:00Z",
+    "dateCreated": "2022-12-01T00:00:00Z",
+    "isRecurring": false,
+    "recurringDate": null,
+    "tagStrings": ["entertainment", "movies"],
+    "repeatFrequency": null,
+    "id": "00000000-0000-0000-0000-000000000006"
+  },
+  {
+    "title": "Electricity Bill",
+    "info": "Monthly electricity bill",
+    "amount": 90.00,
+    "dueDate": "2022-12-15T00:00:00Z",
+    "dateCreated": "2022-11-15T00:00:00Z",
+    "isRecurring": true,
+    "recurringDate": "2022-12-15T00:00:00Z",
+    "tagStrings": ["bills", "electricity"],
+    "repeatFrequency": "monthly",
+    "id": "00000000-0000-0000-0000-000000000007"
+  },
+  {
+    "title": "Clothing",
+    "info": "Shopping for new clothes",
+    "amount": 120.00,
+    "dueDate": "2022-12-20T00:00:00Z",
+    "dateCreated": "2022-12-01T00:00:00Z",
+    "isRecurring": false,
+    "recurringDate": null,
+    "tagStrings": ["shopping", "clothes"],
+    "repeatFrequency": null,
+    "id": "00000000-0000-0000-0000-000000000008"
+  },
+  {
+    "title": "Phone Bill",
+    "info": "Monthly phone bill",
+    "amount": 70.00,
+    "dueDate": "2022-12-10T00:00:00Z",
+    "dateCreated": "2022-11-10T00:00:00Z",
+    "isRecurring": true,
+    "recurringDate": "2022-12-10T00:00:00Z",
+    "tagStrings": ["bills", "phone"],
+    "repeatFrequency": "monthly",
+    "id": "00000000-0000-0000-0000-000000000009"
+  }
+]

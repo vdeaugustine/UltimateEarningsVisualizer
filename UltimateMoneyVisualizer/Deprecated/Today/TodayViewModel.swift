@@ -10,6 +10,25 @@ class TodayViewModel: ObservableObject {
     // MARK: - Properties
 
     static var main = TodayViewModel()
+
+    static var testing: TodayViewModel = {
+        let model = TodayViewModel(context: PersistenceController.testing)
+
+        let start = Date.getThisTime(hour: 11, minute: 0)!
+        let end = Date.getThisTime(hour: 15, minute: 0)!
+
+        model.user = User.testing
+        
+        model.user.todayShift?.startTime = start
+        model.user.todayShift?.endTime = end
+        
+        model.start = start
+        model.end = end
+        
+        return model
+
+    }()
+
     let viewContext: NSManagedObjectContext
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     let taxesColor = Components.taxesColor // Color(hex: "630E08")
@@ -50,9 +69,15 @@ class TodayViewModel: ObservableObject {
 
     // swiftformat:sort:begin
     @ObservedObject var navManager = NavManager.shared
+    #if DEBUG
+    @ObservedObject var settings = User.testing.getSettings()
+    @ObservedObject var user = User.testing
+    @ObservedObject var wage = User.testing.getWage()
+    #else
     @ObservedObject var settings = User.main.getSettings()
     @ObservedObject var user = User.main
     @ObservedObject var wage = User.main.getWage()
+    #endif
 
     // swiftformat:sort:end
 
@@ -222,13 +247,12 @@ class TodayViewModel: ObservableObject {
     }
 
     var tempPayoffs: [TempTodayPayoff] {
-        
-        _ = initialPayoffs.filter({
+        _ = initialPayoffs.filter {
             $0.queueSlotNumber != nil &&
-            $0.type != .tax
-        })
+                $0.type != .tax
+        }
         let payoffsToPay = taxesTempPayoffs + initialPayoffs
-        
+
         return payOfPayoffItems(with: haveEarned, payoffItems: payoffsToPay)
             .sorted{
                 if $0.type == .tax { return true }

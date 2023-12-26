@@ -146,7 +146,11 @@ extension View {
         self.padding(padding)
             .background(RoundedRectangle(cornerRadius: cornerRadius)
                 .foregroundColor(color)
-                .shadow(radius: shadow))
+                .conditionalModifier(shadow > 0, { view in
+                    view
+                        .shadow(radius: shadow)
+                }))
+                
     }
 }
 

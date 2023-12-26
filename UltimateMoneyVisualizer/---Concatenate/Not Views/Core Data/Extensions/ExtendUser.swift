@@ -33,6 +33,8 @@ public extension User {
                      stateTax: 7,
                      federalTax: 19,
                      context: context)
+            
+            
 
             instantiateExampleItems(context: context)
             self.getStatusTracker().hasSeenOnboardingFlow = true 
@@ -82,14 +84,13 @@ public extension User {
             try Expense.makeExpensesThatWontBeAllocated(user: self, context: context)
 
         } catch {
-            print(String(describing: error))
+            fatalError(String(describing: error))
         }
     }
 
     static var testing: User {
         let context = PersistenceController.testing
-        let user = User(context: PersistenceController.testing)
-        user.instantiateExampleItems(context: context)
+        let user = try! User(exampleItem: true, context: context)
         return user
     }
 

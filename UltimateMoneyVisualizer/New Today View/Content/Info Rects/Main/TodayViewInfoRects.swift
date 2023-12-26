@@ -15,7 +15,11 @@ struct TodayViewInfoRects: View {
     let titleFont: Font = .headline
     let subtitleFont: Font = .callout
     let imageFont: CGFloat = 20
+    #if DEBUG
+    @State private var includingTaxes = User.testing.getWage().includeTaxes
+    #else
     @State private var includingTaxes = User.main.getWage().includeTaxes
+    #endif
     @State private var showTaxesSheet = false
 
     var body: some View {
@@ -89,7 +93,13 @@ struct TodayViewInfoRects: View {
             includingTaxes = viewModel.wage.includeTaxes
         })
         .sheet(isPresented: $showTaxesSheet) {
+            
+            #if DEBUG
+            includingTaxes = User.testing.getWage().includeTaxes
+            #else
             includingTaxes = User.main.getWage().includeTaxes
+            #endif
+            
             print("Called on dismiss")
         } content: {
             NavigationView {
