@@ -44,13 +44,13 @@ extension View {
                 .toolbarBackground(.visible, for: .tabBar)
                 .accentColor(Color.accentColor)
                 .tint(Color.accentColor)
-                .preferredColorScheme(.light)
+//                .preferredColorScheme(.light)
                 .fontDesign(.rounded)
         } else {
             navigationBarTitleDisplayMode(displayMode)
                 .accentColor(User.main.getSettings().themeColor)
                 .tint(User.main.getSettings().themeColor)
-                .preferredColorScheme(.light)
+//                .preferredColorScheme(.light)
                 .fontDesign(.rounded)
         }
     }
@@ -62,7 +62,7 @@ extension View {
 
     func templateForPreview() -> some View {
         ZStack {
-            Color.listBackgroundColor
+            Color.secondarySystemBackground
             self
                 .putInNavView(.large)
         }

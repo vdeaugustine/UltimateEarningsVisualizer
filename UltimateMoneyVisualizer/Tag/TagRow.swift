@@ -77,7 +77,7 @@ struct TagRow: View {
 struct TagRow_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
-            Color.listBackgroundColor
+            Color.secondarySystemBackground
             TagRow(tag: User.main.getTags().randomElement()!)
                 
         }

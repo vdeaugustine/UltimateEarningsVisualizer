@@ -89,7 +89,7 @@ struct NewOnboardingWage: View {
         }
         .fontDesign(.rounded)
         .background {
-            Color.listBackgroundColor.ignoresSafeArea()
+            Color.secondarySystemBackground.ignoresSafeArea()
         }
         .alert("Error saving.", isPresented: $showErrorAlert) {
         } message: {

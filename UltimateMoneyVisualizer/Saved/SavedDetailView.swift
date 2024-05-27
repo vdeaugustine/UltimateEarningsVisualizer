@@ -124,7 +124,7 @@ struct SavedDetailView: View {
             .padding()
         }
         
-        .background(Color.listBackgroundColor)
+        .background(Color.secondarySystemBackground)
         .putInTemplate(title: "Saved Item")
     }
 

@@ -42,7 +42,7 @@ struct TimeBlockInfoView: View {
         }
         .navigationTitle("Time Blocks")
         .background {
-            Color(.secondarySystemBackground)
+            Color.secondarySystemBackground
                 .ignoresSafeArea()
         }
     }

@@ -75,7 +75,7 @@ struct NewPayoffList: View {
                 }
             }
             else {
-                Color.listBackgroundColor
+                Color.secondarySystemBackground
             }
         }
         .background { Color.clear }

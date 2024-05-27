@@ -89,7 +89,7 @@ class TodayViewModel: ObservableObject {
     }
 
     var timeSegmentLabelColor: AnyShapeStyle {
-        selectedSegment == .time ? AnyShapeStyle(settings.getDefaultGradient()) : AnyShapeStyle(Color.black)
+        selectedSegment == .time ? AnyShapeStyle(settings.getDefaultGradient()) : AnyShapeStyle(Color.primary)
     }
 
     var timeSegmentLabelSize: CGFloat {

@@ -20,7 +20,7 @@ struct GoalListView: View {
                     PayoffWithImageAndGradientView(item: goal, maxHeight: 100)
                 }
             }
-            .listRowBackground(Color.listBackgroundColor)
+            .listRowBackground(Color.secondarySystemBackground)
         }
         .putInTemplate()
         .navigationTitle("Goals")

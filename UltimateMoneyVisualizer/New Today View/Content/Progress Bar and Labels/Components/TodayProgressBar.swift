@@ -73,7 +73,7 @@ struct TodayProgressBar: View {
         .frame(height: 16)
         .padding()
         .background {
-            Color.white
+            Color.tertiarySystemBackground
                 .cornerRadius(15)
                 .shadow(color: .black.opacity(0.25), radius: 2, x: 4, y: 4)
                 .frame(height: 50)

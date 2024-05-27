@@ -264,7 +264,7 @@ struct MainMenuRow: View {
             .foregroundStyle(Color(uiColor: .secondaryLabel))
             .padding(7)
             .frame(width: 115, height: height, alignment: .leading)
-            .background { Color.listBackgroundColor }
+            .background { Color.secondarySystemBackground }
             .clipShape(RoundedRectangle(cornerRadius: 8, style: .circular))
             .shadow(radius: 0.5)
         }

@@ -62,7 +62,7 @@ struct PayoffItemDetailView: View {
                     }
                 }
                 .overlay(fullScreenImage())
-                .background(Color.listBackgroundColor)
+                .background(Color.secondarySystemBackground)
                 .confirmationDialog("Are you sure you want to delete this item?", isPresented: $viewModel.presentConfirmation, titleVisibility: .visible, actions: {
                     Button("Delete", role: .destructive) {
                         viewModel.doDeleteAction()
@@ -95,7 +95,7 @@ struct PayoffItemDetailView: View {
             }
         }
 
-        .background(Color.listBackgroundColor)
+        .background(Color.secondarySystemBackground)
         .toolbar {
 //            ToolbarItem(placement: .navigationBarTrailing) {
 //                Button {

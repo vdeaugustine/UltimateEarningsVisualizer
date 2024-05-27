@@ -21,7 +21,7 @@ struct PopUpTester: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background {
-            Color.listBackgroundColor
+            Color.secondarySystemBackground
         }
         .popup(isPresented: $showingTopFirst) {
             PopupInfoContent(title: "This is a test tutorial", bodyContent: "This is a test content")

@@ -74,7 +74,7 @@ struct OnboardingFirstGoalView: View {
                     .padding(.horizontal, 30)
             }
         }
-        .background { Color.listBackgroundColor }
+        .background { Color.secondarySystemBackground }
         .onChange(of: focusedField) { newValue in
             print(newValue ?? "nil")
         }

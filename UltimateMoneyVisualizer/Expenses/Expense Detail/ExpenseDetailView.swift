@@ -58,7 +58,7 @@ struct ExpenseDetailView: View {
                 }
             }
             .overlay(fullScreenImage())
-            .background(Color.listBackgroundColor)
+            .background(Color.secondarySystemBackground)
             .confirmationDialog("Are you sure you want to delete this expense?", isPresented: $viewModel.presentConfirmation, titleVisibility: .visible, actions: {
                 Button("Delete", role: .destructive, action: viewModel.doDeleteAction)
             }, message: {
@@ -94,7 +94,7 @@ struct ExpenseDetailView: View {
             .ignoresSafeArea(.keyboard, edges: .bottom)
         }
 
-        .background(Color.listBackgroundColor)
+        .background(Color.secondarySystemBackground)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {

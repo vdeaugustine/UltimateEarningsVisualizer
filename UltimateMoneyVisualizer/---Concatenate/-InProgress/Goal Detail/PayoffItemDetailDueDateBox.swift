@@ -64,7 +64,7 @@ struct PayoffItemDetailDueDateBox: View {
 struct GoalDetailDueDateBox_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
-            Color.listBackgroundColor
+            Color.secondarySystemBackground
             PayoffItemDetailDueDateBox(viewModel: PayoffItemDetailViewModel(payoffItem: User.main.getGoals()
                     .sorted(by: { $0.timeRemaining > $1.timeRemaining })
                     .last!))

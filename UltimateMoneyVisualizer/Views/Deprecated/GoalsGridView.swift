@@ -32,7 +32,7 @@ struct GoalsGridView: View {
 
         .padding()
         .background {
-            Color.listBackgroundColor
+            Color.secondarySystemBackground
         }
         .putInTemplate()
         .navigationTitle("Goals")

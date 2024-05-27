@@ -39,7 +39,7 @@ struct AddAllocationForExpenseView: View {
                 Text("Saved Items").tag("saved")
 
             }.pickerStyle(.segmented).padding([.horizontal, .top])
-                .background(Color.listBackgroundColor)
+                .background(Color.secondarySystemBackground)
         }
     }
 
@@ -173,7 +173,7 @@ struct AddAllocationForExpenseView: View {
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background { Color.listBackgroundColor }
+            .background { Color.secondarySystemBackground }
             .putInTemplate()
             .navigationTitle("Shift for " + shift.start.getFormattedDate(format: .abbreviatedMonth))
             .toast(isPresenting: $showToast, alert: { toastConfig })
@@ -278,7 +278,7 @@ struct AddAllocationForExpenseView: View {
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background { Color.listBackgroundColor }
+            .background { Color.secondarySystemBackground }
             .putInTemplate()
             .navigationTitle("Shift for " + saved.getDate().getFormattedDate(format: .abbreviatedMonth))
             .toast(isPresenting: $showToast, alert: { toastConfig })

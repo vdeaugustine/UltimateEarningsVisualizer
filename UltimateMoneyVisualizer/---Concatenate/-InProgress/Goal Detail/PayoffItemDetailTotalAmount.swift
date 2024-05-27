@@ -73,7 +73,7 @@ struct PayoffItemDetailTotalAmount_Previews: PreviewProvider {
         
         
         ZStack {
-            Color.listBackgroundColor
+            Color.secondarySystemBackground
             PayoffItemDetailTotalAmount(viewModel: PayoffItemDetailViewModel(payoffItem: User.main.getGoals()
                     .sorted(by: { $0.timeRemaining > $1.timeRemaining })
                     .last!))

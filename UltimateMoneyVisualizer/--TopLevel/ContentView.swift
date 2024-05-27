@@ -42,7 +42,7 @@ struct ContentView: View {
     
     var mainContent: some View {
         Group {
-            if status.hasSeenOnboardingFlow == false {
+            if /*status.hasSeenOnboardingFlow ==*/ false {
                 MasterTheAppView()
             } else {
                 TabView(selection: $navManager.currentTab.onUpdate(ifNoChange: navManager.sameTabTapped)) {

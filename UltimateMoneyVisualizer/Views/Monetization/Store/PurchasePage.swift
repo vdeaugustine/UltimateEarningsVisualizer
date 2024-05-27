@@ -39,7 +39,7 @@ struct PurchasePage: View {
         .putInTemplate()
         .navigationTitle("Subscription")
         .background(
-            Color.listBackgroundColor
+            Color.secondarySystemBackground
         )
     }
 

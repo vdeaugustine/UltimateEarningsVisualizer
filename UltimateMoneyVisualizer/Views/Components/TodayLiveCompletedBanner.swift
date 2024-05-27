@@ -16,6 +16,7 @@ struct BottomBannerModifier: ViewModifier {
     var buttonText: String? = nil
     var buttonAction: (() -> Void)?
     let onDismiss: (() -> Void)?
+    @Environment(\.colorScheme) var colorScheme
 
     func body(content: Content) -> some View {
         ZStack {
@@ -30,7 +31,13 @@ struct BottomBannerModifier: ViewModifier {
                 Spacer()
                 ZStack {
                     RoundedRectangle(cornerRadius: 20)
-                        .fill(Color.white)
+                        .fill(Color.tertiarySystemBackground)
+                        .overlay {
+                            if colorScheme == .dark {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(Color.secondary)
+                            }
+                        }
                         .shadow(radius: 1)
                     HStack {
                         Image(systemName: "hourglass")
@@ -55,7 +62,7 @@ struct BottomBannerModifier: ViewModifier {
                     }
                     .padding(.horizontal)
                 }
-                .frame(height: 100)
+                .frame(height: 90)
                 .padding()
                 .offset(y: isVisible ? 0 : 200)
                 .animation(.easeInOut(duration: 0.3), value: isVisible)
@@ -89,6 +96,7 @@ struct BottomBannerWithNavigationModifier<Destination: View>: ViewModifier {
     var buttonText: String
     @ViewBuilder let destination: () -> Destination
     let onDismiss: (() -> Void)?
+    @Environment(\.colorScheme) var colorScheme
 
     func body(content: Content) -> some View {
         ZStack {
@@ -103,7 +111,14 @@ struct BottomBannerWithNavigationModifier<Destination: View>: ViewModifier {
                 Spacer()
                 ZStack {
                     RoundedRectangle(cornerRadius: 20)
-                        .fill(Color.white)
+                        .fill(Color.tertiarySystemBackground)
+                        .border(Color.systemBackground)
+                        .overlay {
+                            if colorScheme == .dark {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(Color.secondary)
+                            }
+                        }
                         .shadow(radius: 1)
                     HStack {
                         Image(systemName: "hourglass")
@@ -123,7 +138,7 @@ struct BottomBannerWithNavigationModifier<Destination: View>: ViewModifier {
                     }
                     .padding(.horizontal)
                 }
-                .frame(height: 100)
+                .frame(height: 90)
                 .padding()
                 .offset(y: isVisible ? 0 : 200)
                 .animation(.easeInOut(duration: 0.3), value: isVisible)

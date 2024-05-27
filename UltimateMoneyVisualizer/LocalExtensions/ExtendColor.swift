@@ -50,6 +50,10 @@ extension Color {
 
     static let textPrimary = Color("$text-primary")
     static let textSecondary = Color("$text-secondary")
+    
+    static let systemBackground = Color(UIColor.systemBackground)
+    static let secondarySystemBackground = Color(UIColor.secondarySystemBackground)
+    static let tertiarySystemBackground = Color(UIColor.tertiarySystemBackground)
 
     // swiftformat:sort:end
 }

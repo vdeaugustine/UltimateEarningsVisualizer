@@ -32,7 +32,7 @@ struct MainFeaturesListView: View {
             
         }
         .background {
-            Color(.secondarySystemBackground)
+            Color.secondarySystemBackground
                 .ignoresSafeArea()
         }
         

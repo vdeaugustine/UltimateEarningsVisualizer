@@ -81,7 +81,7 @@ struct AllTimeBlocksView: View {
                 .frame(minHeight: 250)
             }
         }
-        .background { Color.listBackgroundColor }
+        .background { Color.secondarySystemBackground }
         .putInTemplate()
         .navigationTitle("Time Blocks")
     }

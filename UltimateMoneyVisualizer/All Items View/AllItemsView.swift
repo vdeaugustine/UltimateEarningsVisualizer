@@ -38,7 +38,7 @@ struct AllItemsView: View {
                     NewPayoffList(payoffType: .expense)
             }
         }
-        .background(Color.listBackgroundColor)
+        .background(Color.secondarySystemBackground)
 
         .environment(\.editMode, $editMode)
 

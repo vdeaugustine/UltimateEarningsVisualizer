@@ -92,7 +92,7 @@ struct PayoffQueueForTodayView: View {
         }
         .listStyle(.grouped)
         .background {
-            Color.listBackgroundColor
+            Color.secondarySystemBackground
         }
         .navigationTitle("Payoff Item Queue")
         .toolbar {

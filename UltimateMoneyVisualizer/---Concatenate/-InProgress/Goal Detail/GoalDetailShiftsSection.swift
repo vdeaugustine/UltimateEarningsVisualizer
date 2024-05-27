@@ -31,7 +31,7 @@ struct GoalDetailShiftsSection: View {
                                             .padding(10)
                                             .padding(.trailing, 10)
                                             .background {
-                                                PriceTag(height: 30, color: tag.getColor(), holePunchColor: .listBackgroundColor)
+                                                PriceTag(height: 30, color: tag.getColor(), holePunchColor: .secondarySystemBackground)
                                             }
                                     }
                                     .buttonStyle(.plain)
@@ -90,7 +90,7 @@ struct GoalDetailShiftsSection: View {
 struct GoalDetailShiftsSection_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
-            Color.listBackgroundColor
+            Color.secondarySystemBackground
             GoalDetailShiftsSection(viewModel: PayoffItemDetailViewModel(payoffItem: User.main.getGoals()
                     .sorted(by: { $0.timeRemaining > $1.timeRemaining })
                     .last!))

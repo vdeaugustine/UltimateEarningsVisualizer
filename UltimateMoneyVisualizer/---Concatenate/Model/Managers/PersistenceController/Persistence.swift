@@ -52,6 +52,7 @@ public struct PersistenceController {
     #endif
 
     public let container: NSPersistentCloudKitContainer
+    
 
     public init(inMemory: Bool = false) {
         self.container = NSPersistentCloudKitContainer(name: "UltimateMoneyVisualizer")

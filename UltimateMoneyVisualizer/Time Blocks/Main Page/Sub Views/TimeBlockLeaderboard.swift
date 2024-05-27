@@ -61,7 +61,7 @@ struct TimeBlockLeaderboard: View {
 
 #Preview {
     ZStack {
-        Color(.secondarySystemBackground)
+        Color.secondarySystemBackground
         TimeBlockLeaderboard(blocks: User.main.getTimeBlocksBetween().consolidate())
             .frame(width: 200, height: 200.0)
     }

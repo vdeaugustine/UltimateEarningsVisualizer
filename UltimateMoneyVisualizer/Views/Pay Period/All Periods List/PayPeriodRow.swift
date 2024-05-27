@@ -73,7 +73,7 @@ struct PayPeriodRow_Previews: PreviewProvider {
 
     static var previews: some View {
         ZStack {
-            Color.listBackgroundColor.frame(maxWidth: .infinity, maxHeight: .infinity)
+            Color.secondarySystemBackground.frame(maxWidth: .infinity, maxHeight: .infinity)
             PayPeriodRow(payPeriod: user.getPayPeriods().first!, isCurrent: true)
                 .background(.white)
         }

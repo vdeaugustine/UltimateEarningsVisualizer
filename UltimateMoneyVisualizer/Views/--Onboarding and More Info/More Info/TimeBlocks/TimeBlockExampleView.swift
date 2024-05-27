@@ -151,7 +151,7 @@ struct TimeBlockExampleView: View {
                 .frame(maxWidth: .infinity)
                 .padding(10)
                 .background {
-                    Color(.secondarySystemBackground)
+                    Color.secondarySystemBackground
                         .clipShape(RoundedRectangle(cornerRadius: 8))
                 }
 
@@ -283,7 +283,7 @@ struct TimeBlockExampleView: View {
         .frame(maxWidth: .infinity)
         .padding(10)
         .background {
-            Color(.secondarySystemBackground)
+            Color.secondarySystemBackground
                 .clipShape(RoundedRectangle(cornerRadius: 8))
         }
 

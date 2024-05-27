@@ -93,7 +93,7 @@ struct PayoffItemDetailProgressBox: View {
 struct PayoffItemDetailProgressBox_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
-            Color.listBackgroundColor
+            Color.secondarySystemBackground
             PayoffItemDetailProgressBox(viewModel: PayoffItemDetailViewModel(payoffItem: User.main.getGoals().first!))
                 
         }

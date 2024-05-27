@@ -162,7 +162,7 @@ struct PayoffItemDetailTagsSection_Previews: PreviewProvider {
         .last!)
     static var previews: some View {
         ZStack(alignment: .leading) {
-            Color.listBackgroundColor
+            Color.secondarySystemBackground
             PayoffItemDetailTagsSection(viewModel: model)
                 .padding()
         }

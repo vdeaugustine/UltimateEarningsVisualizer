@@ -67,7 +67,7 @@ struct OnboardingWageWalkthrough: View {
             .foregroundStyle(Color.black)
             .padding()
             .background {
-                Color.listBackgroundColor
+                Color.secondarySystemBackground
                     .clipShape(RoundedRectangle(cornerRadius: 20))
             }
         }
@@ -93,7 +93,7 @@ struct OnboardingWageWalkthrough: View {
             } label: {
                 Text(paymentType == .salary ? "year" : "hour")
                     .padding(20, 5)
-                    .background { Color.listBackgroundColor.clipShape(RoundedRectangle(cornerRadius: 20)) }
+                    .background { Color.secondarySystemBackground.clipShape(RoundedRectangle(cornerRadius: 20)) }
             }
         }
         .font(.largeTitle)

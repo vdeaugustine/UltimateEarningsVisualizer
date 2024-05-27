@@ -58,7 +58,7 @@ struct MainView_TodayView: View {
                 .padding(.horizontal)
                 Spacer()
             }
-            .background(Color.white)
+            .background(Color.secondarySystemBackground)
             .frame(maxHeight: .infinity)
 
             Spacer()
@@ -87,7 +87,7 @@ struct MainView_TodayView: View {
                 .background {
                     VStack(spacing: 0) {
                         viewModel.settings.themeColor.frame(height: 500)
-                        Color.white.frame(maxHeight: .infinity)
+                        Color.secondarySystemBackground.frame(maxHeight: .infinity)
                     }
                     .ignoresSafeArea()
                 }

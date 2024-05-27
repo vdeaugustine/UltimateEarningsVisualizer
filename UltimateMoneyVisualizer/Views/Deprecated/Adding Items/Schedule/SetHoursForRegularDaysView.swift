@@ -85,7 +85,7 @@ struct SetHoursForRegularDaysView: View {
                 .padding(.horizontal)
 
                 .centerInParentView()
-                .listRowBackground(Color.listBackgroundColor)
+                .listRowBackground(Color.secondarySystemBackground)
             } header: {
                 Text("Hours").hidden()
             }

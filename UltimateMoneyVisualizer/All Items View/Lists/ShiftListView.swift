@@ -273,7 +273,7 @@ struct ShiftListView: View {
             upcomingHeader
             upcomingScroll
         }
-        .background(Color.listBackgroundColor)
+        .background(Color.secondarySystemBackground)
     }
 
     var upcomingScroll: some View {

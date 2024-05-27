@@ -23,7 +23,6 @@ struct NewHomeView: View {
 
     let dispatchPause: CGFloat = 0.7
 
-
     // MARK: - Main Body
 
     var body: some View {
@@ -59,7 +58,7 @@ struct NewHomeView: View {
         }
         .modifier(Modifiers(vm: vm,
                             settings: settings,
-                            floatingButton: { floatingButton }))
+                            floatingButton: floatingButton))
     }
 
     // MARK: - Modifiers
@@ -102,7 +101,7 @@ struct NewHomeView: View {
         }
     }
 
-    @ViewBuilder private var floatingButton: some View {
+    @ViewBuilder private func floatingButton() -> some View {
         HStack {
             Spacer()
             FloatingPlusButton(isShowing: $vm.quickMenuOpen)
@@ -118,7 +117,6 @@ extension NewHomeView {
         self.scrollOffset = scrollOffset
         print("New offset: ", scrollOffset)
     }
-
 
     enum ViewTags: String, Hashable {
         case totals, summary, netMoney, payoffQueue, wageBreakdown, timeBlocks, scrollView

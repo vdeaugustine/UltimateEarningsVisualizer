@@ -155,7 +155,7 @@ struct ShiftDetailView: View {
                 }
             }
         }
-        .background(Color.listBackgroundColor)
+        .background(Color.secondarySystemBackground)
         .putInTemplate()
         .navigationTitle("Shift for \(shift.start.getFormattedDate(format: .abbreviatedMonth))")
         .confirmationDialog("Are you sure you want to delete this shift?", isPresented: $showDeleteConfirmation, titleVisibility: .visible) {

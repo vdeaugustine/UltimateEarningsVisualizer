@@ -83,7 +83,7 @@ struct AddAllocationForGoalView: View {
                 }
             }
         }
-        .background { Color.listBackgroundColor }
+        .background { Color.secondarySystemBackground }
         .putInTemplate()
         .navigationTitle("Allocate Money")
         
@@ -160,7 +160,7 @@ struct AddAllocationForGoalView: View {
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background { Color.listBackgroundColor }
+            .background { Color.secondarySystemBackground }
             .putInTemplate()
             .navigationTitle("Shift for " + shift.start.getFormattedDate(format: .abbreviatedMonth))
             .toast(isPresenting: $showToast, alert: { toastConfig })
@@ -244,7 +244,7 @@ struct AddAllocationForGoalView: View {
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background { Color.listBackgroundColor }
+            .background { Color.secondarySystemBackground }
             .putInTemplate()
             .navigationTitle("Shift for " + saved.getDate().getFormattedDate(format: .abbreviatedMonth))
             .toast(isPresenting: $showToast, alert: { toastConfig })

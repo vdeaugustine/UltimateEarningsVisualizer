@@ -29,7 +29,7 @@ struct TodayViewPaidOffRect: View {
                 progressAndTotal
             }
             .padding(12, 20)
-            .background(.white)
+            .background(Color.tertiarySystemBackground)
             .cornerRadius(15)
         }
         .onTapGesture {

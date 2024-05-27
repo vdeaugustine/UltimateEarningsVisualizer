@@ -139,7 +139,7 @@ struct EnterMoneyView: View {
         
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background {
-            Color.listBackgroundColor
+            Color.secondarySystemBackground
         }
         .foregroundStyle(settings.getDefaultGradient())
         .onChange(of: enteredStr) { newValue in
