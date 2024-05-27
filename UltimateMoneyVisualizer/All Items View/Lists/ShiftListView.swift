@@ -235,7 +235,7 @@ struct ShiftListView: View {
                                 .labelStyle(.iconOnly)
                         }
                     }
-                    .foregroundStyle(Color.black)
+                    .foregroundStyle(Color.primary)
                 }
             }
         }

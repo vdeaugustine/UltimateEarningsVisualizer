@@ -27,7 +27,7 @@ extension Text {
     }
     
     
-    func format(size: CGFloat, weight: Font.Weight = .regular, color: Color = .textPrimary) -> Text {
+    func format(size: CGFloat, weight: Font.Weight = .regular, color: Color = .primary) -> Text {
         self.font(.system(size: size)).fontWeight(weight).foregroundColor(color)
     }
     

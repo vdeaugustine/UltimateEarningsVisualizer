@@ -25,17 +25,17 @@ struct SummaryView_HomeView: View {
                 Text("Total")
                     .font(.callout)
                     .fontWeight(.semibold)
-                    .foregroundStyle(Color(red: 0.13, green: 0.13, blue: 0.13))
+                    .foregroundStyle(Color.primary)
                     .underline()
                 Spacer()
                 Text(vm.getSummaryTotal().money())
                     .font(.system(size: 14))
                     .fontWeight(.semibold)
-                    .foregroundColor(Color(red: 0.13, green: 0.13, blue: 0.13))
+                    .foregroundColor(Color.primary)
             }
         }
         .padding(20)
-        .background(.white)
+        .background(Color.tertiarySystemBackground)
         .cornerRadius(12)
         .modifier(ShadowForRect())
         .padding(.horizontal)
@@ -52,12 +52,11 @@ struct SummaryView_HomeView: View {
                 Text(title)
                     .font(.callout)
                     .fontWeight(.semibold)
-                    .foregroundColor(Color(red: 0.13, green: 0.13, blue: 0.13))
 
                 Spacer()
                 Text(subtitle)
                     .font(.system(size: 14))
-                    .foregroundColor(Color(red: 0.37, green: 0.37, blue: 0.37))
+                    .foregroundColor(Color.secondary)
             }
         }
     }
@@ -71,20 +70,16 @@ struct SummaryView_HomeView: View {
         var body: some View {
             HStack {
                 Text(title)
-//                    .underline()
-                    .foregroundColor(Color(red: 0.13, green: 0.13, blue: 0.13))
 
                 Spacer()
 
                 Text(value)
                     .multilineTextAlignment(.trailing)
-                    .foregroundColor(.black)
             }
             .font(.system(size: 14))
         }
     }
 }
-
 
 #Preview {
     SummaryView_HomeView()

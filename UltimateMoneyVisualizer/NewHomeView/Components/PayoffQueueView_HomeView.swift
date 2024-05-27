@@ -45,7 +45,7 @@ struct PayoffQueueView_HomeView: View {
                     Image(systemName: "ellipsis")
                         .font(.callout)
                 }
-                .foregroundStyle(.black)
+                .foregroundStyle(.primary)
             }
             .padding(.horizontal)
 

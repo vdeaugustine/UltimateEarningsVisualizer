@@ -42,7 +42,7 @@ struct WageBreakdown_HomeView: View {
 //                        color: vm.taxesToggleOn ? .textOnColor : .textPrimary)
                 .padding(8, 2)
                 .background {
-                    { vm.taxesToggleOn ? Color.black : Color.white }()
+                    { vm.taxesToggleOn ? Color.primary : Color.secondary }()
                         .clipShape(Capsule())
                 }
                 .overlay {

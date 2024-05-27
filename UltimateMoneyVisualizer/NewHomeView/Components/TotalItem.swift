@@ -22,23 +22,18 @@ struct TotalItem: View {
             Text(type.amount(user))
                 .font(.callout)
                 .fontWeight(.semibold)
-                .foregroundStyle(Color(red: 0.13,
-                                       green: 0.13,
-                                       blue: 0.13))
                 
             Text(type.title)
                 .format(size: 12,
                         weight: .regular,
-                        color: Color(red: 0.37,
-                                     green: 0.37,
-                                     blue: 0.37))
+                        color: .secondary)
         }
         .overlay {
             if vm.selectedTotalItem == type {
                 Color.clear
                     .safeAreaInset(edge: .bottom) {
                         Rectangle()
-                            .fill(Color(red: 0.87, green: 0.87, blue: 0.87))
+                            .fill(.secondary)
                             .frame(height: 2)
                             .offset(y: 6)
                     }

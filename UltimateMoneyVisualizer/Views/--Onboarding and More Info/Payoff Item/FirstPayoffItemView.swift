@@ -83,7 +83,7 @@ struct FirstGoalView: View {
                         Text("Edit")
                     }
                     .allPartsTappable()
-                    .foregroundStyle(Color.black)
+                    .foregroundStyle(Color.primary)
                 }
                 .defaultPopover(isPresented: $amountPopover, text: "Finally, enter the amount for your goal!", direction: .up)
             }
@@ -186,7 +186,7 @@ struct FirstExpenseView: View {
                         Text("Edit")
                     }
                     .allPartsTappable()
-                    .foregroundStyle(Color.black)
+                    .foregroundStyle(Color.primary)
                 }
                 .defaultPopover(isPresented: $amountPopover, text: "Finally, enter the amount for your goal!", direction: .up)
             }

@@ -26,7 +26,7 @@ struct PayoffContributionsView: View {
                             } label: {
                                 AllocShiftRow(shift: shift, allocation: alloc)
                             }
-                            .foregroundStyle(Color.black)
+                            .foregroundStyle(Color.primary)
                         }
                     }
                     .onDelete(perform: deleteShift)

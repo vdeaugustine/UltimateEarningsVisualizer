@@ -123,7 +123,7 @@ struct TodayViewItemizedPart: View {
                 .font(.system(size: 13))
             Rectangle()
                 .frame(height: 1.5)
-                .foregroundColor(Color.black)
+                .foregroundColor(Color.primary)
                 .cornerRadius(2)
         }
     }

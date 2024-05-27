@@ -69,8 +69,6 @@ struct TodayViewPaidOffRect: View {
             Text(item.type.titleForProgressCircle)
                 .format(size: 12, weight: .bold)
                 .lineLimit(1)
-
-                .foregroundStyle(Color(uiColor: .gray))
         }
     }
 

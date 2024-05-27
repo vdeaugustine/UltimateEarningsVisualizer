@@ -61,7 +61,7 @@ struct PayoffItemDetailTagsSection: View {
                         TagRow(tag: tag)
                             .padding(.vertical, 5)
 
-                    }.foregroundStyle(Color.black)
+                    }.foregroundStyle(Color.primary)
                     Divider()
                 }
                 Menu {

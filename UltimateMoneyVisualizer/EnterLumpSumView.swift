@@ -38,7 +38,7 @@ struct EnterLumpSumView: View {
                         Text("Edit")
                     }
                 }
-                .foregroundStyle(.black)
+                .foregroundStyle(.primary)
             }
 
             Section("Mark as earned wages") {

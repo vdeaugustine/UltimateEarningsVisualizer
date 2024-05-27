@@ -10,7 +10,7 @@ import SwiftUI
 // MARK: - ConnectedCirclesView
 
 struct ConnectedCirclesView: View {
-    var bottomCircleFill: Color = .black
+    var bottomCircleFill: Color = .primary
     var lineWidth: CGFloat = 3
 
     var body: some View {

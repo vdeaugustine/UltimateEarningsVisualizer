@@ -143,7 +143,7 @@ struct TimeBlockPopup: View {
         .padding()
     }
 
-    @ViewBuilder func bulletContent(_ text: String, color: Color = .black, font: Font = .subheadline, fontWeight: Font.Weight = .regular) -> some View {
+    @ViewBuilder func bulletContent(_ text: String, color: Color = .primary, font: Font = .subheadline, fontWeight: Font.Weight = .regular) -> some View {
         HStack {
             Circle()
                 .foregroundStyle(color)

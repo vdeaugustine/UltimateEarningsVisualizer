@@ -139,7 +139,7 @@ struct ExpenseDetailView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.black.opacity(0.7))
+        .background(Color.primary.opacity(0.7))
         .edgesIgnoringSafeArea(.all)
         .opacity(viewModel.isShowingFullScreenImage ? 1 : 0)
     }

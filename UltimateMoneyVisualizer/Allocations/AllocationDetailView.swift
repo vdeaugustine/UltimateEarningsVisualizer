@@ -96,7 +96,7 @@ struct AllocationDetailView: View {
                             Text(saved.getAmount().money())
                                 .fontWeight(.bold)
                         }
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.primary)
                     }
                 }
                 if let shift = allocation.shift {
@@ -113,7 +113,7 @@ struct AllocationDetailView: View {
                             Components.nextPageChevron
                         }
                     }
-                    .foregroundStyle(.black)
+                    .foregroundStyle(.primary)
                 }
             }
 

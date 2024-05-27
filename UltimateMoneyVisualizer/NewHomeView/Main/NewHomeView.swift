@@ -39,6 +39,7 @@ struct NewHomeView: View {
                         } label: {
                             SummaryView_HomeView()
                         }
+                        .buttonStyle(.plain)
                         .id(ViewTags.summary)
                         NetMoney_HomeView()
                             .id(ViewTags.netMoney)
