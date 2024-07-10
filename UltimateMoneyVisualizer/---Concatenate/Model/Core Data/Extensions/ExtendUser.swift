@@ -391,7 +391,7 @@ public extension User {
         }
 
         let newSettings = Settings(context: getContext())
-        newSettings.themeColor = Color(hex: "0A5F54")
+        newSettings.themeColor = Color.accentColor
         newSettings.user = self
         settings = newSettings
         do {

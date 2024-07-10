@@ -34,19 +34,19 @@ struct WageBreakdown_HomeView: View {
 
             Spacer()
 
-            Text("Taxes")
-                .foregroundStyle(vm.taxesToggleOn ? Color.textOnColor : Color.textPrimary)
+            Text("Include Taxes")
+                .foregroundStyle(vm.taxesToggleOn ? Color.white : Color(UIColor.secondaryLabel))
                 .font(.subheadline)
-//                .format(size: 14,
-//                        weight: .regular,
-//                        color: vm.taxesToggleOn ? .textOnColor : .textPrimary)
-                .padding(8, 2)
+                .padding(12, 2)
                 .background {
-                    { vm.taxesToggleOn ? Color.primary : Color.secondary }()
+                    { vm.taxesToggleOn ? Color.accentColor : Color.clear }()
                         .clipShape(Capsule())
                 }
                 .overlay {
-                    Capsule().stroke(Color.gray, style: /*@START_MENU_TOKEN@*/StrokeStyle()/*@END_MENU_TOKEN@*/)
+                    if !vm.taxesToggleOn {
+                        Capsule().stroke(Color(UIColor.secondaryLabel), style: /*@START_MENU_TOKEN@*/StrokeStyle()/*@END_MENU_TOKEN@*/)
+                    }
+                    
                 }
                 .offset(y: 2)
                 .onTapGesture {

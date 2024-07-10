@@ -90,7 +90,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .environment(\.managedObjectContext, PersistenceController.context)
+            .environment(\.managedObjectContext, PersistenceController.testing)
             .environmentObject(NavManager())
             .environmentObject(User.main)
     }
