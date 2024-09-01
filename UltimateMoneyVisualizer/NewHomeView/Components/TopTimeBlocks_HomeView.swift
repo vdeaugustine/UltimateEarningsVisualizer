@@ -34,7 +34,11 @@ struct TopTimeBlocks_HomeView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     if consolidatedBlocks.isEmpty {
-                        TodayViewExampleItemizedBlock()
+                        Button {
+                            vm.navManager.appendCorrectPath(newValue: .timeBlockMoreInfoAndTutorial)
+                        } label: {
+                            TodayViewExampleItemizedBlock()
+                        }
                     } else {
                         ForEach(consolidatedBlocks) { block in
 

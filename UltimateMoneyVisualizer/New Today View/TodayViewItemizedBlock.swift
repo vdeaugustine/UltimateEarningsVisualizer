@@ -35,7 +35,7 @@ struct TodayViewItemizedBlock: View {
         .padding()
         .frame(maxWidth: .infinity)
         .background {
-            Color(.white)
+            Color(UIColor.tertiarySystemBackground)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .modifier(ShadowForRect())
         }
@@ -67,7 +67,7 @@ struct TodayViewExampleItemizedBlock: View {
         }
         .padding()
         .background {
-            Color(.white)
+            Color(UIColor.tertiarySystemBackground)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .modifier(ShadowForRect())
 //                .shadow(color: .black.opacity(0.25), radius: 2, x: 1, y: 3)
@@ -123,7 +123,7 @@ struct ExampleTimeBlockCompact: View {
         }
         .padding()
         .background {
-            UIColor.systemBackground.color
+            UIColor.tertiarySystemBackground.color
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .modifier(ShadowForRect())
 //                .shadow(color: .black.opacity(0.25), radius: 2, x: 1, y: 3)

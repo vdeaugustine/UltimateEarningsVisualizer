@@ -138,6 +138,7 @@
 		9C514DB02A002266003DC43C /* ExtendPayoffQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C514DAF2A002266003DC43C /* ExtendPayoffQueue.swift */; };
 		9C514DB32A0024E9003DC43C /* PayoffItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C514DB22A0024E9003DC43C /* PayoffItem.swift */; };
 		9C514DB52A00A480003DC43C /* PayoffQueueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C514DB42A00A480003DC43C /* PayoffQueueView.swift */; };
+		9C5280CC2C3E55B300A9D4F2 /* WhatIsATimeblockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5280CB2C3E55B300A9D4F2 /* WhatIsATimeblockView.swift */; };
 		9C53211C2A456233008D0F92 /* CreateGoalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C53211B2A456233008D0F92 /* CreateGoalViewModel.swift */; };
 		9C5749902B1ADDD900362B75 /* FinalOnboardingEnterAmount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C57498F2B1ADDD900362B75 /* FinalOnboardingEnterAmount.swift */; };
 		9C58DC992A8CAE8B00499C9E /* PayoffItemRectGeneral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C58DC982A8CAE8B00499C9E /* PayoffItemRectGeneral.swift */; };
@@ -497,6 +498,7 @@
 		9C514DAF2A002266003DC43C /* ExtendPayoffQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendPayoffQueue.swift; sourceTree = "<group>"; };
 		9C514DB22A0024E9003DC43C /* PayoffItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayoffItem.swift; sourceTree = "<group>"; };
 		9C514DB42A00A480003DC43C /* PayoffQueueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayoffQueueView.swift; sourceTree = "<group>"; };
+		9C5280CB2C3E55B300A9D4F2 /* WhatIsATimeblockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatIsATimeblockView.swift; sourceTree = "<group>"; };
 		9C53211B2A456233008D0F92 /* CreateGoalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGoalViewModel.swift; sourceTree = "<group>"; };
 		9C57498F2B1ADDD900362B75 /* FinalOnboardingEnterAmount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalOnboardingEnterAmount.swift; sourceTree = "<group>"; };
 		9C58DC982A8CAE8B00499C9E /* PayoffItemRectGeneral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayoffItemRectGeneral.swift; sourceTree = "<group>"; };
@@ -1524,6 +1526,7 @@
 		9C7F965929F8F03C00F5035C /* UltimateMoneyVisualizer */ = {
 			isa = PBXGroup;
 			children = (
+				9C5280CB2C3E55B300A9D4F2 /* WhatIsATimeblockView.swift */,
 				9CAE0B3C2A9AD4F8009034EC /* --Onboarding and More Info */,
 				9C7F96A329F8FEB000F5035C /* --TopLevel */,
 				9C9735902A0D78BC00F651A1 /* All Items View */,
@@ -2601,6 +2604,7 @@
 				9CDD4E612A68E56800AB8B4F /* TodayPaidOffRectContainer.swift in Sources */,
 				9C7C985229FB613E0077EA25 /* ExtendColor.swift in Sources */,
 				9C3574692B094CF6000AED9D /* PayoffItemDetailDueDateBox.swift in Sources */,
+				9C5280CC2C3E55B300A9D4F2 /* WhatIsATimeblockView.swift in Sources */,
 				9C35746B2B094D04000AED9D /* GoalDetailShiftsSection.swift in Sources */,
 				9CF885AE2A5E063900F63766 /* StretchyHeader.swift in Sources */,
 				9C432B9F2B15D2DF00216AAC /* FinalOnboardingHoursForDay.swift in Sources */,
