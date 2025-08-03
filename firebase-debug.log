@@ -1,2 +1,4 @@
 [debug] [2025-08-03T08:49:56.782Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
 [debug] [2025-08-03T08:49:56.784Z] > authorizing via signed-in user (vin@vinwareapps.com)
+[debug] [2025-08-03T09:02:56.442Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-08-03T09:02:56.444Z] > authorizing via signed-in user (vin@vinwareapps.com)
