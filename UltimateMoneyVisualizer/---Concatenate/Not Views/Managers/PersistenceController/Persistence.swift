@@ -71,9 +71,9 @@ public struct PersistenceController {
                  * The store could not be migrated to the current model version.
                  Check the error message to determine what the actual problem was.
                  */
-                print("error", error)
-                // TODO: Get rid of this fatal error when ready to ship
-                fatalError("Unresolved error \(error), \(error.userInfo)")
+                // 🚨 Persistent store failed to load; log and continue without crashing
+                print("🗄️ Core Data load error: \(error), userInfo: \(error.userInfo)")
+                // Consider migrating, retrying, or falling back to in-memory store in a future iteration
             }
         })
         container.viewContext.automaticallyMergesChangesFromParent = true
@@ -85,8 +85,8 @@ public struct PersistenceController {
                     // Use the container to initialize the development schema.
                     try container.initializeCloudKitSchema(options: [])
                 } catch {
-                    // Handle any errors.
-                    fatalError(String(describing: error))
+                    // Handle any errors gracefully
+                    print("☁️ CloudKit schema init failed: \(String(describing: error))")
                 }
             }
         #endif

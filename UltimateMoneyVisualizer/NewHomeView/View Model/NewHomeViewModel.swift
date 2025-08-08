@@ -15,14 +15,13 @@ class NewHomeViewModel: ObservableObject {
         WageViewModel.shared.wageChangesPublisher
             .sink { [weak self] newWage in
                 self?.wage = newWage
-                self?.objectWillChange.send()
             }
             .store(in: &cancellables)
     }
 
-    @ObservedObject var user = User.main
-    @ObservedObject var wage = User.main.getWage()
-    @ObservedObject var navManager = NavManager.shared
+    let user = User.main
+    @Published var wage: Wage = User.main.getWage()
+    let navManager = NavManager.shared
 
     @Published var selectedTotalItem: TotalTypes = .earned
 

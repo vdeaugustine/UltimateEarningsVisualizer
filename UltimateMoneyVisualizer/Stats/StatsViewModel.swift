@@ -5,11 +5,11 @@ import SwiftUI
 
 class StatsViewModel: ObservableObject {
     static var shared = StatsViewModel()
-    @ObservedObject var user: User = User.main
+    let user: User = User.main
     @Published var selectedSection: MoneySection = .earned
     @Published var firstDate: Date = .now.addDays(-5)
     @Published var secondDate: Date = .endOfDay()
-    @ObservedObject var navManager = NavManager.shared
+    let navManager = NavManager.shared
     @Published var earnedItems: [Shift] = []
     @Published var savedItems: [Saved] = []
     @Published var expenseItems: [Expense] = []

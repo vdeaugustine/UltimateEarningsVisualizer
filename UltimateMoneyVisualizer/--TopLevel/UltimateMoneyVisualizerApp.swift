@@ -10,14 +10,21 @@ import UserNotifications
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-//        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
-//            if granted {
-//                print("User authorized notifications.")
-//            } else {
-//                print("User did not authorize notifications.")
-//            }
-//        }
-        
+        // 🔔 Ask for notification permissions on launch
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            if let error = error {
+                print("🔔 Notification auth error: \(error.localizedDescription)")
+            }
+            if granted {
+                print("🔔 Notifications authorized")
+                // Schedule a daily reminder at a reasonable default time
+                DispatchQueue.main.async {
+                    NotificationManager.scheduleDailyNotification()
+                }
+            } else {
+                print("🔔 Notifications not authorized")
+            }
+        }
         
         User.main.addNewVisit()
         do {
@@ -49,11 +56,7 @@ struct UltimateMoneyVisualizerApp: App {
         WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, context)
-                .environment(\.sizeCategory, .large) // Set a fixed size category for the entire app
                 .environmentObject(navManager)
-                .onAppear() {
-                    NotificationManager.scheduleDailyNotification()
-                }
                 .environmentObject(user)
                 
         }

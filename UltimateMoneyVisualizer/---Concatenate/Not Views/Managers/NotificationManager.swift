@@ -12,26 +12,23 @@ class NotificationManager {
     
     static func scheduleDailyNotification() {
         let content = UNMutableNotificationContent()
-        content.title = "Teddy is a very good ted dog."
-        content.body = "Tiana is a very good red dog."
+        content.title = "Stay on top of your earnings 💸"
+        content.body = "Open the app to log shifts and track progress."
         content.sound = .default
-        
-        var dateComponents = DateComponents()
-        dateComponents.hour = 17
-        dateComponents.minute = 57
-        let date = Date.now.addMinutes(10 / 60)
-        
-        let comps = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
-        
+
+        // Default to 9:00 AM local time; hour/minute only when repeats == true
+        var comps = DateComponents()
+        comps.hour = 9
+        comps.minute = 0
+
         let trigger = UNCalendarNotificationTrigger(dateMatching: comps, repeats: true)
         let request = UNNotificationRequest(identifier: "dailyNotification", content: content, trigger: trigger)
-        
-        UNUserNotificationCenter.current().add(request) { (error) in
+
+        UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
-                print("Error scheduling daily notification:", error)
+                print("🔔 Failed to schedule daily notification: \(error.localizedDescription)")
             } else {
-                print("Daily notification scheduled.")
-                print("Should notify at \(date)\n\(comps)")
+                print("🔔 Daily notification scheduled at \(comps.hour ?? 0):\(String(format: "%02d", comps.minute ?? 0))")
             }
         }
     }
