@@ -5,6 +5,7 @@
 //  Created by Vincent DeAugustine on 4/26/23.
 //
 
+#if false
 import SwiftUI
 import Vin
 
@@ -233,3 +234,5 @@ struct HomeView_Previews: PreviewProvider {
             .environmentObject(NavManager())
     }
 }
+
+#endif

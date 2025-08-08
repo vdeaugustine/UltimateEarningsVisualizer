@@ -8,10 +8,21 @@
 import Combine
 import SwiftUI
 
+// DI types are defined in `AppDependencies/AppDependencies.swift`
+
 class NewHomeViewModel: ObservableObject {
     static var shared: NewHomeViewModel = .init()
 
-    init() {
+    let user: User
+    @Published var wage: Wage
+    let navigator: NavigationCoordinating
+
+    init(deps: AppDependencies = .shared) {
+        self.user = deps.userProvider.current
+        self.navigator = deps.navigator
+        self.wage = user.getWage()
+        self.taxesToggleOn = user.getWage().includeTaxes
+
         WageViewModel.shared.wageChangesPublisher
             .sink { [weak self] newWage in
                 self?.wage = newWage
@@ -19,13 +30,9 @@ class NewHomeViewModel: ObservableObject {
             .store(in: &cancellables)
     }
 
-    let user = User.main
-    @Published var wage: Wage = User.main.getWage()
-    let navManager = NavManager.shared
-
     @Published var selectedTotalItem: TotalTypes = .earned
-
-    @Published var taxesToggleOn: Bool = User.main.getWage().includeTaxes
+    
+    @Published var taxesToggleOn: Bool
 
     @Published var quickMenuOpen: Bool = false
 
@@ -33,9 +40,9 @@ class NewHomeViewModel: ObservableObject {
 
     func payoffItemTapped(_ item: PayoffItem?) {
         if let goal = item as? Goal {
-            navManager.appendCorrectPath(newValue: .goal(goal))
+            navigator.push(.goal(goal))
         } else if let expense = item as? Expense {
-            navManager.appendCorrectPath(newValue: .expense(expense))
+            navigator.push(.expense(expense))
         }
     }
 
