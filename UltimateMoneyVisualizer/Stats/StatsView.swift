@@ -12,7 +12,7 @@ import Vin
 // MARK: - StatsView
 
 struct StatsView: View {
-    @StateObject private var vm: StatsViewModel = .shared
+    @StateObject private var vm = StatsViewModel()
 
     var body: some View {
         ScrollView {

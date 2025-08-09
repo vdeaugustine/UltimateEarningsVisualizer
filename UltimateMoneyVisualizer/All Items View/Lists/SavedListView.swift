@@ -12,6 +12,7 @@ import SwiftUI
 
 struct SavedListView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.dependencies) private var deps
 
     @State private var searchText: String = ""
     @ObservedObject private var user = User.main
@@ -41,7 +42,7 @@ struct SavedListView: View {
                        saved.date != nil,
                        saved.amount > 0 {
                         Button {
-                            NavManager.shared.appendCorrectPath(newValue: .saved(saved))
+                            deps.navigator.push(.saved(saved))
                         } label: {
                             SavedItemRow(saved: saved, user: user)
                         }
@@ -77,7 +78,7 @@ struct SavedListView: View {
             
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
-                    NavManager.shared.appendCorrectPath(newValue: .createSaved)
+                    deps.navigator.push(.createSaved)
                 } label: {
                     Label("Add Saved Item", systemImage: "plus")
                 }

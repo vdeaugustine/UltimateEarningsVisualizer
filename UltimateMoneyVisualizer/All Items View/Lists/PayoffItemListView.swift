@@ -13,6 +13,7 @@ struct PayoffItemListView: View {
     let payoffType: PayoffType
 
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.dependencies) private var deps
     @ObservedObject private var user = User.main
 
     // swiftformat:sort:begin
@@ -55,10 +56,10 @@ struct PayoffItemListView: View {
                                 Button {
                                     if let goal = item as? Goal {
                                         print("tapped goal")
-                                        NavManager.shared.appendCorrectPath(newValue: .goal(goal))
+                                        deps.navigator.push(.goal(goal))
                                     } else if let expense = item as? Expense {
                                         print("tapped expense")
-                                        NavManager.shared.appendCorrectPath(newValue: .expense(expense))
+                                        deps.navigator.push(.expense(expense))
                                     }
                                 } label: {
                                     PayoffItemRectGeneral(item: item)
@@ -92,9 +93,9 @@ struct PayoffItemListView: View {
                 Button {
                     switch payoffType {
                         case .goal:
-                            NavManager.shared.appendCorrectPath(newValue: .createGoal)
+                            deps.navigator.push(.createGoal)
                         case .expense:
-                            NavManager.shared.appendCorrectPath(newValue: .createExpense)
+                            deps.navigator.push(.createExpense)
                         case .tax:
                             return
                     }

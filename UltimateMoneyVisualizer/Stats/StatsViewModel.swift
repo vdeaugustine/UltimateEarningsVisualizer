@@ -4,7 +4,6 @@ import SwiftUI
 // MARK: - StatsViewModel
 
 class StatsViewModel: ObservableObject {
-    static var shared = StatsViewModel()
     let user: User
     let repo: EarningsRepository
     @Published var selectedSection: MoneySection = .earned

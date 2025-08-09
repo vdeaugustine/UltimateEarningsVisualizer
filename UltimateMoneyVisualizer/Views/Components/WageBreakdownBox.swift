@@ -12,6 +12,7 @@ import SwiftUI
 struct WageBreakdownBox: View {
     @ObservedObject private var user = User.main
     @ObservedObject private var wage = User.main.getWage()
+    @Environment(\.dependencies) private var deps
 
     var body: some View {
         homeSection {
@@ -19,7 +20,7 @@ struct WageBreakdownBox: View {
                 .font(.headline)
                 .spacedOut {
                     Button {
-                        NavManager.shared.appendCorrectPath(newValue: .enterWage)
+                        deps.navigator.push(.enterWage)
                     } label: {
                         Image(systemName: "ellipsis")
                             .font(.subheadline)

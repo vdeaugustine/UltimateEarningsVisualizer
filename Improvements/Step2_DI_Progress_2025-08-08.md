@@ -31,6 +31,26 @@ This document tracks what changed today and what to do next for the Step 2 DI an
     - Converted static lets → computed vars to capture navigator
     - Preview injects `NewHomeViewModel()`
 
+- Stats feature moved to DI (no singleton):
+  - `UltimateMoneyVisualizer/Stats/StatsViewModel.swift`
+    - Removed `static var shared`
+    - VM initializes via `init(deps: AppDependencies = .shared)` and uses `deps.navigator` + `deps.earningsRepository`
+  - `UltimateMoneyVisualizer/Stats/StatsView.swift`
+    - `@StateObject private var vm = StatsViewModel()`
+    - `onAppear { vm.refresh() }`
+
+- Replaced direct NavManager calls with DI navigator:
+  - `UltimateMoneyVisualizer/Settings/SettingsView.swift`
+    - Added `@Environment(\.dependencies) var deps`
+    - Replaced `.appendCorrectPath(...)` with `deps.navigator.push(...)`
+    - Updated nested `TutorialsSection` similarly
+  - `UltimateMoneyVisualizer/All Items View/Lists/SavedListView.swift`
+    - Added `deps` and used `deps.navigator.push(.saved/.createSaved)`
+  - `UltimateMoneyVisualizer/All Items View/Lists/PayoffItemListView.swift`
+    - Added `deps` and used `deps.navigator.push(.goal/.expense/.createGoal/.createExpense)`
+  - `UltimateMoneyVisualizer/Views/Components/WageBreakdownBox.swift`
+    - Added `deps` and used `deps.navigator.push(.enterWage)`
+
 ## Current DI Baseline
 - DI types embedded in app file for now:
   - `UltimateMoneyVisualizer/--TopLevel/UltimateMoneyVisualizerApp.swift`
@@ -42,15 +62,12 @@ This document tracks what changed today and what to do next for the Step 2 DI an
 
 ## What’s Next
 - Remove singletons in remaining features (switch to DI navigator where a VM exists):
-  - `UltimateMoneyVisualizer/Settings/SettingsView.swift`
+  - `UltimateMoneyVisualizer/All Items View/Main Controller/AllItemsView.swift`
   - `UltimateMoneyVisualizer/Pay Period/Editing Items/EditShiftView.swift`
   - `UltimateMoneyVisualizer/New Today View/NewTodayView.swift`
-  - `UltimateMoneyVisualizer/All Items View/Main Controller/AllItemsView.swift`
   - Grep for: `NavManager.shared`, `appendCorrectPath`, `getDestinationViewForStack`
 - Stats feature to DI:
-  - `UltimateMoneyVisualizer/Stats/StatsView.swift` uses `.shared`
-  - Refactor `StatsViewModel` to accept `AppDependencies` (navigator + `EarningsRepository`) and remove singleton
-  - Update any dependent subviews (e.g., Time Block Stats)
+  - DONE. Consider follow-ups in related stats subviews if any rely on singletons.
 - Unembed and enable DI files (remove `#if false` and delete embedded duplicates in app file):
   - `UltimateMoneyVisualizer/AppDependencies/AppDependencies.swift`
   - `UltimateMoneyVisualizer/AppDependencies/Environment+Dependencies.swift`
@@ -68,7 +85,8 @@ This document tracks what changed today and what to do next for the Step 2 DI an
 - [x] Home navigations use `vm.navigator.push(...)`
 - [x] Previews inject `NewHomeViewModel()` where `@EnvironmentObject` is required
 - [ ] All `NavManager.shared.appendCorrectPath` in other features removed
-- [ ] `StatsViewModel` singleton removed; DI-backed init and repository in place
+  - Replaced in: Settings, SavedListView, PayoffItemListView, WageBreakdownBox
+- [x] `StatsViewModel` singleton removed; DI-backed init and repository in place
 - [ ] DI files re-enabled and embedded definitions removed from app file
 - [ ] Basic unit tests for Home/Stats VMs (in-memory store)
 

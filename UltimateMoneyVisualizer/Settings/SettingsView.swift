@@ -18,6 +18,7 @@ struct SettingsView: View {
     
     @State private var errorSaving: Error? = nil
     @State private var showError = false
+    @Environment(\.dependencies) private var deps
 
     @EnvironmentObject private var user: User
     @ObservedObject var settings = User.main.getSettings()
@@ -44,8 +45,7 @@ struct SettingsView: View {
                 // MARK: - Set Wage
 
                 Button {
-
-                        NavManager.shared.appendCorrectPath(newValue: user.wage != nil ? .wage : .enterWage)
+                        deps.navigator.push(user.wage != nil ? .wage : .enterWage)
                 } label: {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "calendar",
@@ -72,7 +72,7 @@ struct SettingsView: View {
                 // MARK: - Set Hours
 
                 Button {
-                    NavManager.shared.appendCorrectPath(newValue: .regularSchedule)
+                    deps.navigator.push(.regularSchedule)
                 } label: {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "hourglass",
@@ -87,7 +87,7 @@ struct SettingsView: View {
                 // MARK: - Pay Period
 
                 Button {
-                    NavManager.shared.appendCorrectPath(newValue: .payPeriods)
+                    deps.navigator.push(.payPeriods)
                 } label: {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "calendar",
@@ -104,7 +104,7 @@ struct SettingsView: View {
                 
                 
                 Button {
-                    NavManager.shared.appendCorrectPath(newValue: .enterLumpSum)
+                    deps.navigator.push(.enterLumpSum)
                 } label: {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "dollarsign")
@@ -225,7 +225,7 @@ struct SettingsView: View {
 
             Section("Plan") {
                 Button {
-                    NavManager.shared.appendCorrectPath(newValue: .purchasePage)
+                    deps.navigator.push(.purchasePage)
                 } label: {
                     HStack {
                         SystemImageWithFilledBackground(systemName: "star.fill", backgroundColor: settings.themeColor)
@@ -266,10 +266,11 @@ struct SettingsView: View {
 
 extension SettingsView {
     struct TutorialsSection: View {
+        @Environment(\.dependencies) private var deps
         var body: some View {
             Section {
                 Button {
-                    NavManager.shared.appendCorrectPath(newValue: .timeBlockMoreInfoAndTutorial)
+                    deps.navigator.push(.timeBlockMoreInfoAndTutorial)
                 } label: {
                     HStack {
                         Label("Time Blocks", systemImage: "clock.fill")
@@ -281,7 +282,7 @@ extension SettingsView {
                 .buttonStyle(.plain)
                 
                 Button {
-                    NavManager.shared.appendCorrectPath(newValue: .goalsInfoView)
+                    deps.navigator.push(.goalsInfoView)
                 } label: {
                     HStack {
                         Label("Goals", systemImage: "star.fill")
