@@ -15,7 +15,7 @@ final class UltimateMoneyVisualizerUITests: XCTestCase {
         // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
 
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+        // In UI tests it's important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
     }
 
     override func tearDownWithError() throws {
@@ -36,6 +36,44 @@ final class UltimateMoneyVisualizerUITests: XCTestCase {
             measure(metrics: [XCTApplicationLaunchMetric()]) {
                 XCUIApplication().launch()
             }
+        }
+    }
+    
+    func testScreenshotAllTabs() throws {
+        let app = XCUIApplication()
+        app.launch()
+        
+        // Wait for app to fully load
+        let tabBar = app.tabBars.firstMatch
+        XCTAssertTrue(tabBar.waitForExistence(timeout: 10), "Tab bar should exist")
+        
+        // Tab identifiers based on the ContentView structure
+        let tabs = [
+            ("Home", "house"),
+            ("All", "dollarsign"), 
+            ("Today", "bolt.shield"),
+            ("Settings", "gear")
+        ]
+        
+        // Use the host machine's Downloads directory instead of simulator's sandboxed directory
+        let downloadsPath = URL(fileURLWithPath: "/Users/vincentdeaugustine/Downloads")
+        
+        for (index, tab) in tabs.enumerated() {
+            // Tap the tab
+            let tabButton = app.tabBars.buttons[tab.0]
+            XCTAssertTrue(tabButton.exists, "Tab \(tab.0) should exist")
+            tabButton.tap()
+            
+            // Wait for content to load
+            sleep(2)
+            
+            // Take screenshot
+            let screenshot = app.screenshot()
+            let fileName = "tab_\(index + 1)_\(tab.0.lowercased()).png"
+            let fileURL = downloadsPath.appendingPathComponent(fileName)
+            
+            try screenshot.pngRepresentation.write(to: fileURL)
+            print("Screenshot saved: \(fileURL.path)")
         }
     }
 }
