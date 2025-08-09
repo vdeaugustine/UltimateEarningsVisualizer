@@ -14,7 +14,7 @@ extension ScrollViewProxy {
 // MARK: - NewHomeView
 
 struct NewHomeView: View {
-    @StateObject private var vm: NewHomeViewModel = .shared
+    @StateObject private var vm = NewHomeViewModel()
     @ObservedObject private var settings = User.main.getSettings()
     @ObservedObject private var status = User.main.getStatusTracker()
     @State private var scrollOffset: CGPoint = .zero
@@ -35,7 +35,7 @@ struct NewHomeView: View {
                         HomeViewTotalsContent()
                             .id(ViewTags.totals)
                         Button {
-                            vm.navManager.appendCorrectPath(newValue: .stats)
+                            vm.navigator.push(.stats)
                         } label: {
                             SummaryView_HomeView()
                         }
@@ -95,7 +95,7 @@ struct NewHomeView: View {
                 .putInTemplate(displayMode: .large, settings: settings)
                 .navigationTitle(Date.now.getFormattedDate(format: .abbreviatedMonth))
                 .navigationDestination(for: NavManager.AllViews.self) { view in
-                    vm.navManager.getDestinationViewForStack(destination: view)
+                    NavManager.shared.getDestinationViewForStack(destination: view)
                 }
                 .background(Color(.secondarySystemBackground))
         }
@@ -131,7 +131,7 @@ struct NewHomeView_Previews: PreviewProvider {
         TabView {
             NavigationStack {
                 NewHomeView()
-                    .environmentObject(NewHomeViewModel.shared)
+                    .environmentObject(NewHomeViewModel())
                     .frame(maxHeight: .infinity)
             }
             .frame(maxHeight: .infinity)

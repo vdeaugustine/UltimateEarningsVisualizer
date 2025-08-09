@@ -39,7 +39,7 @@ struct PayoffQueueView_HomeView: View {
                 Spacer()
 
                 Button {
-                    vm.navManager.appendCorrectPath(newValue: .oldPayoffQueue)
+                    vm.navigator.push(.oldPayoffQueue)
 
                 } label: {
                     Image(systemName: "ellipsis")
@@ -246,6 +246,6 @@ struct PayoffQueueView_HomeView_Previews: PreviewProvider {
     static var previews: some View {
         PayoffQueueView_HomeView()
             .templateForPreview()
-            .environmentObject(NewHomeViewModel.shared)
+            .environmentObject(NewHomeViewModel())
     }
 }

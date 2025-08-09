@@ -21,7 +21,7 @@ struct TodayViewTotalsHeaderView: View {
             Text("More Stats")
                 .format(size: 14, weight: .medium, color: .textSecondary)
                 .onTapGesture {
-                    vm.navManager.appendCorrectPath(newValue: .stats)
+                    vm.navigator.push(.stats)
                 }
         }
     }
@@ -31,4 +31,5 @@ struct TodayViewTotalsHeaderView: View {
 
 #Preview {
     TodayViewTotalsHeaderView()
+        .environmentObject(NewHomeViewModel())
 }

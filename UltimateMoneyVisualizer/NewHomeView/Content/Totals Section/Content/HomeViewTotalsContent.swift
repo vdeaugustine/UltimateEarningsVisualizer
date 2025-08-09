@@ -35,5 +35,5 @@ struct HomeViewTotalsContent: View {
 
 #Preview {
     HomeViewTotalsContent()
-        .environmentObject(NewHomeViewModel.shared)
+        .environmentObject(NewHomeViewModel())
 }

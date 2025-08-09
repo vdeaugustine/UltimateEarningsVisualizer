@@ -176,23 +176,32 @@ fileprivate class CustomHostingView<Content: View>: UIHostingController<Content>
 
 struct FloatingPlusButton: View {
     @ObservedObject private var settings = User.main.getSettings()
+    @EnvironmentObject private var vm: NewHomeViewModel
     @Binding var isShowing: Bool
     @State private var showGoalPopover = !(User.main.statusTracker?.hasSeenFirstGoalPopover ?? false)
 
-    let expense = MainMenuRow(title: "Expense", iconString: IconManager.expenseString) {
-        NavManager.shared.appendCorrectPath(newValue: .createExpense)
+    // Computed menu items so they can capture injected navigator
+    var expense: MainMenuRow {
+        MainMenuRow(title: "Expense", iconString: IconManager.expenseString) {
+            vm.navigator.push(.createExpense)
+        }
     }
-    let goal = MainMenuRow(title: "Goal", iconString: IconManager.goalsString) {
-        NavManager.shared.appendCorrectPath(newValue: .createGoal)
+    var goal: MainMenuRow {
+        MainMenuRow(title: "Goal", iconString: IconManager.goalsString) {
+            vm.navigator.push(.createGoal)
+        }
     }
-    let savedItem = MainMenuRow(title: "Saved") {
-        NavManager.shared.appendCorrectPath(newValue: .createSaved)
-    } icon: {
-        IconManager.savedIcon.stroke(lineWidth: 1.5).aspectRatio(contentMode: .fit)
+    var savedItem: MainMenuRow {
+        MainMenuRow(title: "Saved") {
+            vm.navigator.push(.createSaved)
+        } icon: {
+            IconManager.savedIcon.stroke(lineWidth: 1.5).aspectRatio(contentMode: .fit)
+        }
     }
-
-    let shift = MainMenuRow(title: "Shift", iconString: IconManager.shiftsString) {
-        NavManager.shared.appendCorrectPath(newValue: .createShift)
+    var shift: MainMenuRow {
+        MainMenuRow(title: "Shift", iconString: IconManager.shiftsString) {
+            vm.navigator.push(.createShift)
+        }
     }
 
     var body: some View {
@@ -276,6 +285,7 @@ struct MainMenuRow: View {
 struct FloatingButtonView_Previews: PreviewProvider {
     static var previews: some View {
         FloatingPlusButton(isShowing: .constant(true))
+            .environmentObject(NewHomeViewModel())
         MainMenuRow(title: "Expenses", iconString: IconManager.expenseString) {}
     }
 }

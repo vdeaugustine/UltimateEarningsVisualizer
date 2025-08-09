@@ -20,7 +20,7 @@ struct WageBreakdown_HomeView: View {
         }
         .padding()
         .onTapGesture {
-            vm.navManager.appendCorrectPath(newValue: .wage)
+            vm.navigator.push(.wage)
         }
     }
 
@@ -134,6 +134,6 @@ struct WageBreakdown_NewHomeView_Previews: PreviewProvider {
     static var previews: some View {
         WageBreakdown_HomeView()
             .templateForPreview()
-            .environmentObject(NewHomeViewModel.shared)
+            .environmentObject(NewHomeViewModel())
     }
 }

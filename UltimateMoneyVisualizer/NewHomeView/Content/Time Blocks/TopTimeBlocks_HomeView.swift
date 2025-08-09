@@ -23,7 +23,7 @@ struct TopTimeBlocks_HomeView: View {
                     .fontWeight(.semibold)
                 Spacer()
                 Button {
-                    vm.navManager.appendCorrectPath(newValue: .allTimeBlocks)
+                    vm.navigator.push(.allTimeBlocks)
                 } label: {
                     Text("All")
                         .format(size: 14, weight: .medium)
@@ -43,7 +43,7 @@ struct TopTimeBlocks_HomeView: View {
                                           thirdTitle: "",
                                           color: block.color)
                                 .onTapGesture {
-                                    vm.navManager.appendCorrectPath(newValue: .condensedTimeBlock(block))
+                                    vm.navigator.push(.condensedTimeBlock(block))
                                 }
                         }
                     }
@@ -58,4 +58,5 @@ struct TopTimeBlocks_HomeView: View {
 
 #Preview {
     TopTimeBlocks_HomeView()
+        .environmentObject(NewHomeViewModel())
 }
