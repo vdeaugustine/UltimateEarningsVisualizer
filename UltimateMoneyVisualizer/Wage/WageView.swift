@@ -62,7 +62,7 @@ class WageViewModel: ObservableObject {
 
 struct WageView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @ObservedObject private var navManager = NavManager.shared
+    @Environment(\.dependencies) private var deps
 
     @ObservedObject private var vm = WageViewModel.shared
 
@@ -163,9 +163,7 @@ struct WageView: View {
 
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Edit") {
-                    NavManager.shared.appendCorrectPath(newValue: .enterWage)
-                }
+                Button("Edit") { deps.navigator.push(.enterWage) }
                 .tint(Color.white)
             }
         }

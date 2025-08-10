@@ -133,6 +133,7 @@ This document tracks what changed today and what to do next for the Step 2 DI an
   - Remaining only in deprecated views (kept for now): `Deprecated/*`, old EnterWage, and some legacy Today subviews
 - [x] `StatsViewModel` singleton removed; DI-backed init and repository in place
 - [x] DI files re-enabled and embedded definitions removed from app file
+- [x] Project builds on iOS Simulator after DI changes
 - [ ] Basic unit tests for Home/Stats VMs (in-memory store)
 
 ## Rollback Notes

@@ -38,7 +38,7 @@ struct CalculateTaxView: View {
     @State private var showPreTaxSheet = false
     @State private var showTaxesSheet = false
     @ObservedObject private var wage = User.main.getWage()
-    @Environment (\.dismiss) private var dismiss
+    @Environment(\.dismiss) private var dismiss
 
     var taxRate: Double {
         let taxableIncome = grossEarnings - preTaxDeductions

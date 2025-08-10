@@ -28,7 +28,7 @@ struct FinalOnboardingScheduleInfo: View {
     }
 
     @State private var showFullSheet = false
-    @Environment (\.dismiss) private var dismiss
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         GeometryReader { geo in

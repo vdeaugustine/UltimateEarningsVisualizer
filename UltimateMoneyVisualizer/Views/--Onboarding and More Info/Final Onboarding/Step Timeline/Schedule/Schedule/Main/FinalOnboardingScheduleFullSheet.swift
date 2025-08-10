@@ -10,7 +10,7 @@ import SwiftUI
 struct FinalOnboardingScheduleFullSheet: View {
     @StateObject private var viewModel: FinalOnboardingScheduleViewModel = .init()
     @State private var showSheet = true
-    @Environment (\.dismiss) private var dismiss
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         GeometryReader { geo in

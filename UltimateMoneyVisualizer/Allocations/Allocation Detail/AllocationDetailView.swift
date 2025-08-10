@@ -48,7 +48,7 @@ struct AllocationDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @State private var showErrorAlert = false
     @State private var error: Error? = nil
-    @ObservedObject private var navManager = NavManager.shared
+    @Environment(\.dependencies) private var deps
 
     var spentOnHeaderStr: String {
         if allocation.expense != nil {
@@ -88,7 +88,7 @@ struct AllocationDetailView: View {
             Section(sourceTypeString) {
                 if let saved = allocation.savedItem {
                     Button {
-                        NavManager.shared.appendCorrectPath(newValue: .saved(saved))
+                        deps.navigator.push(.saved(saved))
                     } label: {
                         HStack {
                             Text(saved.getTitle())
@@ -102,7 +102,7 @@ struct AllocationDetailView: View {
                 }
                 if let shift = allocation.shift {
                     Button {
-                        NavManager.shared.appendCorrectPath(newValue: .shift(shift))
+                        deps.navigator.push(.shift(shift))
                     } label: {
                         HStack {
                             Text("Shift for " + shift.start.getFormattedDate(format: .abbreviatedMonth))
@@ -121,7 +121,7 @@ struct AllocationDetailView: View {
             Section(spentOnHeaderStr) {
                 if let goal = allocation.goal {
                     Button {
-                        NavManager.shared.appendCorrectPath(newValue: .goal(goal))
+                        deps.navigator.push(.goal(goal))
                     } label: {
                         PayoffItemRectGeneral(item: goal)
                     }
@@ -130,7 +130,7 @@ struct AllocationDetailView: View {
                 }
                 if let expense = allocation.expense {
                     Button {
-                        NavManager.shared.appendCorrectPath(newValue: .expense(expense))
+                        deps.navigator.push(.expense(expense))
 
                     } label: {
                         PayoffItemRectGeneral(item: expense)

@@ -11,7 +11,7 @@ import SwiftUI
 
 struct EnterMoneyView: View {
     
-    @Environment (\.dismiss) private var dismiss
+    @Environment(\.dismiss) private var dismiss
     
     @Binding var dubToEdit: Double
     @State private var enteredStr: String = "0"

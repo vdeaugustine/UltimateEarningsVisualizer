@@ -15,7 +15,7 @@ struct FinalOnboardingHoursForDay: View {
     @State private var startTime: Date = .nineAM
     @State private var endTime: Date = .fivePM
     
-    @Environment (\.dismiss) private var dismiss
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         GeometryReader { geo in

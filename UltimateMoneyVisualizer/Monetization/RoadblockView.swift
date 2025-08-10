@@ -34,8 +34,8 @@ struct RoadblockView: View {
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State private var viewFrame: CGRect = .zero
     
-    @Environment (\.dismiss) private var dismiss
-    @Environment (\.dependencies) private var deps
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.dependencies) private var deps
 
     let headerFeatureRow = FeatureRow(featureName: "Feature", freeFeature: Text("Free").anyView, premiumFeature: .custom(Text("Premium").anyView))
     let features: [FeatureRow] = [FeatureRow(featureName: "Unlimited shifts", freeFeature: Text("50").anyView, premiumFeature: .infinity),

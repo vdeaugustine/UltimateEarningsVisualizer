@@ -57,7 +57,7 @@ func generateHourlyDatesWithinRange(from startDate: Date, to endDate: Date) -> [
 struct NewTimeBlocksForShiftView: View {
     let shift: Shift
     
-    @Environment (\.dismiss) private var dismiss
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         VStack {
