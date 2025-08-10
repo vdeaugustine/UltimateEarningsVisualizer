@@ -14,6 +14,7 @@ import Vin
 struct PayoffItemDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.dependencies) private var deps
     @StateObject var viewModel: PayoffItemDetailViewModel
     @State private var showContributionsSheet = false
     @State private var showDeleteConfirmation = false
@@ -35,7 +36,7 @@ struct PayoffItemDetailView: View {
                         PayoffItemDetailProgressBox(viewModel: viewModel)
                             .onTapGesture {
                                 print("Tapped")
-                                NavManager.shared.appendCorrectPath(newValue: .payoffContributionsView(viewModel))
+                                deps.navigator.push(.payoffContributionsView(viewModel))
                             }
 
                         VStack {
@@ -106,7 +107,7 @@ struct PayoffItemDetailView: View {
 //            }
             
             Button {
-                NavManager.shared.appendCorrectPath(newValue: .editPayoffItem(AnyPayoffItem(viewModel.payoffItem)))
+                deps.navigator.push(.editPayoffItem(AnyPayoffItem(viewModel.payoffItem)))
             } label: {
                 Label("Edit", systemImage: "square.and.pencil")
                     .labelStyle(.iconOnly)

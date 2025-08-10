@@ -14,6 +14,7 @@ import Vin
 struct ExpenseDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.dependencies) private var deps
     @StateObject var viewModel: ExpenseDetailViewModel
     @State private var showDeleteConfirmation = false
 
@@ -214,6 +215,7 @@ struct ExpenseDetailHeaderView: View {
 
 struct ExpenseDetailProgressBox: View {
     @ObservedObject var viewModel: ExpenseDetailViewModel
+    @Environment(\.dependencies) private var deps
 
     var body: some View {
         VStack(alignment: .leading, spacing: 30) {
@@ -266,9 +268,7 @@ struct ExpenseDetailProgressBox: View {
         }
         .frame(minWidth: 175)
         .frame(minHeight: 225, maxHeight: .infinity)
-        .onTapGesture {
-            NavManager.shared.appendCorrectPath(newValue: .expenseContributions(viewModel.expense))
-        }
+        .onTapGesture { deps.navigator.push(.expenseContributions(viewModel.expense)) }
     }
 
     var batteryImage: some View {

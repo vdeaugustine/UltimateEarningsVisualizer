@@ -16,6 +16,7 @@ struct PayPeriodDetailView: View {
     @State private var showDeleteConfirmation = false
     @State private var showDeleteFailAlert = false
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.dependencies) private var deps
 
     var body: some View {
         List {
@@ -85,7 +86,7 @@ struct PayPeriodDetailView: View {
             Section("Shifts") {
                 ForEach(payPeriod.getShifts()) { shift in
                     Button {
-                        NavManager.shared.appendCorrectPath(newValue: .shift(shift))
+                        deps.navigator.push(.shift(shift))
                     } label: {
                         ShiftRowView(shift: shift)
                     }

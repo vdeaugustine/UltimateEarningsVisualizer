@@ -48,6 +48,7 @@ struct AllocationDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @State private var showErrorAlert = false
     @State private var error: Error? = nil
+    @ObservedObject private var navManager = NavManager.shared
 
     var spentOnHeaderStr: String {
         if allocation.expense != nil {

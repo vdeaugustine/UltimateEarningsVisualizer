@@ -12,6 +12,7 @@ import Vin
 
 struct GoalDetailShiftsSection: View {
     @ObservedObject var viewModel: PayoffItemDetailViewModel
+    @Environment(\.dependencies) private var deps
 
 
     var body: some View {
@@ -24,7 +25,7 @@ struct GoalDetailShiftsSection: View {
                             HStack {
                                 ForEach(viewModel.payoffItem.getTags()) { tag in
                                     Button {
-                                        NavManager.shared.appendCorrectPath(newValue: .tagDetail(tag))
+                                        deps.navigator.push(.tagDetail(tag))
                                     } label: {
                                         Text(tag.title ?? "NA")
                                             .foregroundColor(.white)

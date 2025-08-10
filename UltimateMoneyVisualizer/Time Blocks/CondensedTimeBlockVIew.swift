@@ -4,7 +4,7 @@ import Vin
 // MARK: - CondensedTimeBlockView
 
 struct CondensedTimeBlockView: View {
-    @EnvironmentObject private var navManager: NavManager
+    @Environment(\.dependencies) private var deps
     let block: CondensedTimeBlock
     @ObservedObject private var user = User.main
 
@@ -43,7 +43,7 @@ struct CondensedTimeBlockView: View {
                 DisclosureGroup("\(block.actualBlocks(user).count) instances") {
                     ForEach(block.actualBlocks(user)) { block in
                         Button {
-                            navManager.appendCorrectPath(newValue: .timeBlockDetail(block))
+                            deps.navigator.push(.timeBlockDetail(block))
                         } label: {
                             Text(block.startTime?.getFormattedDate(format: .abbreviatedMonth) ?? "")
                                 .spacedOut {

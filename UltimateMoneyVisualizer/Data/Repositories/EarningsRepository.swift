@@ -1,5 +1,3 @@
-// Disabled – defined in `UltimateMoneyVisualizer/--TopLevel/UltimateMoneyVisualizerApp.swift`
-#if false
 import Foundation
 
 protocol EarningsRepository {
@@ -26,4 +24,3 @@ struct DefaultEarningsRepository: EarningsRepository {
         userProvider.current.getGoalsBetween(startDate: startDate, endDate: endDate)
     }
 }
-#endif

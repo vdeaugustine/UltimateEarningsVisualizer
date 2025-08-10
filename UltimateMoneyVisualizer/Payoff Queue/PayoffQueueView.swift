@@ -14,6 +14,7 @@ struct PayoffQueueView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @ObservedObject private var user: User = User.main
     @ObservedObject private var settings: Settings = User.main.getSettings()
+    @Environment(\.dependencies) private var deps
 
     @State private var newPayoffQueue: [PayoffItem] = User.main.getQueue()
 
@@ -33,7 +34,7 @@ struct PayoffQueueView: View {
 
                 if let expense = user.getItemWith(queueSlot: index + 1) as? Expense {
                     Button {
-                        NavManager.shared.appendCorrectPath(newValue: .expense(expense))
+                        deps.navigator.push(.expense(expense))
                     } label: {
                         PayoffItemRectGeneral(item: expense)
                     }
@@ -48,7 +49,7 @@ struct PayoffQueueView: View {
 
                 if let goal = user.getItemWith(queueSlot: index + 1) as? Goal {
                     Button {
-                        NavManager.shared.appendCorrectPath(newValue: .goal(goal))
+                        deps.navigator.push(.goal(goal))
                     } label: {
                         PayoffItemRectGeneral(item: goal)
                     }

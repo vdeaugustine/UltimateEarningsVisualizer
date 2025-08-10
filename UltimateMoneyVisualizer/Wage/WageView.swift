@@ -62,6 +62,7 @@ class WageViewModel: ObservableObject {
 
 struct WageView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @ObservedObject private var navManager = NavManager.shared
 
     @ObservedObject private var vm = WageViewModel.shared
 

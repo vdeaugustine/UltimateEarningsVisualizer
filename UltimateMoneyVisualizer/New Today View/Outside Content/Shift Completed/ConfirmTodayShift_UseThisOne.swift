@@ -12,6 +12,7 @@ import Vin
 
 struct ConfirmTodayShift_UseThisOne: View {
     @EnvironmentObject private var viewModel: TodayViewModel
+    @Environment(\.dependencies) private var deps
     @State private var paidOffItems: [TempTodayPayoff] = []
     @State private var paidOffGoals: [TempTodayPayoff] = []
     @State private var paidOffExpenses: [TempTodayPayoff] = []
@@ -156,7 +157,7 @@ struct ConfirmTodayShift_UseThisOne: View {
 //                    NavManager.shared.todayViewNavPath.append(NavManager.AllViews.shift(newShift))
 //                }
                 NavManager.shared.currentTab = .allItems
-                NavManager.shared.appendCorrectPath(newValue: .shift(newShift))
+                deps.navigator.push(.shift(newShift))
                 
             }
         } message: {

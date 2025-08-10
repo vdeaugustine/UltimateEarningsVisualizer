@@ -1,5 +1,3 @@
-// This file is disabled because the DI types are embedded in `UltimateMoneyVisualizerApp.swift` to ensure they're compiled.
-#if false
 import Foundation
 import SwiftUI
 
@@ -51,4 +49,3 @@ final class AppDependencies: ObservableObject {
         self.earningsRepository = earningsRepository ?? DefaultEarningsRepository(userProvider: userProvider)
     }
 }
-#endif

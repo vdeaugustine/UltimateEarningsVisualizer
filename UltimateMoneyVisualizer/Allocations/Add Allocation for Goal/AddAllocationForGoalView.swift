@@ -19,6 +19,8 @@ struct AddAllocationForGoalView: View {
 
     @State private var showShiftSheet = false
 
+    @Environment(\.dependencies) private var deps
+
     var body: some View {
         VStack(spacing: 0) {
             Picker("Source", selection: $selectedSource) {
@@ -34,7 +36,7 @@ struct AddAllocationForGoalView: View {
                     ForEach(user.getShifts().filter { $0.totalAvailable >= 0.01 }) { shift in
 
                         Button {
-                            NavManager.shared.appendCorrectPath(newValue: .shiftAllocSheet_Goal(shift, goal))
+                            deps.navigator.push(.shiftAllocSheet_Goal(shift, goal))
 //                            ShiftAllocSheet(shift: shift, goal: goal)
                         } label: {
                             HStack {
@@ -60,7 +62,7 @@ struct AddAllocationForGoalView: View {
                     ForEach(user.getSaved().filter { $0.totalAvailable >= 0.01 }) { saved in
 
                         Button {
-                            NavManager.shared.appendCorrectPath(newValue: .savedItemAllocationSheet_Goal(saved, goal))
+                            deps.navigator.push(.savedItemAllocationSheet_Goal(saved, goal))
 //                            SavedAllocSheet(saved: saved, goal: goal)
                         } label: {
                             HStack {

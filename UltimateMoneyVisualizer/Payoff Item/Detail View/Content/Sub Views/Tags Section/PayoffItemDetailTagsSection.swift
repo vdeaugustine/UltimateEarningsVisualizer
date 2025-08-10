@@ -15,6 +15,7 @@ struct PayoffItemDetailTagsSection: View {
     @ObservedObject var viewModel: PayoffItemDetailViewModel
     @State private var showAlert = false
     @State private var showSelectTagsSheet = false
+    @Environment(\.dependencies) private var deps
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -40,7 +41,7 @@ struct PayoffItemDetailTagsSection: View {
                 ForEach(viewModel.tags) { tag in
                     Menu {
                         Button {
-                            NavManager.shared.appendCorrectPath(newValue: .tagDetail(tag))
+                            deps.navigator.push(.tagDetail(tag))
                         } label: {
                             Label("View", systemImage: "info.circle")
                         }
@@ -72,7 +73,7 @@ struct PayoffItemDetailTagsSection: View {
                     }
                     
                     Button {
-                        NavManager.shared.appendCorrectPath(newValue: .createTag(AnyPayoffItem(viewModel.payoffItem)))
+                        deps.navigator.push(.createTag(AnyPayoffItem(viewModel.payoffItem)))
                     } label: {
                         Label("New", systemImage: "plus")
                     }
@@ -133,7 +134,7 @@ struct PayoffItemDetailTagsSection: View {
         PayoffItemDetailViewStyledButton(text: "New",
                                          width: 100,
                                          animationValue: viewModel.showTags) {
-            NavManager.shared.appendCorrectPath(newValue: .createTag(.init(viewModel.payoffItem)))
+            deps.navigator.push(.createTag(.init(viewModel.payoffItem)))
         }
     }
 

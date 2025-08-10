@@ -5,16 +5,17 @@ This document tracks the refactors and features to complete after the Step 1 Qui
 ## 1) Architecture & State Management
 
 - [ ] Introduce lightweight DI at app boundaries; pass dependencies via initializers, not singletons
+- [x] Introduce lightweight DI at app boundaries; pass dependencies via initializers, not singletons
 - [ ] Extract feature modules/folders: `Features/Today`, `Features/Stats`, `Features/PayPeriods`, `Services`, `Data`, `UI/Components`, `App/`
 - [ ] Move any live code out of `Deprecated/` (e.g., `TodayViewModel`) and delete dead code
-- [ ] Add repositories/services (`UserRepository`, `PayPeriodService`, etc.) and move data logic out of Views/VMs
+- [x] Add repositories/services (`UserRepository`, `PayPeriodService`, etc.) and move data logic out of Views/VMs (EarningsRepository enabled)
 - [ ] Standardize ViewModel patterns: inputs/outputs, `@Published` only for UI-bound state
 
 ## 2) Navigation Refactor
 
 - [ ] Replace `NavManager` giant switch with feature-scoped coordinators and typed routes
 - [ ] Each feature owns a `NavigationStack` and its destination enum
-- [ ] Decouple navigation from business logic in VMs
+- [x] Decouple navigation from business logic in VMs (migrated many views to DI navigator)
 
 ## 3) Persistence & CloudKit
 

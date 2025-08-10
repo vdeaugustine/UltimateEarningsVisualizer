@@ -13,9 +13,10 @@ struct PayPeriodRow: View {
     let payPeriod: PayPeriod
     let isCurrent: Bool
     @ObservedObject private var settings: Settings = User.main.getSettings()
+    @Environment(\.dependencies) private var deps
     var body: some View {
         Button {
-            NavManager.shared.appendCorrectPath(newValue: .payPeriodDetail(payPeriod))
+            deps.navigator.push(.payPeriodDetail(payPeriod))
         } label: {
             HStack {
                 

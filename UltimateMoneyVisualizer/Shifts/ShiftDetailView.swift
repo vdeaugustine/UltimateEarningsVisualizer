@@ -16,6 +16,7 @@ struct ShiftDetailView: View {
     @ObservedObject private var user = User.main
     @ObservedObject private var settings = User.main.getSettings()
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.dependencies) private var deps
     @State private var showEarningsSection = true
     @State private var showTimeBlockSection = true
 
@@ -112,8 +113,7 @@ struct ShiftDetailView: View {
                 ForEach(allocations) { alloc in
 
                     Button {
-                        NavManager.shared.appendCorrectPath(newValue: .allocationDetail(alloc))
-
+                        deps.navigator.push(.allocationDetail(alloc))
                     } label: {
                         if let goal = alloc.goal {
                             HStack {

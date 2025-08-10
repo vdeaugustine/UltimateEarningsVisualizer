@@ -57,9 +57,10 @@ struct TimeBlockInfoView: View {
 
 extension TimeBlockInfoView {
     struct ExamplesButton: View {
+        @Environment(\.dependencies) private var deps
         var body: some View {
             Button {
-                NavManager.shared.appendCorrectPath(newValue: .timeBlockExampleForTutorial)
+                deps.navigator.push(.timeBlockExampleForTutorial)
             } label: {
                 HStack(spacing: 20) {
                     Image(systemName: "rectangle.stack.fill")

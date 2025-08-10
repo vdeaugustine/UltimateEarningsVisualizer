@@ -98,6 +98,7 @@ import Vin
 struct SavedDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.dependencies) private var deps
     @StateObject var viewModel: SavedItemDetailViewModel
     @State private var showContributionsSheet = false
 
@@ -328,7 +329,7 @@ struct SavedDetailView: View {
                     Divider()
                 }
                 Button {
-                    NavManager.shared.appendCorrectPath(newValue: .createTagForSaved(viewModel.savedItem))
+                    deps.navigator.push(.createTagForSaved(viewModel.savedItem))
                 } label: {
                     Label("New", systemImage: "plus")
                         .frame(maxWidth: /*@START_MENU_TOKEN@*/ .infinity/*@END_MENU_TOKEN@*/, maxHeight: 45, alignment: .leading)

@@ -11,6 +11,7 @@ import SwiftUI
 
 struct TagListForItemView: View {
     let item: PayoffItem
+    @ObservedObject private var nav = NavManager.shared
 
     var body: some View {
         NavigationView {
@@ -31,13 +32,9 @@ struct TagListForItemView: View {
             .putInTemplate(title: "Tags")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        
-                        NavManager.shared.appendCorrectPath(newValue: .createTag(AnyPayoffItem(item)))
-//                        
-//                        CreateTagView(payoff: AnyPayoffItem(item))
-//                            .presentationDetents([.large])
-                    } label: {
+                        Button {
+                            NavManager.shared.appendCorrectPath(newValue: .createTag(AnyPayoffItem(item)))
+                        } label: {
                         Label("New", systemImage: "plus")
                     }
                 }

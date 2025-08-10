@@ -19,7 +19,7 @@ extension Color {
 // MARK: - ItemizedPartOfShiftView
 
 struct ItemizedPartOfShiftView: View {
-    @EnvironmentObject private var navManager: NavManager
+    @Environment(\.dependencies) private var deps
     @ObservedObject private var settings = User.main.getSettings()
     @Environment(\.colorScheme) var colorScheme
     let shift: Shift
@@ -55,11 +55,9 @@ struct ItemizedPartOfShiftView: View {
             .foregroundStyle(settings.themeColor.addWhiteness(30 * (colorScheme == .dark ? 1 : 0)))
             .onTapGesture {
                 // TODO: Figure this out
-                navManager.appendCorrectPath(
-                    newValue: .createTimeBlockForShift(.init(start: start,
-                                                             end: end,
-                                                             shift: shift))
-                )
+                deps.navigator.push(.createTimeBlockForShift(.init(start: start,
+                                                                    end: end,
+                                                                    shift: shift)))
             }
     }
 
@@ -79,7 +77,7 @@ struct ItemizedPartOfShiftView: View {
             ForEach(shift.getTimeBlocks()) { timeBlock in
                 timeBlockSection(timeBlock: timeBlock)
                     .onTapGesture {
-                        navManager.appendCorrectPath(newValue: .timeBlockDetail(timeBlock))
+                        deps.navigator.push(.timeBlockDetail(timeBlock))
                     }
             }
 

@@ -8,14 +8,10 @@
 import SwiftUI
 import UserNotifications
 
-// MARK: - Lightweight DI (embedded for now)
+// MARK: - Lightweight DI (embedded to guarantee compile)
 
 protocol UserProviding {
     var current: User { get }
-}
-
-struct DefaultUserProvider: UserProviding {
-    var current: User { User.main }
 }
 
 protocol NavigationCoordinating {
@@ -23,6 +19,10 @@ protocol NavigationCoordinating {
     func push(_ destination: NavManager.AllViews)
     func pop()
     func clear()
+}
+
+struct DefaultUserProvider: UserProviding {
+    var current: User { User.main }
 }
 
 final class NavCoordinator: NavigationCoordinating {
@@ -47,21 +47,12 @@ struct DefaultEarningsRepository: EarningsRepository {
     private let userProvider: UserProviding
     init(userProvider: UserProviding) { self.userProvider = userProvider }
 
-    func getShiftsBetween(startDate: Date, endDate: Date) -> [Shift] {
-        userProvider.current.getShiftsBetween(startDate: startDate, endDate: endDate)
-    }
-    func getExpensesBetween(startDate: Date, endDate: Date) -> [Expense] {
-        userProvider.current.getExpensesBetween(startDate: startDate, endDate: endDate)
-    }
-    func getSavedBetween(startDate: Date, endDate: Date) -> [Saved] {
-        userProvider.current.getSavedBetween(startDate: startDate, endDate: endDate)
-    }
-    func getGoalsBetween(startDate: Date, endDate: Date) -> [Goal] {
-        userProvider.current.getGoalsBetween(startDate: startDate, endDate: endDate)
-    }
+    func getShiftsBetween(startDate: Date, endDate: Date) -> [Shift] { userProvider.current.getShifts() }
+    func getExpensesBetween(startDate: Date, endDate: Date) -> [Expense] { userProvider.current.getExpenses() }
+    func getSavedBetween(startDate: Date, endDate: Date) -> [Saved] { userProvider.current.getSaved() }
+    func getGoalsBetween(startDate: Date, endDate: Date) -> [Goal] { userProvider.current.getGoals() }
 }
 
-@MainActor
 final class AppDependencies: ObservableObject {
     static let shared = AppDependencies()
 
@@ -78,6 +69,7 @@ final class AppDependencies: ObservableObject {
     }
 }
 
+// Local Environment key for DI (kept here to guarantee target membership)
 private struct DependenciesKey: EnvironmentKey {
     static let defaultValue: AppDependencies = .shared
 }

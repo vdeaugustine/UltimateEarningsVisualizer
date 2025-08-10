@@ -11,8 +11,8 @@ import SwiftUI
 // MARK: - RegularScheduleView
 
 struct RegularScheduleView: View {
-    @EnvironmentObject private var navPath: NavManager
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.dependencies) private var deps
 
     @ObservedObject private var user: User = .main
     
@@ -47,7 +47,7 @@ struct RegularScheduleView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
-                    NavManager.shared.appendCorrectPath(newValue: .selectDaysView)
+                    deps.navigator.push(.selectDaysView)
                 } label: {
                     if hasSchedule {
                         Text("Edit")

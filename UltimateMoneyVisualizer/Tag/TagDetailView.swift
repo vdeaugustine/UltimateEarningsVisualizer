@@ -13,6 +13,7 @@ struct TagDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @ObservedObject private var user = User.main
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.dependencies) private var deps
 
     let tag: Tag
 
@@ -39,8 +40,7 @@ struct TagDetailView: View {
                 ForEach(user.getGoalsWith(tag: tag)) { goal in
 
                     Button {
-                        NavManager.shared.appendCorrectPath(newValue: .payoffItemDetailView(AnyPayoffItem(goal)))
-//                        PayoffItemDetailView(payoffItem: goal)
+                        deps.navigator.push(.payoffItemDetailView(AnyPayoffItem(goal)))
                     } label: {
                         Text(goal.titleStr)
                     }
@@ -51,7 +51,7 @@ struct TagDetailView: View {
                 ForEach(user.getExpensesWith(tag: tag)) { expense in
 
                     Button {
-                        NavManager.shared.appendCorrectPath(newValue: .payoffItemDetailView(AnyPayoffItem(expense)))
+                        deps.navigator.push(.payoffItemDetailView(AnyPayoffItem(expense)))
                     } label: {
                         Text(expense.titleStr)
                     }
@@ -62,10 +62,7 @@ struct TagDetailView: View {
                 ForEach(user.getSavedItemsWith(tag: tag)) { saved in
 
                     Button {
-                        
-                        
-                        NavManager.shared.appendCorrectPath(newValue: .saved(saved))
-
+                        deps.navigator.push(.saved(saved))
                     } label: {
                         Text(saved.getTitle())
                     }

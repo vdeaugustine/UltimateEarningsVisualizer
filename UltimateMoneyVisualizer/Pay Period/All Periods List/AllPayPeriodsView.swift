@@ -11,12 +11,13 @@ import SwiftUI
 
 struct AllPayPeriodsView: View {
     @StateObject private var viewModel: PayPeriodsViewModel = .init()
+    @Environment(\.dependencies) private var deps
 
     var body: some View {
         List {
             Section {
                 Button {
-                    NavManager.shared.appendCorrectPath(newValue: .payPeriodSettings)
+                    deps.navigator.push(.payPeriodSettings)
                 } label: {
                     Text("Pay Period Settings")
                 }
@@ -40,7 +41,7 @@ struct AllPayPeriodsView: View {
 
     func payPeriodRow(_ period: PayPeriod) -> some View {
         Button {
-            NavManager.shared.appendCorrectPath(newValue: .payPeriodDetail(period))
+            deps.navigator.push(.payPeriodDetail(period))
         } label: {
             VStack(alignment: .leading) {
                 Text(period.title)

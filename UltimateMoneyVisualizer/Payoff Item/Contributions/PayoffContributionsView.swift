@@ -14,6 +14,7 @@ struct PayoffContributionsView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var showingErrorAlert = false
     @ObservedObject var vm: PayoffItemDetailViewModel
+    @Environment(\.dependencies) private var deps
 
     var body: some View {
         List {
@@ -22,7 +23,7 @@ struct PayoffContributionsView: View {
                     ForEach(vm.allocations) { alloc in
                         if let shift = alloc.shift {
                             Button {
-                                NavManager.shared.appendCorrectPath(newValue: .shift(shift))
+                                deps.navigator.push(.shift(shift))
                             } label: {
                                 AllocShiftRow(shift: shift, allocation: alloc)
                             }
@@ -39,9 +40,7 @@ struct PayoffContributionsView: View {
                     ForEach(vm.allocations) { alloc in
                         if let saved = alloc.savedItem {
                             AllocSavedRow(saved: saved, allocation: alloc)
-                                .onTapGesture {
-                                    NavManager.shared.appendCorrectPath(newValue: .saved(saved))
-                                }
+                                .onTapGesture { deps.navigator.push(.saved(saved)) }
                         }
                     }
                 }
@@ -61,7 +60,7 @@ struct PayoffContributionsView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
-                    NavManager.shared.appendCorrectPath(newValue: .assignAllocationToPayoff(vm))
+                    deps.navigator.push(.assignAllocationToPayoff(vm))
                 } label: {
                     Label("New", systemImage: "plus")
                         .labelStyle(.iconOnly)

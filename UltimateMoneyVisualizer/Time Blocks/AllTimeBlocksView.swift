@@ -14,7 +14,7 @@ import Vin
 struct AllTimeBlocksView: View {
     @ObservedObject private var user: User = .main
     @State private var selectedBlock: TimeBlock? = nil
-    @ObservedObject private var navManager: NavManager = .shared
+    @Environment(\.dependencies) private var deps
 
     var body: some View {
         List {
@@ -41,9 +41,7 @@ struct AllTimeBlocksView: View {
                             }
                             .foregroundStyle(isSelected(block) ? Color.white : Color.black)
                             .allPartsTappable(alignment: .leading)
-                            .onTapGesture {
-                                navManager.appendCorrectPath(newValue: .timeBlockDetail(block))
-                            }
+                            .onTapGesture { deps.navigator.push(.timeBlockDetail(block)) }
                         }
 
                     .conditionalModifier(isSelected(block)) {
