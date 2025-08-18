@@ -339,4 +339,112 @@ class NavManager: ObservableObject {
                 Text("Error navigating to page.")
         }
     }
+
+    // MARK: - Static Destination Builder (DI-friendly)
+    @ViewBuilder static func buildDestination(for destination: NavManager.AllViews) -> some View {
+        switch destination {
+            case .allTimeBlocks:
+                AllTimeBlocksView()
+            case let .allocationDetail(alloc):
+                AllocationDetailView(allocation: alloc)
+            case let .assignAllocationToPayoff(viewModel):
+                AssignAllocationToPayoffView(payoffItem: viewModel.payoffItem)
+            case let .calculateTax(sender):
+                CalculateTaxView(taxType: sender.taxType, bindedRate: sender.$bindedRate)
+            case let .condensedTimeBlock(block):
+                CondensedTimeBlockView(block: block)
+            case .confirmToday:
+                ConfirmTodayShift_UseThisOne().environmentObject(TodayViewModel.main)
+            case .createExpense:
+                CreateExpenseView().environmentObject(NewItemViewModel.shared)
+            case .createGoal:
+                CreateGoalView().environmentObject(NewItemViewModel.shared)
+            case .createSaved:
+                CreateSavedView().environmentObject(NewItemViewModel.shared)
+            case .createShift:
+                NewShiftView()
+            case let .createTimeBlockForShift(starter):
+                CreateNewTimeBlockView(starter)
+            case let .createTimeBlockForToday(starter):
+                CreateNewTimeBlockView(starter)
+            case let .editPayoffItem(anyPayoff):
+                EditPayoffItemView(payoffItem: anyPayoff.payoffItem)
+            case .enterWage:
+                EnterWageView()
+            case .enterLumpSum:
+                EnterLumpSumView()
+            case let .expense(expense):
+                PayoffItemDetailView(payoffItem: expense)
+            case let .expenseContributions(expense):
+                ContributionsForExpenseView(expense: expense)
+            case let .goal(goal):
+                PayoffItemDetailView(payoffItem: goal)
+            case .goalsInfoView:
+                GoalsInfoView()
+            case .home:
+                NewHomeView()
+            case .newItemCreation:
+                NewItemCreationView()
+            case let .payoffItemDetailView(anyPayoff):
+                PayoffItemDetailView(payoffItem: anyPayoff.payoffItem)
+            case let .payPeriodDetail(period):
+                PayPeriodDetailView(payPeriod: period)
+            case .payPeriods:
+                AllPayPeriodsView()
+            case .payPeriodSettings:
+                PayPeriodSettingsView()
+            case .purchasePage:
+                PurchasePage()
+            case .regularSchedule:
+                RegularScheduleView()
+            case .selectDaysView:
+                SelectDaysView()
+            case let .saved(saved):
+                SavedDetailView(saved: saved)
+            case let .savedItemAllocationSheet_Expense(sender):
+                AddAllocationForExpenseView.SavedAllocSheet(sender: sender)
+            case .settings:
+                SettingsView()
+            case let .shift(shift):
+                ShiftDetailView(shift: shift)
+            case let .savedItemAllocationSheet_Goal(saved, goal):
+                AddAllocationForGoalView.SavedAllocSheet(saved: saved, goal: goal)
+            case let .shiftAllocSheet_Expense(shift, expense):
+                AddAllocationForExpenseView.ShiftAllocSheet(shift: shift, expense: expense)
+            case let .shiftAllocSheet_Goal(shift, goal):
+                AddAllocationForGoalView.ShiftAllocSheet(shift: shift, goal: goal)
+            case .stats:
+                StatsView()
+            case let .tagDetail(tag):
+                TagDetailView(tag: tag)
+            case .timeBlockExampleForTutorial:
+                TimeBlockExampleView()
+            case .timeBlockMoreInfoAndTutorial:
+                TimeBlockInfoView()
+            case let .timeBlockDetail(block):
+                TimeBlockDetailView(block: block)
+            case .todayViewPayoffQueue:
+                PayoffQueueForTodayView()
+            case .oldPayoffQueue:
+                PayoffQueueView()
+            case let .todayTimeBlocksExpanded(shift):
+                TodayViewTimeBlocksExpanded(shift: shift)
+            case let .setHoursForRegularSchedule(container):
+                SetHoursForRegularDaysView(daysContainer: container)
+            case .multipleNewShiftsView:
+                MultipleNewShiftsView()
+            case let .createTag(payoff):
+                CreateTagView(payoff: payoff)
+            case let .createTagForSaved(saved):
+                CreateTagView(saved: saved)
+            case .wage:
+                WageView()
+            case let .payoffContributionsView(viewModel):
+                PayoffContributionsView(vm: viewModel)
+            case .selectCalendarsForSettings:
+                SelectCalendarForSettingsView()
+            default:
+                Text("Error navigating to page.")
+        }
+    }
 }

@@ -12,7 +12,7 @@ import Vin
 // MARK: - ShiftListView
 
 struct ShiftListView: View {
-    @EnvironmentObject private var navManager: NavManager
+    @Environment(\.dependencies) private var deps
     @Environment(\.managedObjectContext) private var viewContext
 
     @ObservedObject private var user: User = User.main
@@ -192,7 +192,7 @@ struct ShiftListView: View {
         Section {
             ForEach(user.getShifts()) { shift in
                 Button {
-                    navManager.appendCorrectPath(newValue: .shift(shift))
+                    deps.navigator.push(.shift(shift))
                 } label: {
                     ShiftRowView(shift: shift)
                 }
@@ -225,7 +225,7 @@ struct ShiftListView: View {
                     shiftRows(for: period)
                 } header: {
                     Button {
-                        navManager.appendCorrectPath(newValue: .payPeriodDetail(period))
+                        deps.navigator.push(.payPeriodDetail(period))
                     } label: {
                         HStack {
                             Text(period.dateRangeString)
@@ -252,8 +252,8 @@ struct ShiftListView: View {
 
     private func shiftRows(for period: PayPeriod) -> some View {
         ForEach(period.getShifts()) { shift in
-            Button {
-                navManager.appendCorrectPath(newValue: .shift(shift))
+                        Button {
+                            deps.navigator.push(.shift(shift))
             } label: {
                 ShiftRowView(shift: shift)
             }
@@ -279,7 +279,7 @@ struct ShiftListView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack(alignment: .center) {
                 Button {
-                    navManager.appendCorrectPath(newValue: .createShift)
+                    deps.navigator.push(.createShift)
                 } label: {
                     Label("Add shifts", systemImage: "plus")
                         .padding()
@@ -308,7 +308,7 @@ struct ShiftListView: View {
 
                     } else {
                         Button {
-                            navManager.appendCorrectPath(newValue: .shift(shift))
+                            deps.navigator.push(.shift(shift))
                         } label: {
                             ShiftCircle(dateComponent: Calendar.current.dateComponents([.month, .day], from: shift.start),
                                         isEditing: editMode.isEditing,

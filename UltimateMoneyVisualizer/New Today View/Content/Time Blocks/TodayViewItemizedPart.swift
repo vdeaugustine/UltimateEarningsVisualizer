@@ -10,7 +10,7 @@ import SwiftUI
 // MARK: - TodayViewItemizedPart
 
 struct TodayViewItemizedPart: View {
-    @EnvironmentObject private var navManager: NavManager
+    @Environment(\.dependencies) private var deps
 
     @EnvironmentObject private var viewModel: TodayViewModel
 
@@ -23,8 +23,9 @@ struct TodayViewItemizedPart: View {
             .padding(.top, -12)
             .foregroundStyle(viewModel.settings.getDefaultGradient())
             .onTapGesture {
-                // TODO: Figure this out
-                navManager.homeNavPath.append(TodayViewModel.StartAndEnd(start: start, end: end))
+                // This view previously appended a helper struct to a raw path; now route to the creation screen
+                guard let todayShift = viewModel.user.todayShift else { return }
+                deps.navigator.push(.createTimeBlockForToday(.init(start: start, end: end, todayShift: todayShift)))
             }
     }
 
@@ -44,7 +45,7 @@ struct TodayViewItemizedPart: View {
                 ForEach(shift.getTimeBlocks()) { timeBlock in
                     timeBlockSection(timeBlock: timeBlock)
                         .onTapGesture {
-                            navManager.appendCorrectPath(newValue: .timeBlockDetail(timeBlock))
+                            deps.navigator.push(.timeBlockDetail(timeBlock))
                         }
                 }
 

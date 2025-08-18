@@ -36,7 +36,7 @@ struct AllItemsView: View {
         .environment(\.editMode, $editMode)
 
         .navigationDestination(for: NavManager.AllViews.self) { view in
-            navManager.getDestinationViewForStack(destination: view)
+            NavManager.buildDestination(for: view)
         }
 
         .toolbar {

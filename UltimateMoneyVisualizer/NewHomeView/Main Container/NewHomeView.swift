@@ -95,7 +95,7 @@ struct NewHomeView: View {
                 .putInTemplate(displayMode: .large, settings: settings)
                 .navigationTitle(Date.now.getFormattedDate(format: .abbreviatedMonth))
                 .navigationDestination(for: NavManager.AllViews.self) { view in
-                    NavManager.shared.getDestinationViewForStack(destination: view)
+                    NavManager.buildDestination(for: view)
                 }
                 .background(Color(.secondarySystemBackground))
         }

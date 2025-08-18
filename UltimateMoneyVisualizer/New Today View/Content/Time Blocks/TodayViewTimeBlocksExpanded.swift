@@ -10,7 +10,7 @@ import SwiftUI
 // MARK: - TodayViewTimeBlocksExpanded
 
 struct TodayViewTimeBlocksExpanded: View {
-    @EnvironmentObject private var navManager: NavManager
+    @Environment(\.dependencies) private var deps
     @ObservedObject private var settings = User.main.getSettings()
 
     let shift: TodayShift
@@ -45,12 +45,9 @@ struct TodayViewTimeBlocksExpanded: View {
             .padding(.top, -12)
             .foregroundStyle(settings.getDefaultGradient())
             .onTapGesture {
-                // TODO: Figure this out
-                navManager.appendCorrectPath(
-                    newValue: .createTimeBlockForToday(.init(start: start,
-                                                             end: end,
-                                                             todayShift: shift))
-                )
+                deps.navigator.push(.createTimeBlockForToday(.init(start: start,
+                                                                    end: end,
+                                                                    todayShift: shift)))
             }
     }
 
@@ -72,7 +69,7 @@ struct TodayViewTimeBlocksExpanded: View {
             ForEach(shift.getTimeBlocks()) { timeBlock in
                 timeBlockSection(timeBlock: timeBlock)
                     .onTapGesture {
-                        navManager.appendCorrectPath(newValue: .timeBlockDetail(timeBlock))
+                        deps.navigator.push(.timeBlockDetail(timeBlock))
                     }
             }
 

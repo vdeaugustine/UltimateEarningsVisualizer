@@ -251,7 +251,7 @@ struct SettingsView: View {
         .putInTemplate()
         .navigationTitle("Settings")
         .navigationDestination(for: NavManager.AllViews.self) { view in
-            NavManager.shared.getDestinationViewForStack(destination: view)
+            NavManager.buildDestination(for: view)
         }
         .sheet(isPresented: $showRoadblock, content: {
             RoadblockView()

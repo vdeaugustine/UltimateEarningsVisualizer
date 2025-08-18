@@ -49,10 +49,10 @@ struct ViewNameEditShiftView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             EditShiftView(shift: User.main.getShifts().first!)
-                .environmentObject(NavManager.shared)
-                .navigationDestination(for: NavManager.AllViews.self) { view in
-                    NavManager.shared.getDestinationViewForStack(destination: view)
-                }
+//                .environmentObject(NavManager.shared)
+//                .navigationDestination(for: NavManager.AllViews.self) { view in
+//                    NavManager.shared.getDestinationViewForStack(destination: view)
+//                }
         }
     }
 }

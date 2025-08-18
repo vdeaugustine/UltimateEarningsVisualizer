@@ -11,7 +11,7 @@ import SwiftUI
 
 struct TodayViewItemizedBlocks: View {
     @EnvironmentObject private var model: TodayViewModel
-    @EnvironmentObject private var navManager: NavManager
+    @Environment(\.dependencies) private var deps
 
     var testBlocks: [TimeBlock] {
         User.main.getShifts().sorted(by: { $0.getTimeBlocks().count > $1.getTimeBlocks().count }).first!.getTimeBlocks()
@@ -65,7 +65,7 @@ struct TodayViewItemizedBlocks: View {
                         // TODO: Navigate to time block creation page
 
                         if let todayShift = model.user.todayShift {
-                            navManager.appendCorrectPath(newValue: .createTimeBlockForToday(.init(start: nil, end: nil, todayShift: todayShift)))
+                            deps.navigator.push(.createTimeBlockForToday(.init(start: nil, end: nil, todayShift: todayShift)))
                         }
 
                     } label: {

@@ -26,6 +26,7 @@ struct EditPayoffItemView: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.dependencies) private var deps
 
     @FocusState private var goalTitleFocused
     @FocusState private var goalInfoFocused
@@ -199,8 +200,8 @@ struct EditPayoffItemView: View {
                                            subTitle: "If issue persists, try restarting the app.",
                                            imageSystemName: "externaldrive.badge.xmark",
                                            buttonTitle: "Go back",
-                                           buttonColor: User.main.getSettings().themeColor) {
-                NavManager.shared.popFromCorrectPath()
+                                            buttonColor: User.main.getSettings().themeColor) {
+                deps.navigator.pop()
             }
         }
     }

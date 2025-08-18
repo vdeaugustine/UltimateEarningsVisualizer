@@ -13,6 +13,7 @@ import SwiftUI
 struct TodayViewPaidOffRect: View {
     let item: TempTodayPayoff
     @EnvironmentObject private var viewModel: TodayViewModel
+    @Environment(\.dependencies) private var deps
 
     var body: some View {
         TodayPaidOffRectContainer {
@@ -36,12 +37,12 @@ struct TodayViewPaidOffRect: View {
             switch item.type {
                 case .goal:
                     if let goal = item.getPayoffItem(user: viewModel.user) as? Goal {
-                        viewModel.navManager.appendCorrectPath(newValue: .goal(goal))
+                        deps.navigator.push(.goal(goal))
                     }
 
                 case .expense:
                     if let expense = item.getPayoffItem(user: viewModel.user) as? Expense {
-                        viewModel.navManager.appendCorrectPath(newValue: .expense(expense))
+                        deps.navigator.push(.expense(expense))
                     }
                 case .tax:
                     break

@@ -25,7 +25,7 @@ struct NewTodayView: View {
         }
         .environmentObject(viewModel)
         .navigationDestination(for: NavManager.AllViews.self) { view in
-            NavManager.shared.getDestinationViewForStack(destination: view)
+            NavManager.buildDestination(for: view)
         }
     }
 }
@@ -82,6 +82,7 @@ struct MainView_TodayView: View {
 
     struct Modifiers: ViewModifier {
         @EnvironmentObject private var viewModel: TodayViewModel
+        @Environment(\.dependencies) private var deps
         func body(content: Content) -> some View {
             content
                 .background {
@@ -110,7 +111,7 @@ struct MainView_TodayView: View {
                               mainText: "Shift Complete!",
                               buttonText: "Save",
                               buttonAction: {
-                                  viewModel.navManager.appendCorrectPath(newValue: NavManager.AllViews.confirmToday)
+                                  deps.navigator.push(.confirmToday)
                               }, onDismiss: {
                                   viewModel.saveBannerWasDismissed = true
                               })

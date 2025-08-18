@@ -14,7 +14,7 @@ protocol UserProviding {
     var current: User { get }
 }
 
-protocol NavigationCoordinating {
+protocol NavigationCoordinating: AnyObject {
     var currentTab: NavManager.Tabs { get set }
     func push(_ destination: NavManager.AllViews)
     func pop()

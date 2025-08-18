@@ -19,7 +19,7 @@ extension Color {
 // MARK: - ItemizedPartOfShiftView
 
 struct ItemizedPartOfShiftView: View {
-    @Environment(\.dependencies) private var deps
+    @Environment(\.dependencies) private var deps: AppDependencies
     @ObservedObject private var settings = User.main.getSettings()
     @Environment(\.colorScheme) var colorScheme
     let shift: Shift

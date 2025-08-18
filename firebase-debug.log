@@ -6,3 +6,7 @@
 [debug] [2025-08-09T06:59:42.884Z] > authorizing via signed-in user (vin@vinwareapps.com)
 [debug] [2025-08-09T07:02:44.959Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
 [debug] [2025-08-09T07:02:44.961Z] > authorizing via signed-in user (vin@vinwareapps.com)
+[debug] [2025-08-18T07:31:27.897Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-08-18T07:31:27.899Z] > authorizing via signed-in user (vin@vinwareapps.com)
+[debug] [2025-08-18T07:31:27.899Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-08-18T07:31:27.899Z] > authorizing via signed-in user (vin@vinwareapps.com)

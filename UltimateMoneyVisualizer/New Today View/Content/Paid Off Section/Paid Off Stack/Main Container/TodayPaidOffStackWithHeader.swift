@@ -11,6 +11,7 @@ import SwiftUI
 
 struct TodayPaidOffStackWithHeader: View {
     @EnvironmentObject private var viewModel: TodayViewModel
+    @Environment(\.dependencies) private var deps: AppDependencies
 
     var bottomButtonText: String {
         viewModel.paidOffStackIsExpanded ? "Collapse" : "Expand"
@@ -24,8 +25,7 @@ struct TodayPaidOffStackWithHeader: View {
                 Spacer()
 
                 Button {
-                    viewModel.navManager.appendCorrectPath(newValue: .todayViewPayoffQueue)
-
+                    deps.navigator.push(.todayViewPayoffQueue)
                 } label: {
                     Label("More", systemImage: "ellipsis")
                         .labelStyle(.iconOnly)
